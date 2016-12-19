@@ -3,7 +3,7 @@ import reactCSS from 'reactcss'
 import { connect } from 'react-redux'
 import { store } from 'lightning-store'
 
-import { Box } from 'lightning-core-ui'
+import { Box } from 'lightning-components'
 
 export const Notifications = ({ message }) => {
   const styles = reactCSS({
