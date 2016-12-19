@@ -1,0 +1,17 @@
+{
+  "name": "lightning-components",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "case <case@casesandberg.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.16.1",
+    "react": "^15.3.2",
+    "react-router": "^4.0.0-alpha.5",
+    "reactcss": "^1.0.8"
+  }
+}
