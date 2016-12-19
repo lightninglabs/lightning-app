@@ -1,0 +1,14 @@
+*.log
+*.DS_Store
+node_modules
+
+# App packaged
+dist
+release
+main.js
+main.js.map
+
+# Webpack
+stats.json
+
+test_lnd
