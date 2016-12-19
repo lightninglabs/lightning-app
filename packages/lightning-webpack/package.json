@@ -5,14 +5,22 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "cross-env NODE_ENV=development node -r babel-register server.js"
   },
   "author": "case <case@casesandberg.com>",
   "license": "MIT",
   "dependencies": {
+    "babel-loader": "^6.2.10",
+    "babel-polyfill": "^6.20.0",
     "babel-register": "^6.18.0",
+    "css-loader": "^0.26.1",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "json-loader": "^0.5.4",
+    "react": "^15.4.1",
+    "redux": "^3.6.0",
+    "style-loader": "^0.13.1",
     "webpack": "^1.14.0",
     "webpack-dev-middleware": "^1.9.0",
     "webpack-hot-middleware": "^2.13.2",

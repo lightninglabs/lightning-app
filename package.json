@@ -6,7 +6,11 @@
   "scripts": {
     "postinstall": "lerna bootstrap",
     "publish": "lerna publish",
-    "clean": "find . -name 'node_modules' -exec rm -rf '{}' +"
+    "clean": "find . -name 'node_modules' -exec rm -rf '{}' +",
+    "reinstall": "npm run clean && npm install",
+    "start-electron": "cd packages/lightning-electron && npm start",
+    "start-webpack": "cd packages/lightning-webpack && npm start",
+    "start": "concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\""
   },
   "repository": {
     "type": "git",
@@ -16,6 +20,11 @@
   "private": true,
   "devDependencies": {
     "babel-eslint": "^6.1.2",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "babel-preset-react-hmre": "^1.1.1",
+    "babel-preset-stage-0": "^6.5.0",
+    "concurrently": "^3.1.0",
     "eslint": "^3.6.0",
     "eslint-config-airbnb": "^11.2.0",
     "eslint-plugin-import": "^1.16.0",

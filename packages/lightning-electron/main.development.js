@@ -6,7 +6,7 @@ import _ from 'lodash'
 import observe from 'observe'
 import cp from 'child_process'
 import ps from 'ps-node'
-import './lnd'
+// import './lnd' TODO: Fix
 
 let mainWindow = null
 

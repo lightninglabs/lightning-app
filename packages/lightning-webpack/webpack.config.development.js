@@ -14,7 +14,7 @@ export default validate(merge(baseConfig, {
     app: [
       `webpack-hot-middleware/client?path=http://localhost:${ port }/__webpack_hmr`,
       'babel-polyfill',
-      './app/index',
+      './../lightning-desktop/index',
     ],
     vendor: ['react', 'redux', 'lodash'],
   },
