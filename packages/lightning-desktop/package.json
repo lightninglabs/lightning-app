@@ -1,6 +1,6 @@
 {
   "name": "lightning-desktop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,9 +10,9 @@
   "license": "MIT",
   "dependencies": {
     "electron": "^1.4.12",
-    "lightning-components": "^0.1.0",
-    "lightning-core": "^1.9.0",
-    "lightning-store": "^0.1.0",
+    "lightning-components": "^0.1.1",
+    "lightning-core": "^1.9.1",
+    "lightning-store": "^0.1.1",
     "lodash": "^4.17.2",
     "normalize.css": "^5.0.0",
     "react": "^15.4.1",
