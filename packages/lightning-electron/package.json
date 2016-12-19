@@ -1,0 +1,19 @@
+{
+  "name": "lightning-electron",
+  "version": "0.1.0",
+  "description": "",
+  "main": "main.development.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "case <case@casesandberg.com>",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^1.4.12",
+    "electron-debug": "^1.1.0",
+    "electron-window-state": "^4.0.1",
+    "lodash": "^4.17.2",
+    "observe": "^1.3.7",
+    "ps-node": "^0.1.4"
+  }
+}
