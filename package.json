@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "lerna bootstrap",
-    "publish": "lerna publish"
+    "publish": "lerna publish",
+    "clean": "find . -name 'node_modules' -exec rm -rf '{}' +"
   },
   "repository": {
     "type": "git",
