@@ -6,7 +6,7 @@ import _ from 'lodash'
 import observe from 'observe'
 import cp from 'child_process'
 import ps from 'ps-node'
-// import './lnd' TODO: Fix
+import '../lightning-desktop/lnd'
 
 let mainWindow = null
 
