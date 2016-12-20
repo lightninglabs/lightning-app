@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import _ from 'lodash'
-import { GRPC } from 'redux-grpc-middlware'
+import { GRPC } from 'redux-grpc-middleware'
 import transaction from './transaction'
 
 export const GET_TRANSACTIONS_REQUEST = 'TRANSACTIONS/GET_TRANSACTIONS_REQUEST'

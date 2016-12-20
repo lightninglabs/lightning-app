@@ -17,6 +17,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^4.0.0-alpha.5",
     "reactcss": "^1.0.8",
-    "redux": "^3.6.0"
+    "redux": "^3.6.0",
+    "redux-grpc-middleware": "^0.1.1"
   }
 }

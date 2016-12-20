@@ -1,4 +1,4 @@
-import { GRPC } from 'redux-grpc-middlware'
+import { GRPC } from 'redux-grpc-middleware'
 import _ from 'lodash'
 import { combineReducers } from 'redux'
 import wallet, * as WALLET from './wallet'

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { GRPC } from 'redux-grpc-middlware'
+import { GRPC } from 'redux-grpc-middleware'
 import { actions as notificationsActions } from 'lightning-notifications'
 import channel, * as CHANNEL from './channel'
 

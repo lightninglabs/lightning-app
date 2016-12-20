@@ -1,4 +1,4 @@
-import { GRPC } from 'redux-grpc-middlware'
+import { GRPC } from 'redux-grpc-middleware'
 
 export const SEND_BITCOIN = 'PAYMENT/SEND_BITCOIN'
 export const SET_BITCOIN_ADDRESS = 'PAYMENT/SET_BITCOIN_ADDRESS'

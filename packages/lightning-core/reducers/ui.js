@@ -1,4 +1,4 @@
-import { GRPC } from 'redux-grpc-middlware'
+import { GRPC } from 'redux-grpc-middleware'
 import * as PAYMENT from './payment'
 import * as CHANNELS from './channels'
 

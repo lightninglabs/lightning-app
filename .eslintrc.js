@@ -37,7 +37,7 @@ module.exports = {
   'settings': {
     'import/core-modules': [
       'electron',
-      'redux-grpc-middlware',
+      'redux-grpc-middleware',
       'lightning-notifications',
       'lightning-store',
     ]

@@ -4,7 +4,7 @@ import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import createIpc from 'redux-electron-ipc'
-import createGrpc from 'redux-grpc-middlware'
+import createGrpc from 'redux-grpc-middleware'
 import { actions as logActions } from 'lightning-core/reducers/lnd'
 
 const ipc = createIpc(logActions)
