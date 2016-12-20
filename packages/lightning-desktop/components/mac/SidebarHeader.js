@@ -2,7 +2,7 @@ import React from 'react'
 import reactCSS from 'reactcss'
 import { Link } from 'react-router'
 
-import { Box, Icon, colors } from 'lightning-core-ui'
+import { Box, Icon, colors } from 'lightning-components'
 
 import TrafficLights from './TrafficLights'
 

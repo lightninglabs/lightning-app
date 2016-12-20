@@ -8,7 +8,7 @@ export default validate({
       {
         test: /\.js?$/,
         loaders: ['babel?cacheDirectory'],
-        exclude: /node_modules\/(?!lightning-core|lightning-core-ui)/,
+        exclude: /node_modules/,
       },
       {
         test: /\.json$/,

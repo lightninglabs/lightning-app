@@ -2,7 +2,7 @@ import React from 'react'
 import reactCSS, { hover as h } from 'reactcss'
 import { remote } from 'electron'
 
-import { Box } from 'lightning-core-ui'
+import { Box } from 'lightning-components'
 
 export const TrafficLights = ({ hover }) => {
   const styles = reactCSS({

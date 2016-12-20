@@ -17,7 +17,7 @@ import TransactionsContainer from 'lightning-core/src/containers/TransactionsCon
 import WalletContainer from 'lightning-core/src/containers/WalletContainer'
 import SidebarContainer from 'lightning-core/src/containers/SidebarContainer'
 
-import { Box } from 'lightning-core-ui'
+import { Box } from 'lightning-components'
 import SidebarHeader from './mac/SidebarHeader'
 
 export class App extends React.Component {  // eslint-disable-line
