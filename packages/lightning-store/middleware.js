@@ -5,7 +5,7 @@ import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'
 import createIpc from 'redux-electron-ipc'
 import createGrpc from 'redux-grpc-middlware'
-import { actions as logActions } from 'lightning-core/src/reducers/lnd'
+import { actions as logActions } from 'lightning-core/reducers/lnd'
 
 const ipc = createIpc(logActions)
 const grpc = createGrpc({ path: './lnd' })
