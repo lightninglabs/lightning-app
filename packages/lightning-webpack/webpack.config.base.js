@@ -31,14 +31,8 @@ export default validate({
 
   // https://webpack.github.io/docs/configuration.html#resolve
   resolve: {
-    root: __dirname,
     extensions: ['', '.js', '.jsx', '.json'],
     packageMains: ['webpack', 'browser', 'web', 'browserify', ['jam', 'main'], 'main'],
-    alias: {
-      'redux-grpc-middlware': 'packages/redux-grpc-middlware',
-      'lightning-notifications': 'packages/lightning-notifications',
-      'lightning-store': 'packages/lightning-store',
-    },
   },
 
   plugins: [

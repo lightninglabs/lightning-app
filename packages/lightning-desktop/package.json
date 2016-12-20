@@ -12,6 +12,7 @@
     "electron": "^1.4.12",
     "lightning-components": "^0.1.1",
     "lightning-core": "^1.9.1",
+    "lightning-notifications": "^0.1.1",
     "lightning-store": "^0.1.1",
     "lodash": "^4.17.2",
     "normalize.css": "^5.0.0",
