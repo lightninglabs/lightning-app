@@ -1,0 +1,356 @@
+syntax = "proto3";
+
+package lnrpc;
+
+service Lightning {
+    rpc WalletBalance(WalletBalanceRequest) returns (WalletBalanceResponse) {
+
+    }
+    rpc ChannelBalance(ChannelBalanceRequest) returns (ChannelBalanceResponse) {
+
+    }
+
+    rpc GetTransactions(GetTransactionsRequest) returns (TransactionDetails) {
+
+    }
+    rpc SendCoins(SendCoinsRequest) returns (SendCoinsResponse) {
+
+    }
+    rpc SubscribeTransactions(GetTransactionsRequest) returns (stream Transaction);
+
+    rpc SendMany(SendManyRequest) returns (SendManyResponse);
+
+    rpc NewAddress(NewAddressRequest) returns (NewAddressResponse);
+    rpc NewWitnessAddress(NewWitnessAddressRequest) returns (NewAddressResponse) {
+
+    }
+
+    rpc ConnectPeer(ConnectPeerRequest) returns (ConnectPeerResponse) {
+
+    }
+    rpc ListPeers(ListPeersRequest) returns (ListPeersResponse) {
+
+    }
+    rpc GetInfo(GetInfoRequest) returns (GetInfoResponse) {
+
+    }
+
+    // TODO(roasbeef): merge with below with bool?
+    rpc PendingChannels(PendingChannelRequest) returns (PendingChannelResponse) {
+
+    }
+    rpc ListChannels(ListChannelsRequest) returns (ListChannelsResponse) {
+
+    }
+    rpc OpenChannelSync(OpenChannelRequest) returns (ChannelPoint) {
+
+    }
+
+    rpc OpenChannel(OpenChannelRequest) returns (stream OpenStatusUpdate);
+
+    rpc CloseChannel(CloseChannelRequest) returns (stream CloseStatusUpdate) {
+
+    }
+
+    rpc SendPayment(stream SendRequest) returns (stream SendResponse);
+
+    rpc SendPaymentSync(SendRequest) returns (SendResponse) {
+
+    }
+
+    rpc AddInvoice(Invoice) returns (AddInvoiceResponse) {
+
+    }
+    rpc ListInvoices(ListInvoiceRequest) returns (ListInvoiceResponse) {
+
+    }
+    rpc LookupInvoice(PaymentHash) returns (Invoice) {
+
+    }
+    rpc SubscribeInvoices(InvoiceSubscription) returns (stream Invoice) {
+
+    }
+
+    rpc ShowRoutingTable(ShowRoutingTableRequest) returns (ShowRoutingTableResponse);
+}
+
+
+message Transaction {
+    string tx_hash = 1;
+    double amount = 2;
+    int32 num_confirmations = 3;
+    string block_hash = 4;
+    int32 block_height = 5;
+    int64 time_stamp = 6;
+    int64 total_fees = 7;
+}
+message GetTransactionsRequest {
+}
+message TransactionDetails {
+    repeated Transaction transactions = 1;
+}
+
+message SendRequest {
+    bytes dest = 1;
+    string dest_string = 2;
+
+    int64 amt = 3;
+
+    bytes payment_hash = 4;
+    string payment_hash_string = 5;
+
+    bool fast_send = 6;
+}
+message SendResponse {
+    // TODO(roasbeef): info about route? stats?
+}
+
+message ChannelPoint {
+    bytes funding_txid = 1;
+    string funding_txid_str = 2;
+    uint32 output_index = 3;
+}
+
+message LightningAddress {
+    string pubkey = 1;
+    string host = 2;
+}
+
+message SendManyRequest {
+    map<string, int64> AddrToAmount = 1;
+}
+message SendManyResponse {
+    string txid = 1;
+}
+
+message SendCoinsRequest {
+    string addr = 1;
+    int64 amount = 2;
+}
+message SendCoinsResponse {
+    string txid = 1;
+}
+
+message NewAddressRequest {
+    enum AddressType {
+        WITNESS_PUBKEY_HASH = 0;
+        NESTED_PUBKEY_HASH = 1;
+        PUBKEY_HASH = 2;
+    }
+    AddressType type = 1;
+}
+message NewWitnessAddressRequest {}
+message NewAddressResponse {
+    string address = 1;
+}
+
+message ConnectPeerRequest {
+    LightningAddress addr = 1;
+}
+message ConnectPeerResponse {
+    int32 peer_id = 1;
+}
+
+message HTLC {
+    bool incoming = 1;
+    int64 amount = 2;
+    bytes hash_lock = 3;
+    uint32 expiration_height = 4;
+    uint32 revocation_delay = 5;
+}
+
+message ActiveChannel {
+    string remote_pubkey = 1;
+    string channel_point = 2;
+
+    int64 capacity = 3;
+    int64 local_balance = 4;
+    int64 remote_balance = 5;
+
+    int64 unsettled_balance = 6;
+    int64 total_satoshis_sent = 7;
+    int64 total_satoshis_received = 8;
+    uint64 num_updates = 9;
+
+    repeated HTLC pending_htlcs = 10;
+    // TODO(roasbeef): other stuffs
+}
+
+message ListChannelsRequest {}
+message ListChannelsResponse {
+    repeated ActiveChannel channels = 11;
+}
+
+message Peer {
+    string pub_key = 1;
+    int32 peer_id = 2;
+    string address = 3;
+
+    uint64 bytes_sent = 4;
+    uint64 bytes_recv = 5;
+
+    int64 sat_sent = 6;
+    int64 sat_recv = 7;
+
+    bool inbound = 8;
+}
+
+message ListPeersRequest {}
+message ListPeersResponse {
+    repeated Peer peers = 1;
+}
+
+message GetInfoRequest{}
+message GetInfoResponse {
+    string lightning_id = 1;
+    string identity_pubkey = 3;
+
+    uint32 num_pending_channels = 4;
+    uint32 num_active_channels = 5;
+
+    uint32 num_peers = 6;
+
+    uint32 block_height = 7;
+    bool synced_to_chain = 8;
+}
+
+message ConfirmationUpdate {
+    bytes block_sha = 1;
+    int32 block_height = 2;
+
+    uint32 num_confs_left = 3;
+}
+
+message ChannelOpenUpdate {
+   ChannelPoint channel_point = 1;
+}
+
+message ChannelCloseUpdate {
+    bytes closing_txid = 1;
+
+    bool success = 2;
+}
+
+message CloseChannelRequest {
+    ChannelPoint channel_point = 1;
+    int64 time_limit = 2;
+    bool force = 3;
+}
+message CloseStatusUpdate {
+    oneof update {
+        PendingUpdate close_pending = 1;
+        ConfirmationUpdate confirmation = 2;
+        ChannelCloseUpdate chan_close = 3;
+    }
+}
+
+message PendingUpdate {
+    bytes txid = 1;
+}
+
+message OpenChannelRequest {
+    int32 target_peer_id = 1;
+
+    bytes node_pubkey = 2;
+
+    string node_pubkey_string = 3;
+
+    int64 local_funding_amount = 4;
+    int64 remote_funding_amount = 5;
+
+    int64 commission_size = 6;
+
+    uint32 num_confs = 7;
+}
+message OpenStatusUpdate {
+    oneof update {
+        PendingUpdate chan_pending = 1;
+        ConfirmationUpdate confirmation = 2;
+        ChannelOpenUpdate chan_open = 3;
+    }
+}
+
+enum ChannelStatus {
+    ALL = 0;
+    OPENING = 1;
+    CLOSING = 2;
+}
+message PendingChannelRequest {
+    ChannelStatus status = 1;
+}
+message PendingChannelResponse {
+    message PendingChannel {
+        int32 peer_id = 1;
+
+        string identity_key = 2;
+        string channel_point = 3;
+
+        int64 capacity = 4;
+        int64 local_balance = 5;
+        int64 remote_balance = 6;
+
+        string closing_txid = 7;
+
+        ChannelStatus status = 8;
+    }
+
+    repeated PendingChannel pending_channels = 1;
+}
+
+message WalletBalanceRequest {
+    bool witness_only = 1;
+}
+message WalletBalanceResponse {
+    double balance = 1;
+}
+
+message ChannelBalanceRequest {
+}
+message ChannelBalanceResponse {
+    int64 balance = 1;
+}
+
+message RoutingTableLink {
+    string id1 = 1;
+    string id2 = 2;
+    string outpoint = 3;
+    int64 capacity = 4;
+    double weight = 5;
+}
+
+message ShowRoutingTableRequest {
+}
+
+message ShowRoutingTableResponse {
+    repeated RoutingTableLink channels = 1;
+}
+
+message Invoice {
+    string memo = 1;
+    bytes receipt = 2;
+
+    bytes r_preimage = 3;
+    bytes r_hash = 4;
+
+    int64 value = 5;
+
+    bool settled = 6;
+
+    int64 creation_date = 7;
+    int64 settle_date = 8;
+}
+message AddInvoiceResponse {
+    bytes r_hash = 1;
+}
+message PaymentHash {
+    string r_hash_str = 1;
+    bytes r_hash = 2;
+}
+message ListInvoiceRequest {
+    bool pending_only = 1;
+}
+message ListInvoiceResponse {
+    repeated Invoice invoices = 1;
+}
+
+message InvoiceSubscription {}
