@@ -1,8 +1,12 @@
 {
   "name": "lightning-electron",
+  "productName": "Lightning",
   "version": "0.1.1",
   "description": "",
   "main": "main.development.js",
+  "engines": {
+    "node": "^6.7.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ."
@@ -10,12 +14,15 @@
   "author": "case <case@casesandberg.com>",
   "license": "MIT",
   "dependencies": {
+    "babel-polyfill": "^6.20.0",
     "electron": "^1.4.12",
     "electron-debug": "^1.1.0",
+    "electron-packager": "^8.4.0",
     "electron-window-state": "^4.0.1",
     "lodash": "^4.17.2",
     "observe": "^1.3.7",
-    "ps-node": "^0.1.4"
+    "ps-node": "^0.1.4",
+    "webpack": "^1.14.0"
   },
   "devDependencies": {
     "babel-register": "^6.18.0",

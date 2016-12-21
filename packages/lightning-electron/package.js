@@ -8,10 +8,10 @@ import packager from 'electron-packager'
 import del from 'del'
 import minimist from 'minimist'
 import { exec } from 'child_process'
-import cfg from './webpack.config.production'
+import cfg from '../lightning-webpack/webpack.config.production'
 import pkg from './package.json'
 
-import electronCfg from './webpack.config.electron'
+import electronCfg from '../lightning-webpack/webpack.config.electron'
 
 
 /**
