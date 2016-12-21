@@ -9,7 +9,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ."
+    "start": "cross-env HOT=1 NODE_ENV=development electron -r babel-register .",
+    "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill package.js --icon 'assets/ln-logo'",
+    "package-all": "npm run package -- --all"
   },
   "author": "case <case@casesandberg.com>",
   "license": "MIT",

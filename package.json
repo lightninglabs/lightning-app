@@ -10,7 +10,8 @@
     "reinstall": "npm run clean && npm install",
     "start-electron": "cd packages/lightning-electron && npm start",
     "start-webpack": "cd packages/lightning-webpack && npm start",
-    "start": "concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\""
+    "start": "concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\"",
+    "package-electron": "cd packages/lightning-electron && npm run package"
   },
   "repository": {
     "type": "git",
