@@ -5,7 +5,8 @@ import { Link } from 'react-router'
 import { Header } from './common'
 import ChannelsList from './channels/ChannelsList'
 
-export const Channels = ({ channels, user, currency, sendLightning }) => {
+export const Channels = ({ channels, user, currency, sendLightning,
+  onCloseChannel }) => {
   return (
     <div style={{ flex: 1, minWidth: 0 }}>
       <Header title="Channels" />
@@ -16,6 +17,7 @@ export const Channels = ({ channels, user, currency, sendLightning }) => {
           user={ user }
           currency={ currency }
           sendLightning={ sendLightning }
+          onCloseChannel={ onCloseChannel }
         />
       </Box>
 

@@ -5,7 +5,8 @@ import _ from 'lodash'
 import { Box, Icon, Text } from 'lightning-components'
 import ChannelsListItem from './ChannelsListItem'
 
-export const ChannelsList = ({ channels, currency, user, sendLightning }) => {
+export const ChannelsList = ({ channels, currency, user, sendLightning,
+  onCloseChannel }) => {
   const styles = reactCSS({
     'default': {
       channels: {
@@ -33,6 +34,7 @@ export const ChannelsList = ({ channels, currency, user, sendLightning }) => {
               currency={ currency }
               user={ user }
               sendLightning={ sendLightning }
+              onClose={ onCloseChannel }
             />
           </div>
         )

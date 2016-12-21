@@ -15,9 +15,23 @@ export const CONNECT_PEER_REQUEST = 'CHANNELS/CONNECT_PEER_REQUEST'
 export const CONNECT_PEER = 'CHANNELS/CONNECT_PEER'
 export const CONNECT_PEER_FAILURE = 'CHANNELS/CONNECT_PEER_FAILURE'
 
+export const CLOSE_CHANNEL = 'CHANNELS/CLOSE_CHANNEL'
+export const CLOSE_CHANNEL_FAILURE = 'CHANNELS/CLOSE_CHANNEL_FAILURE'
+
+// const initialState = [
+//   {
+//     total: 4000,
+//     localAllocation: 1300,
+//     remoteAllocation: 2700,
+//     remotePubKey: 'asf65sdf45sdfdsfg456sdfg645sdfg6sdfg6',
+//     status: 'open',
+//   },
+// ]
+
 export default function channels(state = [], action) {
   switch (action.type) {
     case GET_CHANNELS:
+      // return state
       return _.map(action.listChannels.channels, c => ({
         total: parseInt(c.local_balance, 10) + parseInt(c.remote_balance, 10),
         localAllocation: parseInt(c.local_balance, 10),
@@ -89,6 +103,17 @@ export const actions = {
       })
       .catch(err => dispatch(notificationsActions.addNotification(err.message)))
   },
+
+  onCloseChannel: remotePubKey => ({
+    [GRPC]: {
+      method: 'openChannel',
+      body: {
+        remotePubKey,
+      },
+      stream: true,
+      types: [null, CLOSE_CHANNEL, CLOSE_CHANNEL_FAILURE],
+    },
+  }),
 }
 
 export const selectors = {
