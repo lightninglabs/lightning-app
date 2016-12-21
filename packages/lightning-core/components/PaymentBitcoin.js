@@ -2,11 +2,11 @@
 
 import React from 'react'
 
-import { Box, Input, LiftedInput, LinkWithIcon, Text } from 'lightning-components'
+import { Box, Icon, Input, LiftedInput, LinkWithIcon, Popup, QRCode, Text } from 'lightning-components'
 import { LiftedCurrencyInput } from './common'
 
 export const PaymentBitcoin = ({ form, changeBitcoinForm, sendCoins,
-  address, currency, isSynced, onError }) => {
+  address, currency, isSynced, onError, QRVisible, onQRClose, onQROpen }) => {
   const canSend = form.to && form.amount > 0
   const handleChange = (key, e) => changeBitcoinForm({ [key]: e.target.value })
   const emptyGuard = () => (canSend ? sendCoins(form) : onError('Input Payment Address and Amount'))
@@ -18,6 +18,11 @@ export const PaymentBitcoin = ({ form, changeBitcoinForm, sendCoins,
 
   return (
     <Box direction="column" flex={ 1 }>
+      <Popup visible={ QRVisible } onClose={ onQRClose }>
+        <div style={{ background: '#fff', borderRadius: 2, width: 300, height: 300 }}>
+          <QRCode address={ address } />
+        </div>
+      </Popup>
       <Box direction="column" align="center" verticalAlign="center" flex={ 1 }>
         <LiftedInput
           value={ form.to }
@@ -58,10 +63,22 @@ export const PaymentBitcoin = ({ form, changeBitcoinForm, sendCoins,
         paddingBottom="small"
         style={{ borderTop: '1px solid #eee' }}
       >
-        <Text size="large" color="light-gray" paddingLeft="small" paddingRight="small">Recieve Bitcoin:</Text>
-        <Input fontSize="large" value={ address } style={{ flex: 1 }} readOnly />
+        <Text
+          size="large"
+          color="light-gray"
+          paddingLeft="small"
+          paddingRight="small"
+        >
+          Recieve Bitcoin:
+        </Text>
+        <Input
+          fontSize="large"
+          value={ address }
+          style={{ flex: 1 }}
+          readOnly
+        />
+        <Icon name="qrcode" onClick={ onQROpen } />
       </Box>
-
     </Box>
   )
 }

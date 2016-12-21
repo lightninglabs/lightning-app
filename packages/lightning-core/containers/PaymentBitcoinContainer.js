@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { store } from 'lightning-store'
 import { actions as notificationsActions } from 'lightning-notifications'
 import { actions as paymentActions } from '../reducers/payment'
+import { actions as uiActions } from '../reducers/ui'
 
 import PaymentBitcoin from '../components/PaymentBitcoin'
 
@@ -11,6 +12,7 @@ const mapStateToProps = state => ({
   form: store.getSendBitcoinForm(state),
   isSynced: store.getSyncedToChain(state),
   address: store.getBitcoinAddress(state),
+  QRVisible: store.getQRVisible(state),
 })
 
 class PaymentBitcoinContainer extends React.Component {
@@ -25,5 +27,5 @@ class PaymentBitcoinContainer extends React.Component {
 
 export default connect(
   mapStateToProps,
-  { ...paymentActions, ...notificationsActions }
+  { ...paymentActions, ...notificationsActions, ...uiActions }
 )(PaymentBitcoinContainer)

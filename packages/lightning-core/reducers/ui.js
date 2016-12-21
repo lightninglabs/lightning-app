@@ -10,6 +10,9 @@ export const GET_ACCOUNT_FAILURE = 'UI/GET_ACCOUNT_FAILURE'
 
 export const SUBSCRIBE_TRANSACTIONS = 'UI/SUBSCRIBE_TRANSACTIONS'
 
+export const QR_OPEN = 'UI/QR_OPEN'
+export const QR_CLOSE = 'UI/QR_CLOSE'
+
 export const initialState = {
   currency: 'satoshi',
   account: {
@@ -37,6 +40,7 @@ export const initialState = {
     uri: '',
   },
   sendLightningURI: '',
+  QRVisible: false,
 }
 
 export default function ui(state = initialState, action) {
@@ -92,6 +96,10 @@ export default function ui(state = initialState, action) {
       }
     case GET_ACCOUNT_FAILURE:
       return { ...state, account: { pubKey: 'No Pubkey' } }
+    case QR_OPEN:
+      return { ...state, QRVisible: true }
+    case QR_CLOSE:
+      return { ...state, QRVisible: false }
     default: return state
   }
 }
@@ -113,6 +121,9 @@ export const actions = {
       types: [null, SUBSCRIBE_TRANSACTIONS, null],
     },
   }),
+
+  onQROpen: () => ({ type: QR_OPEN }),
+  onQRClose: () => ({ type: QR_CLOSE }),
 }
 
 export const selectors = {
@@ -124,4 +135,5 @@ export const selectors = {
   getSendBitcoinForm: state => state.sendBitcoinForm,
   getRequestLightningForm: state => state.requestLightningForm,
   getSendLightningURI: state => state.sendLightningURI,
+  getQRVisible: state => state.QRVisible,
 }
