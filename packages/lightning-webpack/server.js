@@ -20,5 +20,10 @@ app.use(webpackHotMiddleware(compiler))
 
 app.listen(PORT, 'localhost', (err) => {
   if (err) { console.error(err); return }
-  console.log(`Listening at http://localhost:${ PORT }`)
+  console.log('============================')
+  console.log()
+  console.log('   STARTING LIGHTNING APP   ')
+  console.log()
+  console.log('============================')
+  // console.log(`http://localhost:${ PORT }`)
 })
