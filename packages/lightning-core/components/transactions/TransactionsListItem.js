@@ -13,6 +13,7 @@ export const TranscationListItem = ({ from, user, to, description, amount,
         padding: 'medium',
         spread: true,
         background: 'white',
+        userSelect: 'text',
       },
       left: {
         direction: 'column',

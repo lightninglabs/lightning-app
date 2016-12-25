@@ -33,7 +33,7 @@ export const TransactionList = ({ transactions, user, currency, sort }) => {
           </div>
         )
       }) }
-      { transactions.length === 0 ? (
+      { !transactions ? (
         <Box
           style={{
             height: '100%',
