@@ -13,11 +13,14 @@
     "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill package.js --icon 'assets/ln-logo'",
     "package-all": "npm run package -- --all"
   },
+  "bin": {
+    "electron": "./node_modules/.bin/electron"
+  },
   "author": "case <case@casesandberg.com>",
   "license": "MIT",
   "dependencies": {
     "babel-polyfill": "^6.20.0",
-    "electron": "^1.4.12",
+    "electron-prebuilt": "^1.4.6",
     "electron-debug": "^1.1.0",
     "electron-packager": "^8.4.0",
     "electron-window-state": "^4.0.1",
