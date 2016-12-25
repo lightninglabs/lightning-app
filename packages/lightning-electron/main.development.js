@@ -82,7 +82,11 @@ const createWindow = () => {
   })
 
   mainWindowState.manage(mainWindow)
-  mainWindow.loadURL(`file://${ __dirname }/app.html`)
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.loadURL(`file://${ __dirname }/app.dev.html`)
+  } else {
+    mainWindow.loadURL(`file://${ __dirname }/app.html`)
+  }
 
   mainWindow.webContents.on('did-finish-load', () => {
     mainWindow.show()
