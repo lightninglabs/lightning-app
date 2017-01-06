@@ -8,10 +8,10 @@ import packager from 'electron-packager'
 import del from 'del'
 import minimist from 'minimist'
 import { exec } from 'child_process'
-import cfg from '../lightning-webpack/webpack.config.production'
+import cfg from './webpack.config.production'
 import pkg from './package.json'
 
-import electronCfg from '../lightning-webpack/webpack.config.electron'
+import electronCfg from './webpack.config.electron'
 
 
 /**
@@ -90,7 +90,7 @@ function pack(plat, arch, cb) {
     arch,
     'prune': true,
     'app-version': pkg.version || DEFAULT_OPTS.version,
-    'out': `release/${ plat }-${ arch }`,
+    'out': '../../release',
     'protocols': [{
       name: 'Lightning',
       schemes: ['lightning'],
@@ -120,7 +120,7 @@ async function startPack() {
      */
     await build(electronCfg)
     await build(cfg)
-    await del('release')
+    await del('../../release', { force: true })
 
     // Start the packing process
     if (shouldBuildAll) {
