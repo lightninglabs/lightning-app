@@ -3,7 +3,7 @@
 import electron from 'electron'
 
 const defaults = {
-  // path: './main.development.js',
+  path: '',
   selector: 'default',
 }
 

@@ -11,7 +11,7 @@ const config = validate(merge(baseConfig, {
 
   entry: [
     'babel-polyfill',
-    './app/index',
+    './../lightning-desktop/index',
   ],
 
   output: {
