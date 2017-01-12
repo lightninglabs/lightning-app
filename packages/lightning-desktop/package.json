@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd node_modules/grpc && npm run electron-build -- --target=1.4.6"
   },
   "author": "case <case@casesandberg.com>",
   "license": "MIT",
