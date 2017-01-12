@@ -71,6 +71,7 @@ export default function ui(state = initialState, action) {
           ...state,
           requestLightningForm: initialState.requestLightningForm,
           sendLightningURI: action.uri,
+          // TODO: Dont Hard Code Here
           sendLightningForm: { amount: 111, pubkey: 'abc', rHash: '123', request },
         }
       }

@@ -103,8 +103,8 @@ export class App extends React.Component {  // eslint-disable-line
     })
 
     // eslint-disable-next-line camelcase
-    const handleMakePayment = (amt, dest_string, payment_hash) =>
-      this.subscribePayments.write({ amt, dest_string, payment_hash })
+    const handleMakePayment = payment_request =>
+      this.subscribePayments.write({ payment_request })
 
     return (
       <Box style={ styles.app }>

@@ -16,9 +16,7 @@ export const PaymentLightning = ({ form, changeLightningForm, requestLightning,
   )
 
   const handleSend = () => (isSynced ? makePayment(
-    sendLightningForm.amount,
-    sendLightningForm.pubkey,
-    sendLightningForm.rHash,
+    sendLightningForm.request,
   ) : (
     onError('Wait Until Synced to Send Lightning')
   ))
