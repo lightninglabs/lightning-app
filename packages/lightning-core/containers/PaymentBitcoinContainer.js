@@ -19,9 +19,7 @@ class PaymentBitcoinContainer extends React.Component {
   componentDidMount() { this.props.newWitnessAddress() }
 
   render() {
-    return (
-      <PaymentBitcoin { ...this.props } />
-    )
+    return <PaymentBitcoin { ...this.props } />
   }
 }
 

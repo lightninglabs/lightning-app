@@ -17,9 +17,7 @@ class WalletContainer extends React.Component {
   componentDidMount() { this.props.fetchBalances() }
 
   render() {
-    return (
-      <Wallet { ...this.props } />
-    )
+    return <Wallet { ...this.props } />
   }
 }
 

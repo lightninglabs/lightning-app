@@ -15,7 +15,6 @@ export const PaymentLightning = ({ form, changeLightningForm, requestLightning,
     onError('Input Request Amount')
   )
 
-
   const handleSend = () => (isSynced ? makePayment(
     sendLightningForm.amount,
     sendLightningForm.pubkey,

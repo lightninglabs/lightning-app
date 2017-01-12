@@ -8,14 +8,12 @@ import { selectors as ui } from 'lightning-core/reducers/ui'
 import { selectors as wallets } from 'lightning-core/reducers/wallets'
 import { selectors as notifications } from 'lightning-notifications'
 
-export default {
-  ...scopeStateToSelectors({
-    wallets,
-    ui,
-    payment,
-    transactions,
-    lnd,
-    channels,
-    notifications,
-  }),
-}
+export default scopeStateToSelectors({
+  wallets,
+  ui,
+  payment,
+  transactions,
+  lnd,
+  channels,
+  notifications,
+})

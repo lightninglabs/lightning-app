@@ -1,8 +1,8 @@
-import _ from 'lodash'
+// import _ from 'lodash'
 
 const STATE = 'LIGHTNING_STATE'
 
-export const save = (store) => {
+export const save = () => {
   // const saveState = _.debounce(() => {
   //   localStorage.setItem(STATE, JSON.stringify(store.getState()))
   // }, 5000)

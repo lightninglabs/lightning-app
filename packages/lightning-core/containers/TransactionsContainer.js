@@ -12,9 +12,7 @@ class TransactionsContainer extends React.Component {
   componentDidMount() { this.props.getTransactions() }
 
   render() {
-    return (
-      <Transactions { ...this.props } />
-    )
+    return <Transactions { ...this.props } />
   }
 }
 

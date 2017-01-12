@@ -21,9 +21,7 @@ export class SidebarContainer extends React.Component {
   }
 
   render() {
-    return (
-      <Sidebar { ...this.props } />
-    )
+    return <Sidebar { ...this.props } />
   }
 }
 
