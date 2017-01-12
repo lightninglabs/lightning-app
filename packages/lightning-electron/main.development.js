@@ -99,18 +99,18 @@ const createWindow = () => {
     mainWindow && mainWindow.webContents.send('log', log)
   })
 
-  if (process.env.NODE_ENV === 'development') {
-    mainWindow.openDevTools()
-  }
+  // if (process.env.NODE_ENV === 'development') {
+  mainWindow.openDevTools()
+  // }
 
   mainWindow.on('closed', () => {
     mainWindow = null
   })
 }
 
-if (process.env.NODE_ENV === 'development') {
-  require('electron-debug')()
-}
+// if (process.env.NODE_ENV === 'development') {
+require('electron-debug')()
+// }
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') app.quit()

@@ -32,6 +32,7 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "json-loader": "^0.5.4",
+    "lightning-desktop": "^1.0.1",
     "lodash": "^4.17.2",
     "observe": "^1.3.7",
     "ps-node": "^0.1.4",
