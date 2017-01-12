@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { actions as transactionsActions } from 'lightning-core/reducers/transactions'
 import { actions as walletsActions } from 'lightning-core/reducers/wallets'
 import { actions as notificationsActions, Notifications } from 'lightning-notifications'
+import { actions as paymentActions } from 'lightning-core/reducers/payment'
 
 import { Match, Miss, Redirect } from 'react-router'
 import ChannelsContainer from 'lightning-core/containers/ChannelsContainer'
@@ -52,6 +53,24 @@ export class App extends React.Component {  // eslint-disable-line
       this.props.onSuccess('Invoice Completed')
       fetchBalance()
     })
+
+    this.subscribePayments = this.props.subscribePayments()
+
+    this.subscribePayments.on('data', (transaction) => {
+      console.log('transaction', transaction)
+    })
+
+    // this.subscribePayments.on('status', status => console.log('status', status.code, status))
+    this.subscribePayments.on('error', error => console.error('SendPayment Error', error))
+    this.subscribePayments.on('end', () => this.subscribePayments.end())
+
+    setTimeout(() => {
+      this.subscribePayments.write({
+        amt: 4000,
+        dest_string: 'sdg7624dgsd7g4sd765g4sfg',
+        payment_hash: '765sdv8b764x8b7f35s8d',
+      })
+    }, 1000)
   }
 
   render() {
@@ -79,6 +98,10 @@ export class App extends React.Component {  // eslint-disable-line
         },
       },
     })
+
+    // eslint-disable-next-line camelcase
+    const handleMakePayment = (amt, dest_string, payment_hash) =>
+      this.subscribePayments.write({ amt, dest_string, payment_hash })
 
     return (
       <Box style={ styles.app }>
@@ -111,5 +134,10 @@ export class App extends React.Component {  // eslint-disable-line
 
 export default connect(
   () => ({}),
-  { ...transactionsActions, ...walletsActions, ...notificationsActions }
+  {
+    ...transactionsActions,
+    ...walletsActions,
+    ...notificationsActions,
+    ...paymentActions,
+  }
 )(App)

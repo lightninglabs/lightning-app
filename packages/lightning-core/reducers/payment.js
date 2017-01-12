@@ -48,6 +48,14 @@ export const actions = {
     },
   }),
 
+  subscribePayments: () => ({
+    [GRPC]: {
+      method: 'sendPayment',
+      types: [SEND_PAYMENT_REQUEST, SEND_PAYMENT, SEND_PAYMENT_FAILURE],
+      stream: true,
+    },
+  }),
+
   sendLightning: (remotePubKey, amount, paymentHash) => ({
     [GRPC]: {
       method: 'sendPayment',

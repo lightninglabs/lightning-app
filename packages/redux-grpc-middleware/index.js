@@ -13,24 +13,6 @@ export default (opts = {}) => {
   const options = { ...defaults, ...opts }
   const client = electron.remote.require(options.path)[options.selector]
 
-  const call = client.sendPayment()
-
-  call.on('data', (transaction) => {
-    console.log('transaction', transaction)
-  })
-
-  // call.on('status', status => console.log('status', status.code, status))
-  call.on('error', error => console.error('SendPayment Error', error))
-  call.on('end', () => call.end())
-
-  setTimeout(() => {
-    call.write({
-      amt: 4000,
-      dest_string: 'sdg7624dgsd7g4sd765g4sfg',
-      payment_hash: '765sdv8b764x8b7f35s8d',
-    })
-  }, 1000)
-
   return () => next => (action) => {
     const call = action && action[GRPC] // eslint-disable-line
     if (typeof call === 'undefined' || !call) { return next(action) }

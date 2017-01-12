@@ -7,7 +7,7 @@ import { LiftedCurrencyInput } from './common'
 import PaymentLightningSend from './payment/PaymentLightningSend.js'
 
 export const PaymentLightning = ({ form, changeLightningForm, requestLightning,
-  sendURI, changeSendURI, currency, account, sendLightningForm, sendLightning,
+  sendURI, changeSendURI, currency, account, sendLightningForm, makePayment,
   isSynced, onError }) => {
   const handleChange = (key, e) => changeLightningForm({ [key]: e.target.value })
   const handleRequest = () => (form.amount > 0 ?
@@ -16,9 +16,9 @@ export const PaymentLightning = ({ form, changeLightningForm, requestLightning,
   )
 
 
-  const handleSend = () => (isSynced ? sendLightning(
-    sendLightningForm.pubkey,
+  const handleSend = () => (isSynced ? makePayment(
     sendLightningForm.amount,
+    sendLightningForm.pubkey,
     sendLightningForm.rHash,
   ) : (
     onError('Wait Until Synced to Send Lightning')
