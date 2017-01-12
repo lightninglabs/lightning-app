@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "electron": "^1.4.12",
+    "grpc": "^1.0.1",
     "lightning-components": "^0.1.1",
     "lightning-core": "^1.9.1",
     "lightning-notifications": "^0.1.1",

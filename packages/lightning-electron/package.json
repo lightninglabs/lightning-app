@@ -3,7 +3,7 @@
   "productName": "Lightning",
   "version": "0.1.1",
   "description": "",
-  "main": "main.js",
+  "main": "main.development.js",
   "engines": {
     "node": "^6.7.0"
   },
