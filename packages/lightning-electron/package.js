@@ -13,17 +13,7 @@ import pkg from './package.json'
 
 import electronCfg from './webpack.config.electron'
 
-
-/**
- * First two values are node path and current script path
- * https://nodejs.org/docs/latest/api/process.html#process_process_argv
- */
 const argv = minimist(process.argv.slice(2))
-
-/**
- * Do not package node modules from 'devDependencies'
- * and 'dependencies' that are set as external
- */
 const toNodePath = name => `/node_modules/${ name }($|/)`
 const devDeps = Object
   .keys(pkg.devDependencies)
@@ -34,11 +24,9 @@ const depsExternal = Object
   .filter(name => !electronCfg.externals.includes(name))
   .map(toNodePath)
 
-
 const appName = argv.name || argv.n || pkg.productName
 const shouldUseAsar = argv.asar || argv.a || false
 const shouldBuildAll = argv.all || false
-
 
 const DEFAULT_OPTS = {
   dir: './',
@@ -56,12 +44,6 @@ const DEFAULT_OPTS = {
 const icon = argv.icon || argv.i || 'app/app'
 if (icon) DEFAULT_OPTS.icon = icon
 
-
-/**
- * @desc Execute the webpack build process on given config object
- * @param {Object} cfg
- * @return {Promise}
- */
 function build(config) {
   return new Promise((resolve, reject) => {
     webpack(config, (err, stats) => {
@@ -108,16 +90,10 @@ function log(plat, arch) {
   }
 }
 
-
-/** @desc Build, clear previous releases and pack new versions */
 async function startPack() {
   console.log('start pack...')
 
   try {
-    /**
-     * - Build the 'Main process' and 'Renderer Process' files.
-     * - Clear the ./release directory
-     */
     await build(electronCfg)
     await build(cfg)
     await del('../../release', { force: true })

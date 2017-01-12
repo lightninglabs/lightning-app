@@ -3,14 +3,14 @@
   "productName": "Lightning",
   "version": "0.1.1",
   "description": "",
-  "main": "main.development.js",
+  "main": "main.js",
   "engines": {
     "node": "^6.7.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cross-env HOT=1 NODE_ENV=development electron -r babel-register .",
-    "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill package.js --icon 'assets/ln-logo'",
+    "start": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
+    "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill package.js --icon './assets/ln-logo'",
     "package-all": "npm run package -- --all",
     "dev": "cross-env NODE_ENV=development node -r babel-register server.js"
   },
