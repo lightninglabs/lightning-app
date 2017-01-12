@@ -61,7 +61,10 @@ export class App extends React.Component {  // eslint-disable-line
     })
 
     // this.subscribePayments.on('status', status => console.log('status', status.code, status))
-    this.subscribePayments.on('error', error => console.error('SendPayment Error', error))
+    this.subscribePayments.on('error', (error) => {
+      console.error('SendPayment Error', error)
+      this.props.onSuccess(error.message)
+    })
     this.subscribePayments.on('end', () => this.subscribePayments.end())
 
     setTimeout(() => {
