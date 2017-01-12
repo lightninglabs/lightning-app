@@ -65,17 +65,19 @@ export default function ui(state = initialState, action) {
     case PAYMENT.CHANGE_LIGHTNING_FORM:
       return { ...state, requestLightningForm: { ...state.requestLightningForm, ...action.data } }
     case PAYMENT.CHANGE_LIGHTNING_SEND_URI: {
-      const [, amount, pubkey, rHash] = action.uri.split(',')
-      return {
-        ...state,
-        requestLightningForm: initialState.requestLightningForm,
-        sendLightningURI: action.uri,
-        sendLightningForm: { amount, pubkey, rHash },
+      if (action.uri.indexOf('lightning://') > -1) {
+        const request = action.uri.replace('lightning://', '')
+        return {
+          ...state,
+          requestLightningForm: initialState.requestLightningForm,
+          sendLightningURI: action.uri,
+          sendLightningForm: { amount: 111, pubkey: 'abc', rHash: '123', request },
+        }
       }
+      return state
     }
     case PAYMENT.CREATE_INVOICE: {
-      const rHashHex = new Buffer(action.invoice.r_hash, 'base64').toString('hex')
-      const uri = `lightning,${ action.amount },${ action.pubkey },${ rHashHex }`
+      const uri = `lightning://${ action.invoice.payment_request }`
       return {
         ...state,
         requestLightningForm: {
