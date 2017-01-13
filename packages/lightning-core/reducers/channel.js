@@ -8,7 +8,7 @@ export default function channels(state = {}, action) {
         localAllocation: action.data.amount,
         remoteAllocation: 0,
         remotePubKey: action.data.pubKey,
-        status: 'pending',
+        status: 'pending', // TODO: Hook this up
       }
     default: return state
   }

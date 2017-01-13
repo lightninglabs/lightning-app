@@ -10,6 +10,7 @@ export const PaymentLightning = ({ form, changeLightningForm, requestLightning,
   sendURI, changeSendURI, currency, account, sendLightningForm, makePayment,
   isSynced, onError }) => {
   const handleChange = (key, e) => changeLightningForm({ [key]: e.target.value })
+  // TODO: Make this check for synced first
   const handleRequest = () => (form.amount > 0 ?
     requestLightning(form, account.pubKey) :
     onError('Input Request Amount')
