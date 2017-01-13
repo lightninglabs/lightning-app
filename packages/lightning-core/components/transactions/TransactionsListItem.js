@@ -1,11 +1,11 @@
 import React from 'react'
 import reactCSS from 'reactcss'
 
-import { Box, Text } from 'lightning-components'
+import { Box, Icon, Text } from 'lightning-components'
 import { Identity, Money } from '../common'
 
 export const TranscationListItem = ({ from, user, to, description, amount,
-  currency, status }) => {
+  currency, status, type }) => {
   const styles = reactCSS({
     'default': {
       row: {
@@ -14,6 +14,12 @@ export const TranscationListItem = ({ from, user, to, description, amount,
         spread: true,
         background: 'white',
         userSelect: 'text',
+      },
+      icon: {
+        direction: 'column',
+        verticalAlign: 'center',
+        paddingRight: 'medium',
+        color: 'light-gray',
       },
       left: {
         direction: 'column',
@@ -42,6 +48,9 @@ export const TranscationListItem = ({ from, user, to, description, amount,
 
   return (
     <Box style={ styles.row }>
+      <Box style={ styles.icon }>
+        <Icon name={ type === 'bitcoin' ? 'currency-btc' : 'flash' } />
+      </Box>
       <Text style={ styles.left }>
         <Box direction="row" style={ styles.focusText }>
           <Identity name={ from } user={ user && user.identity } maxWidth="80%" />

@@ -12,6 +12,7 @@ export default function transaction(state, action) {
         amount: state.amount * 1000000000,
         status: 'complete',
         date: parseInt(state.time_stamp, 10),
+        type: 'bitcoin',
       }
     }
     case TRANSACTIONS.STREAMING_INVOICE:
@@ -25,6 +26,7 @@ export default function transaction(state, action) {
         status: state.settled ? 'complete' : 'in-progress',
         description: state.memo,
         date: parseInt(state.creation_date, 10),
+        type: 'lightning',
       }
     }
     default: return state
