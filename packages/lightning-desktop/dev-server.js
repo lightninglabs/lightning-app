@@ -5,7 +5,7 @@ import webpack from 'webpack'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 
-import config from './webpack.config.development'
+import config from './webpack/webpack.config.development'
 
 const app = express()
 const compiler = webpack(config)

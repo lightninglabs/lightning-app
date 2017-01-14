@@ -8,8 +8,8 @@
     "publish": "lerna publish",
     "clean": "find . -name 'node_modules' -exec rm -rf '{}' +",
     "reinstall": "npm run clean && npm install",
-    "start-electron": "cd packages/lightning-electron && npm start",
-    "start-webpack": "cd packages/lightning-electron && npm run dev",
+    "start-electron": "cd packages/lightning-desktop && npm start",
+    "start-webpack": "cd packages/lightning-desktop && npm run dev",
     "dev": "concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\" -n \"electron,webpack\" -p name",
     "start": "npm run dev -s",
     "package-electron": "cd packages/lightning-electron && npm run package"

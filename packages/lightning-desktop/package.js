@@ -8,10 +8,10 @@ import packager from 'electron-packager'
 import del from 'del'
 import minimist from 'minimist'
 import { exec } from 'child_process'
-import cfg from './webpack.config.production'
+import cfg from './webpack/webpack.config.production'
 import pkg from './package.json'
 
-import electronCfg from './webpack.config.electron'
+import electronCfg from './webpack/webpack.config.electron'
 
 const argv = minimist(process.argv.slice(2))
 const toNodePath = name => `/node_modules/${ name }($|/)`

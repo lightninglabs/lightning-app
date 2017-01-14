@@ -40,7 +40,7 @@ export default validate({
   ],
 
   resolveLoader: {
-    root: path.resolve(__dirname, 'node_modules'),
+    root: path.resolve(__dirname, '../', 'node_modules'),
   },
 
   externals: [
