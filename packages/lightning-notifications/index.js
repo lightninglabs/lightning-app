@@ -1,19 +1,11 @@
 import _ from 'lodash'
+import { guid } from './helpers'
 
 export { default as Notifications } from './Notifications'
 
 export const ADD = 'NOTIFICATIONS/ADD'
 export const REMOVE = 'NOTIFICATIONS/REMOVE'
 export const NOTIFICATION = 'NOTIFICATIONS/NOTIFICATION'
-
-function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1)
-  }
-  return `${ s4() + s4() }-${ s4() }-${ s4() }-${ s4() }-${ s4() }${ s4() }${ s4() }`
-}
 
 export default function notifications(state = [], action) {
   const data = {
