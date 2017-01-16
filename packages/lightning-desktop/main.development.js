@@ -109,7 +109,7 @@ const createWindow = () => {
 }
 
 // if (process.env.NODE_ENV === 'development') {
-require('electron-debug')()
+require('electron-debug')({ enabled: true })
 // }
 
 app.on('window-all-closed', () => {
