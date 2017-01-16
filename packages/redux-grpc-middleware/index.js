@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 
-import electron from 'electron'
+import { remote } from 'electron'
 
 const defaults = {
   path: '',
@@ -11,7 +11,7 @@ export const GRPC = 'GRPC/API'
 
 export default (opts = {}) => {
   const options = { ...defaults, ...opts }
-  const client = electron.remote.require(options.path)[options.selector]
+  const client = remote.require(options.path)[options.selector]
 
   return () => next => (action) => {
     const call = action && action[GRPC] // eslint-disable-line
