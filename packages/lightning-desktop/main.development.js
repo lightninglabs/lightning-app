@@ -99,9 +99,9 @@ const createWindow = () => {
     mainWindow && mainWindow.webContents.send('log', log)
   })
 
-  // if (process.env.NODE_ENV === 'development') {
-  mainWindow.openDevTools()
-  // }
+  if (process.env.NODE_ENV === 'development') {
+    mainWindow.openDevTools()
+  }
 
   mainWindow.on('closed', () => {
     mainWindow = null

@@ -1,5 +1,6 @@
 {
   "name": "lightning-desktop",
+  "productName": "Lightning",
   "version": "1.0.1",
   "description": "main.js",
   "main": "main.js",

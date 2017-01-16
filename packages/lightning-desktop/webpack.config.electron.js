@@ -56,5 +56,6 @@ export default validate(merge(baseConfig, {
   externals: [
     'font-awesome',
     'source-map-support',
+    'grpc',
   ],
 }))
