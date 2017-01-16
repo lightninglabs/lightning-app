@@ -14,5 +14,8 @@
     "react": "^15.3.2",
     "react-router": "^4.0.0-alpha.5",
     "reactcss": "^1.0.8"
+  },
+  "devDependencies": {
+    "@kadira/storybook": "^2.35.3"
   }
 }

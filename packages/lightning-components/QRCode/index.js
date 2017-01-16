@@ -6,6 +6,7 @@ export const QRCode = ({ address }) => {
   const bitcoinURL = format({ protocol: 'bitcoin:', host: address })
   const svg = qrImage.imageSync(bitcoinURL, { type: 'svg' })
 
+  // eslint-disable-next-line react/no-danger
   return <div dangerouslySetInnerHTML={{ __html: svg }} />
 }
 

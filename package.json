@@ -12,7 +12,8 @@
     "start-webpack": "cd packages/lightning-desktop && npm run dev",
     "dev": "concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\" -n \"electron,webpack\" -p name",
     "start": "npm run dev -s",
-    "package-electron": "cd packages/lightning-desktop && npm run package"
+    "package-electron": "cd packages/lightning-desktop && npm run package",
+    "eslint": "node_modules/.bin/eslint packages/**/*.js --quiet"
   },
   "repository": {
     "type": "git",

@@ -32,7 +32,8 @@ module.exports = {
     'jsx-a11y/no-static-element-interactions': [IGNORE],
     'import/no-named-as-default': [IGNORE],
     'import/no-extraneous-dependencies': [IGNORE],
-    'react/require-extension': OFF
+    'react/require-extension': OFF,
+    'import/prefer-default-export': IGNORE
   },
   'settings': {
     'import/core-modules': [
