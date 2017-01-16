@@ -3,6 +3,9 @@
   "version": "1.0.1",
   "description": "main.js",
   "main": "index.js",
+  "engines": {
+    "node": "^6.7.0"
+  },
   "scripts": {
     "start": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
     "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill package.js --icon './assets/ln-logo'",
@@ -16,7 +19,6 @@
   "author": "case <case@casesandberg.com>",
   "license": "MIT",
   "dependencies": {
-    "grpc": "^1.0.1",
     "lightning-components": "^0.1.1",
     "lightning-core": "^1.9.1",
     "lightning-notifications": "^0.1.1",
