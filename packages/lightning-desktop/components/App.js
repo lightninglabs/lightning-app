@@ -67,13 +67,13 @@ export class App extends React.Component {  // eslint-disable-line
     })
     this.subscribePayments.on('end', () => this.subscribePayments.end())
 
-    setTimeout(() => {
-      this.subscribePayments.write({
-        amt: 4000,
-        dest_string: 'sdg7624dgsd7g4sd765g4sfg',
-        payment_hash: '765sdv8b764x8b7f35s8d',
-      })
-    }, 1000)
+    // setTimeout(() => {
+    //   this.subscribePayments.write({
+    //     amt: 4000,
+    //     dest_string: 'sdg7624dgsd7g4sd765g4sfg',
+    //     payment_hash: '765sdv8b764x8b7f35s8d',
+    //   })
+    // }, 1000)
   }
 
   render() {
