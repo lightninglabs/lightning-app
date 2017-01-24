@@ -117,7 +117,7 @@ export class App extends React.Component {  // eslint-disable-line
           <Miss render={ () => <Redirect to="/transactions/recent" /> } />
           <Match pattern="/transactions/:sort" component={ TransactionsContainer } />
 
-          <Match pattern="/payment" component={ Payment } />
+          <Match pattern="/payment" render={ () => <Payment makePayment={ handleMakePayment } /> } />
 
           <Match pattern="/wallets" component={ WalletContainer } />
 
