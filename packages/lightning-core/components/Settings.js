@@ -43,6 +43,8 @@ export const Settings = ({ logs, account }) => {
 
   const handleEnter = (e) => {
     console.log(e.target.value)
+    // eslint-disable-next-line no-param-reassign
+    e.target.value = ''
   }
 
   return (
