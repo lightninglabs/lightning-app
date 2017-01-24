@@ -34,7 +34,7 @@ export const Input = ({ style, large, onEnter, onKeyDown, value, placeholder,
   const handleKeyDown = (e) => {
     const ENTER = 13
     if (e.keyCode === ENTER) {
-      onEnter && onEnter()
+      onEnter && onEnter(e)
     }
     onKeyDown && onKeyDown(e)
   }

@@ -2,7 +2,7 @@ import React from 'react'
 import reactCSS from 'reactcss'
 import _ from 'lodash'
 
-import { Box, Text } from 'lightning-components'
+import { Box, Text, LiftedInput } from 'lightning-components'
 
 export const Settings = ({ logs, account }) => {
   const styles = reactCSS({
@@ -30,6 +30,8 @@ export const Settings = ({ logs, account }) => {
         zDepth: 1,
         width: '100%',
         boxSizing: 'border-box',
+        background: 'white',
+        marginBottom: 'medium',
       },
       log: {
         size: 'small',
@@ -38,6 +40,10 @@ export const Settings = ({ logs, account }) => {
       },
     },
   })
+
+  const handleEnter = (e) => {
+    console.log(e.target.value)
+  }
 
   return (
     <Box style={ styles.page }>
@@ -59,6 +65,14 @@ export const Settings = ({ logs, account }) => {
           )
         }) }
       </Box>
+
+      <Box paddingBottom="medium" />
+
+      <LiftedInput
+        placeholder="Type Commands Here"
+        style={{ width: '100%' }}
+        onEnter={ handleEnter }
+      />
       {/* <a onClick={ navigateToSplash }>Splash</a> */}
     </Box>
   )
