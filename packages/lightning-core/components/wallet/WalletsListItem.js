@@ -93,6 +93,16 @@ export const WalletsListItem = ({ active, hover, amount, currency, identity,
           label="In Channels"
           active={ active }
         />
+        { amount.pending ? (
+          <Box paddingTop="medium">
+            <WalletsListItemDetail
+              amount={ amount.pending }
+              currency={ currency }
+              label="Pending"
+              active={ active }
+            />
+          </Box>
+        ) : null }
       </Box>
 
     </Box>

@@ -53,6 +53,7 @@ export const actions = {
     ])
     .then((results) => {
       const amount = _.reduce(results, _.extend)
+      // dispatch({ type: WALLET.SET_AMOUNT, amount: { ...amount, pending: 200 } })
       dispatch({ type: WALLET.SET_AMOUNT, amount })
     })
   },

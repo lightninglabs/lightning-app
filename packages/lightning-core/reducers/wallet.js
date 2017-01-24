@@ -17,6 +17,7 @@ export default function wallet(state = initialState, action) {
       const amount = {
         blockchain: action.amount.walletBalance.balance * 100000000 || 0,
         channels: action.amount.channelBalance.balance || 0,
+        pending: action.amount.pending || 0,
       }
       return {
         ...state,
