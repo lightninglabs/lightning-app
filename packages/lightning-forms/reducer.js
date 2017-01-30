@@ -28,9 +28,9 @@ export const reducer = (state = {}, action) => {
 export const actions = {
   initForm: (name, data) => ({ type: INIT_FORM, form: { name, data } }),
   editForm: (name, data) => ({ type: EDIT_FORM, form: { name, data } }),
-  clearForm: name => ({ type: CLEAR_FORM, name }),
+  clearForm: name => ({ type: CLEAR_FORM, form: { name } }),
 }
 
 export const selectors = {
-  getForm: (state, name) => state[name],
+  getForm: (state, name) => state[name] || {},
 }

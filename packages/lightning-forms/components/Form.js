@@ -3,17 +3,20 @@
 import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
+import { connect } from 'react-redux'
+import { actions, selectors } from '../reducer'
 
 import Field from './Field'
 
 class Form extends React.Component {
-  compnentDidMount() {
+  componentDidMount() {
     const { name, fields, initForm } = this.props
-    initForm(name, _.reduce(fields, (all, field) => {
+    const data = _.reduce(fields, (all, field) => {
       // eslint-disable-next-line no-param-reassign
       all[field.name] = field.value || ''
       return all
-    }, {}))
+    }, {})
+    initForm(name, data)
   }
 
   render() {
@@ -30,9 +33,9 @@ class Form extends React.Component {
 
     const handleSubmit = () => {
       // Validate
-      onSuccess()
+      onSuccess && onSuccess()
       // else
-      onError()
+      onError && onError()
     }
 
     const handleClear = () => clearForm(name)
@@ -75,4 +78,9 @@ Form.propTypes = {
   values: React.PropTypes.object.isRequired,
 }
 
-export default Form
+export default connect(
+  (state, ownProps) => ({
+    values: selectors.getForm(state.forms, ownProps.name),
+  }),
+  actions
+)(Form)

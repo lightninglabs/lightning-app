@@ -18,7 +18,6 @@ export const Pay = () => {
     <Form
       name="pay"
       fields={ fields }
-      values={{}}
       submitLabel="Send Payment"
       clearLabel="Cancel"
     />
