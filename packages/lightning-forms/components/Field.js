@@ -28,6 +28,7 @@ export const Field = ({ name, type, placeholder, value, component, onChange }) =
 
 Field.defaultProps = {
   type: 'text',
+  value: '',
 }
 
 Field.propTypes = {
