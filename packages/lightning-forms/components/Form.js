@@ -8,6 +8,17 @@ import { actions, selectors } from '../reducer'
 
 import Field from './Field'
 
+const validate = (fields, values) => new Promise((resolve, reject) => {
+  const errors = []
+  _.map(fields, (field) => {
+    if (field.required && values[field.name] === '') {
+      errors.push({ name: field.name, empty: true })
+    }
+  })
+
+  errors.length ? reject(errors) : resolve()
+})
+
 class Form extends React.Component {
   componentDidMount() {
     const { name, fields, initForm } = this.props
@@ -21,7 +32,7 @@ class Form extends React.Component {
 
   render() {
     const { submitLabel, clearLabel, fields, values, name,
-      onError, onSuccess, editForm, clearForm } = this.props
+      onError, onSuccess, editForm, clearForm, setFormErrors } = this.props
 
     const styles = reactCSS({
       'default': {
@@ -32,10 +43,16 @@ class Form extends React.Component {
     })
 
     const handleSubmit = () => {
-      // Validate
-      onSuccess()
-      // else
-      onError()
+      validate(fields, values)
+        .then(() => {
+          console.log('SUCCESS')
+          onSuccess()
+        })
+        .catch((errors) => {
+          setFormErrors(name, errors)
+          console.log('ERROR', errors)
+          onError()
+        })
     }
 
     const handleClear = () => clearForm(name)
@@ -82,7 +99,7 @@ Form.propTypes = {
 
 export default connect(
   (state, ownProps) => ({
-    values: selectors.getForm(state.forms, ownProps.name),
+    values: selectors.getFormFields(state.forms, ownProps.name),
   }),
   actions
 )(Form)

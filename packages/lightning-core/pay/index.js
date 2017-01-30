@@ -7,10 +7,12 @@ export const Pay = () => {
     {
       name: 'address',
       placeholder: 'Lightning URL / Bitcoin Address',
+      required: true,
     },
     {
       name: 'amount',
       placeholder: 'Amount',
+      required: true,
     },
   ]
 
