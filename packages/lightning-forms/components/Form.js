@@ -1,3 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
+
 import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
@@ -13,18 +15,62 @@ class Form extends React.Component {
   }
 
   render() {
+    const { submitLabel, clearLabel, fields, values, name,
+      onError, onSuccess, editForm, clearForm } = this.props
+
     const styles = reactCSS({
       'default': {
+        form: {
 
+        },
       },
     })
 
+    const handleSubmit = () => {
+      // Validate
+      onSuccess()
+      // else
+      onError()
+    }
+
+    const handleClear = () => clearForm(name)
+
+    const handleFieldChange = e =>
+      editForm(name, { [e.target.name]: e.target.value })
+
     return (
-      <div>
-        form
+      <div style={ styles.form }>
+
+        { _.map(fields, field => (
+          <input
+            { ...field }
+            value={ values[field.name] }
+            onChange={ handleFieldChange }
+          />
+        ))}
+
+        <div style={ styles.controls }>
+          <div style={ styles.submit } onClick={ handleSubmit }>
+            { submitLabel }
+          </div>
+          <div style={ styles.clear } onClick={ handleClear }>
+            { clearLabel }
+          </div>
+        </div>
       </div>
     )
   }
+}
+
+Form.defaultProps = {
+  submitLabel: 'Submit',
+  clearLabel: 'Clear',
+}
+
+Form.propTypes = {
+  name: React.PropTypes.string.isRequired,
+  fields: React.PropTypes.array.isRequired,
+  values: React.PropTypes.object.isRequired,
 }
 
 export default Form
