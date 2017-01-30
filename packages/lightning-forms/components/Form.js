@@ -33,9 +33,9 @@ class Form extends React.Component {
 
     const handleSubmit = () => {
       // Validate
-      onSuccess && onSuccess()
+      onSuccess()
       // else
-      onError && onError()
+      onError()
     }
 
     const handleClear = () => clearForm(name)
@@ -70,6 +70,8 @@ class Form extends React.Component {
 Form.defaultProps = {
   submitLabel: 'Submit',
   clearLabel: 'Clear',
+  onSuccess: () => {},
+  onError: () => {},
 }
 
 Form.propTypes = {
