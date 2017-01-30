@@ -4,6 +4,8 @@ import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
 
+import Field from './Field'
+
 class Form extends React.Component {
   compnentDidMount() {
     const { name, fields, initForm } = this.props
@@ -35,16 +37,15 @@ class Form extends React.Component {
 
     const handleClear = () => clearForm(name)
 
-    const handleFieldChange = e =>
-      editForm(name, { [e.target.name]: e.target.value })
+    const handleFieldChange = change => editForm(name, change)
 
     return (
       <div style={ styles.form }>
 
         { _.map(fields, field => (
-          <input
+          <Field
             { ...field }
-            value={ values[field.name] }
+            value={ values[field.name] || field.value }
             onChange={ handleFieldChange }
           />
         ))}
