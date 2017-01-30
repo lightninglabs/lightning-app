@@ -10,6 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "lightning-components": "^0.1.1",
+    "lightning-forms": "^0.1.0",
     "lightning-notifications": "^0.1.1",
     "lightning-store": "^0.1.1",
     "lodash": "^4.16.2",

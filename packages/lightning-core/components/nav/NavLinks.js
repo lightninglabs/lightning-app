@@ -7,6 +7,11 @@ export const NavLinks = ({ active, onChange }) => {
   const links = [
     {
       icon: 'coin',
+      label: 'Pay',
+      id: 'pay',
+    },
+    {
+      icon: 'coin',
       label: 'Send / Request',
       id: 'payment',
     },

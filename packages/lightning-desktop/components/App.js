@@ -18,6 +18,8 @@ import TransactionsContainer from 'lightning-core/containers/TransactionsContain
 import WalletContainer from 'lightning-core/containers/WalletContainer'
 import SidebarContainer from 'lightning-core/containers/SidebarContainer'
 
+import { PayPage } from 'lightning-core'
+
 import { Box } from 'lightning-components'
 import SidebarHeader from './mac/SidebarHeader'
 
@@ -127,6 +129,8 @@ export class App extends React.Component {  // eslint-disable-line
           <Match pattern="/channels-create" component={ ChannelsCreateContainer } />
 
           <Match pattern="/settings" component={ SettingsContainer } />
+
+          <Match pattern="/pay" component={ PayPage } />
 
         </Box>
         <Notifications />

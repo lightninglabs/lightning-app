@@ -45,6 +45,7 @@ class Form extends React.Component {
         { _.map(fields, field => (
           <Field
             { ...field }
+            key={ field.name }
             value={ values[field.name] || field.value }
             onChange={ handleFieldChange }
           />
