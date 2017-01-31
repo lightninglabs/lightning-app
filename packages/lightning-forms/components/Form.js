@@ -31,13 +31,34 @@ class Form extends React.Component {
   }
 
   render() {
-    const { submitLabel, clearLabel, name, combinedFields,
+    const { submitLabel, clearLabel, name, combinedFields, spacing,
       onError, onSuccess, editForm, clearForm, setFormErrors } = this.props
 
     const styles = reactCSS({
       'default': {
-        form: {
-
+        field: {
+          paddingBottom: spacing,
+        },
+        controls: {
+          display: 'flex',
+          alignItems: 'stretch',
+          height: 54,
+        },
+        button: {
+          display: 'flex',
+          alignItems: 'center',
+          paddingLeft: 20,
+          paddingRight: 20,
+          fontSize: 16,
+          cursor: 'pointer',
+        },
+        submit: {
+          backgroundColor: '#59D9A4',
+          borderRadius: 2,
+          color: '#fff',
+        },
+        clear: {
+          color: '#999',
         },
       },
     })
@@ -63,18 +84,19 @@ class Form extends React.Component {
       <div style={ styles.form }>
 
         { _.map(combinedFields, field => (
-          <Field
-            { ...field }
-            key={ field.name }
-            onChange={ handleFieldChange }
-          />
+          <div key={ field.name } style={ styles.field }>
+            <Field
+              { ...field }
+              onChange={ handleFieldChange }
+            />
+          </div>
         ))}
 
         <div style={ styles.controls }>
-          <div style={ styles.submit } onClick={ handleSubmit }>
+          <div style={{ ...styles.button, ...styles.submit }} onClick={ handleSubmit }>
             { submitLabel }
           </div>
-          <div style={ styles.clear } onClick={ handleClear }>
+          <div style={{ ...styles.button, ...styles.clear }} onClick={ handleClear }>
             { clearLabel }
           </div>
         </div>
@@ -88,6 +110,7 @@ Form.defaultProps = {
   clearLabel: 'Clear',
   onSuccess: () => {},
   onError: () => {},
+  spacing: 20,
 }
 
 Form.propTypes = {

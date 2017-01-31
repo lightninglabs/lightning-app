@@ -11,7 +11,8 @@ export const Field = ({ name, type, placeholder, value, component, onChange,
     },
   })
 
-  const handleChange = e => onChange({ [e.target.name]: e.target.value })
+  const handleChange = e =>
+    (component ? onChange(e) : onChange({ [e.target.name]: e.target.value }))
 
   const Component = component || 'input'
 
@@ -40,7 +41,7 @@ Field.propTypes = {
   type: React.PropTypes.string,
   placeholder: React.PropTypes.string,
   value: React.PropTypes.string,
-  component: React.PropTypes.element,
+  // component: React.PropTypes.element,
   // required: React.PropTypes.bool,
   // requiredMessage: React.PropTypes.string,
   // validate: React.PropTypes.func,
