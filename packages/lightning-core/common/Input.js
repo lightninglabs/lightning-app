@@ -1,7 +1,8 @@
 import React from 'react'
 import reactCSS from 'reactcss'
 
-export const Input = ({ name, right, type, placeholder, value, onChange }) => {
+export const Input = ({ name, right, type, placeholder, value, sanitizeReturn,
+  onChange }) => {
   const styles = reactCSS({
     'default': {
       bg: {
@@ -24,7 +25,9 @@ export const Input = ({ name, right, type, placeholder, value, onChange }) => {
     },
   })
 
-  const handleChange = e => onChange({ [e.target.name]: e.target.value })
+  const handleChange = ({ target }) => onChange({
+    [target.name]: sanitizeReturn ? sanitizeReturn(target.value) : target.value,
+  })
 
   return (
     <div style={ styles.bg }>

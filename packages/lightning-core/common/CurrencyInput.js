@@ -2,6 +2,7 @@ import React from 'react'
 import reactCSS from 'reactcss'
 
 import Input from './Input'
+import { enforceNumbers } from '../helpers/currencies'
 
 export const CurrencyInput = (props) => {
   const styles = reactCSS({
@@ -27,6 +28,7 @@ export const CurrencyInput = (props) => {
     <Input
       { ...props }
       right={ changer }
+      sanitizeReturn={ enforceNumbers }
     />
   )
 }

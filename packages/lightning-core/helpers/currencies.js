@@ -8,6 +8,8 @@ export const removeCommas = (string = 0) => {
   return _.isString(string) ? Number(string.replace(/[^0-9]/g, '')) : string
 }
 
+export const enforceNumbers = (string = '') => string.replace(/[^0-9]/g, '')
+
 const toBTC = (sat) => {
   return removeCommas(sat) / 100000000
 }
