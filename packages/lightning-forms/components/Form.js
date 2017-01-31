@@ -8,15 +8,15 @@ import { actions, selectors } from '../reducer'
 
 import Field from './Field'
 
-const validate = (fields, values) => new Promise((resolve, reject) => {
-  const errors = []
+const validate = fields => new Promise((resolve, reject) => {
+  const errors = {}
   _.map(fields, (field) => {
-    if (field.required && values[field.name] === '') {
-      errors.push({ name: field.name, empty: true })
+    if (field.required && field.value === '') {
+      errors[field.name] = { error: true, errorText: `${ field.name } should not be empty` }
     }
   })
 
-  errors.length ? reject(errors) : resolve()
+  _.isEmpty(errors) ? resolve() : reject(errors)
 })
 
 class Form extends React.Component {
@@ -31,7 +31,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const { submitLabel, clearLabel, fields, values, name,
+    const { submitLabel, clearLabel, name, combinedFields,
       onError, onSuccess, editForm, clearForm, setFormErrors } = this.props
 
     const styles = reactCSS({
@@ -43,7 +43,7 @@ class Form extends React.Component {
     })
 
     const handleSubmit = () => {
-      validate(fields, values)
+      validate(combinedFields)
         .then(() => {
           console.log('SUCCESS')
           onSuccess()
@@ -62,11 +62,10 @@ class Form extends React.Component {
     return (
       <div style={ styles.form }>
 
-        { _.map(fields, field => (
+        { _.map(combinedFields, field => (
           <Field
             { ...field }
             key={ field.name }
-            value={ values[field.name] || field.value }
             onChange={ handleFieldChange }
           />
         ))}
@@ -94,12 +93,17 @@ Form.defaultProps = {
 Form.propTypes = {
   name: React.PropTypes.string.isRequired,
   fields: React.PropTypes.array.isRequired,
-  values: React.PropTypes.object.isRequired,
 }
 
 export default connect(
-  (state, ownProps) => ({
-    values: selectors.getFormFields(state.forms, ownProps.name),
-  }),
+  (state, ownProps) => {
+    const values = selectors.getFormFields(state.forms, ownProps.name)
+    const errors = selectors.getFormErrors(state.forms, ownProps.name)
+    return {
+      combinedFields: _.map(ownProps.fields, (field) => {
+        return { ...field, ...errors[field.name], value: values[field.name] }
+      }),
+    }
+  },
   actions
 )(Form)

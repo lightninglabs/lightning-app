@@ -1,7 +1,8 @@
 import React from 'react'
 import reactCSS from 'reactcss'
 
-export const Field = ({ name, type, placeholder, value, component, onChange }) => {
+export const Field = ({ name, type, placeholder, value, component, onChange,
+  errorText }) => {
   const styles = reactCSS({
     'default': {
       field: {
@@ -15,14 +16,17 @@ export const Field = ({ name, type, placeholder, value, component, onChange }) =
   const Component = component || 'input'
 
   return (
-    <Component
-      style={ styles.field }
-      name={ name }
-      type={ type }
-      placeholder={ placeholder }
-      value={ value }
-      onChange={ handleChange }
-    />
+    <div>
+      <Component
+        style={ styles.field }
+        name={ name }
+        type={ type }
+        placeholder={ placeholder }
+        value={ value }
+        onChange={ handleChange }
+      />
+      { errorText ? <div>{ errorText }</div> : null }
+    </div>
   )
 }
 

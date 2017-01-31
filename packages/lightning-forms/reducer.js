@@ -33,7 +33,7 @@ export const actions = {
   initForm: (name, data) => ({ type: INIT_FORM, form: { name, data } }),
   editForm: (name, data) => ({ type: EDIT_FORM, form: { name, data } }),
   clearForm: name => ({ type: CLEAR_FORM, form: { name } }),
-  setFormErrors: errors => ({ type: SET_FORM_ERRORS, errors }),
+  setFormErrors: (name, errors) => ({ type: SET_FORM_ERRORS, form: { name }, errors }),
 }
 
 export const selectors = {
