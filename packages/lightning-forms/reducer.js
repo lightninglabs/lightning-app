@@ -9,7 +9,7 @@ const formReducer = (state = {}, action) => {
   switch (action.type) {
     case INIT_FORM:
     case EDIT_FORM:
-      return { ...state, fields: action.form.data }
+      return { ...state, fields: { ...state.fields, ...action.form.data } }
     case CLEAR_FORM:
       return { ...state, fields: _.mapValues(state.fields, '') }
     case SET_FORM_ERRORS:
