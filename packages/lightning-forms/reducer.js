@@ -11,7 +11,7 @@ const formReducer = (state = {}, action) => {
     case EDIT_FORM:
       return { ...state, fields: { ...state.fields, ...action.form.data } }
     case CLEAR_FORM:
-      return { ...state, fields: _.mapValues(state.fields, ''), errors: {} }
+      return { ...state, fields: _.mapValues(state.fields, () => ''), errors: {} }
     case SET_FORM_ERRORS:
       return { ...state, errors: action.errors }
     default: return state
