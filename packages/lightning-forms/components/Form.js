@@ -80,6 +80,7 @@ class Form extends React.Component {
         .then(() => {
           console.log('SUCCESS')
           onSuccess()
+          clearForm(name)
         })
         .catch((errors) => {
           setFormErrors(name, errors)
