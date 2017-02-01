@@ -19,6 +19,14 @@ export const Pay = () => {
     },
   ]
 
+  const handleSuccess = ({ address, amount }) => {
+    console.log('success', address, amount)
+  }
+
+  const handleError = (errors) => {
+    console.log('error', errors)
+  }
+
   return (
     <Page>
       <Head
@@ -32,6 +40,8 @@ export const Pay = () => {
         fields={ fields }
         submitLabel="Send Payment"
         clearLabel="Cancel"
+        onSuccess={ handleSuccess }
+        onError={ handleError }
       />
     </Page>
   )

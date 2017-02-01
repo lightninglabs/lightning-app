@@ -16,7 +16,13 @@ const validate = fields => new Promise((resolve, reject) => {
     }
   })
 
-  _.isEmpty(errors) ? resolve() : reject(errors)
+  const values = _.reduce(fields, (all, field) => {
+    // eslint-disable-next-line no-param-reassign
+    all[field.name] = field.value
+    return all
+  }, {})
+
+  _.isEmpty(errors) ? resolve(values) : reject(errors)
 })
 
 class Form extends React.Component {
@@ -77,15 +83,13 @@ class Form extends React.Component {
 
     const handleSubmit = () => {
       validate(combinedFields)
-        .then(() => {
-          console.log('SUCCESS')
-          onSuccess()
-          clearForm(name)
+        .then((values) => {
+          onSuccess(values)
+          // clearForm(name)
         })
         .catch((errors) => {
           setFormErrors(name, errors)
-          console.log('ERROR', errors)
-          onError()
+          onError(errors)
         })
     }
 
