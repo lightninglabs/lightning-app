@@ -41,7 +41,7 @@ class Form extends React.Component {
       onError, onSuccess, editForm, clearForm, setFormErrors } = this.props
 
     const wasEdited = _.some(combinedFields, 'value')
-    const canSubmit = _.every(combinedFields, field => field.required && field.value)
+    const canSubmit = _(combinedFields).filter('required').every('value')
 
     const styles = reactCSS({
       'default': {
