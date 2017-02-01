@@ -12,6 +12,11 @@ export const NavLinks = ({ active, onChange }) => {
     },
     {
       icon: 'coin',
+      label: 'Request',
+      id: 'request',
+    },
+    {
+      icon: 'coin',
       label: 'Send / Request',
       id: 'payment',
     },
