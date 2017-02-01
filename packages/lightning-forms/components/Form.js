@@ -59,7 +59,7 @@ class Form extends React.Component {
           borderRadius: 2,
           color: '#fff',
 
-          transition: 'background-color 200ms ease-out',
+          transition: 'background-color 100ms ease-out',
         },
         clear: {
           color: '#999',

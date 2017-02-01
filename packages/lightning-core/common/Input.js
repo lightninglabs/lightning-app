@@ -1,47 +1,69 @@
 import React from 'react'
 import reactCSS from 'reactcss'
 
-export const Input = ({ name, right, type, placeholder, value, sanitizeReturn,
-  onChange }) => {
-  const styles = reactCSS({
-    'default': {
-      bg: {
-        backgroundColor: '#fff',
-        boxShadow: '0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.12)',
-        height: 54,
-        display: 'flex',
-        alignItems: 'stretch',
-        maxWidth: 350,
-        fontSize: 16,
-      },
-      input: {
-        flex: 1,
-        border: 'none',
-        outline: 'none',
-        fontSize: 16,
-        paddingLeft: 20,
-        color: '#333',
-      },
-    },
-  })
+export class Input extends React.Component {
+  state = {
+    focused: false,
+  }
 
-  const handleChange = ({ target }) => onChange({
-    [target.name]: sanitizeReturn ? sanitizeReturn(target.value) : target.value,
-  })
+  handleFocus = () => this.setState({ focused: true })
+  handleBlur = () => this.setState({ focused: false })
 
-  return (
-    <div style={ styles.bg }>
-      <input
-        style={ styles.input }
-        name={ name }
-        type={ type }
-        placeholder={ placeholder }
-        value={ value }
-        onChange={ handleChange }
-      />
-      { right || null }
-    </div>
-  )
+  render() {
+    const { name, right, type, placeholder, value, sanitizeReturn,
+      onChange } = this.props
+    const styles = reactCSS({
+      'default': {
+        bg: {
+          backgroundColor: '#fff',
+          boxShadow: '0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.12)',
+          borderRadius: 2,
+          height: 54,
+          display: 'flex',
+          alignItems: 'stretch',
+          maxWidth: 350,
+          fontSize: 16,
+
+          transition: 'box-shadow 100ms ease-out',
+        },
+        input: {
+          background: 'none',
+          flex: 1,
+          border: 'none',
+          outline: 'none',
+          fontSize: 16,
+          paddingLeft: 20,
+          color: '#333',
+        },
+      },
+      'focused': {
+        bg: {
+          boxShadow: '0 0 2px rgba(0,0,0,0.2), 0 4px 8px rgba(0,0,0,0.2)',
+        },
+      },
+    }, { focused: this.state.focused })
+
+    const handleChange = ({ target }) => onChange({
+      [target.name]: sanitizeReturn ? sanitizeReturn(target.value) : target.value,
+    })
+
+    return (
+      <div style={ styles.bg }>
+        <input
+          style={ styles.input }
+          name={ name }
+          type={ type }
+          placeholder={ placeholder }
+          value={ value }
+          onChange={ handleChange }
+
+          onFocus={ this.handleFocus }
+          onBlur={ this.handleBlur }
+        />
+        { right || null }
+      </div>
+    )
+  }
 }
 
 export default Input
