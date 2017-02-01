@@ -34,6 +34,9 @@ class Form extends React.Component {
     const { submitLabel, clearLabel, name, combinedFields, spacing,
       onError, onSuccess, editForm, clearForm, setFormErrors } = this.props
 
+    const wasEdited = _.some(combinedFields, 'value')
+    const canSubmit = _.every(combinedFields, field => field.required && field.value)
+
     const styles = reactCSS({
       'default': {
         field: {
@@ -50,18 +53,27 @@ class Form extends React.Component {
           paddingLeft: 20,
           paddingRight: 20,
           fontSize: 16,
-          cursor: 'pointer',
         },
         submit: {
-          backgroundColor: '#59D9A4',
+          backgroundColor: '#ddd',
           borderRadius: 2,
           color: '#fff',
+
+          transition: 'background-color 200ms ease-out',
         },
         clear: {
           color: '#999',
+          cursor: 'pointer',
         },
       },
-    })
+      'canSubmit': {
+        submit: {
+          cursor: 'pointer',
+          backgroundColor: '#59D9A4',
+          boxShadow: '0 2px 4px rgba(89, 217, 164, 0.3)',
+        },
+      },
+    }, { canSubmit })
 
     const handleSubmit = () => {
       validate(combinedFields)
@@ -96,9 +108,11 @@ class Form extends React.Component {
           <div style={{ ...styles.button, ...styles.submit }} onClick={ handleSubmit }>
             { submitLabel }
           </div>
-          <div style={{ ...styles.button, ...styles.clear }} onClick={ handleClear }>
-            { clearLabel }
-          </div>
+          { wasEdited ? (
+            <div style={{ ...styles.button, ...styles.clear }} onClick={ handleClear }>
+              { clearLabel }
+            </div>
+          ) : null }
         </div>
       </div>
     )
