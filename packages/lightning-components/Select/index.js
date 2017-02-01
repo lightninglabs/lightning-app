@@ -27,6 +27,12 @@ export const Media = (props) => {
         color: '#777',
       },
     },
+    'bare': {
+      select: {
+        boxShadow: 'none',
+        padding: 0,
+      },
+    },
     ...css.build('media', 'color', colors),
   }, props)
 

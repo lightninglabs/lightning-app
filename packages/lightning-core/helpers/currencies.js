@@ -48,6 +48,8 @@ const currencies = {
   },
 }
 
+export const getAll = () => _.mapValues(currencies, 'code')
+
 export default {
   find: (id) => {
     return currencies[id] || { sign: 'MISSING', format: () => { return 'MISSING' } }
