@@ -11,18 +11,19 @@ export class Input extends React.Component {
 
   render() {
     const { name, right, type, placeholder, value, sanitizeReturn,
-      onChange } = this.props
+      onChange, outlineColor } = this.props
     const styles = reactCSS({
       'default': {
         bg: {
           backgroundColor: '#fff',
-          boxShadow: '0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.12)',
+          boxShadow: `0 0 2px ${ outlineColor }, 0 2px 4px ${ outlineColor }`,
           borderRadius: 2,
           height: 54,
           display: 'flex',
           alignItems: 'stretch',
           maxWidth: 350,
           fontSize: 16,
+          flex: 1,
 
           transition: 'box-shadow 100ms ease-out',
         },
@@ -64,6 +65,10 @@ export class Input extends React.Component {
       </div>
     )
   }
+}
+
+Input.defaultProps = {
+  outlineColor: 'rgba(0, 0, 0, 0.12)',
 }
 
 export default Input

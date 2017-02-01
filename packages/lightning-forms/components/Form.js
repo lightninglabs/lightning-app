@@ -12,7 +12,7 @@ const validate = fields => new Promise((resolve, reject) => {
   const errors = {}
   _.map(fields, (field) => {
     if (field.required && field.value === '') {
-      errors[field.name] = { error: true, errorText: `${ field.name } should not be empty` }
+      errors[field.name] = { error: true, errorText: `${ field.name } is empty` }
     }
   })
 
