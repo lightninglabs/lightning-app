@@ -19,8 +19,9 @@ export const Pay = () => {
     },
   ]
 
-  const handleSuccess = ({ address, amount }) => {
+  const handleSuccess = ({ address, amount }, clear) => {
     console.log('success', address, amount)
+    clear()
   }
 
   const handleError = (errors) => {

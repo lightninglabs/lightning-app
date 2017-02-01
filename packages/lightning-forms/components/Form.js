@@ -84,8 +84,8 @@ class Form extends React.Component {
     const handleSubmit = () => {
       validate(combinedFields)
         .then((values) => {
-          onSuccess(values)
-          // clearForm(name)
+          const clear = () => clearForm(name)
+          onSuccess(values, clear)
         })
         .catch((errors) => {
           setFormErrors(name, errors)
