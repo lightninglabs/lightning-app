@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { Form } from 'lightning-forms'
-import { CurrencyInput, Head, Input } from '../common'
+import { CurrencyInput, Head, Input, Page } from '../common'
 
 export const Pay = () => {
   const fields = [
@@ -20,7 +20,7 @@ export const Pay = () => {
   ]
 
   return (
-    <div style={{ padding: 30 }}>
+    <Page>
       <Head
         title="Make a Payment"
         body="To send funds, enter a Lightning payment URL or a Bitcoin address.
@@ -33,7 +33,7 @@ export const Pay = () => {
         submitLabel="Send Payment"
         clearLabel="Cancel"
       />
-    </div>
+    </Page>
   )
 }
 
