@@ -9,6 +9,7 @@ import { selectors as wallets } from 'lightning-core/reducers/wallets'
 import { selectors as notifications } from 'lightning-notifications'
 
 import { selectors as forms } from 'lightning-forms'
+import { selectors as popup } from 'lightning-popup'
 
 export default scopeStateToSelectors({
   wallets,
@@ -19,4 +20,5 @@ export default scopeStateToSelectors({
   channels,
   notifications,
   forms,
+  popup,
 })

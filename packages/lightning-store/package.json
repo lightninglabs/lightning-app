@@ -12,6 +12,7 @@
     "lightning-core": "^1.9.1",
     "lightning-forms": "^0.1.0",
     "lightning-notifications": "^0.1.1",
+    "lightning-popup": "^0.1.0",
     "lodash": "^4.17.2",
     "react": "^15.4.1",
     "react-router": "^4.0.0-alpha.5",

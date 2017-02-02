@@ -2,6 +2,7 @@
 import React from 'react'
 import { Form } from 'lightning-forms'
 import { CurrencyInput, Head, Input, Page } from '../common'
+import PaymentRequestPopup from './PaymentRequestPopup'
 
 export const Pay = () => {
   const fields = [
@@ -29,6 +30,8 @@ export const Pay = () => {
 
   return (
     <Page>
+      <PaymentRequestPopup />
+
       <Head
         title="Request Lightning Payment"
         body="Generate a payment request for someone to pay you

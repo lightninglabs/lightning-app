@@ -9,6 +9,7 @@ import ui from 'lightning-core/reducers/ui'
 import wallets from 'lightning-core/reducers/wallets'
 
 import { reducer as forms } from 'lightning-forms'
+import { reducer as popup } from 'lightning-popup'
 import notifications from 'lightning-notifications'
 
 export default combineReducers({
@@ -21,5 +22,6 @@ export default combineReducers({
 
   notifications,
   forms,
+  popup,
   routing,
 })
