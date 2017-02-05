@@ -6,7 +6,7 @@ import { Head, Input } from '../common'
 
 export const POPUP_NAME = 'paymentRequest'
 
-export const PaymentRequestPopup = () => {
+export const PaymentRequestPopup = ({ paymentRequest }) => {
   const styles = reactCSS({
     'default': {
       box: {
@@ -44,6 +44,7 @@ export const PaymentRequestPopup = () => {
         <Input
           fullWidth
           right={ copyButton }
+          value={ paymentRequest }
         />
       </div>
     </Popup>

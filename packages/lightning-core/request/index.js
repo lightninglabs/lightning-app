@@ -2,11 +2,13 @@
 import React from 'react'
 import { Form } from 'lightning-forms'
 import { actions as popupActions } from 'lightning-popup'
+import { store } from 'lightning-store'
 import { connect } from 'react-redux'
+import { actions as paymentActions } from '../reducers/payment'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import PaymentRequestPopup, { POPUP_NAME } from './PaymentRequestPopup'
 
-export const Pay = ({ showPopup }) => {
+export const Pay = ({ showPopup, changePR, paymentRequest }) => {
   const fields = [
     {
       name: 'amount',
@@ -22,6 +24,9 @@ export const Pay = ({ showPopup }) => {
   ]
 
   const handleSuccess = ({ amount, note }, clear) => {
+    // eslint-disable-next-line
+    const payment_request = 'lightning://7edb32d4ff3d7a385bfsd7637edb32d4ff3d7a385bfsd763'
+    changePR(payment_request)
     showPopup(POPUP_NAME)
     console.log('success', amount, note)
     clear()
@@ -33,7 +38,7 @@ export const Pay = ({ showPopup }) => {
 
   return (
     <Page>
-      <PaymentRequestPopup name={ POPUP_NAME } />
+      <PaymentRequestPopup name={ POPUP_NAME } paymentRequest={ paymentRequest } />
 
       <Head
         title="Request Lightning Payment"
@@ -53,7 +58,10 @@ export const Pay = ({ showPopup }) => {
 }
 
 export default connect(
-  () => ({}), {
+  state => ({
+    paymentRequest: store.getGeneratedPaymentRequest(state),
+  }), {
     showPopup: popupActions.onOpen,
+    changePR: paymentActions.changeGeneratedPaymentRequest,
   }
 )(Pay)

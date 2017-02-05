@@ -15,19 +15,27 @@ export const CREATE_INVOICE_REQUEST = 'PAYMENT/CREATE_INVOICE_REQUEST'
 export const CREATE_INVOICE = 'PAYMENT/CREATE_INVOICE'
 export const CREATE_INVOICE_FAILURE = 'PAYMENT/CREATE_INVOICE_FAILURE'
 
+export const CHANGE_GENERATED_PAYMENT_REQUEST = 'PAYMENT/CHANGE_GENERATED_PAYMENT_REQUEST'
+
 const initialState = {
   bitcoinAddress: '',
+  generatedPaymentRequest: '',
 }
 
 export default function payment(state = initialState, action) {
   switch (action.type) {
     case SET_BITCOIN_ADDRESS:
       return { ...state, bitcoinAddress: action.user.address }
+    case CHANGE_GENERATED_PAYMENT_REQUEST:
+      return { ...state, generatedPaymentRequest: action.paymentRequest }
     default: return state
   }
 }
 
 export const actions = {
+  changeGeneratedPaymentRequest: paymentRequest =>
+    ({ type: CHANGE_GENERATED_PAYMENT_REQUEST, paymentRequest }),
+
   newWitnessAddress: () => ({
     [GRPC]: {
       method: 'newWitnessAddress',
@@ -88,4 +96,5 @@ export const actions = {
 
 export const selectors = {
   getBitcoinAddress: state => state.bitcoinAddress,
+  getGeneratedPaymentRequest: state => state.generatedPaymentRequest,
 }
