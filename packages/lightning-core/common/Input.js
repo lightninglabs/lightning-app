@@ -11,7 +11,7 @@ export class Input extends React.Component {
 
   render() {
     const { name, right, type, placeholder, value, sanitizeReturn,
-      onChange, outlineColor } = this.props
+      onChange, outlineColor, fullWidth } = this.props
     const styles = reactCSS({
       'default': {
         bg: {
@@ -21,7 +21,7 @@ export class Input extends React.Component {
           height: 54,
           display: 'flex',
           alignItems: 'stretch',
-          maxWidth: 350,
+          maxWidth: fullWidth ? null : 350,
           fontSize: 16,
           flex: 1,
 
