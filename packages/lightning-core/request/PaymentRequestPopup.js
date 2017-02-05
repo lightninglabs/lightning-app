@@ -3,6 +3,7 @@ import reactCSS from 'reactcss'
 
 import { Popup } from 'lightning-popup'
 
+export const POPUP_NAME = 'paymentRequest'
 
 export const PaymentRequestPopup = () => {
   const styles = reactCSS({
@@ -17,7 +18,7 @@ export const PaymentRequestPopup = () => {
     },
   })
   return (
-    <Popup visible>
+    <Popup name={ POPUP_NAME }>
       <div style={ styles.box }>
         Popup
       </div>

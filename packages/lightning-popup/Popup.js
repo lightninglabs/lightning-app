@@ -1,7 +1,10 @@
 import React from 'react'
 import reactCSS from 'reactcss'
+import { connect } from 'react-redux'
+import { store } from 'lightning-store'
+import { actions } from './reducer'
 
-export const Popup = ({ children, visible, onClose }) => {
+export const Popup = ({ children, visible, onClose, name }) => {
   const styles = reactCSS({
     'default': {
       wrap: {
@@ -27,9 +30,12 @@ export const Popup = ({ children, visible, onClose }) => {
       },
     },
   })
+
+  const handleClose = () => onClose(name)
+
   return visible ? (
     <div style={ styles.wrap }>
-      <div style={ styles.cover } onClick={ onClose } />
+      <div style={ styles.cover } onClick={ handleClose } />
       <div style={ styles.box }>
         { children }
       </div>
@@ -37,4 +43,9 @@ export const Popup = ({ children, visible, onClose }) => {
   ) : null
 }
 
-export default Popup
+export default connect(
+  (state, ownProps) => ({
+    visible: store.getPopupVisibility(state, ownProps.name),
+  }),
+  actions
+)(Popup)
