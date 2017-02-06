@@ -6,7 +6,7 @@ import { Head, Input } from '../common'
 
 export const POPUP_NAME = 'paymentRequest'
 
-export const PaymentRequestPopup = ({ paymentRequest }) => {
+export const PaymentRequestPopup = ({ paymentRequest, closePopup }) => {
   const styles = reactCSS({
     'default': {
       box: {
@@ -25,9 +25,12 @@ export const PaymentRequestPopup = ({ paymentRequest }) => {
         display: 'flex',
         alignItems: 'center',
         color: '#59D9A4',
+        cursor: 'pointer',
       },
     },
   })
+
+  const handleCopied = () => closePopup(POPUP_NAME)
 
   const copyButton = (
     <div style={ styles.copy }>Copy</div>
@@ -43,8 +46,11 @@ export const PaymentRequestPopup = ({ paymentRequest }) => {
         />
         <Input
           fullWidth
+          selectOnClick
+          copyOnClick
           right={ copyButton }
           value={ paymentRequest }
+          onCopy={ handleCopied }
         />
       </div>
     </Popup>

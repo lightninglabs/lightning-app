@@ -8,7 +8,7 @@ import { actions as paymentActions } from '../reducers/payment'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import PaymentRequestPopup, { POPUP_NAME } from './PaymentRequestPopup'
 
-export const Pay = ({ showPopup, changePR, paymentRequest }) => {
+export const Pay = ({ showPopup, closePopup, changePR, paymentRequest }) => {
   const fields = [
     {
       name: 'amount',
@@ -38,7 +38,10 @@ export const Pay = ({ showPopup, changePR, paymentRequest }) => {
 
   return (
     <Page>
-      <PaymentRequestPopup name={ POPUP_NAME } paymentRequest={ paymentRequest } />
+      <PaymentRequestPopup
+        paymentRequest={ paymentRequest }
+        closePopup={ closePopup }
+      />
 
       <Head
         title="Request Lightning Payment"
@@ -62,6 +65,7 @@ export default connect(
     paymentRequest: store.getGeneratedPaymentRequest(state),
   }), {
     showPopup: popupActions.onOpen,
+    closePopup: popupActions.onClose,
     changePR: paymentActions.changeGeneratedPaymentRequest,
   }
 )(Pay)

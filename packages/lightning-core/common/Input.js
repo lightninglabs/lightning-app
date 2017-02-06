@@ -8,6 +8,21 @@ export class Input extends React.Component {
 
   handleFocus = () => this.setState({ focused: true })
   handleBlur = () => this.setState({ focused: false })
+  handleClick = () => {
+    const { selectOnClick, copyOnClick, onCopy, onClick } = this.props
+    if (copyOnClick) {
+      this.input.select()
+
+      try {
+        const wasCopied = document.execCommand('copy')
+        wasCopied && onCopy && onCopy()
+      } catch (error) {
+        console.log('Error Copying to Clipboard:', error)
+      }
+    }
+    selectOnClick && this.input.select()
+    onClick && onClick()
+  }
 
   render() {
     const { name, right, type, placeholder, value, sanitizeReturn,
@@ -49,9 +64,10 @@ export class Input extends React.Component {
     })
 
     return (
-      <div style={ styles.bg }>
+      <div style={ styles.bg } onClick={ this.handleClick }>
         <input
           style={ styles.input }
+          ref={ input => (this.input = input) }
           name={ name }
           type={ type }
           placeholder={ placeholder }
