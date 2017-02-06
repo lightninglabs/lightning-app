@@ -17,6 +17,7 @@ export class Input extends React.Component {
         const wasCopied = document.execCommand('copy')
         wasCopied && onCopy && onCopy()
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log('Error Copying to Clipboard:', error)
       }
     }
@@ -25,7 +26,7 @@ export class Input extends React.Component {
   }
 
   render() {
-    const { name, right, type, placeholder, value, sanitizeReturn,
+    const { name, right, left, type, placeholder, value, sanitizeReturn,
       onChange, outlineColor, fullWidth } = this.props
     const styles = reactCSS({
       'default': {
@@ -65,6 +66,7 @@ export class Input extends React.Component {
 
     return (
       <div style={ styles.bg } onClick={ this.handleClick }>
+        { left || null }
         <input
           style={ styles.input }
           ref={ input => (this.input = input) }

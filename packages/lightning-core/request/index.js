@@ -7,6 +7,7 @@ import { connect } from 'react-redux'
 import { actions as paymentActions } from '../reducers/payment'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import PaymentRequestPopup, { POPUP_NAME } from './PaymentRequestPopup'
+import BitcoinWallet from './BitcoinWallet'
 
 export const Pay = ({ showPopup, closePopup, changePR, paymentRequest }) => {
   const fields = [
@@ -36,27 +37,38 @@ export const Pay = ({ showPopup, closePopup, changePR, paymentRequest }) => {
     console.log('error', errors)
   }
 
-  return (
-    <Page>
-      <PaymentRequestPopup
-        paymentRequest={ paymentRequest }
-        closePopup={ closePopup }
-      />
+  const styles = {
+    wrap: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+    },
+  }
 
-      <Head
-        title="Request Lightning Payment"
-        body="Generate a payment request for someone to pay you
-        immidiately via the lightning network."
-      />
-      <Form
-        name="request"
-        fields={ fields }
-        submitLabel="Generate Payment Request"
-        clearLabel="Cancel"
-        onSuccess={ handleSuccess }
-        onError={ handleError }
-      />
-    </Page>
+  return (
+    <div style={ styles.wrap }>
+      <Page>
+        <PaymentRequestPopup
+          paymentRequest={ paymentRequest }
+          closePopup={ closePopup }
+        />
+
+        <Head
+          title="Request Lightning Payment"
+          body="Generate a payment request for someone to pay you
+          immidiately via the lightning network."
+        />
+        <Form
+          name="request"
+          fields={ fields }
+          submitLabel="Generate Payment Request"
+          clearLabel="Cancel"
+          onSuccess={ handleSuccess }
+          onError={ handleError }
+        />
+      </Page>
+      <BitcoinWallet />
+    </div>
   )
 }
 
