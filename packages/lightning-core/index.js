@@ -10,3 +10,4 @@ export { default as WalletsListCompact } from './components/wallet/WalletsListCo
 
 export { default as PayPage } from './pay'
 export { default as RequestPage } from './request'
+export { default as AccountsPage } from './accounts'
