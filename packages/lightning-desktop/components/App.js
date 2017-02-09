@@ -18,7 +18,7 @@ import TransactionsContainer from 'lightning-core/containers/TransactionsContain
 import WalletContainer from 'lightning-core/containers/WalletContainer'
 import SidebarContainer from 'lightning-core/containers/SidebarContainer'
 
-import { PayPage, RequestPage, AccountsPage } from 'lightning-core'
+import { PayPage, RequestPage, AccountsPage, TransactionsPage } from 'lightning-core'
 
 import { Box } from 'lightning-components'
 import SidebarHeader from './mac/SidebarHeader'
@@ -116,8 +116,8 @@ export class App extends React.Component {  // eslint-disable-line
         </Box>
         <Box style={ styles.content }>
 
-          <Miss render={ () => <Redirect to="/transactions/recent" /> } />
-          <Match pattern="/transactions/:sort" component={ TransactionsContainer } />
+          <Miss render={ () => <Redirect to="/transactions2/recent" /> } />
+          <Match pattern="/transactions2/:sort" component={ TransactionsContainer } />
 
           <Match pattern="/payment" render={ () => <Payment makePayment={ handleMakePayment } /> } />
 
@@ -133,6 +133,7 @@ export class App extends React.Component {  // eslint-disable-line
           <Match pattern="/pay" component={ PayPage } />
           <Match pattern="/request" component={ RequestPage } />
           <Match pattern="/accounts" component={ AccountsPage } />
+          <Match pattern="/transactions" component={ TransactionsPage } />
 
         </Box>
         <Notifications />

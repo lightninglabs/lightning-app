@@ -19,8 +19,15 @@ export const NavLinks = ({ active, onChange }) => {
       icon: 'wallet',
       label: 'Accounts',
       id: 'accounts',
-    },
-    {
+    }, {
+      icon: 'swap-horizontal',
+      label: 'Transactions',
+      id: 'transactions',
+    }, {
+      icon: 'settings',
+      label: 'Settings',
+      id: 'settings',
+    }, {
       icon: 'coin',
       label: 'Send / Request',
       id: 'payment',
@@ -33,7 +40,7 @@ export const NavLinks = ({ active, onChange }) => {
     {
       icon: 'swap-horizontal',
       label: 'Transactions',
-      id: 'transactions',
+      id: 'transactions2',
     },
     {
       icon: 'chart-bubble',
