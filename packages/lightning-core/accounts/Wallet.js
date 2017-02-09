@@ -48,6 +48,7 @@ export const Wallet = () => {
         color: 'rgba(0,0,0,0.4)',
         whiteSpace: 'nowrap',
         marginRight: 10,
+        width: 100,
       },
       count: {
         flex: 1,
