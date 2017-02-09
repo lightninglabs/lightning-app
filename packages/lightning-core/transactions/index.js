@@ -1,6 +1,6 @@
 
 import React from 'react'
-import { Head } from '../common'
+import { Head, Page } from '../common'
 
 import TransactionsList from './TransactionsList'
 
@@ -31,8 +31,8 @@ const transactions = [
     date: new Date(),
     type: 'bitcoin',
   }, {
-    id: '72ds45fg24sa35gs75d6af828g32gh7a5g',
-    from: '72ds45fg24sa35gs75d6af828g32gh7a5g',
+    id: '72ds45fg24sa35gs75d6af828g32gh',
+    from: '72ds45fg24sa35gs75d6af828g32gh',
     to: 'You',
     amount: 2472114,
     status: 'complete',
@@ -48,8 +48,8 @@ const transactions = [
     date: new Date(),
     type: 'bitcoin',
   }, {
-    id: '72ds45fg24sa35gs75d6af828g32gh7a5g',
-    from: '72ds45fg24sa35gs75d6af828g32gh7a5g',
+    id: '72ds45fg24sa35gs75d6af828g32gh',
+    from: '72ds45fg24sa35gs75d6af828g32gh',
     to: 'You',
     amount: 2472114,
     status: 'complete',
@@ -61,16 +61,14 @@ const transactions = [
 
 export const Transactions = () => {
   return (
-    <div>
-      <div style={{ paddingTop: 30, paddingRight: 30, paddingLeft: 30 }}>
-        <Head
-          title="Your Transactions"
-          body="This is a list of both lightning and on chain payments
-          made from your wallet."
-        />
-      </div>
+    <Page>
+      <Head
+        title="Your Transactions"
+        body="This is a list of both lightning and on chain payments
+        made from your wallet."
+      />
       <TransactionsList transactions={ transactions } />
-    </div>
+    </Page>
   )
 }
 

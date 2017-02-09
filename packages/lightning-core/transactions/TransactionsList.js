@@ -10,19 +10,17 @@ export const TransactionsList = ({ transactions }) => {
       item: {
         paddingTop: 20,
         paddingBottom: 20,
-        paddingRight: 20,
         borderTop: '1px solid #ddd',
         display: 'flex',
       },
       icon: {
-        paddingLeft: 13,
         paddingRight: 13,
-        color: '#999',
+        color: '#bbb',
       },
       column: {
         display: 'flex',
         flexDirection: 'column',
-        verticalAlign: 'center',
+        justifyContent: 'center',
       },
       details: {
         marginLeft: 'auto',
@@ -31,7 +29,6 @@ export const TransactionsList = ({ transactions }) => {
       big: {
         fontSize: 16,
         color: '#333',
-        marginBottom: 4,
         fontWeight: 500,
       },
       sent: {
@@ -39,6 +36,7 @@ export const TransactionsList = ({ transactions }) => {
         color: '#999',
       },
       small: {
+        marginTop: 4,
         fontSize: 13,
         color: '#999',
       },
