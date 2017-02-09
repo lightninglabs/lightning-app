@@ -16,7 +16,11 @@ export const ChannelList = ({ channels }) => {
     <div>
       { _.map(channels, (channel, i) => (
         <div style={ styles.channel } key={ i }>
-          { channel.id }
+          <div>ID: { channel.id }</div>
+          <div>Local Balance: { channel.localBalance }</div>
+          <div>Remote Balance: { channel.remoteBalance }</div>
+          <div>Capacity: { channel.capacity }</div>
+          <div>Status: { channel.status }</div>
         </div>
       )) }
     </div>
