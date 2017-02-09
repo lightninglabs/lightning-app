@@ -32,6 +32,11 @@ export const TransactionsList = ({ transactions }) => {
         fontSize: 16,
         color: '#333',
         marginBottom: 4,
+        fontWeight: 500,
+      },
+      sent: {
+        fontWeight: 400,
+        color: '#999',
       },
       small: {
         fontSize: 13,
@@ -47,7 +52,11 @@ export const TransactionsList = ({ transactions }) => {
             <Icon name={ transaction.type === 'bitcoin' ? 'currency-btc' : 'flash' } />
           </div>
           <div style={ styles.column }>
-            <div style={ styles.big }>{ transaction.from } sent { transaction.to }</div>
+            <div style={ styles.big }>
+              { transaction.from }
+              <span style={ styles.sent }> sent </span>
+              { transaction.to }
+            </div>
             { transaction.description ? (
               <div style={ styles.small }>{ transaction.description }</div>
             ) : null }
