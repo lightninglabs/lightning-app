@@ -22,10 +22,10 @@ export default (opts = {}) => {
 
     REQUEST && next({ type: REQUEST })
 
-    if (stream) { return client[method](body ? { body } : {}) }
+    if (stream) { return client[method] && client[method](body ? { body } : {}) }
 
     return new Promise((resolve, reject) => {
-      const api = client[method](body || {}, (error, res) => {
+      const api = client[method] && client[method](body || {}, (error, res) => {
         if (error) {
           ERROR && next({ type: ERROR, error })
           reject({ ...error, stream: api })

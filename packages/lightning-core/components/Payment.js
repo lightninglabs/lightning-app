@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Redirect, Match } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import { Box } from 'lightning-components'
 import PaymentRequestTabs from './payment/PaymentRequestTabs'
 
@@ -12,11 +12,11 @@ export const Payment = ({ makePayment }) => (
     <PaymentRequestTabs />
 
     <Redirect to="/payment/lightning" />
-    <Match
+    <Route
       pattern="/payment/lightning"
       render={ () => <PaymentLightningContainer makePayment={ makePayment } /> }
     />
-    <Match
+    <Route
       pattern="/payment/bitcoin"
       component={ PaymentBitcoinContainer }
     />

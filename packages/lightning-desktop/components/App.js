@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React, { PropTypes } from 'react'
+import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
 import { connect } from 'react-redux'
@@ -8,7 +8,7 @@ import { actions as walletsActions } from 'lightning-core/reducers/wallets'
 import { actions as notificationsActions, Notifications } from 'lightning-notifications'
 import { actions as paymentActions } from 'lightning-core/reducers/payment'
 
-import { Match, Miss, Redirect } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import ChannelsContainer from 'lightning-core/containers/ChannelsContainer'
 import ChannelsCreateContainer from 'lightning-core/containers/ChannelsCreateContainer'
 import Payment from 'lightning-core/components/Payment'
@@ -24,20 +24,7 @@ import { Box } from 'lightning-components'
 import SidebarHeader from './mac/SidebarHeader'
 
 export class App extends React.Component {  // eslint-disable-line
-  static contextTypes = {
-    history: PropTypes.shape({
-      listen: PropTypes.func,
-      location: PropTypes.shape({
-        pathname: PropTypes.string.isRequired,
-      }),
-    }),
-  }
-
   componentDidMount() {
-    this.context.history.listen((data) => {
-      this.props.dispatch({ type: 'ROUTE_CHANGE', ...data })
-    })
-
     const fetchBalance = _.debounce(() => {
       this.props.fetchBalances()
     }, 2000)
@@ -79,9 +66,6 @@ export class App extends React.Component {  // eslint-disable-line
   }
 
   render() {
-    const pathname = this.context.history.location.pathname
-    const activeTab = pathname.split('/')[1]
-
     const styles = reactCSS({
       'default': {
         app: {
@@ -112,28 +96,31 @@ export class App extends React.Component {  // eslint-disable-line
       <Box style={ styles.app }>
         <Box style={ styles.sidebar }>
           <SidebarHeader />
-          <SidebarContainer activeTab={ activeTab } />
+          <SidebarContainer />
         </Box>
         <Box style={ styles.content }>
 
-          <Miss render={ () => <Redirect to="/transactions2/recent" /> } />
-          <Match pattern="/transactions2/:sort" component={ TransactionsContainer } />
+          <Switch>
+            <Route pattern="/transactions2/:sort" component={ TransactionsContainer } />
 
-          <Match pattern="/payment" render={ () => <Payment makePayment={ handleMakePayment } /> } />
+            <Route pattern="/payment" render={ () => <Payment makePayment={ handleMakePayment } /> } />
 
-          <Match pattern="/wallets" component={ WalletContainer } />
+            <Route pattern="/wallets" component={ WalletContainer } />
 
-          <Match pattern="/splash" component={ SplashContainer } />
+            <Route pattern="/splash" component={ SplashContainer } />
 
-          <Match pattern="/channels" component={ ChannelsContainer } />
-          <Match pattern="/channels-create" component={ ChannelsCreateContainer } />
+            <Route pattern="/channels" component={ ChannelsContainer } />
+            <Route pattern="/channels-create" component={ ChannelsCreateContainer } />
 
-          <Match pattern="/settings" component={ SettingsContainer } />
+            <Route pattern="/settings" component={ SettingsContainer } />
 
-          <Match pattern="/pay" component={ PayPage } />
-          <Match pattern="/request" component={ RequestPage } />
-          <Match pattern="/accounts" component={ AccountsPage } />
-          <Match pattern="/transactions" component={ TransactionsPage } />
+            <Route pattern="/pay" component={ PayPage } />
+            <Route pattern="/request" component={ RequestPage } />
+            <Route pattern="/accounts" component={ AccountsPage } />
+            <Route pattern="/transactions" component={ TransactionsPage } />
+
+            <Route render={ () => <Redirect to="/transactions2/recent" /> } />
+          </Switch>
 
         </Box>
         <Notifications />
