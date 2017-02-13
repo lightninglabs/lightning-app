@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Box, Text, LiftedInput } from 'lightning-components'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Header, LiftedCurrencyInput } from './common'
 
 export const ChannelsCreate = ({ fillCreateForm, host, amount, createChannel,

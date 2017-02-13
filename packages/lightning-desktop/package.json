@@ -12,7 +12,7 @@
     "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill package.js --icon './assets/ln-logo'",
     "package-all": "npm run package -- --all",
     "dev": "cross-env NODE_ENV=development node -r babel-register dev-server.js",
-    "postinstall": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.4.6"
+    "install-grpc": "npm install grpc && cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.4.6"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -31,7 +31,6 @@
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
-    "grpc": "github:murgatroid99/grpc#node_electron_build",
     "json-loader": "^0.5.4",
     "lightning-components": "^0.1.1",
     "lightning-core": "^1.9.1",
@@ -45,7 +44,7 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-redux": "^4.4.6",
-    "react-router": "^4.0.0-alpha.5",
+    "react-router-dom": "^4.0.0-beta.5",
     "reactcss": "^1.1.1",
     "redux": "^3.6.0",
     "source-map-support": "^0.4.8",

@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Box, LinkWithIcon } from 'lightning-components'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import { Header } from './common'
 import ChannelsList from './channels/ChannelsList'
 

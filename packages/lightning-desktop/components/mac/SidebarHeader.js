@@ -1,6 +1,6 @@
 import React from 'react'
 import reactCSS from 'reactcss'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { Box, Icon, colors } from 'lightning-components'
 

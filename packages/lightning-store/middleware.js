@@ -1,5 +1,5 @@
 import { applyMiddleware } from 'redux'
-import { hashHistory } from 'react-router'
+import { hashHistory } from 'react-router-dom'
 import { routerMiddleware } from 'react-router-redux'
 import thunk from 'redux-thunk'
 import createLogger from 'redux-logger'

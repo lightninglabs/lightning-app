@@ -8,7 +8,7 @@ import { actions as walletsActions } from 'lightning-core/reducers/wallets'
 import { actions as notificationsActions, Notifications } from 'lightning-notifications'
 import { actions as paymentActions } from 'lightning-core/reducers/payment'
 
-import { Match, Miss, Redirect } from 'react-router'
+import { Match, Miss, Redirect } from 'react-router-dom'
 import ChannelsContainer from 'lightning-core/containers/ChannelsContainer'
 import ChannelsCreateContainer from 'lightning-core/containers/ChannelsCreateContainer'
 import Payment from 'lightning-core/components/Payment'

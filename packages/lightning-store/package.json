@@ -15,7 +15,7 @@
     "lightning-popup": "^0.1.0",
     "lodash": "^4.17.2",
     "react": "^15.4.1",
-    "react-router": "^4.0.0-alpha.5",
+    "react-router-dom": "^4.0.0-beta.5",
     "react-router-redux": "^4.0.7",
     "redux": "^3.6.0",
     "redux-electron-ipc": "^1.1.3",

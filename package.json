@@ -13,7 +13,8 @@
     "dev": "concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\" -n \"electron,webpack\" -p name",
     "start": "npm run dev -s",
     "package-electron": "cd packages/lightning-desktop && npm run package",
-    "eslint": "node_modules/.bin/eslint packages/**/*.js --quiet"
+    "eslint": "node_modules/.bin/eslint packages/**/*.js --quiet",
+    "install-grpc": "cd packages/lightning-desktop && npm run install-grpc"
   },
   "repository": {
     "type": "git",

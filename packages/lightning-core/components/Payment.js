@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Redirect, Match } from 'react-router'
+import { Redirect, Match } from 'react-router-dom'
 import { Box } from 'lightning-components'
 import PaymentRequestTabs from './payment/PaymentRequestTabs'
 

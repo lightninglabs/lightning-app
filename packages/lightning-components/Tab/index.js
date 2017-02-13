@@ -1,7 +1,7 @@
 import React from 'react'
 import reactCSS, { hover as h } from 'reactcss'
 
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { Box, Text } from '../'
 
