@@ -22,7 +22,7 @@ export default (opts = {}) => {
 
     REQUEST && next({ type: REQUEST })
 
-    if (stream) { return client[method] && client[method](body ? { body } : {}) }
+    if (stream) { return client[method] ? client[method](body ? { body } : {}) : { on: () => {} } }
 
     return new Promise((resolve, reject) => {
       const api = client[method] && client[method](body || {}, (error, res) => {
