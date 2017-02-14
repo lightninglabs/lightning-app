@@ -25,7 +25,7 @@ export const SidebarItem = ({ color, hoverColor, hover, active, ellipsis,
     },
     'active': {
       item: {
-        color: 'teal',
+        color: 'blue',
       },
     },
     'ellipsis': {

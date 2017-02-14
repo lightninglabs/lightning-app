@@ -31,7 +31,7 @@ export const LinkWithIcon = ({ onClick, label, icon, paddingBottom, color }) => 
 }
 
 LinkWithIcon.defaultProps = {
-  color: 'teal',
+  color: 'blue',
 }
 
 export default LinkWithIcon

@@ -43,7 +43,7 @@ export const PaymentLightning = ({ form, changeLightningForm, requestLightning,
           onClick={ handleRequest }
           label="Request via Lightning"
           icon="flash"
-          color={ form.amount > 0 ? 'teal' : 'light-gray' }
+          color={ form.amount > 0 ? 'blue' : 'light-gray' }
           paddingBottom="none"
         />
         { form.uri ? (

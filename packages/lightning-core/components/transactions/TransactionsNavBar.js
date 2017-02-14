@@ -7,7 +7,7 @@ export const TranscationNavBar = ({ selected, onTabChange }) => {
   const styles = reactCSS({
     'default': {
       bar: {
-        background: 'teal',
+        background: 'blue',
         direction: 'row',
         spread: true,
         flexShrink: 0,

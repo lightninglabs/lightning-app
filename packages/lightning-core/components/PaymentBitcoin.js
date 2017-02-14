@@ -51,7 +51,7 @@ export const PaymentBitcoin = ({ form, changeBitcoinForm, sendCoins,
           label="Send Bitcoin"
           icon="coins"
           paddingBottom="none"
-          color={ isSynced && canSend ? 'teal' : 'light-gray' }
+          color={ isSynced && canSend ? 'blue' : 'light-gray' }
         />
       </Box>
       <Box

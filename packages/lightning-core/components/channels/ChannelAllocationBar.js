@@ -28,7 +28,7 @@ export const ChannelAllocationBar = ({ percentage, status, align }) => {
         align: 'right',
       },
       bar: {
-        background: 'teal',
+        background: 'blue',
         borderRadius: '2px 0 0 2px',
         width: `${ percentage }%`,
       },

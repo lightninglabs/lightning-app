@@ -33,7 +33,7 @@ export const ChannelsCreate = ({ fillCreateForm, host, amount, createChannel,
         <Box paddingTop="large" direction="row">
           <Text
             size="large"
-            color={ isSynced ? 'teal' : 'light-gray' }
+            color={ isSynced ? 'blue' : 'light-gray' }
             onClick={ handleCreate }
             paddingRight="large"
           >

@@ -33,7 +33,7 @@ export const WalletsListCompactItem = ({ active, onSelect, hover, amount, id,
 
       radio: {
         name: 'radiobox-marked',
-        color: 'teal',
+        color: 'blue',
       },
     },
     'active-false': {

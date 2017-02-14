@@ -18,7 +18,7 @@ export const Sidebar = ({ navigateToSubpage, user, currency, account,
         padding: 'small',
       },
       synced: {
-        background: 'teal',
+        background: 'blue',
         direction: 'column',
         align: 'center',
         verticalAlign: 'center',
