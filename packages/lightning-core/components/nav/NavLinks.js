@@ -27,25 +27,6 @@ export const NavLinks = ({ active, onChange }) => {
       icon: 'settings',
       label: 'Settings',
       id: 'settings',
-    }, {
-      icon: 'coin',
-      label: 'Send / Request',
-      id: 'payment',
-    },
-    {
-      icon: 'wallet',
-      label: 'Your Wallets',
-      id: 'wallets',
-    },
-    {
-      icon: 'swap-horizontal',
-      label: 'Transactions',
-      id: 'transactions2',
-    },
-    {
-      icon: 'chart-bubble',
-      label: 'Channels',
-      id: 'channels',
     },
   ]
 

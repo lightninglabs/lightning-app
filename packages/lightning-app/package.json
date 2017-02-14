@@ -1,0 +1,18 @@
+{
+  "version": "0.1.0",
+  "name": "lightning-app",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "case <case@casesandberg.com>",
+  "license": "MIT",
+  "dependencies": {
+    "lightning-core": "^1.9.1",
+    "lightning-components": "^0.1.0",
+    "lightning-notifications": "^0.1.0",
+    "react": "^15.4.1",
+    "react-router-dom": "^4.0.0-beta.5",
+    "reactcss": "^1.1.1"
+  }
+}

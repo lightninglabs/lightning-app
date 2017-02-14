@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { HashRouter } from 'react-router-dom'
 import 'normalize.css'
 import { configureStore } from 'lightning-store'
-import App from './components/App'
+import { App } from 'lightning-app'
 
 const store = configureStore()
 

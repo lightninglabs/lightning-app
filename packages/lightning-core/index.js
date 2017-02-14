@@ -8,6 +8,8 @@ export { default as TransactionsNavBar } from './components/transactions/Transac
 export { default as WalletsList } from './components/wallet/WalletsList'
 export { default as WalletsListCompact } from './components/wallet/WalletsListCompact'
 
+export { default as Sidebar } from './components/Sidebar'
+
 export { default as PayPage } from './pay'
 export { default as RequestPage } from './request'
 export { default as AccountsPage } from './accounts'
