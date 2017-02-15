@@ -6,7 +6,7 @@ export const Wallet = () => {
   const styles = reactCSS({
     'default': {
       bg: {
-        background: '#59D9A4',
+        background: '#4990E2',
         color: '#fff',
         padding: 30,
         paddingBottom: 20,

@@ -75,7 +75,7 @@ class Form extends React.Component {
       'canSubmit': {
         submit: {
           cursor: 'pointer',
-          backgroundColor: '#59D9A4',
+          backgroundColor: '#4990E2',
           boxShadow: '0 2px 4px rgba(89, 217, 164, 0.3)',
         },
       },

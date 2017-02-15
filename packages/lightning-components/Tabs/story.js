@@ -20,5 +20,5 @@ const tabs = [
 
 storiesOf('Tabs', module)
   .add('tabs', () => (
-    <Tabs selected="in-progress" color="#fff" inactive="#333" background="#59D9A4" tabs={ tabs } />
+    <Tabs selected="in-progress" color="#fff" inactive="#333" background="#4990E2" tabs={ tabs } />
   ))

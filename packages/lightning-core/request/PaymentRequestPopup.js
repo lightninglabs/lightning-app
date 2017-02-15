@@ -24,7 +24,7 @@ export const PaymentRequestPopup = ({ paymentRequest, closePopup }) => {
         paddingRight: 20,
         display: 'flex',
         alignItems: 'center',
-        color: '#59D9A4',
+        color: '#4990E2',
         cursor: 'pointer',
       },
     },
