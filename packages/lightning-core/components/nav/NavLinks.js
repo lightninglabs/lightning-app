@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import NavLinksItem from './NavLinksItem'
 
-export const NavLinks = ({ active, onChange }) => {
+export const NavLinks = ({ onChange }) => {
   const links = [
     {
       icon: 'coin',
@@ -36,7 +36,6 @@ export const NavLinks = ({ active, onChange }) => {
         <NavLinksItem
           key={ link.id }
           { ...link }
-          active={ link.id === active }
           onClick={ onChange }
         />
       )) }

@@ -5,8 +5,7 @@ import { Box, Text } from 'lightning-components'
 import NavLinks from './nav/NavLinks'
 import NavFooter from './nav/NavFooter'
 
-export const Sidebar = ({ navigateToSubpage, user, currency, account,
-  activeTab, isSynced }) => {
+export const Sidebar = ({ navigateToSubpage, user, currency, account, isSynced }) => {
   const styles = reactCSS({
     'default': {
       sidebar: {
@@ -39,7 +38,7 @@ export const Sidebar = ({ navigateToSubpage, user, currency, account,
   return (
     <Box style={ styles.sidebar }>
       <Box style={ styles.section }>
-        <NavLinks active={ activeTab } onChange={ navigateToSubpage } />
+        <NavLinks onChange={ navigateToSubpage } />
       </Box>
       <Box style={ styles.section }>
         <NavFooter

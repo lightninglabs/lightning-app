@@ -1,16 +1,16 @@
 import React from 'react'
 import { hover as h } from 'reactcss'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 
 import { SidebarItem } from 'lightning-components'
 
-export const NavLinksItem = ({ id, icon, label, active, hover }) => {
+export const NavLinksItem = ({ id, icon, label, hover, location }) => {
   return (
     <Link to={ `/${ id }` } style={{ textDecoration: 'none' }}>
       <SidebarItem
         icon={ icon }
         label={ label }
-        active={ active }
+        active={ `/${ id }` === location.pathname }
         hover={ hover }
         color="gray"
         hoverColor="lighter-gray"
@@ -19,4 +19,4 @@ export const NavLinksItem = ({ id, icon, label, active, hover }) => {
   )
 }
 
-export default h(NavLinksItem)
+export default withRouter(h(NavLinksItem))
