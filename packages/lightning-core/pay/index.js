@@ -7,7 +7,7 @@ export const Pay = () => {
   const fields = [
     {
       name: 'address',
-      placeholder: 'Lightning URL / Bitcoin Address',
+      placeholder: 'Payment Request / Bitcoin Address',
       required: true,
       component: Input,
     },
