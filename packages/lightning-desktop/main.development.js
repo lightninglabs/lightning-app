@@ -82,7 +82,7 @@ const createWindow = () => {
 
   mainWindowState.manage(mainWindow)
   if (process.env.NODE_ENV === 'development') {
-    mainWindow.loadURL('http://localhost:4152/')
+    mainWindow.loadURL('http://localhost:4152')
   } else {
     mainWindow.loadURL(`file://${ __dirname }/app.html`)
   }

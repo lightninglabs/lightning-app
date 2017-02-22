@@ -11,7 +11,8 @@ export const save = () => {
 }
 
 export const load = () => {
-  return JSON.parse(localStorage.getItem(STATE)) || {}
+  // return JSON.parse(localStorage.getItem(STATE)) || {}
+  return {}
 }
 
 export default exports
