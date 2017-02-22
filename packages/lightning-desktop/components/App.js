@@ -9,13 +9,7 @@ import { actions as notificationsActions, Notifications } from 'lightning-notifi
 import { actions as paymentActions } from 'lightning-core/reducers/payment'
 
 import { Route, Switch, Redirect } from 'react-router-dom'
-import ChannelsContainer from 'lightning-core/containers/ChannelsContainer'
-import ChannelsCreateContainer from 'lightning-core/containers/ChannelsCreateContainer'
-import Payment from 'lightning-core/components/Payment'
 import SettingsContainer from 'lightning-core/containers/SettingsContainer'
-import SplashContainer from 'lightning-core/containers/SplashContainer'
-import TransactionsContainer from 'lightning-core/containers/TransactionsContainer'
-import WalletContainer from 'lightning-core/containers/WalletContainer'
 import SidebarContainer from 'lightning-core/containers/SidebarContainer'
 
 import { PayPage, RequestPage, AccountsPage, TransactionsPage } from 'lightning-core'
@@ -89,8 +83,8 @@ export class App extends React.Component {  // eslint-disable-line
     })
 
     // eslint-disable-next-line camelcase
-    const handleMakePayment = payment_request =>
-      this.subscribePayments.write({ payment_request })
+    // const handleMakePayment = payment_request =>
+    //   this.subscribePayments.write({ payment_request })
 
     return (
       <Box style={ styles.app }>
@@ -101,25 +95,12 @@ export class App extends React.Component {  // eslint-disable-line
         <Box style={ styles.content }>
 
           <Switch>
-            <Route pattern="/transactions2/:sort" component={ TransactionsContainer } />
-
-            <Route pattern="/payment" render={ () => <Payment makePayment={ handleMakePayment } /> } />
-
-            <Route pattern="/wallets" component={ WalletContainer } />
-
-            <Route pattern="/splash" component={ SplashContainer } />
-
-            <Route pattern="/channels" component={ ChannelsContainer } />
-            <Route pattern="/channels-create" component={ ChannelsCreateContainer } />
-
-            <Route pattern="/settings" component={ SettingsContainer } />
-
-            <Route pattern="/pay" component={ PayPage } />
-            <Route pattern="/request" component={ RequestPage } />
-            <Route pattern="/accounts" component={ AccountsPage } />
-            <Route pattern="/transactions" component={ TransactionsPage } />
-
-            <Route render={ () => <Redirect to="/transactions2/recent" /> } />
+            <Route path="/pay" component={ PayPage } />
+            <Route path="/request" component={ RequestPage } />
+            <Route path="/accounts" component={ AccountsPage } />
+            <Route path="/transactions" component={ TransactionsPage } />
+            <Route path="/settings" component={ SettingsContainer } />
+            <Route render={ () => <Redirect to="/pay" /> } />
           </Switch>
 
         </Box>
