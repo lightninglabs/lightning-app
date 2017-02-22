@@ -1,7 +1,7 @@
 import React from 'react'
 import reactCSS from 'reactcss'
 
-import { Route } from 'react-router-dom'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import { Box } from 'lightning-components'
 import { Notifications } from 'lightning-notifications'
 import { Sidebar, PayPage, RequestPage, AccountsPage, TransactionsPage } from 'lightning-core'
@@ -37,10 +37,13 @@ export class App extends React.Component {
           <Sidebar />
         </Box>
         <Box style={ styles.content }>
-          <Route path="/pay" component={ PayPage } />
-          <Route path="/request" component={ RequestPage } />
-          <Route path="/accounts" component={ AccountsPage } />
-          <Route path="/transactions" component={ TransactionsPage } />
+          <Switch>
+            <Route path="/pay" component={ PayPage } />
+            <Route path="/request" component={ RequestPage } />
+            <Route path="/accounts" component={ AccountsPage } />
+            <Route path="/transactions" component={ TransactionsPage } />
+            <Route render={ () => <Redirect to="/pay" /> } />
+          </Switch>
         </Box>
         <Notifications />
       </Box>
