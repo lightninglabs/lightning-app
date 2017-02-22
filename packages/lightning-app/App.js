@@ -5,6 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { Box } from 'lightning-components'
 import { Notifications } from 'lightning-notifications'
 import { Sidebar, PayPage, RequestPage, AccountsPage, TransactionsPage } from 'lightning-core'
+import TrafficLights from './TrafficLights'
 
 export class App extends React.Component {
   render() {
@@ -34,6 +35,7 @@ export class App extends React.Component {
     return (
       <Box style={ styles.app }>
         <Box style={ styles.sidebar }>
+          <TrafficLights />
           <Sidebar />
         </Box>
         <Box style={ styles.content }>
