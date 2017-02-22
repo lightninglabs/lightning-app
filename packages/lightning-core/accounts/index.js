@@ -29,8 +29,8 @@ export const Accounts = () => {
       <Page>
         <Head
           title="Your Channels"
-          body="Channels are like lines of credit you have open with other
-          people on the network."
+          body="Channels are like a series of tubes that send money back and
+          forth to other people on the network"
         />
         <ChannelList channels={ channels } />
       </Page>

@@ -41,8 +41,8 @@ export const PaymentRequestPopup = ({ paymentRequest, closePopup }) => {
       <div style={ styles.box }>
         <Head
           title="Payment Request"
-          body="Send this URI to others so they can pay you via
-          the Lightning network."
+          body="Send this encoded payment request to the party who would like to
+          pay you via the Lightning Network."
         />
         <Input
           fullWidth

@@ -55,8 +55,8 @@ export const Pay = ({ showPopup, closePopup, changePR, paymentRequest }) => {
 
         <Head
           title="Request Lightning Payment"
-          body="Generate a payment request for someone to pay you
-          immidiately via the lightning network."
+          body="Generate a payment request that others can use to pay you
+          immediately via the Lightning Network."
         />
         <Form
           name="request"

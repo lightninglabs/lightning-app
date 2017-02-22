@@ -64,8 +64,8 @@ export const Transactions = () => {
     <Page>
       <Head
         title="Your Transactions"
-        body="This is a list of both lightning and on chain payments
-        made from your wallet."
+        body="This is a list of payments, including Lightning and on-chain
+        transactions, sent to or from your wallet."
       />
       <TransactionsList transactions={ transactions } />
     </Page>

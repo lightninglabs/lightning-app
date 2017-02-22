@@ -32,9 +32,8 @@ export const Pay = () => {
     <Page>
       <Head
         title="Make a Payment"
-        body="To send funds, enter a Lightning payment URL or a Bitcoin address.
-        Lightning payments will be instant, on-chain Bitcoin transactions
-        require blockchain confirmation (approximately 10 minutes)."
+        body="Lightning payments will be instant, while on-chain Bitcoin
+        transactions will require blockchain confirmation (approx. 10 mins)"
       />
       <Form
         name="pay"
