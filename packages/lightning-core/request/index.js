@@ -4,12 +4,14 @@ import { Form } from 'lightning-forms'
 import { actions as popupActions } from 'lightning-popup'
 import { store } from 'lightning-store'
 import { connect } from 'react-redux'
+import { actions } from './reducer'
 import { actions as paymentActions } from '../reducers/payment'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import PaymentRequestPopup, { POPUP_NAME } from './PaymentRequestPopup'
 import BitcoinWallet from './BitcoinWallet'
 
-export const Pay = ({ showPopup, closePopup, changePR, paymentRequest }) => {
+export const Pay = ({ showPopup, closePopup, changePR, paymentRequest, address,
+  onFetchAddress }) => {
   const fields = [
     {
       name: 'amount',
@@ -67,7 +69,10 @@ export const Pay = ({ showPopup, closePopup, changePR, paymentRequest }) => {
           onError={ handleError }
         />
       </Page>
-      <BitcoinWallet />
+      <BitcoinWallet
+        address={ address }
+        onFetchAddress={ onFetchAddress }
+      />
     </div>
   )
 }
@@ -75,9 +80,13 @@ export const Pay = ({ showPopup, closePopup, changePR, paymentRequest }) => {
 export default connect(
   state => ({
     paymentRequest: store.getGeneratedPaymentRequest(state),
+    address: store.getAddress(state),
   }), {
     showPopup: popupActions.onOpen,
     closePopup: popupActions.onClose,
     changePR: paymentActions.changeGeneratedPaymentRequest,
+    onFetchAddress: actions.fetchAddress,
   }
 )(Pay)
+
+export { default as reducer, actions, selectors } from './reducer'
