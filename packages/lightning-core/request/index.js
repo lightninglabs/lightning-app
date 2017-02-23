@@ -11,7 +11,7 @@ import PaymentRequestPopup, { POPUP_NAME } from './PaymentRequestPopup'
 import BitcoinWallet from './BitcoinWallet'
 
 export const Pay = ({ showPopup, closePopup, changePR, paymentRequest, address,
-  onFetchAddress }) => {
+  onFetchAddress, onGeneratePaymentRequest }) => {
   const fields = [
     {
       name: 'amount',
@@ -27,11 +27,8 @@ export const Pay = ({ showPopup, closePopup, changePR, paymentRequest, address,
   ]
 
   const handleSuccess = ({ amount, note }, clear) => {
-    // eslint-disable-next-line
-    const payment_request = 'lightning://7edb32d4ff3d7a385bfsd7637edb32d4ff3d7a385bfsd763'
-    changePR(payment_request)
+    onGeneratePaymentRequest({ amount, note })
     showPopup(POPUP_NAME)
-    console.log('success', amount, note)
     clear()
   }
 
@@ -79,13 +76,14 @@ export const Pay = ({ showPopup, closePopup, changePR, paymentRequest, address,
 
 export default connect(
   state => ({
-    paymentRequest: store.getGeneratedPaymentRequest(state),
+    paymentRequest: store.getPaymentRequest(state),
     address: store.getAddress(state),
   }), {
     showPopup: popupActions.onOpen,
     closePopup: popupActions.onClose,
     changePR: paymentActions.changeGeneratedPaymentRequest,
     onFetchAddress: actions.fetchAddress,
+    onGeneratePaymentRequest: actions.generatePaymentRequest,
   }
 )(Pay)
 
