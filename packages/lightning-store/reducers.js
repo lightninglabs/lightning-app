@@ -7,6 +7,7 @@ import payment from 'lightning-core/reducers/payment'
 import ui from 'lightning-core/reducers/ui'
 import wallets from 'lightning-core/reducers/wallets'
 
+import { reducer as accounts } from 'lightning-core/accounts'
 import { reducer as request } from 'lightning-core/request'
 import { reducer as transactions } from 'lightning-core/transactions'
 
@@ -21,6 +22,7 @@ export default combineReducers({
   ui,
   wallets,
 
+  accounts,
   request,
   transactions,
 

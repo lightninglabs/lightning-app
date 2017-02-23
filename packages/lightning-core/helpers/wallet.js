@@ -1,3 +1,2 @@
-export function total({ blockchain, channels}) { // eslint-disable-line
-  return blockchain + channels
-}
+
+export const total = ({ wallet, channel }) => wallet + channel

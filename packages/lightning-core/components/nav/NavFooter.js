@@ -6,7 +6,7 @@ import { Money, MoneySign } from '../common'
 
 import { total } from '../../helpers/wallet'
 
-export const NavFooter = ({ currency, amount = {}, identity, onClickAccount, account = {} }) => {
+export const NavFooter = ({ pubkey, currency, balances, onClickAccount }) => {
   return (
     <div>
       <Box padding="small" fontSize="medium" color="gray">
@@ -15,12 +15,12 @@ export const NavFooter = ({ currency, amount = {}, identity, onClickAccount, acc
           left={ <MoneySign currency={ currency } /> }
         >
           <Text color="off-white">
-            <Money amount={ total(amount) } currency={ currency } />
+            <Money amount={ total(balances) } currency={ currency } />
           </Text>
         </Media>
       </Box>
       <NavFooterAccount
-        identity={ identity || account.pubKey }
+        identity={ pubkey }
         onClick={ onClickAccount }
       />
     </div>

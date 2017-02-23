@@ -37,7 +37,7 @@ export default (opts = {}) => {
           reject({ ...error, stream: api })
         } else {
           SUCCESS && next({ type: SUCCESS, ...schema(res), ...passthrough, noSchema: res })
-          resolve({ ...res, stream: api, ...passthrough })
+          resolve({ ...schema(res), ...passthrough, noSchema: res, stream: api })
         }
       })
     })

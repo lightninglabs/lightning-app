@@ -39,3 +39,5 @@ export const Accounts = () => {
 }
 
 export default Accounts
+
+export { default as reducer, actions, selectors } from './reducer'
