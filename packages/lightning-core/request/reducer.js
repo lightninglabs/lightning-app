@@ -13,7 +13,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ADDRESS:
-      return { ...state, address: action.user.address }
+      return { ...state, address: action.address }
     case POPUP.CLOSE_POPUP: {
       if (action.name === 'paymentRequest') {
         return { ...state, paymentRequest: '' }
@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
       return state
     }
     case GENERATE_PAYMENT_REQUEST:
-      return { ...state, paymentRequest: decoratedPaymentRequest(action.invoice.payment_request) }
+      return { ...state, paymentRequest: decoratedPaymentRequest(action.paymentRequest) }
     default: return state
   }
 }
@@ -30,8 +30,7 @@ export const actions = {
   fetchAddress: () => ({
     [GRPC]: {
       method: 'newWitnessAddress',
-      types: [null, FETCH_ADDRESS],
-      model: 'user',
+      types: FETCH_ADDRESS,
     },
   }),
   generatePaymentRequest: ({ amount, note }) => ({
@@ -41,8 +40,10 @@ export const actions = {
         memo: note,
         value: amount,
       },
-      types: [null, GENERATE_PAYMENT_REQUEST],
-      model: 'invoice',
+      schema: data => ({
+        paymentRequest: data.payment_request,
+      }),
+      types: GENERATE_PAYMENT_REQUEST,
     },
   }),
 }

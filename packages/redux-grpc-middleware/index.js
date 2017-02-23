@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-
+import _ from 'lodash'
 import { remote } from 'electron'
 
 const defaults = {
@@ -17,8 +17,14 @@ export default (opts = {}) => {
     const call = action && action[GRPC] // eslint-disable-line
     if (typeof call === 'undefined' || !call) { return next(action) }
 
-    const { method, types = [], body, model, passthrough = {}, stream = false } = call
-    const [REQUEST, SUCCESS, ERROR] = types
+    const { method, body } = call
+    const {
+      types = [],
+      passthrough = {},
+      schema = data => data,
+      stream = false,
+    } = call
+    const [REQUEST, SUCCESS, ERROR] = _.isArray(types) ? types : [null, types]
 
     REQUEST && next({ type: REQUEST })
 
@@ -30,9 +36,8 @@ export default (opts = {}) => {
           ERROR && next({ type: ERROR, error })
           reject({ ...error, stream: api })
         } else {
-          const data = { [model || method]: res }
-          SUCCESS && next({ type: SUCCESS, ...data, ...passthrough })
-          resolve({ ...data, stream: api, ...passthrough })
+          SUCCESS && next({ type: SUCCESS, ...schema(res), ...passthrough, noSchema: res })
+          resolve({ ...res, stream: api, ...passthrough })
         }
       })
     })
