@@ -12,7 +12,7 @@
     "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill package.js --icon './assets/ln-logo'",
     "package-all": "npm run package -- --all",
     "dev": "cross-env NODE_ENV=development node -r babel-register dev-server.js",
-    "install-grpc": "npm install murgatroid99/grpc#node_electron_build && cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.4.6"
+    "install-grpc": "npm install grpc/grpc && cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.4.6"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
