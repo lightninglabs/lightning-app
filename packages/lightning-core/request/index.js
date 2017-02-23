@@ -10,7 +10,7 @@ import { CurrencyInput, Head, Input, Page } from '../common'
 import PaymentRequestPopup, { POPUP_NAME } from './PaymentRequestPopup'
 import BitcoinWallet from './BitcoinWallet'
 
-export const Pay = ({ showPopup, closePopup, changePR, paymentRequest, address,
+export const Pay = ({ showPopup, closePopup, paymentRequest, address,
   onFetchAddress, onGeneratePaymentRequest }) => {
   const fields = [
     {

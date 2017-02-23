@@ -23,8 +23,11 @@ export const TransactionsList = ({ transactions }) => {
         justifyContent: 'center',
       },
       details: {
-        marginLeft: 'auto',
         textAlign: 'right',
+      },
+      text: {
+        flex: 1,
+        marginRight: 20,
       },
       big: {
         fontSize: 16,
@@ -40,23 +43,27 @@ export const TransactionsList = ({ transactions }) => {
         fontSize: 13,
         color: '#999',
       },
+      overflow: {
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        width: 330,
+      },
     },
   })
   return (
     <div>
-      { _.map(transactions, (transaction, i) => (
-        <div style={ styles.item } key={ i }>
+      { _.map(transactions, transaction => (
+        <div style={ styles.item } key={ transaction.id }>
           <div style={{ ...styles.icon, ...styles.column }}>
             <Icon name={ transaction.type === 'bitcoin' ? 'currency-btc' : 'flash' } />
           </div>
-          <div style={ styles.column }>
-            <div style={ styles.big }>
-              { transaction.from }
-              <span style={ styles.sent }> sent </span>
-              { transaction.to }
+          <div style={{ ...styles.text, ...styles.column }}>
+            <div style={{ ...styles.big, ...styles.overflow }}>
+              { transaction.hash }
             </div>
-            { transaction.description ? (
-              <div style={ styles.small }>{ transaction.description }</div>
+            { transaction.memo ? (
+              <div style={ styles.small }>{ transaction.memo }</div>
             ) : null }
           </div>
 
