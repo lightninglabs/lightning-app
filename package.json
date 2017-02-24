@@ -8,10 +8,7 @@
     "publish": "lerna publish",
     "clean": "lerna clean",
     "reinstall": "npm run clean && npm install",
-    "start-electron": "cd packages/lightning-desktop && npm start",
-    "start-webpack": "cd packages/lightning-desktop && npm run dev",
-    "dev": "node packages/lightning-desktop/startup-message.js && concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\" -n \"electron,webpack\" -p name",
-    "start": "npm run dev -s",
+    "start": "cd packages/lightning-desktop && npm start -s",
     "package-electron": "cd packages/lightning-desktop && npm run package",
     "eslint": "node_modules/.bin/eslint packages/**/*.js --quiet",
     "install-grpc": "cd packages/lightning-desktop && npm run install-grpc"
@@ -28,14 +25,11 @@
     "babel-preset-react": "^6.11.1",
     "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-stage-0": "^6.5.0",
-    "concurrently": "^3.1.0",
     "eslint": "^3.6.0",
     "eslint-config-airbnb": "^11.2.0",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-react": "^6.3.0",
-    "lerna": "2.0.0-beta.31",
-    "react": "^15.4.1",
-    "react-dom": "^15.4.1"
+    "lerna": "2.0.0-beta.31"
   }
 }
