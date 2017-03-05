@@ -9,6 +9,7 @@
     "clean": "lerna clean",
     "reinstall": "npm run clean && npm install",
     "start": "cd packages/lightning-desktop && npm start -s",
+    "setup": "npm install && npm run install-grpc",
     "package-electron": "cd packages/lightning-desktop && npm run package",
     "eslint": "node_modules/.bin/eslint packages/**/*.js --quiet",
     "install-grpc": "cd packages/lightning-desktop && npm run install-grpc"
