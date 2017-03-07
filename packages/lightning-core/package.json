@@ -17,7 +17,7 @@
     "lodash": "^4.16.2",
     "react": "^15.4.1",
     "react-redux": "^4.4.6",
-    "react-router-dom": "^4.0.0-beta.5",
+    "react-router-dom": "^4.0.0-beta.7",
     "reactcss": "^1.0.8",
     "redux": "^3.6.0",
     "redux-grpc-middleware": "^0.1.1"

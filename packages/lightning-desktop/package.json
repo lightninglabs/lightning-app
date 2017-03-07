@@ -13,7 +13,7 @@
     "start": "node startup-message.js && concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\" -n \"electron,webpack\" -p name",
     "start-electron": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
     "start-webpack": "cross-env NODE_ENV=development node -r babel-register dev-server.js",
-    "install-grpc": "npm install grpc/grpc && cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.4.6"
+    "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.4.6"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -33,6 +33,7 @@
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
+    "grpc": "^1.1.1",
     "json-loader": "^0.5.4",
     "lightning-app": "^0.1.0",
     "lightning-components": "^0.1.1",
@@ -47,7 +48,7 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-redux": "^4.4.6",
-    "react-router-dom": "^4.0.0-beta.5",
+    "react-router-dom": "^4.0.0-beta.7",
     "reactcss": "^1.1.1",
     "redux": "^3.6.0",
     "source-map-support": "^0.4.8",
