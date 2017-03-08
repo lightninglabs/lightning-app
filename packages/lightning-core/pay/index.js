@@ -48,3 +48,5 @@ export const Pay = () => {
 }
 
 export default Pay
+
+export { default as reducer, actions, selectors } from './reducer'

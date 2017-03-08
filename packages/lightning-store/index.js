@@ -5,7 +5,7 @@ import storage from './local-storage'
 import middleware from './middleware'
 import reducers from './reducers'
 
-const state = { ...storage.load(), transactions: [] }
+const state = { ...storage.load() }
 
 export function configureStore(initialState = state) {
   const store = createStore(reducers, initialState, middleware)
