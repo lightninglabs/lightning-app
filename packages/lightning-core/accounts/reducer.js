@@ -4,6 +4,7 @@ import { GRPC } from 'redux-grpc-middleware'
 export const FETCH_ACCOUNT = 'ACCOUNTS/FETCH_ACCOUNT'
 export const FETCH_BALANCES = 'ACCOUNTS/FETCH_BALANCES'
 export const SET_BALANCES = 'ACCOUNTS/SET_BALANCES'
+export const REQUEST_CHANNELS = 'ACCOUNTS/REQUEST_CHANNELS'
 export const FETCH_CHANNELS = 'ACCOUNTS/FETCH_CHANNELS'
 
 const initialState = {
@@ -15,16 +16,19 @@ const initialState = {
     channel: 0,
   },
   channels: [],
+  loadingChannels: false,
 }
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case REQUEST_CHANNELS:
+      return { ...state, loadingChannels: true }
     case FETCH_ACCOUNT:
       return { ...state, pubkey: action.pubkey, isSynced: action.isSynced }
     case SET_BALANCES:
       return { ...state, balances: { ...state.balances, ...action.balances } }
     case FETCH_CHANNELS:
-      return { ...state, channels: action.channels }
+      return { ...state, channels: action.channels, loadingChannels: false }
     default: return state
   }
 }
@@ -73,7 +77,7 @@ export const actions = {
   fetchChannels: () => ({
     [GRPC]: {
       method: 'listChannels',
-      types: FETCH_CHANNELS,
+      types: [REQUEST_CHANNELS, FETCH_CHANNELS],
       schema: data => ({
         transactions: _.map(data.channels, channel => ({
           remotePubkey: channel.remote_pubkey,
@@ -93,5 +97,6 @@ export const selectors = {
   getAccountPubkey: state => state.pubkey,
   getCurrency: state => state.currency,
   getAccountBalances: state => state.balances,
-  getChannels: state => state.channels,
+  getChannels: state => state.channels || [],
+  getChannelsLoading: state => state.loadingChannels,
 }

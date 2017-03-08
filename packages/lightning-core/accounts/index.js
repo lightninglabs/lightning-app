@@ -12,7 +12,7 @@ export class Accounts extends React.Component {
 
   render() {
     return (
-      <div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
         <Wallet />
         <Page>
           <Head
@@ -20,7 +20,10 @@ export class Accounts extends React.Component {
             body="Channels are like a series of tubes that send money back and
             forth to other people on the network"
           />
-          <ChannelList channels={ this.props.channels } />
+          <ChannelList
+            channels={ this.props.channels }
+            loading={ this.props.loading }
+          />
         </Page>
       </div>
     )
@@ -30,6 +33,7 @@ export class Accounts extends React.Component {
 export default connect(
   state => ({
     channels: store.getChannels(state),
+    loading: store.getChannelsLoading(state),
   }), {
     onMount: actions.fetchChannels,
   }

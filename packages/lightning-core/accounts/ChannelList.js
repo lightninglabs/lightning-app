@@ -2,73 +2,46 @@ import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
 
-import { Box } from 'lightning-components'
+import { Icon } from 'lightning-components'
+import ChannelListItem from './ChannelListItem'
 
-export const ChannelList = ({ channels }) => {
+export const ChannelList = ({ channels, loading }) => {
   const styles = reactCSS({
     'default': {
-      channel: {
+      list: {
         borderTop: '1px solid #ddd',
-        paddingTop: 20,
-        paddingBottom: 20,
-      },
-      split: {
         display: 'flex',
-        justifyContent: 'space-between',
-        marginBottom: 7,
+        flexDirection: 'column',
+        flex: 1,
       },
-      id: {
-        color: '#333',
-        fontSize: 20,
+      empty: {
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#bbb',
       },
-      status: {
-        fontSize: 13,
-        textTransform: 'uppercase',
-        color: '#999',
-      },
-      local: {
-        fontSize: 16,
-        color: '#4990E2',
-      },
-      remote: {
-        fontSize: 16,
-        color: '#666',
-      },
-      bar: {
-        borderRadius: 2,
-        background: 'lighter-gray',
-        marginTop: 10,
-      },
-      percent: {
-        background: 'blue',
-        height: 12,
-        borderRadius: 2,
+      emptyLabel: {
+        fontSize: 24,
+        paddingTop: 10,
       },
     },
   })
+
+
   return (
-    <div>
-      { _.map(channels, (channel, i) => {
-        const width = `${ (channel.localBalance / channel.capacity) * 100 }%`
-        return (
-          <div style={ styles.channel } key={ i }>
-            <div style={ styles.split }>
-              <div style={ styles.id }>{ channel.id }</div>
-              <div style={ styles.status }>{ channel.status }</div>
-            </div>
+    <div style={ styles.list }>
+      { _.map(channels, (channel, i) => (
+        <ChannelListItem { ...channel } key={ i } />
+      )) }
 
-            <div style={ styles.split }>
-              <div style={ styles.local }>My Balance: { channel.localBalance }</div>
-              <div style={ styles.remote }>Avaliable to Recieve: { channel.remoteBalance }</div>
-            </div>
-
-            <Box style={ styles.bar }>
-              <Box style={ styles.percent } width={ width } />
-            </Box>
-
-          </div>
-        )
-      }) }
+      { !channels.length && !loading ? (
+        <div style={ styles.empty }>
+          <Icon name="playlist-remove" large />
+          <div style={ styles.emptyLabel }>No Channels Yet</div>
+        </div>
+      ) : null }
     </div>
   )
 }
