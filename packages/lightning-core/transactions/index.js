@@ -11,7 +11,7 @@ export class Transactions extends React.Component {
   componentDidMount() { this.props.onFetchTransactions() }
 
   render() {
-    const { transactions } = this.props
+    const { loading, transactions } = this.props
     return (
       <Page>
         <Head
@@ -19,7 +19,7 @@ export class Transactions extends React.Component {
           body="This is a list of payments, including Lightning and on-chain
           transactions, sent to or from your wallet."
         />
-        <TransactionsList transactions={ transactions } />
+        <TransactionsList transactions={ transactions } loading={ loading } />
       </Page>
     )
   }
@@ -27,6 +27,7 @@ export class Transactions extends React.Component {
 
 export default connect(
   state => ({
+    loading: store.getTransactionsLoading(state),
     transactions: store.getRecentTransactions(state),
   }), {
     onFetchTransactions: actions.fetchTransactions,

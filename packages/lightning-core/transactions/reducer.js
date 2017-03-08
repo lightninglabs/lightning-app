@@ -2,19 +2,30 @@ import _ from 'lodash'
 import { GRPC } from 'redux-grpc-middleware'
 import { toHash } from '../helpers'
 
+export const REQUEST = 'TRANSACTIONS/REQUEST'
 export const GET_TRANSACTIONS = 'TRANSACTIONS/GET_TRANSACTIONS'
 export const LIST_INVOICES = 'TRANSACTIONS/LIST_INVOICES'
 export const LIST_PAYMENTS = 'TRANSACTIONS/LIST_PAYMENTS'
 
-export default (state = {}, action) => {
+const initialState = {
+  loading: false,
+}
+
+export default (state = initialState, action) => {
   switch (action.type) {
+    case REQUEST:
+      return { ...state, loading: true }
     case GET_TRANSACTIONS:
     case LIST_INVOICES:
-      return _.reduce(action.transactions, (all, transaction) => {
-      // eslint-disable-next-line no-param-reassign
-        all[transaction.id] = transaction
-        return all
-      }, { ...state })
+      return {
+        ...state,
+        loading: false,
+        list: _.reduce(action.transactions, (all, transaction) => {
+        // eslint-disable-next-line no-param-reassign
+          all[transaction.id] = transaction
+          return all
+        }, { ...state.list }),
+      }
     default: return state
   }
 }
@@ -24,7 +35,7 @@ export const actions = {
     dispatch({
       [GRPC]: {
         method: 'getTransactions',
-        types: GET_TRANSACTIONS,
+        types: [REQUEST, GET_TRANSACTIONS],
         schema: data => ({
           transactions: _.map(data.transactions, transaction => ({
             id: transaction.tx_hash,
@@ -40,7 +51,7 @@ export const actions = {
     dispatch({
       [GRPC]: {
         method: 'listInvoices',
-        types: LIST_INVOICES,
+        types: [REQUEST, LIST_INVOICES],
         schema: data => ({
           transactions: _.map(data.invoices, invoice => ({
             id: invoice.creation_date,
@@ -64,5 +75,6 @@ export const actions = {
 }
 
 export const selectors = {
-  getRecentTransactions: state => _.orderBy(state, 'date', 'desc'),
+  getRecentTransactions: state => _.orderBy(state.list, 'date', 'desc'),
+  getTransactionsLoading: state => state.loading,
 }
