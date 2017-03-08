@@ -1,9 +1,11 @@
 
 import React from 'react'
+import { connect } from 'react-redux'
 import { Form } from 'lightning-forms'
+import { actions } from './reducer'
 import { CurrencyInput, Head, Input, Page } from '../common'
 
-export const Pay = () => {
+export const Pay = ({ onCheckPR, onLightningPayment, onBitcoinPayment }) => {
   const fields = [
     {
       name: 'address',
@@ -20,8 +22,15 @@ export const Pay = () => {
   ]
 
   const handleSuccess = ({ address, amount }, clear) => {
-    console.log('success', address, amount)
-    clear()
+    onCheckPR(address)
+      .then(() => {
+        onLightningPayment(address)
+          .then(clear)
+      })
+      .catch(() => {
+        onBitcoinPayment({ address, amount })
+          .then(clear)
+      })
   }
 
   const handleError = (errors) => {
@@ -47,6 +56,12 @@ export const Pay = () => {
   )
 }
 
-export default Pay
+export default connect(
+  () => ({}), {
+    onCheckPR: actions.checkPaymentRequest,
+    onLightningPayment: actions.lightningPayment,
+    onBitcoinPayment: actions.bitcoinPayment,
+  }
+)(Pay)
 
 export { default as reducer, actions, selectors } from './reducer'
