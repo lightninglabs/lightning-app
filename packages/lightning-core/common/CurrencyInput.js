@@ -1,10 +1,8 @@
 import React from 'react'
-import _ from 'lodash'
 import reactCSS from 'reactcss'
 
-import { Select } from 'lightning-components'
 import Input from './Input'
-import { enforceNumbers, getAll } from '../helpers/currencies'
+import { enforceNumbers } from '../helpers/currencies'
 
 export const CurrencyInput = (props) => {
   const styles = reactCSS({
@@ -13,8 +11,8 @@ export const CurrencyInput = (props) => {
         marginTop: 10,
         marginBottom: 10,
         borderLeft: '1px solid #ddd',
-        paddingLeft: 10,
-        paddingRight: 12,
+        paddingLeft: 15,
+        paddingRight: 15,
         display: 'flex',
         alignItems: 'center',
         color: '#999',
@@ -22,18 +20,8 @@ export const CurrencyInput = (props) => {
     },
   })
 
-  const currencies = _.map(getAll(), (label, value) => ({ value, label }))
-  const handleChange = () => {}
-
   const changer = (
-    <div style={ styles.changer }>
-      <Select
-        bare
-        options={ currencies }
-        active="sat"
-        onChange={ handleChange }
-      />
-    </div>
+    <div style={ styles.changer }>SAT</div>
   )
 
   return (
