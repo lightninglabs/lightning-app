@@ -13,6 +13,7 @@ export class Accounts extends React.Component {
   componentDidMount() { this.props.onMount() }
 
   render() {
+    const { pubkey, balances, channels, loading } = this.props
     const styles = reactCSS({
       default: {
         page: {
@@ -32,7 +33,10 @@ export class Accounts extends React.Component {
     )
     return (
       <div style={ styles.page }>
-        <Wallet />
+        <Wallet
+          pubkey={ pubkey }
+          balances={ balances }
+        />
         <Page>
           <Head
             title="Your Channels"
@@ -41,8 +45,8 @@ export class Accounts extends React.Component {
             right={ createChannel }
           />
           <ChannelList
-            channels={ this.props.channels }
-            loading={ this.props.loading }
+            channels={ channels }
+            loading={ loading }
           />
         </Page>
       </div>
@@ -54,6 +58,8 @@ export default connect(
   state => ({
     channels: store.getChannels(state),
     loading: store.getChannelsLoading(state),
+    balances: store.getAccountBalances(state),
+    pubkey: store.getAccountPubkey(state),
   }), {
     onMount: actions.fetchChannels,
   }

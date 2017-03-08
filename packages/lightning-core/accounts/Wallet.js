@@ -1,8 +1,9 @@
 import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
+import { total } from '../helpers'
 
-export const Wallet = () => {
+export const Wallet = ({ pubkey, balances }) => {
   const styles = reactCSS({
     'default': {
       bg: {
@@ -60,14 +61,15 @@ export const Wallet = () => {
   const breakdown = [
     {
       label: 'On Chain',
-      amount: '67,122,927',
+      amount: balances.wallet,
     }, {
       label: 'In Channels',
-      amount: '53,832,471',
-    }, {
-      label: 'Frozen',
-      amount: '2,510',
+      amount: balances.channel,
     },
+    // {
+    //   label: 'Frozen',
+    //   amount: '2,510',
+    // },
   ]
 
   return (
@@ -76,11 +78,9 @@ export const Wallet = () => {
       <div style={ styles.details }>
         <div style={ styles.total }>
           <div style={ styles.amount }>
-            111,245,170 SAT
+            { total(balances) } SAT
           </div>
-          <div style={ styles.address }>
-            7edb32d4ffd7a7edb32d4ffd7a7f730asd86sa8s65dfgedb
-          </div>
+          <div style={ styles.address }>{ pubkey }</div>
         </div>
         <div style={ styles.breakdown }>
 
