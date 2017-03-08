@@ -1,5 +1,6 @@
 
 export { default as AccountsPage } from './accounts'
+export { CreateChannelPage } from './accounts'
 export { default as PayPage } from './pay'
 export { default as RequestPage } from './request'
 export { default as TransactionsPage } from './transactions'

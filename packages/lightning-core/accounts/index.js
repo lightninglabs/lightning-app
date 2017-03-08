@@ -28,7 +28,7 @@ export class Accounts extends React.Component {
       },
     })
     const createChannel = (
-      <Link style={ styles.link } to="create-channel">Create Channel</Link>
+      <Link style={ styles.link } to="/create-channel">Create Channel</Link>
     )
     return (
       <div style={ styles.page }>
@@ -60,3 +60,4 @@ export default connect(
 )(Accounts)
 
 export { default as reducer, actions, selectors } from './reducer'
+export { default as CreateChannelPage } from './CreateChannelPage'
