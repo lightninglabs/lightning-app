@@ -6,12 +6,13 @@ import { store } from 'lightning-store'
 import { connect } from 'react-redux'
 import { actions } from './reducer'
 import { actions as paymentActions } from '../reducers/payment'
+import { actions as notificationActions } from 'lightning-notifications'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import PaymentRequestPopup, { POPUP_NAME } from './PaymentRequestPopup'
 import BitcoinWallet from './BitcoinWallet'
 
 export const Pay = ({ showPopup, closePopup, paymentRequest, address,
-  onFetchAddress, onGeneratePaymentRequest }) => {
+  onFetchAddress, onGeneratePaymentRequest, onSuccess }) => {
   const fields = [
     {
       name: 'amount',
@@ -36,6 +37,11 @@ export const Pay = ({ showPopup, closePopup, paymentRequest, address,
     console.log('error', errors)
   }
 
+  const handleClosePopup = (...args) => {
+    closePopup(...args)
+    onSuccess('Copied to Clipboard')
+  }
+
   const styles = {
     wrap: {
       display: 'flex',
@@ -49,7 +55,7 @@ export const Pay = ({ showPopup, closePopup, paymentRequest, address,
       <Page>
         <PaymentRequestPopup
           paymentRequest={ paymentRequest }
-          closePopup={ closePopup }
+          closePopup={ handleClosePopup }
         />
 
         <Head
@@ -84,6 +90,7 @@ export default connect(
     changePR: paymentActions.changeGeneratedPaymentRequest,
     onFetchAddress: actions.fetchAddress,
     onGeneratePaymentRequest: actions.generatePaymentRequest,
+    onSuccess: notificationActions.addNotification,
   }
 )(Pay)
 
