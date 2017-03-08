@@ -10,7 +10,10 @@ import Wallet from './Wallet'
 import ChannelList from './ChannelList'
 
 export class Accounts extends React.Component {
-  componentDidMount() { this.props.onMount() }
+  componentDidMount() {
+    this.props.fetchBalances()
+    this.props.onMount()
+  }
 
   render() {
     const { pubkey, balances, channels, loading } = this.props
@@ -62,6 +65,7 @@ export default connect(
     pubkey: store.getAccountPubkey(state),
   }), {
     onMount: actions.fetchChannels,
+    fetchBalances: actions.fetchBalances,
   }
 )(Accounts)
 
