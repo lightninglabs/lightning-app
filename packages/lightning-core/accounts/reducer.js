@@ -124,7 +124,7 @@ export const actions = {
     },
   }),
   createChannel: ({ ip, amount }) => (dispatch) => {
-    return new new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const [pubkey, host] = ip && ip.split('@')
 
       const rejectError = (err) => {
@@ -151,7 +151,7 @@ export const actions = {
           }
         })
         .catch(rejectError)
-    })()
+    })
   },
 }
 
