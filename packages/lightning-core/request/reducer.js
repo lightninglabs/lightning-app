@@ -1,6 +1,6 @@
 import { GRPC } from 'redux-grpc-middleware'
 import { actions as POPUP } from 'lightning-popup'
-import { decoratedPaymentRequest } from '../helpers'
+import { decoratePaymentRequest } from '../helpers'
 
 export const FETCH_ADDRESS = 'REQUEST/FETCH_ADDRESS'
 export const GENERATE_PAYMENT_REQUEST = 'REQUEST/GENERATE_PAYMENT_REQUEST'
@@ -21,7 +21,7 @@ export default (state = initialState, action) => {
       return state
     }
     case GENERATE_PAYMENT_REQUEST:
-      return { ...state, paymentRequest: decoratedPaymentRequest(action.paymentRequest) }
+      return { ...state, paymentRequest: decoratePaymentRequest(action.paymentRequest) }
     default: return state
   }
 }

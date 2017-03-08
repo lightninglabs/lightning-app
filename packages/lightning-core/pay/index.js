@@ -5,7 +5,7 @@ import { Form } from 'lightning-forms'
 import { actions } from './reducer'
 import { CurrencyInput, Head, Input, Page } from '../common'
 
-export const Pay = ({ onCheckPR, onLightningPayment, onBitcoinPayment }) => {
+export const Pay = ({ onMakePayment }) => {
   const fields = [
     {
       name: 'address',
@@ -22,15 +22,8 @@ export const Pay = ({ onCheckPR, onLightningPayment, onBitcoinPayment }) => {
   ]
 
   const handleSuccess = ({ address, amount }, clear) => {
-    onCheckPR(address)
-      .then(() => {
-        onLightningPayment(address)
-          .then(clear)
-      })
-      .catch(() => {
-        onBitcoinPayment({ address, amount })
-          .then(clear)
-      })
+    onMakePayment({ address, amount })
+      .then(clear)
   }
 
   const handleError = (errors) => {
@@ -58,9 +51,7 @@ export const Pay = ({ onCheckPR, onLightningPayment, onBitcoinPayment }) => {
 
 export default connect(
   () => ({}), {
-    onCheckPR: actions.checkPaymentRequest,
-    onLightningPayment: actions.lightningPayment,
-    onBitcoinPayment: actions.bitcoinPayment,
+    onMakePayment: actions.makePayment,
   }
 )(Pay)
 
