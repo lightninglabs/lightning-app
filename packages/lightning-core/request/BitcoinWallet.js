@@ -8,7 +8,7 @@ export class BitcoinWallet extends React.Component {
   componentDidMount() { this.props.onFetchAddress() }
 
   render() {
-    const { address } = this.props
+    const { address, onSuccess } = this.props
 
     const styles = reactCSS({
       'default': {
@@ -36,6 +36,8 @@ export class BitcoinWallet extends React.Component {
       },
     })
 
+    const handleCopy = () => onSuccess('Copied to Clipboard')
+
     const label = (
       <div style={ styles.label }>Wallet Address</div>
     )
@@ -46,6 +48,7 @@ export class BitcoinWallet extends React.Component {
           fullWidth
           selectOnClick
           copyOnClick
+          onCopy={ handleCopy }
           left={ label }
           value={ address }
         />
