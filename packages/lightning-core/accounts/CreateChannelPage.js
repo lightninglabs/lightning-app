@@ -1,9 +1,27 @@
 import React from 'react'
 import reactCSS from 'reactcss'
+import { connect } from 'react-redux'
+import { Form } from 'lightning-forms'
+import { actions } from './reducer'
 
-import { Head, Page } from '../common'
+import { CurrencyInput, Head, Input, Page } from '../common'
 
-export const CreateChannelPage = () => {
+export const CreateChannelPage = ({ createChannel }) => {
+  const fields = [
+    {
+      name: 'ip',
+      placeholder: 'Host / IP',
+      required: true,
+      component: Input,
+    },
+    {
+      name: 'amount',
+      placeholder: 'Amount',
+      required: true,
+      component: CurrencyInput,
+    },
+  ]
+
   const styles = reactCSS({
     default: {
       page: {
@@ -19,6 +37,11 @@ export const CreateChannelPage = () => {
     },
   })
 
+  const handleSuccess = ({ ip, amount }, clear) => {
+    createChannel({ ip, amount })
+      .then(clear)
+  }
+
   return (
     <Page>
       <Head
@@ -26,9 +49,19 @@ export const CreateChannelPage = () => {
         body="Channels are like tubes of money used to transfer funds within
         the network"
       />
-
+      <Form
+        name="create-channel"
+        fields={ fields }
+        submitLabel="Create Channel"
+        clearLabel="Cancel"
+        onSuccess={ handleSuccess }
+      />
     </Page>
   )
 }
 
-export default CreateChannelPage
+export default connect(
+  () => ({}), {
+    createChannel: actions.createChannel,
+  }
+)(CreateChannelPage)

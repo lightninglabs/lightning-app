@@ -1,11 +1,15 @@
 import _ from 'lodash'
 import { GRPC } from 'redux-grpc-middleware'
+import { actions as notificationActions } from 'lightning-notifications'
 
 export const FETCH_ACCOUNT = 'ACCOUNTS/FETCH_ACCOUNT'
 export const FETCH_BALANCES = 'ACCOUNTS/FETCH_BALANCES'
 export const SET_BALANCES = 'ACCOUNTS/SET_BALANCES'
 export const REQUEST_CHANNELS = 'ACCOUNTS/REQUEST_CHANNELS'
 export const FETCH_CHANNELS = 'ACCOUNTS/FETCH_CHANNELS'
+export const LIST_PEERS = 'ACCOUNTS/LIST_PEERS'
+export const OPEN_CHANNEL = 'ACCOUNTS/OPEN_CHANNEL'
+export const CONNECT_PEER = 'ACCOUNTS/CONNECT_PEER'
 
 const initialState = {
   pubkey: '',
@@ -79,7 +83,7 @@ export const actions = {
       method: 'listChannels',
       types: [REQUEST_CHANNELS, FETCH_CHANNELS],
       schema: data => ({
-        transactions: _.map(data.channels, channel => ({
+        channels: _.map(data.channels, channel => ({
           remotePubkey: channel.remote_pubkey,
           id: channel.chan_id,
           capacity: channel.capacity,
@@ -90,6 +94,65 @@ export const actions = {
       }),
     },
   }),
+  listPeers: () => ({
+    [GRPC]: {
+      method: 'listPeers',
+      types: LIST_PEERS,
+      schema: list => ({
+        peers: list.peers || {},
+      }),
+    },
+  }),
+  openChannel: ({ pubkey, amount }) => ({
+    [GRPC]: {
+      method: 'openChannel',
+      body: {
+        node_pubkey_string: pubkey,
+        local_funding_amount: amount,
+        num_confs: 1,
+      },
+      types: OPEN_CHANNEL,
+    },
+  }),
+  connectPeer: ({ host, pubkey }) => ({
+    [GRPC]: {
+      method: 'connectPeer',
+      body: {
+        addr: { host, pubkey },
+      },
+      types: CONNECT_PEER,
+    },
+  }),
+  createChannel: ({ ip, amount }) => (dispatch) => {
+    return new new Promise((resolve, reject) => {
+      const [pubkey, host] = ip && ip.split('@')
+
+      const rejectError = (err) => {
+        dispatch(notificationActions.addNotification(err.message))
+        reject(err.message)
+      }
+
+      dispatch(actions.listPeers())
+        .then(({ peers }) => {
+          const peer = _.find(peers, { pub_key: pubkey })
+
+          if (peer) {
+            dispatch(actions.openChannel({ pubkey, amount }))
+              .then(resolve)
+              .catch(rejectError)
+          } else {
+            dispatch(actions.connectPeer({ host, pubkey }))
+              .then(() => {
+                dispatch(actions.openChannel({ pubkey, amount }))
+                  .then(resolve)
+                  .catch(rejectError)
+              })
+              .catch(rejectError)
+          }
+        })
+        .catch(rejectError)
+    })()
+  },
 }
 
 export const selectors = {
