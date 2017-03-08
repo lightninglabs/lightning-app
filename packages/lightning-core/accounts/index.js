@@ -1,6 +1,8 @@
 import React from 'react'
+import reactCSS from 'reactcss'
 import { connect } from 'react-redux'
 import { store } from 'lightning-store'
+import { Link } from 'react-router-dom'
 import { actions } from './reducer'
 
 import { Head, Page } from '../common'
@@ -11,14 +13,32 @@ export class Accounts extends React.Component {
   componentDidMount() { this.props.onMount() }
 
   render() {
+    const styles = reactCSS({
+      default: {
+        page: {
+          display: 'flex',
+          flexDirection: 'column',
+        },
+        link: {
+          fontSize: 12,
+          textTransform: 'uppercase',
+          textDecoration: 'none',
+          color: '#4990E2',
+        },
+      },
+    })
+    const createChannel = (
+      <Link style={ styles.link } to="create-channel">Create Channel</Link>
+    )
     return (
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
+      <div style={ styles.page }>
         <Wallet />
         <Page>
           <Head
             title="Your Channels"
             body="Channels are like tubes of money used to transfer funds within
             the network"
+            right={ createChannel }
           />
           <ChannelList
             channels={ this.props.channels }

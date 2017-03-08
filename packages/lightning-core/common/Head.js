@@ -1,7 +1,7 @@
 import React from 'react'
 import reactCSS from 'reactcss'
 
-export const Head = ({ title, body }) => {
+export const Head = ({ title, body, right }) => {
   const styles = reactCSS({
     'default': {
       head: {
@@ -12,6 +12,9 @@ export const Head = ({ title, body }) => {
         fontSize: 24,
         color: '#666',
         paddingBottom: 10,
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
       },
       body: {
         fontSize: 16,
@@ -23,7 +26,10 @@ export const Head = ({ title, body }) => {
 
   return (
     <div style={ styles.head }>
-      <div style={ styles.title }>{ title }</div>
+      <div style={ styles.title }>
+        { title }
+        { right }
+      </div>
       <div style={ styles.body }>{ body }</div>
     </div>
   )
