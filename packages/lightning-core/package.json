@@ -20,6 +20,7 @@
     "react-router-dom": "^4.0.0-beta.7",
     "reactcss": "^1.0.8",
     "redux": "^3.6.0",
-    "redux-grpc-middleware": "^0.1.1"
+    "redux-grpc-middleware": "^0.1.1",
+    "redux-selector": "^0.1.0"
   }
 }

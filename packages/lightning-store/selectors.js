@@ -7,10 +7,7 @@ import { selectors as ui } from 'lightning-core/reducers/ui'
 import { selectors as wallets } from 'lightning-core/reducers/wallets'
 import { selectors as notifications } from 'lightning-notifications'
 
-import { selectors as accounts } from 'lightning-core/accounts'
-import { selectors as request } from 'lightning-core/request'
-import { selectors as transactions } from 'lightning-core/transactions'
-
+import { selectors as core } from 'lightning-core'
 import { selectors as forms } from 'lightning-forms'
 import { selectors as popup } from 'lightning-popup'
 
@@ -21,10 +18,8 @@ export default scopeStateToSelectors({
   lnd,
   channels,
   notifications,
+
+  core,
   forms,
   popup,
-
-  accounts,
-  request,
-  transactions,
 })
