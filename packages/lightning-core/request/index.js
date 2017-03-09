@@ -75,6 +75,7 @@ export const Pay = ({ showPopup, closePopup, paymentRequest, address,
       <BitcoinWallet
         address={ address }
         onSuccess={ onSuccess }
+        onShowQR={ showPopup }
         onFetchAddress={ onFetchAddress }
       />
     </div>

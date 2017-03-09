@@ -1,14 +1,17 @@
 import React from 'react'
 import reactCSS from 'reactcss'
 
-import { Icon } from 'lightning-components'
+import { Popup } from 'lightning-popup'
+import { Icon, QRCode } from 'lightning-components'
 import { Input } from '../common'
+
+const QR_CODE = 'QR_CODE'
 
 export class BitcoinWallet extends React.Component {
   componentDidMount() { this.props.onFetchAddress() }
 
   render() {
-    const { address, onSuccess } = this.props
+    const { address, onSuccess, onShowQR } = this.props
 
     const styles = reactCSS({
       'default': {
@@ -33,10 +36,17 @@ export class BitcoinWallet extends React.Component {
           cursor: 'pointer',
           color: '#666',
         },
+        qrPopup: {
+          background: '#fff',
+          borderRadius: 2,
+          width: 300,
+          height: 300,
+        },
       },
     })
 
     const handleCopy = () => onSuccess('Copied to Clipboard')
+    const handleClick = () => onShowQR(QR_CODE)
 
     const label = (
       <div style={ styles.label }>Wallet Address</div>
@@ -44,6 +54,13 @@ export class BitcoinWallet extends React.Component {
 
     return (
       <div style={ styles.wrap }>
+
+        <Popup name={ QR_CODE }>
+          <div style={ styles.qrPopup }>
+            <QRCode address={ address } />
+          </div>
+        </Popup>
+
         <Input
           fullWidth
           selectOnClick
@@ -53,7 +70,7 @@ export class BitcoinWallet extends React.Component {
           value={ address }
         />
         <div style={ styles.icon }>
-          <Icon name="qrcode" />
+          <Icon name="qrcode" onClick={ handleClick } />
         </div>
       </div>
     )
