@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Box, Media, Text } from 'lightning-components'
 import NavFooterAccount from './NavFooterAccount'
-import { Money, MoneySign } from '../common'
+import { Money, MoneySign } from './'
 
-import { total } from '../../helpers/wallet'
+import { total } from '../helpers/wallet'
 
 export const NavFooter = ({ pubkey, currency, balances, onClickAccount }) => {
   return (

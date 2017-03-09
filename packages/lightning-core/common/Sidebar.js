@@ -6,8 +6,8 @@ import { store } from 'lightning-store'
 
 import { Box, Text } from 'lightning-components'
 import { actions as accountActions } from '../accounts'
-import NavLinks from './nav/NavLinks'
-import NavFooter from './nav/NavFooter'
+import NavLinks from './NavLinks'
+import NavFooter from './NavFooter'
 
 export class Sidebar extends React.Component {
   componentDidMount() {

@@ -72,3 +72,5 @@ export default connect(
     pubkey: store.getAccountPubkey(state),
   })
 )(SettingsPage)
+
+export { default as reducer, actions, selectors } from './reducer'

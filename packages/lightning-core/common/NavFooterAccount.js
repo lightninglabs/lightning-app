@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { SidebarItem } from 'lightning-components'
 
-export const NavFooterAccount = ({ onClick, identity, hover }) => {
+export const NavFooterAccount = ({ identity, hover }) => {
   return (
     <Link to={ '/wallets' } style={{ textDecoration: 'none' }}>
       <SidebarItem

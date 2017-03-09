@@ -6,7 +6,6 @@ import { store } from 'lightning-store'
 import { connect } from 'react-redux'
 import { actions as notificationActions } from 'lightning-notifications'
 import { actions } from './reducer'
-import { actions as paymentActions } from '../reducers/payment'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import PaymentRequestPopup, { POPUP_NAME } from './PaymentRequestPopup'
 import BitcoinWallet from './BitcoinWallet'
@@ -89,7 +88,6 @@ export default connect(
   }), {
     showPopup: popupActions.onOpen,
     closePopup: popupActions.onClose,
-    changePR: paymentActions.changeGeneratedPaymentRequest,
     onFetchAddress: actions.fetchAddress,
     onGeneratePaymentRequest: actions.generatePaymentRequest,
     onSuccess: notificationActions.addNotification,

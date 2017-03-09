@@ -1,7 +1,0 @@
-export { default as CurrencyChanger } from './CurrencyChanger'
-export { default as Identity } from './Identity'
-export { default as LiftedCurrencyInput } from './LiftedCurrencyInput'
-export { default as Money } from './Money'
-export { default as MoneyCode } from './MoneyCode'
-export { default as MoneySign } from './MoneySign'
-export { default as Header } from './Header'
