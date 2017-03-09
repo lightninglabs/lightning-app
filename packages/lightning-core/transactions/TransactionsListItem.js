@@ -3,7 +3,7 @@ import reactCSS from 'reactcss'
 
 import { Icon } from 'lightning-components'
 
-export const TransactionsListItem = ({ type, hash, memo, amount }) => {
+export const TransactionsListItem = ({ type, hash, memo, amount, status }) => {
   const styles = reactCSS({
     'default': {
       item: {
