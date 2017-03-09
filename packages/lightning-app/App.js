@@ -8,6 +8,7 @@ import { Sidebar, PayPage, RequestPage, AccountsPage, CreateChannelPage,
   TransactionsPage, SettingsPage } from 'lightning-core'
 import TrafficLights from './TrafficLights'
 
+// eslint-disable-next-line
 export class App extends React.Component {
   render() {
     const styles = reactCSS({
