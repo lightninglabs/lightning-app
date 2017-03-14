@@ -70,8 +70,20 @@ export const actions = {
     //     method: 'listPayments',
     //     types: LIST_PAYMENTS,
     //   },
-    // })
+    // }),
   },
+  subscribeTransactions: () => ({
+    [GRPC]: {
+      method: 'subscribeTransactions',
+      stream: true,
+    },
+  }),
+  subscribeInvoices: () => ({
+    [GRPC]: {
+      method: 'subscribeInvoices',
+      stream: true,
+    },
+  }),
 }
 
 export const selectors = {
