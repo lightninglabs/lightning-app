@@ -6,5 +6,6 @@ export { default as RequestPage } from './request'
 export { default as SettingsPage } from './settings'
 export { default as TransactionsPage } from './transactions'
 export { default as Sidebar } from './common/Sidebar'
+export { default as Streams } from './common/Streams'
 
 export { reducer, selectors } from './reducer'

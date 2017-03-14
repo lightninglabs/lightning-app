@@ -5,7 +5,7 @@ import { Route, Switch, Redirect } from 'react-router-dom'
 import { Box } from 'lightning-components'
 import { Notifications } from 'lightning-notifications'
 import { Sidebar, PayPage, RequestPage, AccountsPage, CreateChannelPage,
-  TransactionsPage, SettingsPage } from 'lightning-core'
+  TransactionsPage, SettingsPage, Streams } from 'lightning-core'
 import TrafficLights from './TrafficLights'
 
 // eslint-disable-next-line
@@ -52,6 +52,7 @@ export class App extends React.Component {
           </Switch>
         </Box>
         <Notifications />
+        <Streams />
       </Box>
     )
   }
