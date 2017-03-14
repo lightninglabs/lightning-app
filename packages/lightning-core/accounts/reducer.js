@@ -10,6 +10,7 @@ export const FETCH_CHANNELS = 'ACCOUNTS/FETCH_CHANNELS'
 export const LIST_PEERS = 'ACCOUNTS/LIST_PEERS'
 export const OPEN_CHANNEL = 'ACCOUNTS/OPEN_CHANNEL'
 export const CONNECT_PEER = 'ACCOUNTS/CONNECT_PEER'
+export const CLOSE_CHANNEL = 'ACCOUNTS/CLOSE_CHANNEL'
 
 const initialState = {
   pubkey: '',
@@ -89,6 +90,7 @@ export const actions = {
           capacity: channel.capacity,
           localBalance: channel.local_balance,
           remoteBalance: channel.remote_balance,
+          channelPoint: channel.channel_point,
           status: 'pending',
         })),
       }),
@@ -153,6 +155,15 @@ export const actions = {
         .catch(rejectError)
     })
   },
+  closeChannel: ({ channelPoint }) => ({
+    [GRPC]: {
+      method: 'closeChannel',
+      types: CLOSE_CHANNEL,
+      body: {
+        channel_point: channelPoint,
+      },
+    },
+  }),
 }
 
 export const selectors = {
