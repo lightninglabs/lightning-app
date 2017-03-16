@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { actions as notificationActions } from 'lightning-notifications'
 import { actions as accountsActions } from '../accounts'
 import { actions as transactionsActions } from '../transactions'
+import { actions as payActions } from '../pay'
 
 export class Streams extends React.Component {
   componentDidMount() {
@@ -24,6 +25,24 @@ export class Streams extends React.Component {
       this.props.onSuccess('Invoice Completed')
       fetchBalance()
     })
+
+    const payments = this.props.onSubscribePayments()
+
+    payments.on('data', (transaction) => {
+      console.log('payment', transaction)
+    })
+
+    payments.on('error', (error) => {
+      console.error('SendPayment Error', error)
+      this.props.onSuccess(error.message)
+    })
+
+    // setTimeout(() => {
+    //   payments.write({
+    //     payment_request: 'yx55qnhmt7pikxipwa7jxej5s7dd7jnyfi11yuebpferre6bf1ceda' +
+    //       '6kjorw1arsm7gnw51cdtusftdw5bs3ygn6q8d9j7nnnw1xwwmyyyyyyyyyyyy8zayq4oiy',
+    //   })
+    // }, 1000)
   }
 
   componentWillUnmount() {
@@ -39,6 +58,7 @@ export default connect(
   () => ({}), {
     onFetchAccount: accountsActions.fetchAccount,
     onFetchBalances: accountsActions.fetchBalances,
+    onSubscribePayments: payActions.subscribePayments,
     onSubscribeTransactions: transactionsActions.subscribeTransactions,
     onSubscribeInvoices: transactionsActions.subscribeInvoices,
     onFetchTransactions: transactionsActions.fetchTransactions,

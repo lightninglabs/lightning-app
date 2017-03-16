@@ -6,6 +6,7 @@ export const DECODE_PAYMENT_REQUEST = 'PAY/DECODE_PAYMENT_REQUEST'
 export const CHECK_PAYMENT_REQUEST = 'PAY/CHECK_PAYMENT_REQUEST'
 export const LIGHTNING_PAYMENT = 'PAY/LIGHTNING_PAYMENT'
 export const BITCOIN_PAYMENT = 'PAY/BITCOIN_PAYMENT'
+export const SUBSCRIBE_PAYMENT = 'PAY/SUBSCRIBE_PAYMENT'
 
 const initialState = {
 
@@ -65,6 +66,13 @@ export const actions = {
         payment_request: paymentRequest,
       },
       types: LIGHTNING_PAYMENT,
+    },
+  }),
+  subscribePayments: () => ({
+    [GRPC]: {
+      method: 'sendPayment',
+      types: SUBSCRIBE_PAYMENT,
+      stream: true,
     },
   }),
 }
