@@ -129,7 +129,9 @@ if (version) {
     if (err) {
       DEFAULT_OPTS.version = '1.2.0'
     } else {
-      DEFAULT_OPTS.version = stdout.split('electron@')[1].replace(/\s/g, '')
+      const regex = /\selectron@(.+)\s/g
+      const ver = regex.exec(stdout)[0]
+      DEFAULT_OPTS.version = ver ? ver.replace('electron@', '') : '1.2.0'
     }
 
     startPack()
