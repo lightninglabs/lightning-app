@@ -40,7 +40,7 @@ export const actions = {
           transactions: _.map(data.transactions, transaction => ({
             id: transaction.tx_hash,
             type: 'bitcoin',
-            amount: transaction.amount * 1000000000, // To SAT
+            amount: transaction.amount,
             status: transaction.num_confirmations < 1 ? 'unconfirmed' : 'confirmed',
             date: new Date(parseInt(transaction.time_stamp, 10)),
             hash: transaction.tx_hash,
