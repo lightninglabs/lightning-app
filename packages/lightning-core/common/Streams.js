@@ -13,9 +13,9 @@ export class Streams extends React.Component {
     const fetchBalance = _.debounce(this.props.onFetchBalances, 2000)
 
     const transactions = this.props.onSubscribeTransactions()
-    transactions.on('data', () => {
+    transactions.on('data', (data) => {
       this.props.onFetchTransactions()
-      this.props.onSuccess('Transaction Completed')
+      this.props.onSuccess(`Transaction ${ data.num_confirmations === 0 ? 'Recieved' : 'Completed' }`)
       fetchBalance()
     })
 
