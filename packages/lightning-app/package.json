@@ -13,7 +13,7 @@
     "lightning-components": "^0.1.0",
     "lightning-notifications": "^0.1.0",
     "react": "^15.4.1",
-    "react-router-dom": "^4.0.0-beta.7",
+    "react-router-dom": "^4.0.0",
     "reactcss": "^1.1.1"
   }
 }
