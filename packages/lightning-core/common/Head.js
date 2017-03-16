@@ -7,6 +7,8 @@ export const Head = ({ title, body, right }) => {
       head: {
         paddingBottom: 30,
         paddingRight: 30,
+        userSelect: 'none',
+        cursor: 'default',
       },
       title: {
         fontSize: 24,

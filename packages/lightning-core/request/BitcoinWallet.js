@@ -30,6 +30,8 @@ export class BitcoinWallet extends React.Component {
           display: 'flex',
           alignItems: 'center',
           color: '#999',
+          userSelect: 'none',
+          cursor: 'default',
         },
         icon: {
           paddingLeft: 20,

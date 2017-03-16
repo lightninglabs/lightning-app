@@ -42,6 +42,8 @@ export const TransactionsListItem = ({ type, hash, memo, amount, status }) => {
         marginTop: 4,
         fontSize: 13,
         color: '#999',
+        userSelect: 'none',
+        cursor: 'default',
       },
       overflow: {
         whiteSpace: 'nowrap',

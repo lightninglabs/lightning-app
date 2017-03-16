@@ -15,6 +15,8 @@ export const Wallet = ({ pubkey, balances }) => {
       title: {
         color: 'rgba(0,0,0,0.4)',
         fontSize: 24,
+        userSelect: 'none',
+        cursor: 'default',
       },
       details: {
         display: 'flex',
@@ -50,6 +52,8 @@ export const Wallet = ({ pubkey, balances }) => {
         whiteSpace: 'nowrap',
         marginRight: 10,
         width: 100,
+        userSelect: 'none',
+        cursor: 'default',
       },
       count: {
         flex: 1,

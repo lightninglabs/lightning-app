@@ -24,6 +24,8 @@ const App = () => {
       sidebar: {
         direction: 'column',
         WebkitAppRegion: 'drag',
+        userSelect: 'none',
+        cursor: 'default',
         width: '170px',
         color: 'white',
       },

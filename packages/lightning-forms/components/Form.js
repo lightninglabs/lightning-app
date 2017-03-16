@@ -45,6 +45,10 @@ class Form extends React.Component {
 
     const styles = reactCSS({
       'default': {
+        form: {
+          userSelect: 'none',
+          cursor: 'default',
+        },
         field: {
           paddingBottom: spacing,
         },

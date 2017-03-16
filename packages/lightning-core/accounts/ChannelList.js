@@ -21,6 +21,8 @@ export const ChannelList = ({ channels, loading }) => {
         alignItems: 'center',
         justifyContent: 'center',
         color: '#bbb',
+        userSelect: 'none',
+        cursor: 'default',
       },
       emptyLabel: {
         fontSize: 24,
