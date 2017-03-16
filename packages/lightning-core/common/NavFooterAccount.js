@@ -6,7 +6,7 @@ import { SidebarItem } from 'lightning-components'
 
 export const NavFooterAccount = ({ identity, hover }) => {
   return (
-    <Link to={ '/wallets' } style={{ textDecoration: 'none' }}>
+    <Link to={ '/accounts' } style={{ textDecoration: 'none' }}>
       <SidebarItem
         icon="account-circle"
         display="block"
