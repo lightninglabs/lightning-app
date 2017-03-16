@@ -1,17 +1,31 @@
 syntax = "proto3";
 
+// import "google/api/annotations.proto";
 
 package lnrpc;
 
 service Lightning {
     rpc WalletBalance(WalletBalanceRequest) returns (WalletBalanceResponse) {
+        option (google.api.http) = {
+            get: "/v1/balance/blockchain"
+        };
     }
     rpc ChannelBalance(ChannelBalanceRequest) returns (ChannelBalanceResponse) {
+        option (google.api.http) = {
+            get: "/v1/balance/channels"
+        };
     }
 
     rpc GetTransactions(GetTransactionsRequest) returns (TransactionDetails) {
+        option (google.api.http) = {
+            get: "/v1/transactions"
+        };
     }
     rpc SendCoins(SendCoinsRequest) returns (SendCoinsResponse) {
+        option (google.api.http) = {
+            post: "/v1/transactions"
+            body: "*"
+        };
     }
     rpc SubscribeTransactions(GetTransactionsRequest) returns (stream Transaction);
 
@@ -19,64 +33,133 @@ service Lightning {
 
     rpc NewAddress(NewAddressRequest) returns (NewAddressResponse);
     rpc NewWitnessAddress(NewWitnessAddressRequest) returns (NewAddressResponse) {
+        option (google.api.http) = {
+            get: "/v1/newaddress"
+        };
     }
 
     rpc ConnectPeer(ConnectPeerRequest) returns (ConnectPeerResponse) {
+        option (google.api.http) = {
+            post: "/v1/peers"
+            body: "*"
+        };
     }
     rpc ListPeers(ListPeersRequest) returns (ListPeersResponse) {
+        option (google.api.http) = {
+            get: "/v1/peers"
+        };
     }
     rpc GetInfo(GetInfoRequest) returns (GetInfoResponse) {
+        option (google.api.http) = {
+            get: "/v1/getinfo"
+        };
     }
 
     // TODO(roasbeef): merge with below with bool?
     rpc PendingChannels(PendingChannelRequest) returns (PendingChannelResponse) {
+        option (google.api.http) = {
+           get: "/v1/channels/pending"
+        };
     }
     rpc ListChannels(ListChannelsRequest) returns (ListChannelsResponse) {
+        option (google.api.http) = {
+            get: "/v1/channels"
+        };
     }
     rpc OpenChannelSync(OpenChannelRequest) returns (ChannelPoint) {
+        option (google.api.http) = {
+            post: "/v1/channels"
+            body: "*"
+        };
     }
 
     rpc OpenChannel(OpenChannelRequest) returns (stream OpenStatusUpdate);
 
     rpc CloseChannel(CloseChannelRequest) returns (stream CloseStatusUpdate) {
+        option (google.api.http) = {
+            delete: "/v1/channels/{channel_point.funding_txid}/{channel_point.output_index}/{force}"
+        };
     }
 
     rpc SendPayment(stream SendRequest) returns (stream SendResponse);
 
     rpc SendPaymentSync(SendRequest) returns (SendResponse) {
+        option (google.api.http) = {
+            post: "/v1/channels/transactions"
+            body: "*"
+        };
     }
 
     rpc AddInvoice(Invoice) returns (AddInvoiceResponse) {
+        option (google.api.http) = {
+            post: "/v1/invoices"
+            body: "*"
+        };
     }
     rpc ListInvoices(ListInvoiceRequest) returns (ListInvoiceResponse) {
+        option (google.api.http) = {
+            get: "/v1/invoices/{pending_only}"
+        };
     }
     rpc LookupInvoice(PaymentHash) returns (Invoice) {
+        option (google.api.http) = {
+            get: "/v1/invoices/{r_hash_str}"
+        };
     }
     rpc SubscribeInvoices(InvoiceSubscription) returns (stream Invoice) {
+        option (google.api.http) = {
+            get: "/v1/invoices/subscribe"
+        };
     }
     rpc DecodePayReq(PayReqString) returns (PayReq) {
+        option (google.api.http) = {
+            get: "/v1/payreq/{pay_req}"
+        };
     }
 
     rpc ListPayments(ListPaymentsRequest) returns (ListPaymentsResponse){
+        option (google.api.http) = {
+            get: "/v1/payments"
+        };
     };
 
     rpc DeleteAllPayments(DeleteAllPaymentsRequest) returns (DeleteAllPaymentsResponse) {
+        option (google.api.http) = {
+            delete: "/v1/payments"
+        };
     };
 
     rpc DescribeGraph(ChannelGraphRequest) returns (ChannelGraph) {
+        option (google.api.http) = {
+            get: "/v1/graph"
+        };
     }
 
     rpc GetChanInfo(ChanInfoRequest) returns (ChannelEdge) {
+        option (google.api.http) = {
+            get: "/v1/graph/edge/{chan_id}"
+        };
     }
 
     rpc GetNodeInfo(NodeInfoRequest) returns (NodeInfo) {
+        option (google.api.http) = {
+            get: "/v1/graph/node/{pub_key}"
+        };
     }
 
     rpc QueryRoute(RouteRequest) returns (Route) {
+        option (google.api.http) = {
+            get: "/v1/graph/route/{pub_key}/{amt}"
+        };
     }
 
     rpc GetNetworkInfo(NetworkInfoRequest) returns (NetworkInfo) {
+        option (google.api.http) = {
+            get: "/v1/graph/info"
+        };
     }
+
+    rpc SubscribeChannelGraph(GraphTopologySubscription) returns (stream GraphTopologyUpdate);
 
     rpc SetAlias(SetAliasRequest) returns (SetAliasResponse);
 
@@ -85,7 +168,7 @@ service Lightning {
 
 message Transaction {
     string tx_hash = 1 [ json_name = "tx_hash" ];
-    double amount = 2 [ json_name = "amount" ];
+    int64 amount = 2 [ json_name = "amount" ];
     int32 num_confirmations = 3 [ json_name = "num_confirmations" ];
     string block_hash = 4 [ json_name = "block_hash" ];
     int32 block_height = 5 [ json_name = "block_height" ];
@@ -115,6 +198,7 @@ message SendResponse {
 }
 
 message ChannelPoint {
+    // TODO(roasbeef): make str vs bytes into a oneof
     bytes funding_txid = 1 [ json_name = "funding_txid" ];
     string funding_txid_str = 2 [ json_name = "funding_txid_str" ];
     uint32 output_index = 3 [ json_name = "output_index" ];
@@ -170,20 +254,21 @@ message HTLC {
 }
 
 message ActiveChannel {
-    string remote_pubkey = 1 [ json_name = "remote_pubkey" ];
-    string channel_point = 2 [ json_name = "channel_point" ];
-    uint64 chan_id = 3 [ json_name = "chan_id" ];
+    bool active = 1 [ json_name = "active" ];
+    string remote_pubkey = 2 [ json_name = "remote_pubkey" ];
+    string channel_point = 3 [ json_name = "channel_point" ];
+    uint64 chan_id = 4 [ json_name = "chan_id" ];
 
-    int64 capacity = 4 [ json_name = "capacity" ];
-    int64 local_balance = 5 [ json_name = "local_balance" ];
-    int64 remote_balance = 6 [ json_name = "remote_balance" ];
+    int64 capacity = 5 [ json_name = "capacity" ];
+    int64 local_balance = 6 [ json_name = "local_balance" ];
+    int64 remote_balance = 7 [ json_name = "remote_balance" ];
 
-    int64 unsettled_balance = 7 [ json_name = "unsettled_balance" ];
-    int64 total_satoshis_sent = 8 [ json_name = "total_satoshis_sent" ];
-    int64 total_satoshis_received = 9 [ json_name = "total_satoshis_received" ];
-    uint64 num_updates = 10 [ json_name = "num_updates" ];
+    int64 unsettled_balance = 8 [ json_name = "unsettled_balance" ];
+    int64 total_satoshis_sent = 9 [ json_name = "total_satoshis_sent" ];
+    int64 total_satoshis_received = 10 [ json_name = "total_satoshis_received" ];
+    uint64 num_updates = 11 [ json_name = "num_updates" ];
 
-    repeated HTLC pending_htlcs = 11 [ json_name = "pending_htlcs" ];
+    repeated HTLC pending_htlcs = 12 [ json_name = "pending_htlcs" ];
 }
 
 message ListChannelsRequest {}
@@ -408,6 +493,37 @@ message NetworkInfo {
 
     // TODO(roasbeef): fee rate info, expiry
     //  * also additional RPC for tracking fee info once in
+}
+
+message GraphTopologySubscription {}
+message GraphTopologyUpdate {
+    repeated NodeUpdate node_updates = 1;
+    repeated ChannelEdgeUpdate channel_updates = 2;
+    repeated ClosedChannelUpdate closed_chans = 3;
+}
+message NodeUpdate {
+    repeated string addresses = 1;
+    string identity_key = 2;
+    bytes global_features = 3;
+    string alias = 4;
+}
+message ChannelEdgeUpdate {
+    uint64 chan_id = 1;
+
+    ChannelPoint chan_point = 2;
+
+    int64 capacity = 3;
+
+    RoutingPolicy routing_policy  = 4;
+
+    string advertising_node  = 5;
+    string connecting_node = 6;
+}
+message ClosedChannelUpdate {
+    uint64 chan_id = 1;
+    int64 capacity = 2;
+    uint32 closed_height = 3;
+    ChannelPoint chan_point = 4;
 }
 
 message SetAliasRequest {
