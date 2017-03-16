@@ -28,7 +28,6 @@ export const SettingsPage = ({ logs, pubkey }) => {
         flex: 1,
         padding: 'medium',
         overflowX: 'auto',
-        WebkitAppRegion: 'no-drag',
         zDepth: 1,
         width: '100%',
         boxSizing: 'border-box',

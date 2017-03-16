@@ -14,7 +14,6 @@ const App = () => {
       app: {
         direction: 'row',
         absolute: '0 0 0 0',
-        WebkitAppRegion: 'drag',
         fontFamily: '"Roboto", "Helvetica", sans-serif',
         overflow: 'hidden',
       },
@@ -24,6 +23,7 @@ const App = () => {
       },
       sidebar: {
         direction: 'column',
+        WebkitAppRegion: 'drag',
         width: '170px',
         color: 'white',
       },
