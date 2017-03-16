@@ -26,16 +26,16 @@ export class Streams extends React.Component {
       fetchBalance()
     })
 
-    const payments = this.props.onSubscribePayments()
-
-    payments.on('data', (transaction) => {
-      console.log('payment', transaction)
-    })
-
-    payments.on('error', (error) => {
-      console.error('SendPayment Error', error)
-      this.props.onSuccess(error.message)
-    })
+    // const payments = this.props.onSubscribePayments()
+    //
+    // payments.on('data', (transaction) => {
+    //   console.log('payment', transaction)
+    // })
+    //
+    // payments.on('error', (error) => {
+    //   console.error('SendPayment Error', error)
+    //   this.props.onSuccess(error.message)
+    // })
 
     // setTimeout(() => {
     //   payments.write({
