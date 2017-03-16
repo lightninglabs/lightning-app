@@ -18,6 +18,10 @@ const App = () => {
         fontFamily: '"Roboto", "Helvetica", sans-serif',
         overflow: 'hidden',
       },
+      lights: {
+        paddingTop: 'medium',
+        paddingLeft: 'medium',
+      },
       sidebar: {
         direction: 'column',
         width: '170px',
@@ -35,10 +39,12 @@ const App = () => {
   return (
     <Box style={ styles.app }>
       <Box style={ styles.sidebar }>
-        <TrafficLights
-          background="#666"
-          color="#999"
-        />
+        <Box style={ styles.lights }>
+          <TrafficLights
+            background="#666"
+            color="#272429"
+          />
+        </Box>
         <Sidebar />
       </Box>
       <Box style={ styles.content }>
