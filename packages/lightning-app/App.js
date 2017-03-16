@@ -6,7 +6,7 @@ import { Box } from 'lightning-components'
 import { Notifications } from 'lightning-notifications'
 import { Sidebar, PayPage, RequestPage, AccountsPage, CreateChannelPage,
   TransactionsPage, SettingsPage, Streams } from 'lightning-core'
-import TrafficLights from './TrafficLights'
+import { TrafficLights } from '@components/electron'
 
 // eslint-disable-next-line
 export class App extends React.Component {
@@ -37,7 +37,10 @@ export class App extends React.Component {
     return (
       <Box style={ styles.app }>
         <Box style={ styles.sidebar }>
-          <TrafficLights />
+          <TrafficLights
+            background="#666"
+            color="#999"
+          />
           <Sidebar />
         </Box>
         <Box style={ styles.content }>
