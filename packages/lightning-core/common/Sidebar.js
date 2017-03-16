@@ -59,7 +59,18 @@ export class Sidebar extends React.Component {
             onClickAccount={ navigateToSubpage }
           />
           { isSynced ? null : (
-            <Box style={ styles.synced }>
+            <Box style={ styles.synced } className="syncing">
+              <style
+                dangerouslySetInnerHTML={{ __html: `
+                .syncing {
+                  animation: pulse 1.5s ease-in-out infinite alternate;
+                }
+                @keyframes pulse {
+                  0% { opacity: 1 }
+                  50% { opacity: 0.8 }
+                  100% { opacity: 1 }
+                }` }}
+              />
               <Text style={ styles.syncedText }>Syncing to Chain</Text>
             </Box>
           ) }

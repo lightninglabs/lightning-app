@@ -144,7 +144,7 @@ export const Box = (props) => {
   const Tag = props.tag || 'div'
 
   return (
-    <Tag style={ styles.box } onClick={ props.onClick }>
+    <Tag style={ styles.box } onClick={ props.onClick } className={ props.className }>
       { props.children }
     </Tag>
   )
