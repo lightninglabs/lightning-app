@@ -171,25 +171,14 @@ export const actions = {
 
           if (peer) {
             const call = dispatch(actions.openChannel({ pubkey, amount }))
-            call.on('data', (data) => {
-              console.log('openChannel', data)
-            })
-            call.on('error', (error) => {
-              console.log('openChannel', error)
-            })
+            call.on('data', () => dispatch(notificationActions.addNotification('Channel Opened')))
+            call.on('error', rejectError)
           } else {
             dispatch(actions.connectPeer({ host, pubkey }))
               .then(() => {
                 const call = dispatch(actions.openChannel({ pubkey, amount }))
-                call.on('data', (data) => {
-                  console.log('openChannel', data)
-                })
-                call.on('error', (error) => {
-                  console.log('openChannel', error)
-                })
-                // dispatch(actions.openChannel({ pubkey, amount }))
-                //   .then(resolve)
-                //   .catch(rejectError)
+                call.on('data', () => dispatch(notificationActions.addNotification('Channel Opened')))
+                call.on('error', rejectError)
               })
               .catch(rejectError)
           }
