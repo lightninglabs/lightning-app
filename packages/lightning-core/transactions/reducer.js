@@ -3,6 +3,7 @@ import { GRPC } from 'redux-grpc-middleware'
 import { toHash } from '../helpers'
 
 export const REQUEST = 'TRANSACTIONS/REQUEST'
+export const REQUEST_ERROR = 'TRANSACTIONS/REQUEST_ERROR'
 export const GET_TRANSACTIONS = 'TRANSACTIONS/GET_TRANSACTIONS'
 export const LIST_INVOICES = 'TRANSACTIONS/LIST_INVOICES'
 export const LIST_PAYMENTS = 'TRANSACTIONS/LIST_PAYMENTS'
@@ -35,7 +36,7 @@ export const actions = {
     dispatch({
       [GRPC]: {
         method: 'getTransactions',
-        types: [REQUEST, GET_TRANSACTIONS],
+        types: [REQUEST, GET_TRANSACTIONS, REQUEST_ERROR],
         schema: data => ({
           transactions: _.map(data.transactions, transaction => ({
             id: transaction.tx_hash,
@@ -51,7 +52,7 @@ export const actions = {
     dispatch({
       [GRPC]: {
         method: 'listInvoices',
-        types: [REQUEST, LIST_INVOICES],
+        types: [REQUEST, LIST_INVOICES, REQUEST_ERROR],
         schema: data => ({
           transactions: _.map(data.invoices, invoice => ({
             id: invoice.creation_date,
