@@ -22,6 +22,7 @@ export class Accounts extends React.Component {
         page: {
           display: 'flex',
           flexDirection: 'column',
+          flex: 1,
         },
         link: {
           fontSize: 12,
