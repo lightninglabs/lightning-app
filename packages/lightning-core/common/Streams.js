@@ -24,6 +24,8 @@ export class Streams extends React.Component {
         .catch(console.error)
       this.props.onFetchChannels()
         .catch(console.error)
+      this.props.onFetchAccount()
+        .catch(console.error)
       this.props.onSuccess(`Transaction ${ data.num_confirmations === 0 ? 'Recieved' : 'Completed' }`)
       fetchBalance()
     })
@@ -31,6 +33,8 @@ export class Streams extends React.Component {
     const invoices = this.props.onSubscribeInvoices()
     invoices.on('data', () => {
       this.props.onFetchTransactions()
+        .catch(console.error)
+      this.props.onFetchAccount()
         .catch(console.error)
       this.props.onSuccess('Invoice Completed')
       fetchBalance()
