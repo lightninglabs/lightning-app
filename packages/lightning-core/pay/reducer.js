@@ -30,6 +30,10 @@ export const actions = {
   }),
   makePayment: ({ address, amount }) => (dispatch) => {
     return new Promise((resolve, reject) => {
+      const resolveSuccess = () => {
+        dispatch(notificationActions.addNotification('Payment Sent'))
+        resolve('Payment Sent')
+      }
       const rejectError = (err) => {
         dispatch(notificationActions.addNotification(err.message))
         reject(err.message)
@@ -38,18 +42,19 @@ export const actions = {
 
       dispatch(actions.decodePaymentRequest({ paymentRequest }))
         .then(() => {
-          dispatch(actions.onLightningPayment({ paymentRequest }))
-            .then(resolve)
-            .catch(rejectError)
+          const payments = dispatch(actions.sendPayment())
+          payments.on('data', resolveSuccess)
+          payments.on('error', rejectError)
+          payments.write({ payment_request: paymentRequest })
         })
         .catch(() => {
-          dispatch(actions.bitcoinPayment({ address, amount }))
+          dispatch(actions.sendCoins({ address, amount }))
             .then(resolve)
             .catch(rejectError)
         })
     })
   },
-  bitcoinPayment: ({ address, amount }) => ({
+  sendCoins: ({ address, amount }) => ({
     [GRPC]: {
       method: 'sendCoins',
       body: {
@@ -59,13 +64,11 @@ export const actions = {
       types: BITCOIN_PAYMENT,
     },
   }),
-  lightningPayment: ({ paymentRequest }) => ({
+  sendPayment: () => ({
     [GRPC]: {
       method: 'sendPayment',
-      body: {
-        payment_request: paymentRequest,
-      },
       types: LIGHTNING_PAYMENT,
+      stream: true,
     },
   }),
   subscribePayments: () => ({
