@@ -18,6 +18,7 @@ export default (state = initialState, action) => {
       return { ...state, loading: true }
     case GET_TRANSACTIONS:
     case LIST_INVOICES:
+    case LIST_PAYMENTS:
       return {
         ...state,
         loading: false,
@@ -66,12 +67,22 @@ export const actions = {
         }),
       },
     })
-    // dispatch({
-    //   [GRPC]: {
-    //     method: 'listPayments',
-    //     types: LIST_PAYMENTS,
-    //   },
-    // }),
+    dispatch({
+      [GRPC]: {
+        method: 'listPayments',
+        types: LIST_PAYMENTS,
+        schema: data => ({
+          transactions: _.map(data.payments, payment => ({
+            id: payment.creation_date,
+            type: 'lightning',
+            amount: payment.value,
+            status: 'complete',
+            date: new Date(parseInt(payment.creation_date, 10)),
+            hash: payment.payment_hash,
+          })),
+        }),
+      },
+    })
   },
   subscribeTransactions: () => ({
     [GRPC]: {
