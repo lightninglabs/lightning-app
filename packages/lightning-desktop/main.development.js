@@ -56,6 +56,7 @@ const processes = [
       '--rpcpass=kek',
       '--simnet',
       '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w',
+      '--txindex',
     ],
   },
 ]
