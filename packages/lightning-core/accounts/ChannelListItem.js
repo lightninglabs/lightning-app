@@ -11,8 +11,8 @@ import { Prompt } from '../common'
 
 const { Menu, MenuItem } = remote
 
-export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
-  channelPoint, onShowPopup, onClosePopup, onCloseChannel, onSuccess }) => {
+export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance, active,
+  status, channelPoint, onShowPopup, onClosePopup, onCloseChannel, onSuccess }) => {
   const styles = reactCSS({
     'default': {
       channel: {
@@ -28,6 +28,10 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
       id: {
         color: '#333',
         fontSize: 20,
+      },
+      active: {
+        color: '#4990e2',
+        marginRight: 10,
       },
       status: {
         fontSize: 13,
@@ -74,7 +78,12 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
     <div style={ styles.channel } onContextMenu={ handleMenu }>
       <div style={ styles.split }>
         <div style={ styles.id }>{ id }</div>
-        <div style={ styles.status }>{ status }</div>
+        <div style={ styles.status }>
+          { active ? (
+            <div style={ styles.active }>{ active }</div>
+          ) : null }
+          { status }
+        </div>
       </div>
 
       <div style={ styles.split }>

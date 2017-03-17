@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
     case FETCH_CHANNELS:
       return {
         ...state,
-        channels: _.uniq([...state.channels, ...action.channels], 'id'),
+        channels: _.uniqBy([...state.channels, ...action.channels], 'id'),
         loadingChannels: false,
       }
     default: return state
@@ -115,7 +115,8 @@ export const actions = {
           localBalance: channel.local_balance,
           remoteBalance: channel.remote_balance,
           channelPoint: channel.channel_point,
-          status: 'pending',
+          active: channel.active,
+          status: 'open',
         })),
       }),
     },
