@@ -38,7 +38,7 @@ class Form extends React.Component {
 
   render() {
     const { submitLabel, clearLabel, name, combinedFields, spacing,
-      onError, onSuccess, editForm, clearForm, setFormErrors } = this.props
+      onError, onSuccess, editForm, clearForm, setFormErrors, onChange } = this.props
 
     const wasEdited = _.some(combinedFields, 'value')
     const canSubmit = _(combinedFields).filter('required').every('value')
@@ -99,7 +99,10 @@ class Form extends React.Component {
 
     const handleClear = () => clearForm(name)
 
-    const handleFieldChange = change => editForm(name, change)
+    const handleFieldChange = (change) => {
+      onChange && onChange(change)
+      editForm(name, change)
+    }
 
     return (
       <div style={ styles.form }>

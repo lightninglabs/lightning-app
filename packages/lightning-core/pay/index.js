@@ -1,11 +1,12 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { Form } from 'lightning-forms'
+import { Form, actions as formActions } from 'lightning-forms'
 import { actions } from './reducer'
 import { CurrencyInput, Head, Input, Page } from '../common'
+import { sanitizePaymentRequest } from '../helpers'
 
-export const Pay = ({ onMakePayment }) => {
+export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm }) => {
   const fields = [
     {
       name: 'address',
@@ -30,6 +31,18 @@ export const Pay = ({ onMakePayment }) => {
     console.log('error', errors)
   }
 
+  const handleChange = (change) => {
+    if (change.address) {
+      const paymentRequest = sanitizePaymentRequest(change.address)
+      onDecodePaymentRequest({ paymentRequest })
+        .then((decoded) => {
+          const amount = decoded.num_satoshis
+          onEditForm('pay', { amount })
+        })
+        .catch(console.error)
+    }
+  }
+
   return (
     <Page>
       <Head
@@ -42,6 +55,7 @@ export const Pay = ({ onMakePayment }) => {
         fields={ fields }
         submitLabel="Send Payment"
         clearLabel="Cancel"
+        onChange={ handleChange }
         onSuccess={ handleSuccess }
         onError={ handleError }
       />
@@ -52,6 +66,8 @@ export const Pay = ({ onMakePayment }) => {
 export default connect(
   () => ({}), {
     onMakePayment: actions.makePayment,
+    onDecodePaymentRequest: actions.decodePaymentRequest,
+    onEditForm: formActions.editForm,
   }
 )(Pay)
 
