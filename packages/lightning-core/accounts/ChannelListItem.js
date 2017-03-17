@@ -71,7 +71,21 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
         display: 'inline-block',
       },
     },
-  }, { hover })
+    'pending': {
+      id: {
+        color: '#999',
+      },
+      local: {
+        color: '#999',
+      },
+      remote: {
+        color: '#999',
+      },
+      percent: {
+        background: 'light-gray',
+      },
+    },
+  }, { hover, pending: status !== 'open' })
 
   const PROMPT = 'CHANNEL_LIST/PROMPT'
 
