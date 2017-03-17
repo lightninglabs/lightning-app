@@ -89,15 +89,19 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
 
   const PROMPT = 'CHANNEL_LIST/PROMPT'
 
+  // eslint-disable-next-line
+  const close = ({ channelPoint }) => {
+    const call = onCloseChannel({ channelPoint })
+    call.on('data', () => onSuccess('Channel Closed'))
+    call.on('error', err => onSuccess(err.message))
+  }
   const showPopupOrClose = () =>
-    (active ? onCloseChannel({ channelPoint }) : onShowPopup(PROMPT))
+    (active ? close({ channelPoint }) : onShowPopup(PROMPT))
   const menu = new Menu()
   menu.append(new MenuItem({ label: 'Close Channel', click() { showPopupOrClose() } }))
   const handleMenu = () => menu.popup(remote.getCurrentWindow())
   const handleClose = () => {
-    const call = onCloseChannel({ channelPoint })
-    call.on('data', () => onSuccess('Channel Closed'))
-    call.on('error', err => onSuccess(err.message))
+    close({ channelPoint })
     onClosePopup(PROMPT)
   }
   const handleCancel = () => onClosePopup(PROMPT)

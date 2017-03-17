@@ -25,6 +25,8 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm }) => {
   const handleSuccess = ({ address, amount }, clear) => {
     onMakePayment({ address, amount })
       .then(clear)
+      // eslint-disable-next-line no-console
+      .catch(console.error)
   }
 
   const handleError = (errors) => {

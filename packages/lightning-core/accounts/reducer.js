@@ -85,6 +85,8 @@ export const actions = {
         },
       })
     })
+    // eslint-disable-next-line no-console
+    .catch(console.error)
   },
   pendingChannels: () => ({
     [GRPC]: {

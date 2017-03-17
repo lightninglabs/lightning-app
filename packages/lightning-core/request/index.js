@@ -28,6 +28,8 @@ export const Pay = ({ showPopup, closePopup, paymentRequest, address,
 
   const handleSuccess = ({ amount, note }, clear) => {
     onGeneratePaymentRequest({ amount, note })
+      // eslint-disable-next-line no-console
+      .catch(console.error)
     showPopup(POPUP_NAME)
     clear()
   }

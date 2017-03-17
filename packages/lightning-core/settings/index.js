@@ -41,7 +41,6 @@ export const SettingsPage = ({ logs, pubkey }) => {
     },
   })
 
-
   return (
     <Box style={ styles.page }>
       { pubkey ? (

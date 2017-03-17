@@ -1,3 +1,4 @@
+/* eslint-disable no-console, react/no-danger */
 import React from 'react'
 import reactCSS from 'reactcss'
 import { connect } from 'react-redux'
@@ -12,6 +13,7 @@ import NavFooter from './NavFooter'
 export class Sidebar extends React.Component {
   componentDidMount() {
     this.props.fetchAccount()
+      .catch(console.error)
     this.props.location.pathname !== '/accounts' && this.props.fetchBalances()
   }
 

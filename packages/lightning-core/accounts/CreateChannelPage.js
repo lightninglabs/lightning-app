@@ -1,5 +1,4 @@
 import React from 'react'
-import reactCSS from 'reactcss'
 import { connect } from 'react-redux'
 import { Form } from 'lightning-forms'
 import { actions } from './reducer'
@@ -22,24 +21,11 @@ export const CreateChannelPage = ({ createChannel }) => {
     },
   ]
 
-  const styles = reactCSS({
-    default: {
-      page: {
-        display: 'flex',
-        flexDirection: 'column',
-      },
-      link: {
-        fontSize: 12,
-        textTransform: 'uppercase',
-        textDecoration: 'none',
-        color: '#4990E2',
-      },
-    },
-  })
-
   const handleSuccess = ({ ip, amount }, clear) => {
     createChannel({ ip, amount })
       .then(clear)
+      // eslint-disable-next-line no-console
+      .catch(console.error)
   }
 
   return (

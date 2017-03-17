@@ -31,7 +31,6 @@ export const ChannelList = ({ channels, loading }) => {
     },
   })
 
-
   return (
     <div style={ styles.list }>
       { _.map(channels, (channel, i) => (
