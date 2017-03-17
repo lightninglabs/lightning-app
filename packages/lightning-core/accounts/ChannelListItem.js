@@ -1,18 +1,19 @@
 import React from 'react'
-import reactCSS from 'reactcss'
+import reactCSS, { handleHover } from 'reactcss'
 import { remote } from 'electron'
 import { connect } from 'react-redux'
 import { actions as notificationActions } from 'lightning-notifications'
 
-import { Box } from 'lightning-components'
+import { Box, Icon } from 'lightning-components'
 import { Popup, actions as popupActions } from 'lightning-popup'
 import { actions } from './reducer'
 import { Prompt } from '../common'
 
 const { Menu, MenuItem } = remote
 
-export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance, active,
-  status, channelPoint, onShowPopup, onClosePopup, onCloseChannel, onSuccess }) => {
+export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
+  active, status, hover, channelPoint, onShowPopup, onClosePopup, onCloseChannel,
+  onSuccess }) => {
   const styles = reactCSS({
     'default': {
       channel: {
@@ -28,6 +29,14 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance, act
       id: {
         color: '#333',
         fontSize: 20,
+        display: 'flex',
+      },
+      closeLabel: {
+        color: '#ce5c6a',
+        marginLeft: 10,
+        display: 'none',
+        height: 20,
+        cursor: 'pointer',
       },
       active: {
         color: '#4990e2',
@@ -57,12 +66,19 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance, act
         borderRadius: 2,
       },
     },
-  })
+    'hover': {
+      closeLabel: {
+        display: 'inline-block',
+      },
+    },
+  }, { hover })
 
   const PROMPT = 'CHANNEL_LIST/PROMPT'
 
+  const showPopupOrClose = () =>
+    (active ? onCloseChannel({ channelPoint }) : onShowPopup(PROMPT))
   const menu = new Menu()
-  menu.append(new MenuItem({ label: 'Close Channel', click() { onShowPopup(PROMPT) } }))
+  menu.append(new MenuItem({ label: 'Close Channel', click() { showPopupOrClose() } }))
   const handleMenu = () => menu.popup(remote.getCurrentWindow())
   const handleClose = () => {
     const call = onCloseChannel({ channelPoint })
@@ -77,10 +93,15 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance, act
   return (
     <div style={ styles.channel } onContextMenu={ handleMenu }>
       <div style={ styles.split }>
-        <div style={ styles.id }>{ id }</div>
+        <div style={ styles.id }>
+          { id }
+          <div style={ styles.closeLabel } onClick={ showPopupOrClose }>
+            <Icon small name="close" />
+          </div>
+        </div>
         <div style={ styles.status }>
           { active ? (
-            <div style={ styles.active }>{ active }</div>
+            <span style={ styles.active }>{ active }</span>
           ) : null }
           { status }
         </div>
@@ -116,4 +137,4 @@ export default connect(
     onCloseChannel: actions.closeChannel,
     onSuccess: notificationActions.addNotification,
   }
-)(ChannelListItem)
+)(handleHover(ChannelListItem))
