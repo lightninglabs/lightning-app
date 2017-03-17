@@ -11,9 +11,7 @@ export class Streams extends React.Component {
     this.interval = setInterval(() => {
       // POLL
       this.props.onFetchAccount()
-        .catch(console.error)
       this.props.onFetchChannels()
-        .catch(console.error)
     }, 20000)
 
     const fetchBalance = _.debounce(this.props.onFetchBalances, 2000)
@@ -21,11 +19,8 @@ export class Streams extends React.Component {
     const transactions = this.props.onSubscribeTransactions()
     transactions.on('data', (data) => {
       this.props.onFetchTransactions()
-        .catch(console.error)
       this.props.onFetchChannels()
-        .catch(console.error)
       this.props.onFetchAccount()
-        .catch(console.error)
       this.props.onSuccess(`Transaction ${ data.num_confirmations === 0 ? 'Recieved' : 'Completed' }`)
       fetchBalance()
     })
@@ -33,9 +28,7 @@ export class Streams extends React.Component {
     const invoices = this.props.onSubscribeInvoices()
     invoices.on('data', () => {
       this.props.onFetchTransactions()
-        .catch(console.error)
       this.props.onFetchAccount()
-        .catch(console.error)
       this.props.onSuccess('Invoice Completed')
       fetchBalance()
     })
