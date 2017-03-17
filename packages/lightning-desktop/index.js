@@ -5,6 +5,10 @@ import { HashRouter } from 'react-router-dom'
 import 'normalize.css'
 import { configureStore } from 'lightning-store'
 import { App } from 'lightning-app'
+import { remote } from 'electron'
+
+// Release the callbacks on app startup
+remote.getCurrentWindow().removeAllListeners()
 
 const store = configureStore()
 
