@@ -50,6 +50,7 @@ export const actions = {
         }),
       },
     })
+    .catch(() => {})
     dispatch({
       [GRPC]: {
         method: 'listInvoices',
@@ -67,6 +68,7 @@ export const actions = {
         }),
       },
     })
+    .catch(() => {})
     dispatch({
       [GRPC]: {
         method: 'listPayments',
@@ -83,6 +85,7 @@ export const actions = {
         }),
       },
     })
+    .catch(() => {})
   },
   subscribeTransactions: () => ({
     [GRPC]: {
