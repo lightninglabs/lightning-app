@@ -7,6 +7,7 @@ export const FETCH_BALANCES = 'ACCOUNTS/FETCH_BALANCES'
 export const SET_BALANCES = 'ACCOUNTS/SET_BALANCES'
 export const REQUEST_CHANNELS = 'ACCOUNTS/REQUEST_CHANNELS'
 export const FETCH_CHANNELS = 'ACCOUNTS/FETCH_CHANNELS'
+export const FETCH_CHANNELS_FAILURE = 'ACCOUNTS/FETCH_CHANNELS_FAILURE'
 export const LIST_PEERS = 'ACCOUNTS/LIST_PEERS'
 export const OPEN_CHANNEL = 'ACCOUNTS/OPEN_CHANNEL'
 export const CONNECT_PEER = 'ACCOUNTS/CONNECT_PEER'
@@ -82,7 +83,7 @@ export const actions = {
   fetchChannels: () => ({
     [GRPC]: {
       method: 'listChannels',
-      types: [REQUEST_CHANNELS, FETCH_CHANNELS],
+      types: [REQUEST_CHANNELS, FETCH_CHANNELS, FETCH_CHANNELS_FAILURE],
       schema: data => ({
         channels: _.map(data.channels, channel => ({
           remotePubkey: channel.remote_pubkey,
@@ -109,7 +110,7 @@ export const actions = {
     [GRPC]: {
       method: 'openChannel',
       body: {
-        node_pubkey_string: pubkey,
+        node_pubkey: new Buffer(pubkey, 'hex'),
         local_funding_amount: amount,
         num_confs: 1,
       },
@@ -129,9 +130,21 @@ export const actions = {
     return new Promise((resolve, reject) => {
       const [pubkey, host] = ip && ip.split('@')
 
+      const resolveSuccess = () => {
+        dispatch(notificationActions.addNotification('Channel Created'))
+        reject('Channel Created')
+      }
+
       const rejectError = (err) => {
         dispatch(notificationActions.addNotification(err.message))
         reject(err.message)
+      }
+
+      // eslint-disable-next-line
+      const open = ({ pubkey, amount }) => {
+        const call = dispatch(actions.openChannel({ pubkey, amount }))
+        call.on('data', resolveSuccess)
+        call.on('error', rejectError)
       }
 
       dispatch(actions.listPeers())
@@ -139,15 +152,11 @@ export const actions = {
           const peer = _.find(peers, { pub_key: pubkey })
 
           if (peer) {
-            dispatch(actions.openChannel({ pubkey, amount }))
-              .then(resolve)
-              .catch(rejectError)
+            open({ pubkey, amount })
           } else {
             dispatch(actions.connectPeer({ host, pubkey }))
               .then(() => {
-                dispatch(actions.openChannel({ pubkey, amount }))
-                  .then(resolve)
-                  .catch(rejectError)
+                open({ pubkey, amount })
               })
               .catch(rejectError)
           }
@@ -155,13 +164,11 @@ export const actions = {
         .catch(rejectError)
     })
   },
-  closeChannel: ({ channelPoint }) => ({
+  closeChannel: () => ({
     [GRPC]: {
       method: 'closeChannel',
       types: CLOSE_CHANNEL,
-      body: {
-        channel_point: channelPoint,
-      },
+      stream: true,
     },
   }),
 }
