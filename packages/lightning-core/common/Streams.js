@@ -8,7 +8,11 @@ import { actions as payActions } from '../pay'
 
 export class Streams extends React.Component {
   componentDidMount() {
-    this.interval = setInterval(this.props.onFetchAccount, 20000)
+    this.interval = setInterval(() => {
+      // POLL
+      this.props.onFetchAccount()
+      this.props.onFetchChannels()
+    }, 20000)
 
     const fetchBalance = _.debounce(this.props.onFetchBalances, 2000)
 
@@ -58,6 +62,7 @@ export default connect(
   () => ({}), {
     onFetchAccount: accountsActions.fetchAccount,
     onFetchBalances: accountsActions.fetchBalances,
+    onFetchChannels: accountsActions.fetchChannels,
     onSubscribePayments: payActions.subscribePayments,
     onSubscribeTransactions: transactionsActions.subscribeTransactions,
     onSubscribeInvoices: transactionsActions.subscribeInvoices,
