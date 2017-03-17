@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { store } from 'lightning-store'
 
 import { Box, Text } from 'lightning-components'
+import Infinite from 'react-infinite'
 
 export const SettingsPage = ({ logs, pubkey }) => {
   const styles = reactCSS({
@@ -26,8 +27,6 @@ export const SettingsPage = ({ logs, pubkey }) => {
       },
       logs: {
         flex: 1,
-        padding: 'medium',
-        overflowX: 'auto',
         zDepth: 1,
         width: '100%',
         boxSizing: 'border-box',
@@ -53,13 +52,25 @@ export const SettingsPage = ({ logs, pubkey }) => {
 
       <Text { ...styles.title }>Logs</Text>
       <Box style={ styles.logs }>
-        { _.map(logs, (log, i) => {
-          return (
-            <div key={ i } style={{ whiteSpace: 'nowrap' }}>
-              <Text { ...styles.log }>{ log }</Text>
-            </div>
-          )
-        }) }
+        <Infinite
+          containerHeight={ 400 }
+          elementHeight={ 15 }
+          styles={{
+            scrollableStyle: {
+              padding: 15,
+              overflowX: 'scroll',
+            },
+          }}
+          displayBottomUpwards
+        >
+          { _.map(logs, (log, i) => {
+            return (
+              <div key={ i } style={{ whiteSpace: 'nowrap' }}>
+                <Text { ...styles.log }>{ log }</Text>
+              </div>
+            )
+          }) }
+        </Infinite>
       </Box>
     </Box>
   )
