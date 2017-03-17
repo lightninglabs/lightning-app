@@ -19,6 +19,7 @@ export class Streams extends React.Component {
     const transactions = this.props.onSubscribeTransactions()
     transactions.on('data', (data) => {
       this.props.onFetchTransactions()
+      this.props.onFetchChannels()
       this.props.onSuccess(`Transaction ${ data.num_confirmations === 0 ? 'Recieved' : 'Completed' }`)
       fetchBalance()
     })
@@ -29,24 +30,6 @@ export class Streams extends React.Component {
       this.props.onSuccess('Invoice Completed')
       fetchBalance()
     })
-
-    // const payments = this.props.onSubscribePayments()
-    //
-    // payments.on('data', (transaction) => {
-    //   console.log('payment', transaction)
-    // })
-    //
-    // payments.on('error', (error) => {
-    //   console.error('SendPayment Error', error)
-    //   this.props.onSuccess(error.message)
-    // })
-
-    // setTimeout(() => {
-    //   payments.write({
-    //     payment_request: 'yx55qnhmt7pikxipwa7jxej5s7dd7jnyfi11yuebpferre6bf1ceda' +
-    //       '6kjorw1arsm7gnw51cdtusftdw5bs3ygn6q8d9j7nnnw1xwwmyyyyyyyyyyyy8zayq4oiy',
-    //   })
-    // }, 1000)
   }
 
   componentWillUnmount() {
