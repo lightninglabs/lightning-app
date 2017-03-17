@@ -5,7 +5,6 @@ import { connect } from 'react-redux'
 import { actions as notificationActions } from 'lightning-notifications'
 import { actions as accountsActions } from '../accounts'
 import { actions as transactionsActions } from '../transactions'
-import { actions as payActions } from '../pay'
 
 export class Streams extends React.Component {
   componentDidMount() {
@@ -52,7 +51,6 @@ export default connect(
     onFetchAccount: accountsActions.fetchAccount,
     onFetchBalances: accountsActions.fetchBalances,
     onFetchChannels: accountsActions.fetchChannels,
-    onSubscribePayments: payActions.subscribePayments,
     onSubscribeTransactions: transactionsActions.subscribeTransactions,
     onSubscribeInvoices: transactionsActions.subscribeInvoices,
     onFetchTransactions: transactionsActions.fetchTransactions,
