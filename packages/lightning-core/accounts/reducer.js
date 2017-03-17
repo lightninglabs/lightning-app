@@ -12,6 +12,7 @@ export const LIST_PEERS = 'ACCOUNTS/LIST_PEERS'
 export const OPEN_CHANNEL = 'ACCOUNTS/OPEN_CHANNEL'
 export const CONNECT_PEER = 'ACCOUNTS/CONNECT_PEER'
 export const CLOSE_CHANNEL = 'ACCOUNTS/CLOSE_CHANNEL'
+export const PENDING_CHANNELS = 'ACCOUNTS/PENDING_CHANNELS'
 
 const initialState = {
   pubkey: '',
@@ -33,8 +34,13 @@ export default (state = initialState, action) => {
       return { ...state, pubkey: action.pubkey, isSynced: action.isSynced }
     case SET_BALANCES:
       return { ...state, balances: { ...state.balances, ...action.balances } }
+    case PENDING_CHANNELS:
     case FETCH_CHANNELS:
-      return { ...state, channels: action.channels, loadingChannels: false }
+      return {
+        ...state,
+        channels: _.uniq([...state.channels, ...action.channels], 'id'),
+        loadingChannels: false,
+      }
     default: return state
   }
 }
@@ -80,7 +86,24 @@ export const actions = {
       })
     })
   },
-  fetchChannels: () => ({
+  pendingChannels: () => ({
+    [GRPC]: {
+      method: 'pendingChannels',
+      types: PENDING_CHANNELS,
+      schema: data => ({
+        channels: _.map(data.channels, channel => ({
+          remotePubkey: channel.identity_key,
+          id: channel.identity_key,
+          capacity: channel.capacity,
+          localBalance: channel.local_balance,
+          remoteBalance: channel.remote_balance,
+          channelPoint: channel.channel_point,
+          status: channel.status,
+        })),
+      }),
+    },
+  }),
+  listChannels: () => ({
     [GRPC]: {
       method: 'listChannels',
       types: [REQUEST_CHANNELS, FETCH_CHANNELS, FETCH_CHANNELS_FAILURE],
@@ -97,6 +120,10 @@ export const actions = {
       }),
     },
   }),
+  fetchChannels: () => (dispatch) => {
+    dispatch(actions.listChannels())
+    dispatch(actions.pendingChannels())
+  },
   listPeers: () => ({
     [GRPC]: {
       method: 'listPeers',
