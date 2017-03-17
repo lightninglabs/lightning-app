@@ -109,12 +109,13 @@ export const actions = {
   openChannel: ({ pubkey, amount }) => ({
     [GRPC]: {
       method: 'openChannel',
-      body: {
+      types: OPEN_CHANNEL,
+      params: {
         node_pubkey: new Buffer(pubkey, 'hex'),
         local_funding_amount: amount,
         num_confs: 1,
       },
-      types: OPEN_CHANNEL,
+      stream: true,
     },
   }),
   connectPeer: ({ host, pubkey }) => ({
@@ -130,33 +131,37 @@ export const actions = {
     return new Promise((resolve, reject) => {
       const [pubkey, host] = ip && ip.split('@')
 
-      const resolveSuccess = () => {
-        dispatch(notificationActions.addNotification('Channel Created'))
-        reject('Channel Created')
-      }
-
       const rejectError = (err) => {
         dispatch(notificationActions.addNotification(err.message))
         reject(err.message)
       }
 
-      // eslint-disable-next-line
-      const open = ({ pubkey, amount }) => {
-        const call = dispatch(actions.openChannel({ pubkey, amount }))
-        call.on('data', resolveSuccess)
-        call.on('error', rejectError)
-      }
 
       dispatch(actions.listPeers())
         .then(({ peers }) => {
           const peer = _.find(peers, { pub_key: pubkey })
 
           if (peer) {
-            open({ pubkey, amount })
+            const call = dispatch(actions.openChannel({ pubkey, amount }))
+            call.on('data', (data) => {
+              console.log('openChannel', data)
+            })
+            call.on('error', (error) => {
+              console.log('openChannel', error)
+            })
           } else {
             dispatch(actions.connectPeer({ host, pubkey }))
               .then(() => {
-                open({ pubkey, amount })
+                const call = dispatch(actions.openChannel({ pubkey, amount }))
+                call.on('data', (data) => {
+                  console.log('openChannel', data)
+                })
+                call.on('error', (error) => {
+                  console.log('openChannel', error)
+                })
+                // dispatch(actions.openChannel({ pubkey, amount }))
+                //   .then(resolve)
+                //   .catch(rejectError)
               })
               .catch(rejectError)
           }
@@ -164,13 +169,23 @@ export const actions = {
         .catch(rejectError)
     })
   },
-  closeChannel: () => ({
-    [GRPC]: {
-      method: 'closeChannel',
-      types: CLOSE_CHANNEL,
-      stream: true,
-    },
-  }),
+  closeChannel: ({ channelPoint }) => {
+    const txid = channelPoint.split(':')[0]
+    const index = channelPoint.split(':')[1]
+    return {
+      [GRPC]: {
+        method: 'closeChannel',
+        types: CLOSE_CHANNEL,
+        params: {
+          channel_point: {
+            funding_txid: new Buffer(txid, 'hex').reverse(),
+            output_index: parseInt(index, 10),
+          },
+        },
+        stream: true,
+      },
+    }
+  },
 }
 
 export const selectors = {

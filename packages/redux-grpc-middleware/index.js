@@ -19,6 +19,7 @@ export default (opts = {}) => {
 
     const { method, body } = call
     const {
+      params = {},
       types = [],
       passthrough = {},
       schema = data => data,
@@ -28,10 +29,10 @@ export default (opts = {}) => {
 
     REQUEST && next({ type: REQUEST })
 
-    if (stream) { return client[method] ? client[method](body ? { body } : {}) : { on: () => {} } }
+    if (stream) { return client[method] ? client[method](body ? { body } : params) : { on: () => {} } }
 
     return new Promise((resolve, reject) => {
-      const api = client[method] && client[method](body || {}, (error, res) => {
+      const api = client[method] && client[method](body, (error, res) => {
         if (error) {
           ERROR && next({ type: ERROR, error })
           reject({ ...error, stream: api })

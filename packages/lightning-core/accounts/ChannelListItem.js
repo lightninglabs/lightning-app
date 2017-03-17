@@ -61,7 +61,7 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
   menu.append(new MenuItem({ label: 'Close Channel', click() { onShowPopup(PROMPT) } }))
   const handleMenu = () => menu.popup(remote.getCurrentWindow())
   const handleClose = () => {
-    const call = onCloseChannel({ channel_point: channelPoint })
+    const call = onCloseChannel({ channelPoint })
     call.on('data', () => onSuccess('Channel Closed'))
     call.on('error', err => onSuccess(err.message))
     onClosePopup(PROMPT)
