@@ -119,7 +119,7 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
         </div>
         <div style={ styles.status }>
           { active ? (
-            <span style={ styles.active }>{ active }</span>
+            <span style={ styles.active }>active</span>
           ) : null }
           { status }
         </div>
