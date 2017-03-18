@@ -38,7 +38,7 @@ export default (state = initialState, action) => {
     case FETCH_CHANNELS:
       return {
         ...state,
-        channels: _.uniqBy([...state.channels, ...action.channels], 'id'),
+        channels: _.uniqBy([...state.channels, ...action.channels], 'channelPoint'),
         loadingChannels: false,
       }
     default: return state
