@@ -28,6 +28,7 @@ export class Streams extends React.Component {
     const invoices = this.props.onSubscribeInvoices()
     invoices.on('data', () => {
       this.props.onFetchTransactions()
+      this.props.onFetchChannels()
       this.props.onFetchAccount()
       this.props.onSuccess('Invoice Completed')
       fetchBalance()
