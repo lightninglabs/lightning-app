@@ -95,7 +95,7 @@ export const actions = {
       schema: data => ({
         channels: _.map(data.channels, channel => ({
           remotePubkey: channel.identity_key,
-          id: channel.identity_key,
+          id: 'PENDING',
           capacity: channel.capacity,
           localBalance: channel.local_balance,
           remoteBalance: channel.remote_balance,
