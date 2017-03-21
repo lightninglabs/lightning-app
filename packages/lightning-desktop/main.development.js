@@ -18,8 +18,6 @@ const isProcessRunning = command => new Promise((resolve, reject) => {
   )
 })
 
-const runningProcesses = []
-
 const runProcesses = (processes, logs) => {
   _.map(processes, (process) => {
     isProcessRunning(process.name)
@@ -31,7 +29,6 @@ const runProcesses = (processes, logs) => {
         const instance = cp.execFile(process.name, process.args, { cwd: '../lightning-desktop/bin' }, (error) => {
           if (error) { logs.push(`${ error.code }: ${ error.errno }`); return }
         })
-        runningProcesses.push(instance)
         instance.stdout.on('data', data => logs.push(prefix + data))
         instance.stderr.on('data', data => logs.push(prefix + data))
       })
@@ -118,10 +115,6 @@ require('electron-debug')({ enabled: true })
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    runningProcesses.forEach((proc) => {
-      proc.kill()
-    })
-
     app.quit()
   }
 })
