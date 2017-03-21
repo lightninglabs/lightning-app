@@ -11,7 +11,13 @@ export const GRPC = 'GRPC/API'
 
 export default (opts = {}) => {
   const options = { ...defaults, ...opts }
-  const client = remote.require(options.path)[options.selector]
+  let client
+
+  try {
+    client = remote.require(options.path)[options.selector]
+  } catch (err) {
+    console.log('Error Connecting to GRPC Server', err)
+  }
 
   return () => next => (action) => {
     const call = action && action[GRPC] // eslint-disable-line
@@ -29,18 +35,36 @@ export default (opts = {}) => {
 
     REQUEST && next({ type: REQUEST })
 
-    if (stream) { return client[method] ? client[method](body ? { body } : params) : { on: () => {} } }
+    if (stream) {
+      if (client[method]) {
+        let streamCall
+        try {
+          streamCall = client[method](body ? { body } : params)
+        } catch (err) {
+          console.log('Error From Stream Method', method, err)
+        } finally {
+          // eslint-disable-next-line
+          return streamCall
+        }
+      }
+      return { on: () => {} }
+    }
 
     return new Promise((resolve, reject) => {
-      const api = client[method] && client[method](body, (error, res) => {
-        if (error) {
-          ERROR && next({ type: ERROR, error })
-          reject({ ...error, stream: api })
-        } else {
-          SUCCESS && next({ type: SUCCESS, ...schema(res), ...passthrough, noSchema: res })
-          resolve({ ...schema(res), ...passthrough, noSchema: res, stream: api })
-        }
-      })
+      try {
+        client[method] && client[method](body, (error, res) => {
+          if (error) {
+            ERROR && next({ type: ERROR, error })
+            reject({ ...error })
+          } else {
+            SUCCESS && next({ type: SUCCESS, ...schema(res), ...passthrough, noSchema: res })
+            resolve({ ...schema(res), ...passthrough, noSchema: res })
+          }
+        })
+      } catch (err) {
+        console.log('Error From Stream Method', method, err)
+        reject('Error From Stream Method', method, err)
+      }
     })
   }
 }
