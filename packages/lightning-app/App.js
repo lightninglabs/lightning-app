@@ -45,6 +45,7 @@ const App = () => {
           <TrafficLights
             background="#666"
             color="#272429"
+            minimizeOnClose
           />
         </Box>
         <Sidebar />

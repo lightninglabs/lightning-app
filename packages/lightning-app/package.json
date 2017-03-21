@@ -8,9 +8,9 @@
   "author": "case <case@casesandberg.com>",
   "license": "MIT",
   "dependencies": {
-    "@components/electron": "^0.2.1",
-    "lightning-core": "^1.9.1",
+    "@components/electron": "^0.3.0",
     "lightning-components": "^0.1.0",
+    "lightning-core": "^1.9.1",
     "lightning-notifications": "^0.1.0",
     "react": "^15.4.1",
     "react-router-dom": "^4.0.0",
