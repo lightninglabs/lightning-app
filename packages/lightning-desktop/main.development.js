@@ -97,7 +97,11 @@ const createWindow = () => {
 
   logs.on('change', (change) => {
     const log = logBuffer[change.index]
-    mainWindow && mainWindow.webContents.send('log', log)
+    try {
+      mainWindow.webContents.send('log', log)
+    } catch (err) {
+      console.log(err)
+    }
   })
 
   if (process.env.NODE_ENV === 'development') {
