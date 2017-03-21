@@ -26,7 +26,7 @@ const runProcesses = (processes, logs) => {
       })
       .catch(() => {
         const prefix = `${ process.name }: `
-        const instance = cp.execFile(process.name, process.args, { cwd: '../lightning-desktop/bin' }, (error) => {
+        const instance = cp.execFile(`../lightning-desktop/bin/${ process.name }`, process.args, (error) => {
           if (error) { logs.push(`${ error.code }: ${ error.errno }`); return }
         })
         instance.stdout.on('data', data => logs.push(prefix + data))
