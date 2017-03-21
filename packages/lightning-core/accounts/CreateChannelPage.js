@@ -9,7 +9,7 @@ export const CreateChannelPage = ({ createChannel }) => {
   const fields = [
     {
       name: 'ip',
-      placeholder: 'Host / IP',
+      placeholder: 'Pubkey@HostIP',
       required: true,
       component: Input,
     },
