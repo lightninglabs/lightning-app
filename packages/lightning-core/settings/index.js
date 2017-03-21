@@ -5,7 +5,25 @@ import { connect } from 'react-redux'
 import { store } from 'lightning-store'
 
 import { Box, Text } from 'lightning-components'
-import Infinite from 'react-infinite'
+import { InfiniteScroll } from '../common'
+
+const SettingsLogs = ({ logs }) => {
+  const insideStyles = {
+    padding: 15,
+    overflowX: 'scroll',
+  }
+  return (
+    <InfiniteScroll startAtBottom insideStyles={ insideStyles } updateOn={ logs }>
+      { _.map(logs, (log, i) => {
+        return (
+          <div key={ i } style={{ whiteSpace: 'nowrap' }}>
+            <Text size="small" color="gray" fontFamily="monospace">{ log }</Text>
+          </div>
+        )
+      }) }
+    </InfiniteScroll>
+  )
+}
 
 export const SettingsPage = ({ logs, pubkey }) => {
   const styles = reactCSS({
@@ -27,16 +45,13 @@ export const SettingsPage = ({ logs, pubkey }) => {
       },
       logs: {
         flex: 1,
+        display: 'flex',
         zDepth: 1,
         width: '100%',
         boxSizing: 'border-box',
         background: 'white',
         marginBottom: 'medium',
-      },
-      log: {
-        size: 'small',
-        color: 'gray',
-        fontFamily: 'monospace',
+        overflowX: 'scroll',
       },
     },
   })
@@ -51,25 +66,7 @@ export const SettingsPage = ({ logs, pubkey }) => {
 
       <Text { ...styles.title }>Logs</Text>
       <Box style={ styles.logs }>
-        <Infinite
-          containerHeight={ 400 }
-          elementHeight={ 15 }
-          styles={{
-            scrollableStyle: {
-              padding: 15,
-              overflowX: 'scroll',
-            },
-          }}
-          displayBottomUpwards
-        >
-          { _.map(logs, (log, i) => {
-            return (
-              <div key={ i } style={{ whiteSpace: 'nowrap' }}>
-                <Text { ...styles.log }>{ log }</Text>
-              </div>
-            )
-          }) }
-        </Infinite>
+        <SettingsLogs logs={ logs } />
       </Box>
     </Box>
   )

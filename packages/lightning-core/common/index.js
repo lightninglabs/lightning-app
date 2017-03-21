@@ -1,5 +1,6 @@
 export * from './CurrencyInput'
 export * from './Head'
+export * from './InfiniteScroll'
 export * from './Input'
 export * from './Money'
 export * from './Page'
