@@ -62,8 +62,8 @@ export default (opts = {}) => {
           }
         })
       } catch (err) {
-        console.log('Error From Stream Method', method, err)
-        reject('Error From Stream Method', method, err)
+        console.log('Error From Method', method, err)
+        reject('Error From Method', method, err)
       }
     })
   }
