@@ -39,6 +39,7 @@ const runProcesses = (processes, logs) => {
 
 const logBuffer = []
 const logs = observe(logBuffer)
+const network = process.env.NODE_ENV === 'development' ? '--simnet' : '--testnet'
 
 const processes = [
   {
@@ -47,7 +48,7 @@ const processes = [
       '--btcdhost=127.0.0.1',
       '--rpcuser=kek',
       '--rpcpass=kek',
-      '--simnet',
+      network,
       '--debuglevel=trace',
       '--debughtlc',
     ],
@@ -56,7 +57,7 @@ const processes = [
     args: [
       '--rpcuser=kek',
       '--rpcpass=kek',
-      '--simnet',
+      network,
       '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w',
       '--txindex',
     ],
