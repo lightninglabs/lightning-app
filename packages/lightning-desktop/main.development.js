@@ -1,6 +1,7 @@
 /* eslint-disable global-require, no-console */
 
 import { app, BrowserWindow } from 'electron'
+import path from 'path'
 import windowStateKeeper from 'electron-window-state'
 import _ from 'lodash'
 import observe from 'observe'
@@ -19,14 +20,15 @@ const isProcessRunning = command => new Promise((resolve, reject) => {
 })
 
 const runProcesses = (processes, logs) => {
-  _.map(processes, (process) => {
-    isProcessRunning(process.name)
+  _.map(processes, (proc) => {
+    isProcessRunning(proc.name)
       .then((p) => {
-        console.log(`${ process.name } Already Running`, p)
+        console.log(`${ proc.name } Already Running`, p)
       })
       .catch(() => {
-        const prefix = `${ process.name }: `
-        const instance = cp.execFile(`../lightning-desktop/bin/${ process.name }`, process.args, (error) => {
+        const prefix = `${ proc.name }: `
+        const binPath = process.env.NODE_ENV === 'development' ? '../lightning-desktop/bin' : 'bin'
+        const instance = cp.execFile(path.join(__dirname, binPath, proc.name), proc.args, { cwd: binPath }, (error) => {
           if (error) { logs.push(`${ error.code }: ${ error.errno }`); return }
         })
         instance.stdout.on('data', data => logs.push(prefix + data))
@@ -100,7 +102,7 @@ const createWindow = () => {
     try {
       mainWindow.webContents.send('log', log)
     } catch (err) {
-      console.log(err)
+      console.log('WARNING: App Was Closed While Writing Logs')
     }
   })
 

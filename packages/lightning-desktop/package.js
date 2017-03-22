@@ -25,6 +25,7 @@ const depsExternal = Object
   .filter(name => !electronCfg.externals.includes(name))
   .map(toNodePath)
 
+// Because GRPC Needs Lodash But Wont Install It For Some Reason
 const depsMinusLodash =
   _.remove(depsExternal, path => path !== '/node_modules/lodash($|/)')
 
@@ -129,7 +130,7 @@ if (version) {
   startPack()
 } else {
   // use the same version as the currently-installed electron-prebuilt
-  exec('npm list electron --dev', (err, stdout) => {
+  exec('npm list electron --dev', (err) => {
     if (err) {
       DEFAULT_OPTS.version = '1.2.0'
     } else {
