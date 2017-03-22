@@ -8,6 +8,11 @@ export class InfiniteScroll extends React.Component {
     height: 300,
   }
 
+  componentDidMount() {
+    // eslint-disable-next-line react/no-did-mount-set-state
+    this.setState({ height: this.outside.offsetHeight - 30 })
+  }
+
   componentWillReceiveProps() {
     this.setState({ height: this.outside.offsetHeight - 30 })
   }
