@@ -2,6 +2,7 @@
 /* eslint generator-star-spacing: 0 */
 
 import 'babel-polyfill'
+import _ from 'lodash'
 import os from 'os'
 import webpack from 'webpack'
 import packager from 'electron-packager'
@@ -24,6 +25,9 @@ const depsExternal = Object
   .filter(name => !electronCfg.externals.includes(name))
   .map(toNodePath)
 
+const depsMinusLodash =
+  _.remove(depsExternal, path => path !== '/node_modules/lodash($|/)')
+
 const appName = argv.name || argv.n || pkg.productName
 const shouldUseAsar = argv.asar || argv.a || false
 const shouldBuildAll = argv.all || false
@@ -38,7 +42,7 @@ const DEFAULT_OPTS = {
     '^/main.development.js',
   ]
   .concat(devDeps)
-  .concat(depsExternal),
+  .concat(depsMinusLodash),
 }
 
 const icon = argv.icon || argv.i || 'app/app'
@@ -129,9 +133,10 @@ if (version) {
     if (err) {
       DEFAULT_OPTS.version = '1.2.0'
     } else {
-      const regex = /\selectron@(.+)\s/g
-      const ver = regex.exec(stdout)[0]
-      DEFAULT_OPTS.version = ver ? ver.replace('electron@', '') : '1.2.0'
+      // const regex = /\selectron@(.+)\s/g
+      // const ver = regex.exec(stdout)[0]
+      // DEFAULT_OPTS.version = ver ? ver.replace('electron@', '') : '1.2.0'
+      DEFAULT_OPTS.version = '1.4.6'
     }
 
     startPack()
