@@ -1,10 +1,5 @@
-/* eslint-disable no-var */
-var grpc = require('grpc')
+import path from 'path'
+import grpc from 'grpc'
 
-const path = process.env.NODE_ENV === 'development' ? '../lightning-desktop/rpc.proto' : './rpc.proto'
-var lnrpc = grpc.load(path).lnrpc
-var lndConn = new lnrpc.Lightning('localhost:10009', grpc.credentials.createInsecure())
-
-module.exports = {
-  default: lndConn,
-}
+const { lnrpc } = grpc.load(path.join(__dirname, 'rpc.proto'))
+export const lndConn = new lnrpc.Lightning('localhost:10009', grpc.credentials.createInsecure())

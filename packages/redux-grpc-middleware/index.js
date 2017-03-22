@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { remote } from 'electron'
 
 const defaults = {
-  path: '',
+  global: '',
   selector: 'default',
 }
 
@@ -14,7 +14,7 @@ export default (opts = {}) => {
   let client
 
   try {
-    client = remote.require(options.path)[options.selector]
+    client = remote.getGlobal(options.global)
   } catch (err) {
     console.log('Error Connecting to GRPC Server', err)
   }

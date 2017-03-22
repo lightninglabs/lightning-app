@@ -12,6 +12,7 @@ export default validate(merge(baseConfig, {
   output: {
     path: __dirname,
     filename: './main.js',
+    libraryTarget: 'commonjs2',
   },
 
   plugins: [
@@ -57,5 +58,6 @@ export default validate(merge(baseConfig, {
     'font-awesome',
     'source-map-support',
     'grpc',
+    'protobufjs',
   ],
 }))

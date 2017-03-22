@@ -7,10 +7,14 @@ import _ from 'lodash'
 import observe from 'observe'
 import cp from 'child_process'
 import ps from 'ps-node'
+import { lndConn } from './lnd'
+
+global.lndConn = lndConn
+
+app.commandLine.appendSwitch('remote-debugging-port', '9997')
+app.commandLine.appendSwitch('host-rules', 'MAP * 127.0.0.1')
 
 let mainWindow = null
-
-app.commandLine.appendSwitch('remote-debugging-port', '8315')
 
 const isProcessRunning = command => new Promise((resolve, reject) => {
   ps.lookup({ command },
