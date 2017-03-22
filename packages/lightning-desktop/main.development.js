@@ -10,6 +10,8 @@ import ps from 'ps-node'
 
 let mainWindow = null
 
+app.commandLine.appendSwitch('remote-debugging-port', '8315')
+
 const isProcessRunning = command => new Promise((resolve, reject) => {
   ps.lookup({ command },
     (err, resultList) => {
