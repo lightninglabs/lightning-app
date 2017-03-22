@@ -11,7 +11,7 @@
     "start": "cd packages/lightning-desktop && npm start -s",
     "setup": "npm install && npm run install-grpc",
     "package-electron": "cd packages/lightning-desktop && npm run package",
-    "package-electron-all": "cd packages/lightning-desktop && npm run package-all",
+    "package-all-electron": "cd packages/lightning-desktop && npm run package-all",
     "eslint": "node_modules/.bin/eslint packages/**/*.js --quiet",
     "install-grpc": "cd packages/lightning-desktop && npm run install-grpc"
   },

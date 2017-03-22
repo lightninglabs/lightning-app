@@ -24,4 +24,9 @@ If you get any errors related to GRPC on startup, run:
 npm run setup
 ```
 
-If the window doesn't load after running `npm start`: try clicking on dev tools window and hitting `cmd-r` to refresh the window. 
+If the window doesn't load after running `npm start`: try clicking on dev tools window and hitting `cmd-r` to refresh the window.
+
+### Packaging
+To package the app for all platforms run `npm run package-all-electron`. Make sure you have xquartz `brew cask install xquartz` wine installed `brew install wine`. If you run into `ENFILE: file table overflow` as an error put `ulimit -n 2560` in your bash profile.
+
+Also Check: https://github.com/karma-runner/karma/issues/1979#issuecomment-217994084

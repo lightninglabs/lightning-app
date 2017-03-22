@@ -8,7 +8,6 @@ import webpack from 'webpack'
 import packager from 'electron-packager'
 import del from 'del'
 import minimist from 'minimist'
-import { exec } from 'child_process'
 import cfg from './webpack.config.production'
 import pkg from './package.json'
 
@@ -73,12 +72,12 @@ function pack(plat, arch, cb) {
   }
 
   const opts = Object.assign({}, DEFAULT_OPTS, iconObj, {
-    'platform': plat,
+    platform: plat,
     arch,
-    'prune': true,
-    'app-version': pkg.version || DEFAULT_OPTS.version,
-    'out': '../../release',
-    'protocols': [{
+    // 'prune': true,
+    appVersion: pkg.version || DEFAULT_OPTS.version,
+    out: '../../release',
+    protocols: [{
       name: 'Lightning',
       schemes: ['lightning'],
     }],
@@ -99,14 +98,13 @@ async function startPack() {
   console.log('start pack...')
 
   try {
+    await del('../../release', { force: true })
     await build(electronCfg)
     await build(cfg)
-    await del('../../release', { force: true })
 
-    // Start the packing process
     if (shouldBuildAll) {
-      // build for all platforms
-      const archs = ['ia32', 'x64']
+      // const archs = ['ia32', 'x64']
+      const archs = ['x64']
       const platforms = ['linux', 'win32', 'darwin']
 
       platforms.forEach((plat) => {
@@ -125,21 +123,5 @@ async function startPack() {
 
 
 const version = argv.version || argv.v
-if (version) {
-  DEFAULT_OPTS.version = version
-  startPack()
-} else {
-  // use the same version as the currently-installed electron-prebuilt
-  exec('npm list electron --dev', (err) => {
-    if (err) {
-      DEFAULT_OPTS.version = '1.2.0'
-    } else {
-      // const regex = /\selectron@(.+)\s/g
-      // const ver = regex.exec(stdout)[0]
-      // DEFAULT_OPTS.version = ver ? ver.replace('electron@', '') : '1.2.0'
-      DEFAULT_OPTS.version = '1.4.6'
-    }
-
-    startPack()
-  })
-}
+DEFAULT_OPTS.electronVersion = version || '1.4.6'
+startPack()
