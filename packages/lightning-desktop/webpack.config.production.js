@@ -9,10 +9,13 @@ import baseConfig from './webpack.config.base'
 const config = validate(merge(baseConfig, {
   devtool: 'cheap-module-source-map',
 
-  entry: [
-    'babel-polyfill',
-    './../lightning-desktop/index',
-  ],
+  entry: {
+    app: [
+      'babel-polyfill',
+      './../lightning-desktop/index',
+    ],
+    vendor: ['react', 'redux', 'lodash'],
+  },
 
   output: {
     publicPath: '../dist/',
@@ -60,6 +63,7 @@ const config = validate(merge(baseConfig, {
 
     // Set the ExtractTextPlugin output filename
     new ExtractTextPlugin('style.css', { allChunks: true }),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js', Infinity),
   ],
 
   // https://github.com/chentsulin/webpack-target-electron-renderer#how-this-module-works
