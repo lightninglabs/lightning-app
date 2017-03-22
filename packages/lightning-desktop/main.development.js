@@ -28,7 +28,8 @@ const runProcesses = (processes, logs) => {
       .catch(() => {
         const prefix = `${ proc.name }: `
         const binPath = process.env.NODE_ENV === 'development' ? '../lightning-desktop/bin' : 'bin'
-        const instance = cp.execFile(path.join(__dirname, binPath, proc.name), proc.args, { cwd: binPath }, (error) => {
+        const filePath = path.join(__dirname, binPath, proc.name)
+        const instance = cp.execFile(filePath, proc.args, { cwd: binPath }, (error) => {
           if (error) { logs.push(`${ error.code }: ${ error.errno }`); return }
         })
         instance.stdout.on('data', data => logs.push(prefix + data))
@@ -40,6 +41,7 @@ const runProcesses = (processes, logs) => {
 const logBuffer = []
 const logs = observe(logBuffer)
 const network = process.env.NODE_ENV === 'development' ? '--simnet' : '--testnet'
+const miningaddr = process.env.NODE_ENV === 'development' ? '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w' : ''
 
 const processes = [
   {
@@ -58,7 +60,7 @@ const processes = [
       '--rpcuser=kek',
       '--rpcpass=kek',
       network,
-      '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w',
+      miningaddr,
       '--txindex',
     ],
   },
