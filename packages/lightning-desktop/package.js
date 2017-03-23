@@ -36,6 +36,7 @@ const DEFAULT_OPTS = {
   dir: './',
   name: appName,
   asar: shouldUseAsar,
+  icon: argv.icon || argv.i || '../packages/lightning-desktop/assets/ln-logo',
   ignore: [
     '^/test($|/)',
     '^/release($|/)',
@@ -44,9 +45,6 @@ const DEFAULT_OPTS = {
   .concat(devDeps)
   .concat(depsMinusLodash),
 }
-
-const icon = argv.icon || argv.i || 'app/app'
-if (icon) DEFAULT_OPTS.icon = icon
 
 function build(config) {
   return new Promise((resolve, reject) => {
@@ -61,27 +59,23 @@ function pack(plat, arch, cb) {
   // there is no darwin ia32 electron
   if (plat === 'darwin' && arch === 'ia32') return
 
-  const iconObj = {
-    icon: DEFAULT_OPTS.icon + (() => {
-      let extension = '.png'
-      if (plat === 'darwin') extension = '.icns'
-      if (plat === 'win32') extension = '.ico'
+  const icon = DEFAULT_OPTS.icon + ({
+    'darwin': '.icns',
+    'win32': '.ico',
+  }[plat] || '.png')
 
-      return extension
-    })(),
-  }
-
-  const opts = Object.assign({}, DEFAULT_OPTS, iconObj, {
+  const opts = {
+    ...DEFAULT_OPTS,
+    icon,
     platform: plat,
     arch,
-    // 'prune': true,
     appVersion: pkg.version || DEFAULT_OPTS.version,
     out: '../../release',
     protocols: [{
       name: 'Lightning',
       schemes: ['lightning'],
     }],
-  })
+  }
 
   packager(opts, cb)
 }
