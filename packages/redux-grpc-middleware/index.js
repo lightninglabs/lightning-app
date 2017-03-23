@@ -50,9 +50,12 @@ export default (opts = {}) => {
       return { on: () => {} }
     }
 
+    const now = new Date()
+    const deadline = now.setSeconds(now.getSeconds() + 10)
+
     return new Promise((resolve, reject) => {
       try {
-        client[method] && client[method](body, (error, res) => {
+        client[method] && client[method](body, { deadline }, (error, res) => {
           if (error) {
             ERROR && next({ type: ERROR, error })
             reject({ ...error })
