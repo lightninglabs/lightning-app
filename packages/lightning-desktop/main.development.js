@@ -15,6 +15,7 @@ app.commandLine.appendSwitch('remote-debugging-port', '9997')
 app.commandLine.appendSwitch('host-rules', 'MAP * 127.0.0.1')
 
 let mainWindow = null
+const runningProcesses = []
 
 const isProcessRunning = command => new Promise((resolve, reject) => {
   ps.lookup({ command },
@@ -39,6 +40,7 @@ const runProcesses = (processes, logs) => {
         const instance = cp.execFile(filePath, proc.args, { cwd: binPath }, (error) => {
           if (error) { logs.push(`${ error.code }: ${ error.errno }`); return }
         })
+        runningProcesses.push(instance)
         instance.stdout.on('data', data => logs.push(prefix + data))
         instance.stderr.on('data', data => logs.push(prefix + data))
       })
@@ -146,3 +148,7 @@ app.on('window-all-closed', () => {
 // }
 
 app.on('ready', createWindow)
+
+app.on('quit', () => {
+  runningProcesses.forEach(proc => proc.kill())
+})
