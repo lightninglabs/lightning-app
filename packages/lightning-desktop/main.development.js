@@ -30,6 +30,7 @@ const runProcesses = (processes, logs) => {
     isProcessRunning(proc.name)
       .then((p) => {
         console.log(`${ proc.name } Already Running`, p)
+        logs(`${ proc.name } Already Running`)
       })
       .catch(() => {
         const prefix = `${ proc.name }: `
