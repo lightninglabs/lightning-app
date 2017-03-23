@@ -28,8 +28,8 @@ const isProcessRunning = command => new Promise((resolve, reject) => {
 const runProcesses = (processes, logs) => {
   _.map(processes, (proc) => {
     isProcessRunning(proc.name)
-      .then((p) => {
-        console.log(`${ proc.name } Already Running`, p)
+      .then(() => {
+        console.log(`${ proc.name } Already Running`)
         logs(`${ proc.name } Already Running`)
       })
       .catch(() => {
