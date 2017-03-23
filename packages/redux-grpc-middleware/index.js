@@ -51,7 +51,7 @@ export default (opts = {}) => {
     }
 
     const now = new Date()
-    const deadline = now.setSeconds(now.getSeconds() + 10)
+    const deadline = now.setSeconds(now.getSeconds() + 30)
 
     return new Promise((resolve, reject) => {
       try {
