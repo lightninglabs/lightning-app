@@ -2,7 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
 
-import { Icon } from 'lightning-components'
+import { Icon, LoadingIcon } from 'lightning-components'
 import TransactionsListItem from './TransactionsListItem'
 
 export const TransactionsList = ({ transactions, loading }) => {
@@ -35,6 +35,12 @@ export const TransactionsList = ({ transactions, loading }) => {
       { _.map(transactions, transaction => (
         <TransactionsListItem { ...transaction } key={ transaction.id } />
       )) }
+
+      { loading ? (
+        <div style={ styles.empty }>
+          <LoadingIcon />
+        </div>
+      ) : null }
 
       { !transactions.length && !loading ? (
         <div style={ styles.empty }>
