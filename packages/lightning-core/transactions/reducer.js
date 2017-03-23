@@ -28,6 +28,8 @@ export default (state = initialState, action) => {
           return all
         }, { ...state.list }),
       }
+    case REQUEST_ERROR:
+      return { ...state, loading: false, list: [] }
     default: return state
   }
 }
@@ -72,7 +74,7 @@ export const actions = {
     dispatch({
       [GRPC]: {
         method: 'listPayments',
-        types: LIST_PAYMENTS,
+        types: [null, LIST_PAYMENTS, REQUEST_ERROR],
         schema: data => ({
           transactions: _.map(data.payments, payment => ({
             id: payment.creation_date,

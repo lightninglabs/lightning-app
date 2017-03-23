@@ -65,6 +65,6 @@ export default (opts = {}) => {
         console.log('Error From Method', method, err)
         reject('Error From Method', method, err)
       }
-    })
+    }).catch(console.error)
   }
 }

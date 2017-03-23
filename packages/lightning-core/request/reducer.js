@@ -3,6 +3,7 @@ import { actions as POPUP } from 'lightning-popup'
 import { decoratePaymentRequest } from '../helpers'
 
 export const FETCH_ADDRESS = 'REQUEST/FETCH_ADDRESS'
+export const FETCH_ADDRESS_FAILURE = 'REQUEST/FETCH_ADDRESS_FAILURE'
 export const GENERATE_PAYMENT_REQUEST = 'REQUEST/GENERATE_PAYMENT_REQUEST'
 
 const initialState = {
@@ -14,6 +15,8 @@ export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_ADDRESS:
       return { ...state, address: action.address }
+    case FETCH_ADDRESS_FAILURE:
+      return { ...state, address: 'Initializing Wallet' }
     case POPUP.CLOSE_POPUP: {
       if (action.name === 'paymentRequest') {
         return { ...state, paymentRequest: '' }
@@ -30,7 +33,7 @@ export const actions = {
   fetchAddress: () => ({
     [GRPC]: {
       method: 'newWitnessAddress',
-      types: FETCH_ADDRESS,
+      types: [null, FETCH_ADDRESS, FETCH_ADDRESS_FAILURE],
     },
   }),
   generatePaymentRequest: ({ amount, note }) => ({

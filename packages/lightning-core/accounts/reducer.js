@@ -13,6 +13,7 @@ export const OPEN_CHANNEL = 'ACCOUNTS/OPEN_CHANNEL'
 export const CONNECT_PEER = 'ACCOUNTS/CONNECT_PEER'
 export const CLOSE_CHANNEL = 'ACCOUNTS/CLOSE_CHANNEL'
 export const PENDING_CHANNELS = 'ACCOUNTS/PENDING_CHANNELS'
+export const FETCH_ACCOUNT_FAILURE = 'ACCOUNTS/FETCH_ACCOUNT_ERROR'
 
 const initialState = {
   pubkey: '',
@@ -32,6 +33,8 @@ export default (state = initialState, action) => {
       return { ...state, loadingChannels: true }
     case FETCH_ACCOUNT:
       return { ...state, pubkey: action.pubkey, isSynced: action.isSynced }
+    case FETCH_ACCOUNT_FAILURE:
+      return { ...state, isSynced: false }
     case SET_BALANCES:
       return { ...state, balances: { ...state.balances, ...action.balances } }
     case PENDING_CHANNELS:
@@ -41,6 +44,8 @@ export default (state = initialState, action) => {
         channels: _.uniqBy([...state.channels, ...action.channels], 'channelPoint'),
         loadingChannels: false,
       }
+    case FETCH_CHANNELS_FAILURE:
+      return { ...state, channels: [], loadingChannels: false }
     default: return state
   }
 }
@@ -49,7 +54,7 @@ export const actions = {
   fetchAccount: () => ({
     [GRPC]: {
       method: 'getInfo',
-      types: FETCH_ACCOUNT,
+      types: [null, FETCH_ACCOUNT, FETCH_ACCOUNT_FAILURE],
       schema: account => ({
         pubkey: account.identity_pubkey,
         isSynced: account.synced_to_chain,
@@ -91,7 +96,7 @@ export const actions = {
   pendingChannels: () => ({
     [GRPC]: {
       method: 'pendingChannels',
-      types: PENDING_CHANNELS,
+      types: [null, PENDING_CHANNELS, FETCH_CHANNELS_FAILURE],
       schema: data => ({
         channels: _.map(data.channels, channel => ({
           remotePubkey: channel.identity_key,

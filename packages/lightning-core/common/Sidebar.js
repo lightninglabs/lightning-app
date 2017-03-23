@@ -54,12 +54,15 @@ export class Sidebar extends React.Component {
           <NavLinks onChange={ navigateToSubpage } />
         </Box>
         <Box style={ styles.section }>
-          <NavFooter
-            balances={ balances }
-            pubkey={ pubkey }
-            currency={ currency }
-            onClickAccount={ navigateToSubpage }
-          />
+          { pubkey ? (
+            <NavFooter
+              balances={ balances }
+              pubkey={ pubkey }
+              currency={ currency }
+              onClickAccount={ navigateToSubpage }
+            />
+          ) : null }
+
           { isSynced ? null : (
             <Box style={ styles.synced } className="syncing">
               <style
