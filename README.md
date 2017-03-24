@@ -30,3 +30,5 @@ If the window doesn't load after running `npm start`: try clicking on dev tools 
 To package the app for all platforms run `npm run package-all-electron`. Make sure you have xquartz `brew cask install xquartz` wine installed `brew install wine`. If you run into `ENFILE: file table overflow` as an error put `ulimit -n 2560` in your bash profile.
 
 Also Check: https://github.com/karma-runner/karma/issues/1979#issuecomment-217994084
+
+To debug a packaged app, go to localhost:9997 in your browser.
