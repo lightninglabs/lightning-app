@@ -36,7 +36,7 @@ const DEFAULT_OPTS = {
   dir: './',
   name: appName,
   asar: shouldUseAsar,
-  icon: argv.icon || argv.i || '../packages/lightning-desktop/assets/ln-logo',
+  icon: argv.icon || argv.i || 'assets/ln-logo',
   ignore: [
     '^/test($|/)',
     '^/release($|/)',
