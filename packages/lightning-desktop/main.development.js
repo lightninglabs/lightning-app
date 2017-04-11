@@ -7,6 +7,7 @@ import _ from 'lodash'
 import observe from 'observe'
 import cp from 'child_process'
 import ps from 'ps-node'
+import os from 'os'
 import { lndConn } from './lnd'
 
 global.lndConn = lndConn
@@ -32,13 +33,13 @@ const runProcesses = (processes, logs) => {
     isProcessRunning(proc.name)
       .then(() => {
         console.log(`${ proc.name } Already Running`)
-        logs(`${ proc.name } Already Running`)
+        logs.push(`${ proc.name } Already Running`)
       })
       .catch(() => {
         const prefix = `${ proc.name }: `
-        const plat = process.platform
-        const binPath = isDev ? `../lightning-desktop/${ plat }/bin` : `${ plat }/bin`
-        const filePath = path.join(__dirname, binPath, proc.name)
+        const plat = os.platform()
+        const binPath = isDev ? '../lightning-desktop/bin' : 'bin'
+        const filePath = path.join(__dirname, binPath, plat, proc.name)
         const instance = cp.execFile(filePath, proc.args, { cwd: binPath }, (error) => {
           if (error) { logs.push(`${ error.code }: ${ error.errno }`); return }
         })
