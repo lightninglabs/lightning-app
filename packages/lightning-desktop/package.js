@@ -89,7 +89,7 @@ function log(plat, arch) {
 }
 
 function startPack() {
-  console.log('start pack...')
+  console.log('Start pack...')
 
   Promise.all(
     [
@@ -114,7 +114,7 @@ function startPack() {
       pack(os.platform(), os.arch(), log(os.platform(), os.arch()))
     }
   }).catch((error) => {
-    console.log(error.Error)
+    console.log('Error:', JSON.stringify(error, null, 2))
     console.log('Retrying...')
     startPack()
   })
