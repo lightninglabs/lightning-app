@@ -91,34 +91,33 @@ function log(plat, arch) {
 function startPack() {
   console.log('start pack...')
 
-  try {
-    del('../../release', { force: true }).then(() => {
-      Promise.all(
-        [
-          build(electronCfg),
-          build(cfg),
-        ]
-      ).then(() => {
-        if (shouldBuildAll) {
-          // const archs = ['ia32', 'x64']
-          const archs = ['x64']
-          // const platforms = ['linux', 'win32', 'darwin']
-          const platforms = ['win32', 'darwin']
+  Promise.all(
+    [
+      del('../../release', { force: true }),
+      build(electronCfg),
+      build(cfg),
+    ]
+  ).then(() => {
+    if (shouldBuildAll) {
+      // const archs = ['ia32', 'x64']
+      const archs = ['x64']
+      // const platforms = ['linux', 'win32', 'darwin']
+      const platforms = ['win32', 'darwin']
 
-          platforms.forEach((plat) => {
-            archs.forEach((arch) => {
-              pack(plat, arch, log(plat, arch))
-            })
-          })
-        } else {
-          // build for current platform only
-          pack(os.platform(), os.arch(), log(os.platform(), os.arch()))
-        }
+      platforms.forEach((plat) => {
+        archs.forEach((arch) => {
+          pack(plat, arch, log(plat, arch))
+        })
       })
-    })
-  } catch (error) {
-    console.error(error)
-  }
+    } else {
+      // build for current platform only
+      pack(os.platform(), os.arch(), log(os.platform(), os.arch()))
+    }
+  }).catch((error) => {
+    console.log(error.Error)
+    console.log('Retrying...')
+    startPack()
+  })
 }
 
 
