@@ -88,29 +88,34 @@ function log(plat, arch) {
   }
 }
 
-async function startPack() {
+function startPack() {
   console.log('start pack...')
 
   try {
-    await del('../../release', { force: true })
-    await build(electronCfg)
-    await build(cfg)
+    del('../../release', { force: true }).then(() => {
+      Promise.all(
+        [
+          build(electronCfg),
+          build(cfg),
+        ]
+      ).then(() => {
+        if (shouldBuildAll) {
+          // const archs = ['ia32', 'x64']
+          const archs = ['x64']
+          // const platforms = ['linux', 'win32', 'darwin']
+          const platforms = ['win32', 'darwin']
 
-    if (shouldBuildAll) {
-      // const archs = ['ia32', 'x64']
-      const archs = ['x64']
-      // const platforms = ['linux', 'win32', 'darwin']
-      const platforms = ['win32', 'darwin']
-
-      platforms.forEach((plat) => {
-        archs.forEach((arch) => {
-          pack(plat, arch, log(plat, arch))
-        })
+          platforms.forEach((plat) => {
+            archs.forEach((arch) => {
+              pack(plat, arch, log(plat, arch))
+            })
+          })
+        } else {
+          // build for current platform only
+          pack(os.platform(), os.arch(), log(os.platform(), os.arch()))
+        }
       })
-    } else {
-      // build for current platform only
-      pack(os.platform(), os.arch(), log(os.platform(), os.arch()))
-    }
+    })
   } catch (error) {
     console.error(error)
   }
