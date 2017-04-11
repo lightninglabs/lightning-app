@@ -15,6 +15,7 @@ app.commandLine.appendSwitch('remote-debugging-port', '9997')
 app.commandLine.appendSwitch('host-rules', 'MAP * 127.0.0.1')
 
 let mainWindow = null
+const isDev = process.env.NODE_ENV === 'development'
 const runningProcesses = []
 
 const isProcessRunning = command => new Promise((resolve, reject) => {
@@ -35,7 +36,8 @@ const runProcesses = (processes, logs) => {
       })
       .catch(() => {
         const prefix = `${ proc.name }: `
-        const binPath = process.env.NODE_ENV === 'development' ? '../lightning-desktop/bin' : 'bin'
+        const plat = process.platform
+        const binPath = isDev ? `../lightning-desktop/${ plat }/bin` : `${ plat }/bin`
         const filePath = path.join(__dirname, binPath, proc.name)
         const instance = cp.execFile(filePath, proc.args, { cwd: binPath }, (error) => {
           if (error) { logs.push(`${ error.code }: ${ error.errno }`); return }
@@ -49,8 +51,8 @@ const runProcesses = (processes, logs) => {
 
 const logBuffer = []
 const logs = observe(logBuffer)
-const network = process.env.NODE_ENV === 'development' ? '--simnet' : '--testnet'
-const miningaddr = process.env.NODE_ENV === 'development' ? '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w' : ''
+const network = isDev ? '--simnet' : '--testnet'
+const miningaddr = isDev ? '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w' : ''
 
 const processes = [
   {
@@ -96,7 +98,7 @@ const createWindow = () => {
   })
 
   mainWindowState.manage(mainWindow)
-  if (process.env.NODE_ENV === 'development') {
+  if (isDev) {
     mainWindow.loadURL('http://localhost:4152')
   } else {
     mainWindow.loadURL(`file://${ __dirname }/app.html`)
@@ -118,7 +120,7 @@ const createWindow = () => {
     }
   })
 
-  // if (process.env.NODE_ENV === 'development') {
+  // if (isDev) {
   //   mainWindow.openDevTools()
   // }
 
@@ -127,7 +129,7 @@ const createWindow = () => {
   })
 }
 
-// if (process.env.NODE_ENV === 'development') {
+// if (isDev) {
 require('electron-debug')({ enabled: true })
 // }
 
