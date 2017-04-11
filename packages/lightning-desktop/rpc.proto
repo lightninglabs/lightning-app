@@ -147,9 +147,9 @@ service Lightning {
         };
     }
 
-    rpc QueryRoute(RouteRequest) returns (Route) {
+    rpc QueryRoutes(QueryRoutesRequest) returns (QueryRoutesResponse) {
         option (google.api.http) = {
-            get: "/v1/graph/route/{pub_key}/{amt}"
+            get: "/v1/graph/routes/{pub_key}/{amt}"
         };
     }
 
@@ -405,9 +405,12 @@ message ChannelBalanceResponse {
     int64 balance = 1 [ json_name = "balance" ];
 }
 
-message RouteRequest {
+message QueryRoutesRequest {
     string pub_key = 1;
     int64 amt = 2;
+}
+message QueryRoutesResponse {
+    repeated Route routes = 1 [ json_name = "routes"];
 }
 
 message Hop {
@@ -439,8 +442,13 @@ message NodeInfo {
 message LightningNode {
     uint32 last_update = 1 [ json_name = "last_update" ];
     string pub_key = 2 [ json_name = "pub_key" ];
-    string address = 3 [ json_name = "address" ];
-    string alias = 4 [ json_name = "alias" ];
+    string alias = 3 [ json_name = "alias" ];
+    repeated NodeAddress addresses = 4 [ json_name = "addresses" ];
+}
+
+message NodeAddress {
+    string network = 1 [ json_name = "network" ];
+    string addr = 2 [ json_name = "addr" ];
 }
 
 message RoutingPolicy {
@@ -572,7 +580,7 @@ message Payment {
 
     int64 creation_date = 3 [ json_name = "creation_date" ];
 
-    repeated string path = 4 [ json_name = "string" ];
+    repeated string path = 4 [ json_name = "path" ];
 
     int64 fee = 5 [ json_name = "fee" ];
 }
