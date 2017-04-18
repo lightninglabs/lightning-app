@@ -24,7 +24,7 @@ const isProcessRunning = command => new Promise((resolve, reject) => {
     (err, resultList) => {
       if (err) { throw new Error(err) }
       resultList[0] ? resolve(resultList[0]) : reject()
-    }
+    },
   )
 })
 
@@ -41,7 +41,7 @@ const runProcesses = (processes, logs) => {
         const binPath = isDev ? '../lightning-desktop/bin' : 'bin'
         const filePath = path.join(__dirname, binPath, plat, proc.name)
         const instance = cp.execFile(filePath, proc.args, { cwd: binPath }, (error) => {
-          if (error) { logs.push(`${ error.code }: ${ error.errno }`); return }
+          if (error) { logs.push(`${ error.code }: ${ error.errno }`) }
         })
         runningProcesses.push(instance)
         instance.stdout.on('data', data => logs.push(prefix + data))
@@ -154,4 +154,8 @@ app.on('ready', createWindow)
 
 app.on('quit', () => {
   runningProcesses.forEach(proc => proc.kill())
+})
+
+process.on('uncaughtException', (error) => {
+  console.log('Caught Main Process Error:', error)
 })
