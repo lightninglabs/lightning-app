@@ -36,7 +36,6 @@ const runProcesses = (processes, logs) => {
         logs.push(`${ proc.name } Already Running`)
       })
       .catch(() => {
-        const prefix = `${ proc.name }: `
         const plat = os.platform()
         const binPath = isDev ? '../lightning-desktop/bin' : 'bin'
         const filePath = path.join(__dirname, binPath, plat, proc.name, plat === 'win32' ? '.exe' : '')
@@ -44,8 +43,8 @@ const runProcesses = (processes, logs) => {
           if (error) { logs.push(`${ error.code }: ${ error.errno }`) }
         })
         runningProcesses.push(instance)
-        instance.stdout.on('data', data => logs.push(prefix + data))
-        instance.stderr.on('data', data => logs.push(prefix + data))
+        instance.stdout.on('data', data => logs.push(`${ proc.name }: ${ data }`))
+        instance.stderr.on('data', data => logs.push(`${ proc.name } Error: ${ data }`))
       })
   })
 }
