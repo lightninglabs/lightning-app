@@ -156,7 +156,7 @@ const createWindow = () => {
     },
   ]
 
-  Menu.setApplicationMenu(Menu.buildFromTemplate(template))
+  !isDev && Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }
 
 // if (isDev) {
