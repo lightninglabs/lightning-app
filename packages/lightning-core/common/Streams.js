@@ -5,34 +5,37 @@ import { connect } from 'react-redux'
 import { actions as notificationActions } from 'lightning-notifications'
 import { actions as accountsActions } from '../accounts'
 import { actions as transactionsActions } from '../transactions'
+import { store } from 'lightning-store'
 
 export class Streams extends React.Component {
-  componentDidMount() {
-    this.interval = setInterval(() => {
-      // POLL
-      this.props.onFetchAccount()
-      this.props.onFetchChannels()
-    }, 20000)
+  componentWillReceiveProps(nextProps) {
+    if (this.props.serverRunning === false && nextProps.serverRunning === true) {
+      this.interval = setInterval(() => {
+        // POLL
+        this.props.onFetchAccount()
+        this.props.onFetchChannels()
+      }, 20000)
 
-    const fetchBalance = _.debounce(this.props.onFetchBalances, 2000)
+      const fetchBalance = _.debounce(this.props.onFetchBalances, 2000)
 
-    const transactions = this.props.onSubscribeTransactions()
-    transactions.on('data', (data) => {
-      this.props.onFetchTransactions()
-      this.props.onFetchChannels()
-      this.props.onFetchAccount()
-      this.props.onSuccess(`Transaction ${ data.num_confirmations === 0 ? 'Recieved' : 'Completed' }`)
-      fetchBalance()
-    })
+      const transactions = this.props.onSubscribeTransactions()
+      transactions.on('data', (data) => {
+        this.props.onFetchTransactions()
+        this.props.onFetchChannels()
+        this.props.onFetchAccount()
+        this.props.onSuccess(`Transaction ${ data.num_confirmations === 0 ? 'Recieved' : 'Completed' }`)
+        fetchBalance()
+      })
 
-    const invoices = this.props.onSubscribeInvoices()
-    invoices.on('data', () => {
-      this.props.onFetchTransactions()
-      this.props.onFetchChannels()
-      this.props.onFetchAccount()
-      this.props.onSuccess('Invoice Completed')
-      fetchBalance()
-    })
+      const invoices = this.props.onSubscribeInvoices()
+      invoices.on('data', () => {
+        this.props.onFetchTransactions()
+        this.props.onFetchChannels()
+        this.props.onFetchAccount()
+        this.props.onSuccess('Invoice Completed')
+        fetchBalance()
+      })
+    }
   }
 
   componentWillUnmount() {
@@ -45,7 +48,9 @@ export class Streams extends React.Component {
 }
 
 export default connect(
-  () => ({}), {
+  state => ({
+    serverRunning: store.getServerRunning(state),
+  }), {
     onFetchAccount: accountsActions.fetchAccount,
     onFetchBalances: accountsActions.fetchBalances,
     onFetchChannels: accountsActions.fetchChannels,
@@ -53,5 +58,5 @@ export default connect(
     onSubscribeInvoices: transactionsActions.subscribeInvoices,
     onFetchTransactions: transactionsActions.fetchTransactions,
     onSuccess: notificationActions.addNotification,
-  }
+  },
 )(Streams)

@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { GRPC } from 'redux-grpc-middleware'
+import { GRPC, SERVER_RUNNING } from 'redux-grpc-middleware'
 import { actions as notificationActions } from 'lightning-notifications'
 
 export const FETCH_ACCOUNT = 'ACCOUNTS/FETCH_ACCOUNT'
@@ -18,6 +18,7 @@ export const FETCH_ACCOUNT_FAILURE = 'ACCOUNTS/FETCH_ACCOUNT_ERROR'
 const initialState = {
   pubkey: '',
   isSynced: true,
+  serverRunning: false,
   currency: 'satoshi',
   balances: {
     wallet: 0,
@@ -29,6 +30,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SERVER_RUNNING:
+      return { ...state, serverRunning: true }
     case REQUEST_CHANNELS:
       return { ...state, loadingChannels: true }
     case FETCH_ACCOUNT:
@@ -214,6 +217,7 @@ export const actions = {
 
 export const selectors = {
   getSyncedToChain: state => state.isSynced,
+  getServerRunning: state => state.serverRunning,
   getAccountPubkey: state => state.pubkey,
   getCurrency: state => state.currency,
   getAccountBalances: state => state.balances,
