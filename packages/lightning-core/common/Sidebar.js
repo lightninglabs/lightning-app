@@ -18,7 +18,8 @@ export class Sidebar extends React.Component {
   }
 
   render() {
-    const { navigateToSubpage, currency, pubkey, balances, isSynced } = this.props
+    const { navigateToSubpage, currency, pubkey, balances, isSynced,
+      serverRunning } = this.props
     const styles = reactCSS({
       'default': {
         sidebar: {
@@ -63,18 +64,20 @@ export class Sidebar extends React.Component {
             />
           ) : null }
 
-          { isSynced ? null : (
+          { serverRunning && isSynced ? null : (
             <Box style={ styles.synced } className="syncing">
               <style
-                dangerouslySetInnerHTML={{ __html: `
-                .syncing {
-                  animation: pulse 1.5s ease-in-out infinite alternate;
-                }
-                @keyframes pulse {
-                  0% { opacity: 1 }
-                  50% { opacity: 0.8 }
-                  100% { opacity: 1 }
-                }` }}
+                dangerouslySetInnerHTML={{
+                  __html: `
+                  .syncing {
+                    animation: pulse 1.5s 100ms ease-in-out infinite alternate;
+                  }
+                  @keyframes pulse {
+                    0% { opacity: 1 }
+                    50% { opacity: 0.8 }
+                    100% { opacity: 1 }
+                  }`,
+                }}
               />
               <Text style={ styles.syncedText }>Syncing to Chain</Text>
             </Box>
@@ -87,6 +90,7 @@ export class Sidebar extends React.Component {
 
 export default withRouter(connect(
   state => ({
+    serverRunning: store.getServerRunning(state),
     isSynced: store.getSyncedToChain(state),
     pubkey: store.getAccountPubkey(state),
     currency: store.getCurrency(state),
@@ -94,5 +98,5 @@ export default withRouter(connect(
   }), {
     fetchAccount: accountActions.fetchAccount,
     fetchBalances: accountActions.fetchBalances,
-  }
+  },
 )(Sidebar))
