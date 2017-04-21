@@ -33,13 +33,13 @@ export default (opts = {}) => {
 
   return () => next => (action) => {
     if (!serverStartingActionSent) {
-      next({ type: SERVER_STARTING })
       serverStartingActionSent = true
+      next({ type: SERVER_STARTING })
     }
 
     if (ready && !serverRunningActionSent) {
-      next({ type: SERVER_RUNNING })
       serverRunningActionSent = true
+      next({ type: SERVER_RUNNING })
     }
 
     const call = action && action[GRPC]
