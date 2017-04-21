@@ -3,25 +3,52 @@ import _ from 'lodash'
 import { remote } from 'electron'
 
 const defaults = {
-  global: '',
+  global: {
+    connection: 'connection',
+    serverReady: 'serverReady',
+  },
   selector: 'default',
 }
 
 export const GRPC = 'GRPC/API'
+export const SERVER_STARTING = 'GRPC/SERVER_STARTING'
+export const SERVER_RUNNING = 'GRPC/SERVER_RUNNING'
 
 export default (opts = {}) => {
   const options = { ...defaults, ...opts }
+  const serverReady = remote.getGlobal(options.global.serverReady)
+
   let client
+  let ready = false
+  let serverStartingActionSent = false
+  let serverRunningActionSent = false
+
+  serverReady && serverReady(() => (ready = true))
 
   try {
-    client = remote.getGlobal(options.global)
+    client = remote.getGlobal(options.global.connection)
   } catch (err) {
     console.log('Error Connecting to GRPC Server', err)
   }
 
   return () => next => (action) => {
-    const call = action && action[GRPC] // eslint-disable-line
+    if (!serverStartingActionSent) {
+      next({ type: SERVER_STARTING })
+      serverStartingActionSent = true
+    }
+
+    if (ready && !serverRunningActionSent) {
+      next({ type: SERVER_RUNNING })
+      serverRunningActionSent = true
+    }
+
+    const call = action && action[GRPC]
     if (typeof call === 'undefined' || !call) { return next(action) }
+
+    if (!ready) {
+      return new Promise((resolve, reject) =>
+        reject('GRPC Call Deferred, Server Still Starting'))
+    }
 
     const { method, body } = call
     const {

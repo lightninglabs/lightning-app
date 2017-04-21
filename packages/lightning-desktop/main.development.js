@@ -8,9 +8,10 @@ import observe from 'observe'
 import cp from 'child_process'
 import ps from 'ps-node'
 import os from 'os'
-import { lndConn } from './lnd'
+import lnd from './lnd'
 
-global.lndConn = lndConn
+global.connection = lnd.connection
+global.serverReady = lnd.serverReady
 
 app.commandLine.appendSwitch('remote-debugging-port', '9997')
 app.commandLine.appendSwitch('host-rules', 'MAP * 127.0.0.1')

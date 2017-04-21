@@ -8,7 +8,7 @@ import createGrpc from 'redux-grpc-middleware'
 import { actions as logActions } from 'lightning-core/settings'
 
 const ipc = createIpc(logActions)
-const grpc = createGrpc({ global: 'lndConn' })
+const grpc = createGrpc()
 const logger = createLogger({ level: 'info', collapsed: true })
 
 const router = routerMiddleware(hashHistory)
