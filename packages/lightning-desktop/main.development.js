@@ -62,7 +62,7 @@ const processes = [
       '--rpcuser=kek',
       '--rpcpass=kek',
       network,
-      '--debuglevel=trace',
+      '--debuglevel=debug',
       '--debughtlc',
     ],
   }, {
