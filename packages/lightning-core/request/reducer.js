@@ -2,6 +2,7 @@ import { GRPC } from 'redux-grpc-middleware'
 import { actions as POPUP } from 'lightning-popup'
 import { decoratePaymentRequest } from '../helpers'
 
+export const FETCH_ADDRESS_REQUEST = 'REQUEST/FETCH_ADDRESS_REQUEST'
 export const FETCH_ADDRESS = 'REQUEST/FETCH_ADDRESS'
 export const FETCH_ADDRESS_FAILURE = 'REQUEST/FETCH_ADDRESS_FAILURE'
 export const GENERATE_PAYMENT_REQUEST = 'REQUEST/GENERATE_PAYMENT_REQUEST'
@@ -13,6 +14,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case FETCH_ADDRESS_REQUEST:
+      return { ...state, address: 'Opening Wallet...' }
     case FETCH_ADDRESS:
       return { ...state, address: action.address }
     case FETCH_ADDRESS_FAILURE:
@@ -33,7 +36,7 @@ export const actions = {
   fetchAddress: () => ({
     [GRPC]: {
       method: 'newWitnessAddress',
-      types: [null, FETCH_ADDRESS, FETCH_ADDRESS_FAILURE],
+      types: [FETCH_ADDRESS_REQUEST, FETCH_ADDRESS, FETCH_ADDRESS_FAILURE],
     },
   }),
   generatePaymentRequest: ({ amount, note }) => ({

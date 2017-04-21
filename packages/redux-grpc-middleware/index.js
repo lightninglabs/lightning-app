@@ -45,11 +45,6 @@ export default (opts = {}) => {
     const call = action && action[GRPC]
     if (typeof call === 'undefined' || !call) { return next(action) }
 
-    if (!ready) {
-      return new Promise((resolve, reject) =>
-        reject('GRPC Call Deferred, Server Still Starting'))
-    }
-
     const { method, body } = call
     const {
       params = {},
@@ -61,6 +56,11 @@ export default (opts = {}) => {
     const [REQUEST, SUCCESS, ERROR] = _.isArray(types) ? types : [null, types]
 
     REQUEST && next({ type: REQUEST })
+
+    if (!ready) {
+      return new Promise((resolve, reject) =>
+        reject('GRPC Call Deferred, Server Still Starting'))
+    }
 
     if (stream) {
       if (client[method]) {
