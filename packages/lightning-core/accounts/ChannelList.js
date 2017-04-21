@@ -2,7 +2,8 @@ import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
 
-import { Icon, LoadingIcon } from 'lightning-components'
+import { Icon } from 'lightning-components'
+import { LoadingIcon } from '../common'
 import ChannelListItem from './ChannelListItem'
 
 export const ChannelList = ({ channels, loading }) => {

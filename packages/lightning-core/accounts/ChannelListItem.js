@@ -154,5 +154,5 @@ export default connect(
     onClosePopup: popupActions.onClose,
     onCloseChannel: actions.closeChannel,
     onSuccess: notificationActions.addNotification,
-  }
+  },
 )(handleHover(ChannelListItem))
