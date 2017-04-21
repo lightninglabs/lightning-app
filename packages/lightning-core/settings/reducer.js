@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 export const LOG = 'LND/LOG'
 export const LOGS = 'LND/LOGS'
 
@@ -17,5 +19,5 @@ export const actions = {
 }
 
 export const selectors = {
-  getRecentLogs: state => state.logs,
+  getRecentLogs: state => _.takeRight(state.logs, 500),
 }
