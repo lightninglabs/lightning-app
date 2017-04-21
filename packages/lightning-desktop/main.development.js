@@ -120,14 +120,21 @@ const createWindow = () => {
     mainWindow.webContents.send('logs', logBuffer)
   })
 
+  let logQueue = []
+
   logs.on('change', (change) => {
     const log = logBuffer[change.index]
+    logQueue.push(log)
+  })
+
+  setInterval(() => {
     try {
-      mainWindow.webContents.send('log', log)
+      mainWindow.webContents.send('logs', logQueue)
+      logQueue = []
     } catch (err) {
       console.log('WARNING: App Was Closed While Writing Logs')
     }
-  })
+  }, 2000)
 
   // if (isDev) {
   //   mainWindow.openDevTools()
