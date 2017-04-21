@@ -43,14 +43,15 @@ const runProcesses = (processes, logs) => {
         try {
           const instance = cp.execFile(filePath, proc.args, { cwd: binPath }, (error) => {
             if (error) {
-              logs.push(error.code ? `${ error.code }: ${ error.errno }` : error)
+              logs.push(error.code ? `${ error.code }: ${ error.errno }` : JSON.stringify(error))
             }
           })
           runningProcesses.push(instance)
           instance.stdout.on('data', data => logs.push(`${ proc.name }: ${ data }`))
           instance.stderr.on('data', data => logs.push(`${ proc.name } Error: ${ data }`))
         } catch (error) {
-          console.log(`Caught Error When Starting ${ proc.name }:`, error)
+          console.log(`Caught Error When Starting ${ proc.name }: ${ error }`)
+          logs.push(`Caught Error When Starting ${ proc.name }: ${ error }`)
         }
       })
   })
