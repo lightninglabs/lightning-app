@@ -1,5 +1,6 @@
 import { GRPC } from 'redux-grpc-middleware'
 import { actions as notificationActions } from 'lightning-notifications'
+import { actions as accountsActions } from '../accounts'
 import { sanitizePaymentRequest } from '../helpers'
 
 export const DECODE_PAYMENT_REQUEST = 'PAY/DECODE_PAYMENT_REQUEST'
@@ -32,6 +33,7 @@ export const actions = {
     return new Promise((resolve, reject) => {
       const resolveSuccess = () => {
         dispatch(notificationActions.addNotification('Payment Sent'))
+        dispatch(accountsActions.fetchChannels())
         resolve('Payment Sent')
       }
       const rejectError = (err) => {
