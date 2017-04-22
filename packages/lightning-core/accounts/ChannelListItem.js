@@ -12,8 +12,8 @@ import { Prompt } from '../common'
 const { Menu, MenuItem } = remote
 
 export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
-  active, status, hover, channelPoint, onShowPopup, onClosePopup, onCloseChannel,
-  onSuccess }) => {
+  active, status, hover, channelPoint, remotePubkey, onShowPopup, onClosePopup,
+  onCloseChannel }) => {
   const styles = reactCSS({
     'default': {
       channel: {
@@ -89,19 +89,13 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
 
   const PROMPT = 'CHANNEL_LIST/PROMPT'
 
-  // eslint-disable-next-line
-  const close = ({ channelPoint }) => {
-    const call = onCloseChannel({ channelPoint })
-    call.on('data', () => onSuccess('Channel Closed'))
-    call.on('error', err => onSuccess(err.message))
-  }
   const showPopupOrClose = () =>
-    (active ? close({ channelPoint }) : onShowPopup(PROMPT))
+    (active ? onCloseChannel({ channelPoint, remotePubkey }) : onShowPopup(PROMPT))
   const menu = new Menu()
   menu.append(new MenuItem({ label: 'Close Channel', click() { showPopupOrClose() } }))
   const handleMenu = () => menu.popup(remote.getCurrentWindow())
   const handleClose = () => {
-    close({ channelPoint })
+    onCloseChannel({ channelPoint, remotePubkey })
     onClosePopup(PROMPT)
   }
   const handleCancel = () => onClosePopup(PROMPT)
@@ -152,7 +146,7 @@ export default connect(
   () => ({}), {
     onShowPopup: popupActions.onOpen,
     onClosePopup: popupActions.onClose,
-    onCloseChannel: actions.closeChannel,
+    onCloseChannel: actions.close,
     onSuccess: notificationActions.addNotification,
   },
 )(handleHover(ChannelListItem))

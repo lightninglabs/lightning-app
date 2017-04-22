@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { GRPC, SERVER_RUNNING } from 'redux-grpc-middleware'
 import { actions as notificationActions } from 'lightning-notifications'
+import { actions as accountsActions } from '../accounts'
 
 export const FETCH_ACCOUNT = 'ACCOUNTS/FETCH_ACCOUNT'
 export const FETCH_BALANCES = 'ACCOUNTS/FETCH_BALANCES'
@@ -196,7 +197,37 @@ export const actions = {
         .catch(rejectError)
     })
   },
-  closeChannel: ({ channelPoint }) => {
+  close: ({ channelPoint, remotePubkey }) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+      const rejectError = (err) => {
+        dispatch(notificationActions.addNotification(err.message))
+        reject(err.message)
+      }
+
+      dispatch(actions.listPeers())
+        .then(({ peers }) => {
+          const peer = _.find(peers, { pub_key: remotePubkey })
+
+          if (peer) {
+            const call = dispatch(actions.closeChannel({ channelPoint, force: false }))
+            call.on('data', () => {
+              dispatch(notificationActions.addNotification('Channel Closed'))
+              dispatch(accountsActions.fetchChannels())
+            })
+            call.on('error', rejectError)
+          } else {
+            const call = dispatch(actions.closeChannel({ channelPoint, force: true }))
+            call.on('data', () => {
+              dispatch(notificationActions.addNotification('Channel Closed'))
+              dispatch(accountsActions.fetchChannels())
+            })
+            call.on('error', rejectError)
+          }
+        })
+        .catch(rejectError)
+    })
+  },
+  closeChannel: ({ channelPoint, force }) => {
     const txid = channelPoint.split(':')[0]
     const index = channelPoint.split(':')[1]
     return {
@@ -208,6 +239,7 @@ export const actions = {
             funding_txid: new Buffer(txid, 'hex').reverse(),
             output_index: parseInt(index, 10),
           },
+          force,
         },
         stream: true,
       },
