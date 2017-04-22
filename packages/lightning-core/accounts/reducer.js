@@ -245,6 +245,8 @@ export const actions = {
       },
     }
   },
+  push: (...args) =>
+    ({ type: '@@router/CALL_HISTORY_METHOD', payload: { method: 'push', args } }),
 }
 
 export const selectors = {

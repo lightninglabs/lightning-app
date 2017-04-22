@@ -1,9 +1,9 @@
 import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
-import { HashRouter } from 'react-router-dom'
+import { ConnectedRouter } from 'react-router-redux'
 import 'normalize.css'
-import { configureStore } from 'lightning-store'
+import { configureStore, history } from 'lightning-store'
 import { App } from 'lightning-app'
 import { remote } from 'electron'
 
@@ -14,9 +14,9 @@ const store = configureStore()
 
 render(
   <Provider store={ store }>
-    <HashRouter>
+    <ConnectedRouter history={ history }>
       <App dispatch={ store.dispatch } />
-    </HashRouter>
+    </ConnectedRouter>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 )

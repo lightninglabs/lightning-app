@@ -5,7 +5,7 @@ import { actions } from './reducer'
 
 import { CurrencyInput, Head, Input, Page } from '../common'
 
-export const CreateChannelPage = ({ createChannel }) => {
+export const CreateChannelPage = ({ createChannel, push }) => {
   const fields = [
     {
       name: 'ip',
@@ -23,7 +23,10 @@ export const CreateChannelPage = ({ createChannel }) => {
 
   const handleSuccess = ({ ip, amount }, clear) => {
     createChannel({ ip, amount })
-      .then(clear)
+      .then(() => {
+        clear()
+        push('/accounts')
+      })
       // eslint-disable-next-line no-console
       .catch(console.error)
   }
@@ -49,5 +52,6 @@ export const CreateChannelPage = ({ createChannel }) => {
 export default connect(
   () => ({}), {
     createChannel: actions.createChannel,
-  }
+    push: actions.push,
+  },
 )(CreateChannelPage)
