@@ -117,7 +117,7 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
     <div style={ styles.channel } onContextMenu={ handleMenu }>
       <div style={ styles.split }>
         <div style={ styles.id }>
-          { id }
+          CID: { id }
           <div style={ styles.closeLabel } onClick={ showPopupOrClose }>
             <Icon small name="close" />
           </div>
