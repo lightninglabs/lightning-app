@@ -3,6 +3,7 @@ import reactCSS, { handleHover } from 'reactcss'
 import { remote } from 'electron'
 import { connect } from 'react-redux'
 import { actions as notificationActions } from 'lightning-notifications'
+import { actions as accountsActions } from '../accounts'
 
 import { Box, Icon } from 'lightning-components'
 import { Popup, actions as popupActions } from 'lightning-popup'
@@ -12,8 +13,8 @@ import { Prompt } from '../common'
 const { Menu, MenuItem } = remote
 
 export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
-  active, status, hover, channelPoint, remotePubkey, onShowPopup, onClosePopup,
-  onCloseChannel }) => {
+  active, status, hover, channelPoint, onShowPopup, onClosePopup, onCloseChannel,
+  onSuccess, onFetchChannels }) => {
   const styles = reactCSS({
     'default': {
       channel: {
@@ -89,13 +90,23 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
 
   const PROMPT = 'CHANNEL_LIST/PROMPT'
 
+  // eslint-disable-next-line
+  const close = ({ channelPoint }) => {
+    const call = onCloseChannel({ channelPoint })
+    call.on('data', () => {
+      onSuccess('Channel Closed')
+      onFetchChannels()
+    })
+    call.on('error', err => onSuccess(err.message))
+  }
+
   const showPopupOrClose = () =>
-    (active ? onCloseChannel({ channelPoint, remotePubkey }) : onShowPopup(PROMPT))
+    (active ? close({ channelPoint }) : onShowPopup(PROMPT))
   const menu = new Menu()
   menu.append(new MenuItem({ label: 'Close Channel', click() { showPopupOrClose() } }))
   const handleMenu = () => menu.popup(remote.getCurrentWindow())
   const handleClose = () => {
-    onCloseChannel({ channelPoint, remotePubkey })
+    close({ channelPoint })
     onClosePopup(PROMPT)
   }
   const handleCancel = () => onClosePopup(PROMPT)
@@ -146,7 +157,8 @@ export default connect(
   () => ({}), {
     onShowPopup: popupActions.onOpen,
     onClosePopup: popupActions.onClose,
-    onCloseChannel: actions.close,
+    onCloseChannel: actions.closeChannel,
     onSuccess: notificationActions.addNotification,
+    onFetchChannels: accountsActions.fetchChannels,
   },
 )(handleHover(ChannelListItem))
