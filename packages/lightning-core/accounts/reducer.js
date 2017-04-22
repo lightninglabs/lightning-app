@@ -101,7 +101,7 @@ export const actions = {
       method: 'pendingChannels',
       types: [null, PENDING_CHANNELS, FETCH_CHANNELS_FAILURE],
       schema: data => ({
-        channels: _.map(data.channels, channel => ({
+        channels: _.map(data.pending_channels, channel => ({
           remotePubkey: channel.identity_key,
           id: 'PENDING',
           capacity: channel.capacity,
