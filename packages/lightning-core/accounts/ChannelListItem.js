@@ -118,9 +118,11 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
       <div style={ styles.split }>
         <div style={ styles.id }>
           CID: { id }
-          <div style={ styles.closeLabel } onClick={ showPopupOrClose }>
-            <Icon small name="close" />
-          </div>
+          { status !== 'pending' && (
+            <div style={ styles.closeLabel } onClick={ showPopupOrClose }>
+              <Icon small name="close" />
+            </div>
+          ) }
         </div>
         <div style={ styles.status }>
           { active ? (
