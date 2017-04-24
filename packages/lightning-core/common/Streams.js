@@ -10,6 +10,8 @@ import { store } from 'lightning-store'
 export class Streams extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.serverRunning === false && nextProps.serverRunning === true) {
+      this.props.onFetchAccount()
+
       this.interval = setInterval(() => {
         // POLL
         this.props.onFetchAccount()
