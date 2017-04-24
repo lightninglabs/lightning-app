@@ -91,8 +91,8 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
   const PROMPT = 'CHANNEL_LIST/PROMPT'
 
   // eslint-disable-next-line
-  const close = ({ channelPoint }) => {
-    const call = onCloseChannel({ channelPoint })
+  const close = ({ channelPoint, force }) => {
+    const call = onCloseChannel({ channelPoint, force })
     call.on('data', () => {
       onSuccess('Channel Closed')
       onFetchChannels()
@@ -106,7 +106,7 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
   menu.append(new MenuItem({ label: 'Close Channel', click() { showPopupOrClose() } }))
   const handleMenu = () => menu.popup(remote.getCurrentWindow())
   const handleClose = () => {
-    close({ channelPoint })
+    close({ channelPoint, force: true })
     onClosePopup(PROMPT)
   }
   const handleCancel = () => onClosePopup(PROMPT)

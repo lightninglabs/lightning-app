@@ -196,7 +196,7 @@ export const actions = {
         .catch(rejectError)
     })
   },
-  closeChannel: ({ channelPoint }) => {
+  closeChannel: ({ channelPoint, force = false }) => {
     const txid = channelPoint.split(':')[0]
     const index = channelPoint.split(':')[1]
     return {
@@ -208,7 +208,7 @@ export const actions = {
             funding_txid: new Buffer(txid, 'hex').reverse(),
             output_index: parseInt(index, 10),
           },
-          force: true,
+          force,
         },
         stream: true,
       },
