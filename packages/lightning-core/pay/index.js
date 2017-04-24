@@ -3,10 +3,11 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Form, actions as formActions } from 'lightning-forms'
 import { actions } from './reducer'
+import { actions as accountsActions } from '../accounts'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import { sanitizePaymentRequest } from '../helpers'
 
-export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm }) => {
+export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm, onFetchAccount }) => {
   const fields = [
     {
       name: 'address',
@@ -24,7 +25,10 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm }) => {
 
   const handleSuccess = ({ address, amount }, clear) => {
     onMakePayment({ address, amount })
-      .then(clear)
+      .then(() => {
+        onFetchAccount()
+        clear()
+      })
       // eslint-disable-next-line no-console
       .catch(console.error)
   }
@@ -70,6 +74,7 @@ export default connect(
     onMakePayment: actions.makePayment,
     onDecodePaymentRequest: actions.decodePaymentRequest,
     onEditForm: formActions.editForm,
+    onFetchAccount: accountsActions.fetchAccount,
   }
 )(Pay)
 
