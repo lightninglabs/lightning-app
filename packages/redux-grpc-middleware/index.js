@@ -95,9 +95,6 @@ export default (opts = {}) => {
         console.log('Error From Method', method, err)
         reject('Error From Method', method, err)
       }
-    }).catch((err) => {
-      ERROR && next({ type: ERROR, error: err })
-      console.error(`Caught on ${ method } method`, err)
     })
   }
 }
