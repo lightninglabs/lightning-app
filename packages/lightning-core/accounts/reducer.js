@@ -44,7 +44,7 @@ export default (state = initialState, action) => {
     case FETCH_CHANNELS:
       return {
         ...state,
-        channels: _.uniqBy([...state.channels, ...action.channels], 'channelPoint'),
+        channels: _.uniqBy([...action.channels, ...state.channels], 'channelPoint'),
         loadingChannels: false,
       }
     case FETCH_CHANNELS_FAILURE:
