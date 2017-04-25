@@ -25,7 +25,7 @@ export class Streams extends React.Component {
         this.props.onFetchTransactions()
         this.props.onFetchChannels()
         this.props.onFetchAccount()
-        this.props.onSuccess(`Transaction ${ data.num_confirmations === 0 ? 'Recieved' : 'Completed' }`)
+        this.props.onSuccess(`Transaction ${ data.num_confirmations === 0 ? 'Received' : 'Completed' }`)
         fetchBalance()
       })
 

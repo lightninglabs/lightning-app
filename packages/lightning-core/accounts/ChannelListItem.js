@@ -134,7 +134,7 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
 
       <div style={ styles.split }>
         <div style={ styles.local }>My Balance: { localBalance }</div>
-        <div style={ styles.remote }>Avaliable to Recieve: { remoteBalance }</div>
+        <div style={ styles.remote }>Available to Receive: { remoteBalance }</div>
       </div>
 
       <Box style={ styles.bar }>
