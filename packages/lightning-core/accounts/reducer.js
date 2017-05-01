@@ -174,6 +174,10 @@ export const actions = {
         reject(err.message)
       }
 
+      const handleResolve = () => {
+        dispatch(notificationActions.addNotification('Opening Channel'))
+        resolve()
+      }
 
       dispatch(actions.listPeers())
         .then(({ peers }) => {
@@ -181,13 +185,13 @@ export const actions = {
 
           if (peer) {
             const call = dispatch(actions.openChannel({ pubkey, amount }))
-            call.on('data', () => dispatch(notificationActions.addNotification('Opening Channel')))
+            call.on('data', handleResolve)
             call.on('error', rejectError)
           } else {
             dispatch(actions.connectPeer({ host, pubkey }))
               .then(() => {
                 const call = dispatch(actions.openChannel({ pubkey, amount }))
-                call.on('data', () => dispatch(notificationActions.addNotification('Opening Channel')))
+                call.on('data', handleResolve)
                 call.on('error', rejectError)
               })
               .catch(rejectError)
