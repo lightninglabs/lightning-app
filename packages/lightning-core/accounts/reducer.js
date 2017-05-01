@@ -11,6 +11,7 @@ export const FETCH_CHANNELS_FAILURE = 'ACCOUNTS/FETCH_CHANNELS_FAILURE'
 export const LIST_PEERS = 'ACCOUNTS/LIST_PEERS'
 export const OPEN_CHANNEL = 'ACCOUNTS/OPEN_CHANNEL'
 export const CONNECT_PEER = 'ACCOUNTS/CONNECT_PEER'
+export const START_CLOSING_CHANNEL = 'ACCOUNTS/START_CLOSING_CHANNEL'
 export const CLOSE_CHANNEL = 'ACCOUNTS/CLOSE_CHANNEL'
 export const PENDING_CHANNELS = 'ACCOUNTS/PENDING_CHANNELS'
 export const FETCH_ACCOUNT_FAILURE = 'ACCOUNTS/FETCH_ACCOUNT_ERROR'
@@ -46,6 +47,19 @@ export default (state = initialState, action) => {
         ...state,
         channels: _.uniqBy([...action.channels, ...state.channels], 'channelPoint'),
         loadingChannels: false,
+      }
+    case START_CLOSING_CHANNEL:
+      return {
+        ...state,
+        channels: _.map(state.channels, (c) => {
+          if (c.channelPoint === action.channelPoint) {
+            return {
+              ...c,
+              status: 'closing',
+            }
+          }
+          return c
+        }),
       }
     case FETCH_CHANNELS_FAILURE:
       return { ...state, channels: [], loadingChannels: false }
@@ -199,6 +213,10 @@ export const actions = {
         })
         .catch(rejectError)
     })
+  },
+  startCloseChannel: params => (dispatch) => {
+    dispatch({ type: START_CLOSING_CHANNEL, channelPoint: params.channelPoint })
+    return dispatch(actions.closeChannel(params))
   },
   closeChannel: ({ channelPoint, force = false }) => {
     const txid = channelPoint.split(':')[0]

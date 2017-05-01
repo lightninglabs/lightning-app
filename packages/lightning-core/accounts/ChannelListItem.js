@@ -86,7 +86,7 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
         background: 'light-gray',
       },
     },
-  }, { hover, pending: status !== 'open' })
+  }, { hover, pending: status === 'pending' || status === 'closing' })
 
   const PROMPT = 'CHANNEL_LIST/PROMPT'
 
@@ -118,7 +118,7 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
       <div style={ styles.split }>
         <div style={ styles.id }>
           { status === 'pending' ? 'PENDING' : `CID:${ id }` }
-          { status !== 'pending' && (
+          { status !== 'pending' && status !== 'closing' && (
             <div style={ styles.closeLabel } onClick={ showPopupOrClose }>
               <Icon small name="close" />
             </div>
@@ -159,7 +159,7 @@ export default connect(
   () => ({}), {
     onShowPopup: popupActions.onOpen,
     onClosePopup: popupActions.onClose,
-    onCloseChannel: actions.closeChannel,
+    onCloseChannel: actions.startCloseChannel,
     onSuccess: notificationActions.addNotification,
     onFetchChannels: accountsActions.fetchChannels,
   },
