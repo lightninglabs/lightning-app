@@ -46,6 +46,10 @@ export default (state = initialState, action) => {
       return {
         ...state,
         channels: _.uniqBy([...action.channels, ...state.channels], 'channelPoint'),
+        balances: {
+          ...state.balances,
+          ...(action.limboBalance !== undefined ? { limbo: action.limboBalance } : {}),
+        },
         loadingChannels: false,
       }
     case START_CLOSING_CHANNEL:
@@ -161,6 +165,7 @@ export const actions = {
             //   status: 'pending-force-closing',
             // },
           ],
+          limboBalance: parseInt(data.total_limbo_balance, 0),
         }
       },
     },

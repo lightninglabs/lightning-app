@@ -70,11 +70,14 @@ export const Wallet = ({ pubkey, balances }) => {
       label: 'In Channels',
       amount: balances.channel,
     },
-    // {
-    //   label: 'Frozen',
-    //   amount: '2,510',
-    // },
   ]
+
+  if (balances.limbo) {
+    breakdown.push({
+      label: 'In Limbo',
+      amount: balances.limbo,
+    })
+  }
 
   return (
     <div style={ styles.bg }>
