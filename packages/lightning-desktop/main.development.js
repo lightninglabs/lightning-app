@@ -60,17 +60,17 @@ const runProcesses = (processes, logs) => {
 
 const logBuffer = []
 const logs = observe(logBuffer)
-const network = isDev ? '--simnet' : '--testnet'
 const miningaddr = isDev ? '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w' : ''
 
 const processes = [
   {
     name: 'lnd',
     args: [
-      '--btcdhost=127.0.0.1',
-      '--rpcuser=kek',
-      '--rpcpass=kek',
-      network,
+      '--bitcoin.active',
+      '--bitcoin.rpchost=localhost',
+      '--bitcoin.rpcuser=kek',
+      '--bitcoin.rpcpass=kek',
+      isDev ? '--bitcoin.simnet' : '--bitcoin.testnet',
       '--debuglevel=debug',
       '--debughtlc',
     ],
@@ -79,7 +79,7 @@ const processes = [
     args: [
       '--rpcuser=kek',
       '--rpcpass=kek',
-      network,
+      isDev ? '--simnet' : '--testnet',
       miningaddr,
       '--txindex',
     ],
