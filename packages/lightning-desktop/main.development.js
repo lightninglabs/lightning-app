@@ -129,7 +129,7 @@ const createWindow = () => {
 
   setInterval(() => {
     try {
-      mainWindow.webContents.send('logs', logQueue)
+      logQueue.length && mainWindow.webContents.send('logs', logQueue)
       logQueue = []
     } catch (err) {
       console.log('WARNING: App Was Closed While Writing Logs')
