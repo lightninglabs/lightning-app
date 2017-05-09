@@ -26,6 +26,7 @@ const initialState = {
     channel: 0,
   },
   channels: [],
+  pendingChannels: [],
   loadingChannels: false,
 }
 
@@ -42,14 +43,19 @@ export default (state = initialState, action) => {
     case SET_BALANCES:
       return { ...state, balances: { ...state.balances, ...action.balances } }
     case PENDING_CHANNELS:
+      return {
+        ...state,
+        pendingChannels: action.pendingChannels,
+        balances: {
+          ...state.balances,
+          limbo: action.limboBalance,
+        },
+        loadingChannels: false,
+      }
     case FETCH_CHANNELS:
       return {
         ...state,
-        channels: _.uniqBy([...action.channels, ...state.channels], 'channelPoint'),
-        balances: {
-          ...state.balances,
-          ...(action.limboBalance !== undefined ? { limbo: action.limboBalance } : {}),
-        },
+        channels: action.channels,
         loadingChannels: false,
       }
     case START_CLOSING_CHANNEL:
@@ -130,7 +136,7 @@ export const actions = {
           }))
 
         return {
-          channels: [
+          pendingChannels: [
             ...decorateChannels(data.pending_open_channels, () => ({ status: 'pending-open' })),
             ...decorateChannels(data.pending_closing_channels, () => ({ status: 'pending-closing' })),
             ...decorateChannels(data.pending_force_closing_channels, () => ({ status: 'pending-force-closing' })),
@@ -289,6 +295,9 @@ export const selectors = {
   getAccountPubkey: state => state.pubkey,
   getCurrency: state => state.currency,
   getAccountBalances: state => state.balances,
-  getChannels: state => state.channels || [],
+  getChannels: (state) => {
+    const channels = [...state.channels, ...state.pendingChannels]
+    return channels.length ? channels : []
+  },
   getChannelsLoading: state => state.loadingChannels,
 }
