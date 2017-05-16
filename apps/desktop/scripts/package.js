@@ -40,7 +40,7 @@ const DEFAULT_OPTS = {
   ignore: [
     '^/test($|/)',
     '^/release($|/)',
-    '^/main.development.js',
+    '^/main.dev.js',
   ]
   .concat(devDeps)
   .concat(depsMinusLodash),

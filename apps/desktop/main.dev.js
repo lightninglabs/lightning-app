@@ -9,7 +9,7 @@ import cp from 'child_process'
 import ps from 'ps-node'
 import fileLog from 'electron-log'
 import os from 'os'
-import lnd from './lnd'
+import lnd from './rpc-server'
 
 global.connection = lnd.connection
 global.serverReady = lnd.serverReady
