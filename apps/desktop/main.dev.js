@@ -64,7 +64,6 @@ const runProcesses = (processes, logs) => {
 
 const logBuffer = []
 const logs = observe(logBuffer)
-const miningaddr = isDev ? '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w' : ''
 
 const processes = [
   {
@@ -84,7 +83,7 @@ const processes = [
       '--rpcuser=kek',
       '--rpcpass=kek',
       isDev ? '--simnet' : '--testnet',
-      miningaddr,
+      isDev ? '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w' : '',
       '--txindex',
     ],
   },
