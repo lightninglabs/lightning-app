@@ -40,11 +40,10 @@ const runProcesses = (processes, logs) => {
       })
       .catch(() => {
         const plat = os.platform()
-        const binPath = isDev ? '../lightning-desktop/bin' : 'bin'
-        const filePath = path.join(__dirname, binPath, plat, proc.name, plat === 'win32' ? '.exe' : '')
+        const filePath = path.join(__dirname, 'bin', plat, proc.name, plat === 'win32' ? '.exe' : '')
 
         try {
-          const instance = cp.execFile(filePath, proc.args, { cwd: binPath }, (error) => {
+          const instance = cp.execFile(filePath, proc.args, { cwd: 'bin' }, (error) => {
             if (error) {
               logs.push(error.code ? `${ error.code }: ${ error.errno }` : JSON.stringify(error))
             }
