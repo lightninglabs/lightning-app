@@ -26,6 +26,7 @@ const initialState = {
     channel: 0,
   },
   channels: [],
+  pendingChannels: [],
   loadingChannels: false,
 }
 
@@ -42,10 +43,19 @@ export default (state = initialState, action) => {
     case SET_BALANCES:
       return { ...state, balances: { ...state.balances, ...action.balances } }
     case PENDING_CHANNELS:
+      return {
+        ...state,
+        pendingChannels: action.pendingChannels,
+        balances: {
+          ...state.balances,
+          limbo: action.limboBalance,
+        },
+        loadingChannels: false,
+      }
     case FETCH_CHANNELS:
       return {
         ...state,
-        channels: _.uniqBy([...action.channels, ...state.channels], 'channelPoint'),
+        channels: action.channels,
         loadingChannels: false,
       }
     case START_CLOSING_CHANNEL:
@@ -114,17 +124,56 @@ export const actions = {
     [GRPC]: {
       method: 'pendingChannels',
       types: [null, PENDING_CHANNELS, FETCH_CHANNELS_FAILURE],
-      schema: data => ({
-        channels: _.map(data.pending_channels, channel => ({
-          remotePubkey: channel.identity_key,
-          id: 'PENDING',
-          capacity: channel.capacity,
-          localBalance: channel.local_balance,
-          remoteBalance: channel.remote_balance,
-          channelPoint: channel.channel_point,
-          status: channel.status,
-        })),
-      }),
+      schema: (data) => {
+        const decorateChannels = (channels, transform) =>
+          _.map(channels, channel => ({
+            remotePubkey: channel.remote_node_pub,
+            capacity: channel.capacity,
+            localBalance: channel.local_balance,
+            remoteBalance: channel.remote_balance,
+            channelPoint: channel.channel_point,
+            ...transform(channel),
+          }))
+
+        return {
+          pendingChannels: [
+            ...decorateChannels(data.pending_open_channels, () => ({ status: 'pending-open' })),
+            ...decorateChannels(data.pending_closing_channels, () => ({ status: 'pending-closing' })),
+            ...decorateChannels(data.pending_force_closing_channels, () => ({ status: 'pending-force-closing' })),
+            // {
+            //   remotePubkey: '1asd78964b54ad8f8og7a59sfg6s4d7f6g4a538dfs97gsd',
+            //   id: '1925401284578204',
+            //   capacity: '40000',
+            //   localBalance: '4000',
+            //   remoteBalance: '36000',
+            //   channelPoint: '1',
+            //   status: 'open',
+            // }, {
+            //   remotePubkey: 'asd0fg864a8df79g876adf98g69sd86f7g46s8d68f57gi6',
+            //   capacity: '4000',
+            //   localBalance: '2000',
+            //   remoteBalance: '2000',
+            //   channelPoint: '2',
+            //   status: 'pending-open',
+            // }, {
+            //   remotePubkey: 'vafgg3zf789s78df97a0s9f867g3s6df5fdgsghafd9hg876ad',
+            //   capacity: '100000',
+            //   localBalance: '90000',
+            //   remoteBalance: '10000',
+            //   channelPoint: '3',
+            //   status: 'pending-closing',
+            // }, {
+            //   remotePubkey: 'xzcb8976d4bv645z657v6ba6pfdb9s8d7gb537sf6g43b42s3',
+            //   capacity: '4400',
+            //   localBalance: '1900',
+            //   remoteBalance: '2500',
+            //   channelPoint: '4',
+            //   status: 'pending-force-closing',
+            // },
+          ],
+          limboBalance: parseInt(data.total_limbo_balance, 0),
+        }
+      },
     },
   }),
   listChannels: () => ({
@@ -246,6 +295,9 @@ export const selectors = {
   getAccountPubkey: state => state.pubkey,
   getCurrency: state => state.currency,
   getAccountBalances: state => state.balances,
-  getChannels: state => state.channels || [],
+  getChannels: (state) => {
+    const channels = [...state.channels, ...state.pendingChannels]
+    return channels.length ? channels : []
+  },
   getChannelsLoading: state => state.loadingChannels,
 }

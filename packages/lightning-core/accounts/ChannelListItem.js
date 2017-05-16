@@ -15,6 +15,10 @@ const { Menu, MenuItem } = remote
 export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
   active, status, hover, channelPoint, onShowPopup, onClosePopup, onCloseChannel,
   onSuccess, onFetchChannels }) => {
+  const pending = status === 'pending-open'
+               || status === 'pending-closing'
+               || status === 'pending-force-closing'
+
   const styles = reactCSS({
     'default': {
       channel: {
@@ -86,9 +90,9 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
         background: 'light-gray',
       },
     },
-  }, { hover, pending: status === 'pending' || status === 'closing' })
+  }, { hover, pending })
 
-  const PROMPT = 'CHANNEL_LIST/PROMPT'
+  const PROMPT = `CHANNEL_LIST/PROMPT-${ channelPoint }`
 
   // eslint-disable-next-line
   const close = ({ channelPoint, force }) => {
@@ -112,13 +116,19 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
   const handleCancel = () => onClosePopup(PROMPT)
 
   const width = `${ (localBalance / capacity) * 100 }%`
+  const title = {
+    'open': `CID: ${ id }`,
+    'pending-open': 'OPENING',
+    'pending-closing': 'CLOSING',
+    'pending-force-closing': 'CLOSING',
+  }[status]
 
   return (
     <div style={ styles.channel } onContextMenu={ handleMenu }>
       <div style={ styles.split }>
         <div style={ styles.id }>
-          { status === 'pending' ? 'PENDING' : `CID:${ id }` }
-          { status !== 'pending' && status !== 'closing' && (
+          { title }
+          { !pending && (
             <div style={ styles.closeLabel } onClick={ showPopupOrClose }>
               <Icon small name="close" />
             </div>
