@@ -7,6 +7,7 @@ import _ from 'lodash'
 import observe from 'observe'
 import cp from 'child_process'
 import ps from 'ps-node'
+import fileLog from 'electron-log'
 import os from 'os'
 import lnd from './lnd'
 
@@ -35,6 +36,7 @@ const runProcesses = (processes, logs) => {
       .then(() => {
         console.log(`${ proc.name } Already Running`)
         logs.push(`${ proc.name } Already Running`)
+        fileLog.info(`${ proc.name } Already Running`)
       })
       .catch(() => {
         const plat = os.platform()
@@ -49,7 +51,10 @@ const runProcesses = (processes, logs) => {
           })
           runningProcesses.push(instance)
           instance.stdout.on('data', data => logs.push(`${ proc.name }: ${ data }`))
-          instance.stderr.on('data', data => logs.push(`${ proc.name } Error: ${ data }`))
+          instance.stderr.on('data', (data) => {
+            logs.push(`${ proc.name } Error: ${ data }`)
+            fileLog.error(`${ proc.name }: ${ data }`)
+          })
         } catch (error) {
           console.log(`Caught Error When Starting ${ proc.name }: ${ error }`)
           logs.push(`Caught Error When Starting ${ proc.name }: ${ error }`)
@@ -195,4 +200,5 @@ app.on('quit', () => {
 
 process.on('uncaughtException', (error) => {
   console.log('Caught Main Process Error:', error)
+  fileLog.error(`Main Process: ${ error }`)
 })

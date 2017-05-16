@@ -26,6 +26,13 @@ npm run setup
 
 If the window doesn't load after running `npm start`: try clicking on dev tools window and hitting `cmd-r` to refresh the window.
 
+### Logs
+Logs are written to the following locations:
+
+* **Linux:** `~/.config/Lightning/log.log`
+* **OSX:** `~/Library/Logs/Lightning/log.log`
+* **Windows:** `%USERPROFILE%\AppData\Roaming\Lightning\log.log`
+
 ### Building
 
 To build binaries for OSX:
