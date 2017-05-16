@@ -94,7 +94,7 @@ export const actions = {
         [GRPC]: {
           method: 'walletBalance',
           schema: wallet => ({
-            wallet: wallet.balance * 100000000, // To SAT,
+            wallet: parseFloat(wallet.balance * 100000000), // To SAT,
           }),
         },
       }),

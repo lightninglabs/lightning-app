@@ -27,6 +27,7 @@
     "concurrently": "^3.1.0",
     "css-loader": "^0.26.1",
     "electron-debug": "^1.1.0",
+    "electron-log": "^2.2.6",
     "electron-packager": "^8.4.0",
     "electron-prebuilt": "^1.4.6",
     "electron-window-state": "^4.0.1",

@@ -7,7 +7,8 @@ import { actions as accountsActions } from '../accounts'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import { sanitizePaymentRequest } from '../helpers'
 
-export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm, onFetchAccount }) => {
+export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
+  onFetchAccount, onFetchChannels }) => {
   const fields = [
     {
       name: 'address',
@@ -27,6 +28,7 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm, onFetch
     onMakePayment({ address, amount })
       .then(() => {
         onFetchAccount()
+        onFetchChannels()
         clear()
       })
       // eslint-disable-next-line no-console
@@ -75,6 +77,7 @@ export default connect(
     onDecodePaymentRequest: actions.decodePaymentRequest,
     onEditForm: formActions.editForm,
     onFetchAccount: accountsActions.fetchAccount,
+    onFetchChannels: accountsActions.fetchChannels,
   }
 )(Pay)
 
