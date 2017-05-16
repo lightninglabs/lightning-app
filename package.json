@@ -8,12 +8,12 @@
     "publish": "lerna publish",
     "clean": "lerna clean",
     "reinstall": "npm run clean && npm install",
-    "start": "cd packages/lightning-desktop && npm start -s",
+    "start": "cd apps/desktop && npm start -s",
     "setup": "npm install && npm run install-grpc",
-    "package-electron": "cd packages/lightning-desktop && npm run package",
-    "package-all-electron": "cd packages/lightning-desktop && npm run package-all",
+    "package-electron": "cd apps/desktop && npm run package",
+    "package-all-electron": "cd apps/desktop && npm run package-all",
     "eslint": "node_modules/.bin/eslint packages/**/*.js --quiet",
-    "install-grpc": "cd packages/lightning-desktop && npm run install-grpc"
+    "install-grpc": "cd apps/desktop && npm run install-grpc"
   },
   "repository": {
     "type": "git",
