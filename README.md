@@ -26,6 +26,24 @@ npm run setup
 
 If the window doesn't load after running `npm start`: try clicking on dev tools window and hitting `cmd-r` to refresh the window.
 
+### Building
+
+To build binaries for OSX:
+```
+cd $GOPATH/src/github.com/lightningnetwork/lnd
+git pull
+glide install
+go install . ./cmd/...
+```
+
+To build binaries for Windows:
+```
+cd $GOPATH/src/github.com/lightningnetwork/lnd
+git pull
+glide install
+GOOS=windows GOARCH=amd64 go build -v
+```
+
 ### Packaging
 To package the app for all platforms run `npm run package-all-electron`. Make sure you have xquartz `brew cask install xquartz` wine installed `brew install wine`. If you run into `ENFILE: file table overflow` as an error put `ulimit -n 2560` in your bash profile.
 

@@ -11,6 +11,7 @@ export class Streams extends React.Component {
   componentWillReceiveProps(nextProps) {
     if (this.props.serverRunning === false && nextProps.serverRunning === true) {
       this.props.onFetchAccount()
+      this.props.onFetchChannels()
 
       this.interval = setInterval(() => {
         // POLL
