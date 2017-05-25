@@ -6,7 +6,7 @@ import baseConfig from './webpack.config.base'
 export default validate(merge(baseConfig, {
   devtool: 'source-map',
 
-  entry: ['babel-polyfill', './main.development'],
+  entry: ['babel-polyfill', './main.dev'],
 
   // 'main.js' in root
   output: {

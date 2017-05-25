@@ -8,11 +8,11 @@
     "node": "^6.7.0"
   },
   "scripts": {
-    "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill package.js",
+    "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill scripts/package.js",
     "package-all": "npm run package -- --all",
-    "start": "node startup-message.js && concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\" -n \"electron,webpack\" -p name",
-    "start-electron": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.development",
-    "start-webpack": "cross-env NODE_ENV=development node -r babel-register dev-server.js",
+    "start": "node scripts/startup-message.js && concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\" -n \"electron,webpack\" -p name",
+    "start-electron": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.dev",
+    "start-webpack": "cross-env NODE_ENV=development node -r babel-register scripts/dev-server.js",
     "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.4.6"
   },
   "bin": {

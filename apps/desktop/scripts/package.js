@@ -8,10 +8,10 @@ import webpack from 'webpack'
 import packager from 'electron-packager'
 import del from 'del'
 import minimist from 'minimist'
-import cfg from './webpack.config.production'
-import pkg from './package.json'
+import prodCfg from '../webpack.config.production'
+import electronCfg from '../webpack.config.electron'
+import pkg from '../package.json'
 
-import electronCfg from './webpack.config.electron'
 
 const argv = minimist(process.argv.slice(2))
 const toNodePath = name => `/node_modules/${ name }($|/)`
@@ -40,7 +40,7 @@ const DEFAULT_OPTS = {
   ignore: [
     '^/test($|/)',
     '^/release($|/)',
-    '^/main.development.js',
+    '^/main.dev.js',
   ]
   .concat(devDeps)
   .concat(depsMinusLodash),
@@ -95,7 +95,7 @@ function startPack() {
     [
       del('../../release', { force: true }),
       build(electronCfg),
-      build(cfg),
+      build(prodCfg),
     ]
   ).then(() => {
     if (shouldBuildAll) {

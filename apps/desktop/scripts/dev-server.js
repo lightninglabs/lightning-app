@@ -5,7 +5,7 @@ import path from 'path'
 import webpackDevMiddleware from 'webpack-dev-middleware'
 import webpackHotMiddleware from 'webpack-hot-middleware'
 
-import config from './webpack.config.development'
+import config from '../webpack.config.development'
 
 const app = express()
 const compiler = webpack(config)
@@ -21,7 +21,7 @@ app.use(webpackHotMiddleware(compiler))
 
 app.use(express.static('static'))
 app.get('*', (request, response) => {
-  response.sendFile(path.resolve(__dirname, 'app.dev.html'))
+  response.sendFile(path.resolve(__dirname, '..', 'app.dev.html'))
 })
 
 app.listen(PORT, 'localhost', (err) => {

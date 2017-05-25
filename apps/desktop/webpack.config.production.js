@@ -12,7 +12,7 @@ const config = validate(merge(baseConfig, {
   entry: {
     app: [
       'babel-polyfill',
-      './../lightning-desktop/index',
+      './index',
     ],
     vendor: ['react', 'redux', 'lodash'],
   },

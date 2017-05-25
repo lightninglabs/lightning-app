@@ -9,7 +9,7 @@ import cp from 'child_process'
 import ps from 'ps-node'
 import fileLog from 'electron-log'
 import os from 'os'
-import lnd from './lnd'
+import lnd from './rpc-server'
 
 global.connection = lnd.connection
 global.serverReady = lnd.serverReady
@@ -40,11 +40,10 @@ const runProcesses = (processes, logs) => {
       })
       .catch(() => {
         const plat = os.platform()
-        const binPath = isDev ? '../lightning-desktop/bin' : 'bin'
-        const filePath = path.join(__dirname, binPath, plat, proc.name, plat === 'win32' ? '.exe' : '')
+        const filePath = path.join(__dirname, 'bin', plat, proc.name, plat === 'win32' ? '.exe' : '')
 
         try {
-          const instance = cp.execFile(filePath, proc.args, { cwd: binPath }, (error) => {
+          const instance = cp.execFile(filePath, proc.args, { cwd: 'bin' }, (error) => {
             if (error) {
               logs.push(error.code ? `${ error.code }: ${ error.errno }` : JSON.stringify(error))
             }
@@ -65,7 +64,6 @@ const runProcesses = (processes, logs) => {
 
 const logBuffer = []
 const logs = observe(logBuffer)
-const miningaddr = isDev ? '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w' : ''
 
 const processes = [
   {
@@ -85,7 +83,7 @@ const processes = [
       '--rpcuser=kek',
       '--rpcpass=kek',
       isDev ? '--simnet' : '--testnet',
-      miningaddr,
+      isDev ? '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w' : '',
       '--txindex',
     ],
   },
