@@ -70,21 +70,12 @@ const processes = [
     name: 'lnd',
     args: [
       '--bitcoin.active',
-      '--bitcoin.rpchost=localhost',
-      '--bitcoin.rpcuser=kek',
-      '--bitcoin.rpcpass=kek',
+      '--neutrino.active',
+      '--configfile=../lnd.conf',
       isDev ? '--bitcoin.simnet' : '--bitcoin.testnet',
-      '--debuglevel=debug',
-      '--debughtlc',
-    ],
-  }, {
-    name: 'btcd',
-    args: [
-      '--rpcuser=kek',
-      '--rpcpass=kek',
-      isDev ? '--simnet' : '--testnet',
-      isDev ? '--miningaddr=4NyWssGkW6Nbwj3nXrJU54U2ijHgWaKZ1N19w' : '',
-      '--txindex',
+      isDev ? '--neutrino.addpeer=127.0.0.1:18335' : '--neutrino.addpeer=faucet.lightning.community:18333',
+      isDev ? '' : '--neutrino.addpeer=127.0.0.1:18333',
+      '--debuglevel=info',
     ],
   },
 ]

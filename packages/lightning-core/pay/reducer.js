@@ -45,7 +45,14 @@ export const actions = {
       dispatch(actions.decodePaymentRequest({ paymentRequest }))
         .then(() => {
           const payments = dispatch(actions.sendPayment())
-          payments.on('data', resolveSuccess)
+          payments.on('data', function(payment) {
+              if (payment.payment_error != null) {
+                  rejectError 
+              }
+              else {
+                  resolveSuccess
+              }
+          })
           payments.on('error', rejectError)
           payments.write({ payment_request: paymentRequest })
         })
