@@ -9,10 +9,8 @@ import cp from 'child_process'
 import ps from 'ps-node'
 import fileLog from 'electron-log'
 import os from 'os'
-import lnd from './rpc-server'
-
-global.connection = lnd.connection
-global.serverReady = lnd.serverReady
+import fs from 'fs'
+import grpc from 'grpc'
 
 app.commandLine.appendSwitch('remote-debugging-port', '9997')
 app.commandLine.appendSwitch('host-rules', 'MAP * 127.0.0.1')
@@ -43,7 +41,7 @@ const runProcesses = (processes, logs) => {
         const filePath = path.join(__dirname, 'bin', plat, proc.name, plat === 'win32' ? '.exe' : '')
 
         try {
-          const instance = cp.execFile(filePath, proc.args, { cwd: 'bin' }, (error) => {
+          const instance = cp.execFile(filePath, proc.args, (error) => {
             if (error) {
               logs.push(error.code ? `${ error.code }: ${ error.errno }` : JSON.stringify(error))
             }
@@ -73,16 +71,50 @@ const processes = [
       '--neutrino.active',
       '--configfile=../lnd.conf',
       isDev ? '--bitcoin.simnet' : '--bitcoin.testnet',
-      isDev ? '--neutrino.addpeer=127.0.0.1:18335' : '--neutrino.addpeer=faucet.lightning.community:18333',
-      isDev ? '' : '--neutrino.addpeer=127.0.0.1:18333',
+      isDev ? '--neutrino.connect=127.0.0.1:18335' : '--neutrino.connect=faucet.lightning.community:18333',
+      isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
       '--debuglevel=info',
+      '--no-macaroons',
     ],
   },
 ]
 
 runProcesses(processes, logs)
 
+let intervalId
+let certPath
+const homedir = os.homedir()
+
+switch (os.platform()) {
+    case 'darwin':
+        certPath = path.join(homedir, 'Library/Application\ Support/Lnd/tls.cert')
+        break
+    case 'linux':
+        certPath = path.join(homedir, '.lnd/tls.cert')
+        break
+    case 'win32':
+        certPath = path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert')
+        break
+}
+
 const createWindow = () => {
+   intervalId = setInterval(() => {
+       if (fs.existsSync(certPath)) {
+           clearInterval(intervalId)
+           const lndCert = fs.readFileSync(certPath)
+           const credentials = grpc.credentials.createSsl(lndCert)
+           const { lnrpc } = grpc.load(path.join(__dirname, 'rpc.proto'))
+           const connection = new lnrpc.Lightning('localhost:10009', credentials)
+           const serverReady = cb => 
+             grpc.waitForClientReady(connection, Infinity, cb)
+           global.connection = connection
+           global.serverReady = serverReady
+           finishCreateWindow()
+       }
+   }, 500)
+}
+
+const finishCreateWindow = () => {
   const mainWindowState = windowStateKeeper({
     defaultWidth: 750,
     defaultHeight: 500,
