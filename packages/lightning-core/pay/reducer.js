@@ -48,12 +48,11 @@ export const actions = {
         .then(() => {
           const payments = dispatch(actions.sendPayment())
           payments.on('data', function(payment) {
-              }
-              else {
-                  resolveSuccess
               if (payment.payment_error != "") {
                   // TODO(roasbeef): need to switch and properlu display errors
                   rejectError({message: "Payment route failure"})
+              } else {
+                  resolveSuccess()
               }
           })
           payments.on('error', rejectError)
@@ -85,7 +84,7 @@ export const actions = {
   }),
   subscribePayments: () => ({
     [GRPC]: {
-      method: 'sendPayment',
+      method: 'subscribePayments',
       types: SUBSCRIBE_PAYMENT,
       stream: true,
     },
