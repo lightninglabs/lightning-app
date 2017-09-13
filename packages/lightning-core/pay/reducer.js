@@ -48,11 +48,12 @@ export const actions = {
         .then(() => {
           const payments = dispatch(actions.sendPayment())
           payments.on('data', function(payment) {
-                  rejectError 
               }
               else {
                   resolveSuccess
               if (payment.payment_error != "") {
+                  // TODO(roasbeef): need to switch and properlu display errors
+                  rejectError({message: "Payment route failure"})
               }
           })
           payments.on('error', rejectError)
