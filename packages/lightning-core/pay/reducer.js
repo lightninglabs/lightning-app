@@ -34,6 +34,8 @@ export const actions = {
       const resolveSuccess = () => {
         dispatch(notificationActions.addNotification('Payment Sent'))
         dispatch(accountsActions.fetchChannels())
+        dispatch(accountsActions.fetchBalances())
+        dispatch(accountsActions.fetchAccount())
         resolve('Payment Sent')
       }
       const rejectError = (err) => {
