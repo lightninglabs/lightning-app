@@ -44,8 +44,7 @@ export class Accounts extends React.Component {
         <Page>
           <Head
             title="Your Channels"
-            body="Channels are like tubes of money used to transfer funds within
-            the network"
+            body="Channels are like tubes of money used to send money through the network"
             right={ createChannel }
           />
           <ChannelList

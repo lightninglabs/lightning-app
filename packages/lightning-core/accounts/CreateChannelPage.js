@@ -35,8 +35,7 @@ export const CreateChannelPage = ({ createChannel, push }) => {
     <Page>
       <Head
         title="Create Channel"
-        body="Channels are like tubes of money used to transfer funds within
-        the network"
+        body="Channels are like tubes of money used to transfer funds within Lightning"
       />
       <Form
         name="create-channel"
