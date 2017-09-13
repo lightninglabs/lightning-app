@@ -48,11 +48,11 @@ export const actions = {
         .then(() => {
           const payments = dispatch(actions.sendPayment())
           payments.on('data', function(payment) {
-              if (payment.payment_error != null) {
                   rejectError 
               }
               else {
                   resolveSuccess
+              if (payment.payment_error != "") {
               }
           })
           payments.on('error', rejectError)
