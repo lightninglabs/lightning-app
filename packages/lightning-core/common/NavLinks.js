@@ -17,7 +17,7 @@ export const NavLinks = ({ onChange }) => {
     },
     {
       icon: 'wallet',
-      label: 'Accounts',
+      label: 'Channels',
       id: 'accounts',
     }, {
       icon: 'swap-horizontal',
