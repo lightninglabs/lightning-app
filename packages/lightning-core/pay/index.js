@@ -56,8 +56,7 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
       <Head
         title="Make a Payment"
         body="Lightning payments will be instant, while on-chain Bitcoin
-        transactions will require blockchain confirmation (approx. 10 mins)"
-      />
+        transactions require at least one confirmation (approx. 10 mins)" />
       <Form
         name="pay"
         fields={ fields }
