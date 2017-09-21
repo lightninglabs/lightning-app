@@ -23,7 +23,6 @@ const App = () => {
       },
       sidebar: {
         direction: 'column',
-        WebkitAppRegion: 'drag',
         userSelect: 'none',
         cursor: 'default',
         width: '170px',
@@ -41,13 +40,6 @@ const App = () => {
   return (
     <Box style={ styles.app }>
       <Box style={ styles.sidebar }>
-        <Box style={ styles.lights }>
-          <TrafficLights
-            background="#666"
-            color="#272429"
-            minimizeOnClose
-          />
-        </Box>
         <Sidebar />
       </Box>
       <Box style={ styles.content }>

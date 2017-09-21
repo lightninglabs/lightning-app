@@ -38,7 +38,7 @@ const runProcesses = (processes, logs) => {
       })
       .catch(() => {
         const plat = os.platform()
-        const filePath = path.join(__dirname, 'bin', plat, proc.name, plat === 'win32' ? '.exe' : '')
+        const filePath = path.join(__dirname, 'bin', plat, plat === 'win32' ? proc.name + '.exe' : proc.name)
 
         try {
           const instance = cp.execFile(filePath, proc.args, (error) => {
@@ -75,6 +75,7 @@ const processes = [
       isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
       '--debuglevel=info',
       '--no-macaroons',
+      '--autopilot.active',
     ],
   },
 ]
@@ -120,17 +121,26 @@ const finishCreateWindow = () => {
     defaultHeight: 500,
   })
 
+  const plat = os.platform()
+
+  const icon = 'assets/ln-logo' + ({
+    'darwin': '.icns',
+    'win32': '.ico',
+  }[plat] || '.png')
+
   const { x, y, width, height } = mainWindowState
   mainWindow = new BrowserWindow({
     x,
     y,
     width,
     height,
+    icon: icon,
     show: false,
-    transparent: true,
-    frame: false,
+    frame: true,
     title: 'Lightning',
   })
+
+  mainWindow.setMenu(null)
 
   mainWindowState.manage(mainWindow)
   if (isDev) {
