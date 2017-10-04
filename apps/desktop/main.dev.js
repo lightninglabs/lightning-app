@@ -71,7 +71,7 @@ const processes = [
       '--neutrino.active',
       '--configfile=../lnd.conf',
       isDev ? '--bitcoin.simnet' : '--bitcoin.testnet',
-      isDev ? '--neutrino.connect=127.0.0.1:18335' : '--neutrino.connect=faucet.lightning.community:18333',
+      isDev ? '--neutrino.connect=127.0.0.1:18335' : '--neutrino.connect=btcd0.lightning.computer:18333',
       isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
       '--debuglevel=info',
       '--no-macaroons',
