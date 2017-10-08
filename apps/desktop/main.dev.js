@@ -41,11 +41,7 @@ const runProcesses = (processes, logs) => {
         const filePath = path.join(__dirname, 'bin', plat, plat === 'win32' ? proc.name + '.exe' : proc.name)
 
         try {
-          const instance = cp.execFile(filePath, proc.args, (error) => {
-            if (error) {
-              logs.push(error.code ? `${ error.code }: ${ error.errno }` : JSON.stringify(error))
-            }
-          })
+          const instance = cp.spawn(filePath, proc.args)
           runningProcesses.push(instance)
           instance.stdout.on('data', data => logs.push(`${ proc.name }: ${ data }`))
           instance.stderr.on('data', (data) => {
