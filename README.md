@@ -1,5 +1,13 @@
+## Lightning Desktop App
+
+This repo houses a cross-platform Lightning desktop app powered by
+[`lnd`](https://github.com/lightningnetwork/lnd/). The application is under
+active development and currently only operates on the Bitcoin testnet chain.
+
+<img src="screenshot.png">
 
 ### Developing Locally
+
 
 First start by pulling down the git repo:
 ```
