@@ -3,7 +3,7 @@
 
 First start by pulling down the git repo:
 ```
-git clone https://github.com/lightningnetwork/lightning-app.git
+git clone https://github.com/lightninglabs/lightning-app.git
 ```
 
 Then go inside the project folder and run npm install (grab a coffee, this might take a while):
