@@ -12,11 +12,13 @@ export class Streams extends React.Component {
     if (this.props.serverRunning === false && nextProps.serverRunning === true) {
       this.props.onFetchAccount()
       this.props.onFetchChannels()
+      this.props.onFetchBalances()
 
       this.interval = setInterval(() => {
         // POLL
         this.props.onFetchAccount()
         this.props.onFetchChannels()
+        this.props.onFetchBalances()
       }, 20000)
 
       const fetchBalance = _.debounce(this.props.onFetchBalances, 2000)
