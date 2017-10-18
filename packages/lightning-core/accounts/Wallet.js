@@ -2,6 +2,7 @@ import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
 import { total } from '../helpers'
+import { Text } from 'lightning-components'
 
 export const Wallet = ({ pubkey, balances }) => {
   const styles = reactCSS({
@@ -28,15 +29,14 @@ export const Wallet = ({ pubkey, balances }) => {
       },
       amount: {
         fontSize: 32,
-        marginBottom: 4,
+        marginBottom: 10,
       },
       address: {
         fontSize: 16,
         color: 'rgba(0,0,0,0.4)',
-        width: 250,
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
+        minWidth: 300,
+        wordBreak: 'break-word',
+        marginRight: 20,
         marginBottom: 10,
       },
       breakdown: {
@@ -87,7 +87,7 @@ export const Wallet = ({ pubkey, balances }) => {
           <div style={ styles.amount }>
             { total(balances) } SAT
           </div>
-          <div style={ styles.address }>{ pubkey }</div>
+          <div style={ styles.address }><Text bold>Pubkey: </Text>{ pubkey }</div>
         </div>
         <div style={ styles.breakdown }>
 

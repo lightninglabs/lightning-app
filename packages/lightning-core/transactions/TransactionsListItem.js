@@ -1,7 +1,6 @@
 import React from 'react'
 import reactCSS from 'reactcss'
-
-import { Icon } from 'lightning-components'
+import { Text, Icon } from 'lightning-components'
 
 export const TransactionsListItem = ({ type, hash, memo, amount, status }) => {
   const styles = reactCSS({
@@ -46,10 +45,8 @@ export const TransactionsListItem = ({ type, hash, memo, amount, status }) => {
         cursor: 'default',
       },
       overflow: {
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-        textOverflow: 'ellipsis',
-        width: 330,
+        minWidth: 330,
+        wordBreak: 'break-word',
       },
     },
   })
@@ -60,11 +57,9 @@ export const TransactionsListItem = ({ type, hash, memo, amount, status }) => {
       </div>
       <div style={{ ...styles.text, ...styles.column }}>
         <div style={{ ...styles.big, ...styles.overflow }}>
-          { hash }
+          <Text bold>TxID: </Text>{ hash }
         </div>
-        { memo ? (
-          <div style={ styles.small }>{ memo }</div>
-        ) : null }
+        {memo && <div style={{ ...styles.small, ...styles.overflow }}>Note: { memo }</div>}
       </div>
 
       <div style={{ ...styles.details, ...styles.column }}>
