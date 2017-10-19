@@ -1,10 +1,15 @@
 import React from 'react'
 import _ from 'lodash'
 import reactCSS from 'reactcss'
+import { connect } from 'react-redux'
+import { withRouter } from 'react-router'
+import { actions as accountActions } from '../accounts'
+import { store } from 'lightning-store'
+import { Money, MoneySign } from '../common'
 import { total } from '../helpers'
 import { Text } from 'lightning-components'
 
-export const Wallet = ({ pubkey, balances }) => {
+export const Wallet = ({ pubkey, currency, balances }) => {
   const styles = reactCSS({
     'default': {
       bg: {
@@ -85,7 +90,7 @@ export const Wallet = ({ pubkey, balances }) => {
       <div style={ styles.details }>
         <div style={ styles.total }>
           <div style={ styles.amount }>
-            { total(balances) } SAT
+            <Money amount={ total(balances) } currency={ currency } /> <MoneySign currency={ currency } />
           </div>
           <div style={ styles.address }><Text bold>Pubkey: </Text>{ pubkey }</div>
         </div>
@@ -97,7 +102,7 @@ export const Wallet = ({ pubkey, balances }) => {
                 { item.label }
               </div>
               <div style={ styles.count }>
-                { item.amount }
+                <Money amount={ item.amount } currency={ currency } /> <MoneySign currency={ currency } />
               </div>
             </div>
           )) }
@@ -107,5 +112,15 @@ export const Wallet = ({ pubkey, balances }) => {
     </div>
   )
 }
-
-export default Wallet
+export default withRouter(connect(
+  state => ({
+    serverRunning: store.getServerRunning(state),
+    isSynced: store.getSyncedToChain(state),
+    pubkey: store.getAccountPubkey(state),
+    currency: store.getCurrency(state),
+    balances: store.getAccountBalances(state),
+  }), {
+    fetchAccount: accountActions.fetchAccount,
+    fetchBalances: accountActions.fetchBalances,
+  },
+)(Wallet))

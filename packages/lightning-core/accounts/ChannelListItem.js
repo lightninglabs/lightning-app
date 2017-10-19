@@ -4,15 +4,17 @@ import { remote } from 'electron'
 import { connect } from 'react-redux'
 import { actions as notificationActions } from 'lightning-notifications'
 import { actions as accountsActions } from '../accounts'
-
 import { Box, Icon } from 'lightning-components'
 import { Popup, actions as popupActions } from 'lightning-popup'
 import { actions } from './reducer'
 import { Prompt } from '../common'
+import { Money, MoneySign } from '../common'
+import { withRouter } from 'react-router'
+import { store } from 'lightning-store'
 
 const { Menu, MenuItem } = remote
 
-export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
+export const ChannelListItem = ({ id, capacity, currency, localBalance, remoteBalance,
   active, status, hover, channelPoint, onShowPopup, onClosePopup, onCloseChannel,
   onSuccess, onFetchChannels }) => {
   const pending = status === 'pending-open'
@@ -143,8 +145,8 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
       </div>
 
       <div style={ styles.split }>
-        <div style={ styles.local }>My Balance: { localBalance }</div>
-        <div style={ styles.remote }>Available to Receive: { remoteBalance }</div>
+        <div style={ styles.local }>My Balance: <Money amount={ localBalance } currency={ currency } /> <MoneySign currency={ currency } /></div>
+        <div style={ styles.remote }>Available to Receive: <Money amount={ remoteBalance } currency={ currency } /> <MoneySign currency={ currency } /></div>
       </div>
 
       <Box style={ styles.bar }>
@@ -166,11 +168,19 @@ export const ChannelListItem = ({ id, capacity, localBalance, remoteBalance,
 }
 
 export default connect(
-  () => ({}), {
+  state => ({
+    serverRunning: store.getServerRunning(state),
+    isSynced: store.getSyncedToChain(state),
+    pubkey: store.getAccountPubkey(state),
+    currency: store.getCurrency(state),
+    balances: store.getAccountBalances(state),
+  }), {
     onShowPopup: popupActions.onOpen,
     onClosePopup: popupActions.onClose,
     onCloseChannel: actions.startCloseChannel,
     onSuccess: notificationActions.addNotification,
     onFetchChannels: accountsActions.fetchChannels,
+    onfetchAccount: accountsActions.fetchAccount,
+    onfetchBalances: accountsActions.fetchBalances,
   },
 )(handleHover(ChannelListItem))
