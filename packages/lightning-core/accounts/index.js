@@ -66,7 +66,7 @@ export default connect(
   }), {
     onMount: actions.fetchChannels,
     fetchBalances: actions.fetchBalances,
-  }
+  },
 )(Accounts)
 
 export { default as reducer, actions, selectors } from './reducer'

@@ -6,7 +6,6 @@ import { Box } from 'lightning-components'
 import { Notifications } from 'lightning-notifications'
 import { Sidebar, PayPage, RequestPage, AccountsPage, CreateChannelPage,
   TransactionsPage, SettingsPage, Streams } from 'lightning-core'
-import { TrafficLights } from '@components/electron'
 
 const App = () => {
   const styles = reactCSS({

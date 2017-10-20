@@ -1,3 +1,4 @@
+/* eslint-disable global-require, no-console */
 
 import React from 'react'
 import { Form } from 'lightning-forms'
@@ -28,7 +29,6 @@ export const Pay = ({ showPopup, closePopup, paymentRequest, address,
 
   const handleSuccess = ({ amount, note }, clear) => {
     onGeneratePaymentRequest({ amount, note })
-      // eslint-disable-next-line no-console
       .catch(console.error)
     showPopup(POPUP_NAME)
     clear()
@@ -62,7 +62,7 @@ export const Pay = ({ showPopup, closePopup, paymentRequest, address,
         <Head
           title="Request Lightning Payment"
           body="Generate a payment request that others can use to pay you
-          immediately via the Lightning Network."
+                immediately via the Lightning Network."
         />
         <Form
           name="request"
@@ -93,7 +93,7 @@ export default connect(
     onFetchAddress: actions.fetchAddress,
     onGeneratePaymentRequest: actions.generatePaymentRequest,
     onSuccess: notificationActions.addNotification,
-  }
+  },
 )(Pay)
 
 export { default as reducer, actions, selectors } from './reducer'

@@ -76,7 +76,7 @@ export default connect(
   state => ({
     logs: store.getRecentLogs(state),
     pubkey: store.getAccountPubkey(state),
-  })
+  }),
 )(SettingsPage)
 
 export { default as reducer, actions, selectors } from './reducer'

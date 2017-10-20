@@ -38,7 +38,7 @@ const runProcesses = (processes, logs) => {
       })
       .catch(() => {
         const plat = os.platform()
-        const filePath = path.join(__dirname, 'bin', plat, plat === 'win32' ? proc.name + '.exe' : proc.name)
+        const filePath = path.join(__dirname, 'bin', plat, plat === 'win32' ? `${ proc.name }.exe` : proc.name)
 
         try {
           const instance = cp.spawn(filePath, proc.args)
@@ -83,32 +83,17 @@ let certPath
 const homedir = os.homedir()
 
 switch (os.platform()) {
-    case 'darwin':
-        certPath = path.join(homedir, 'Library/Application\ Support/Lnd/tls.cert')
-        break
-    case 'linux':
-        certPath = path.join(homedir, '.lnd/tls.cert')
-        break
-    case 'win32':
-        certPath = path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert')
-        break
-}
-
-const createWindow = () => {
-   intervalId = setInterval(() => {
-       if (fs.existsSync(certPath)) {
-           clearInterval(intervalId)
-           const lndCert = fs.readFileSync(certPath)
-           const credentials = grpc.credentials.createSsl(lndCert)
-           const { lnrpc } = grpc.load(path.join(__dirname, 'rpc.proto'))
-           const connection = new lnrpc.Lightning('localhost:10009', credentials)
-           const serverReady = cb => 
-             grpc.waitForClientReady(connection, Infinity, cb)
-           global.connection = connection
-           global.serverReady = serverReady
-           finishCreateWindow()
-       }
-   }, 500)
+  case 'darwin':
+    certPath = path.join(homedir, 'Library/Application\ Support/Lnd/tls.cert')
+    break
+  case 'linux':
+    certPath = path.join(homedir, '.lnd/tls.cert')
+    break
+  case 'win32':
+    certPath = path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert')
+    break
+  default:
+    break
 }
 
 const finishCreateWindow = () => {
@@ -168,10 +153,6 @@ const finishCreateWindow = () => {
     }
   }, 2000)
 
-  // if (isDev) {
-  //   mainWindow.openDevTools()
-  // }
-
   mainWindow.on('closed', () => {
     mainWindow = null
   })
@@ -199,25 +180,30 @@ const finishCreateWindow = () => {
   !isDev && Menu.setApplicationMenu(Menu.buildFromTemplate(template))
 }
 
-// if (isDev) {
+const createWindow = () => {
+  intervalId = setInterval(() => {
+    if (fs.existsSync(certPath)) {
+      clearInterval(intervalId)
+      const lndCert = fs.readFileSync(certPath)
+      const credentials = grpc.credentials.createSsl(lndCert)
+      const { lnrpc } = grpc.load(path.join(__dirname, 'rpc.proto'))
+      const connection = new lnrpc.Lightning('localhost:10009', credentials)
+      const serverReady = cb =>
+       grpc.waitForClientReady(connection, Infinity, cb)
+      global.connection = connection
+      global.serverReady = serverReady
+      finishCreateWindow()
+    }
+  }, 500)
+}
+
 require('electron-debug')({ enabled: true })
-// }
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
 })
-
-// if (process.platform === 'darwin') {
-//   const template = [
-//     {
-//       label: app.getName(),
-//     },
-//   ]
-//   const menu = Menu.buildFromTemplate(template)
-//   Menu.setApplicationMenu(menu)
-// }
 
 app.on('ready', createWindow)
 

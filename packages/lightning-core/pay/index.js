@@ -1,3 +1,4 @@
+/* eslint-disable global-require, no-console */
 
 import React from 'react'
 import { connect } from 'react-redux'
@@ -31,7 +32,6 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
         onFetchChannels()
         clear()
       })
-      // eslint-disable-next-line no-console
       .catch(console.error)
   }
 
@@ -56,7 +56,8 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
       <Head
         title="Make a Payment"
         body="Lightning payments will be instant, while on-chain Bitcoin
-        transactions require at least one confirmation (approx. 10 mins)" />
+              transactions require at least one confirmation (approx. 10 mins)"
+      />
       <Form
         name="pay"
         fields={ fields }
@@ -77,7 +78,7 @@ export default connect(
     onEditForm: formActions.editForm,
     onFetchAccount: accountsActions.fetchAccount,
     onFetchChannels: accountsActions.fetchChannels,
-  }
+  },
 )(Pay)
 
 export { default as reducer, actions, selectors } from './reducer'

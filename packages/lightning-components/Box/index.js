@@ -9,7 +9,6 @@ const keys = ['display', 'direction', 'color', 'background', 'padding', 'padding
   'paddingRight', 'paddingBottom', 'paddingLeft', 'fontSize', 'align',
   'verticalAlign', 'spread', 'zDepth']
 
-
 export const Box = (props) => {
   const styles = reactCSS({
     'default': {
@@ -35,12 +34,10 @@ export const Box = (props) => {
       row: {
         display: 'flex',
         flexDirection: 'row',
-        // alignItems: 'stretch',
       },
       column: {
         display: 'flex',
         flexDirection: 'column',
-        // alignItems: 'stretch',
       },
     }, 'box'),
 

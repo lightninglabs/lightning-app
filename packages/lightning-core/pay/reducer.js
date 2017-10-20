@@ -47,13 +47,13 @@ export const actions = {
       dispatch(actions.decodePaymentRequest({ paymentRequest }))
         .then(() => {
           const payments = dispatch(actions.sendPayment())
-          payments.on('data', function(payment) {
-              if (payment.payment_error != "") {
-                  // TODO(roasbeef): need to switch and properlu display errors
-                  rejectError({message: "Payment route failure"})
-              } else {
-                  resolveSuccess()
-              }
+          payments.on('data', (payment) => {
+            if (payment.payment_error === '') {
+              resolveSuccess()
+            } else {
+              // TODO(roasbeef): need to switch and properly display errors
+              rejectError({ message: 'Payment route failure' })
+            }
           })
           payments.on('error', rejectError)
           payments.write({ payment_request: paymentRequest })
@@ -91,6 +91,4 @@ export const actions = {
   }),
 }
 
-export const selectors = {
-
-}
+export const selectors = {}

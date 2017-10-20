@@ -1,4 +1,3 @@
-
 import React from 'react'
 import { connect } from 'react-redux'
 import { store } from 'lightning-store'
@@ -17,7 +16,7 @@ export class Transactions extends React.Component {
         <Head
           title="Your Transactions"
           body="This is a list of payments, including Lightning and on-chain
-          transactions, sent to or from your wallet."
+                transactions, sent to or from your wallet."
         />
         <TransactionsList transactions={ transactions } loading={ loading } />
       </Page>
@@ -31,7 +30,7 @@ export default connect(
     transactions: store.getRecentTransactions(state),
   }), {
     onFetchTransactions: actions.fetchTransactions,
-  }
+  },
 )(Transactions)
 
 export { default as reducer, actions, selectors } from './reducer'

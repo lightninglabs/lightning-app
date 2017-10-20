@@ -96,7 +96,7 @@ function startPack() {
       del('../../release', { force: true }),
       build(electronCfg),
       build(prodCfg),
-    ]
+    ],
   ).then(() => {
     if (shouldBuildAll) {
       const archs = ['x64']
@@ -117,7 +117,6 @@ function startPack() {
     startPack()
   })
 }
-
 
 const version = argv.version || argv.v
 DEFAULT_OPTS.electronVersion = version || '1.4.6'

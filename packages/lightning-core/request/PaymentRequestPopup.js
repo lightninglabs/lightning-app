@@ -42,7 +42,7 @@ export const PaymentRequestPopup = ({ paymentRequest, closePopup }) => {
         <Head
           title="Payment Request"
           body="Send this encoded payment request to the party who would like to
-          pay you via the Lightning Network."
+                pay you via the Lightning Network."
         />
         <Input
           fullWidth

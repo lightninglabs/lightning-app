@@ -154,5 +154,5 @@ export default connect(
       }),
     }
   },
-  actions
+  actions,
 )(Form)

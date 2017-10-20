@@ -47,5 +47,5 @@ export default connect(
   (state, ownProps) => ({
     visible: store.getPopupVisibility(state, ownProps.name),
   }),
-  actions
+  actions,
 )(Popup)

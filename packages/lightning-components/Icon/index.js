@@ -35,7 +35,7 @@ export const Icon = (props) => {
 
   return (
     <svg viewBox="0 0 24 24" style={ styles.icon } onClick={ props.onClick }>
-      { icons.find(props.name || props.style && props.style.name) }
+      { icons.find(props.name || (props.style && props.style.name)) }
     </svg>
   )
 }
