@@ -25,6 +25,8 @@ After everything has installed you can run the app in dev mode:
 npm start
 ```
 
+In dev mode, the app will be using simnet.
+
 ### Errors
 
 If you get any errors related to GRPC on startup, run:
@@ -43,25 +45,15 @@ Logs are written to the following locations:
 
 ### Building
 
-To build binaries for OSX:
+To build the packaged version of the app for your current platform, run:
 ```
-cd $GOPATH/src/github.com/lightningnetwork/lnd
-git pull
-glide install
-go install . ./cmd/...
+npm run package-electron
 ```
 
-To build binaries for Windows:
-```
-cd $GOPATH/src/github.com/lightningnetwork/lnd
-git pull
-glide install
-GOOS=windows GOARCH=amd64 go build -v
-```
+The packaged app will then be available in the lightning-app/release directory. The packaged version of the app will run on Bitcoin testnet. To debug a packaged app, go to localhost:9997 in your browser.
 
-### Packaging
-To package the app for all platforms run `npm run package-all-electron`. Make sure you have xquartz `brew cask install xquartz` wine installed `brew install wine`. If you run into `ENFILE: file table overflow` as an error put `ulimit -n 2560` in your bash profile.
+### Cross-plaform packaging
+To package the app for all platforms run `npm run package-all-electron`. If running on MacOS, you'll need xquartz `brew cask install xquartz` and wine `brew install wine`. If you run into `ENFILE: file table overflow` as an error put `ulimit -n 2560` in your bash profile.
 
 Also Check: https://github.com/karma-runner/karma/issues/1979#issuecomment-217994084
 
-To debug a packaged app, go to localhost:9997 in your browser.
