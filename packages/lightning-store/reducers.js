@@ -8,7 +8,6 @@ import { reducer as popup } from 'lightning-popup'
 
 export default combineReducers({
   router,
-
   core,
   forms,
   notifications,

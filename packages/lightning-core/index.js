@@ -1,4 +1,3 @@
-
 export { default as AccountsPage } from './accounts'
 export { CreateChannelPage } from './accounts'
 export { default as PayPage } from './pay'

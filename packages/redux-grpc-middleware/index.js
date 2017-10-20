@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 import _ from 'lodash'
 import { remote } from 'electron'
 

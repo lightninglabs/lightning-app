@@ -1,4 +1,3 @@
-
 export default {
   'blue': '#4990E2',
   'dark-teal': '#93B9A9',

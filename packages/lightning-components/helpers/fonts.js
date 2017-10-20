@@ -1,4 +1,3 @@
-
 export default {
   fontFamily: '"Roboto", "Helvetica", sans-serif',
   sizes: {

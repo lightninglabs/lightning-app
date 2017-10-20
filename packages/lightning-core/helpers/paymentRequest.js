@@ -1,4 +1,3 @@
-
 const prefix = 'lightning://'
 
 export const decoratePaymentRequest = (pr) => {
