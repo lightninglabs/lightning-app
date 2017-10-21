@@ -1,8 +1,10 @@
 import React from 'react'
 import reactCSS from 'reactcss'
-
+import { remote } from 'electron'
 import { Popup } from 'lightning-popup'
 import { Head, Input } from '../common'
+
+const { Menu, MenuItem } = remote
 
 export const POPUP_NAME = 'paymentRequest'
 
@@ -29,7 +31,11 @@ export const PaymentRequestPopup = ({ paymentRequest, closePopup }) => {
       },
     },
   })
-
+  const menu = new Menu()
+  menu.append(new MenuItem({ label: 'Copy', role: 'copy' }))
+  menu.append(new MenuItem({ label: 'Select All', role: 'selectall' }))
+  const handleMenu = () => menu.popup(remote.getCurrentWindow())
+	
   const handleCopied = () => closePopup(POPUP_NAME)
 
   const copyButton = (
@@ -38,7 +44,7 @@ export const PaymentRequestPopup = ({ paymentRequest, closePopup }) => {
 
   return (
     <Popup name={ POPUP_NAME }>
-      <div style={ styles.box }>
+      <div style={ styles.box } onContextMenu={ handleMenu }>
         <Head
           title="Payment Request"
           body="Send this encoded payment request to the party who would like to

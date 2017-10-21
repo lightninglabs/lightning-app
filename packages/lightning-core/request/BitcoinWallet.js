@@ -1,11 +1,14 @@
 import React from 'react'
 import reactCSS from 'reactcss'
-
+import { remote } from 'electron'
+import { Box, Text } from 'lightning-components'
 import { Popup } from 'lightning-popup'
 import { Icon, QRCode } from 'lightning-components'
 import { Input } from '../common'
 
 const QR_CODE = 'QR_CODE'
+
+const { Menu, MenuItem } = remote
 
 export class BitcoinWallet extends React.Component {
   componentDidMount() { this.props.onFetchAddress() }
@@ -47,6 +50,11 @@ export class BitcoinWallet extends React.Component {
       },
     })
 
+    const menu = new Menu()
+    menu.append(new MenuItem({ label: 'Copy', role: 'copy' }))
+    menu.append(new MenuItem({ label: 'Select All', role: 'selectall' }))
+    const handleMenu = () => menu.popup(remote.getCurrentWindow())
+	
     const handleCopy = () => onSuccess('Copied to Clipboard')
     const handleClick = () => onShowQR(QR_CODE)
 
@@ -55,7 +63,7 @@ export class BitcoinWallet extends React.Component {
     )
 
     return (
-      <div style={ styles.wrap }>
+      <div style={ styles.wrap } onContextMenu={ handleMenu }>
 
         <Popup name={ QR_CODE }>
           <div style={ styles.qrPopup }>

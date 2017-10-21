@@ -3,9 +3,12 @@ import _ from 'lodash'
 import reactCSS from 'reactcss'
 import { connect } from 'react-redux'
 import { store } from 'lightning-store'
-
+import { remote } from 'electron'
 import { Box, Text } from 'lightning-components'
+import { Head, Page } from '../common'
 import { InfiniteScroll } from '../common'
+
+const { Menu, MenuItem } = remote
 
 const SettingsLogs = ({ logs }) => {
   const insideStyles = {
@@ -28,7 +31,7 @@ const SettingsLogs = ({ logs }) => {
 export const SettingsPage = ({ logs, pubkey }) => {
   const styles = reactCSS({
     'default': {
-      page: {
+      pubkeyandlog: {
         boxSizing: 'border-box',
         padding: 'large',
         direction: 'column',
@@ -47,7 +50,7 @@ export const SettingsPage = ({ logs, pubkey }) => {
         flex: 1,
         display: 'flex',
         zDepth: 1,
-        width: '100%',
+        width: 900,
         boxSizing: 'border-box',
         background: 'white',
         marginBottom: 'medium',
@@ -55,20 +58,29 @@ export const SettingsPage = ({ logs, pubkey }) => {
       },
     },
   })
-
+  
+  const menu = new Menu()
+  menu.append(new MenuItem({ label: 'Copy', role: 'copy' }))
+  menu.append(new MenuItem({ label: 'Select All', role: 'selectall' }))
+  const handleMenu = () => menu.popup(remote.getCurrentWindow())
+  
   return (
-    <Box style={ styles.page }>
-      { pubkey ? (
-        <Box style={ styles.account }>
-          <Text size="medium" display="block" ellipsis><Text bold>Pubkey: </Text>{ pubkey }</Text>
+    <Page>
+      <Head
+        title="Settings"
+        body="Settings and logs for your wallet and the Lightning app" />
+      <div style={ styles.pubkeyandlog } onContextMenu={ handleMenu }>
+        { pubkey ? (
+          <Box style={ styles.account }>
+            <Text size="medium" display="block" ellipsis><Text bold>Pubkey: </Text>{ pubkey }</Text>
+          </Box>
+        ) : null }
+        <Text { ...styles.title }>Logs</Text>
+        <Box style={ styles.logs }>
+          <SettingsLogs logs={ logs } />
         </Box>
-      ) : null }
-
-      <Text { ...styles.title }>Logs</Text>
-      <Box style={ styles.logs }>
-        <SettingsLogs logs={ logs } />
-      </Box>
-    </Box>
+      </div>
+	</Page>
   )
 }
 
