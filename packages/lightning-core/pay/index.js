@@ -4,9 +4,12 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Form, actions as formActions } from 'lightning-forms'
 import { actions } from './reducer'
+import { remote } from 'electron'
 import { actions as accountsActions } from '../accounts'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import { sanitizePaymentRequest } from '../helpers'
+
+const { Menu, MenuItem } = remote
 
 export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
   onFetchAccount, onFetchChannels }) => {
@@ -16,6 +19,7 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
       placeholder: 'Payment Request / Bitcoin Address',
       required: true,
       component: Input,
+	  
     },
     {
       name: 'amount',
@@ -24,6 +28,10 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
       component: CurrencyInput,
     },
   ]
+  
+  const menu = new Menu()
+  menu.append(new MenuItem({ label: 'Paste', role: 'paste' }))
+  const handleMenu = () => menu.popup(remote.getCurrentWindow())
 
   const handleSuccess = ({ address, amount }, clear) => {
     onMakePayment({ address, amount })
@@ -58,15 +66,17 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
         body="Lightning payments will be instant, while on-chain Bitcoin
               transactions require at least one confirmation (approx. 10 mins)"
       />
-      <Form
-        name="pay"
-        fields={ fields }
-        submitLabel="Send Payment"
-        clearLabel="Cancel"
-        onChange={ handleChange }
-        onSuccess={ handleSuccess }
-        onError={ handleError }
-      />
+      <div onContextMenu={ handleMenu } >	
+        <Form
+          name="pay"
+          fields={ fields }
+          submitLabel="Send Payment"
+          clearLabel="Cancel"
+          onChange={ handleChange }
+          onSuccess={ handleSuccess }
+          onError={ handleError }
+        />
+      </div>
     </Page>
   )
 }
