@@ -20,7 +20,7 @@ const isDev = process.env.NODE_ENV === 'development'
 const runningProcesses = []
 
 const isProcessRunning = command => new Promise((resolve, reject) => {
-  ps.lookup({ command },
+  ps.lookup({ command: command },
     (err, resultList) => {
       if (err) { throw new Error(err) }
       resultList[0] ? resolve(resultList[0]) : reject()
