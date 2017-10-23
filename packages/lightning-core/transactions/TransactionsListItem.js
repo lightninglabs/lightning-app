@@ -28,6 +28,7 @@ export const TransactionsListItem = ({ type, hash, memo, currency, amount, statu
       },
       details: {
         textAlign: 'right',
+        whiteSpace: 'nowrap',
       },
       text: {
         flex: 1,
