@@ -52,17 +52,17 @@ export const Wallet = ({ pubkey, currency, balances }) => {
         marginBottom: 10,
       },
       label: {
-        flex: 1,
         color: 'rgba(0,0,0,0.4)',
         whiteSpace: 'nowrap',
         marginRight: 10,
-        width: 100,
+        width: 90,
         userSelect: 'none',
         cursor: 'default',
       },
       count: {
         flex: 1,
         color: 'reba(255,255,255,0.9)',
+        whiteSpace: 'nowrap',
       },
     },
   })
