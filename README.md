@@ -34,8 +34,6 @@ If you get any errors related to GRPC on startup, run:
 npm run setup
 ```
 
-If the window doesn't load after running `npm start`: try clicking on dev tools window and hitting `cmd-r` to refresh the window.
-
 ### Logs
 Logs are written to the following locations:
 
