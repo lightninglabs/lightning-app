@@ -11,7 +11,7 @@
     "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill scripts/package.js",
     "package-all": "npm run package -- --all",
     "start": "node scripts/startup-message.js && concurrently --kill-others \"npm run start-electron\" \"npm run start-webpack\" -n \"electron,webpack\" -p name",
-    "start-electron": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.dev",
+    "start-electron": "sleep 3; cross-env HOT=1 NODE_ENV=development electron -r babel-register ./main.dev",
     "start-webpack": "cross-env NODE_ENV=development node -r babel-register scripts/dev-server.js",
     "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.4.6"
   },
