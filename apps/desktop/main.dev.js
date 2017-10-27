@@ -63,14 +63,14 @@ const processes = [
   {
     name: 'lnd',
     args: [
-      '--bitcoin.active',
-      '--neutrino.active',
-      '--configfile=../lnd.conf',
-      isDev ? '--bitcoin.simnet' : '--bitcoin.testnet',
-      isDev ? '--neutrino.connect=127.0.0.1:18335' : '--neutrino.connect=btcd0.lightning.computer:18333',
+      isDev ? '' : '--bitcoin.active',
+      isDev ? '' : '--neutrino.active',
+      isDev ? '' : '--configfile=../lnd.conf',
+      isDev ? '' : '--bitcoin.testnet',
+      isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
       isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
-      '--debuglevel=info',
-      '--autopilot.active',
+      isDev ? '' : '--debuglevel=info',
+      isDev ? '' : '--autopilot.active',
     ],
   },
 ]
