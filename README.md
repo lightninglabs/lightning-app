@@ -30,10 +30,7 @@ npm start
 In development mode, the app will look for an lnd.conf in the default location for your platform. See [`lnd.conf` details](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md#creating-an-lndconf-optional). A typical lnd.conf for running on simnet will look like the following:
 
 ```
-[Application Options]
 debuglevel=debug
-
-[Bitcoin]
 bitcoin.active=1
 bitcoin.simnet=1
 bitcoin.rpcuser=lnd
@@ -49,10 +46,7 @@ Also note that if you have installed and built [`lnd`](https://github.com/lightn
 If you want your lnd.conf to replicate the configuration used by the packaged app, you can use the following:
 
 ```
-[Application Options]
 debuglevel=info
-
-[Bitcoin]
 bitcoin.active=1
 bitcoin.testnet=1
 neutrino.active=1
