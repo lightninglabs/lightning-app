@@ -122,6 +122,7 @@ const finishCreateWindow = () => {
     show: false,
     frame: true,
     title: 'Lightning',
+    nodeIntegration: false,
   })
 
   mainWindow.setMenu(null)
