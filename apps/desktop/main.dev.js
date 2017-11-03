@@ -72,6 +72,7 @@ const processes = [
       isDev ? '' : '--debuglevel=info',
       isDev ? '' : '--autopilot.active',
       '--no-macaroons',
+      '--noencryptwallet',
     ],
   },
 ]
