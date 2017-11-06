@@ -6,7 +6,6 @@ import { remote } from 'electron'
 const defaults = {
   global: {
     connection: 'connection',
-    metadata: 'metadata',
     serverReady: 'serverReady',
   },
   selector: 'default',
@@ -19,7 +18,6 @@ export const SERVER_RUNNING = 'GRPC/SERVER_RUNNING'
 export default (opts = {}) => {
   const options = { ...defaults, ...opts }
   const serverReady = remote.getGlobal(options.global.serverReady)
-  const metadata = remote.getGlobal(options.global.metadata)
 
   let client
   let ready = false
@@ -69,7 +67,7 @@ export default (opts = {}) => {
       if (client[method]) {
         let streamCall
         try {
-          streamCall = client[method](body ? { body } : params, metadata)
+          streamCall = client[method](body ? { body } : params)
         } catch (err) {
           console.log('Error From Stream Method', method, err)
         } finally {
@@ -85,8 +83,7 @@ export default (opts = {}) => {
 
     return new Promise((resolve, reject) => {
       try {
-        client[method] && client[method](body, metadata, { deadline }, 
-            (error, res) => {
+        client[method] && client[method](body, { deadline }, (error, res) => {
           if (error) {
             ERROR && next({ type: ERROR, error })
             reject({ ...error })

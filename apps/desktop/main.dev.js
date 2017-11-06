@@ -71,6 +71,7 @@ const processes = [
       isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
       isDev ? '' : '--debuglevel=info',
       isDev ? '' : '--autopilot.active',
+      '--no-macaroons',
     ],
   },
 ]
@@ -79,21 +80,17 @@ runProcesses(processes, logs)
 
 let intervalId
 let certPath
-let macaroonPath
 const homedir = os.homedir()
 
 switch (os.platform()) {
   case 'darwin':
     certPath = path.join(homedir, 'Library/Application\ Support/Lnd/tls.cert')
-    macaroonPath = path.join(homedir, 'Library/Application\ Support/Lnd/admin.macaroon')
     break
   case 'linux':
     certPath = path.join(homedir, '.lnd/tls.cert')
-    macaroonPath = path.join(homedir, '.lnd/admin.macaroon')
     break
   case 'win32':
     certPath = path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert')
-    macaroonPath = path.join(homedir, 'AppData', 'Local', 'Lnd', 'admin.macaroon')
     break
   default:
     break
@@ -192,13 +189,9 @@ const createWindow = () => {
       const credentials = grpc.credentials.createSsl(lndCert)
       const { lnrpc } = grpc.load(path.join(__dirname, 'rpc.proto'))
       const connection = new lnrpc.Lightning('localhost:10009', credentials)
-      let metadata = new grpc.Metadata()
-      const macaroonHex = fs.readFileSync(macaroonPath).toString("hex")
-      metadata.add('macaroon', macaroonHex)
       const serverReady = cb =>
        grpc.waitForClientReady(connection, Infinity, cb)
       global.connection = connection
-      global.metadata = metadata
       global.serverReady = serverReady
       finishCreateWindow()
     }
