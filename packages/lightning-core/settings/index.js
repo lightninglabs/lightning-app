@@ -31,6 +31,13 @@ const SettingsLogs = ({ logs }) => {
 export const SettingsPage = ({ logs, pubkey }) => {
   const styles = reactCSS({
     'default': {
+      page: {
+        padding: 30, 
+        display: 'flex', 
+        flexDirection: 'column', 
+        flex: 1, 
+        width: '90%',
+      },
       pubkeyandlog: {
         boxSizing: 'border-box',
         padding: 'large',
@@ -50,7 +57,8 @@ export const SettingsPage = ({ logs, pubkey }) => {
         flex: 1,
         display: 'flex',
         zDepth: 1,
-        width: 900,
+        width: '100%',
+        height: '70%',
         boxSizing: 'border-box',
         background: 'white',
         marginBottom: 'medium',
@@ -65,7 +73,7 @@ export const SettingsPage = ({ logs, pubkey }) => {
   const handleMenu = () => menu.popup(remote.getCurrentWindow())
   
   return (
-    <Page>
+    <div style={ styles.page }>
       <Head
         title="Settings"
         body="Settings and logs for your wallet and the Lightning app" />
@@ -80,7 +88,7 @@ export const SettingsPage = ({ logs, pubkey }) => {
           <SettingsLogs logs={ logs } />
         </Box>
       </div>
-	</Page>
+	</div>
   )
 }
 
