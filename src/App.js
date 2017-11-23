@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import Main from './views/main';
 
+/* eslint-disable no-unused-vars */
+import ActionsGrpc from './actions/grpc';
+import ActionsWallet from './actions/wallet';
+/* eslint-enable no-unused-vars */
+
 class App extends Component {
   render() {
     return <Main />;

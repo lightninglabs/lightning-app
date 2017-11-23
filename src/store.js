@@ -1,23 +1,24 @@
 import { AsyncStorage } from 'react-native';
-import { extendObservable, action, computed, observable } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import ComputedWallet from './computed/wallet';
 
 class Store {
   constructor() {
     extendObservable(this, {
+      lndReady: false, // Is lnd process running
       route: 'Pay',
 
+      balanceSatoshis: 7000,
+      pubkey: null,
+
       // Persistent data
-      settings: {
-        balanceSatoshis: 7000,
-        pubkey: '23984723984708924357092374982374',
-      },
+      settings: {},
     });
 
     ComputedWallet(this);
 
-    AsyncStorage.getItem('settings')
-      .then(
+    try {
+      AsyncStorage.getItem('settings').then(
         action(stateString => {
           const state = JSON.parse(stateString);
           state &&
@@ -28,14 +29,16 @@ class Store {
             });
           console.log('Loaded initial state');
         })
-      )
-      .catch(err => console.log('Store load error', err));
+      );
+    } catch (err) {
+      console.log('Store load error', err);
+    }
   }
 
   save() {
     try {
       const state = JSON.stringify(this.settings);
-      AsyncStorage.setItem('settings', state);
+      AsyncStorage && AsyncStorage.setItem('settings', state);
       console.log('Saved state');
     } catch (error) {
       console.log('Store Error', error);

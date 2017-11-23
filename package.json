@@ -7,8 +7,10 @@
   "description": "Lightning Desktop Wallet",
   "dependencies": {
     "electron-is-dev": "0.3.0",
-    "mobx": "^3.3.1",
-    "mobx-react": "^4.3.4",
+    "grpc": "1.7.2",
+    "mobx": "3.3.1",
+    "mobx-react": "4.3.4",
+    "ps-node": "^0.1.6",
     "react": "16.1.1",
     "react-dom": "16.1.1",
     "react-native-web": "0.1.14",
@@ -21,8 +23,10 @@
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron-pack": "build --em.main=build/electron.js -ml",
+    "electron-only": "electron .",
     "preelectron-pack": "yarn build",
-    "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\""
+    "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\"",
+    "postinstall": "electron-builder install-app-deps"
   },
   "main": "public/electron.js",
   "devDependencies": {

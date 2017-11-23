@@ -12,6 +12,8 @@ class Sidebar extends Component {
   renderRow({ name, icon, onPress }) {
     const { route } = store;
 
+    const color = route === name ? colors.blue : colors.gray;
+
     return (
       <TouchableOpacity
         key={name}
@@ -21,18 +23,17 @@ class Sidebar extends Component {
           alignItems: 'center',
           padding: 8,
           paddingLeft: 12,
-          color: route === name ? colors.blue : colors.gray,
         }}
         onPress={() => onPress()}
       >
-        <ComponentIcon icon={icon} style={{ width: 24, height: 24 }} />
-        <Text style={{ marginLeft: 6 }}>{name}</Text>
+        <ComponentIcon icon={icon} style={{ width: 24, height: 24, color }} />
+        <Text style={{ marginLeft: 6, color }}>{name}</Text>
       </TouchableOpacity>
     );
   }
 
   render() {
-    const { computedBalance, settings: { pubkey } } = store;
+    const { computedBalance, lndReady, pubkey } = store;
     const rows = [
       {
         name: 'Pay',
@@ -66,6 +67,11 @@ class Sidebar extends Component {
           SAT <Text style={{ color: 'white' }}>{computedBalance}</Text>
         </Text>
 
+        <Text style={{ marginLeft: 14, color: colors.gray }}>
+          lnd Ready{' '}
+          <Text style={{ color: 'white' }}>{lndReady ? 'Yes' : 'No'}</Text>
+        </Text>
+
         <TouchableOpacity
           style={{
             display: 'flex',
@@ -73,15 +79,16 @@ class Sidebar extends Component {
             alignItems: 'center',
             padding: 8,
             paddingLeft: 12,
-            color: 'gray',
           }}
           onPress={() => {}}
         >
           <ComponentIcon
             icon="account-circle"
-            style={{ width: 24, height: 24 }}
+            style={{ width: 24, height: 24, color: 'gray' }}
           />
-          <Text style={{ flex: 1, marginLeft: 6 }}>{pubkey}</Text>
+          <Text style={{ flex: 1, marginLeft: 6, color: 'gray' }}>
+            {pubkey}
+          </Text>
         </TouchableOpacity>
       </View>
     );
