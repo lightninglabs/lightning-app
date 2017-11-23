@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
 import { Image, View, TouchableOpacity } from 'react-native';
 import { colors } from '../styles';
@@ -17,4 +18,4 @@ class Pay extends Component {
   }
 }
 
-export default Pay;
+export default observer(Pay);

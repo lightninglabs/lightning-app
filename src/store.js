@@ -1,15 +1,17 @@
 import { AsyncStorage } from 'react-native';
 import { extendObservable, action } from 'mobx';
 import ComputedWallet from './computed/wallet';
+import { DEFAULT_ROUTE } from './config';
 
 class Store {
   constructor() {
     extendObservable(this, {
       lndReady: false, // Is lnd process running
-      route: 'Pay',
+      route: DEFAULT_ROUTE,
 
-      balanceSatoshis: 7000,
-      pubkey: null,
+      balanceSatoshis: null,
+      channelBalanceSatoshis: null,
+      pubKey: null,
 
       // Persistent data
       settings: {},

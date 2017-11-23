@@ -31,6 +31,7 @@ class ActionsGrpc {
       if (streaming) {
         try {
           const response = this.client[method](body ? { body } : {}); // TODO: Pass proper data?
+          console.log('GRPC: Stream Response', method, response);
           resolve(response);
         } catch (err) {
           console.log('GRPC: Error From Stream Method', method, err);
@@ -40,9 +41,10 @@ class ActionsGrpc {
         const now = new Date();
         const deadline = now.setSeconds(now.getSeconds() + 30);
 
-        this.client[method](body, { deadline }, (err, res) => {
+        this.client[method](body, { deadline }, (err, response) => {
           if (!err) {
-            resolve(res);
+            console.log('GRPC: Response', method, response);
+            resolve(response);
           } else {
             console.log('GRPC: Error From Method', method, err);
             reject(err);

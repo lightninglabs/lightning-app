@@ -9,9 +9,8 @@ import { Image, View, TouchableOpacity } from 'react-native';
 import store from '../store';
 
 class Sidebar extends Component {
-  renderRow({ name, icon, onPress }) {
+  renderRow(name, icon, onPress) {
     const { route } = store;
-
     const color = route === name ? colors.blue : colors.gray;
 
     return (
@@ -33,43 +32,18 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { computedBalance, lndReady, pubkey } = store;
-    const rows = [
-      {
-        name: 'Pay',
-        icon: 'coin',
-        onPress: () => ActionsNav.goPay(),
-      },
-      {
-        name: 'Request',
-        icon: 'coin',
-        onPress: () => ActionsNav.goRequest(),
-      },
-      {
-        name: 'Channels',
-        icon: 'wallet',
-        onPress: () => ActionsNav.goChannels(),
-      },
-      {
-        name: 'Settings',
-        icon: 'settings',
-        onPress: () => ActionsNav.goSettings(),
-      },
-    ];
-
+    const { computedBalance, pubKey } = store;
     return (
       <View style={{ width: 170, backgroundColor: colors.sidebar }}>
-        {rows.map(item => this.renderRow(item))}
+        {this.renderRow('Pay', 'coin', () => ActionsNav.goPay())}
+        {this.renderRow('Request', 'coin', () => ActionsNav.goRequest())}
+        {this.renderRow('Channels', 'wallet', () => ActionsNav.goChannels())}
+        {this.renderRow('Settings', 'settings', () => ActionsNav.goSettings())}
 
         <View style={{ flex: 1 }} />
 
         <Text style={{ marginLeft: 14, color: colors.gray }}>
           SAT <Text style={{ color: 'white' }}>{computedBalance}</Text>
-        </Text>
-
-        <Text style={{ marginLeft: 14, color: colors.gray }}>
-          lnd Ready{' '}
-          <Text style={{ color: 'white' }}>{lndReady ? 'Yes' : 'No'}</Text>
         </Text>
 
         <TouchableOpacity
@@ -80,14 +54,17 @@ class Sidebar extends Component {
             padding: 8,
             paddingLeft: 12,
           }}
-          onPress={() => {}}
+          onPress={() => ActionsNav.goChannels()}
         >
           <ComponentIcon
             icon="account-circle"
             style={{ width: 24, height: 24, color: 'gray' }}
           />
-          <Text style={{ flex: 1, marginLeft: 6, color: 'gray' }}>
-            {pubkey}
+          <Text
+            numberOfLines={1}
+            style={{ flex: 1, marginLeft: 6, color: 'gray' }}
+          >
+            {pubKey}
           </Text>
         </TouchableOpacity>
       </View>

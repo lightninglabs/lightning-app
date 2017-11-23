@@ -1,20 +1,43 @@
 import { observe } from 'mobx';
 import store from '../store';
 import ActionsGrpc from './grpc';
+import { RETRY_DELAY } from '../config';
 
 class ActionsWallet {
   constructor() {
     observe(store, 'lndReady', () => {
       this.getInfo();
+      this.getBalance();
+      this.getChannelBalance();
     });
+  }
+
+  getBalance() {
+    ActionsGrpc.sendCommand('WalletBalance')
+      .then(response => {
+        store.balanceSatoshis = response.balance;
+      })
+      .catch(() => {
+        clearTimeout(this.t1);
+        this.t1 = setTimeout(() => this.getBalance(), RETRY_DELAY);
+      });
+  }
+
+  getChannelBalance() {
+    ActionsGrpc.sendCommand('ChannelBalance')
+      .then(response => {
+        store.channelBalanceSatoshis = response.balance;
+      })
+      .catch(() => {
+        clearTimeout(this.t2);
+        this.t2 = setTimeout(() => this.getChannelBalance(), RETRY_DELAY);
+      });
   }
 
   getInfo() {
     ActionsGrpc.sendCommand('getInfo')
       .then(response => {
-        // TODO: Save more
-        console.log('WALLET getInfo:', response);
-        store.pubkey = response.identity_pubkey;
+        store.pubKey = response.identity_pubkey;
 
         // alias
         // :
@@ -47,8 +70,9 @@ class ActionsWallet {
         // :
         // false
       })
-      .catch(err => {
-        console.log('WALLET ERROR getInfo', err);
+      .catch(() => {
+        clearTimeout(this.t3);
+        this.t3 = setTimeout(() => this.getInfo(), RETRY_DELAY);
       });
   }
 }

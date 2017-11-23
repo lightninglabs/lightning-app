@@ -10,6 +10,7 @@ Text.propTypes = {
   style: PropTypes.object,
   children: PropTypes.any,
 };
+
 export const TextB = ({ style, children }) => (
   <TextNative style={{ fontWeight: 'bold', ...style }}>{children}</TextNative>
 );
@@ -17,4 +18,5 @@ TextB.propTypes = {
   style: PropTypes.object,
   children: PropTypes.any,
 };
+
 export default Text;

@@ -2,7 +2,7 @@
   "name": "lightning-desktop",
   "version": "0.1.0",
   "private": true,
-  "author": "kevinejohn <kevin@blockpointer.com>",
+  "author": "kevinejohn <kevinejohn@gmail.com>",
   "homepage": "./",
   "description": "Lightning Desktop Wallet",
   "dependencies": {

@@ -4,7 +4,13 @@ const ComputedWallet = store => {
   extendObservable(store, {
     computedBalance: computed(() => {
       const { balanceSatoshis } = store;
-      return balanceSatoshis ? balanceSatoshis.toLocaleString() : '';
+      return balanceSatoshis !== null ? balanceSatoshis.toLocaleString() : '';
+    }),
+    computedChannelsBalance: computed(() => {
+      const { channelBalanceSatoshis } = store;
+      return channelBalanceSatoshis !== null
+        ? channelBalanceSatoshis.toLocaleString()
+        : '';
     }),
   });
 };
