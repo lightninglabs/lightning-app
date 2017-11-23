@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
+import ComponentIcon from '../components/icon';
 import { Image, View, TouchableOpacity } from 'react-native';
 import { colors } from '../styles';
 import store from '../store';
@@ -44,6 +45,61 @@ class Channels extends Component {
               </Text>
             </View>
           </View>
+        </View>
+
+        <View style={{ padding: 20 }}>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <Text
+              style={{ marginBottom: 6, color: colors.black, fontSize: 24 }}
+            >
+              Your Channels
+            </Text>
+            <TouchableOpacity style={{ padding: 8 }} onPress={() => {}}>
+              <Text style={{ color: colors.blue, fontSize: 12 }}>
+                CREATE CHANNEL
+              </Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text style={{ color: colors.gray, fontSize: 16 }}>
+            Channels are like tubes of money used to send money through the
+            network
+          </Text>
+
+          <View
+            style={{
+              height: 1,
+              marginTop: 30,
+              marginBottom: 30,
+              backgroundColor: colors.lightestgray,
+            }}
+          />
+
+          <ComponentIcon
+            icon="playlist-remove"
+            style={{
+              width: 54,
+              height: 54,
+              alignSelf: 'center',
+              color: colors.lightgray,
+            }}
+          />
+          <Text
+            style={{
+              color: colors.lightgray,
+              alignSelf: 'center',
+              fontSize: 22,
+            }}
+          >
+            No Channels Yet
+          </Text>
         </View>
       </View>
     );
