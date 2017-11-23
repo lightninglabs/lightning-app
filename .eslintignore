@@ -1,5 +1,1 @@
-node_modules
-dist
-release
-main.js
-main.js.map
+__tests__
