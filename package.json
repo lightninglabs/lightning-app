@@ -2,7 +2,7 @@
   "name": "lightning-desktop",
   "version": "0.1.0",
   "private": true,
-  "author": "kevinejohn <kevinejohn@gmail.com>",
+  "author": "Kevin Johnson <kevinejohn@gmail.com>",
   "homepage": "./",
   "description": "Lightning Desktop Wallet",
   "dependencies": {
@@ -22,7 +22,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "electron-pack": "build --em.main=build/electron.js -ml",
+    "electron-pack": "build --em.main=build/electron.js",
     "electron-only": "electron .",
     "preelectron-pack": "yarn build",
     "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\"",
@@ -33,7 +33,7 @@
     "concurrently": "3.5.1",
     "electron": "1.7.9",
     "electron-builder": "19.45.5",
-    "eslint-config-prettier": "^2.8.0",
+    "eslint-config-prettier": "2.8.0",
     "eslint-plugin-prettier": "2.3.1",
     "prettier": "1.8.2",
     "prop-types": "15.6.0",
@@ -51,7 +51,9 @@
     "productName": "Lightning",
     "files": [
       "build/**/*",
-      "node_modules/**/*"
+      "node_modules/**/*",
+      "assets/bin/**/*",
+      "assets/rpc.proto"
     ],
     "directories": {
       "buildResources": "assets"

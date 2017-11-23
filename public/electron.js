@@ -93,23 +93,15 @@ ps.lookup({ command: lndInfo.name }, (err, resultList) => {
   if (err || (resultList && resultList[0])) {
     console.log(`lnd Already Running`);
   } else {
-    // Start lnd
-    const filePath = isDev
-      ? '/Users/kevinejohn/go/bin/lnd'
-      : path.join(
-          __dirname,
-          'bin',
-          os.platform(),
-          os.platform() === 'win32' ? `${lndInfo.name}.exe` : lndInfo.name
-        );
-    // const filePath = path.join(
-    //   __dirname,
-    //   '..',
-    //   'assets',
-    //   'bin',
-    //   os.platform(),
-    //   os.platform() === 'win32' ? `${lndInfo.name}.exe` : lndInfo.name
-    // );
+    const filePath = path.join(
+      __dirname,
+      '..',
+      'assets',
+      'bin',
+      os.platform(),
+      os.platform() === 'win32' ? `${lndInfo.name}.exe` : lndInfo.name
+    );
+    // const filePath = '/Users/kevinejohn/go/bin/lnd';
 
     try {
       lndProcess = cp.spawn(filePath, lndInfo.args);
@@ -150,7 +142,7 @@ app.on('activate', () => {
 });
 
 app.on('quit', () => {
-  lndProcess.kill();
+  lndProcess && lndProcess.kill();
 });
 
 app.setAsDefaultProtocolClient('lighting');
