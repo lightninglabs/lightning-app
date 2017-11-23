@@ -21,8 +21,10 @@ class Main extends Component {
       >
         <Sidebar />
 
-        {route === 'Pay' && <Pay />}
-        {route === 'Channels' && <Channels />}
+        <View style={{ flex: 1, minWidth: 400 }}>
+          {route === 'Pay' && <Pay />}
+          {route === 'Channels' && <Channels />}
+        </View>
       </View>
     );
   }
