@@ -28,6 +28,10 @@ const isProcessRunning = command => new Promise((resolve, reject) => {
   )
 })
 
+const isExecutableOnPath = name => {
+  return cp.spawnSync('type', [name]).status === 0
+}
+
 const runProcesses = (processes, logs) => {
   _.map(processes, (proc) => {
     isProcessRunning(proc.name)
@@ -41,7 +45,9 @@ const runProcesses = (processes, logs) => {
         const filePath = path.join(__dirname, 'bin', plat, plat === 'win32' ? `${ proc.name }.exe` : proc.name)
 
         try {
-          const instance = cp.spawn(filePath, proc.args)
+          const processName = isExecutableOnPath(proc.name) ? proc.name : filePath
+          const instance = cp.spawn(processName, proc.args)
+
           runningProcesses.push(instance)
           instance.stdout.on('data', data => logs.push(`${ proc.name }: ${ data }`))
           instance.stderr.on('data', (data) => {
