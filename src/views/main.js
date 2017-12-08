@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import Sidebar from './sidebar';
 import Pay from './pay';
 import Channels from './channels';
+import Request from './request';
 import { View } from 'react-native';
 import store from '../store';
 
@@ -23,6 +24,7 @@ class Main extends Component {
 
         <View style={{ flex: 1, minWidth: 400 }}>
           {route === 'Pay' && <Pay />}
+          {route === 'Request' && <Request />}
           {route === 'Channels' && <Channels />}
         </View>
       </View>

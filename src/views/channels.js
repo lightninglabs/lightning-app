@@ -10,7 +10,7 @@ class Channels extends Component {
   render() {
     const { computedBalance, computedChannelsBalance, pubKey } = store;
     return (
-      <View style={{ flex: 1, backgroundColor: 'white' }}>
+      <View style={{ flex: 1, backgroundColor: colors.offwhite }}>
         <View style={{ padding: 20, backgroundColor: colors.blue }}>
           <Text style={{ marginBottom: 6, color: colors.black, fontSize: 24 }}>
             Your Wallet

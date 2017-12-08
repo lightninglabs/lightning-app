@@ -14,6 +14,7 @@ class Store {
       unconfirmedBalanceSatoshis: null,
       channelBalanceSatoshis: null,
       pubKey: null,
+      walletAddress: null,
 
       // Persistent data
       settings: {},
