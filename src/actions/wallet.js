@@ -15,7 +15,9 @@ class ActionsWallet {
   getBalance() {
     ActionsGrpc.sendCommand('WalletBalance')
       .then(response => {
-        store.balanceSatoshis = response.balance;
+        store.balanceSatoshis = response.total_balance;
+        store.confirmedBalanceSatoshis = response.confirmed_balance;
+        store.unconfirmedBalanceSatoshis = response.unconfirmed_balance;
       })
       .catch(() => {
         clearTimeout(this.t1);

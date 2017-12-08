@@ -10,6 +10,8 @@ class Store {
       route: DEFAULT_ROUTE,
 
       balanceSatoshis: null,
+      confirmedBalanceSatoshis: null,
+      unconfirmedBalanceSatoshis: null,
       channelBalanceSatoshis: null,
       pubKey: null,
 
