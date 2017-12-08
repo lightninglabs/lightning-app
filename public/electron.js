@@ -103,8 +103,13 @@ ps.lookup({ command: lndInfo.name }, (err, resultList) => {
     );
     // const filePath = '/Users/kevinejohn/go/bin/lnd';
 
+    let processName;
     try {
-      lndProcess = cp.spawn(filePath, lndInfo.args);
+      processName = cp.spawnSync('type', [lndInfo.name]).status === 0
+        ? lndInfo.name
+        : filePath;
+      console.log(`Using lnd in path ${processName}`);
+      lndProcess = cp.spawn(processName, lndInfo.args);
       lndProcess.stdout.on('data', data =>
         console.log(`${lndInfo.name}: ${data}`)
       );
@@ -112,7 +117,7 @@ ps.lookup({ command: lndInfo.name }, (err, resultList) => {
         console.log(`${lndInfo.name} Error: ${data}`)
       );
     } catch (error) {
-      console.log(`Caught Error When Starting ${lndInfo.name}: ${error}`);
+      console.log(`Caught Error When Starting ${processName}: ${error}`);
     }
   }
 });
