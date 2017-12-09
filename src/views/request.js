@@ -23,10 +23,10 @@ class Request extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: colors.offwhite }}>
         <View style={{ flex: 1, padding: 20 }}>
-          <Text style={{ color: colors.gray, fontSize: 24 }}>
+          <Text style={{ color: colors.gray, fontSize: 24, marginBottom: 14 }}>
             Request Lightning Payment
           </Text>
-          <Text style={{ marginTop: 14, color: colors.lightgray }}>
+          <Text style={{ color: colors.lightgray }}>
             Generate a payment request that others can use to pay you
             immediately via the Lightning Network
           </Text>

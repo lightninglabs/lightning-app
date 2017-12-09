@@ -4,20 +4,20 @@ import { Text, TextB } from '../components/text';
 import { Image, View, TouchableOpacity } from 'react-native';
 import { colors } from '../styles';
 
-class Pay extends Component {
+class Transactions extends Component {
   render() {
     return (
       <View style={{ flex: 1, padding: 20, backgroundColor: colors.offwhite }}>
         <Text style={{ color: colors.gray, fontSize: 24, marginBottom: 14 }}>
-          Make a Payment
+          Your Transactions
         </Text>
         <Text style={{ color: colors.lightgray }}>
-          Lightning payments will be instant, while on-chain Bitcoin
-          transactions require at least one confirmation (approx. 10 mins)
+          This is a list of payments, including Lightning and on-chain
+          transactions, sent to or from your wallet.
         </Text>
       </View>
     );
   }
 }
 
-export default observer(Pay);
+export default observer(Transactions);

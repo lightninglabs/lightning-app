@@ -38,6 +38,9 @@ class Sidebar extends Component {
         {this.renderRow('Pay', 'coin', () => ActionsNav.goPay())}
         {this.renderRow('Request', 'coin', () => ActionsNav.goRequest())}
         {this.renderRow('Channels', 'wallet', () => ActionsNav.goChannels())}
+        {this.renderRow('Transactions', 'swap-horizontal', () =>
+          ActionsNav.goTransactions()
+        )}
         {this.renderRow('Settings', 'settings', () => ActionsNav.goSettings())}
 
         <View style={{ flex: 1 }} />

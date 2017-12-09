@@ -10,6 +10,9 @@ class ActionsNav {
   goChannels() {
     store.route = 'Channels';
   }
+  goTransactions() {
+    store.route = 'Transactions';
+  }
   goSettings() {
     store.route = 'Settings';
   }

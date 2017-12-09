@@ -4,6 +4,8 @@ import Sidebar from './sidebar';
 import Pay from './pay';
 import Channels from './channels';
 import Request from './request';
+import Transactions from './transactions';
+import Settings from './settings';
 import { View } from 'react-native';
 import store from '../store';
 
@@ -26,6 +28,8 @@ class Main extends Component {
           {route === 'Pay' && <Pay />}
           {route === 'Request' && <Request />}
           {route === 'Channels' && <Channels />}
+          {route === 'Transactions' && <Transactions />}
+          {route === 'Settings' && <Settings />}
         </View>
       </View>
     );
