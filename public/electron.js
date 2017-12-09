@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
@@ -7,12 +7,15 @@ const grpc = require('grpc');
 const ps = require('ps-node');
 const os = require('os');
 const cp = require('child_process');
+const log = require('electron-log');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 
 let lndProcess;
+
+ipcMain.on('log', (event, arg) => log.log(...arg));
 
 function createWindow() {
   // Create the browser window.
@@ -91,7 +94,7 @@ const lndInfo = {
 };
 ps.lookup({ command: lndInfo.name }, (err, resultList) => {
   if (err || (resultList && resultList[0])) {
-    console.log(`lnd Already Running`);
+    log.log(`lnd Already Running`);
   } else {
     const filePath = path.join(
       __dirname,
@@ -108,16 +111,16 @@ ps.lookup({ command: lndInfo.name }, (err, resultList) => {
       processName = cp.spawnSync('type', [lndInfo.name]).status === 0
         ? lndInfo.name
         : filePath;
-      console.log(`Using lnd in path ${processName}`);
+      log.log(`Using lnd in path ${processName}`);
       lndProcess = cp.spawn(processName, lndInfo.args);
       lndProcess.stdout.on('data', data =>
-        console.log(`${lndInfo.name}: ${data}`)
+        log.log(`${lndInfo.name}: ${data}`)
       );
       lndProcess.stderr.on('data', data =>
-        console.log(`${lndInfo.name} Error: ${data}`)
+        log.log(`${lndInfo.name} Error: ${data}`)
       );
     } catch (error) {
-      console.log(`Caught Error When Starting ${processName}: ${error}`);
+      log.log(`Caught Error When Starting ${processName}: ${error}`);
     }
   }
 });
@@ -153,7 +156,11 @@ app.on('quit', () => {
 app.setAsDefaultProtocolClient('lighting');
 app.on('open-url', (event, url) => {
   // event.preventDefault();
-  console.log(`open-url# ${url}`);
+  log.log(`open-url# ${url}`);
+});
+
+process.on('uncaughtException', error => {
+  log.log('Caught Main Process Error:', error);
 });
 
 // In this file you can include the rest of your app's specific main process

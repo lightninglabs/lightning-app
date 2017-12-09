@@ -48,7 +48,7 @@ class Request extends Component {
             >
               <Text
                 style={{
-                  fontSize: 16,
+                  fontSize: 15,
                   color: colors.gray,
                   userSelect: 'none',
                   cursor: 'default',
@@ -65,7 +65,7 @@ class Request extends Component {
                 }}
               />
               {walletAddress ? (
-                <Text style={{ fontSize: 16 }}>{walletAddress}</Text>
+                <Text style={{ fontSize: 15 }}>{walletAddress}</Text>
               ) : (
                 <ActivityIndicator />
               )}
