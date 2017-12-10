@@ -9,6 +9,6 @@
   "author": "case <case@casesandberg.com>",
   "license": "MIT",
   "dependencies": {
-    "electron": "^1.7.9"
+    "electron": "^1.4.12"
   }
 }
