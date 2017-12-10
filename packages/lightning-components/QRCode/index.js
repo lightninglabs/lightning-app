@@ -11,6 +11,7 @@ export const QRCode = {
     return <div dangerouslySetInnerHTML={{ __html: svg }} />
   },
   lightning: ({ paymentRequest }) => {
+    paymentRequest = paymentRequest.replace('lightning://', 'lightning:')
     const svg = qrImage.imageSync(paymentRequest, { type: 'svg' })
 
     // eslint-disable-next-line react/no-danger
