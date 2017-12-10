@@ -9,11 +9,11 @@
   "author": "case <case@casesandberg.com>",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.16.1",
-    "qr-image": "^3.1.0",
-    "react": "^15.3.2",
-    "react-router-dom": "^4.0.0",
-    "reactcss": "^1.0.8"
+    "lodash": "^4.17.4",
+    "qr-image": "^3.2.0",
+    "react": "^15.6.2",
+    "react-router-dom": "^4.2.2",
+    "reactcss": "^1.2.3"
   },
   "devDependencies": {
     "@kadira/storybook": "^2.35.3"

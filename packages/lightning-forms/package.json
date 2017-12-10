@@ -9,10 +9,10 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "lodash": "^4.16.2",
-    "react": "^15.4.2",
-    "react-redux": "^4.4.6",
-    "reactcss": "^1.1.1",
-    "redux": "^3.6.0"
+    "lodash": "^4.17.4",
+    "react": "^15.6.2",
+    "react-redux": "^4.4.8",
+    "reactcss": "^1.2.3",
+    "redux": "^3.7.2"
   }
 }

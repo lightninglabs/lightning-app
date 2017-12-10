@@ -67,7 +67,7 @@ export class BitcoinWallet extends React.Component {
 
         <Popup name={ QR_CODE }>
           <div style={ styles.qrPopup }>
-            <QRCode address={ address } />
+            <QRCode.bitcoin address={ address } />
           </div>
         </Popup>
 

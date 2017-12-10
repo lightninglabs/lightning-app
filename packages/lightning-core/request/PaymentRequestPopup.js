@@ -2,6 +2,7 @@ import React from 'react'
 import reactCSS from 'reactcss'
 import { remote } from 'electron'
 import { Popup } from 'lightning-popup'
+import { QRCode } from 'lightning-components'
 import { Head, Input } from '../common'
 
 const { Menu, MenuItem } = remote
@@ -29,6 +30,15 @@ export const PaymentRequestPopup = ({ paymentRequest, closePopup }) => {
         color: '#4990E2',
         cursor: 'pointer',
       },
+      qrPopup: {
+        background: '#fff',
+        borderRadius: 2,
+        width: 300,
+        height: 300,
+        marginLeft: 'auto',
+        marginRight: 'auto',
+        paddingBottom: 10,
+      }
     },
   })
   const menu = new Menu()
@@ -50,6 +60,9 @@ export const PaymentRequestPopup = ({ paymentRequest, closePopup }) => {
           body="Send this encoded payment request to the party who would like to
                 pay you via the Lightning Network."
         />
+        <div style={ styles.qrPopup }>
+            <QRCode.lightning paymentRequest={ paymentRequest } />
+        </div>
         <Input
           fullWidth
           selectOnClick
