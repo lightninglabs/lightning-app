@@ -5,17 +5,23 @@ import qrImage from 'qr-image'
 export const QRCode = {
   bitcoin: ({ address }) => {
     const bitcoinURL = format({ protocol: 'bitcoin:', host: address })
-    const svg = qrImage.imageSync(bitcoinURL, { type: 'svg' })
+    const svg = qrImage.svgObject(bitcoinURL, { type: 'svg' })
 
-    // eslint-disable-next-line react/no-danger
-    return <div dangerouslySetInnerHTML={{ __html: svg }} />
+    return (
+      <svg viewBox={ "0 0 " + svg.size + " " + svg.size } shapeRendering="crispEdges">
+        <path d={ svg.path }/>
+      </svg>
+    )
   },
   lightning: ({ paymentRequest }) => {
     paymentRequest = paymentRequest.replace('lightning://', 'lightning:')
-    const svg = qrImage.imageSync(paymentRequest, { type: 'svg' })
+    const svg = qrImage.svgObject(paymentRequest, { type: 'svg' })
 
-    // eslint-disable-next-line react/no-danger
-    return <div dangerouslySetInnerHTML={{ __html: svg }} />
+    return (
+      <svg viewBox={ "0 0 " + svg.size + " " + svg.size } shapeRendering="crispEdges">
+        <path d={ svg.path }/>
+      </svg>
+    )
   }
 }
 
