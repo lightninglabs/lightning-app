@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
+import TextInput from '../components/textinput';
+import Button from '../components/button';
 import { Image, View, TouchableOpacity, ActivityIndicator } from 'react-native';
 import QRCode from '../components/qrcode';
 import ComponentIcon from '../components/icon';
@@ -13,11 +15,13 @@ class Request extends Component {
 
     this.state = {
       showQR: false,
+      amount: '',
+      note: '',
     };
   }
 
   render() {
-    const { showQR } = this.state;
+    const { showQR, amount, note } = this.state;
     const { walletAddress } = store;
 
     return (
@@ -30,6 +34,55 @@ class Request extends Component {
             Generate a payment request that others can use to pay you
             immediately via the Lightning Network
           </Text>
+
+          <TextInput
+            rightText="SAT"
+            placeholder="Amount"
+            value={amount}
+            onChangeText={amount =>
+              this.setState({ amount: amount.replace(/[^0-9.]/g, '') })
+            }
+          />
+          <TextInput
+            placeholder="Note"
+            value={note}
+            onChangeText={note => this.setState({ note })}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              margin: 4,
+              marginTop: 12,
+            }}
+          >
+            <Button
+              disabled={!amount}
+              text="Generate Payment Request"
+              onPress={() => {}}
+            />
+
+            {(!!amount || !!note) && (
+              <TouchableOpacity
+                style={{}}
+                onPress={() => this.setState({ amount: '', note: '' })}
+              >
+                <Text
+                  style={{ color: colors.lightgray, margin: 14, fontSize: 16 }}
+                >
+                  Cancel
+                </Text>
+              </TouchableOpacity>
+            )}
+          </View>
+
+          <View
+            style={{
+              flex: 1,
+              borderBottomWidth: 1,
+              borderBottomColor: colors.lightergray,
+            }}
+          />
 
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <View
