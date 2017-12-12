@@ -1,7 +1,7 @@
 import { observe } from 'mobx';
 import store from '../store';
 import ActionsGrpc from './grpc';
-import { RETRY_DELAY } from '../config';
+import { RETRY_DELAY, PREFIX_URI } from '../config';
 
 class ActionsWallet {
   constructor() {
@@ -45,7 +45,7 @@ class ActionsWallet {
         memo: note,
       })
         .then(response => {
-          resolve(response.payment_request);
+          resolve(`${PREFIX_URI}${response.payment_request}`);
         })
         .catch(err => {
           reject(err);
