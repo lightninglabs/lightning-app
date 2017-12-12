@@ -24,21 +24,15 @@ class Request extends Component {
 
     this.state = {
       showQR: false,
-      showPaymentRequest: false,
+      loading: false,
+      paymentRequest: null,
       amount: '',
       note: '',
-      paymentRequest: null,
     };
   }
 
   render() {
-    const {
-      showQR,
-      amount,
-      note,
-      showPaymentRequest,
-      paymentRequest,
-    } = this.state;
+    const { showQR, amount, note, loading, paymentRequest } = this.state;
     const { walletAddress } = store;
 
     return (
@@ -66,13 +60,16 @@ class Request extends Component {
             disabled={!amount}
             text="Generate Payment Request"
             onPress={() => {
-              this.setState({ paymentRequest: null, showPaymentRequest: true });
+              this.setState({
+                paymentRequest: null,
+                loading: true,
+              });
               ActionsWallet.generatePaymentRequest(amount, note)
                 .then(paymentRequest => {
-                  this.setState({ paymentRequest });
+                  this.setState({ paymentRequest, loading: false });
                 })
                 .catch(err => {
-                  // TODO: Show error
+                  this.setState({ paymentRequest: err, loading: false });
                 });
             }}
             showClear={!!amount || !!note}
@@ -147,6 +144,12 @@ class Request extends Component {
           </View>
         </View>
 
+        <Modal show={loading}>
+          <View style={{ padding: 20, backgroundColor: 'white' }}>
+            <ActivityIndicator />
+          </View>
+        </Modal>
+
         <Modal show={showQR} onPress={() => this.setState({ showQR: false })}>
           <View style={{ width: 300, height: 300, backgroundColor: 'white' }}>
             <QRCode address={walletAddress} />
@@ -154,32 +157,45 @@ class Request extends Component {
         </Modal>
 
         <Modal
-          show={showPaymentRequest}
-          onPress={() => this.setState({ showPaymentRequest: false })}
+          show={!!paymentRequest && !(paymentRequest instanceof Error)}
+          onPress={() => this.setState({ paymentRequest: null })}
+        >
+          <TouchableOpacity
+            activeOpacity={0.9}
+            style={{ padding: 20, backgroundColor: 'white' }}
+            onPress={() => {
+              Clipboard.setString(paymentRequest);
+              this.setState({ paymentRequest: null });
+            }}
+          >
+            <Text style={{ fontSize: 18, marginBottom: 10 }}>
+              Payment Request
+            </Text>
+            <Text style={{ color: colors.lightgray }}>
+              Send this encoded payment request to the party who would like to
+              pay you via the Lightning Network.
+            </Text>
+            <TextInput
+              editable={false}
+              value={paymentRequest}
+              rightText="Copy"
+            />
+          </TouchableOpacity>
+        </Modal>
+
+        <Modal
+          show={paymentRequest instanceof Error}
+          onPress={() =>
+            this.setState({
+              paymentRequest: null,
+            })
+          }
         >
           <View style={{ padding: 20, backgroundColor: 'white' }}>
-            {paymentRequest ? (
-              <TouchableOpacity
-                onPress={() => {
-                  Clipboard.setString(paymentRequest);
-                }}
-              >
-                <Text style={{ fontSize: 18, marginBottom: 10 }}>
-                  Payment Request
-                </Text>
-                <Text style={{ color: colors.lightgray }}>
-                  Send this encoded payment request to the party who would like
-                  to pay you via the Lightning Network.
-                </Text>
-                <TextInput
-                  editable={false}
-                  value={paymentRequest}
-                  rightText="Copy"
-                />
-              </TouchableOpacity>
-            ) : (
-              <ActivityIndicator />
-            )}
+            <Text style={{ fontSize: 18, marginBottom: 10 }}>Error</Text>
+            <Text style={{ color: colors.lightgray }}>
+              {paymentRequest && paymentRequest.message}
+            </Text>
           </View>
         </Modal>
       </View>

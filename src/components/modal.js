@@ -9,7 +9,8 @@ class ComponentModal extends Component {
 
     return (
       <TouchableOpacity
-        onPress={() => onPress()}
+        disabled={!onPress}
+        onPress={() => onPress && onPress()}
         style={{
           position: 'absolute',
           top: 0,
@@ -30,7 +31,7 @@ class ComponentModal extends Component {
 ComponentModal.propTypes = {
   children: PropTypes.any,
   show: PropTypes.bool.isRequired,
-  onPress: PropTypes.func.isRequired,
+  onPress: PropTypes.func,
 };
 
 export default ComponentModal;
