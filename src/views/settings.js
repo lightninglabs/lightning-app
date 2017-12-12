@@ -11,6 +11,10 @@ class Settings extends Component {
     this.scrollview && this.scrollview.scrollToEnd();
   }
 
+  componentDidMount() {
+    this.scrollview && this.scrollview.scrollToEnd();
+  }
+
   render() {
     const { logs } = store;
     return (

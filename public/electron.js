@@ -31,6 +31,32 @@ log.transports.file.level = 'info';
 ipcMain.on('log', (event, arg) => log.info(...arg));
 ipcMain.on('log-error', (event, arg) => log.error(...arg));
 
+let logQueue = [];
+let logsReady = false;
+
+const sendLog = log => {
+  if (win && logsReady) {
+    win.webContents.send('logs', log);
+  } else {
+    logQueue.push(log);
+  }
+};
+const Logger = {
+  info: msg => {
+    log.info(msg);
+    sendLog(msg);
+  },
+  error: msg => {
+    log.error(msg);
+    sendLog(`ERROR: ${msg}`);
+  },
+};
+ipcMain.on('logs-ready', () => {
+  logQueue.map(line => win && win.webContents.send('logs', line));
+  logQueue = [];
+  logsReady = true;
+});
+
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({ width: 750, height: 500 });
@@ -102,10 +128,10 @@ function createWindow() {
 const lndInfo = {
   name: 'lnd',
   args: [
-    isDev && '--bitcoin.active',
-    isDev && '--bitcoin.simnet',
-    isDev && '--bitcoin.rpcuser=lnd',
-    isDev && '--bitcoin.rpcpass=lnd',
+    isDev ? '--bitcoin.active' : '',
+    isDev ? '--bitcoin.simnet' : '',
+    isDev ? '--bitcoin.rpcuser=lnd' : '',
+    isDev ? '--bitcoin.rpcpass=lnd' : '',
 
     isDev ? '' : '--bitcoin.active',
     isDev ? '' : '--neutrino.active',
@@ -113,15 +139,18 @@ const lndInfo = {
     isDev ? '' : '--bitcoin.testnet',
     isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
     isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
-    isDev ? '' : '--debuglevel=info',
+    // isDev ? '' : '--debuglevel=info',
     isDev ? '' : '--autopilot.active',
+
     // '--no-macaroons',
+    '--debuglevel=info',
     '--noencryptwallet',
   ],
 };
+
 ps.lookup({ command: lndInfo.name }, (err, resultList) => {
   if (err || (resultList && resultList[0])) {
-    log.info(`lnd Already Running`);
+    Logger.info(`lnd Already Running`);
   } else {
     const filePath = path.join(
       __dirname,
@@ -134,37 +163,22 @@ ps.lookup({ command: lndInfo.name }, (err, resultList) => {
     // const filePath = '/Users/kevinejohn/go/bin/lnd';
 
     let processName;
-    let logQueue = [];
-    let logsReady = false;
-    const sendLog = log => {
-      if (win && logsReady) {
-        win.webContents.send('logs', log);
-      } else {
-        logQueue.push(log);
-      }
-    };
-    ipcMain.on('logs-ready', () => {
-      logQueue.map(line => win && win.webContents.send('logs', line));
-      logQueue = [];
-      logsReady = true;
-    });
-
     try {
       processName = cp.spawnSync('type', [lndInfo.name]).status === 0
         ? lndInfo.name
         : filePath;
-      log.info(`Using lnd in path ${processName}`);
+      Logger.info(`Using lnd in path ${processName}`);
       lndProcess = cp.spawn(processName, lndInfo.args);
       lndProcess.stdout.on('data', data => {
-        log.info(`${lndInfo.name}: ${data}`);
+        Logger.info(`${lndInfo.name}: ${data}`);
         sendLog(`${data}`);
       });
       lndProcess.stderr.on('data', data => {
-        log.error(`${lndInfo.name} Error: ${data}`);
+        Logger.error(`${lndInfo.name} Error: ${data}`);
         sendLog(`ERROR: ${data}`);
       });
     } catch (error) {
-      log.error(`Caught Error When Starting ${processName}: ${error}`);
+      Logger.error(`Caught Error When Starting ${processName}: ${error}`);
     }
   }
 });
@@ -200,11 +214,11 @@ app.on('quit', () => {
 app.setAsDefaultProtocolClient('lighting');
 app.on('open-url', (event, url) => {
   // event.preventDefault();
-  log.info(`open-url# ${url}`);
+  Logger.info(`open-url# ${url}`);
 });
 
 process.on('uncaughtException', error => {
-  log.error('Caught Main Process Error:', error);
+  Logger.error('Caught Main Process Error:', error);
 });
 
 // In this file you can include the rest of your app's specific main process

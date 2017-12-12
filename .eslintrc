@@ -15,7 +15,8 @@
     "__DEV__": true,
     "fetch": true,
     "Promise": true,
-    "window": true
+    "window": true,
+    "document": true
   },
   "env": {
     "es6": true,
