@@ -9,6 +9,18 @@ const os = require('os');
 const cp = require('child_process');
 const log = require('electron-log');
 
+console.log(`
+ ___       ________       ________  ________  ________
+|\\  \\     |\\   ___  \\    |\\   __  \\|\\   __  \\|\\   __  \\
+\\ \\  \\    \\ \\  \\\\ \\  \\   \\ \\  \\|\\  \\ \\  \\|\\  \\ \\  \\|\\  \\
+ \\ \\  \\    \\ \\  \\\\ \\  \\   \\ \\   __  \\ \\   ____\\ \\   ____\\
+  \\ \\  \\____\\ \\  \\\\ \\  \\   \\ \\  \\ \\  \\ \\  \\___|\\ \\  \\___|
+   \\ \\_______\\ \\__\\\\ \\__\\   \\ \\__\\ \\__\\ \\__\\    \\ \\__\\
+    \\|_______|\\|__| \\|__|    \\|__|\\|__|\\|__|     \\|__|
+
+
+`);
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
