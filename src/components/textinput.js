@@ -69,8 +69,8 @@ class ComponentTextInput extends Component {
 
 ComponentTextInput.propTypes = {
   placeholder: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  onChangeText: PropTypes.func.isRequired,
+  value: PropTypes.string,
+  onChangeText: PropTypes.func,
   editable: PropTypes.bool,
   rightText: PropTypes.string,
 };

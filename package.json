@@ -7,7 +7,7 @@
   "description": "Lightning Desktop Wallet",
   "dependencies": {
     "electron-is-dev": "0.3.0",
-    "electron-log": "2.2.11",
+    "electron-log": "2.2.12",
     "grpc": "1.7.3",
     "mobx": "3.4.1",
     "mobx-react": "4.3.5",
@@ -34,10 +34,10 @@
   "devDependencies": {
     "concurrently": "3.5.1",
     "electron": "1.7.9",
-    "electron-builder": "19.48.2",
+    "electron-builder": "19.49.0",
     "eslint-config-prettier": "2.9.0",
     "eslint-plugin-prettier": "2.3.1",
-    "prettier": "1.9.1",
+    "prettier": "1.9.2",
     "prop-types": "15.6.0",
     "wait-on": "2.0.2"
   },

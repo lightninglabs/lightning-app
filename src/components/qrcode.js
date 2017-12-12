@@ -12,7 +12,7 @@ export const QRCode = ({ address }) => {
 };
 
 QRCode.propTypes = {
-  address: PropTypes.string.isRequired,
+  address: PropTypes.string,
 };
 
 export default QRCode;
