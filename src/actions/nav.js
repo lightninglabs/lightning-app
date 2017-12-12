@@ -16,6 +16,9 @@ class ActionsNav {
   goSettings() {
     store.route = 'Settings';
   }
+  goCreateChannel() {
+    store.route = 'CreateChannel';
+  }
 }
 
 export default new ActionsNav();

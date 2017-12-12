@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
 import ComponentIcon from '../components/icon';
 import { Image, View, TouchableOpacity } from 'react-native';
+import ActionsNav from '../actions/nav';
 import { colors } from '../styles';
 import store from '../store';
 
@@ -61,7 +62,10 @@ class Channels extends Component {
             >
               Your Channels
             </Text>
-            <TouchableOpacity style={{ padding: 8 }} onPress={() => {}}>
+            <TouchableOpacity
+              style={{ padding: 8 }}
+              onPress={() => ActionsNav.goCreateChannel()}
+            >
               <Text style={{ color: colors.blue, fontSize: 12 }}>
                 CREATE CHANNEL
               </Text>

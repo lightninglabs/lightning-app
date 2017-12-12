@@ -5,6 +5,7 @@ import Pay from './pay';
 import Channels from './channels';
 import Request from './request';
 import Transactions from './transactions';
+import CreateChannel from './create_channel';
 import Settings from './settings';
 import { View } from 'react-native';
 import store from '../store';
@@ -30,6 +31,7 @@ class Main extends Component {
           {route === 'Channels' && <Channels />}
           {route === 'Transactions' && <Transactions />}
           {route === 'Settings' && <Settings />}
+          {route === 'CreateChannel' && <CreateChannel />}
         </View>
       </View>
     );
