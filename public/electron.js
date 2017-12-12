@@ -12,10 +12,8 @@ const log = require('electron-log');
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-
 let lndProcess;
 
-// log.transports.file.level = false;
 log.transports.console.level = 'info';
 log.transports.file.level = 'info';
 ipcMain.on('log', (event, arg) => log.info(...arg));
