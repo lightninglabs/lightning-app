@@ -3,9 +3,18 @@ import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
 import TextInput from '../components/textinput';
 import Button from '../components/button';
-import { Image, View, TouchableOpacity, ActivityIndicator } from 'react-native';
+import {
+  Image,
+  View,
+  TouchableOpacity,
+  ActivityIndicator,
+  Clipboard,
+} from 'react-native';
 import QRCode from '../components/qrcode';
 import ComponentIcon from '../components/icon';
+import Header from '../components/header';
+import Modal from '../components/modal';
+import ActionsWallet from '../actions/wallet';
 import { colors } from '../styles';
 import store from '../store';
 
@@ -15,25 +24,30 @@ class Request extends Component {
 
     this.state = {
       showQR: false,
+      showPaymentRequest: false,
       amount: '',
       note: '',
+      paymentRequest: null,
     };
   }
 
   render() {
-    const { showQR, amount, note } = this.state;
+    const {
+      showQR,
+      amount,
+      note,
+      showPaymentRequest,
+      paymentRequest,
+    } = this.state;
     const { walletAddress } = store;
 
     return (
       <View style={{ flex: 1, backgroundColor: colors.offwhite }}>
         <View style={{ flex: 1, padding: 20 }}>
-          <Text style={{ color: colors.gray, fontSize: 24, marginBottom: 14 }}>
-            Request Lightning Payment
-          </Text>
-          <Text style={{ color: colors.lightgray }}>
-            Generate a payment request that others can use to pay you
-            immediately via the Lightning Network
-          </Text>
+          <Header
+            text="Request Lightning Payment"
+            description="Generate a payment request that others can use to pay you immediately via the Lightning Network"
+          />
 
           <TextInput
             rightText="SAT"
@@ -48,33 +62,22 @@ class Request extends Component {
             value={note}
             onChangeText={note => this.setState({ note })}
           />
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              margin: 4,
-              marginTop: 12,
+          <Button
+            disabled={!amount}
+            text="Generate Payment Request"
+            onPress={() => {
+              this.setState({ paymentRequest: null, showPaymentRequest: true });
+              ActionsWallet.generatePaymentRequest(amount, note)
+                .then(paymentRequest => {
+                  this.setState({ paymentRequest });
+                })
+                .catch(err => {
+                  // TODO: Show error
+                });
             }}
-          >
-            <Button
-              disabled={!amount}
-              text="Generate Payment Request"
-              onPress={() => {}}
-            />
-
-            {(!!amount || !!note) && (
-              <TouchableOpacity
-                style={{}}
-                onPress={() => this.setState({ amount: '', note: '' })}
-              >
-                <Text
-                  style={{ color: colors.lightgray, margin: 14, fontSize: 16 }}
-                >
-                  Cancel
-                </Text>
-              </TouchableOpacity>
-            )}
-          </View>
+            showClear={!!amount || !!note}
+            onClear={() => this.setState({ amount: '', note: '' })}
+          />
 
           <View
             style={{
@@ -144,25 +147,41 @@ class Request extends Component {
           </View>
         </View>
 
-        {showQR && (
-          <TouchableOpacity
-            onPress={() => this.setState({ showQR: false })}
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              bottom: 0,
-              left: 0,
-              backgroundColor: 'rgba(1,1,1,0.3)',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <View style={{ width: 300, height: 300, backgroundColor: 'white' }}>
-              <QRCode address={walletAddress} />
-            </View>
-          </TouchableOpacity>
-        )}
+        <Modal show={showQR} onPress={() => this.setState({ showQR: false })}>
+          <View style={{ width: 300, height: 300, backgroundColor: 'white' }}>
+            <QRCode address={walletAddress} />
+          </View>
+        </Modal>
+
+        <Modal
+          show={showPaymentRequest}
+          onPress={() => this.setState({ showPaymentRequest: false })}
+        >
+          <View style={{ padding: 20, backgroundColor: 'white' }}>
+            {paymentRequest ? (
+              <TouchableOpacity
+                onPress={() => {
+                  Clipboard.setString(paymentRequest);
+                }}
+              >
+                <Text style={{ fontSize: 18, marginBottom: 10 }}>
+                  Payment Request
+                </Text>
+                <Text style={{ color: colors.lightgray }}>
+                  Send this encoded payment request to the party who would like
+                  to pay you via the Lightning Network.
+                </Text>
+                <TextInput
+                  editable={false}
+                  value={paymentRequest}
+                  rightText="Copy"
+                />
+              </TouchableOpacity>
+            ) : (
+              <ActivityIndicator />
+            )}
+          </View>
+        </Modal>
       </View>
     );
   }

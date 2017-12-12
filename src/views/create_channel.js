@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
 import TextInput from '../components/textinput';
 import Button from '../components/button';
+import Header from '../components/header';
 import { Image, View, TouchableOpacity } from 'react-native';
 import { colors } from '../styles';
 import store from '../store';
@@ -22,13 +23,10 @@ class CreateChannel extends Component {
 
     return (
       <View style={{ flex: 1, backgroundColor: colors.offwhite, padding: 20 }}>
-        <Text style={{ color: colors.gray, fontSize: 24, marginBottom: 14 }}>
-          Create Channel
-        </Text>
-        <Text style={{ color: colors.lightgray }}>
-          Channels are like tubes of money used to transfer funds within
-          Lightning
-        </Text>
+        <Header
+          text="Create Channel"
+          description="Channels are like tubes of money used to transfer funds within Lightning"
+        />
 
         <TextInput
           placeholder="Pubkey@HostIP"
@@ -45,31 +43,13 @@ class CreateChannel extends Component {
           }
         />
 
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            margin: 4,
-            marginTop: 12,
-          }}
-        >
-          <Button
-            disabled={!(pubkey && amount)}
-            text="Create Channel"
-            onPress={() => {}}
-          />
-
-          {(!!amount || !!pubkey) && (
-            <TouchableOpacity
-              style={{}}
-              onPress={() => this.setState({ amount: '', pubkey: '' })}
-            >
-              <Text style={{ color: colors.lightgray, margin: 10 }}>
-                Cancel
-              </Text>
-            </TouchableOpacity>
-          )}
-        </View>
+        <Button
+          disabled={!(pubkey && amount)}
+          text="Create Channel"
+          onPress={() => {}}
+          showClear={!!amount || !!pubkey}
+          onClear={() => this.setState({ amount: '', pubkey: '' })}
+        />
       </View>
     );
   }

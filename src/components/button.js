@@ -6,20 +6,39 @@ import { colors } from '../styles';
 
 class ComponentButton extends Component {
   render() {
-    const { disabled, text, onPress } = this.props;
+    const { disabled, text, onPress, showClear, onClear } = this.props;
 
     return (
-      <TouchableOpacity
-        disabled={disabled}
+      <View
         style={{
-          backgroundColor: disabled ? colors.lightergray : colors.blue,
+          flexDirection: 'row',
+          alignItems: 'center',
+          margin: 4,
+          marginTop: 12,
         }}
-        onPress={() => onPress()}
       >
-        <Text style={{ color: 'white', textAlign: 'center', margin: 18 }}>
-          {text}
-        </Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          disabled={disabled}
+          style={{
+            backgroundColor: disabled ? colors.lightergray : colors.blue,
+          }}
+          onPress={() => onPress()}
+        >
+          <Text style={{ color: 'white', textAlign: 'center', margin: 18 }}>
+            {text}
+          </Text>
+        </TouchableOpacity>
+
+        {showClear && (
+          <TouchableOpacity style={{}} onPress={() => onClear && onClear()}>
+            <Text
+              style={{ color: colors.lightgray, margin: 10, marginLeft: 20 }}
+            >
+              Cancel
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
     );
   }
 }
@@ -28,6 +47,8 @@ ComponentButton.propTypes = {
   disabled: PropTypes.bool,
   text: PropTypes.string.isRequired,
   onPress: PropTypes.func.isRequired,
+  showClear: PropTypes.bool,
+  onClear: PropTypes.func,
 };
 
 export default ComponentButton;

@@ -38,6 +38,21 @@ class ActionsWallet {
       });
   }
 
+  generatePaymentRequest(amount, note) {
+    return new Promise((resolve, reject) => {
+      ActionsGrpc.sendCommand('addInvoice', {
+        value: amount,
+        memo: note,
+      })
+        .then(response => {
+          resolve(response.payment_request);
+        })
+        .catch(err => {
+          reject(err);
+        });
+    });
+  }
+
   getNewAddress() {
     // - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
     // - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)

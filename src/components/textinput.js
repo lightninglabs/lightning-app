@@ -6,7 +6,13 @@ import { colors } from '../styles';
 
 class ComponentTextInput extends Component {
   render() {
-    const { value, onChangeText, placeholder, rightText } = this.props;
+    const {
+      value,
+      onChangeText,
+      placeholder,
+      editable,
+      rightText,
+    } = this.props;
 
     return (
       <View
@@ -24,6 +30,7 @@ class ComponentTextInput extends Component {
         <TextInput
           placeholder={placeholder}
           value={value}
+          editable={editable}
           onChangeText={text => onChangeText && onChangeText(text)}
           style={{
             flex: 1,
@@ -64,6 +71,7 @@ ComponentTextInput.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChangeText: PropTypes.func.isRequired,
+  editable: PropTypes.bool,
   rightText: PropTypes.string,
 };
 
