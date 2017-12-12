@@ -107,18 +107,35 @@ ps.lookup({ command: lndInfo.name }, (err, resultList) => {
     // const filePath = '/Users/kevinejohn/go/bin/lnd';
 
     let processName;
+    let logQueue = [];
+    let logsReady = false;
+    const sendLog = log => {
+      if (logsReady) {
+        win.webContents.send('logs', log);
+      } else {
+        logQueue.push(log);
+      }
+    };
+    ipcMain.on('logs-ready', () => {
+      logQueue.map(line => win.webContents.send('logs', line));
+      logQueue = [];
+      logsReady = true;
+    });
+
     try {
       processName = cp.spawnSync('type', [lndInfo.name]).status === 0
         ? lndInfo.name
         : filePath;
       log.log(`Using lnd in path ${processName}`);
       lndProcess = cp.spawn(processName, lndInfo.args);
-      lndProcess.stdout.on('data', data =>
-        log.log(`${lndInfo.name}: ${data}`)
-      );
-      lndProcess.stderr.on('data', data =>
-        log.log(`${lndInfo.name} Error: ${data}`)
-      );
+      lndProcess.stdout.on('data', data => {
+        log.log(`${lndInfo.name}: ${data}`);
+        sendLog(`${data}`);
+      });
+      lndProcess.stderr.on('data', data => {
+        log.log(`${lndInfo.name} Error: ${data}`);
+        sendLog(`ERROR: ${data}`);
+      });
     } catch (error) {
       log.log(`Caught Error When Starting ${processName}: ${error}`);
     }

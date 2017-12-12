@@ -1,5 +1,5 @@
 import { AsyncStorage } from 'react-native';
-import { extendObservable, action } from 'mobx';
+import { extendObservable, action, observable } from 'mobx';
 import ComputedWallet from './computed/wallet';
 import { DEFAULT_ROUTE } from './config';
 
@@ -15,6 +15,8 @@ class Store {
       channelBalanceSatoshis: null,
       pubKey: null,
       walletAddress: null,
+
+      logs: observable([]),
 
       // Persistent data
       settings: {},
