@@ -10,13 +10,9 @@ console = {
     consoleOrig.log(...params);
     ipcRenderer.send('log', params);
   },
-  info: (...params) => {
-    consoleOrig.log(...params);
-    ipcRenderer.send('log', params);
-  },
   error: (...params) => {
     consoleOrig.log(...params);
-    ipcRenderer.send('log', params);
+    ipcRenderer.send('log-error', params);
   },
 };
 

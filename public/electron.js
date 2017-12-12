@@ -15,7 +15,11 @@ let win;
 
 let lndProcess;
 
-ipcMain.on('log', (event, arg) => log.log(...arg));
+// log.transports.file.level = false;
+log.transports.console.level = 'info';
+log.transports.file.level = 'info';
+ipcMain.on('log', (event, arg) => log.info(...arg));
+ipcMain.on('log-error', (event, arg) => log.error(...arg));
 
 function createWindow() {
   // Create the browser window.
@@ -94,7 +98,7 @@ const lndInfo = {
 };
 ps.lookup({ command: lndInfo.name }, (err, resultList) => {
   if (err || (resultList && resultList[0])) {
-    log.log(`lnd Already Running`);
+    log.info(`lnd Already Running`);
   } else {
     const filePath = path.join(
       __dirname,
@@ -126,18 +130,18 @@ ps.lookup({ command: lndInfo.name }, (err, resultList) => {
       processName = cp.spawnSync('type', [lndInfo.name]).status === 0
         ? lndInfo.name
         : filePath;
-      log.log(`Using lnd in path ${processName}`);
+      log.info(`Using lnd in path ${processName}`);
       lndProcess = cp.spawn(processName, lndInfo.args);
       lndProcess.stdout.on('data', data => {
-        log.log(`${lndInfo.name}: ${data}`);
+        log.info(`${lndInfo.name}: ${data}`);
         sendLog(`${data}`);
       });
       lndProcess.stderr.on('data', data => {
-        log.log(`${lndInfo.name} Error: ${data}`);
+        log.error(`${lndInfo.name} Error: ${data}`);
         sendLog(`ERROR: ${data}`);
       });
     } catch (error) {
-      log.log(`Caught Error When Starting ${processName}: ${error}`);
+      log.error(`Caught Error When Starting ${processName}: ${error}`);
     }
   }
 });
@@ -173,11 +177,11 @@ app.on('quit', () => {
 app.setAsDefaultProtocolClient('lighting');
 app.on('open-url', (event, url) => {
   // event.preventDefault();
-  log.log(`open-url# ${url}`);
+  log.info(`open-url# ${url}`);
 });
 
 process.on('uncaughtException', error => {
-  log.log('Caught Main Process Error:', error);
+  log.error('Caught Main Process Error:', error);
 });
 
 // In this file you can include the rest of your app's specific main process
