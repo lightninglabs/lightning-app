@@ -10,13 +10,19 @@ class ActionsGrpc {
         store.lndReady = true;
       });
     } else {
-      console.log('GRPC: ERROR no serverReady');
+      console.error('GRPC: ERROR no serverReady');
     }
 
     try {
       this.client = remote.getGlobal('connection');
     } catch (err) {
-      console.log('GRPC: Error Connecting to GRPC Server', err);
+      console.error('GRPC: Error Connecting to GRPC Server', err);
+    }
+
+    try {
+      this.metadata = remote.getGlobal('metadata');
+    } catch (err) {
+      console.error('GRPC: Error getting metadata', err);
     }
   }
 
@@ -30,7 +36,10 @@ class ActionsGrpc {
       let streaming = false; // TODO: FIX!
       if (streaming) {
         try {
-          const response = this.client[method](body ? { body } : {}); // TODO: Pass proper data?
+          const response = this.client[method](
+            this.metadata,
+            body ? { body } : {}
+          ); // TODO: Pass proper data?
           console.log('GRPC: Stream Response', method, response);
           resolve(response);
         } catch (err) {
@@ -41,15 +50,20 @@ class ActionsGrpc {
         const now = new Date();
         const deadline = now.setSeconds(now.getSeconds() + 30);
 
-        this.client[method](body, { deadline }, (err, response) => {
-          if (!err) {
-            console.log('GRPC: Response', method, response);
-            resolve(response);
-          } else {
-            console.log('GRPC: Error From Method', method, err);
-            reject(err);
+        this.client[method](
+          body,
+          this.metadata,
+          { deadline },
+          (err, response) => {
+            if (!err) {
+              console.log('GRPC: Response', method, response);
+              resolve(response);
+            } else {
+              console.log('GRPC: Error From Method', method, err);
+              reject(err);
+            }
           }
-        });
+        );
       }
     });
   }

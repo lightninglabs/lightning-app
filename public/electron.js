@@ -47,10 +47,19 @@ function createWindow() {
   });
 
   //////////////// Lightning App ///////////////////////////
+  const homedir = os.homedir();
   const certPath = {
-    darwin: path.join(os.homedir(), 'Library/Application Support/Lnd/tls.cert'),
-    linux: path.join(os.homedir(), '.lnd/tls.cert'),
-    win32: path.join(os.homedir(), 'AppData', 'Local', 'Lnd', 'tls.cert'),
+    darwin: path.join(homedir, 'Library/Application Support/Lnd/tls.cert'),
+    linux: path.join(homedir, '.lnd/tls.cert'),
+    win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert'),
+  }[os.platform()];
+  const macaroonPath = {
+    darwin: path.join(
+      homedir,
+      'Library/Application Support/Lnd/admin.macaroon'
+    ),
+    linux: path.join(homedir, '.lnd/admin.macaroon'),
+    win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'admin.macaroon'),
   }[os.platform()];
   this.intervalId = setInterval(() => {
     if (fs.existsSync(certPath)) {
@@ -61,12 +70,16 @@ function createWindow() {
         path.join(__dirname, '..', 'assets', 'rpc.proto')
       );
       const connection = new lnrpc.Lightning('localhost:10009', credentials);
+      const metadata = new grpc.Metadata();
+      const macaroonHex = fs.readFileSync(macaroonPath).toString('hex');
+      metadata.add('macaroon', macaroonHex);
       const serverReady = cb => {
         // var deadline = new Date();
         // deadline.setSeconds(deadline.getSeconds() + 5);
         grpc.waitForClientReady(connection, Infinity, cb);
       };
       global.connection = connection;
+      global.metadata = metadata;
       global.serverReady = serverReady;
     }
   }, 500);
@@ -90,7 +103,7 @@ const lndInfo = {
     isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
     isDev ? '' : '--debuglevel=info',
     isDev ? '' : '--autopilot.active',
-    '--no-macaroons',
+    // '--no-macaroons',
     '--noencryptwallet',
   ],
 };
