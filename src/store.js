@@ -1,6 +1,7 @@
 import { AsyncStorage } from 'react-native';
 import { extendObservable, action, observable } from 'mobx';
 import ComputedWallet from './computed/wallet';
+import ComputedTransactions from './computed/transactions';
 import { DEFAULT_ROUTE } from './config';
 
 class Store {
@@ -16,6 +17,10 @@ class Store {
       pubKey: null,
       walletAddress: null,
 
+      transactionsResponse: null,
+      invoicesResponse: null,
+      paymentsResponse: null,
+
       logs: observable([]),
 
       // Persistent data
@@ -23,6 +28,7 @@ class Store {
     });
 
     ComputedWallet(this);
+    ComputedTransactions(this);
 
     try {
       AsyncStorage.getItem('settings').then(

@@ -6,3 +6,5 @@ export const formatSatoshis = val => {
     return `${num.toLocaleString()}`;
   }
 };
+
+export const toHash = hash => new Buffer(hash, 'base64').toString('hex');

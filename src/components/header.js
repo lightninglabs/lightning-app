@@ -6,10 +6,10 @@ import { colors } from '../styles';
 
 class ComponentHeader extends Component {
   render() {
-    const { text, description } = this.props;
+    const { text, description, style } = this.props;
 
     return (
-      <View>
+      <View style={style}>
         <Text style={{ color: colors.gray, fontSize: 24, marginBottom: 14 }}>
           {text}
         </Text>
@@ -22,6 +22,7 @@ class ComponentHeader extends Component {
 ComponentHeader.propTypes = {
   text: PropTypes.string,
   description: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default ComponentHeader;
