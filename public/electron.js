@@ -110,14 +110,14 @@ ps.lookup({ command: lndInfo.name }, (err, resultList) => {
     let logQueue = [];
     let logsReady = false;
     const sendLog = log => {
-      if (logsReady) {
+      if (win && logsReady) {
         win.webContents.send('logs', log);
       } else {
         logQueue.push(log);
       }
     };
     ipcMain.on('logs-ready', () => {
-      logQueue.map(line => win.webContents.send('logs', line));
+      logQueue.map(line => win && win.webContents.send('logs', line));
       logQueue = [];
       logsReady = true;
     });
