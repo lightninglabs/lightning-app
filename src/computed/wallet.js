@@ -1,16 +1,15 @@
 import { computed, extendObservable } from 'mobx';
+import { formatSatoshis } from '../helpers';
 
 const ComputedWallet = store => {
   extendObservable(store, {
     computedBalance: computed(() => {
       const { balanceSatoshis } = store;
-      return balanceSatoshis !== null ? balanceSatoshis.toLocaleString() : '';
+      return formatSatoshis(balanceSatoshis);
     }),
     computedChannelsBalance: computed(() => {
       const { channelBalanceSatoshis } = store;
-      return channelBalanceSatoshis !== null
-        ? channelBalanceSatoshis.toLocaleString()
-        : '';
+      return formatSatoshis(channelBalanceSatoshis);
     }),
   });
 };
