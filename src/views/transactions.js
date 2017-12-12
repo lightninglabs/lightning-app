@@ -53,9 +53,16 @@ class Transactions extends Component {
                     color: colors.gray,
                   }}
                 />
-                <TextB style={{ fontSize: 14, marginRight: 8, flex: 1 }}>
-                  TxID: {transaction.hash}
-                </TextB>
+                <View style={{ flex: 1, marginRight: 8 }}>
+                  <TextB style={{ fontSize: 14 }}>TxID:</TextB>
+                  <Text style={{ fontSize: 14 }}>{transaction.hash}</Text>
+                  {!!transaction.memo && (
+                    <Text style={{ fontSize: 14 }}>
+                      Memo: {transaction.memo}
+                    </Text>
+                  )}
+                </View>
+
                 <View style={{ alignItems: 'flex-end' }}>
                   <TextB style={{ fontSize: 12 }}>
                     {formatSatoshis(transaction.amount)} SAT
