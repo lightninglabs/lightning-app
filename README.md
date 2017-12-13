@@ -27,6 +27,11 @@ You can run the app in development mode in lieu of using the packaged app:
 npm start
 ```
 
+You can pass extra arguments to be passed to lnd daemon (note the extra --):
+```
+npm run start -- --peerport=10019 --rpcport=10017 --datadir=test_lnd --logdir=test_lnd
+```
+
 In development mode, the app will look for an lnd.conf in the default location for your platform. See [`lnd.conf` details](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md#creating-an-lndconf-optional). A typical lnd.conf for running on simnet will look like the following:
 
 ```
