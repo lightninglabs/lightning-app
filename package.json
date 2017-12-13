@@ -8,7 +8,7 @@
     "publish": "lerna publish",
     "clean": "lerna clean",
     "reinstall": "npm run clean && npm install",
-    "start": "cd apps/desktop && npm start -s",
+    "start": "cd apps/desktop && npm start -s --",
     "setup": "npm install && npm run install-grpc",
     "package-electron": "cd apps/desktop && npm run package",
     "package-all-electron": "cd apps/desktop && npm run package-all",

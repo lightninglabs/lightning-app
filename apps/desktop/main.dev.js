@@ -76,6 +76,11 @@ const processes = [
   },
 ]
 
+const appendArgumentsLnd = () => {
+  processes[0].args = processes[0].args.concat(process.argv.slice(process.argv.indexOf('--') + 1))
+}
+
+appendArgumentsLnd()
 runProcesses(processes, logs)
 
 let intervalId
