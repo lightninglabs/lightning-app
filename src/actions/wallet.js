@@ -23,7 +23,8 @@ class ActionsWallet {
 
   initializeWallet() {
     if (!MNEMONIC_WALLET) return;
-    if (!store.settings.seedMnemonic) {
+    const { settings: { seedMnemonic } } = store;
+    if (!seedMnemonic || !Mnemonic.isValid(seedMnemonic)) {
       const code = new Mnemonic(Mnemonic.Words.ENGLISH);
       store.settings.seedMnemonic = code.toString();
       store.save();
