@@ -12,6 +12,7 @@ class ComponentTextInput extends Component {
       placeholder,
       editable,
       rightText,
+      style,
     } = this.props;
 
     return (
@@ -25,6 +26,7 @@ class ComponentTextInput extends Component {
           shadowOpacity: 0.3,
           shadowColor: 'black',
           shadowOffset: { width: 1, height: 1 },
+          ...style,
         }}
       >
         <TextInput
@@ -73,6 +75,7 @@ ComponentTextInput.propTypes = {
   onChangeText: PropTypes.func,
   editable: PropTypes.bool,
   rightText: PropTypes.string,
+  style: PropTypes.object,
 };
 
 export default ComponentTextInput;

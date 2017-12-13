@@ -1,7 +1,10 @@
 import { observe } from 'mobx';
 import store from '../store';
 import ActionsGrpc from './grpc';
+import ActionsNav from './nav';
 import { RETRY_DELAY, PREFIX_URI } from '../config';
+import Mnemonic from 'bitcore-mnemonic';
+import __DEV__ from 'electron-is-dev';
 
 class ActionsWallet {
   constructor() {
@@ -11,6 +14,21 @@ class ActionsWallet {
 
       this.getNewAddress();
     });
+
+    observe(store, 'loaded', () => {
+      this.initializeWallet();
+    });
+  }
+
+  initializeWallet() {
+    if (!store.settings.seedMnemonic) {
+      const code = new Mnemonic(Mnemonic.Words.ENGLISH);
+      store.settings.seedMnemonic = code.toString();
+      store.save();
+      ActionsNav.goInitializeWallet();
+    } else {
+      __DEV__ && ActionsNav.goPay();
+    }
   }
 
   getBalance() {

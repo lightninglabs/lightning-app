@@ -7,6 +7,7 @@ import { DEFAULT_ROUTE } from './config';
 class Store {
   constructor() {
     extendObservable(this, {
+      loaded: false, // Is persistent data loaded
       lndReady: false, // Is lnd process running
       route: DEFAULT_ROUTE,
 
@@ -26,8 +27,13 @@ class Store {
       logs: observable([]),
 
       // Persistent data
-      settings: {},
+      settings: {
+        seedMnemonic: null,
+      },
     });
+
+    // DEBUG ONLY!
+    // AsyncStorage.clear();
 
     ComputedWallet(this);
     ComputedTransactions(this);
@@ -43,10 +49,12 @@ class Store {
               }
             });
           console.log('Loaded initial state');
+          this.loaded = true;
         })
       );
     } catch (err) {
       console.log('Store load error', err);
+      this.loaded = true;
     }
   }
 

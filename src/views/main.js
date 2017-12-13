@@ -7,12 +7,20 @@ import Request from './request';
 import Transactions from './transactions';
 import CreateChannel from './create_channel';
 import Settings from './settings';
+import InitializeWallet from './initializewallet';
+import VerifyWallet from './verifywallet';
 import { View } from 'react-native';
 import store from '../store';
 
 class Main extends Component {
   render() {
     const { route } = store;
+    if (route === 'InitializeWallet') {
+      return <InitializeWallet />;
+    } else if (route === 'VerifyWallet') {
+      return <VerifyWallet />;
+    }
+
     return (
       <View
         style={{

@@ -6,6 +6,7 @@
   "homepage": "./",
   "description": "Lightning Desktop Wallet",
   "dependencies": {
+    "bitcore-mnemonic": "^1.5.0",
     "electron-is-dev": "0.3.0",
     "electron-log": "2.2.12",
     "grpc": "1.7.3",

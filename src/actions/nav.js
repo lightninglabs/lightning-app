@@ -19,6 +19,12 @@ class ActionsNav {
   goCreateChannel() {
     store.route = 'CreateChannel';
   }
+  goInitializeWallet() {
+    store.route = 'InitializeWallet';
+  }
+  goVerifyWallet() {
+    store.route = 'VerifyWallet';
+  }
 }
 
 export default new ActionsNav();
