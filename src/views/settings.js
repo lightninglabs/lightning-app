@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
 import Header from '../components/header';
+import Button from '../components/button';
+import ActionsNav from '../actions/nav';
 import { Image, View, TouchableOpacity, ScrollView } from 'react-native';
 import { colors } from '../styles';
+import { MNEMONIC_WALLET } from '../config';
 import store from '../store';
 
 class Settings extends Component {
@@ -19,10 +22,19 @@ class Settings extends Component {
     const { logs } = store;
     return (
       <View style={{ flex: 1, padding: 20, backgroundColor: colors.offwhite }}>
-        <Header
-          text="Settings"
-          description="Settings and logs for your wallet and the Lightning app"
-        />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+          <Header
+            text="Settings"
+            description="Settings and logs for your wallet and the Lightning app"
+          />
+          {MNEMONIC_WALLET &&
+            <Button
+              text="Backup Wallet"
+              onPress={() => ActionsNav.goInitializeWallet()}
+            />
+          }
+        </View>
+
 
         <Text style={{ color: colors.lightgray, margin: 4, marginTop: 30 }}>
           Logs

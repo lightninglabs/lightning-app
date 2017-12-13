@@ -9,3 +9,6 @@ export const DEFAULT_ROUTE = 'CreateChannel';
 // export const DEFAULT_ROUTE = 'Settings';
 // export const DEFAULT_ROUTE = 'Transactions';
 // export const DEFAULT_ROUTE = 'InitializeWallet';
+
+// export const MNEMONIC_WALLET = false;
+export const MNEMONIC_WALLET = true;

@@ -4,6 +4,7 @@ import ActionsGrpc from './grpc';
 import ActionsNav from './nav';
 import { RETRY_DELAY, PREFIX_URI } from '../config';
 import Mnemonic from 'bitcore-mnemonic';
+import { MNEMONIC_WALLET } from '../config';
 import __DEV__ from 'electron-is-dev';
 
 class ActionsWallet {
@@ -21,6 +22,7 @@ class ActionsWallet {
   }
 
   initializeWallet() {
+    if (!MNEMONIC_WALLET) return;
     if (!store.settings.seedMnemonic) {
       const code = new Mnemonic(Mnemonic.Words.ENGLISH);
       store.settings.seedMnemonic = code.toString();
