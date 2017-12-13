@@ -41,6 +41,7 @@ const runProcesses = (processes, logs) => {
         const filePath = path.join(__dirname, 'bin', plat, plat === 'win32' ? `${ proc.name }.exe` : proc.name)
 
         try {
+          console.log(proc.args)
           const instance = cp.spawn(filePath, proc.args)
           runningProcesses.push(instance)
           instance.stdout.on('data', data => logs.push(`${ proc.name }: ${ data }`))
