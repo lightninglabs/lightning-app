@@ -20,6 +20,8 @@ class Store {
       transactionsResponse: null,
       invoicesResponse: null,
       paymentsResponse: null,
+      peersResponse: null,
+      channelsResponse: null,
 
       logs: observable([]),
 

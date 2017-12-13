@@ -58,7 +58,7 @@ class Transactions extends Component {
                   <Text style={{ fontSize: 14 }}>{transaction.hash}</Text>
                   {!!transaction.memo && (
                     <Text style={{ fontSize: 14 }}>
-                      Memo: {transaction.memo}
+                      Note: {transaction.memo}
                     </Text>
                   )}
                 </View>
