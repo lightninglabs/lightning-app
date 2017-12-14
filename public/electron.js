@@ -8,7 +8,7 @@ const ps = require('ps-node');
 const os = require('os');
 const cp = require('child_process');
 const log = require('electron-log');
-const { MACAROONS_ENABLED } = require('../src/config');
+const { MACAROONS_ENABLED, SINGLE_LND } = require('../src/config');
 
 console.log(`
  ___       ________       ________  ________  ________
@@ -149,7 +149,6 @@ const lndInfo = {
     isDev ? '' : '--bitcoin.testnet',
     isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
     isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
-    // isDev ? '' : '--debuglevel=info',
     isDev ? '' : '--autopilot.active',
 
     MACAROONS_ENABLED ? '' : '--no-macaroons',
@@ -159,41 +158,49 @@ const lndInfo = {
   ],
 };
 
-ps.lookup({ command: lndInfo.name }, (err, resultList) => {
-  if (err || (resultList && resultList[0])) {
-    Logger.info(`lnd Already Running`);
-  } else {
-    const filePath = path.join(
-      __dirname,
-      '..',
-      'assets',
-      'bin',
-      os.platform(),
-      os.platform() === 'win32' ? `${lndInfo.name}.exe` : lndInfo.name
-    );
-    // const filePath = '/Users/kevinejohn/go/bin/lnd';
+const startLnd = () => {
+  const filePath = path.join(
+    __dirname,
+    '..',
+    'assets',
+    'bin',
+    os.platform(),
+    os.platform() === 'win32' ? `${lndInfo.name}.exe` : lndInfo.name
+  );
+  // const filePath = '/Users/kevinejohn/go/bin/lnd';
 
-    let processName;
-    try {
-      processName =
-        cp.spawnSync('type', [lndInfo.name]).status === 0
-          ? lndInfo.name
-          : filePath;
-      Logger.info(`Using lnd in path ${processName}`);
-      lndProcess = cp.spawn(processName, lndInfo.args);
-      lndProcess.stdout.on('data', data => {
-        Logger.info(`${lndInfo.name}: ${data}`);
-        sendLog(`${data}`);
-      });
-      lndProcess.stderr.on('data', data => {
-        Logger.error(`${lndInfo.name} Error: ${data}`);
-        sendLog(`ERROR: ${data}`);
-      });
-    } catch (error) {
-      Logger.error(`Caught Error When Starting ${processName}: ${error}`);
-    }
+  let processName;
+  try {
+    processName =
+      cp.spawnSync('type', [lndInfo.name]).status === 0
+        ? lndInfo.name
+        : filePath;
+    Logger.info(`Using lnd in path ${processName}`);
+    lndProcess = cp.spawn(processName, lndInfo.args);
+    lndProcess.stdout.on('data', data => {
+      Logger.info(`${lndInfo.name}: ${data}`);
+      sendLog(`${data}`);
+    });
+    lndProcess.stderr.on('data', data => {
+      Logger.error(`${lndInfo.name} Error: ${data}`);
+      sendLog(`ERROR: ${data}`);
+    });
+  } catch (error) {
+    Logger.error(`Caught Error When Starting ${processName}: ${error}`);
   }
-});
+};
+
+if (SINGLE_LND) {
+  ps.lookup({ command: lndInfo.name }, (err, resultList) => {
+    if (err || (resultList && resultList[0])) {
+      Logger.info(`lnd Already Running`);
+    } else {
+      startLnd();
+    }
+  });
+} else {
+  startLnd();
+}
 
 ///////////////////////////////////////////////////
 

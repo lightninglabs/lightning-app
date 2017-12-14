@@ -15,3 +15,5 @@ module.exports.MNEMONIC_WALLET = true;
 
 module.exports.MACAROONS_ENABLED = false;
 // module.exports.MACAROONS_ENABLED = true;
+
+module.exports.SINGLE_LND = false;
