@@ -7,4 +7,7 @@ export { default as TransactionsPage } from './transactions'
 export { default as Sidebar } from './common/Sidebar'
 export { default as Streams } from './common/Streams'
 
+export { default as LandingPage } from './landing'
+export { default as LobbyPage } from './lobby'
+
 export { reducer, selectors } from './reducer'

@@ -9,20 +9,20 @@
   "author": "case <case@casesandberg.com>",
   "license": "MIT",
   "dependencies": {
-    "history": "^4.6.1",
+    "history": "^4.7.2",
     "lightning-core": "^1.9.1",
     "lightning-forms": "^0.1.0",
     "lightning-notifications": "^0.1.1",
     "lightning-popup": "^0.1.0",
-    "lodash": "^4.17.2",
-    "react": "^15.4.1",
-    "react-router-dom": "^4.0.0",
-    "react-router-redux": "^5.0.0-alpha.6",
-    "redux": "^3.6.0",
-    "redux-electron-ipc": "^1.1.3",
+    "lodash": "^4.17.4",
+    "react": "^15.6.2",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "redux": "^3.7.2",
+    "redux-electron-ipc": "^1.1.12",
     "redux-grpc-middleware": "^0.1.1",
-    "redux-logger": "^2.7.4",
+    "redux-logger": "^2.10.2",
     "redux-selector": "^0.1.0",
-    "redux-thunk": "^2.1.0"
+    "redux-thunk": "^2.2.0"
   }
 }

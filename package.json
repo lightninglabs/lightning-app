@@ -30,5 +30,18 @@
     "lerna": "2.0.0-beta.31",
     "react": "^15.4.1",
     "react-dom": "^15.4.1"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "bufferutil": "^3.0.3",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "ip": "^1.1.5",
+    "material-ui": "^0.20.0",
+    "ngrok": "^2.2.24",
+    "public-ip": "^2.4.0",
+    "socket.io": "^2.0.4",
+    "socket.io-client": "^2.0.4",
+    "underscore": "^1.8.3",
+    "utf-8-validate": "^4.0.0"
   }
 }

@@ -1,0 +1,79 @@
+{
+  "_from": "ngrok",
+  "_id": "ngrok@2.2.24",
+  "_inBundle": false,
+  "_integrity": "sha512-tz1X/yS3PD5N+Cwijn+bwSrDGNRNPpQPM0TEHtaT8K4sMpFUHFBhRJLlFyoGQyfmSML7Tdq9Fq17AKoEtGaJzw==",
+  "_location": "/ngrok",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "ngrok",
+    "name": "ngrok",
+    "escapedName": "ngrok",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/ngrok/-/ngrok-2.2.24.tgz",
+  "_shasum": "0fce41f4f60b1ba7484e052a7ed24868686bef53",
+  "_spec": "ngrok",
+  "_where": "/Users/rob/Desktop/Poker",
+  "author": {
+    "name": "bubenshchykov"
+  },
+  "bin": {
+    "ngrok": "./bin/ngrok"
+  },
+  "bugs": {
+    "url": "https://github.com/bubenshchykov/ngrok/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@types/node": "^8.0.19",
+    "async": "^2.3.0",
+    "decompress-zip": "^0.3.0",
+    "lock": "^0.1.2",
+    "request": "^2.55.0",
+    "uuid": "^3.0.0"
+  },
+  "deprecated": false,
+  "description": "node wrapper for ngrok",
+  "devDependencies": {
+    "chai": "~3.5.0",
+    "homedir": "^0.6.0",
+    "mocha": "~3.4.2"
+  },
+  "files": [
+    "index.js",
+    "postinstall.js",
+    "bin/ngrok",
+    "ngrok.d.ts"
+  ],
+  "homepage": "https://github.com/bubenshchykov/ngrok#readme",
+  "keywords": [
+    "ngrok",
+    "localhost",
+    "tunneling",
+    "localtunnel",
+    "webhook"
+  ],
+  "license": "BSD-2-Clause",
+  "main": "index.js",
+  "name": "ngrok",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bubenshchykov/ngrok.git"
+  },
+  "scripts": {
+    "postinstall": "node ./postinstall.js",
+    "postupdate": "node ./postinstall.js",
+    "test": "node ./node_modules/mocha/bin/_mocha"
+  },
+  "types": "ngrok.d.ts",
+  "version": "2.2.24"
+}

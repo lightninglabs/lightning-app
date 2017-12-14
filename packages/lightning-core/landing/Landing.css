@@ -1,0 +1,37 @@
+.container {
+  background-color: #4CAF50;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.container_header {
+  flex: 1;
+}
+.container_body {
+  flex:10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.title_container {
+  flex: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.title {
+  font-size: 100pt;
+  font-family: "Poker Font";
+  font-weight: lighter;
+}
+.connect_button_container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container--footer {
+  flex: 1;
+}
