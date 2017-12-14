@@ -12,8 +12,8 @@ import os from 'os'
 import fs from 'fs'
 import grpc from 'grpc'
 
-app.commandLine.appendSwitch('remote-debugging-port', '9997')
-app.commandLine.appendSwitch('host-rules', 'MAP * 127.0.0.1')
+// app.commandLine.appendSwitch('remote-debugging-port', '9997')
+// app.commandLine.appendSwitch('host-rules', 'MAP * 127.0.0.1')
 
 let mainWindow = null
 const isDev = process.env.NODE_ENV === 'development'

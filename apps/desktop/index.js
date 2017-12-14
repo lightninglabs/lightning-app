@@ -6,6 +6,7 @@ import 'normalize.css'
 import { configureStore, history } from 'lightning-store'
 import { App } from 'lightning-app'
 import { remote } from 'electron'
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 // Release the callbacks on app startup
 remote.getCurrentWindow().removeAllListeners()
@@ -14,9 +15,11 @@ const store = configureStore()
 
 render(
   <Provider store={ store }>
-    <ConnectedRouter history={ history }>
-      <App dispatch={ store.dispatch } />
-    </ConnectedRouter>
+    <MuiThemeProvider>
+      <ConnectedRouter history={ history }>
+        <App dispatch={ store.dispatch } />
+      </ConnectedRouter>
+    </MuiThemeProvider>
   </Provider>,
   document.getElementById('root'),
 )
