@@ -10,37 +10,38 @@ import Settings from './settings';
 import InitializeWallet from './initializewallet';
 import VerifyWallet from './verifywallet';
 import { View } from 'react-native';
+import { colors } from '../styles';
 import store from '../store';
 
 class Main extends Component {
   render() {
     const { route } = store;
-    if (route === 'InitializeWallet') {
-      return <InitializeWallet />;
-    } else if (route === 'VerifyWallet') {
-      return <VerifyWallet />;
-    }
-
     return (
       <View
         style={{
-          display: 'flex',
-          flexDirection: 'row',
           width: '100vw',
           height: '100vh',
-          backgroundColor: 'white',
+          backgroundColor: colors.offwhite,
         }}
       >
-        <Sidebar />
+        {route === 'InitializeWallet' ? (
+          <InitializeWallet />
+        ) : route === 'VerifyWallet' ? (
+          <VerifyWallet />
+        ) : (
+          <View style={{ flex: 1, flexDirection: 'row' }}>
+            <Sidebar />
 
-        <View style={{ flex: 1, minWidth: 400 }}>
-          {route === 'Pay' && <Pay />}
-          {route === 'Request' && <Request />}
-          {route === 'Channels' && <Channels />}
-          {route === 'Transactions' && <Transactions />}
-          {route === 'Settings' && <Settings />}
-          {route === 'CreateChannel' && <CreateChannel />}
-        </View>
+            <View style={{ flex: 1, minWidth: 400 }}>
+              {route === 'Pay' && <Pay />}
+              {route === 'Request' && <Request />}
+              {route === 'Channels' && <Channels />}
+              {route === 'Transactions' && <Transactions />}
+              {route === 'Settings' && <Settings />}
+              {route === 'CreateChannel' && <CreateChannel />}
+            </View>
+          </View>
+        )}
       </View>
     );
   }

@@ -23,10 +23,7 @@ class VerifyWallet extends Component {
     return (
       <View
         style={{
-          display: 'flex',
-          width: '100vw',
-          height: '100vh',
-          backgroundColor: colors.offwhite,
+          flex: 1,
           alignItems: 'center',
           justifyContent: 'center',
         }}

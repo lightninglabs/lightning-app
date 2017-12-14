@@ -22,19 +22,18 @@ class Settings extends Component {
     const { logs } = store;
     return (
       <View style={{ flex: 1, padding: 20, backgroundColor: colors.offwhite }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
           <Header
             text="Settings"
             description="Settings and logs for your wallet and the Lightning app"
           />
-          {MNEMONIC_WALLET &&
+          {MNEMONIC_WALLET && (
             <Button
               text="Backup Wallet"
               onPress={() => ActionsNav.goInitializeWallet()}
             />
-          }
+          )}
         </View>
-
 
         <Text style={{ color: colors.lightgray, margin: 4, marginTop: 30 }}>
           Logs
