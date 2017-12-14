@@ -1,4 +1,5 @@
 import store from '../store';
+import { MACAROONS_ENABLED } from '../config';
 const { remote } = window.require('electron');
 
 class ActionsGrpc {
@@ -19,10 +20,15 @@ class ActionsGrpc {
       console.error('GRPC: Error Connecting to GRPC Server', err);
     }
 
-    try {
-      this.metadata = remote.getGlobal('metadata');
-    } catch (err) {
-      console.error('GRPC: Error getting metadata', err);
+    if (MACAROONS_ENABLED) {
+      try {
+        this.metadata = remote.getGlobal('metadata');
+      } catch (err) {
+        console.error('GRPC: Error getting metadata', err);
+      }
+      console.log('GRPC: Macaroons enabled');
+    } else {
+      console.log('GRPC: Macaroons disabled');
     }
   }
 
@@ -36,20 +42,21 @@ class ActionsGrpc {
       const now = new Date();
       const deadline = new Date(now.getTime() + 30000);
 
-      this.client[method](
-        body,
-        this.metadata,
-        { deadline },
-        (err, response) => {
-          if (!err) {
-            // console.log('GRPC: Response', method, response);
-            resolve(response);
-          } else {
-            console.log('GRPC: Error From Method', method, err);
-            reject(err);
-          }
+      const handleResponse = (err, response) => {
+        if (!err) {
+          // console.log('GRPC: Response', method, response);
+          resolve(response);
+        } else {
+          console.log('GRPC: Error From Method', method, err);
+          reject(err);
         }
-      );
+      };
+
+      if (MACAROONS_ENABLED) {
+        this.client[method](body, this.metadata, { deadline }, handleResponse);
+      } else {
+        this.client[method](body, { deadline }, handleResponse);
+      }
     });
   }
 
@@ -61,10 +68,12 @@ class ActionsGrpc {
       if (!this.client[method]) return reject(new Error('Invalid Method'));
 
       try {
-        const response = this.client[method](
-          this.metadata,
-          body ? { body } : {}
-        ); // TODO: Pass proper data?
+        let response;
+        if (MACAROONS_ENABLED) {
+          response = this.client[method](this.metadata, body ? { body } : {});
+        } else {
+          response = this.client[method](body ? { body } : {});
+        }
         console.log('GRPC: Stream Response', method, response);
         resolve(response);
       } catch (err) {

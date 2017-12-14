@@ -28,7 +28,7 @@
     "electron-pack": "build --em.main=build/electron.js",
     "electron-only": "electron .",
     "preelectron-pack": "yarn build",
-    "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\"",
+    "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\" public/electron.js",
     "postinstall": "electron-builder install-app-deps"
   },
   "main": "public/electron.js",
