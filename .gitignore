@@ -22,3 +22,5 @@ yarn-error.log*
 
 package-lock.json
 /dist
+
+/lnd_data

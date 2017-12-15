@@ -8,7 +8,7 @@ const ps = require('ps-node');
 const os = require('os');
 const cp = require('child_process');
 const log = require('electron-log');
-const { MACAROONS_ENABLED, SINGLE_LND } = require('../src/config');
+const { PREFIX_NAME, MACAROONS_ENABLED } = require('../src/config');
 
 console.log(`
  ___       ________       ________  ________  ________
@@ -21,6 +21,10 @@ console.log(`
 
 
 `);
+
+let LND_DATA_DIR = 'lnd_data/lnd';
+let LND_PORT = 10009;
+let LND_PEER_PORT = 10019;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -100,7 +104,10 @@ function createWindow() {
       const { lnrpc } = grpc.load(
         path.join(__dirname, '..', 'assets', 'rpc.proto')
       );
-      const connection = new lnrpc.Lightning('localhost:10009', credentials);
+      const connection = new lnrpc.Lightning(
+        `localhost:${LND_PORT}`,
+        credentials
+      );
       const metadata = new grpc.Metadata();
       if (MACAROONS_ENABLED) {
         const macaroonPath = {
@@ -135,54 +142,56 @@ function createWindow() {
 }
 
 //////////////// Lightning App ///////////////////////////
-const lndInfo = {
-  name: 'lnd',
-  args: [
-    isDev ? '--bitcoin.active' : '',
-    isDev ? '--bitcoin.simnet' : '',
-    isDev ? '--bitcoin.rpcuser=lnd' : '',
-    isDev ? '--bitcoin.rpcpass=lnd' : '',
-
-    isDev ? '' : '--bitcoin.active',
-    isDev ? '' : '--neutrino.active',
-    isDev ? '' : '--configfile=../lnd.conf',
-    isDev ? '' : '--bitcoin.testnet',
-    isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
-    isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
-    isDev ? '' : '--autopilot.active',
-
-    MACAROONS_ENABLED ? '' : '--no-macaroons',
-    // '--no-macaroons',
-    '--debuglevel=info',
-    '--noencryptwallet',
-  ],
-};
+const lndName = 'lnd';
 
 const startLnd = () => {
+  const lndInfo = {
+    name: lndName,
+    args: [
+      isDev ? '--bitcoin.active' : '',
+      isDev ? '--bitcoin.simnet' : '',
+      isDev ? '--bitcoin.rpcuser=lnd' : '',
+      isDev ? '--bitcoin.rpcpass=lnd' : '',
+
+      isDev ? '' : '--bitcoin.active',
+      isDev ? '' : '--neutrino.active',
+      isDev ? '' : '--configfile=../lnd.conf',
+      isDev ? '' : '--bitcoin.testnet',
+      isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
+      isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
+      isDev ? '' : '--autopilot.active',
+
+      MACAROONS_ENABLED ? '' : '--no-macaroons',
+      LND_DATA_DIR ? `--datadir=${LND_DATA_DIR}` : '',
+      LND_PORT ? `--rpcport=${LND_PORT}` : '',
+      LND_PEER_PORT ? `--peerport=${LND_PEER_PORT}`: '',
+
+      '--debuglevel=info',
+      '--noencryptwallet',
+    ],
+  };
+
   const filePath = path.join(
     __dirname,
     '..',
     'assets',
     'bin',
     os.platform(),
-    os.platform() === 'win32' ? `${lndInfo.name}.exe` : lndInfo.name
+    os.platform() === 'win32' ? `${lndName}.exe` : lndName
   );
-  // const filePath = '/Users/kevinejohn/go/bin/lnd';
 
   let processName;
   try {
     processName =
-      cp.spawnSync('type', [lndInfo.name]).status === 0
-        ? lndInfo.name
-        : filePath;
+      cp.spawnSync('type', [lndName]).status === 0 ? lndName : filePath;
     Logger.info(`Using lnd in path ${processName}`);
     lndProcess = cp.spawn(processName, lndInfo.args);
     lndProcess.stdout.on('data', data => {
-      Logger.info(`${lndInfo.name}: ${data}`);
+      Logger.info(`${lndName}: ${data}`);
       sendLog(`${data}`);
     });
     lndProcess.stderr.on('data', data => {
-      Logger.error(`${lndInfo.name} Error: ${data}`);
+      Logger.error(`${lndName} Error: ${data}`);
       sendLog(`ERROR: ${data}`);
     });
   } catch (error) {
@@ -190,17 +199,20 @@ const startLnd = () => {
   }
 };
 
-if (SINGLE_LND) {
-  ps.lookup({ command: lndInfo.name }, (err, resultList) => {
-    if (err || (resultList && resultList[0])) {
-      Logger.info(`lnd Already Running`);
-    } else {
-      startLnd();
-    }
-  });
-} else {
-  startLnd();
-}
+ps.lookup({ command: lndName }, (err, resultList) => {
+  if (err) {
+    Logger.info(`lnd ps lookup error`, err);
+  } else if (resultList) {
+    // Increment ports and datadir
+    LND_DATA_DIR = `${LND_DATA_DIR}${resultList.length}`;
+    LND_PORT = LND_PORT + resultList.length;
+    LND_PEER_PORT = LND_PEER_PORT + resultList.length;
+    Logger.info(`lnd will run on port ${LND_PORT}, ${LND_DATA_DIR}`);
+    startLnd();
+  } else {
+    startLnd();
+  }
+});
 
 ///////////////////////////////////////////////////
 
@@ -230,10 +242,11 @@ app.on('quit', () => {
   lndProcess && lndProcess.kill();
 });
 
-app.setAsDefaultProtocolClient('lighting');
+app.setAsDefaultProtocolClient(PREFIX_NAME);
 app.on('open-url', (event, url) => {
   // event.preventDefault();
   Logger.info(`open-url# ${url}`);
+  win && win.webContents.send('open-url', url);
 });
 
 process.on('uncaughtException', error => {

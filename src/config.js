@@ -1,6 +1,8 @@
 module.exports.RETRY_DELAY = 3000;
 
-module.exports.PREFIX_URI = 'lightning://';
+const prefixName = 'lightning';
+module.exports.PREFIX_NAME = prefixName;
+module.exports.PREFIX_URI = `${prefixName}://`;
 
 module.exports.DEFAULT_ROUTE = 'Pay';
 // module.exports.DEFAULT_ROUTE = 'Channels';
@@ -15,5 +17,3 @@ module.exports.MNEMONIC_WALLET = true;
 
 module.exports.MACAROONS_ENABLED = false;
 // module.exports.MACAROONS_ENABLED = true;
-
-module.exports.SINGLE_LND = false;
