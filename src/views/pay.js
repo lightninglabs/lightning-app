@@ -4,6 +4,7 @@ import { Text, TextB } from '../components/text';
 import Header from '../components/header';
 import TextInput from '../components/textinput';
 import Button from '../components/button';
+import ActionsPayments from '../actions/payments';
 import { Image, View, TouchableOpacity } from 'react-native';
 import { colors } from '../styles';
 
@@ -31,7 +32,12 @@ class Pay extends Component {
         <TextInput
           placeholder="Payment Request / Bitcoin Address"
           value={payment}
-          onChangeText={payment => this.setState({ payment })}
+          onChangeText={payment => {
+            ActionsPayments.decodePaymentRequest(payment).then(num_satoshis =>
+              this.setState({ amount: num_satoshis })
+            ).catch(() => {});
+            this.setState({ payment });
+          }}
         />
         <TextInput
           rightText="SAT"
@@ -44,7 +50,16 @@ class Pay extends Component {
         <Button
           disabled={!amount || !payment}
           text="Send Payment"
-          onPress={() => {}}
+          onPress={() => {
+            ActionsPayments.sendCoins({
+              payment,
+              amount,
+            })
+              .then(response => {
+                console.log('Send Payment response', response);
+              })
+              .catch(error => {});
+          }}
           showClear={!!amount || !!payment}
           onClear={() => this.setState({ amount: '', payment: '' })}
         />

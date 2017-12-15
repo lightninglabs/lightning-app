@@ -164,7 +164,7 @@ const startLnd = () => {
       MACAROONS_ENABLED ? '' : '--no-macaroons',
       LND_DATA_DIR ? `--datadir=${LND_DATA_DIR}` : '',
       LND_PORT ? `--rpcport=${LND_PORT}` : '',
-      LND_PEER_PORT ? `--peerport=${LND_PEER_PORT}`: '',
+      LND_PEER_PORT ? `--peerport=${LND_PEER_PORT}` : '',
 
       '--debuglevel=info',
       '--noencryptwallet',
