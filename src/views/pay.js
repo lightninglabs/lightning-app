@@ -51,14 +51,16 @@ class Pay extends Component {
           disabled={!amount || !payment}
           text="Send Payment"
           onPress={() => {
-            ActionsPayments.sendCoins({
+            ActionsPayments.makePayment({
               payment,
               amount,
             })
               .then(response => {
                 console.log('Send Payment response', response);
               })
-              .catch(error => {});
+              .catch(error => {
+                console.log('Error Send Payment', error);
+              });
           }}
           showClear={!!amount || !!payment}
           onClear={() => this.setState({ amount: '', payment: '' })}

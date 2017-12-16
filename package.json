@@ -56,7 +56,8 @@
       "build/**/*",
       "node_modules/**/*",
       "assets/bin/**/*",
-      "assets/rpc.proto"
+      "assets/rpc.proto",
+      "src/config.js"
     ],
     "directories": {
       "buildResources": "assets"

@@ -34,6 +34,11 @@ class ActionsWallet {
     }
   }
 
+  updateBalances() {
+    this.getBalance();
+    this.getChannelBalance();
+  }
+
   getBalance() {
     ActionsGrpc.sendCommand('WalletBalance')
       .then(response => {

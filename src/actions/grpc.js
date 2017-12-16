@@ -40,7 +40,7 @@ class ActionsGrpc {
       if (!this.client[method]) return reject(new Error('Invalid Method'));
 
       const now = new Date();
-      const deadline = new Date(now.getTime() + 30000);
+      const deadline = new Date(now.getTime() + 300000);
 
       const handleResponse = (err, response) => {
         if (!err) {

@@ -2,6 +2,7 @@ import { observe } from 'mobx';
 import store from '../store';
 import ActionsGrpc from './grpc';
 import { toHash } from '../helpers';
+import ActionsWallet from './wallet';
 import { RETRY_DELAY, PREFIX_URI } from '../config';
 
 class ActionsPayments {
@@ -34,9 +35,14 @@ class ActionsPayments {
 
   sendCoins({ addr, amount }) {
     // Send to coin address
-    return ActionsGrpc.sendCommand('sendCoins', {
-      addr,
-      amount,
+    return new Promise((resolve, reject) => {
+      return ActionsGrpc.sendCommand('sendCoins', {
+        addr,
+        amount,
+      }).then(() => {
+        ActionsWallet.updateBalances();
+        resolve();
+      }).catch(reject)
     });
   }
 
