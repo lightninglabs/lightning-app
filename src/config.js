@@ -2,7 +2,7 @@ module.exports.RETRY_DELAY = 3000;
 
 const prefixName = 'lightning';
 module.exports.PREFIX_NAME = prefixName;
-module.exports.PREFIX_URI = `${prefixName}://`;
+module.exports.PREFIX_URI = `${prefixName}:`;
 
 module.exports.DEFAULT_ROUTE = 'Pay';
 // module.exports.DEFAULT_ROUTE = 'Channels';
