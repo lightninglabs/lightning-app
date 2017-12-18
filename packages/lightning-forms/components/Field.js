@@ -2,7 +2,7 @@ import React from 'react'
 import reactCSS from 'reactcss'
 
 export const Field = ({ name, type, placeholder, value, component, onChange,
-  errorText, error }) => {
+  disabled, errorText, error }) => {
   const styles = reactCSS({
     'default': {
       field: {
@@ -31,6 +31,7 @@ export const Field = ({ name, type, placeholder, value, component, onChange,
         type={ type }
         placeholder={ placeholder }
         value={ value }
+        disabled={ disabled }
         onChange={ handleChange }
         outlineColor={ error && 'rgba(213, 61, 80, 0.3)' }
       />

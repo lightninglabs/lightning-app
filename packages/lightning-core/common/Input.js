@@ -27,7 +27,7 @@ export class Input extends React.Component {
 
   render() {
     const { name, right, left, type, placeholder, value, sanitizeReturn,
-      onChange, outlineColor, fullWidth } = this.props
+      onChange, outlineColor, fullWidth, disabled } = this.props
     const styles = reactCSS({
       'default': {
         bg: {
@@ -74,8 +74,8 @@ export class Input extends React.Component {
           type={ type }
           placeholder={ placeholder }
           value={ value }
+          disabled={ disabled }
           onChange={ handleChange }
-
           onFocus={ this.handleFocus }
           onBlur={ this.handleBlur }
         />
