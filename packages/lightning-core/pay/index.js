@@ -19,7 +19,7 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
       placeholder: 'Payment Request / Bitcoin Address',
       required: true,
       component: Input,
-	  
+
     },
     {
       name: 'amount',
@@ -28,7 +28,7 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
       component: CurrencyInput,
     },
   ]
-  
+
   const menu = new Menu()
   menu.append(new MenuItem({ label: 'Paste', role: 'paste' }))
   const handleMenu = () => menu.popup(remote.getCurrentWindow())
@@ -48,11 +48,14 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
   }
 
   const handleChange = (change) => {
+    fields[1].disabled = false
     if (change.address) {
       const paymentRequest = sanitizePaymentRequest(change.address)
       onDecodePaymentRequest({ paymentRequest })
         .then((decoded) => {
           const amount = decoded.num_satoshis
+          // Disable the amount field when using payment requests
+          fields[1].disabled = true
           onEditForm('pay', { amount })
         })
         .catch(console.error)
@@ -66,7 +69,7 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
         body="Lightning payments will be instant, while on-chain Bitcoin
               transactions require at least one confirmation (approx. 10 mins)"
       />
-      <div onContextMenu={ handleMenu } >	
+      <div onContextMenu={ handleMenu } >
         <Form
           name="pay"
           fields={ fields }
