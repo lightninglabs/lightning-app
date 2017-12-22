@@ -14,7 +14,6 @@ export const QRCode = {
     )
   },
   lightning: ({ paymentRequest }) => {
-    paymentRequest = paymentRequest.replace('lightning://', 'lightning:')
     const svg = qrImage.svgObject(paymentRequest, { type: 'svg' })
 
     return (
