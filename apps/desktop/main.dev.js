@@ -29,7 +29,11 @@ const isProcessRunning = command => new Promise((resolve, reject) => {
 })
 
 const isExecutableOnPath = name => {
-  return cp.spawnSync(name, ['--version']).stdout.toString().startsWith(name)
+  try {
+    return cp.spawnSync(name, ['--version']).stdout.toString().startsWith(name)
+  } catch(error) {
+    return false
+  }
 }
 
 const runProcesses = (processes, logs) => {
