@@ -3,13 +3,27 @@ import { View, ScrollView } from 'react-native';
 import { Text } from './text';
 import ComponentIcon from './icon';
 import ChannelListItem from './channellistitem';
-import { colors } from '../styles';
+import { colors, layout } from '../styles';
 
-const ChannelList = ({ channels }) => (
-  <ScrollView style={{ flex: 1 }}>
+const styles = {
+  placeHolderIcon: {
+    width: 54,
+    height: 54,
+    alignSelf: 'center',
+    color: colors.lightgray,
+  },
+  placeHolderText: {
+    color: colors.lightgray,
+    alignSelf: 'center',
+    fontSize: 22,
+  }
+};
+
+const ChannelList = ({channels}) => (
+  <ScrollView style={layout.flex}>
     {channels && channels.length ? (
       channels.map((channel, i) => (
-        <ChannelListItem { ...channel } key={i}/>
+        <ChannelListItem {...channel} key={i}/>
       ))
     ) : <NoChannelsPlaceHolder/>}
   </ScrollView>
@@ -17,24 +31,8 @@ const ChannelList = ({ channels }) => (
 
 const NoChannelsPlaceHolder = () => (
   <View>
-    <ComponentIcon
-      icon="playlist-remove"
-      style={{
-        width: 54,
-        height: 54,
-        alignSelf: 'center',
-        color: colors.lightgray,
-      }}
-    />
-    <Text
-      style={{
-        color: colors.lightgray,
-        alignSelf: 'center',
-        fontSize: 22,
-      }}
-    >
-      No Channels Yet
-    </Text>
+    <ComponentIcon icon="playlist-remove" style={styles.placeHolderIcon} />
+    <Text style={styles.placeHolderText}>No Channels Yet</Text>
   </View>
 );
 

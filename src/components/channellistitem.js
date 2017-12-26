@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import { Text } from './text';
 import Seperator from './seperator';
-import { colors } from '../styles';
+import { colors, layout, typography } from '../styles';
 
 const ChannelListItem = ({
   id,
@@ -11,46 +11,87 @@ const ChannelListItem = ({
   remoteBalance,
   active,
   status
-}) => (
-  <View>
-    <Title id={id} status={status} active={active} />
-    <Balance localBalance={localBalance} remoteBalance={remoteBalance} />
-    <PercentBar localBalance={localBalance} capacity={capacity} />
-    <Seperator />
-  </View>
-);
+}) => {
+  const getColor = color => {
+    const pending = status !== 'open' || !active;
+    return pending ? colors.lightgray : color;
+  };
 
-const Title = ({id, status, active}) => (
-  <View style={{flex: 1, flexDirection: 'row'}}>
-    <Text style={{color: colors.black, fontSize: 20}}>{
-      {
-        'open': `CID: ${ id }`,
-        'pending-open': 'OPENING',
-        'pending-closing': 'CLOSING',
-        'pending-force-closing': 'CLOSING',
-      }[status]
-    }</Text>
-    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end', textTransform: 'uppercase'}}>
-      {active ? (<Text style={{color: colors.blue}}>active</Text>) : null}
-      <Text style={{marginLeft: 10, color: colors.gray}}>{status}</Text>
+  const styles = {
+    id: {
+      color: getColor(colors.black),
+      fontSize: 20
+    },
+    active: {
+      color: getColor(colors.blue)
+    },
+    status: {
+      marginLeft: 10,
+      color: getColor(colors.gray)
+    },
+    balance: {
+      marginTop: 6,
+      marginBottom: 10
+    },
+    local: {
+      color: getColor(colors.blue)
+    },
+    remote: {
+      color: getColor(colors.black)
+    },
+    percentBar: {
+      height: 12
+    },
+    percent: {
+      backgroundColor: getColor(colors.blue),
+      width: `${(localBalance / capacity) * 100}%`
+    },
+    bar: {
+      backgroundColor: getColor(colors.lightergray)
+    }
+  };
+
+  const title = {
+    'open': `CID: ${id}`,
+    'pending-open': 'OPENING',
+    'pending-closing': 'CLOSING',
+    'pending-force-closing': 'CLOSING',
+  }[status]
+
+  const Title = ({id, status, active}) => (
+    <View style={layout.flexRow}>
+      <Text style={styles.id}>{title}</Text>
+      <View style={[layout.flexRow, layout.flexEnd, typography.uppercase]}>
+        {active ? (<Text style={styles.active}>active</Text>) : null}
+        <Text style={styles.status}>{status}</Text>
+      </View>
     </View>
-  </View>
-)
+  );
 
-const Balance = ({localBalance, remoteBalance}) => (
-  <View style={{flex: 1, flexDirection: 'row', marginTop: 6, marginBottom: 10}}>
-    <Text style={{color: colors.blue}}>My Balance: {localBalance}</Text>
-    <View style={{flex: 1, flexDirection: 'row', justifyContent: 'flex-end'}}>
-      <Text style={{color: colors.black}}>Available to Receive: {remoteBalance}</Text>
+  const Balance = ({localBalance, remoteBalance}) => (
+    <View style={[layout.flexRow, styles.balance]}>
+      <Text style={styles.local}>My Balance: {localBalance}</Text>
+      <View style={[layout.flexRow, layout.flexEnd]}>
+        <Text style={styles.remote}>Available to Receive: {remoteBalance}</Text>
+      </View>
     </View>
-  </View>
-)
+  );
 
-const PercentBar = ({localBalance, capacity}) => (
-  <View style={{flex: 1, flexDirection: 'row', height: 12}}>
-    <View style={{backgroundColor: colors.blue, width: `${(localBalance / capacity) * 100}%`}}></View>
-    <View style={{flexGrow: 1, backgroundColor: colors.lightergray}}></View>
-  </View>
-)
+  const PercentBar = ({localBalance, capacity}) => (
+    <View style={[layout.flexRow, styles.percentBar]}>
+      <View style={styles.percent}></View>
+      <View style={[layout.flexGrow, styles.bar]}></View>
+    </View>
+  );
+
+  return (
+    <View>
+      <Title id={id} status={status} active={active} />
+      <Balance localBalance={localBalance} remoteBalance={remoteBalance} />
+      <PercentBar localBalance={localBalance} capacity={capacity} />
+      <Seperator />
+    </View>
+  );
+};
 
 export default ChannelListItem;
