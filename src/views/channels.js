@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
+import Seperator from '../components/seperator';
 import ChannelList from '../components/channellist';
 import { Image, View, TouchableOpacity } from 'react-native';
 import ActionsNav from '../actions/nav';
@@ -77,14 +78,7 @@ class Channels extends Component {
             network
           </Text>
 
-          <View
-            style={{
-              height: 1,
-              marginTop: 30,
-              marginBottom: 30,
-              backgroundColor: colors.lightestgray,
-            }}
-          />
+          <Seperator />
 
           <ChannelList channels={computedChannels}/>
         </View>
