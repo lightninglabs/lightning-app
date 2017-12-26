@@ -13,7 +13,9 @@ const ChannelListItem = ({
   status
 }) => {
   const getColor = color => {
-    const pending = status !== 'open';
+    const pending = status === 'pending-open'
+               || status === 'pending-closing'
+               || status === 'pending-force-closing';
     return pending ? colors.lightgray : color;
   };
 
