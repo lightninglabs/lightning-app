@@ -35,7 +35,7 @@ class ActionsChannels {
   getPendingChannels() {
     ActionsGrpc.sendCommand('pendingChannels')
       .then(response => {
-        store.pendingChannelsResposne = response;
+        store.pendingChannelsResponse = response;
       })
       .catch(() => {
         clearTimeout(this.tgetPendingChannels);
