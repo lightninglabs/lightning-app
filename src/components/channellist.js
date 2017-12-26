@@ -8,8 +8,8 @@ import { colors } from '../styles';
 const ChannelList = ({ channels }) => (
   <ScrollView style={{ flex: 1 }}>
     {channels && channels.length ? (
-      channels.map((channel, index) => (
-        <ChannelListItem channel={channel} key={index}/>
+      channels.map((channel, i) => (
+        <ChannelListItem { ...channel } key={i}/>
       ))
     ) : <NoChannelsPlaceHolder/>}
   </ScrollView>

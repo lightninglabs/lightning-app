@@ -73,7 +73,7 @@ class Channels extends Component {
             </TouchableOpacity>
           </View>
 
-          <Text style={{ color: colors.gray, fontSize: 16 }}>
+          <Text style={{ color: colors.gray, fontSize: 16, marginBottom: 10 }}>
             Channels are like tubes of money used to send money through the
             network
           </Text>
