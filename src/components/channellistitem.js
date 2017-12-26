@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from './text';
-import Seperator from './seperator';
+import Separator from './separator';
 import { colors, layout, typography } from '../styles';
 
 const ChannelListItem = ({
@@ -89,7 +89,7 @@ const ChannelListItem = ({
       <Title id={id} status={status} active={active} />
       <Balance localBalance={localBalance} remoteBalance={remoteBalance} />
       <PercentBar localBalance={localBalance} capacity={capacity} />
-      <Seperator />
+      <Separator />
     </View>
   );
 };

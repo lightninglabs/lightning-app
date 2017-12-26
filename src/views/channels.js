@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
-import Seperator from '../components/seperator';
+import Separator from '../components/separator';
 import ChannelList from '../components/channellist';
 import { Image, View, TouchableOpacity } from 'react-native';
 import ActionsNav from '../actions/nav';
@@ -78,7 +78,7 @@ class Channels extends Component {
             network
           </Text>
 
-          <Seperator />
+          <Separator />
 
           <ChannelList channels={computedChannels}/>
         </View>

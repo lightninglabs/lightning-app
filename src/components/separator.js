@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import { colors } from '../styles';
 
 const styles = {
-  seperator: {
+  separator: {
     height: 1,
     marginTop: 20,
     marginBottom: 20,
@@ -11,8 +11,8 @@ const styles = {
   }
 }
 
-const Seperator = () => (
-  <View style={styles.seperator} />
+const Separator = () => (
+  <View style={styles.separator} />
 )
 
-export default Seperator;
+export default Separator;
