@@ -14,3 +14,25 @@ export const colors = {
 
   sidebar: '#222',
 };
+
+export const typography = {
+  uppercase: {
+    textTransform: 'uppercase'
+  }
+}
+
+export const layout = {
+  flex: {
+    flex: 1
+  },
+  flexRow: {
+    flex: 1,
+    flexDirection: 'row'
+  },
+  flexGrow: {
+    flexGrow: 1
+  },
+  flexEnd: {
+    justifyContent: 'flex-end'
+  }
+}
