@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
-import ComponentIcon from '../components/icon';
+import ChannelList from '../components/channellist';
 import { Image, View, TouchableOpacity } from 'react-native';
 import ActionsNav from '../actions/nav';
 import { colors } from '../styles';
@@ -9,7 +9,7 @@ import store from '../store';
 
 class Channels extends Component {
   render() {
-    const { computedBalance, computedChannelsBalance, pubKey } = store;
+    const { computedBalance, computedChannelsBalance, pubKey, computedChannels } = store;
     return (
       <View style={{ flex: 1, backgroundColor: colors.offwhite }}>
         <View style={{ padding: 20, backgroundColor: colors.blue }}>
@@ -86,24 +86,7 @@ class Channels extends Component {
             }}
           />
 
-          <ComponentIcon
-            icon="playlist-remove"
-            style={{
-              width: 54,
-              height: 54,
-              alignSelf: 'center',
-              color: colors.lightgray,
-            }}
-          />
-          <Text
-            style={{
-              color: colors.lightgray,
-              alignSelf: 'center',
-              fontSize: 22,
-            }}
-          >
-            No Channels Yet
-          </Text>
+          <ChannelList channels={computedChannels}/>
         </View>
       </View>
     );

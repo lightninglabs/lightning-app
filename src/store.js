@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native';
 import { extendObservable, action, observable } from 'mobx';
 import ComputedWallet from './computed/wallet';
 import ComputedTransactions from './computed/transactions';
+import ComputedChannels from './computed/channels';
 import { DEFAULT_ROUTE } from './config';
 
 class Store {
@@ -37,6 +38,7 @@ class Store {
 
     ComputedWallet(this);
     ComputedTransactions(this);
+    ComputedChannels(this);
 
     try {
       AsyncStorage.getItem('settings').then(
