@@ -35,7 +35,29 @@ class ActionsChannels {
   getPendingChannels() {
     ActionsGrpc.sendCommand('pendingChannels')
       .then(response => {
-        store.pendingChannelsResponse = response;
+        const pocs = response.pending_open_channels.map(poc => ({
+          channel: poc.channel,
+          confirmationHeight: poc.confirmation_height,
+          blocksTillOpen: poc.blocks_till_open,
+          commitFee: poc.commit_fee,
+          commitWeight: poc.commit_weight,
+          feePerKw: poc.fee_per_kw,
+          status: 'pending-open',
+        }));
+        const pccs = response.pending_closing_channels.map(pcc => ({
+          channel: pcc.channel,
+          closingTxid: pcc.closing_txid,
+          status: 'pending-closing',
+        }));
+        const pfccs = response.pending_force_closing_channels.map(pfcc => ({
+          channel: pfcc.channel,
+          closingTxid: pfcc.closing_txid,
+          limboBalance: pfcc.limbo_balance,
+          maturityHeight: pfcc.maturity_height,
+          blocksTilMaturity: pfcc.blocks_til_maturity,
+          status: 'pending-force-closing',
+        }));
+        store.pendingChannelsResponse = [].concat(pocs, pccs, pfccs);
       })
       .catch(() => {
         clearTimeout(this.tgetPendingChannels);
