@@ -60,7 +60,7 @@ const ChannelListItem = ({
     'pending-force-closing': 'CLOSING',
   }[status]
 
-  const Title = ({id, status, active}) => (
+  const Title = () => (
     <View style={layout.flexRow}>
       <Text style={styles.id}>{title}</Text>
       <View style={[layout.flexRow, layout.flexEnd, typography.uppercase]}>
@@ -70,7 +70,7 @@ const ChannelListItem = ({
     </View>
   );
 
-  const Balance = ({localBalance, remoteBalance}) => (
+  const Balance = () => (
     <View style={[layout.flexRow, styles.balance]}>
       <Text style={styles.local}>My Balance: {localBalance}</Text>
       <View style={[layout.flexRow, layout.flexEnd]}>
@@ -79,7 +79,7 @@ const ChannelListItem = ({
     </View>
   );
 
-  const PercentBar = ({localBalance, capacity}) => (
+  const PercentBar = () => (
     <View style={[layout.flexRow, styles.percentBar]}>
       <View style={styles.percent}></View>
       <View style={[layout.flexGrow, styles.bar]}></View>
@@ -88,9 +88,9 @@ const ChannelListItem = ({
 
   return (
     <View>
-      <Title id={id} status={status} active={active} />
-      <Balance localBalance={localBalance} remoteBalance={remoteBalance} />
-      <PercentBar localBalance={localBalance} capacity={capacity} />
+      <Title />
+      <Balance />
+      <PercentBar />
       <Separator />
     </View>
   );
