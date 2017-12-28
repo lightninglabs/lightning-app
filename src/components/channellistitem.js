@@ -64,9 +64,9 @@ const ChannelListItem = ({
   const Title = () => (
     <View style={layout.flexRow}>
       <Text style={styles.id}>{title}</Text>
-      <View style={[layout.flexRow, layout.flexEnd, typography.uppercase]}>
-        {active ? <Text style={styles.active}>active</Text> : null}
-        <Text style={styles.status}>{status}</Text>
+      <View style={[layout.flexRow, layout.flexEnd]}>
+        {active ? <Text style={styles.active}>ACTIVE</Text> : null}
+        <Text style={styles.status}>{status && status.toUpperCase()}</Text>
       </View>
     </View>
   );
