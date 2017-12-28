@@ -17,22 +17,22 @@ export const colors = {
 
 export const typography = {
   uppercase: {
-    textTransform: 'uppercase'
-  }
-}
+    textTransform: 'uppercase',
+  },
+};
 
 export const layout = {
   flex: {
-    flex: 1
+    flex: 1,
   },
   flexRow: {
     flex: 1,
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   flexGrow: {
-    flexGrow: 1
+    flexGrow: 1,
   },
   flexEnd: {
-    justifyContent: 'flex-end'
-  }
-}
+    justifyContent: 'flex-end',
+  },
+};

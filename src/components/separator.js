@@ -7,12 +7,10 @@ const styles = {
     height: 1,
     marginTop: 20,
     marginBottom: 20,
-    backgroundColor: colors.lightestgray
-  }
-}
+    backgroundColor: colors.lightestgray,
+  },
+};
 
-const Separator = () => (
-  <View style={styles.separator} />
-)
+const Separator = () => <View style={styles.separator} />;
 
 export default Separator;

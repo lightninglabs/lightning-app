@@ -16,16 +16,16 @@ const styles = {
     color: colors.lightgray,
     alignSelf: 'center',
     fontSize: 22,
-  }
+  },
 };
 
-const ChannelList = ({channels}) => (
+const ChannelList = ({ channels }) => (
   <ScrollView style={layout.flex}>
     {channels && channels.length ? (
-      channels.map((channel, i) => (
-        <ChannelListItem {...channel} key={i}/>
-      ))
-    ) : <NoChannelsPlaceHolder/>}
+      channels.map((channel, i) => <ChannelListItem {...channel} key={i} />)
+    ) : (
+      <NoChannelsPlaceHolder />
+    )}
   </ScrollView>
 );
 

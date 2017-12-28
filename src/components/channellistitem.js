@@ -10,61 +10,62 @@ const ChannelListItem = ({
   localBalance,
   remoteBalance,
   active,
-  status
+  status,
 }) => {
   const getColor = color => {
-    const pending = status === 'pending-open'
-               || status === 'pending-closing'
-               || status === 'pending-force-closing';
+    const pending =
+      status === 'pending-open' ||
+      status === 'pending-closing' ||
+      status === 'pending-force-closing';
     return pending ? colors.lightgray : color;
   };
 
   const styles = {
     id: {
       color: getColor(colors.black),
-      fontSize: 20
+      fontSize: 20,
     },
     active: {
-      color: getColor(colors.blue)
+      color: getColor(colors.blue),
     },
     status: {
       marginLeft: 10,
-      color: getColor(colors.gray)
+      color: getColor(colors.gray),
     },
     balance: {
       marginTop: 6,
-      marginBottom: 10
+      marginBottom: 10,
     },
     local: {
-      color: getColor(colors.blue)
+      color: getColor(colors.blue),
     },
     remote: {
-      color: getColor(colors.black)
+      color: getColor(colors.black),
     },
     percentBar: {
-      height: 12
+      height: 12,
     },
     percent: {
       backgroundColor: getColor(colors.blue),
-      width: `${(localBalance / capacity) * 100}%`
+      width: `${localBalance / capacity * 100}%`,
     },
     bar: {
-      backgroundColor: getColor(colors.lightergray)
-    }
+      backgroundColor: getColor(colors.lightergray),
+    },
   };
 
   const title = {
-    'open': `CID: ${id}`,
+    open: `CID: ${id}`,
     'pending-open': 'OPENING',
     'pending-closing': 'CLOSING',
     'pending-force-closing': 'CLOSING',
-  }[status]
+  }[status];
 
   const Title = () => (
     <View style={layout.flexRow}>
       <Text style={styles.id}>{title}</Text>
       <View style={[layout.flexRow, layout.flexEnd, typography.uppercase]}>
-        {active ? (<Text style={styles.active}>active</Text>) : null}
+        {active ? <Text style={styles.active}>active</Text> : null}
         <Text style={styles.status}>{status}</Text>
       </View>
     </View>
@@ -81,8 +82,8 @@ const ChannelListItem = ({
 
   const PercentBar = () => (
     <View style={[layout.flexRow, styles.percentBar]}>
-      <View style={styles.percent}></View>
-      <View style={[layout.flexGrow, styles.bar]}></View>
+      <View style={styles.percent} />
+      <View style={[layout.flexGrow, styles.bar]} />
     </View>
   );
 

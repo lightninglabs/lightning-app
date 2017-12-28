@@ -80,7 +80,7 @@ class Channels extends Component {
 
           <Separator />
 
-          <ChannelList channels={computedChannels}/>
+          <ChannelList channels={computedChannels} />
         </View>
       </View>
     );
