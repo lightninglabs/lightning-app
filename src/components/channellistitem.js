@@ -20,40 +20,6 @@ const ChannelListItem = ({
     return pending ? colors.lightgray : color;
   };
 
-  const styles = {
-    id: {
-      color: getColor(colors.black),
-      fontSize: 20,
-    },
-    active: {
-      color: getColor(colors.blue),
-    },
-    status: {
-      marginLeft: 10,
-      color: getColor(colors.gray),
-    },
-    balance: {
-      marginTop: 6,
-      marginBottom: 10,
-    },
-    local: {
-      color: getColor(colors.blue),
-    },
-    remote: {
-      color: getColor(colors.black),
-    },
-    percentBar: {
-      height: 12,
-    },
-    percent: {
-      backgroundColor: getColor(colors.blue),
-      width: `${localBalance / capacity * 100}%`,
-    },
-    bar: {
-      backgroundColor: getColor(colors.lightergray),
-    },
-  };
-
   const title = {
     open: `CID: ${id}`,
     'pending-open': 'OPENING',
@@ -62,28 +28,32 @@ const ChannelListItem = ({
   }[status];
 
   const Title = () => (
-    <View style={layout.flexRow}>
-      <Text style={styles.id}>{title}</Text>
-      <View style={[layout.flexRow, layout.flexEnd]}>
-        {active ? <Text style={styles.active}>ACTIVE</Text> : null}
-        <Text style={styles.status}>{status && status.toUpperCase()}</Text>
+    <View style={{ flex: 1, flexDirection: 'row' }}>
+      <Text style={{ color: getColor(colors.black), fontSize: 20 }}>{title}</Text>
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+        {active ? <Text style={{ color: getColor(colors.blue) }}>ACTIVE</Text> : null}
+        <Text style={{ marginLeft: 10, color: getColor(colors.gray) }}>
+          {status && status.toUpperCase()}
+        </Text>
       </View>
     </View>
   );
 
   const Balance = () => (
-    <View style={[layout.flexRow, styles.balance]}>
-      <Text style={styles.local}>My Balance: {localBalance}</Text>
-      <View style={[layout.flexRow, layout.flexEnd]}>
-        <Text style={styles.remote}>Available to Receive: {remoteBalance}</Text>
+    <View style={{ flex: 1, flexDirection: 'row', marginTop: 6, marginBottom: 10 }}>
+      <Text style={{ color: getColor(colors.blue) }}>My Balance: {localBalance}</Text>
+      <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <Text style={{ color: getColor(colors.black) }}>
+          Available to Receive: {remoteBalance}
+        </Text>
       </View>
     </View>
   );
 
   const PercentBar = () => (
-    <View style={[layout.flexRow, styles.percentBar]}>
-      <View style={styles.percent} />
-      <View style={[layout.flexGrow, styles.bar]} />
+    <View style={{ flex: 1, flexDirection: 'row', height: 12 }}>
+      <View style={{ backgroundColor: getColor(colors.blue), width: `${localBalance / capacity * 100}%` }} />
+      <View style={{ flexGrow: 1, backgroundColor: getColor(colors.lightergray) }} />
     </View>
   );
 
