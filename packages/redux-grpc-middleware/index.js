@@ -62,7 +62,7 @@ export default (opts = {}) => {
 
     if (!ready) {
       return new Promise((resolve, reject) =>
-        reject('GRPC Call Deferred, Server Still Starting'))
+        reject({ message: 'GRPC Call Deferred, Server Still Starting' }))
     }
 
     if (stream) {
