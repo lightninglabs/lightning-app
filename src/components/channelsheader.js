@@ -1,39 +1,85 @@
 import React from 'react';
 import { View } from 'react-native';
 import { Text } from './text';
-import { colors } from '../styles';
+import { colors, layout } from '../styles';
+
+const styles = {
+  header: {
+    padding: 20,
+    backgroundColor: colors.blue
+  },
+  wallet: {
+    marginBottom: 6,
+    color: colors.black,
+    fontSize: 24
+  },
+  balance: {
+    marginBottom: 6,
+    color: 'white',
+    fontSize: 28
+  },
+  body: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  pubKeyLabel: {
+    color: colors.black,
+    marginBottom: 4
+  },
+  pubKey: {
+    color: colors.black
+  },
+  onChain: {
+    marginBottom: 8,
+    fontSize: 14,
+    color: colors.black
+  },
+  inChannels: {
+    fontSize: 14,
+    color: colors.black
+  },
+  margin: {
+    margin: 10
+  },
+  computedBalance: {
+    marginBottom: 8,
+    fontSize: 14,
+    color: 'white'
+  },
+  computedChannelsBalance: {
+    fontSize: 14,
+    color: 'white'
+  }
+}
 
 const ChannelsHeader = ({ computedBalance, computedChannelsBalance, pubKey }) => (
-  <View style={{ padding: 20, backgroundColor: colors.blue }}>
-    <Text style={{ marginBottom: 6, color: colors.black, fontSize: 24 }}>
+  <View style={styles.header}>
+    <Text style={styles.wallet}>
       Your Wallet
     </Text>
-    <Text style={{ marginBottom: 6, color: 'white', fontSize: 28 }}>
+    <Text style={styles.balance}>
       {computedBalance} SAT
     </Text>
-
-    <View style={{ display: 'flex', flexDirection: 'row' }}>
-      <View style={{ flex: 1 }}>
-        <Text style={{ color: colors.black, marginBottom: 4 }}>
+    <View style={styles.body}>
+      <View style={layout.flex}>
+        <Text style={styles.pubKeyLabel}>
           Pubkey:
         </Text>
-        <Text style={{ color: colors.black }}>{pubKey}</Text>
+        <Text style={styles.pubKey}>{pubKey}</Text>
       </View>
-      <View style={{ margin: 10 }}>
-        <Text
-          style={{ marginBottom: 8, fontSize: 14, color: colors.black }}
-        >
+      <View style={styles.margin}>
+        <Text style={styles.onChain}>
           On Chain
         </Text>
-        <Text style={{ fontSize: 14, color: colors.black }}>
+        <Text style={styles.inChannels}>
           In Channels
         </Text>
       </View>
-      <View style={{ margin: 10 }}>
-        <Text style={{ marginBottom: 8, fontSize: 14, color: 'white' }}>
+      <View style={styles.margin}>
+        <Text style={styles.computedBalance}>
           {computedBalance} SAT
         </Text>
-        <Text style={{ fontSize: 14, color: 'white' }}>
+        <Text style={styles.computedChannelsBalance}>
           {computedChannelsBalance} SAT
         </Text>
       </View>
