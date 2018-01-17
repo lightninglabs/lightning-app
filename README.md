@@ -57,7 +57,7 @@ If you want your lnd.conf to replicate the configuration used by the packaged ap
 debuglevel=info
 bitcoin.active=1
 bitcoin.testnet=1
-neutrino.active=1
+bitcoin.node=neutrino
 neutrino.connect=btcd0.lightning.computer:18333
 autopilot.active=1
 ```
