@@ -107,7 +107,7 @@ export const ChannelListItem = ({ id, capacity, currency, localBalance, remoteBa
   }
 
   const showPopupOrClose = () =>
-    (active ? close({ channelPoint }) : onShowPopup(PROMPT))
+    (!active ? close({ channelPoint }) : onShowPopup(PROMPT))
   const menu = new Menu()
   menu.append(new MenuItem({ label: 'Close Channel', click() { showPopupOrClose() } }))
   const handleMenu = () => menu.popup(remote.getCurrentWindow())
