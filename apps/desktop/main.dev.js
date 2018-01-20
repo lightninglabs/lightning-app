@@ -172,6 +172,8 @@ const finishCreateWindow = () => {
       label: 'Lightning',
       submenu: [
         { label: 'Quit', accelerator: 'Command+Q', click() { app.quit() } },
+        process.platform === 'darwin' ? { role: 'hide' } : null,
+        process.platform === 'darwin' ? { role: 'hideothers' } : null,
       ],
     }, {
       label: 'Edit',
