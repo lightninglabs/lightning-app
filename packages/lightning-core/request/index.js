@@ -9,10 +9,9 @@ import { actions as notificationActions } from 'lightning-notifications'
 import { actions } from './reducer'
 import { CurrencyInput, Head, Input, Page } from '../common'
 import PaymentRequestPopup, { POPUP_NAME } from './PaymentRequestPopup'
-import BitcoinWallet from './BitcoinWallet'
 
-export const Pay = ({ showPopup, closePopup, paymentRequest, address,
-  onFetchAddress, onGeneratePaymentRequest, onSuccess }) => {
+export const Pay = ({ showPopup, closePopup, paymentRequest,
+  onGeneratePaymentRequest, onSuccess }) => {
   const fields = [
     {
       name: 'amount',
@@ -73,12 +72,6 @@ export const Pay = ({ showPopup, closePopup, paymentRequest, address,
           onError={ handleError }
         />
       </Page>
-      <BitcoinWallet
-        address={ address }
-        onSuccess={ onSuccess }
-        onShowQR={ showPopup }
-        onFetchAddress={ onFetchAddress }
-      />
     </div>
   )
 }
@@ -86,11 +79,9 @@ export const Pay = ({ showPopup, closePopup, paymentRequest, address,
 export default connect(
   state => ({
     paymentRequest: store.getPaymentRequest(state),
-    address: store.getAddress(state),
   }), {
     showPopup: popupActions.onOpen,
     closePopup: popupActions.onClose,
-    onFetchAddress: actions.fetchAddress,
     onGeneratePaymentRequest: actions.generatePaymentRequest,
     onSuccess: notificationActions.addNotification,
   },

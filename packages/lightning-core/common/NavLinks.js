@@ -28,6 +28,11 @@ export const NavLinks = ({ onChange }) => {
       label: 'Settings',
       id: 'settings',
     },
+    {
+      icon: 'coin',
+      label: 'Fund Your Wallet',
+      id: 'fund',
+    },
   ]
 
   return (

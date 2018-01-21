@@ -14,7 +14,7 @@ export class BitcoinWallet extends React.Component {
   componentDidMount() { this.props.onFetchAddress() }
 
   render() {
-    const { address, onSuccess, onShowQR } = this.props
+    const { address, onSuccess } = this.props
 
     const styles = reactCSS({
       'default': {
@@ -36,17 +36,6 @@ export class BitcoinWallet extends React.Component {
           userSelect: 'none',
           cursor: 'default',
         },
-        icon: {
-          paddingLeft: 20,
-          cursor: 'pointer',
-          color: '#666',
-        },
-        qrPopup: {
-          background: '#fff',
-          borderRadius: 2,
-          width: 300,
-          height: 300,
-        },
       },
     })
 
@@ -54,9 +43,7 @@ export class BitcoinWallet extends React.Component {
     menu.append(new MenuItem({ label: 'Copy', role: 'copy' }))
     menu.append(new MenuItem({ label: 'Select All', role: 'selectall' }))
     const handleMenu = () => menu.popup(remote.getCurrentWindow())
-	
     const handleCopy = () => onSuccess('Copied to Clipboard')
-    const handleClick = () => onShowQR(QR_CODE)
 
     const label = (
       <div style={ styles.label }>Wallet Address</div>
@@ -79,9 +66,6 @@ export class BitcoinWallet extends React.Component {
           left={ label }
           value={ address }
         />
-        <div style={ styles.icon }>
-          <Icon name="qrcode" onClick={ handleClick } />
-        </div>
       </div>
     )
   }
