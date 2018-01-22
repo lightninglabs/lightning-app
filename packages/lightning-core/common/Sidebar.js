@@ -5,10 +5,12 @@ import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
 import { store } from 'lightning-store'
 
-import { Box, Text } from 'lightning-components'
+import { Box, Text, Media } from 'lightning-components'
 import { actions as accountActions } from '../accounts'
 import NavLinks from './NavLinks'
 import NavFooter from './NavFooter'
+
+import pjson from '../../../package.json'
 
 export class Sidebar extends React.Component {
   componentDidMount() {
@@ -82,6 +84,13 @@ export class Sidebar extends React.Component {
               <Text style={ styles.syncedText }>Syncing to Chain</Text>
             </Box>
           ) }
+          <Box padding="small" fontSize="medium" color="gray">
+            <Media paddingLeft="small" left={ 'App Version' }>
+              <Text color="off-white">
+                {pjson.version}
+              </Text>
+            </Media>
+          </Box>
         </Box>
       </Box>
     )
