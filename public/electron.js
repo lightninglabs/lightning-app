@@ -150,8 +150,8 @@ const startLnd = () => {
     args: [
       isDev ? '--bitcoin.active' : '',
       isDev ? '--bitcoin.simnet' : '',
-      isDev ? '--bitcoin.rpcuser=lnd' : '',
-      isDev ? '--bitcoin.rpcpass=lnd' : '',
+      isDev ? '--btcd.rpcuser=kek' : '',
+      isDev ? '--btcd.rpcpass=kek' : '',
 
       isDev ? '' : '--bitcoin.active',
       isDev ? '' : '--neutrino.active',
@@ -163,8 +163,8 @@ const startLnd = () => {
 
       MACAROONS_ENABLED ? '' : '--no-macaroons',
       LND_DATA_DIR ? `--datadir=${LND_DATA_DIR}` : '',
-      LND_PORT ? `--rpcport=${LND_PORT}` : '',
-      LND_PEER_PORT ? `--peerport=${LND_PEER_PORT}` : '',
+      LND_PORT ? `--rpclisten=localhost:${LND_PORT}` : '',
+      LND_PEER_PORT ? `--listen=localhost:${LND_PEER_PORT}` : '',
 
       '--debuglevel=info',
       '--noencryptwallet',
