@@ -125,16 +125,16 @@ export const actions = {
       method: 'pendingChannels',
       types: [null, PENDING_CHANNELS, FETCH_CHANNELS_FAILURE],
       schema: (data) => {
-        const decorateChannels = (channels, transform) =>
+        const decorateChannels = (channels, transform) => (
           _.map(channels, channel => ({
-            remotePubkey: channel.remote_node_pub,
-            capacity: channel.capacity,
-            localBalance: channel.local_balance,
-            remoteBalance: channel.remote_balance,
-            channelPoint: channel.channel_point,
+            remotePubkey: channel.channel.remote_node_pub,
+            capacity: channel.channel.capacity,
+            localBalance: channel.channel.local_balance,
+            remoteBalance: channel.channel.remote_balance,
+            channelPoint: channel.channel.channel_point,
             ...transform(channel),
           }))
-
+        )
         return {
           pendingChannels: [
             ...decorateChannels(data.pending_open_channels, () => ({ status: 'pending-open' })),

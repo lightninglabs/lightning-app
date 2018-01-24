@@ -15,7 +15,7 @@ import { store } from 'lightning-store'
 const { Menu, MenuItem } = remote
 
 export const ChannelListItem = ({ id, capacity, currency, localBalance, remoteBalance,
-  active, status, hover, channelPoint, onShowPopup, onClosePopup, onCloseChannel,
+  active, status, hover, channelPoint, remotePubkey, onShowPopup, onClosePopup, onCloseChannel,
   onSuccess, onFetchChannels }) => {
   const pending = status === 'pending-open'
                || status === 'pending-closing'
@@ -72,6 +72,16 @@ export const ChannelListItem = ({ id, capacity, currency, localBalance, remoteBa
         height: 12,
         borderRadius: 2,
       },
+      pubkeyContainer: {
+        color: '#333',
+        marginBottom: 7,
+      },
+      pubkeyLabel: {
+        fontSize: 16,
+      },
+      pubkey: {
+        fontSize: 13,
+      },
     },
     'hover': {
       closeLabel: {
@@ -86,6 +96,9 @@ export const ChannelListItem = ({ id, capacity, currency, localBalance, remoteBa
         color: '#999',
       },
       remote: {
+        color: '#999',
+      },
+      pubkeyContainer: {
         color: '#999',
       },
       percent: {
@@ -143,7 +156,10 @@ export const ChannelListItem = ({ id, capacity, currency, localBalance, remoteBa
           { status }
         </div>
       </div>
-
+      <div style={ styles.pubkeyContainer }>
+        <span style={ styles.pubkeyLabel } >Pubkey: </span>
+        <span style={ styles.pubkey }>{ remotePubkey }</span>
+      </div>
       <div style={ styles.split }>
         <div style={ styles.local }>My Balance: <Money amount={ localBalance } currency={ currency } /> <MoneySign currency={ currency } /></div>
         <div style={ styles.remote }>Available to Receive: <Money amount={ remoteBalance } currency={ currency } /> <MoneySign currency={ currency } /></div>
