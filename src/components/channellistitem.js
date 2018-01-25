@@ -1,8 +1,9 @@
 import React from 'react';
 import { View } from 'react-native';
+import PropTypes from 'prop-types';
 import { Text } from './text';
 import Separator from './separator';
-import { colors, layout, typography } from '../styles';
+import { colors, layout } from '../styles';
 
 const ChannelListItem = ({
   id,
@@ -95,6 +96,15 @@ const ChannelListItem = ({
       <Separator />
     </View>
   );
+};
+
+ChannelListItem.propTypes = {
+  id: PropTypes.string,
+  capacity: PropTypes.string,
+  localBalance: PropTypes.string,
+  remoteBalance: PropTypes.string,
+  active: PropTypes.bool,
+  status: PropTypes.string,
 };
 
 export default ChannelListItem;

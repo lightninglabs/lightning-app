@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text as TextNative } from 'react-native';
 import PropTypes from 'prop-types';
-import { colors } from '../styles';
 
 export const Text = ({ style, children }) => (
   <TextNative style={{ ...style }}>{children}</TextNative>

@@ -1,8 +1,8 @@
-import expect from 'unexpected'
-import unexpectedSinon from 'unexpected-sinon'
-import sinon from 'sinon'
+import expect from 'unexpected';
+import unexpectedSinon from 'unexpected-sinon';
+import sinon from 'sinon';
 
-expect.use(unexpectedSinon)
+expect.use(unexpectedSinon);
 
-global.expect = expect
-global.sinon = sinon
+global.expect = expect;
+global.sinon = sinon;

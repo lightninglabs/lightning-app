@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, TextB } from '../components/text';
+import { Text } from '../components/text';
 import { View } from 'react-native';
 import { colors } from '../styles';
 

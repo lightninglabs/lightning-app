@@ -1,5 +1,4 @@
 import { computed, extendObservable } from 'mobx';
-import { formatSatoshis } from '../helpers';
 
 const ComputedTransactions = store => {
   extendObservable(store, {

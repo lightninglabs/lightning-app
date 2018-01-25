@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
+import PropTypes from 'prop-types';
 import { Text } from './text';
 import ComponentIcon from './icon';
 import ChannelListItem from './channellistitem';
@@ -35,5 +36,9 @@ const NoChannelsPlaceHolder = () => (
     <Text style={styles.placeHolderText}>No Channels Yet</Text>
   </View>
 );
+
+ChannelList.propTypes = {
+  channels: PropTypes.array,
+};
 
 export default ChannelList;
