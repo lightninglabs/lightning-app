@@ -12,7 +12,7 @@ describe('Actions Channels Unit Tests', () => {
     store = observable({
       lndReady: false,
     });
-    require('../../../src/config').RETRY_DELAY = 0;
+    require('../../../src/config').RETRY_DELAY = 1;
     actionsGrpc = sinon.createStubInstance(ActionsGrpc);
     actionsGrpc.sendCommand.resolves({});
     actionsChannels = new ActionsChannels(store, actionsGrpc);
@@ -44,8 +44,8 @@ describe('Actions Channels Unit Tests', () => {
       actionsGrpc.sendCommand.onFirstCall().rejects();
       await actionsChannels.getChannels();
       actionsGrpc.sendCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 1));
-      expect(actionsGrpc.sendCommand, 'was called twice');
+      await new Promise(resolve => setTimeout(resolve, 30));
+      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
 
@@ -64,8 +64,8 @@ describe('Actions Channels Unit Tests', () => {
       actionsGrpc.sendCommand.onFirstCall().rejects();
       await actionsChannels.getPendingChannels();
       actionsGrpc.sendCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 1));
-      expect(actionsGrpc.sendCommand, 'was called twice');
+      await new Promise(resolve => setTimeout(resolve, 30));
+      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
 });
