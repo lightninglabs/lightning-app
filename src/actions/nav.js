@@ -1,8 +1,8 @@
-import store from '../store';
 const { ipcRenderer } = window.require('electron');
 
 class ActionsNav {
-  constructor() {
+  constructor(store) {
+    this._store = store;
     ipcRenderer.on('open-url', (event, arg) => {
       // TODO: Go to route
       console.log('open-url', arg);
@@ -10,29 +10,29 @@ class ActionsNav {
   }
 
   goPay() {
-    store.route = 'Pay';
+    this._store.route = 'Pay';
   }
   goRequest() {
-    store.route = 'Request';
+    this._store.route = 'Request';
   }
   goChannels() {
-    store.route = 'Channels';
+    this._store.route = 'Channels';
   }
   goTransactions() {
-    store.route = 'Transactions';
+    this._store.route = 'Transactions';
   }
   goSettings() {
-    store.route = 'Settings';
+    this._store.route = 'Settings';
   }
   goCreateChannel() {
-    store.route = 'CreateChannel';
+    this._store.route = 'CreateChannel';
   }
   goInitializeWallet() {
-    store.route = 'InitializeWallet';
+    this._store.route = 'InitializeWallet';
   }
   goVerifyWallet() {
-    store.route = 'VerifyWallet';
+    this._store.route = 'VerifyWallet';
   }
 }
 
-export default new ActionsNav();
+export default ActionsNav;

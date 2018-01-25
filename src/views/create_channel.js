@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Text, TextB } from '../components/text';
 import TextInput from '../components/textinput';
 import Button from '../components/button';
 import Header from '../components/header';
-import { Image, View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { colors } from '../styles';
-import store from '../store';
 
 class CreateChannel extends Component {
   constructor() {

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import ActionsNav from '../actions/nav';
+import { actionsNav } from '../actions';
 import { Text, TextB } from '../components/text';
 import TextInput from '../components/textinput';
 import Button from '../components/button';
-import { colors } from '../styles';
-import { Image, View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import store from '../store';
 
 class VerifyWallet extends Component {
@@ -40,11 +39,11 @@ class VerifyWallet extends Component {
         </View>
 
         <View style={{ flexDirection: 'row' }}>
-          <Button text="Back" onPress={() => ActionsNav.goInitializeWallet()} />
+          <Button text="Back" onPress={() => actionsNav.goInitializeWallet()} />
           <Button
             disabled={value !== seedMnemonic}
             text="Done"
-            onPress={() => ActionsNav.goPay()}
+            onPress={() => actionsNav.goPay()}
           />
         </View>
       </View>

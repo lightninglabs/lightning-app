@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Text, TextB } from '../components/text';
 import Header from '../components/header';
 import TextInput from '../components/textinput';
 import Button from '../components/button';
-import ActionsPayments from '../actions/payments';
-import { Image, View, TouchableOpacity } from 'react-native';
+import { actionsPayments } from '../actions';
+import { View } from 'react-native';
 import { colors } from '../styles';
 
 class Pay extends Component {
@@ -33,9 +32,10 @@ class Pay extends Component {
           placeholder="Payment Request / Bitcoin Address"
           value={payment}
           onChangeText={payment => {
-            ActionsPayments.decodePaymentRequest(payment).then(num_satoshis =>
-              this.setState({ amount: num_satoshis })
-            ).catch(() => {});
+            actionsPayments
+              .decodePaymentRequest(payment)
+              .then(num_satoshis => this.setState({ amount: num_satoshis }))
+              .catch(() => {});
             this.setState({ payment });
           }}
         />
@@ -51,10 +51,11 @@ class Pay extends Component {
           disabled={!amount || !payment}
           text="Send Payment"
           onPress={() => {
-            ActionsPayments.makePayment({
-              payment,
-              amount,
-            })
+            actionsPayments
+              .makePayment({
+                payment,
+                amount,
+              })
               .then(response => {
                 console.log('Send Payment response', response);
               })

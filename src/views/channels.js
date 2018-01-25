@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Text, TextB } from '../components/text';
+import { Text } from '../components/text';
 import ChannelsHeader from '../components/channelsheader';
 import Separator from '../components/separator';
 import ChannelList from '../components/channellist';
-import { Image, View, TouchableOpacity } from 'react-native';
-import ActionsNav from '../actions/nav';
+import { View, TouchableOpacity } from 'react-native';
+import { actionsNav } from '../actions';
 import { colors } from '../styles';
 import store from '../store';
 
 class Channels extends Component {
   render() {
-    const { computedBalance, computedChannelsBalance, pubKey, computedChannels } = store;
+    const {
+      computedBalance,
+      computedChannelsBalance,
+      pubKey,
+      computedChannels,
+    } = store;
     return (
       <View style={{ flex: 1, backgroundColor: colors.offwhite }}>
-        <ChannelsHeader computedBalance={computedBalance}
-          computedChannelsBalance={computedChannelsBalance} pubKey={pubKey} />
+        <ChannelsHeader
+          computedBalance={computedBalance}
+          computedChannelsBalance={computedChannelsBalance}
+          pubKey={pubKey}
+        />
 
         <View style={{ padding: 20 }}>
           <View
@@ -33,7 +41,7 @@ class Channels extends Component {
             </Text>
             <TouchableOpacity
               style={{ padding: 8 }}
-              onPress={() => ActionsNav.goCreateChannel()}
+              onPress={() => actionsNav.goCreateChannel()}
             >
               <Text style={{ color: colors.blue, fontSize: 12 }}>
                 CREATE CHANNEL

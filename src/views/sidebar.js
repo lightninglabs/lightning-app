@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 
-import ActionsNav from '../actions/nav';
+import { actionsNav } from '../actions';
 import ComponentIcon from '../components/icon';
 import Text from '../components/text';
 import { colors } from '../styles';
-import { Image, View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity } from 'react-native';
 import store from '../store';
 
 class Sidebar extends Component {
@@ -35,13 +35,13 @@ class Sidebar extends Component {
     const { computedBalance, pubKey } = store;
     return (
       <View style={{ width: 170, backgroundColor: colors.sidebar }}>
-        {this.renderRow('Pay', 'coin', () => ActionsNav.goPay())}
-        {this.renderRow('Request', 'coin', () => ActionsNav.goRequest())}
-        {this.renderRow('Channels', 'wallet', () => ActionsNav.goChannels())}
+        {this.renderRow('Pay', 'coin', () => actionsNav.goPay())}
+        {this.renderRow('Request', 'coin', () => actionsNav.goRequest())}
+        {this.renderRow('Channels', 'wallet', () => actionsNav.goChannels())}
         {this.renderRow('Transactions', 'swap-horizontal', () =>
-          ActionsNav.goTransactions()
+          actionsNav.goTransactions()
         )}
-        {this.renderRow('Settings', 'settings', () => ActionsNav.goSettings())}
+        {this.renderRow('Settings', 'settings', () => actionsNav.goSettings())}
 
         <View style={{ flex: 1 }} />
 
@@ -57,7 +57,7 @@ class Sidebar extends Component {
             padding: 8,
             paddingLeft: 12,
           }}
-          onPress={() => ActionsNav.goChannels()}
+          onPress={() => actionsNav.goChannels()}
         >
           <ComponentIcon
             icon="account-circle"

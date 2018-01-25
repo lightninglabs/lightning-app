@@ -3,13 +3,7 @@ import { observer } from 'mobx-react';
 import { Text, TextB } from '../components/text';
 import Header from '../components/header';
 import ComponentIcon from '../components/icon';
-import {
-  Image,
-  View,
-  TouchableOpacity,
-  ScrollView,
-  ActivityIndicator,
-} from 'react-native';
+import { View, ScrollView, ActivityIndicator } from 'react-native';
 import { colors } from '../styles';
 import { formatSatoshis } from '../helpers';
 import store from '../store';

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Text, TextB } from '../components/text';
+import { Text } from '../components/text';
 import Header from '../components/header';
 import Button from '../components/button';
-import ActionsNav from '../actions/nav';
-import { Image, View, TouchableOpacity, ScrollView } from 'react-native';
+import { actionsNav } from '../actions';
+import { View, ScrollView } from 'react-native';
 import { colors } from '../styles';
 import { MNEMONIC_WALLET } from '../config';
 import store from '../store';
@@ -30,7 +30,7 @@ class Settings extends Component {
           {MNEMONIC_WALLET && (
             <Button
               text="Backup Wallet"
-              onPress={() => ActionsNav.goInitializeWallet()}
+              onPress={() => actionsNav.goInitializeWallet()}
             />
           )}
         </View>

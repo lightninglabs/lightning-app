@@ -1,15 +1,12 @@
 import { observe } from 'mobx';
-import store from '../store';
-import ActionsGrpc from './grpc';
-import { toHash } from '../helpers';
-import ActionsWallet from './wallet';
-import { RETRY_DELAY, PREFIX_URI } from '../config';
+import { PREFIX_URI } from '../config';
 
 class ActionsPayments {
-  constructor() {
-    // observe(store, 'lndReady', () => {
-    //
-    // });
+  constructor(store, actionsGrpc, actionsWallet) {
+    this._store = store;
+    this._actionsGrpc = actionsGrpc;
+    this._actionsWallet = actionsWallet;
+    observe(this._store, 'lndReady', () => {});
   }
 
   makePayment({ payment, amount }) {
@@ -36,20 +33,24 @@ class ActionsPayments {
   sendCoins({ addr, amount }) {
     // Send to coin address
     return new Promise((resolve, reject) => {
-      return ActionsGrpc.sendCommand('sendCoins', {
-        addr,
-        amount,
-      }).then(() => {
-        ActionsWallet.updateBalances();
-        resolve();
-      }).catch(reject)
+      return this._actionsGrpc
+        .sendCommand('sendCoins', {
+          addr,
+          amount,
+        })
+        .then(() => {
+          this._actionsWallet.updateBalances();
+          resolve();
+        })
+        .catch(reject);
     });
   }
 
   payLightning(payment) {
     return new Promise((resolve, reject) => {
       payment = payment.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
-      ActionsGrpc.sendStreamCommand('sendPayment')
+      this._actionsGrpc
+        .sendStreamCommand('sendPayment')
         .then(payments => {
           payments.on('data', data => {
             if (data.payment_error === '') {
@@ -69,9 +70,10 @@ class ActionsPayments {
     // Check if lightning address
     return new Promise((resolve, reject) => {
       paymentRequest = paymentRequest.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
-      ActionsGrpc.sendCommand('decodePayReq', {
-        pay_req: paymentRequest,
-      })
+      this._actionsGrpc
+        .sendCommand('decodePayReq', {
+          pay_req: paymentRequest,
+        })
         .then(response => {
           resolve(response.num_satoshis);
           // resolve(response);
@@ -83,4 +85,4 @@ class ActionsPayments {
   }
 }
 
-export default new ActionsPayments();
+export default ActionsPayments;

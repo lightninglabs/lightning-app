@@ -1,0 +1,22 @@
+import store from '../store';
+import ActionsGrpc from './grpc';
+import ActionsNav from './nav';
+import ActionsWallet from './wallet';
+import ActionsLogs from './logs';
+import ActionsInfo from './info';
+import ActionsChannels from './channels';
+import ActionsTransactions from './transactions';
+import ActionsPayments from './payments';
+
+export const actionsGrpc = new ActionsGrpc(store);
+export const actionsNav = new ActionsNav(store);
+export const actionsWallet = new ActionsWallet(store, actionsGrpc, actionsNav);
+export const actionsLogs = new ActionsLogs(store);
+export const actionsInfo = new ActionsInfo(store, actionsGrpc);
+export const actionsChannels = new ActionsChannels(store, actionsGrpc);
+export const actionsTransactions = new ActionsTransactions(store, actionsGrpc);
+export const actionsPayments = new ActionsPayments(
+  store,
+  actionsGrpc,
+  actionsWallet
+);

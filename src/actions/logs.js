@@ -1,7 +1,7 @@
-import store from '../store';
 const { ipcRenderer } = window.require('electron');
 
 const consoleOrig = console;
+/* eslint-disable no-global-assign */
 console = {
   log: (...params) => {
     consoleOrig.log(...params);
@@ -12,9 +12,10 @@ console = {
     ipcRenderer.send('log-error', params);
   },
 };
+/* eslint-enable no-global-assign */
 
 class ActionsLogs {
-  constructor() {
+  constructor(store) {
     ipcRenderer.on('logs', (event, arg) => {
       store.logs.push(arg);
     });
@@ -22,4 +23,4 @@ class ActionsLogs {
   }
 }
 
-export default new ActionsLogs();
+export default ActionsLogs;

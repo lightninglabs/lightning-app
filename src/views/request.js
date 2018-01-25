@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Text, TextB } from '../components/text';
+import { Text } from '../components/text';
 import TextInput from '../components/textinput';
 import Button from '../components/button';
 import {
-  Image,
   View,
   TouchableOpacity,
   ActivityIndicator,
@@ -14,7 +13,7 @@ import QRCode from '../components/qrcode';
 import ComponentIcon from '../components/icon';
 import Header from '../components/header';
 import Modal from '../components/modal';
-import ActionsWallet from '../actions/wallet';
+import { actionsWallet } from '../actions';
 import { colors } from '../styles';
 import store from '../store';
 
@@ -64,7 +63,8 @@ class Request extends Component {
                 paymentRequest: null,
                 loading: true,
               });
-              ActionsWallet.generatePaymentRequest(amount, note)
+              actionsWallet
+                .generatePaymentRequest(amount, note)
                 .then(paymentRequest => {
                   this.setState({ paymentRequest, loading: false });
                 })

@@ -1,36 +1,36 @@
 import { observe } from 'mobx';
-import store from '../store';
-import ActionsGrpc from './grpc';
-import ActionsNav from './nav';
 import { RETRY_DELAY, PREFIX_URI } from '../config';
 import Mnemonic from 'bitcore-mnemonic';
 import { MNEMONIC_WALLET } from '../config';
 import __DEV__ from 'electron-is-dev';
 
 class ActionsWallet {
-  constructor() {
-    observe(store, 'lndReady', () => {
+  constructor(store, actionsGrpc, actionsNav) {
+    this._store = store;
+    this._actionsGrpc = actionsGrpc;
+    this._actionsNav = actionsNav;
+    observe(this._store, 'lndReady', () => {
       this.getBalance();
       this.getChannelBalance();
 
       this.getNewAddress();
     });
 
-    observe(store, 'loaded', () => {
+    observe(this._store, 'loaded', () => {
       this.initializeWallet();
     });
   }
 
   initializeWallet() {
     if (!MNEMONIC_WALLET) return;
-    const { settings: { seedMnemonic } } = store;
+    const { settings: { seedMnemonic } } = this._store;
     if (!seedMnemonic || !Mnemonic.isValid(seedMnemonic)) {
       const code = new Mnemonic(Mnemonic.Words.ENGLISH);
-      store.settings.seedMnemonic = code.toString();
-      store.save();
-      ActionsNav.goInitializeWallet();
+      this._store.settings.seedMnemonic = code.toString();
+      this._store.save();
+      this._actionsNav.goInitializeWallet();
     } else {
-      __DEV__ && ActionsNav.goPay();
+      __DEV__ && this._actionsNav.goPay();
     }
   }
 
@@ -40,11 +40,12 @@ class ActionsWallet {
   }
 
   getBalance() {
-    ActionsGrpc.sendCommand('WalletBalance')
+    this._actionsGrpc
+      .sendCommand('WalletBalance')
       .then(response => {
-        store.balanceSatoshis = response.total_balance;
-        store.confirmedBalanceSatoshis = response.confirmed_balance;
-        store.unconfirmedBalanceSatoshis = response.unconfirmed_balance;
+        this._store.balanceSatoshis = response.total_balance;
+        this._store.confirmedBalanceSatoshis = response.confirmed_balance;
+        this._store.unconfirmedBalanceSatoshis = response.unconfirmed_balance;
       })
       .catch(() => {
         clearTimeout(this.t1);
@@ -53,9 +54,10 @@ class ActionsWallet {
   }
 
   getChannelBalance() {
-    ActionsGrpc.sendCommand('ChannelBalance')
+    this._actionsGrpc
+      .sendCommand('ChannelBalance')
       .then(response => {
-        store.channelBalanceSatoshis = response.balance;
+        this._store.channelBalanceSatoshis = response.balance;
       })
       .catch(() => {
         clearTimeout(this.t2);
@@ -65,10 +67,11 @@ class ActionsWallet {
 
   generatePaymentRequest(amount, note) {
     return new Promise((resolve, reject) => {
-      ActionsGrpc.sendCommand('addInvoice', {
-        value: amount,
-        memo: note,
-      })
+      this._actionsGrpc
+        .sendCommand('addInvoice', {
+          value: amount,
+          memo: note,
+        })
         .then(response => {
           resolve(`${PREFIX_URI}${response.payment_request}`);
         })
@@ -82,11 +85,12 @@ class ActionsWallet {
     // - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
     // - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
     // - `p2pkh`:  Pay to public key hash (`PUBKEY_HASH` = 2)
-    ActionsGrpc.sendCommand('NewAddress', {
-      type: 1,
-    })
+    this._actionsGrpc
+      .sendCommand('NewAddress', {
+        type: 1,
+      })
       .then(response => {
-        store.walletAddress = response.address;
+        this._store.walletAddress = response.address;
       })
       .catch(() => {
         clearTimeout(this.t2342);
@@ -95,4 +99,4 @@ class ActionsWallet {
   }
 }
 
-export default new ActionsWallet();
+export default ActionsWallet;

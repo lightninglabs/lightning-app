@@ -1,12 +1,12 @@
 import { observe } from 'mobx';
-import store from '../store';
-import ActionsGrpc from './grpc';
 import { toHash } from '../helpers';
 import { RETRY_DELAY } from '../config';
 
 class ActionsTransactions {
-  constructor() {
-    observe(store, 'lndReady', () => {
+  constructor(store, actionsGrpc) {
+    this._store = store;
+    this._actionsGrpc = actionsGrpc;
+    observe(this._store, 'lndReady', () => {
       this.getTransactions();
       this.getInvoices();
       this.getPayments();
@@ -17,17 +17,20 @@ class ActionsTransactions {
   }
 
   getTransactions() {
-    ActionsGrpc.sendCommand('getTransactions')
+    this._actionsGrpc
+      .sendCommand('getTransactions')
       .then(response => {
-        store.transactionsResponse = response.transactions.map(transaction => ({
-          id: transaction.tx_hash,
-          type: 'bitcoin',
-          amount: transaction.amount,
-          status:
-            transaction.num_confirmations < 1 ? 'unconfirmed' : 'confirmed',
-          date: new Date(parseInt(transaction.time_stamp, 10)),
-          hash: transaction.tx_hash,
-        }));
+        this._store.transactionsResponse = response.transactions.map(
+          transaction => ({
+            id: transaction.tx_hash,
+            type: 'bitcoin',
+            amount: transaction.amount,
+            status:
+              transaction.num_confirmations < 1 ? 'unconfirmed' : 'confirmed',
+            date: new Date(parseInt(transaction.time_stamp, 10)),
+            hash: transaction.tx_hash,
+          })
+        );
       })
       .catch(() => {
         clearTimeout(this.tgetTransactions);
@@ -39,9 +42,10 @@ class ActionsTransactions {
   }
 
   getInvoices() {
-    ActionsGrpc.sendCommand('listInvoices')
+    this._actionsGrpc
+      .sendCommand('listInvoices')
       .then(response => {
-        store.invoicesResponse = response.invoices.map(invoice => ({
+        this._store.invoicesResponse = response.invoices.map(invoice => ({
           id: invoice.creation_date,
           type: 'lightning',
           amount: invoice.value,
@@ -58,9 +62,10 @@ class ActionsTransactions {
   }
 
   getPayments() {
-    ActionsGrpc.sendCommand('listPayments')
+    this._actionsGrpc
+      .sendCommand('listPayments')
       .then(response => {
-        store.paymentsResponse = response.payments.map(payment => ({
+        this._store.paymentsResponse = response.payments.map(payment => ({
           id: payment.creation_date,
           type: 'lightning',
           amount: payment.value,
@@ -76,7 +81,8 @@ class ActionsTransactions {
   }
 
   subscribeTransactions() {
-    ActionsGrpc.sendStreamCommand('subscribeTransactions')
+    this._actionsGrpc
+      .sendStreamCommand('subscribeTransactions')
       .then(response => {})
       .catch(() => {
         clearTimeout(this.tsubscribeTransactions);
@@ -88,7 +94,8 @@ class ActionsTransactions {
   }
 
   subscribeInvoices() {
-    ActionsGrpc.sendStreamCommand('subscribeInvoices')
+    this._actionsGrpc
+      .sendStreamCommand('subscribeInvoices')
       .then(response => {})
       .catch(() => {
         clearTimeout(this.tsubscribeInvoices);
@@ -100,4 +107,4 @@ class ActionsTransactions {
   }
 }
 
-export default new ActionsTransactions();
+export default ActionsTransactions;

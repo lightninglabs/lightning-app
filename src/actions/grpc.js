@@ -1,14 +1,14 @@
-import store from '../store';
 import { MACAROONS_ENABLED } from '../config';
-const { remote } = window.require('electron');
+const { remote } = typeof window !== 'undefined' && window.require('electron');
 
 class ActionsGrpc {
-  constructor() {
+  constructor(store) {
+    this._store = store;
     const serverReady = remote.getGlobal('serverReady');
     if (serverReady) {
       serverReady(err => {
         console.log('GRPC serverReady', err);
-        store.lndReady = true;
+        this._store.lndReady = true;
       });
     } else {
       console.error('GRPC: ERROR no serverReady');
@@ -34,7 +34,7 @@ class ActionsGrpc {
 
   sendCommand(method, body) {
     return new Promise((resolve, reject) => {
-      const { lndReady } = store;
+      const { lndReady } = this._store;
       if (!lndReady) return reject(new Error('Server Still Starting'));
       if (!this.client) return reject(new Error('Could not connect over grpc'));
       if (!this.client[method]) return reject(new Error('Invalid Method'));
@@ -62,7 +62,7 @@ class ActionsGrpc {
 
   sendStreamCommand(method, body) {
     return new Promise((resolve, reject) => {
-      const { lndReady } = store;
+      const { lndReady } = this._store;
       if (!lndReady) return reject(new Error('Server Still Starting'));
       if (!this.client) return reject(new Error('Could not connect over grpc'));
       if (!this.client[method]) return reject(new Error('Invalid Method'));
@@ -84,4 +84,4 @@ class ActionsGrpc {
   }
 }
 
-export default new ActionsGrpc();
+export default ActionsGrpc;

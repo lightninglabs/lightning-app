@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import ActionsNav from '../actions/nav';
+import { actionsNav } from '../actions';
 import { Text, TextB } from '../components/text';
-import TextInput from '../components/textinput';
 import Button from '../components/button';
-import { colors } from '../styles';
-import { Image, View, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import store from '../store';
 
 class InitializeWallet extends Component {
@@ -37,7 +35,7 @@ class InitializeWallet extends Component {
           <Text style={{ fontSize: 22 }}>{seedMnemonic}</Text>
         </View>
 
-        <Button text="Next" onPress={() => ActionsNav.goVerifyWallet()} />
+        <Button text="Next" onPress={() => actionsNav.goVerifyWallet()} />
       </View>
     );
   }

@@ -1,19 +1,20 @@
 import { observe } from 'mobx';
-import store from '../store';
-import ActionsGrpc from './grpc';
 import { RETRY_DELAY } from '../config';
 
 class ActionsInfo {
-  constructor() {
-    observe(store, 'lndReady', () => {
+  constructor(store, actionsGrpc) {
+    this._store = store;
+    this._actionsGrpc = actionsGrpc;
+    observe(this._store, 'lndReady', () => {
       this.getInfo();
     });
   }
 
   getInfo() {
-    ActionsGrpc.sendCommand('getInfo')
+    this._actionsGrpc
+      .sendCommand('getInfo')
       .then(response => {
-        store.pubKey = response.identity_pubkey;
+        this._store.pubKey = response.identity_pubkey;
 
         // alias
         // :
@@ -53,4 +54,4 @@ class ActionsInfo {
   }
 }
 
-export default new ActionsInfo();
+export default ActionsInfo;
