@@ -602,4 +602,7 @@ message PayReq {
     string destination = 1 [json_name = "destination"];
     string payment_hash = 2 [json_name = "payment_hash"];
     int64 num_satoshis = 3 [json_name = "num_satoshis"];
+    uint32 timestamp = 4 [json_name = "timestamp"];
+    uint32 expiry = 5 [json_name = "expiry"];
+    string description = 6 [json_name = "description"];
 }

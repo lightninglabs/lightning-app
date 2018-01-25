@@ -2,7 +2,7 @@ import React from 'react'
 import reactCSS from 'reactcss'
 
 export const Field = ({ name, type, placeholder, value, component, onChange,
-  disabled, errorText, error }) => {
+  disabled, errorText, error, hide }) => {
   const styles = reactCSS({
     'default': {
       field: {
@@ -25,16 +25,18 @@ export const Field = ({ name, type, placeholder, value, component, onChange,
 
   return (
     <div style={ styles.field }>
-      <Component
-        style={ styles.field }
-        name={ name }
-        type={ type }
-        placeholder={ placeholder }
-        value={ value }
-        disabled={ disabled }
-        onChange={ handleChange }
-        outlineColor={ error && 'rgba(213, 61, 80, 0.3)' }
-      />
+      {!hide && (
+        <Component
+          style={ styles.field }
+          name={ name }
+          type={ type }
+          placeholder={ placeholder }
+          value={ value }
+          disabled={ disabled }
+          onChange={ handleChange }
+          outlineColor={ error && 'rgba(213, 61, 80, 0.3)' }
+        />
+      )}
       { errorText ? <div style={ styles.error }>{ errorText }</div> : null }
     </div>
   )

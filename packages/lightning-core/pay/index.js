@@ -27,7 +27,16 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
       required: true,
       component: CurrencyInput,
     },
+    {
+      name: 'description',
+      placeholder: 'Description',
+      component: Input,
+      hide: true,
+      disabled: true,
+    },
   ]
+  // If current form is a payment request
+  let requestActive = false
 
   const menu = new Menu()
   menu.append(new MenuItem({ label: 'Paste', role: 'paste' }))
@@ -47,16 +56,34 @@ export const Pay = ({ onMakePayment, onDecodePaymentRequest, onEditForm,
     console.log('error', errors)
   }
 
-  const handleChange = (change) => {
+  // Clear all fields in form
+  const clearForm = () => {
+    onEditForm('pay', {
+      address: '',
+      amount: '',
+      description: '',
+    })
     fields[1].disabled = false
+    fields[2].hide = true
+  }
+
+  // Handle change on payment form
+  const handleChange = (change) => {
+    if (requestActive === true) {
+      clearForm()
+      requestActive = false
+    }
     if (change.address) {
       const paymentRequest = sanitizePaymentRequest(change.address)
       onDecodePaymentRequest({ paymentRequest })
         .then((decoded) => {
+          requestActive = true
           const amount = decoded.num_satoshis
+          const description = decoded.description
           // Disable the amount field when using payment requests
           fields[1].disabled = true
-          onEditForm('pay', { amount })
+          if (description) { fields[2].hide = false }
+          onEditForm('pay', { amount, description: decoded.description })
         })
         .catch(console.error)
     }
