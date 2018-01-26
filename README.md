@@ -1,5 +1,8 @@
 ## Lightning Desktop App
 
+**N.B. The code on the master branch represents a first prototype. We're currently in the process of rebuilding the app with simplicity, testability, and mobile (react-native) in mind. This effort is happening on the [v2 branch](https://github.com/lightninglabs/lightning-app/tree/v2). We will continue to support the current master until v2 reaches feature parity with the old version (at which time we will deprecate the old version). v2 will be the way going forward. If you're interested in contributing or porting features over to v2, we will happily review any PRs! Thanks :)**
+
+
 This repo houses a cross-platform Lightning desktop app powered by
 [`lnd`](https://github.com/lightningnetwork/lnd/). The application is under
 active development and currently only operates on the Bitcoin testnet chain.
