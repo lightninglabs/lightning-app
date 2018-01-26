@@ -83,7 +83,7 @@ class ActionsTransactions {
   subscribeTransactions() {
     this._actionsGrpc
       .sendStreamCommand('subscribeTransactions')
-      .then(response => {})
+      .then(() => {})
       .catch(() => {
         clearTimeout(this.tsubscribeTransactions);
         this.tsubscribeTransactions = setTimeout(
@@ -96,7 +96,7 @@ class ActionsTransactions {
   subscribeInvoices() {
     this._actionsGrpc
       .sendStreamCommand('subscribeInvoices')
-      .then(response => {})
+      .then(() => {})
       .catch(() => {
         clearTimeout(this.tsubscribeInvoices);
         this.tsubscribeInvoices = setTimeout(

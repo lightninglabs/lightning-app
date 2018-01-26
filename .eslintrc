@@ -16,7 +16,8 @@
     "fetch": true,
     "Promise": true,
     "window": true,
-    "document": true
+    "document": true,
+    "navigator": true
   },
   "env": {
     "es6": true,
