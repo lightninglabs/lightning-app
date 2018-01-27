@@ -34,13 +34,9 @@ describe('Payments Unit Tests', () => {
         fallback_addr: '',
         cltv_expiry: '9',
       });
-      let body;
-      try {
-        body = await actionsPayments.decodePaymentRequest('goodPaymentRequest');
-      } catch (e) {
-        // Fail the test
-        expect(1 + 1, 'to be', 3);
-      }
+      const body = await actionsPayments.decodePaymentRequest(
+        'goodPaymentRequest'
+      );
       expect(body.num_satoshis, 'to be', '1700');
       expect(body.description, 'to be', '1 Espresso Coin Panna');
     });

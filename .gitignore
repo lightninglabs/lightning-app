@@ -24,5 +24,4 @@ package-lock.json
 /dist
 
 /lnd_data
-.vscode/
 /lnd_log
