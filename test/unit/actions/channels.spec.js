@@ -9,9 +9,7 @@ describe('Actions Channels Unit Tests', () => {
 
   beforeEach(() => {
     useStrict(false);
-    store = observable({
-      lndReady: false,
-    });
+    store = observable({ lndReady: false });
     require('../../../src/config').RETRY_DELAY = 1;
     actionsGrpc = sinon.createStubInstance(ActionsGrpc);
     actionsGrpc.sendCommand.resolves({});
@@ -66,6 +64,48 @@ describe('Actions Channels Unit Tests', () => {
       actionsGrpc.sendCommand.resolves({});
       await new Promise(resolve => setTimeout(resolve, 30));
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
+    });
+  });
+
+  describe('getPeers()', () => {
+    it('should list peers', async () => {
+      actionsGrpc.sendCommand.withArgs('listPeers').resolves({
+        peers: [{ pub_key: 'foo' }],
+      });
+      await actionsChannels.getPeers();
+      expect(store.peersResponse[0].pubKey, 'to equal', 'foo');
+    });
+
+    it('should retry on failure', async () => {
+      actionsGrpc.sendCommand.onFirstCall().rejects();
+      await actionsChannels.getPeers();
+      actionsGrpc.sendCommand.resolves({});
+      await new Promise(resolve => setTimeout(resolve, 30));
+      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
+    });
+  });
+
+  describe('connectToPeer()', () => {
+    it('should return peer id', async () => {
+      actionsGrpc.sendCommand.withArgs('connectPeer').resolves({
+        peer_id: 42,
+      });
+      const host = 'localhost';
+      const pubkey = 'pub_12345';
+      const peerId = await actionsChannels.connectToPeer(host, pubkey);
+      expect(peerId, 'to equal', 42);
+    });
+  });
+
+  describe('openChannel()', () => {
+    it('should return OpenStatusUpdate', async () => {
+      actionsGrpc.sendStreamCommand.withArgs('connectPeer').resolves({
+        chan_pending: 'foo',
+      });
+      const host = 'localhost';
+      const pubkey = 'pub_12345';
+      const { chanPending } = await actionsChannels.openChannel(host, pubkey);
+      expect(chanPending, 'to equal', 'foo');
     });
   });
 });
