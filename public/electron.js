@@ -23,6 +23,7 @@ console.log(`
 `);
 
 let LND_DATA_DIR = 'lnd_data/lnd';
+let LND_LOG_DIR = 'lnd_log';
 let LND_PORT = 10009;
 let LND_PEER_PORT = 10019;
 
@@ -163,6 +164,7 @@ const startLnd = () => {
 
       MACAROONS_ENABLED ? '' : '--no-macaroons',
       LND_DATA_DIR ? `--datadir=${LND_DATA_DIR}` : '',
+      LND_LOG_DIR ? `--logdir=${LND_LOG_DIR}` : '',
       LND_PORT ? `--rpclisten=localhost:${LND_PORT}` : '',
       LND_PEER_PORT ? `--listen=localhost:${LND_PEER_PORT}` : '',
 
