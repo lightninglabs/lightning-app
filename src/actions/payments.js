@@ -75,8 +75,7 @@ class ActionsPayments {
           pay_req: paymentRequest,
         })
         .then(response => {
-          resolve(response.num_satoshis);
-          // resolve(response);
+          resolve(response);
         })
         .catch(err => {
           reject(err);

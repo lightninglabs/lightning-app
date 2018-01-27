@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import Header from '../components/header';
 import TextInput from '../components/textinput';
+import Text from '../components/text';
 import Button from '../components/button';
 import { actionsPayments } from '../actions';
 import { View } from 'react-native';
@@ -14,11 +15,13 @@ class Pay extends Component {
     this.state = {
       payment: '',
       amount: '',
+      description: '',
+      paymentRequest: false,
     };
   }
 
   render() {
-    const { payment, amount } = this.state;
+    const { payment, amount, description, paymentRequest } = this.state;
     return (
       <View style={{ flex: 1, padding: 20, backgroundColor: colors.offwhite }}>
         <Header
@@ -34,8 +37,14 @@ class Pay extends Component {
           onChangeText={payment => {
             actionsPayments
               .decodePaymentRequest(payment)
-              .then(num_satoshis => this.setState({ amount: num_satoshis }))
-              .catch(() => {});
+              .then(res => {
+                this.setState({
+                  paymentRequest: true,
+                  amount: res.num_satoshis,
+                  description: res.description,
+                });
+              })
+              .catch(() => this.setState({ paymentRequest: false }));
             this.setState({ payment });
           }}
         />
@@ -43,10 +52,14 @@ class Pay extends Component {
           rightText="SAT"
           placeholder="Amount"
           value={amount}
+          editable={!paymentRequest}
           onChangeText={amount =>
             this.setState({ amount: amount.replace(/[^0-9.]/g, '') })
           }
         />
+        {description && paymentRequest ? (
+          <Text style={{ marginLeft: 5 }}>Description: {description}</Text>
+        ) : null}
         <Button
           disabled={!amount || !payment}
           text="Send Payment"
