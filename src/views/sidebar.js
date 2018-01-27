@@ -8,6 +8,8 @@ import { colors } from '../styles';
 import { View, TouchableOpacity } from 'react-native';
 import store from '../store';
 
+import pjson from '../../package.json'
+
 class Sidebar extends Component {
   renderRow(name, icon, onPress) {
     const { route } = store;
@@ -70,6 +72,9 @@ class Sidebar extends Component {
             {pubKey}
           </Text>
         </TouchableOpacity>
+        <Text style={{ marginLeft: 14, color: colors.gray }}>
+          Version <Text style={{ color: 'white' }}>{pjson.version}</Text>
+        </Text>
       </View>
     );
   }
