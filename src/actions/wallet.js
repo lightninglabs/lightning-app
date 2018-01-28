@@ -12,8 +12,8 @@ class ActionsWallet {
     observe(this._store, 'lndReady', () => {
       this.getBalance();
       this.getChannelBalance();
-
       this.getNewAddress();
+      this.getIP();
     });
 
     observe(this._store, 'loaded', () => {
@@ -96,6 +96,16 @@ class ActionsWallet {
         clearTimeout(this.t2342);
         this.t2342 = setTimeout(() => this.getNewAddress(), RETRY_DELAY);
       });
+  }
+
+  async getIP() {
+    try {
+      const request = await fetch('https://api.ipify.org?format=json');
+      const response = await request.json();
+      this._store.IP = response.ip;
+    } catch (e) {
+      throw new Error('Error fetching IP');
+    }
   }
 }
 

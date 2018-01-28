@@ -16,6 +16,7 @@ class Channels extends Component {
       computedChannelsBalance,
       pubKey,
       computedChannels,
+      IP,
     } = store;
     return (
       <View style={{ flex: 1, backgroundColor: colors.offwhite }}>
@@ -23,6 +24,7 @@ class Channels extends Component {
           computedBalance={computedBalance}
           computedChannelsBalance={computedChannelsBalance}
           pubKey={pubKey}
+          IP={IP}
         />
 
         <View style={{ padding: 20 }}>
