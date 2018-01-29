@@ -9,6 +9,8 @@ Then go inside the project folder and run the following commands:
 ```
 cd lightning-app
 
+git checkout v2
+
 yarn install
 
 yarn electron-dev
