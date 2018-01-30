@@ -2,7 +2,7 @@ import { observable, useStrict } from 'mobx';
 import ActionsGrpc from '../../../src/actions/grpc';
 import ActionsPayments from '../../../src/actions/payments';
 
-describe('Payments Unit Tests', () => {
+describe('Actions Payments Unit Tests', () => {
   let store;
   let actionsGrpc;
   let actionsPayments;
@@ -36,7 +36,16 @@ describe('Payments Unit Tests', () => {
       };
       actionsGrpc.sendCommand.withArgs('decodePayReq').resolves(response);
       await actionsPayments.decodePaymentRequest('goodPaymentRequest');
-      expect(store.paymentsResponse, 'to be', response);
+      expect(
+        store.paymentRequestResponse.numSatoshis,
+        'to be',
+        response.num_satoshis
+      );
+      expect(
+        store.paymentRequestResponse.description,
+        'to be',
+        response.description
+      );
     });
   });
 });

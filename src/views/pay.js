@@ -21,7 +21,7 @@ class Pay extends Component {
 
   render() {
     const { payment, amount } = this.state;
-    const { computedPaymentRequest } = store;
+    const { paymentRequestResponse } = store;
 
     return (
       <View style={{ flex: 1, padding: 20, backgroundColor: colors.offwhite }}>
@@ -43,15 +43,15 @@ class Pay extends Component {
         <TextInput
           rightText="SAT"
           placeholder="Amount"
-          value={computedPaymentRequest.numSatoshis || amount}
-          editable={!payment.numSatoshis}
+          value={paymentRequestResponse.numSatoshis || amount}
+          editable={!paymentRequestResponse.numSatoshis}
           onChangeText={amount =>
             this.setState({ amount: amount.replace(/[^0-9.]/g, '') })
           }
         />
-        {computedPaymentRequest.description ? (
+        {paymentRequestResponse.description ? (
           <Text style={{ marginLeft: 5 }}>
-            Description: {computedPaymentRequest.description}
+            Description: {paymentRequestResponse.description}
           </Text>
         ) : null}
         <Button

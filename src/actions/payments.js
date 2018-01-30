@@ -73,9 +73,12 @@ class ActionsPayments {
       const request = await this._actionsGrpc.sendCommand('decodePayReq', {
         pay_req: paymentRequest,
       });
-      this._store.paymentsResponse = request;
+      this._store.paymentRequestResponse = {
+        numSatoshis: request.num_satoshis,
+        description: request.description,
+      };
     } catch (e) {
-      this._store.paymentsResponse = null;
+      this._store.paymentRequestResponse = {};
       console.error(e);
     }
   }
