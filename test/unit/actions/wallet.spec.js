@@ -21,14 +21,14 @@ describe('Actions Wallet Unit Tests', () => {
     actionsWallet = new ActionsWallet(store, actionsGrpc, null);
   });
 
-  describe('getIP()', () => {
+  describe('getIPAddress()', () => {
     it('it should return IP correctly', async () => {
       nock('https://api.ipify.org')
         .get('/')
         .query({ format: 'json' })
         .reply(200, { ip: '0.0.0.0' });
-      await actionsWallet.getIP();
-      expect(actionsWallet._store.IP, 'to be', '0.0.0.0');
+      await actionsWallet.getIPAddress();
+      expect(actionsWallet._store.ipAddress, 'to be', '0.0.0.0');
     });
   });
 });

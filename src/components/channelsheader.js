@@ -66,7 +66,7 @@ const ChannelsHeader = ({
   computedBalance,
   computedChannelsBalance,
   pubKey,
-  IP,
+  ipAddress,
 }) => (
   <View style={styles.header}>
     <View style={[layout.flexRow, styles.topContainer]}>
@@ -87,7 +87,7 @@ const ChannelsHeader = ({
     </View>
     <View style={styles.body}>
       <View style={layout.flexRow}>
-        <Text style={styles.pubKey}>{`${pubKey}@${IP}`}</Text>
+        <Text style={styles.pubKey}>{`${pubKey}@${ipAddress}`}</Text>
       </View>
     </View>
   </View>
@@ -97,7 +97,7 @@ ChannelsHeader.propTypes = {
   computedBalance: PropTypes.string,
   computedChannelsBalance: PropTypes.string,
   pubKey: PropTypes.string,
-  IP: PropTypes.string,
+  ipAddress: PropTypes.string,
 };
 
 export default ChannelsHeader;

@@ -13,7 +13,7 @@ class ActionsWallet {
       this.getBalance();
       this.getChannelBalance();
       this.getNewAddress();
-      this.getIP();
+      this.getIPAddress();
     });
 
     observe(this._store, 'loaded', () => {
@@ -98,13 +98,13 @@ class ActionsWallet {
       });
   }
 
-  async getIP() {
+  async getIPAddress() {
     try {
       const request = await fetch('https://api.ipify.org?format=json');
       const response = await request.json();
-      this._store.IP = response.ip;
+      this._store.ipAddress = response.ip;
     } catch (e) {
-      throw new Error('Error fetching IP');
+      console.error('Error fetching IP');
     }
   }
 }

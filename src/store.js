@@ -18,7 +18,7 @@ class Store {
       channelBalanceSatoshis: null,
       pubKey: null,
       walletAddress: null,
-      IP: null,
+      ipAddress: null,
       transactionsResponse: null,
       invoicesResponse: null,
       paymentsResponse: null,
