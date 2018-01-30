@@ -7,6 +7,7 @@ import Button from '../components/button';
 import { actionsPayments } from '../actions';
 import { View } from 'react-native';
 import { colors } from '../styles';
+import store from '../store';
 
 class Pay extends Component {
   constructor() {
@@ -15,13 +16,13 @@ class Pay extends Component {
     this.state = {
       payment: '',
       amount: '',
-      description: '',
-      paymentRequest: false,
     };
   }
 
   render() {
-    const { payment, amount, description, paymentRequest } = this.state;
+    const { payment, amount } = this.state;
+    const { computedPaymentRequest } = store;
+
     return (
       <View style={{ flex: 1, padding: 20, backgroundColor: colors.offwhite }}>
         <Header
@@ -35,30 +36,23 @@ class Pay extends Component {
           placeholder="Payment Request / Bitcoin Address"
           value={payment}
           onChangeText={payment => {
-            actionsPayments
-              .decodePaymentRequest(payment)
-              .then(res => {
-                this.setState({
-                  paymentRequest: true,
-                  amount: res.num_satoshis,
-                  description: res.description,
-                });
-              })
-              .catch(() => this.setState({ paymentRequest: false }));
+            actionsPayments.decodePaymentRequest(payment);
             this.setState({ payment });
           }}
         />
         <TextInput
           rightText="SAT"
           placeholder="Amount"
-          value={amount}
-          editable={!paymentRequest}
+          value={computedPaymentRequest.numSatoshis || amount}
+          editable={!payment.numSatoshis}
           onChangeText={amount =>
             this.setState({ amount: amount.replace(/[^0-9.]/g, '') })
           }
         />
-        {description && paymentRequest ? (
-          <Text style={{ marginLeft: 5 }}>Description: {description}</Text>
+        {computedPaymentRequest.description ? (
+          <Text style={{ marginLeft: 5 }}>
+            Description: {computedPaymentRequest.description}
+          </Text>
         ) : null}
         <Button
           disabled={!amount || !payment}

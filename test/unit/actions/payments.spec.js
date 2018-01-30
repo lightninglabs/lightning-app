@@ -21,7 +21,7 @@ describe('Payments Unit Tests', () => {
 
   describe('decodePaymentRequest()', () => {
     it('should decode successfully', async () => {
-      actionsGrpc.sendCommand.withArgs('decodePayReq').resolves({
+      const response = {
         destination:
           '035b55e3e08538afeef6ff9804e3830293eec1c4a6a9570f1e96a478dad1c86fed',
         payment_hash:
@@ -33,12 +33,10 @@ describe('Payments Unit Tests', () => {
         description_hash: '',
         fallback_addr: '',
         cltv_expiry: '9',
-      });
-      const body = await actionsPayments.decodePaymentRequest(
-        'goodPaymentRequest'
-      );
-      expect(body.num_satoshis, 'to be', '1700');
-      expect(body.description, 'to be', '1 Espresso Coin Panna');
+      };
+      actionsGrpc.sendCommand.withArgs('decodePayReq').resolves(response);
+      await actionsPayments.decodePaymentRequest('goodPaymentRequest');
+      expect(store.paymentsResponse, 'to be', response);
     });
   });
 });
