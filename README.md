@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app)
+[![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=v2)](https://travis-ci.org/lightninglabs/lightning-app)
 
 ### Developing Locally
 
