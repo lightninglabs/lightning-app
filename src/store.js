@@ -24,7 +24,7 @@ class Store {
       paymentsResponse: null,
       peersResponse: null,
       channelsResponse: null,
-      paymentRequestResponse: observable({}),
+      paymentRequestResponse: {},
       logs: observable([]),
 
       // Persistent data
