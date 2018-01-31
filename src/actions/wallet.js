@@ -1,7 +1,7 @@
 import { observe } from 'mobx';
-import { RETRY_DELAY, PREFIX_URI } from '../config';
+import * as log from './logs';
+import { RETRY_DELAY, PREFIX_URI, MNEMONIC_WALLET } from '../config';
 import Mnemonic from 'bitcore-mnemonic';
-import { MNEMONIC_WALLET } from '../config';
 import __DEV__ from 'electron-is-dev';
 
 class ActionsWallet {
@@ -104,7 +104,7 @@ class ActionsWallet {
       const response = await request.json();
       this._store.ipAddress = response.ip;
     } catch (e) {
-      console.error('Error fetching IP');
+      log.error('Error fetching IP');
     }
   }
 }
