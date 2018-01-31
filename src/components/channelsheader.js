@@ -9,6 +9,9 @@ const styles = {
     padding: 20,
     backgroundColor: colors.blue,
   },
+  walletContainer: {
+    flex: 0.5,
+  },
   wallet: {
     marginBottom: 6,
     color: colors.black,
@@ -26,9 +29,12 @@ const styles = {
   pubKeyLabel: {
     color: colors.black,
     marginBottom: 4,
+    flex: 0.4,
   },
   pubKey: {
-    color: colors.black,
+    color: 'white',
+    flex: 0.6,
+    fontSize: 14,
   },
   onChain: {
     marginBottom: 8,
@@ -51,30 +57,37 @@ const styles = {
     fontSize: 14,
     color: 'white',
   },
+  topContainer: {
+    alignItems: 'baseline',
+  },
 };
 
 const ChannelsHeader = ({
   computedBalance,
   computedChannelsBalance,
   pubKey,
+  ipAddress,
 }) => (
   <View style={styles.header}>
-    <Text style={styles.wallet}>Your Wallet</Text>
-    <Text style={styles.balance}>{computedBalance} SAT</Text>
+    <View style={[layout.flexRow, styles.topContainer]}>
+      <View style={styles.walletContainer}>
+        <Text style={styles.wallet}>Your Wallet</Text>
+        <Text style={styles.balance}>{computedBalance} SAT</Text>
+      </View>
+      <View style={styles.walletContainer}>
+        <View style={layout.flexRow}>
+          <Text style={styles.pubKeyLabel}>On Chain:</Text>
+          <Text style={styles.pubKey}>{computedBalance} SAT</Text>
+        </View>
+        <View style={layout.flexRow}>
+          <Text style={styles.pubKeyLabel}>In Channels:</Text>
+          <Text style={styles.pubKey}>{computedChannelsBalance} SAT</Text>
+        </View>
+      </View>
+    </View>
     <View style={styles.body}>
-      <View style={layout.flex}>
-        <Text style={styles.pubKeyLabel}>Pubkey:</Text>
-        <Text style={styles.pubKey}>{pubKey}</Text>
-      </View>
-      <View style={styles.margin}>
-        <Text style={styles.onChain}>On Chain</Text>
-        <Text style={styles.inChannels}>In Channels</Text>
-      </View>
-      <View style={styles.margin}>
-        <Text style={styles.computedBalance}>{computedBalance} SAT</Text>
-        <Text style={styles.computedChannelsBalance}>
-          {computedChannelsBalance} SAT
-        </Text>
+      <View style={layout.flexRow}>
+        <Text style={styles.pubKey}>{`${pubKey}@${ipAddress}`}</Text>
       </View>
     </View>
   </View>
@@ -84,6 +97,7 @@ ChannelsHeader.propTypes = {
   computedBalance: PropTypes.string,
   computedChannelsBalance: PropTypes.string,
   pubKey: PropTypes.string,
+  ipAddress: PropTypes.string,
 };
 
 export default ChannelsHeader;
