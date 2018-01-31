@@ -92,7 +92,7 @@ describe('Actions Channels Unit Tests', () => {
       });
       const host = 'localhost';
       const pubkey = 'pub_12345';
-      const peerId = await actionsChannels.connectToPeer(host, pubkey);
+      const { peerId } = await actionsChannels.connectToPeer(host, pubkey);
       expect(peerId, 'to equal', 42);
     });
   });

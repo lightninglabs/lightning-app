@@ -90,7 +90,9 @@ class ActionsChannels {
     const { peer_id } = await this._actionsGrpc.sendCommand('connectPeer', {
       addr: { host, pubkey },
     });
-    return peer_id;
+    return {
+      peerId: peer_id,
+    };
   }
 
   async openChannel(pubkey, amount) {
