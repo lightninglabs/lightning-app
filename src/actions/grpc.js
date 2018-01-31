@@ -1,13 +1,16 @@
 import { MACAROONS_ENABLED } from '../config';
-const { remote } = typeof window !== 'undefined' && window.require('electron');
 
 class ActionsGrpc {
-  constructor(store) {
+  constructor(store, remote) {
     this._store = store;
     const serverReady = remote.getGlobal('serverReady');
     if (serverReady) {
       serverReady(err => {
-        console.log('GRPC serverReady', err);
+        if (err) {
+          console.error('GRPC: serverReady ERROR', err);
+          return;
+        }
+        console.log('GRPC serverReady');
         this._store.lndReady = true;
       });
     } else {
@@ -35,21 +38,19 @@ class ActionsGrpc {
   sendCommand(method, body) {
     return new Promise((resolve, reject) => {
       const { lndReady } = this._store;
-      if (!lndReady) return reject(new Error('Server Still Starting'));
+      if (!lndReady) return reject(new Error('Server still starting'));
       if (!this.client) return reject(new Error('Could not connect over grpc'));
-      if (!this.client[method]) return reject(new Error('Invalid Method'));
+      if (!this.client[method]) return reject(new Error('Invalid rpc method'));
 
       const now = new Date();
       const deadline = new Date(now.getTime() + 300000);
 
       const handleResponse = (err, response) => {
-        if (!err) {
-          // console.log('GRPC: Response', method, response);
-          resolve(response);
-        } else {
+        if (err) {
           console.log('GRPC: Error From Method', method, err);
-          reject(err);
+          return reject(err);
         }
+        resolve(response);
       };
 
       if (MACAROONS_ENABLED) {
@@ -63,9 +64,9 @@ class ActionsGrpc {
   sendStreamCommand(method, body) {
     return new Promise((resolve, reject) => {
       const { lndReady } = this._store;
-      if (!lndReady) return reject(new Error('Server Still Starting'));
+      if (!lndReady) return reject(new Error('Server still starting'));
       if (!this.client) return reject(new Error('Could not connect over grpc'));
-      if (!this.client[method]) return reject(new Error('Invalid Method'));
+      if (!this.client[method]) return reject(new Error('Invalid rpc method'));
 
       try {
         let response;

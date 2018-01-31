@@ -8,7 +8,9 @@ import ActionsChannels from './channels';
 import ActionsTransactions from './transactions';
 import ActionsPayments from './payments';
 
-export const actionsGrpc = new ActionsGrpc(store);
+const { remote } = window.require('electron');
+
+export const actionsGrpc = new ActionsGrpc(store, remote);
 export const actionsNav = new ActionsNav(store);
 export const actionsWallet = new ActionsWallet(store, actionsGrpc, actionsNav);
 export const actionsLogs = new ActionsLogs(store);
