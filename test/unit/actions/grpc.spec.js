@@ -1,5 +1,6 @@
 import { observable, useStrict } from 'mobx';
 import ActionsGrpc from '../../../src/actions/grpc';
+import * as logger from '../../../src/actions/logger';
 
 describe('Actions GRPC Unit Tests', () => {
   let store;
@@ -12,8 +13,7 @@ describe('Actions GRPC Unit Tests', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(console, 'log');
-    sandbox.stub(console, 'error');
+    sandbox.stub(logger);
     origMacaroonsEnabled = require('../../../src/config').MACAROONS_ENABLED;
     useStrict(false);
     store = observable({ lndReady: false });

@@ -1,4 +1,5 @@
 import { MACAROONS_ENABLED } from '../config';
+import * as log from './logger';
 
 class ActionsGrpc {
   constructor(store, remote) {
@@ -7,31 +8,31 @@ class ActionsGrpc {
     if (serverReady) {
       serverReady(err => {
         if (err) {
-          console.error('GRPC: serverReady ERROR', err);
+          log.error('GRPC: serverReady ERROR', err);
           return;
         }
-        console.log('GRPC serverReady');
+        log.info('GRPC serverReady');
         this._store.lndReady = true;
       });
     } else {
-      console.error('GRPC: ERROR no serverReady');
+      log.error('GRPC: ERROR no serverReady');
     }
 
     try {
       this.client = remote.getGlobal('connection');
     } catch (err) {
-      console.error('GRPC: Error Connecting to GRPC Server', err);
+      log.error('GRPC: Error Connecting to GRPC Server', err);
     }
 
     if (MACAROONS_ENABLED) {
       try {
         this.metadata = remote.getGlobal('metadata');
       } catch (err) {
-        console.error('GRPC: Error getting metadata', err);
+        log.error('GRPC: Error getting metadata', err);
       }
-      console.log('GRPC: Macaroons enabled');
+      log.info('GRPC: Macaroons enabled');
     } else {
-      console.log('GRPC: Macaroons disabled');
+      log.info('GRPC: Macaroons disabled');
     }
   }
 
@@ -47,7 +48,7 @@ class ActionsGrpc {
 
       const handleResponse = (err, response) => {
         if (err) {
-          console.log('GRPC: Error From Method', method, err);
+          log.info('GRPC: Error From Method', method, err);
           return reject(err);
         }
         resolve(response);
@@ -75,10 +76,10 @@ class ActionsGrpc {
         } else {
           response = this.client[method](body ? { body } : {});
         }
-        console.log('GRPC: Stream Response', method, response);
+        log.info('GRPC: Stream Response', method, response);
         resolve(response);
       } catch (err) {
-        console.log('GRPC: Error From Stream Method', method, err);
+        log.info('GRPC: Error From Stream Method', method, err);
         reject(err);
       }
     });
