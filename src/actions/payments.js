@@ -66,22 +66,21 @@ class ActionsPayments {
     });
   }
 
-  decodePaymentRequest(paymentRequest) {
+  async decodePaymentRequest(paymentRequest) {
     // Check if lightning address
-    return new Promise((resolve, reject) => {
-      paymentRequest = paymentRequest.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
-      this._actionsGrpc
-        .sendCommand('decodePayReq', {
-          pay_req: paymentRequest,
-        })
-        .then(response => {
-          resolve(response.num_satoshis);
-          // resolve(response);
-        })
-        .catch(err => {
-          reject(err);
-        });
-    });
+    paymentRequest = paymentRequest.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
+    try {
+      const request = await this._actionsGrpc.sendCommand('decodePayReq', {
+        pay_req: paymentRequest,
+      });
+      this._store.paymentRequestResponse = {
+        numSatoshis: request.num_satoshis,
+        description: request.description,
+      };
+    } catch (e) {
+      this._store.paymentRequestResponse = {};
+      console.error(e);
+    }
   }
 }
 
