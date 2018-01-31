@@ -4,6 +4,7 @@ import ComputedWallet from './computed/wallet';
 import ComputedTransactions from './computed/transactions';
 import ComputedChannels from './computed/channels';
 import { DEFAULT_ROUTE } from './config';
+import * as log from './actions/logs';
 
 class Store {
   constructor() {
@@ -45,17 +46,17 @@ class Store {
         action(stateString => {
           const state = JSON.parse(stateString);
           state &&
-            Object.keys(state).map(key => {
+            Object.keys(state).forEach(key => {
               if (typeof this.settings[key] !== 'undefined') {
                 this.settings[key] = state[key];
               }
             });
-          console.log('Loaded initial state');
+          log.info('Loaded initial state');
           this.loaded = true;
         })
       );
     } catch (err) {
-      console.log('Store load error', err);
+      log.info('Store load error', err);
       this.loaded = true;
     }
   }
@@ -64,14 +65,14 @@ class Store {
     try {
       const state = JSON.stringify(this.settings);
       AsyncStorage && AsyncStorage.setItem('settings', state);
-      console.log('Saved state');
+      log.info('Saved state');
     } catch (error) {
-      console.log('Store Error', error);
+      log.info('Store Error', error);
     }
   }
 
   clear() {
-    console.log('!!!!!!!!!CLEARING ALL PERSISTENT DATA!!!!!!');
+    log.info('!!!!!!!!!CLEARING ALL PERSISTENT DATA!!!!!!');
     Object.keys(this.settings).map(key => (this.settings[key] = null));
     this.save();
   }

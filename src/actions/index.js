@@ -10,10 +10,10 @@ import ActionsPayments from './payments';
 
 const { remote } = window.require('electron');
 
+export const actionsLogs = new ActionsLogs(store);
 export const actionsGrpc = new ActionsGrpc(store, remote);
 export const actionsNav = new ActionsNav(store);
 export const actionsWallet = new ActionsWallet(store, actionsGrpc, actionsNav);
-export const actionsLogs = new ActionsLogs(store);
 export const actionsInfo = new ActionsInfo(store, actionsGrpc);
 export const actionsChannels = new ActionsChannels(store, actionsGrpc);
 export const actionsTransactions = new ActionsTransactions(store, actionsGrpc);

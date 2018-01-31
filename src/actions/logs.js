@@ -1,18 +1,15 @@
-const { ipcRenderer } = window.require('electron');
+const ipcRenderer =
+  typeof window !== 'undefined' && window.require('electron').ipcRenderer;
 
-const consoleOrig = console;
-/* eslint-disable no-global-assign */
-console = {
-  log: (...params) => {
-    consoleOrig.log(...params);
-    ipcRenderer.send('log', params);
-  },
-  error: (...params) => {
-    consoleOrig.log(...params);
-    ipcRenderer.send('log-error', params);
-  },
-};
-/* eslint-enable no-global-assign */
+export function info(...args) {
+  console.log(...args);
+  ipcRenderer && ipcRenderer.send('log', args);
+}
+
+export function error(...args) {
+  console.error(...args);
+  ipcRenderer && ipcRenderer.send('log-error', args);
+}
 
 class ActionsLogs {
   constructor(store) {

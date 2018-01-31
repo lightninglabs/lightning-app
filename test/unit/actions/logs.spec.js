@@ -1,6 +1,6 @@
-import * as logger from '../../../src/actions/logger';
+import * as log from '../../../src/actions/logs';
 
-describe('Logger Unit Tests', () => {
+describe('Actions Logs Unit Tests', () => {
   let sandbox;
 
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('Logger Unit Tests', () => {
 
   describe('info()', () => {
     it('should call console.log with all args', () => {
-      logger.info('foo', 'bar', 'baz');
+      log.info('foo', 'bar', 'baz');
       expect(console.log, 'was called with', 'foo', 'bar', 'baz');
     });
   });
@@ -23,7 +23,7 @@ describe('Logger Unit Tests', () => {
   describe('error()', () => {
     it('should call console.error with all args', () => {
       const err = new Error('bar');
-      logger.error('foo', err);
+      log.error('foo', err);
       expect(console.error, 'was called with', 'foo', err);
     });
   });

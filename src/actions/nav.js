@@ -1,3 +1,4 @@
+import * as log from './logs';
 const { ipcRenderer } = window.require('electron');
 
 class ActionsNav {
@@ -5,7 +6,7 @@ class ActionsNav {
     this._store = store;
     ipcRenderer.on('open-url', (event, arg) => {
       // TODO: Go to route
-      console.log('open-url', arg);
+      log.info('open-url', arg);
     });
   }
 

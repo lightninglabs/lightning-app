@@ -1,5 +1,6 @@
 import { observe } from 'mobx';
 import { PREFIX_URI } from '../config';
+import * as log from './logs';
 
 class ActionsPayments {
   constructor(store, actionsGrpc, actionsWallet) {
@@ -18,7 +19,7 @@ class ActionsPayments {
             .catch(reject);
         })
         .catch(err => {
-          console.log('ActionsPayments makePayment', err);
+          log.info('ActionsPayments makePayment', err);
           // Pay to coin
           this.sendCoins({
             addr: payment,
@@ -79,7 +80,7 @@ class ActionsPayments {
       };
     } catch (e) {
       this._store.paymentRequestResponse = {};
-      console.error(e);
+      log.error(e);
     }
   }
 }

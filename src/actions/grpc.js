@@ -1,5 +1,5 @@
 import { MACAROONS_ENABLED } from '../config';
-import * as log from './logger';
+import * as log from './logs';
 
 class ActionsGrpc {
   constructor(store, remote) {
