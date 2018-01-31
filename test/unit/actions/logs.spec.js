@@ -1,30 +1,79 @@
+import { observable, useStrict } from 'mobx';
 import * as log from '../../../src/actions/logs';
+import ActionsLogs from '../../../src/actions/logs';
 
 describe('Actions Logs Unit Tests', () => {
+  let store;
   let sandbox;
+  let ipcRenderer;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(console, 'log');
-    sandbox.stub(console, 'error');
+    ipcRenderer = {
+      send: sinon.stub(),
+      on: sinon.stub().yields('some-event', 'some-arg'),
+    };
   });
 
-  afterEach(() => {
-    sandbox.restore();
-  });
+  describe('without constructor', () => {
+    describe('info()', () => {
+      it('should call console.log with all args', () => {
+        sandbox.stub(console, 'log');
+        log.info('foo', 'bar', 'baz');
+        expect(console.log, 'was called with', 'foo', 'bar', 'baz');
+        sandbox.restore();
+        expect(ipcRenderer.send, 'was not called');
+      });
+    });
 
-  describe('info()', () => {
-    it('should call console.log with all args', () => {
-      log.info('foo', 'bar', 'baz');
-      expect(console.log, 'was called with', 'foo', 'bar', 'baz');
+    describe('error()', () => {
+      it('should call console.error with all args', () => {
+        const err = new Error('bar');
+        sandbox.stub(console, 'error');
+        log.error('foo', err);
+        expect(console.error, 'was called with', 'foo', err);
+        sandbox.restore();
+        expect(ipcRenderer.send, 'was not called');
+      });
     });
   });
 
-  describe('error()', () => {
-    it('should call console.error with all args', () => {
-      const err = new Error('bar');
-      log.error('foo', err);
-      expect(console.error, 'was called with', 'foo', err);
+  describe('with constructor', () => {
+    beforeEach(() => {
+      useStrict(false);
+      store = observable({ logs: [] });
+      new ActionsLogs(store, ipcRenderer);
+    });
+
+    describe('constructor()', () => {
+      it('should append log on ipcRenderer logs event', () => {
+        expect(store.logs[0], 'to equal', 'some-arg');
+      });
+    });
+
+    describe('info()', () => {
+      it('should call console.log with all args', () => {
+        sandbox.stub(console, 'log');
+        log.info('foo', 'bar', 'baz');
+        expect(console.log, 'was called with', 'foo', 'bar', 'baz');
+        sandbox.restore();
+        expect(ipcRenderer.send, 'was called with', 'log', [
+          'foo',
+          'bar',
+          'baz',
+        ]);
+      });
+    });
+
+    describe('error()', () => {
+      it('should call console.error with all args', () => {
+        const err = new Error('bar');
+        sandbox.stub(console, 'error');
+        log.error('foo', err);
+        expect(console.error, 'was called with', 'foo', err);
+        sandbox.restore();
+        expect(ipcRenderer.send, 'was called with', 'log-error', ['foo', err]);
+      });
     });
   });
 });

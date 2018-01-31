@@ -1,22 +1,22 @@
-const ipcRenderer =
-  typeof window !== 'undefined' && window.require('electron').ipcRenderer;
+let _ipcRenderer;
 
 export function info(...args) {
   console.log(...args);
-  ipcRenderer && ipcRenderer.send('log', args);
+  _ipcRenderer && _ipcRenderer.send('log', args);
 }
 
 export function error(...args) {
   console.error(...args);
-  ipcRenderer && ipcRenderer.send('log-error', args);
+  _ipcRenderer && _ipcRenderer.send('log-error', args);
 }
 
 class ActionsLogs {
-  constructor(store) {
-    ipcRenderer.on('logs', (event, arg) => {
+  constructor(store, ipcRenderer) {
+    _ipcRenderer = ipcRenderer;
+    _ipcRenderer.on('logs', (event, arg) => {
       store.logs.push(arg);
     });
-    ipcRenderer.send('logs-ready', true);
+    _ipcRenderer.send('logs-ready', true);
   }
 }
 
