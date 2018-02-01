@@ -38,12 +38,10 @@ describe('Actions Payments Unit Tests', () => {
         on: paymentsOnStub,
         write: paymentsWriteStub,
       });
-
       await actionsPayments.makePayment({
         payment: 'some-payment',
         amount: 'some-amount',
       });
-
       expect(actionsGrpc.sendCommand, 'was called once');
       expect(actionsGrpc.sendCommand, 'was called with', 'decodePayReq');
       expect(actionsGrpc.sendStreamCommand, 'was called with', 'sendPayment');
@@ -64,7 +62,6 @@ describe('Actions Payments Unit Tests', () => {
         on: paymentsOnStub,
         write: paymentsWriteStub,
       });
-
       await expect(
         actionsPayments.makePayment({
           payment: 'some-payment',
@@ -80,12 +77,10 @@ describe('Actions Payments Unit Tests', () => {
         .withArgs('decodePayReq')
         .rejects(new Error('Boom!'));
       actionsGrpc.sendCommand.withArgs('sendCoins').resolves();
-
       await actionsPayments.makePayment({
         payment: 'some-payment',
         amount: 'some-amount',
       });
-
       expect(actionsGrpc.sendCommand, 'was called with', 'decodePayReq');
       expect(actionsGrpc.sendStreamCommand, 'was not called');
       expect(actionsGrpc.sendCommand, 'was called with', 'sendCoins', {
@@ -112,9 +107,7 @@ describe('Actions Payments Unit Tests', () => {
         cltv_expiry: '9',
       };
       actionsGrpc.sendCommand.withArgs('decodePayReq').resolves(response);
-
       await actionsPayments.decodePaymentRequest('goodPaymentRequest');
-
       expect(
         store.paymentRequestResponse.numSatoshis,
         'to be',
@@ -131,13 +124,11 @@ describe('Actions Payments Unit Tests', () => {
       actionsGrpc.sendCommand
         .withArgs('decodePayReq')
         .rejects(new Error('Boom!'));
-
       await expect(
         actionsPayments.decodePaymentRequest('goodPaymentRequest'),
         'to be rejected with error satisfying',
         /Boom/
       );
-
       expect(store.paymentRequestResponse.numSatoshis, 'to be', undefined);
       expect(store.paymentRequestResponse.description, 'to be', undefined);
     });
