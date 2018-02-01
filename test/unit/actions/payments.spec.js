@@ -1,22 +1,99 @@
 import { observable, useStrict } from 'mobx';
 import ActionsGrpc from '../../../src/actions/grpc';
+import ActionsWallet from '../../../src/actions/wallet';
 import ActionsPayments from '../../../src/actions/payments';
+import * as logger from '../../../src/actions/logs';
 
 describe('Actions Payments Unit Tests', () => {
   let store;
+  let sandbox;
   let actionsGrpc;
+  let actionsWallet;
   let actionsPayments;
 
   beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(logger);
     useStrict(false);
-    store = observable({
-      lndReady: false,
-    });
+    store = observable({ lndReady: false });
     require('../../../src/config').RETRY_DELAY = 1;
     actionsGrpc = sinon.createStubInstance(ActionsGrpc);
-    actionsGrpc.sendCommand.resolves({ yes: true });
-    store.lndReady = true;
-    actionsPayments = new ActionsPayments(store, actionsGrpc);
+    actionsWallet = sinon.createStubInstance(ActionsWallet);
+    actionsPayments = new ActionsPayments(store, actionsGrpc, actionsWallet);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe('makePayment()', () => {
+    it('should send payment', async () => {
+      actionsGrpc.sendCommand.withArgs('decodePayReq').resolves({});
+      const paymentsOnStub = sinon
+        .stub()
+        .withArgs('data')
+        .yields({ payment_error: '' });
+      const paymentsWriteStub = sinon.stub();
+      actionsGrpc.sendStreamCommand.withArgs('sendPayment').resolves({
+        on: paymentsOnStub,
+        write: paymentsWriteStub,
+      });
+
+      await actionsPayments.makePayment({
+        payment: 'some-payment',
+        amount: 'some-amount',
+      });
+
+      expect(actionsGrpc.sendCommand, 'was called once');
+      expect(actionsGrpc.sendCommand, 'was called with', 'decodePayReq');
+      expect(actionsGrpc.sendStreamCommand, 'was called with', 'sendPayment');
+      expect(paymentsWriteStub, 'was called with', {
+        payment_request: 'some-payment',
+      });
+      expect(actionsWallet.updateBalances, 'was not called');
+    });
+
+    it('should throw error if send payment fails', async () => {
+      actionsGrpc.sendCommand.withArgs('decodePayReq').resolves({});
+      const paymentsOnStub = sinon
+        .stub()
+        .withArgs('data')
+        .yields({ payment_error: 'Boom!' });
+      const paymentsWriteStub = sinon.stub();
+      actionsGrpc.sendStreamCommand.withArgs('sendPayment').resolves({
+        on: paymentsOnStub,
+        write: paymentsWriteStub,
+      });
+
+      await expect(
+        actionsPayments.makePayment({
+          payment: 'some-payment',
+          amount: 'some-amount',
+        }),
+        'to be rejected with error satisfying',
+        /Payment route failure/
+      );
+    });
+
+    it('should send to coin address if decoding payment request failed', async () => {
+      actionsGrpc.sendCommand
+        .withArgs('decodePayReq')
+        .rejects(new Error('Boom!'));
+      actionsGrpc.sendCommand.withArgs('sendCoins').resolves();
+
+      await actionsPayments.makePayment({
+        payment: 'some-payment',
+        amount: 'some-amount',
+      });
+
+      expect(actionsGrpc.sendCommand, 'was called with', 'decodePayReq');
+      expect(actionsGrpc.sendStreamCommand, 'was not called');
+      expect(actionsGrpc.sendCommand, 'was called with', 'sendCoins', {
+        addr: 'some-payment',
+        amount: 'some-amount',
+      });
+      expect(actionsWallet.updateBalances, 'was called once');
+    });
   });
 
   describe('decodePaymentRequest()', () => {
@@ -35,7 +112,9 @@ describe('Actions Payments Unit Tests', () => {
         cltv_expiry: '9',
       };
       actionsGrpc.sendCommand.withArgs('decodePayReq').resolves(response);
+
       await actionsPayments.decodePaymentRequest('goodPaymentRequest');
+
       expect(
         store.paymentRequestResponse.numSatoshis,
         'to be',
@@ -46,6 +125,21 @@ describe('Actions Payments Unit Tests', () => {
         'to be',
         response.description
       );
+    });
+
+    it('should reset state in case of failure', async () => {
+      actionsGrpc.sendCommand
+        .withArgs('decodePayReq')
+        .rejects(new Error('Boom!'));
+
+      await expect(
+        actionsPayments.decodePaymentRequest('goodPaymentRequest'),
+        'to be rejected with error satisfying',
+        /Boom/
+      );
+
+      expect(store.paymentRequestResponse.numSatoshis, 'to be', undefined);
+      expect(store.paymentRequestResponse.description, 'to be', undefined);
     });
   });
 });
