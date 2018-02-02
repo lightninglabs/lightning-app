@@ -15,7 +15,6 @@ class ActionsWallet {
       this.getNewAddress();
       this.getIPAddress();
     });
-
     observe(this._store, 'loaded', () => {
       this.initializeWallet();
     });
@@ -39,63 +38,49 @@ class ActionsWallet {
     this.getChannelBalance();
   }
 
-  getBalance() {
-    this._actionsGrpc
-      .sendCommand('WalletBalance')
-      .then(response => {
-        this._store.balanceSatoshis = response.total_balance;
-        this._store.confirmedBalanceSatoshis = response.confirmed_balance;
-        this._store.unconfirmedBalanceSatoshis = response.unconfirmed_balance;
-      })
-      .catch(() => {
-        clearTimeout(this.t1);
-        this.t1 = setTimeout(() => this.getBalance(), RETRY_DELAY);
-      });
+  async getBalance() {
+    try {
+      const response = await this._actionsGrpc.sendCommand('WalletBalance');
+      this._store.balanceSatoshis = response.total_balance;
+      this._store.confirmedBalanceSatoshis = response.confirmed_balance;
+      this._store.unconfirmedBalanceSatoshis = response.unconfirmed_balance;
+    } catch (err) {
+      clearTimeout(this.t1);
+      this.t1 = setTimeout(() => this.getBalance(), RETRY_DELAY);
+    }
   }
 
-  getChannelBalance() {
-    this._actionsGrpc
-      .sendCommand('ChannelBalance')
-      .then(response => {
-        this._store.channelBalanceSatoshis = response.balance;
-      })
-      .catch(() => {
-        clearTimeout(this.t2);
-        this.t2 = setTimeout(() => this.getChannelBalance(), RETRY_DELAY);
-      });
+  async getChannelBalance() {
+    try {
+      const response = await this._actionsGrpc.sendCommand('ChannelBalance');
+      this._store.channelBalanceSatoshis = response.balance;
+    } catch (err) {
+      clearTimeout(this.t2);
+      this.t2 = setTimeout(() => this.getChannelBalance(), RETRY_DELAY);
+    }
   }
 
-  generatePaymentRequest(amount, note) {
-    return new Promise((resolve, reject) => {
-      this._actionsGrpc
-        .sendCommand('addInvoice', {
-          value: amount,
-          memo: note,
-        })
-        .then(response => {
-          resolve(`${PREFIX_URI}${response.payment_request}`);
-        })
-        .catch(err => {
-          reject(err);
-        });
+  async generatePaymentRequest(amount, note) {
+    const response = await this._actionsGrpc.sendCommand('addInvoice', {
+      value: amount,
+      memo: note,
     });
+    return `${PREFIX_URI}${response.payment_request}`;
   }
 
-  getNewAddress() {
+  async getNewAddress() {
     // - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
     // - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
     // - `p2pkh`:  Pay to public key hash (`PUBKEY_HASH` = 2)
-    this._actionsGrpc
-      .sendCommand('NewAddress', {
+    try {
+      const { address } = await this._actionsGrpc.sendCommand('NewAddress', {
         type: 1,
-      })
-      .then(response => {
-        this._store.walletAddress = response.address;
-      })
-      .catch(() => {
-        clearTimeout(this.t2342);
-        this.t2342 = setTimeout(() => this.getNewAddress(), RETRY_DELAY);
       });
+      this._store.walletAddress = address;
+    } catch (err) {
+      clearTimeout(this.t2342);
+      this.t2342 = setTimeout(() => this.getNewAddress(), RETRY_DELAY);
+    }
   }
 
   async getIPAddress() {
