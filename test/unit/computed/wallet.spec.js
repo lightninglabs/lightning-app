@@ -22,8 +22,8 @@ describe('Computed Wallet Unit Tests', () => {
         channelBalanceSatoshis: 10000,
       });
       ComputedWallet(store);
-      expect(store.computedBalance, 'to equal', '1.000');
-      expect(store.computedChannelsBalance, 'to equal', '10.000');
+      expect(store.computedBalance.length, 'to equal', 5);
+      expect(store.computedChannelsBalance.length, 'to equal', 6);
     });
   });
 });

@@ -9,12 +9,12 @@ describe('Helpers Unit Tests', () => {
 
     it('should work for string input', () => {
       const num = helpers.formatSatoshis('1000000');
-      expect(num, 'to equal', '1.000.000');
+      expect(num.length, 'to equal', 9);
     });
 
     it('should work for number input', () => {
       const num = helpers.formatSatoshis(1000000);
-      expect(num, 'to equal', '1.000.000');
+      expect(num.length, 'to equal', 9);
     });
   });
 
