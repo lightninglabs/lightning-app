@@ -11,8 +11,10 @@ class Store {
     extendObservable(this, {
       loaded: false, // Is persistent data loaded
       lndReady: false, // Is lnd process running
+      syncedToChain: false, // Is lnd synced to blockchain
       route: DEFAULT_ROUTE,
 
+      blockHeight: null,
       balanceSatoshis: null,
       confirmedBalanceSatoshis: null,
       unconfirmedBalanceSatoshis: null,
