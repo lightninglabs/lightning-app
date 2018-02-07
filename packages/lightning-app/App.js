@@ -4,8 +4,8 @@ import reactCSS from 'reactcss'
 import { Route, Switch, Redirect } from 'react-router-dom'
 import { Box } from 'lightning-components'
 import { Notifications } from 'lightning-notifications'
-import { Sidebar, PayPage, RequestPage, AccountsPage, CreateChannelPage,
-  TransactionsPage, SettingsPage, FundYourWalletPage, Streams } from 'lightning-core'
+import { Sidebar, PayPage, RequestPage, FundPage, AccountsPage, CreateChannelPage,
+  TransactionsPage, SettingsPage, Streams } from 'lightning-core'
 
 const App = () => {
   const styles = reactCSS({
@@ -45,11 +45,11 @@ const App = () => {
         <Switch>
           <Route path="/pay" component={ PayPage } />
           <Route path="/request" component={ RequestPage } />
+          <Route path="/fund" component={ FundPage } />
           <Route path="/accounts" component={ AccountsPage } />
           <Route path="/create-channel" component={ CreateChannelPage } />
           <Route path="/transactions" component={ TransactionsPage } />
           <Route path="/settings" component={ SettingsPage } />
-          <Route path="/fund" component={ FundYourWalletPage } />
           <Route render={ () => <Redirect to="/pay" /> } />
         </Switch>
       </Box>

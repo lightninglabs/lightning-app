@@ -22,7 +22,7 @@ const styles = reactCSS({
     },
   },
 })
-class FundYourWalletPage extends React.Component {
+class FundPage extends React.Component {
   componentWillMount() {
     this.props.fetchAddress()
     this.state = {
@@ -42,8 +42,8 @@ class FundYourWalletPage extends React.Component {
     return (
       <Page>
         <Head
-          title="Fund Your Wallet"
-          body="Fund your Bitcoin wallet!"
+          title="Add Funds"
+          body="Send funds on-chain into your wallet"
         />
         <div style={ styles.container }>
           <div style={ styles.QRContainer }>
@@ -66,5 +66,5 @@ export default connect(
     fetchAddress: actions.fetchAddress,
     onCopy: notificationActions.addNotification,
   },
-)(FundYourWalletPage)
+)(FundPage)
 export { default as reducer, actions, selectors } from './reducer'

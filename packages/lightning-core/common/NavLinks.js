@@ -16,6 +16,11 @@ export const NavLinks = ({ onChange }) => {
       id: 'request',
     },
     {
+      icon: 'coin',
+      label: 'Add Funds',
+      id: 'fund',
+    },
+    {
       icon: 'wallet',
       label: 'Channels',
       id: 'accounts',
@@ -27,11 +32,6 @@ export const NavLinks = ({ onChange }) => {
       icon: 'settings',
       label: 'Settings',
       id: 'settings',
-    },
-    {
-      icon: 'coin',
-      label: 'Fund Your Wallet',
-      id: 'fund',
     },
   ]
 
