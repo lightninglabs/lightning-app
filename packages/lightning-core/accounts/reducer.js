@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import { GRPC, SERVER_RUNNING } from 'redux-grpc-middleware'
 import { actions as notificationActions } from 'lightning-notifications'
+import { remote } from 'electron';
 
 export const FETCH_ACCOUNT = 'ACCOUNTS/FETCH_ACCOUNT'
 export const FETCH_BALANCES = 'ACCOUNTS/FETCH_BALANCES'
@@ -15,6 +16,7 @@ export const START_CLOSING_CHANNEL = 'ACCOUNTS/START_CLOSING_CHANNEL'
 export const CLOSE_CHANNEL = 'ACCOUNTS/CLOSE_CHANNEL'
 export const PENDING_CHANNELS = 'ACCOUNTS/PENDING_CHANNELS'
 export const FETCH_ACCOUNT_FAILURE = 'ACCOUNTS/FETCH_ACCOUNT_ERROR'
+export const FETCH_IP = 'ACCOUNTS/FETCH_IP'
 
 const initialState = {
   pubkey: '',
@@ -28,6 +30,7 @@ const initialState = {
   channels: [],
   pendingChannels: [],
   loadingChannels: false,
+  IP: '',
 }
 
 export default (state = initialState, action) => {
@@ -73,6 +76,8 @@ export default (state = initialState, action) => {
       }
     case FETCH_CHANNELS_FAILURE:
       return { ...state, channels: [], loadingChannels: false }
+    case FETCH_IP:
+      return { ...state, IP: action.IP }
     default: return state
   }
 }
@@ -255,6 +260,11 @@ export const actions = {
       },
     }
   },
+  fetchIP: () => (dispatch) => {
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(res => dispatch({ type: FETCH_IP, IP: res.ip }))
+  },
   push: (...args) =>
     ({ type: '@@router/CALL_HISTORY_METHOD', payload: { method: 'push', args } }),
 }
@@ -270,4 +280,5 @@ export const selectors = {
     return channels.length ? channels : []
   },
   getChannelsLoading: state => state.loadingChannels,
+  getIP: state => state.IP,
 }

@@ -13,10 +13,11 @@ export class Accounts extends React.Component {
   componentDidMount() {
     this.props.fetchBalances()
     this.props.onMount()
+    this.props.fetchIP()
   }
 
   render() {
-    const { pubkey, balances, channels, loading } = this.props
+    const { pubkey, balances, channels, loading, IP } = this.props
     const styles = reactCSS({
       default: {
         page: {
@@ -38,7 +39,7 @@ export class Accounts extends React.Component {
     return (
       <div style={ styles.page }>
         <Wallet
-          pubkey={ pubkey }
+          pubkey={ `${ pubkey }@${ IP }` }
           balances={ balances }
         />
         <Page>
@@ -63,9 +64,11 @@ export default connect(
     loading: store.getChannelsLoading(state),
     balances: store.getAccountBalances(state),
     pubkey: store.getAccountPubkey(state),
+    IP: store.getIP(state),
   }), {
     onMount: actions.fetchChannels,
     fetchBalances: actions.fetchBalances,
+    fetchIP: actions.fetchIP,
   },
 )(Accounts)
 

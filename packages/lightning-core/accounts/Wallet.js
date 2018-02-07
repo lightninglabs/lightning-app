@@ -116,7 +116,6 @@ export default withRouter(connect(
   state => ({
     serverRunning: store.getServerRunning(state),
     isSynced: store.getSyncedToChain(state),
-    pubkey: store.getAccountPubkey(state),
     currency: store.getCurrency(state),
     balances: store.getAccountBalances(state),
   }), {
