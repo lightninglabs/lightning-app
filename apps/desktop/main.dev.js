@@ -64,7 +64,7 @@ const processes = [
     name: 'lnd',
     args: [
       isDev ? '' : '--bitcoin.active',
-      isDev ? '' : '--neutrino.active',
+      isDev ? '' : '--bitcoin.node=neutrino',
       isDev ? '' : '--configfile=../lnd.conf',
       isDev ? '' : '--bitcoin.testnet',
       isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
