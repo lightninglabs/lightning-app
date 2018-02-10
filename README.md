@@ -41,8 +41,8 @@ In development mode, the app will look for an lnd.conf in the default location f
 debuglevel=debug
 bitcoin.active=1
 bitcoin.simnet=1
-bitcoin.rpcuser=lnd
-bitcoin.rpcpass=lnd
+btcd.rpcuser=lnd
+btcd.rpcpass=lnd
 ```
 
 Running in development mode can allow you to run in full node mode instead of the default neutrino mode, and will also allow you to run in simnet node for testing.
