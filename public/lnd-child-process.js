@@ -11,44 +11,53 @@ const certPath = {
   win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert'),
 }[os.platform()];
 
-module.exports.createGrpcClient = function({
+async function waitForCertPath() {
+  let intervalId;
+  return new Promise(resolve => {
+    intervalId = setInterval(() => {
+      if (!fs.existsSync(certPath)) return;
+      clearInterval(intervalId);
+      resolve();
+    }, 500);
+  });
+}
+
+module.exports.createGrpcClient = async function({
   global,
   lndPort,
   macaroonsEnabled,
 }) {
-  this.intervalId = setInterval(() => {
-    if (!fs.existsSync(certPath)) return;
-    clearInterval(this.intervalId);
+  await waitForCertPath();
 
-    const lndCert = fs.readFileSync(certPath);
-    const credentials = grpc.credentials.createSsl(lndCert);
-    const { lnrpc } = grpc.load(
-      path.join(__dirname, '..', 'assets', 'rpc.proto')
-    );
-    const connection = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
-    const metadata = new grpc.Metadata();
-    if (macaroonsEnabled) {
-      const macaroonPath = {
-        darwin: path.join(
-          homedir,
-          'Library/Application Support/Lnd/admin.macaroon'
-        ),
-        linux: path.join(homedir, '.lnd/admin.macaroon'),
-        win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'admin.macaroon'),
-      }[os.platform()];
-      const macaroonHex = fs.readFileSync(macaroonPath).toString('hex');
-      metadata.add('macaroon', macaroonHex);
-      global.metadata = metadata;
-    }
+  const lndCert = fs.readFileSync(certPath);
+  const credentials = grpc.credentials.createSsl(lndCert);
+  const { lnrpc } = grpc.load(
+    path.join(__dirname, '..', 'assets', 'rpc.proto')
+  );
+  const connection = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
+  const metadata = new grpc.Metadata();
+  if (macaroonsEnabled) {
+    const macaroonPath = {
+      darwin: path.join(
+        homedir,
+        'Library/Application Support/Lnd/admin.macaroon'
+      ),
+      linux: path.join(homedir, '.lnd/admin.macaroon'),
+      win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'admin.macaroon'),
+    }[os.platform()];
+    const macaroonHex = fs.readFileSync(macaroonPath).toString('hex');
+    metadata.add('macaroon', macaroonHex);
+    global.metadata = metadata;
+  }
 
-    const serverReady = cb => {
-      // var deadline = new Date();
-      // deadline.setSeconds(deadline.getSeconds() + 5);
-      grpc.waitForClientReady(connection, Infinity, cb);
-    };
-    global.connection = connection;
-    global.serverReady = serverReady;
-  }, 500);
+  const serverReady = cb => {
+    // var deadline = new Date();
+    // deadline.setSeconds(deadline.getSeconds() + 5);
+    grpc.waitForClientReady(connection, Infinity, cb);
+  };
+
+  global.connection = connection;
+  global.serverReady = serverReady;
 };
 
 module.exports.startLndProcess = function({
