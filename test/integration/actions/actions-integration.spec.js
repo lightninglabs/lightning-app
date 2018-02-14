@@ -1,7 +1,12 @@
 import { observable, observe, useStrict } from 'mobx';
 import ActionsGrpc from '../../../src/actions/grpc';
 import * as logger from '../../../src/actions/logs';
+import ActionsNav from '../../../src/actions/nav';
+import ActionsWallet from '../../../src/actions/wallet';
 import ActionsChannels from '../../../src/actions/channels';
+import ActionsTransactions from '../../../src/actions/transactions';
+import ActionsPayments from '../../../src/actions/payments';
+
 const {
   createGrpcClient,
   startLndProcess,
@@ -20,14 +25,21 @@ describe('Actions Integration Tests', function() {
   let store;
   let sandbox;
   let lndProcess;
+  let actionsNavStub;
   let actionsGrpc;
+  let actionsWallet;
   let actionsChannels;
+  let actionsTransactions;
+  let actionsPayments;
 
   before(async () => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(logger);
     useStrict(false);
-    store = observable({ lndReady: false });
+    store = observable({
+      lndReady: false,
+      loaded: false,
+    });
     require('../../../src/config').RETRY_DELAY = 1;
     const globalStub = {};
     const remoteStub = { getGlobal: arg => globalStub[arg] };
@@ -49,8 +61,12 @@ describe('Actions Integration Tests', function() {
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
+    actionsNavStub = sinon.createStubInstance(ActionsNav);
     actionsGrpc = new ActionsGrpc(store, remoteStub);
+    actionsWallet = new ActionsWallet(store, actionsGrpc, actionsNavStub);
     actionsChannels = new ActionsChannels(store, actionsGrpc);
+    actionsTransactions = new ActionsTransactions(store, actionsGrpc);
+    actionsPayments = new ActionsPayments(store, actionsGrpc, actionsWallet);
     await new Promise(resolve => observe(store, 'lndReady', resolve));
   });
 
@@ -59,7 +75,7 @@ describe('Actions Integration Tests', function() {
     sandbox.restore();
   });
 
-  describe('getChannels()', () => {
+  describe('ActionsChannels.getChannels()', () => {
     it('should list no channels initially', async () => {
       await new Promise(resolve =>
         setTimeout(() => store.channelsResponse && resolve(), 100)
