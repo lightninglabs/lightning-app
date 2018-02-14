@@ -2,13 +2,10 @@ const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
-const fs = require('fs');
-const grpc = require('grpc');
 const ps = require('ps-node');
-const os = require('os');
-const cp = require('child_process');
 const log = require('electron-log');
 const { PREFIX_NAME, MACAROONS_ENABLED } = require('../src/config');
+const { createGrpcClient, startLndProcess } = require('./lnd-child-process');
 
 console.log(`
  ___       ________       ________  ________  ________
@@ -22,6 +19,7 @@ console.log(`
 
 `);
 
+const LND_NAME = 'lnd';
 let LND_DATA_DIR = 'lnd_data/lnd';
 let LND_LOG_DIR = 'lnd_log';
 let LND_PORT = 10009;
@@ -91,117 +89,33 @@ function createWindow() {
   });
 
   //////////////// Lightning App ///////////////////////////
-  const homedir = os.homedir();
-  const certPath = {
-    darwin: path.join(homedir, 'Library/Application Support/Lnd/tls.cert'),
-    linux: path.join(homedir, '.lnd/tls.cert'),
-    win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert'),
-  }[os.platform()];
-  this.intervalId = setInterval(() => {
-    if (fs.existsSync(certPath)) {
-      clearInterval(this.intervalId);
-      const lndCert = fs.readFileSync(certPath);
-      const credentials = grpc.credentials.createSsl(lndCert);
-      const { lnrpc } = grpc.load(
-        path.join(__dirname, '..', 'assets', 'rpc.proto')
-      );
-      const connection = new lnrpc.Lightning(
-        `localhost:${LND_PORT}`,
-        credentials
-      );
-      const metadata = new grpc.Metadata();
-      if (MACAROONS_ENABLED) {
-        const macaroonPath = {
-          darwin: path.join(
-            homedir,
-            'Library/Application Support/Lnd/admin.macaroon'
-          ),
-          linux: path.join(homedir, '.lnd/admin.macaroon'),
-          win32: path.join(
-            homedir,
-            'AppData',
-            'Local',
-            'Lnd',
-            'admin.macaroon'
-          ),
-        }[os.platform()];
-        const macaroonHex = fs.readFileSync(macaroonPath).toString('hex');
-        metadata.add('macaroon', macaroonHex);
-        global.metadata = metadata;
-      }
 
-      const serverReady = cb => {
-        // var deadline = new Date();
-        // deadline.setSeconds(deadline.getSeconds() + 5);
-        grpc.waitForClientReady(connection, Infinity, cb);
-      };
-      global.connection = connection;
-      global.serverReady = serverReady;
-    }
-  }, 500);
+  createGrpcClient({
+    global,
+    lndPort: LND_PORT,
+    macaroonsEnabled: MACAROONS_ENABLED,
+  });
+
   ///////////////////////////////////////////////////
 }
 
 //////////////// Lightning App ///////////////////////////
-const lndName = 'lnd';
 
 const startLnd = () => {
-  const lndInfo = {
-    name: lndName,
-    args: [
-      isDev ? '--bitcoin.active' : '',
-      isDev ? '--bitcoin.simnet' : '',
-      isDev ? '--btcd.rpcuser=kek' : '',
-      isDev ? '--btcd.rpcpass=kek' : '',
-
-      isDev ? '' : '--bitcoin.active',
-      isDev ? '' : '--neutrino.active',
-      isDev ? '' : '--configfile=../lnd.conf',
-      isDev ? '' : '--bitcoin.testnet',
-      isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
-      isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
-      isDev ? '' : '--autopilot.active',
-
-      MACAROONS_ENABLED ? '' : '--no-macaroons',
-      LND_DATA_DIR ? `--datadir=${LND_DATA_DIR}` : '',
-      LND_LOG_DIR ? `--logdir=${LND_LOG_DIR}` : '',
-      LND_PORT ? `--rpclisten=localhost:${LND_PORT}` : '',
-      LND_PEER_PORT ? `--listen=localhost:${LND_PEER_PORT}` : '',
-
-      '--debuglevel=info',
-      '--noencryptwallet',
-    ],
-  };
-
-  const filePath = path.join(
-    __dirname,
-    '..',
-    'assets',
-    'bin',
-    os.platform(),
-    os.platform() === 'win32' ? `${lndName}.exe` : lndName
-  );
-
-  let processName;
-  try {
-    processName =
-      cp.spawnSync('type', [lndName]).status === 0 ? lndName : filePath;
-    Logger.info(`Using lnd in path ${processName}`);
-    lndProcess = cp.spawn(processName, lndInfo.args);
-    lndProcess.stdout.on('data', data => {
-      Logger.info(`${lndName}: ${data}`);
-      sendLog(`${data}`);
-    });
-    lndProcess.stderr.on('data', data => {
-      Logger.error(`${lndName} Error: ${data}`);
-      sendLog(`ERROR: ${data}`);
-    });
-  } catch (error) {
-    Logger.error(`Caught Error When Starting ${processName}: ${error}`);
-  }
+  lndProcess = startLndProcess({
+    lndName: LND_NAME,
+    isDev,
+    macaroonsEnabled: MACAROONS_ENABLED,
+    lndDataDir: LND_DATA_DIR,
+    lndLogDir: LND_LOG_DIR,
+    lndPort: LND_PORT,
+    lndPeerPort: LND_PEER_PORT,
+    logger: Logger,
+    sendLog,
+  });
 };
 
-ps.lookup({ command: lndName }, (err, resultList) => {
+ps.lookup({ command: LND_NAME }, (err, resultList) => {
   if (err) {
     Logger.info(`lnd ps lookup error`, err);
   } else if (resultList) {
