@@ -2,3 +2,6 @@ sudo: false
 language: node_js
 node_js:
   - "9"
+
+before_script:
+  - ./assets/script/install_lnd.sh
