@@ -133,7 +133,7 @@ module.exports.startBtcdProcess = async function({
 }) {
   if (!isDev) return; // don't start btcd if neutrino is used
 
-  const processName = 'btcd';
+  const btcdName = 'btcd';
   const args = [
     '--simnet',
     '--txindex',
@@ -142,7 +142,18 @@ module.exports.startBtcdProcess = async function({
     miningAddress ? `--miningaddr=${miningAddress}` : '',
   ];
 
+  const filePath = path.join(
+    __dirname,
+    '..',
+    'assets',
+    'bin',
+    os.platform(),
+    os.platform() === 'win32' ? `${btcdName}.exe` : btcdName
+  );
+
   return new Promise((resolve, reject) => {
+    const processName =
+      cp.spawnSync('type', [btcdName]).status === 0 ? btcdName : filePath;
     logger.info(`Using btcd in path ${processName}`);
     const btcdProcess = cp.spawn(processName, args);
     btcdProcess.stdout.on('data', data => {
