@@ -60,7 +60,7 @@ module.exports.createGrpcClient = async function({
   global.serverReady = serverReady;
 };
 
-module.exports.startLndProcess = function({
+module.exports.startLndProcess = async function({
   lndName,
   isDev,
   macaroonsEnabled,
@@ -107,23 +107,53 @@ module.exports.startLndProcess = function({
     os.platform() === 'win32' ? `${lndName}.exe` : lndName
   );
 
-  let processName;
-  let lndProcess;
-  try {
-    processName =
+  return new Promise((resolve, reject) => {
+    const processName =
       cp.spawnSync('type', [lndName]).status === 0 ? lndName : filePath;
     logger.info(`Using lnd in path ${processName}`);
-    lndProcess = cp.spawn(processName, lndInfo.args);
+    const lndProcess = cp.spawn(processName, lndInfo.args);
     lndProcess.stdout.on('data', data => {
       logger.info(`${lndName}: ${data}`);
       sendLog(`${data}`);
+      resolve(lndProcess);
     });
     lndProcess.stderr.on('data', data => {
       logger.error(`${lndName} Error: ${data}`);
       sendLog(`ERROR: ${data}`);
+      reject(new Error(data));
     });
-  } catch (error) {
-    logger.error(`Caught Error When Starting ${processName}: ${error}`);
-  }
-  return lndProcess;
+  });
+};
+
+module.exports.startBtcdProcess = async function({
+  isDev,
+  logger,
+  sendLog,
+  miningAddress,
+}) {
+  if (!isDev) return; // don't start btcd if neutrino is used
+
+  const processName = 'btcd';
+  const args = [
+    '--simnet',
+    '--txindex',
+    '--rpcuser=kek',
+    '--rpcpass=kek',
+    miningAddress ? `--miningaddr=${miningAddress}` : '',
+  ];
+
+  return new Promise((resolve, reject) => {
+    logger.info(`Using btcd in path ${processName}`);
+    const btcdProcess = cp.spawn(processName, args);
+    btcdProcess.stdout.on('data', data => {
+      logger.info(`${processName}: ${data}`);
+      sendLog(`${data}`);
+      resolve(btcdProcess);
+    });
+    btcdProcess.stderr.on('data', data => {
+      logger.error(`${processName} Error: ${data}`);
+      sendLog(`ERROR: ${data}`);
+      reject(new Error(data));
+    });
+  });
 };

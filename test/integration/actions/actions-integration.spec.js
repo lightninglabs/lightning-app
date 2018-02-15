@@ -10,8 +10,10 @@ import ActionsPayments from '../../../src/actions/payments';
 const {
   createGrpcClient,
   startLndProcess,
+  startBtcdProcess,
 } = require('../../../public/lnd-child-process');
 
+const isDev = true;
 const LND_NAME = 'lnd';
 let LND_DATA_DIR = 'lnd_data/lnd';
 let LND_LOG_DIR = 'lnd_log';
@@ -25,6 +27,7 @@ describe('Actions Integration Tests', function() {
   let store;
   let sandbox;
   let lndProcess;
+  let btcdProcess;
   let actionsNavStub;
   let actionsGrpc;
   let actionsWallet;
@@ -43,17 +46,19 @@ describe('Actions Integration Tests', function() {
     require('../../../src/config').RETRY_DELAY = 1;
     const globalStub = {};
     const remoteStub = { getGlobal: arg => globalStub[arg] };
+    const sendLog = sinon.stub();
 
-    lndProcess = startLndProcess({
+    btcdProcess = await startBtcdProcess({ isDev, logger, sendLog });
+    lndProcess = await startLndProcess({
       lndName: LND_NAME,
-      isDev: true,
+      isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
       lndDataDir: LND_DATA_DIR,
       lndLogDir: LND_LOG_DIR,
       lndPort: LND_PORT,
       lndPeerPort: LND_PEER_PORT,
       logger,
-      sendLog: sinon.stub(),
+      sendLog,
     });
     await createGrpcClient({
       global: globalStub,
@@ -72,6 +77,7 @@ describe('Actions Integration Tests', function() {
 
   after(() => {
     lndProcess.kill();
+    btcdProcess.kill();
     sandbox.restore();
   });
 

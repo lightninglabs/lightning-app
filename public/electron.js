@@ -5,7 +5,7 @@ const isDev = require('electron-is-dev');
 const ps = require('ps-node');
 const log = require('electron-log');
 const { PREFIX_NAME, MACAROONS_ENABLED } = require('../src/config');
-const { createGrpcClient, startLndProcess } = require('./lnd-child-process');
+const { createGrpcClient, startLndProcess, startBtcdProcess } = require('./lnd-child-process');
 
 console.log(`
  ___       ________       ________  ________  ________
@@ -29,6 +29,7 @@ let LND_PEER_PORT = 10019;
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
 let lndProcess;
+let btcdProcess;
 
 log.transports.console.level = 'info';
 log.transports.file.level = 'info';
@@ -101,18 +102,27 @@ function createWindow() {
 
 //////////////// Lightning App ///////////////////////////
 
-const startLnd = () => {
-  lndProcess = startLndProcess({
-    lndName: LND_NAME,
-    isDev,
-    macaroonsEnabled: MACAROONS_ENABLED,
-    lndDataDir: LND_DATA_DIR,
-    lndLogDir: LND_LOG_DIR,
-    lndPort: LND_PORT,
-    lndPeerPort: LND_PEER_PORT,
-    logger: Logger,
-    sendLog,
-  });
+const startLnd = async () => {
+  try {
+    btcdProcess = await startBtcdProcess({
+      isDev,
+      logger: Logger,
+      sendLog,
+    });
+    lndProcess = await startLndProcess({
+      lndName: LND_NAME,
+      isDev,
+      macaroonsEnabled: MACAROONS_ENABLED,
+      lndDataDir: LND_DATA_DIR,
+      lndLogDir: LND_LOG_DIR,
+      lndPort: LND_PORT,
+      lndPeerPort: LND_PEER_PORT,
+      logger: Logger,
+      sendLog,
+    });
+  } catch (err) {
+    Logger.error(`Caught Error When Starting ${LND_NAME}: ${err}`);
+  }
 };
 
 ps.lookup({ command: LND_NAME }, (err, resultList) => {
@@ -156,6 +166,7 @@ app.on('activate', () => {
 
 app.on('quit', () => {
   lndProcess && lndProcess.kill();
+  btcdProcess && btcdProcess.kill();
 });
 
 app.setAsDefaultProtocolClient(PREFIX_NAME);
