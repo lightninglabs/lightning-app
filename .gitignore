@@ -25,3 +25,4 @@ package-lock.json
 
 /lnd_data
 /lnd_log
+/test/data

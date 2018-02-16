@@ -6,6 +6,7 @@ import ActionsWallet from '../../../src/actions/wallet';
 import ActionsChannels from '../../../src/actions/channels';
 import ActionsTransactions from '../../../src/actions/transactions';
 import ActionsPayments from '../../../src/actions/payments';
+import rmdir from './rmdir';
 
 const {
   createGrpcClient,
@@ -14,11 +15,14 @@ const {
 } = require('../../../public/lnd-child-process');
 
 const isDev = true;
-const LND_NAME = 'lnd';
-let LND_DATA_DIR = 'lnd_data/lnd';
-let LND_LOG_DIR = 'lnd_log';
-let LND_PORT = 10009;
-let LND_PEER_PORT = 10019;
+let LND_DATA_DIR_1 = 'test/data/lnd_data_1';
+let LND_DATA_DIR_2 = 'test/data/lnd_data_2';
+let LND_LOG_DIR_1 = 'test/data/lnd_log_1';
+let LND_LOG_DIR_2 = 'test/data/lnd_log_2';
+let LND_PORT_1 = 10001;
+let LND_PORT_2 = 10002;
+let LND_PEER_PORT_1 = 10011;
+let LND_PEER_PORT_2 = 10012;
 let MACAROONS_ENABLED = false;
 
 describe('Actions Integration Tests', function() {
@@ -26,7 +30,8 @@ describe('Actions Integration Tests', function() {
 
   let store;
   let sandbox;
-  let lndProcess;
+  let lndProcess1;
+  let lndProcess2;
   let btcdProcess;
   let actionsNavStub;
   let actionsGrpc;
@@ -36,6 +41,7 @@ describe('Actions Integration Tests', function() {
   let actionsPayments;
 
   before(async () => {
+    rmdir('test/data');
     sandbox = sinon.sandbox.create();
     sandbox.stub(logger);
     useStrict(false);
@@ -49,20 +55,29 @@ describe('Actions Integration Tests', function() {
     const sendLog = sinon.stub();
 
     btcdProcess = await startBtcdProcess({ isDev, logger, sendLog });
-    lndProcess = await startLndProcess({
-      lndName: LND_NAME,
+    lndProcess1 = await startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
-      lndDataDir: LND_DATA_DIR,
-      lndLogDir: LND_LOG_DIR,
-      lndPort: LND_PORT,
-      lndPeerPort: LND_PEER_PORT,
+      lndDataDir: LND_DATA_DIR_1,
+      lndLogDir: LND_LOG_DIR_1,
+      lndPort: LND_PORT_1,
+      lndPeerPort: LND_PEER_PORT_1,
+      logger,
+      sendLog,
+    });
+    lndProcess2 = await startLndProcess({
+      isDev,
+      macaroonsEnabled: MACAROONS_ENABLED,
+      lndDataDir: LND_DATA_DIR_2,
+      lndLogDir: LND_LOG_DIR_2,
+      lndPort: LND_PORT_2,
+      lndPeerPort: LND_PEER_PORT_2,
       logger,
       sendLog,
     });
     await createGrpcClient({
       global: globalStub,
-      lndPort: LND_PORT,
+      lndPort: LND_PORT_1,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
@@ -76,7 +91,8 @@ describe('Actions Integration Tests', function() {
   });
 
   after(() => {
-    lndProcess.kill();
+    lndProcess1.kill();
+    lndProcess2.kill();
     btcdProcess.kill();
     sandbox.restore();
   });

@@ -73,7 +73,7 @@ module.exports.createGrpcClient = async function({
 };
 
 module.exports.startLndProcess = async function({
-  lndName,
+  lndName = 'lnd',
   isDev,
   macaroonsEnabled,
   lndDataDir,
