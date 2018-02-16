@@ -23,7 +23,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "npm run -s test:lint && npm run -s test:unit && npm run -s test:integration",
-    "test:lint": "eslint src test",
+    "test:lint": "eslint src public test",
     "test:unit": "mocha --opts test/mocha.opts ./test/unit/",
     "test:integration": "mocha --opts test/mocha.opts ./test/integration/",
     "test:react": "react-scripts test --env=jsdom",

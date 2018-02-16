@@ -5,7 +5,11 @@ const isDev = require('electron-is-dev');
 const ps = require('ps-node');
 const log = require('electron-log');
 const { PREFIX_NAME, MACAROONS_ENABLED } = require('../src/config');
-const { createGrpcClient, startLndProcess, startBtcdProcess } = require('./lnd-child-process');
+const {
+  createGrpcClient,
+  startLndProcess,
+  startBtcdProcess,
+} = require('./lnd-child-process');
 
 console.log(`
  ___       ________       ________  ________  ________

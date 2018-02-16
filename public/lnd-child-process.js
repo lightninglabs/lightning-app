@@ -22,6 +22,18 @@ async function waitForCertPath() {
   });
 }
 
+function getProcessName(binName) {
+  const filePath = path.join(
+    __dirname,
+    '..',
+    'assets',
+    'bin',
+    os.platform(),
+    os.platform() === 'win32' ? `${binName}.exe` : binName
+  );
+  return cp.spawnSync('type', [binName]).status === 0 ? binName : filePath;
+}
+
 module.exports.createGrpcClient = async function({
   global,
   lndPort,
@@ -98,18 +110,8 @@ module.exports.startLndProcess = async function({
     ],
   };
 
-  const filePath = path.join(
-    __dirname,
-    '..',
-    'assets',
-    'bin',
-    os.platform(),
-    os.platform() === 'win32' ? `${lndName}.exe` : lndName
-  );
-
   return new Promise((resolve, reject) => {
-    const processName =
-      cp.spawnSync('type', [lndName]).status === 0 ? lndName : filePath;
+    const processName = getProcessName(lndName);
     logger.info(`Using lnd in path ${processName}`);
     const lndProcess = cp.spawn(processName, lndInfo.args);
     lndProcess.stdout.on('data', data => {
@@ -142,18 +144,8 @@ module.exports.startBtcdProcess = async function({
     miningAddress ? `--miningaddr=${miningAddress}` : '',
   ];
 
-  const filePath = path.join(
-    __dirname,
-    '..',
-    'assets',
-    'bin',
-    os.platform(),
-    os.platform() === 'win32' ? `${btcdName}.exe` : btcdName
-  );
-
   return new Promise((resolve, reject) => {
-    const processName =
-      cp.spawnSync('type', [btcdName]).status === 0 ? btcdName : filePath;
+    const processName = getProcessName(btcdName);
     logger.info(`Using btcd in path ${processName}`);
     const btcdProcess = cp.spawn(processName, args);
     btcdProcess.stdout.on('data', data => {
