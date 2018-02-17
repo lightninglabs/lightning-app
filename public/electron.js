@@ -114,7 +114,6 @@ const startLnd = async () => {
       sendLog,
     });
     lndProcess = await startLndProcess({
-      lndName: LND_NAME,
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
       lndDataDir: LND_DATA_DIR,

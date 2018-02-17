@@ -73,7 +73,6 @@ module.exports.createGrpcClient = async function({
 };
 
 module.exports.startLndProcess = async function({
-  lndName = 'lnd',
   isDev,
   macaroonsEnabled,
   lndDataDir,
@@ -83,37 +82,35 @@ module.exports.startLndProcess = async function({
   logger,
   sendLog,
 }) {
-  const lndInfo = {
-    name: lndName,
-    args: [
-      isDev ? '--bitcoin.active' : '',
-      isDev ? '--bitcoin.simnet' : '',
-      isDev ? '--btcd.rpcuser=kek' : '',
-      isDev ? '--btcd.rpcpass=kek' : '',
+  const lndName = 'lnd';
+  const args = [
+    isDev ? '--bitcoin.active' : '',
+    isDev ? '--bitcoin.simnet' : '',
+    isDev ? '--btcd.rpcuser=kek' : '',
+    isDev ? '--btcd.rpcpass=kek' : '',
 
-      isDev ? '' : '--bitcoin.active',
-      isDev ? '' : '--neutrino.active',
-      isDev ? '' : '--configfile=../lnd.conf',
-      isDev ? '' : '--bitcoin.testnet',
-      isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
-      isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
-      isDev ? '' : '--autopilot.active',
+    isDev ? '' : '--bitcoin.active',
+    isDev ? '' : '--neutrino.active',
+    isDev ? '' : '--configfile=../lnd.conf',
+    isDev ? '' : '--bitcoin.testnet',
+    isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
+    isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
+    isDev ? '' : '--autopilot.active',
 
-      macaroonsEnabled ? '' : '--no-macaroons',
-      lndDataDir ? `--datadir=${lndDataDir}` : '',
-      lndLogDir ? `--logdir=${lndLogDir}` : '',
-      lndPort ? `--rpclisten=localhost:${lndPort}` : '',
-      lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
+    macaroonsEnabled ? '' : '--no-macaroons',
+    lndDataDir ? `--datadir=${lndDataDir}` : '',
+    lndLogDir ? `--logdir=${lndLogDir}` : '',
+    lndPort ? `--rpclisten=localhost:${lndPort}` : '',
+    lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
 
-      '--debuglevel=info',
-      '--noencryptwallet',
-    ],
-  };
+    '--debuglevel=info',
+    '--noencryptwallet',
+  ];
 
   return new Promise((resolve, reject) => {
     const processName = getProcessName(lndName);
     logger.info(`Using lnd in path ${processName}`);
-    const lndProcess = cp.spawn(processName, lndInfo.args);
+    const lndProcess = cp.spawn(processName, args);
     lndProcess.stdout.on('data', data => {
       logger.info(`${lndName}: ${data}`);
       sendLog(`${data}`);
