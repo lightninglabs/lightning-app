@@ -81,6 +81,7 @@ module.exports.startLndProcess = async function({
   lndPeerPort,
   logger,
   sendLog,
+  lndRestPort,
 }) {
   const lndName = 'lnd';
   const args = [
@@ -88,9 +89,9 @@ module.exports.startLndProcess = async function({
     isDev ? '--bitcoin.simnet' : '',
     isDev ? '--btcd.rpcuser=kek' : '',
     isDev ? '--btcd.rpcpass=kek' : '',
+    isDev ? '--bitcoin.node=btcd' : '--bitcoin.node=neutrino',
 
     isDev ? '' : '--bitcoin.active',
-    isDev ? '' : '--neutrino.active',
     isDev ? '' : '--configfile=../lnd.conf',
     isDev ? '' : '--bitcoin.testnet',
     isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
@@ -102,6 +103,7 @@ module.exports.startLndProcess = async function({
     lndLogDir ? `--logdir=${lndLogDir}` : '',
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
+    lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
 
     '--debuglevel=info',
     '--noencryptwallet',
