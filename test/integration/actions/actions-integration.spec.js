@@ -28,7 +28,7 @@ let LND_REST_PORT_2 = 8002;
 let MACAROONS_ENABLED = false;
 
 describe('Actions Integration Tests', function() {
-  this.timeout(60000);
+  this.timeout(300000);
 
   let store1;
   let store2;
@@ -64,7 +64,7 @@ describe('Actions Integration Tests', function() {
     const remoteStub2 = { getGlobal: arg => globalStub2[arg] };
 
     btcdProcess = await startBtcdProcess({ isDev, logger, sendLog });
-    lndProcess1 = await startLndProcess({
+    const lndProcess1Promise = startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
       lndDataDir: LND_DATA_DIR_1,
@@ -75,7 +75,7 @@ describe('Actions Integration Tests', function() {
       logger,
       sendLog,
     });
-    lndProcess2 = await startLndProcess({
+    const lndProcess2Promise = startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
       lndDataDir: LND_DATA_DIR_2,
@@ -87,16 +87,22 @@ describe('Actions Integration Tests', function() {
       sendLog,
     });
 
-    await createGrpcClient({
+    lndProcess1 = await lndProcess1Promise;
+    lndProcess2 = await lndProcess2Promise;
+
+    const createGrpcClient1Promise = createGrpcClient({
       global: globalStub1,
       lndPort: LND_PORT_1,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
-    await createGrpcClient({
+    const createGrpcClient2Promise = createGrpcClient({
       global: globalStub2,
       lndPort: LND_PORT_2,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
+
+    await createGrpcClient1Promise;
+    await createGrpcClient2Promise;
 
     navStub1 = sinon.createStubInstance(ActionsNav);
     grpc1 = new ActionsGrpc(store1, remoteStub1);
