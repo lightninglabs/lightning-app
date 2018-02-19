@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 
-import { actionsNav, actionsInfo } from '../actions';
+import { actionsNav } from '../actions';
 import ComponentIcon from '../components/icon';
 import Text from '../components/text';
 import { colors } from '../styles';
 import { View, TouchableOpacity } from 'react-native';
 import store from '../store';
 
-let interval;
-
 class Sidebar extends Component {
-
   renderRow(name, icon, onPress) {
     const { route } = store;
     const color = route === name ? colors.blue : colors.gray;
