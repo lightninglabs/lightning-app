@@ -11,16 +11,6 @@ import store from '../store';
 let interval;
 
 class Sidebar extends Component {
-  componentDidMount() {
-    interval = setInterval(() => {
-      actionsInfo.getInfo();
-      if (actionsInfo._store.syncedToChain) clearInterval(interval);
-    }, 1000);
-  }
-
-  componentWillUnmount() {
-    clearInterval(interval);
-  }
 
   renderRow(name, icon, onPress) {
     const { route } = store;
@@ -45,6 +35,13 @@ class Sidebar extends Component {
   }
 
   render() {
+    let styleSheet = document.styleSheets[0];
+    let keyframes = `@keyframes pulse {
+                    0% { opacity: 1 }
+                    50% { opacity: 0.8 }
+                    100% { opacity: 1 }
+                  }`;
+    styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
     const { computedBalance, pubKey, syncedToChain, blockHeight } = store;
     return (
       <View style={{ width: 170, backgroundColor: colors.sidebar }}>
@@ -90,22 +87,15 @@ class Sidebar extends Component {
               paddingBottom: 12,
               textAlign: 'center',
               backgroundColor: colors.blue,
+              animationName: 'pulse',
+              animationTimingFunction: 'ease-in-out',
+              animationDuration: '1.5s',
+              animationDelay: '0.0s',
+              animationIterationCount: 'infinite',
+              animationDirection: 'alternate',
             }}
             className="syncing"
           >
-            <style
-              dangerouslySetInnerHTML={{
-                __html: `
-                 .syncing {
-                   animation: pulse 1.5s 100ms ease-in-out infinite alternate;
-                 }
-                 @keyframes pulse {
-                   0% { opacity: 1 }
-                   50% { opacity: 0.8 }
-                   100% { opacity: 1 }
-                 }`,
-              }}
-            />
             Syncing to Chain
             <span
               style={{
@@ -115,7 +105,7 @@ class Sidebar extends Component {
                 right: '2px',
               }}
             >
-              {`Block Height: ${blockHeight}`}
+              {`Block Height: ${blockHeight || 'loading'}`}
             </span>
           </div>
         )}

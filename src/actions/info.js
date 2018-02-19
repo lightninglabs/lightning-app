@@ -16,6 +16,10 @@ class ActionsInfo {
       this._store.pubKey = response.identity_pubkey;
       this._store.syncedToChain = response.synced_to_chain;
       this._store.blockHeight = response.block_height;
+      if (!response.synced_to_chain) {
+        clearTimeout(this.t3);
+        this.t3 = setTimeout(() => this.getInfo(), 1000);
+      }
     } catch (err) {
       clearTimeout(this.t3);
       this.t3 = setTimeout(() => this.getInfo(), RETRY_DELAY);
