@@ -18,7 +18,7 @@ class ActionsInfo {
       this._store.blockHeight = response.block_height;
       if (!response.synced_to_chain) {
         clearTimeout(this.t3);
-        this.t3 = setTimeout(() => this.getInfo(), 1000);
+        this.t3 = setTimeout(() => this.getInfo(), RETRY_DELAY);
       }
     } catch (err) {
       clearTimeout(this.t3);
