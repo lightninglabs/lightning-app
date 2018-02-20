@@ -96,16 +96,25 @@ class ActionsChannels {
   }
 
   async openChannel(pubkey, amount) {
-    const response = await this._actionsGrpc.sendStreamCommand('connectPeer', {
+    const response = await this._actionsGrpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
-      num_confs: 1,
     });
     return {
       chanPending: response.chan_pending,
       confirmation: response.confirmation,
       chanOpen: response.chan_open,
     };
+  }
+
+  async createChannel(pubkeyInput, amount) {
+    const [pubkey, host] = pubkeyInput && pubkeyInput.split('@');
+    const peers = this._store.peersResponse.some(peer => peer !== undefined && peer.pubKey === pubkey);
+    if (!peers) {
+      this.connectPeer(host, pubkey);
+    }
+    const resp = this.openChannel(pubkey, amount);
+    console.log("resp from openChannel in createChannel ", resp);
   }
 }
 
