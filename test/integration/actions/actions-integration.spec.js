@@ -131,9 +131,7 @@ describe('Actions Integration Tests', function() {
 
   describe('ActionsChannels.getChannels()', () => {
     it('should list no channels initially', async () => {
-      await new Promise(resolve =>
-        setTimeout(() => store1.channelsResponse && resolve(), 100)
-      );
+      await channels1.getChannels();
       expect(store1.channelsResponse, 'to equal', []);
 
       expect(

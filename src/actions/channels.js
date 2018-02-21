@@ -1,4 +1,3 @@
-import { observe } from 'mobx';
 import { RETRY_DELAY } from '../config';
 import * as log from './logs';
 
@@ -6,11 +5,6 @@ class ActionsChannels {
   constructor(store, actionsGrpc) {
     this._store = store;
     this._actionsGrpc = actionsGrpc;
-    observe(this._store, 'lndReady', () => {
-      this.getChannels();
-      this.getPendingChannels();
-      this.getPeers();
-    });
   }
 
   async getChannels() {

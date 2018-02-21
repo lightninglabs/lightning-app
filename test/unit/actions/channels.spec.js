@@ -22,17 +22,6 @@ describe('Actions Channels Unit Tests', () => {
     sandbox.restore();
   });
 
-  describe('constructor()', () => {
-    it('should list channels and peers on lndReady', () => {
-      expect(actionsChannels._store, 'to be ok');
-      expect(actionsGrpc.sendCommand, 'was not called');
-      store.lndReady = true;
-      expect(actionsGrpc.sendCommand, 'was called with', 'listChannels');
-      expect(actionsGrpc.sendCommand, 'was called with', 'pendingChannels');
-      expect(actionsGrpc.sendCommand, 'was called with', 'listPeers');
-    });
-  });
-
   describe('getChannels()', () => {
     it('should list open channels', async () => {
       actionsGrpc.sendCommand.withArgs('listChannels').resolves({

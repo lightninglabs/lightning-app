@@ -16,14 +16,6 @@ describe('Actions Info Unit Tests', () => {
     actionsInfo = new ActionsInfo(store, actionsGrpc);
   });
 
-  describe('constructor()', () => {
-    it('should get info on lndReady', () => {
-      expect(actionsGrpc.sendCommand, 'was not called');
-      store.lndReady = true;
-      expect(actionsGrpc.sendCommand, 'was called with', 'getInfo');
-    });
-  });
-
   describe('getInfo()', () => {
     it('should get public key, synced to chain, and block height', async () => {
       actionsGrpc.sendCommand.withArgs('getInfo').resolves({

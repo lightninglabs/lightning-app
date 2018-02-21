@@ -1,3 +1,4 @@
+import { observe } from 'mobx';
 import store from '../store';
 import ActionsGrpc from './grpc';
 import ActionsNav from './nav';
@@ -9,6 +10,10 @@ import ActionsTransactions from './transactions';
 import ActionsPayments from './payments';
 
 const { remote, ipcRenderer } = window.require('electron');
+
+//
+// Inject dependencies
+//
 
 export const actionsLogs = new ActionsLogs(store, ipcRenderer);
 export const actionsGrpc = new ActionsGrpc(store, remote);
@@ -22,3 +27,29 @@ export const actionsPayments = new ActionsPayments(
   actionsGrpc,
   actionsWallet
 );
+
+//
+// Init actions
+//
+
+observe(store, 'loaded', () => {
+  actionsWallet.initializeWallet();
+});
+
+observe(store, 'lndReady', () => {
+  // init wallet
+  actionsWallet.getBalance();
+  actionsWallet.getChannelBalance();
+  actionsWallet.getNewAddress();
+  actionsWallet.getIPAddress();
+  // init info
+  actionsInfo.getInfo();
+  // init channels
+  actionsChannels.getChannels();
+  actionsChannels.getPendingChannels();
+  actionsChannels.getPeers();
+  // init transactions
+  actionsTransactions.getTransactions();
+  actionsTransactions.getInvoices();
+  actionsTransactions.getPayments();
+});
