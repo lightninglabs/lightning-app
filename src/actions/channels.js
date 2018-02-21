@@ -1,5 +1,6 @@
 import { observe } from 'mobx';
 import { RETRY_DELAY } from '../config';
+import * as log from './logs';
 
 class ActionsChannels {
   constructor(store, actionsGrpc) {
@@ -96,16 +97,20 @@ class ActionsChannels {
   }
 
   async openChannel(pubkey, amount) {
-    const response = await this._actionsGrpc.sendStreamCommand('connectPeer', {
+    const stream = this._actionsGrpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
       num_confs: 1,
     });
-    return {
-      chanPending: response.chan_pending,
-      confirmation: response.confirmation,
-      chanOpen: response.chan_open,
-    };
+    await new Promise((resolve, reject) => {
+      stream.on('data', data => {
+        if (data.chan_pending) this.getPendingChannels();
+        if (data.chan_open) this.getChannels();
+      });
+      stream.on('end', resolve);
+      stream.on('error', reject);
+      stream.on('status', status => log.info(`Opening channel: ${status}`));
+    });
   }
 }
 

@@ -3,17 +3,23 @@ import ActionsGrpc from '../../../src/actions/grpc';
 import ActionsChannels from '../../../src/actions/channels';
 
 describe('Actions Channels Unit Tests', () => {
+  let sandbox;
   let store;
   let actionsGrpc;
   let actionsChannels;
 
   beforeEach(() => {
+    sandbox = sinon.sandbox.create();
     useStrict(false);
     store = observable({ lndReady: false });
     require('../../../src/config').RETRY_DELAY = 1;
     actionsGrpc = sinon.createStubInstance(ActionsGrpc);
     actionsGrpc.sendCommand.resolves({});
     actionsChannels = new ActionsChannels(store, actionsGrpc);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   describe('constructor()', () => {
@@ -98,14 +104,50 @@ describe('Actions Channels Unit Tests', () => {
   });
 
   describe('openChannel()', () => {
-    it('should return OpenStatusUpdate', async () => {
-      actionsGrpc.sendStreamCommand.withArgs('connectPeer').resolves({
-        chan_pending: 'foo',
+    beforeEach(() => {
+      sandbox.stub(actionsChannels, 'getChannels');
+      sandbox.stub(actionsChannels, 'getPendingChannels');
+    });
+
+    it('should call getPendingChannels() on chan_pending data event', async () => {
+      const onStub = sinon.stub();
+      onStub.withArgs('data').yields({ chan_pending: {} });
+      onStub.withArgs('end').yields();
+      actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
+        on: onStub,
       });
       const host = 'localhost';
       const pubkey = 'pub_12345';
-      const { chanPending } = await actionsChannels.openChannel(host, pubkey);
-      expect(chanPending, 'to equal', 'foo');
+      await actionsChannels.openChannel(host, pubkey);
+      expect(actionsChannels.getPendingChannels, 'was called once');
+    });
+
+    it('should call getChannels() on chan_open data event', async () => {
+      const onStub = sinon.stub();
+      onStub.withArgs('data').yields({ chan_open: {} });
+      onStub.withArgs('end').yields();
+      actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
+        on: onStub,
+      });
+      const host = 'localhost';
+      const pubkey = 'pub_12345';
+      await actionsChannels.openChannel(host, pubkey);
+      expect(actionsChannels.getChannels, 'was called once');
+    });
+
+    it('should reject in case of error event', async () => {
+      const onStub = sinon.stub();
+      onStub.withArgs('error').yields(new Error('Boom!'));
+      actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
+        on: onStub,
+      });
+      const host = 'localhost';
+      const pubkey = 'pub_12345';
+      await expect(
+        actionsChannels.openChannel(host, pubkey),
+        'to be rejected with error satisfying',
+        /Boom/
+      );
     });
   });
 });
