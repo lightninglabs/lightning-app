@@ -3,6 +3,9 @@ import ActionsGrpc from '../../../src/actions/grpc';
 import ActionsChannels from '../../../src/actions/channels';
 
 describe('Actions Channels Unit Tests', () => {
+  const host = 'localhost:10011';
+  const pubkey = 'pub_12345';
+
   let sandbox;
   let store;
   let actionsGrpc;
@@ -81,14 +84,11 @@ describe('Actions Channels Unit Tests', () => {
   });
 
   describe('connectToPeer()', () => {
-    it('should return peer id', async () => {
-      actionsGrpc.sendCommand.withArgs('connectPeer').resolves({
-        peer_id: 42,
-      });
-      const host = 'localhost';
-      const pubkey = 'pub_12345';
-      const { peerId } = await actionsChannels.connectToPeer(host, pubkey);
-      expect(peerId, 'to equal', 42);
+    it('should list peers after connecting', async () => {
+      actionsGrpc.sendCommand.withArgs('connectPeer').resolves();
+      actionsGrpc.sendCommand.withArgs('listPeers').resolves();
+      await actionsChannels.connectToPeer(host, pubkey);
+      expect(actionsGrpc.sendCommand, 'was called with', 'listPeers');
     });
   });
 
@@ -105,8 +105,6 @@ describe('Actions Channels Unit Tests', () => {
       actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
         on: onStub,
       });
-      const host = 'localhost';
-      const pubkey = 'pub_12345';
       await actionsChannels.openChannel(host, pubkey);
       expect(actionsChannels.getPendingChannels, 'was called once');
     });
@@ -118,8 +116,6 @@ describe('Actions Channels Unit Tests', () => {
       actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
         on: onStub,
       });
-      const host = 'localhost';
-      const pubkey = 'pub_12345';
       await actionsChannels.openChannel(host, pubkey);
       expect(actionsChannels.getChannels, 'was called once');
     });
@@ -130,8 +126,6 @@ describe('Actions Channels Unit Tests', () => {
       actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
         on: onStub,
       });
-      const host = 'localhost';
-      const pubkey = 'pub_12345';
       await expect(
         actionsChannels.openChannel(host, pubkey),
         'to be rejected with error satisfying',
