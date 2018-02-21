@@ -5,11 +5,24 @@ import ChannelsHeader from '../components/channelsheader';
 import Separator from '../components/separator';
 import ChannelList from '../components/channellist';
 import { View, TouchableOpacity } from 'react-native';
-import { actionsNav } from '../actions';
+import { actionsNav, actionsChannels } from '../actions';
 import { colors } from '../styles';
 import store from '../store';
 
 class Channels extends Component {
+  constructor(props) {
+    super(props);
+    actionsChannels.getChannels();
+    actionsChannels.getPendingChannels();
+    const interval = setInterval(() => {
+      actionsChannels.getChannels();
+      actionsChannels.getPendingChannels();
+    }, 1000);
+    this.state = {
+      fetchInterval: interval,
+    };
+  }
+
   render() {
     const {
       computedBalance,
@@ -62,6 +75,10 @@ class Channels extends Component {
         </View>
       </View>
     );
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.fetchInterval);
   }
 }
 

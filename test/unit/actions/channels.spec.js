@@ -97,15 +97,30 @@ describe('Actions Channels Unit Tests', () => {
     });
   });
 
-  describe('openChannel()', () => {
-    it('should return OpenStatusUpdate', async () => {
-      actionsGrpc.sendStreamCommand.withArgs('connectPeer').resolves({
-        chan_pending: 'foo',
+  describe('createChannel()', () => {
+    it('should create channel', async () => {
+      store.peersResponse = [{ pubKey: 'foo' }];
+      const channelOnStub = sinon
+        .stub()
+        .withArgs('data')
+        .yields({ chan_pending: { txid: 1 } });
+      actionsGrpc.sendStreamCommand
+        .withArgs('openChannel', {
+          node_pubkey: new Buffer('pubkey', 'hex'),
+          local_funding_amount: 'some-amount',
+        })
+        .resolves({
+          on: channelOnStub,
+        });
+      actionsGrpc.sendStreamCommand.resolves({
+        on: channelOnStub,
       });
-      const host = 'localhost';
-      const pubkey = 'pub_12345';
-      const { chanPending } = await actionsChannels.openChannel(host, pubkey);
-      expect(chanPending, 'to equal', 'foo');
+      await actionsChannels.createChannel('pubkey@host', 'some-amount');
+      expect(actionsGrpc.sendStreamCommand, 'was called with', 'openChannel', {
+        node_pubkey: new Buffer('pubkey', 'hex'),
+        local_funding_amount: 'some-amount',
+      });
+      expect(channelOnStub, 'was called');
     });
   });
 });
