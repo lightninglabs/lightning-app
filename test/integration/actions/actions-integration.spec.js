@@ -62,7 +62,7 @@ describe('Actions Integration Tests', function() {
   before(async () => {
     rmdir('test/data');
     sandbox = sinon.sandbox.create();
-    sandbox.stub(logger);
+    // sandbox.stub(logger);
     sendLog = sinon.stub();
     useStrict(false);
     store1 = observable({ lndReady: false, loaded: false });
