@@ -32,7 +32,6 @@ const LND_REST_PORT_2 = 8002;
 const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const MACAROONS_ENABLED = false;
-const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 describe('Actions Integration Tests', function() {
   this.timeout(300000);
@@ -129,7 +128,7 @@ describe('Actions Integration Tests', function() {
     transactions2 = new ActionsTransactions(store2, grpc2);
     payments2 = new ActionsPayments(store2, grpc2, wallet2);
 
-    while (!store1.lndReady || !store2.lndReady) await wait(100);
+    while (!store1.lndReady || !store2.lndReady) await nap(100);
   });
 
   after(() => {
@@ -158,7 +157,7 @@ describe('Actions Integration Tests', function() {
         sendLog,
         miningAddress: store1.walletAddress,
       });
-      await wait(5000);
+      await nap(5000);
       await mineBlocks({ blocks: 400, logger });
     });
 
@@ -170,9 +169,9 @@ describe('Actions Integration Tests', function() {
         sendLog,
         miningAddress: store2.walletAddress,
       });
-      await wait(5000);
+      await nap(5000);
       await mineBlocks({ blocks: 400, logger });
-      await wait(5000);
+      await nap(5000);
     });
   });
 
@@ -207,7 +206,7 @@ describe('Actions Integration Tests', function() {
     it('should list channel after creating a channel', async () => {
       channels1.openChannel(store2.pubKey, 10000);
       await mineBlocks({ blocks: 6, logger });
-      while (!store1.channelsResponse.length) await wait(100);
+      while (!store1.channelsResponse.length) await nap(100);
       expect(store1.channelsResponse[0].remotePubkey, 'to be', store2.pubKey);
     });
   });
