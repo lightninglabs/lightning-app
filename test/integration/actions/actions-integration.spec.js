@@ -127,8 +127,9 @@ describe('Actions Integration Tests', function() {
     transactions2 = new ActionsTransactions(store2, grpc2);
     payments2 = new ActionsPayments(store2, grpc2, wallet2);
 
-    await new Promise(resolve => observe(store1, 'lndReady', resolve));
-    await new Promise(resolve => observe(store2, 'lndReady', resolve));
+    while (!store1.lndReady || !store2.lndReady) {
+      await new Promise(resolve => setTimeout(resolve, 100));
+    }
   });
 
   after(() => {
