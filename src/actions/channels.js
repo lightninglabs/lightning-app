@@ -89,10 +89,9 @@ class ActionsChannels {
   }
 
   async openChannel(pubkey, amount) {
-    const stream = this._actionsGrpc.sendStreamCommand('openChannel', {
+    const stream = await this._actionsGrpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
-      num_confs: 1,
     });
     await new Promise((resolve, reject) => {
       stream.on('data', data => {

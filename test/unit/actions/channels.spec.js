@@ -102,7 +102,7 @@ describe('Actions Channels Unit Tests', () => {
       const onStub = sinon.stub();
       onStub.withArgs('data').yields({ chan_pending: {} });
       onStub.withArgs('end').yields();
-      actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
+      actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
         on: onStub,
       });
       await actionsChannels.openChannel(host, pubkey);
@@ -113,7 +113,7 @@ describe('Actions Channels Unit Tests', () => {
       const onStub = sinon.stub();
       onStub.withArgs('data').yields({ chan_open: {} });
       onStub.withArgs('end').yields();
-      actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
+      actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
         on: onStub,
       });
       await actionsChannels.openChannel(host, pubkey);
@@ -123,7 +123,7 @@ describe('Actions Channels Unit Tests', () => {
     it('should reject in case of error event', async () => {
       const onStub = sinon.stub();
       onStub.withArgs('error').yields(new Error('Boom!'));
-      actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
+      actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
         on: onStub,
       });
       await expect(
