@@ -32,4 +32,4 @@ glide install
 go install . ./cmd/...
 
 # copy lnd/btcd binaries to git repo for integration tests
-cp $GOPATH/bin/lnd $GOPATH/bin/btcd $TRAVIS_BUILD_DIR/assets/bin/linux/
+cp $GOPATH/bin/* $TRAVIS_BUILD_DIR/assets/bin/linux/
