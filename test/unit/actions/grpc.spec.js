@@ -151,6 +151,7 @@ describe('Actions GRPC Unit Tests', () => {
         'payload'
       );
       expect(response, 'to equal', 'some-response');
+      expect(client.listPeers, 'was called with', 'payload');
     });
 
     it('should handle successful response with MACAROONS_ENABLED', async () => {
@@ -162,9 +163,7 @@ describe('Actions GRPC Unit Tests', () => {
         'payload'
       );
       expect(response, 'to equal', 'some-response');
-      expect(client.listPeers, 'was called with', 'some-metadata', {
-        body: 'payload',
-      });
+      expect(client.listPeers, 'was called with', 'some-metadata', 'payload');
     });
   });
 });

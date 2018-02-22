@@ -72,9 +72,9 @@ class ActionsGrpc {
       try {
         let response;
         if (MACAROONS_ENABLED) {
-          response = this.client[method](this.metadata, body ? { body } : {});
+          response = this.client[method](this.metadata, body);
         } else {
-          response = this.client[method](body ? { body } : {});
+          response = this.client[method](body);
         }
         log.info('GRPC: Stream Response', method, response);
         resolve(response);
