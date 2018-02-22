@@ -32,7 +32,14 @@ class Sidebar extends Component {
   }
 
   render() {
-    const { computedBalance, pubKey } = store;
+    let styleSheet = document.styleSheets[0];
+    let keyframes = `@keyframes pulse {
+                    0% { opacity: 1 }
+                    50% { opacity: 0.8 }
+                    100% { opacity: 1 }
+                  }`;
+    styleSheet.insertRule(keyframes, styleSheet.cssRules.length);
+    const { computedBalance, pubKey, syncedToChain, blockHeight } = store;
     return (
       <View style={{ width: 170, backgroundColor: colors.sidebar }}>
         {this.renderRow('Pay', 'coin', () => actionsNav.goPay())}
@@ -70,6 +77,35 @@ class Sidebar extends Component {
             {pubKey}
           </Text>
         </TouchableOpacity>
+        {syncedToChain ? null : (
+          <div
+            style={{
+              padding: 10,
+              paddingBottom: 12,
+              textAlign: 'center',
+              backgroundColor: colors.blue,
+              animationName: 'pulse',
+              animationTimingFunction: 'ease-in-out',
+              animationDuration: '1.5s',
+              animationDelay: '0.0s',
+              animationIterationCount: 'infinite',
+              animationDirection: 'alternate',
+            }}
+            className="syncing"
+          >
+            Syncing to Chain
+            <span
+              style={{
+                fontSize: 8,
+                position: 'absolute',
+                bottom: '2px',
+                right: '2px',
+              }}
+            >
+              {`Block Height: ${blockHeight || 'loading'}`}
+            </span>
+          </div>
+        )}
       </View>
     );
   }

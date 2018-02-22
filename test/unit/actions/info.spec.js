@@ -25,12 +25,34 @@ describe('Actions Info Unit Tests', () => {
   });
 
   describe('getInfo()', () => {
-    it('should get public key', async () => {
+    it('should get public key, synced to chain, and block height', async () => {
       actionsGrpc.sendCommand.withArgs('getInfo').resolves({
         identity_pubkey: 'some-pubkey',
+        synced_to_chain: 'true/false',
+        block_height: 'some-height',
       });
       await actionsInfo.getInfo();
       expect(store.pubKey, 'to equal', 'some-pubkey');
+      expect(store.syncedToChain, 'to equal', 'true/false');
+      expect(store.blockHeight, 'to equal', 'some-height');
+    });
+
+    it('should only call once if chain is synced', async () => {
+      actionsGrpc.sendCommand.withArgs('getInfo').resolves({
+        synced_to_chain: true,
+      });
+      await actionsInfo.getInfo();
+      await new Promise(resolve => setTimeout(resolve, 30));
+      expect(actionsGrpc.sendCommand.callCount, 'to equal', 1);
+    });
+
+    it('should retry if chain is not synced', async () => {
+      actionsGrpc.sendCommand.withArgs('getInfo').resolves({
+        synced_to_chain: false,
+      });
+      await actionsInfo.getInfo();
+      await new Promise(resolve => setTimeout(resolve, 30));
+      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
 
     it('should retry on failure', async () => {
