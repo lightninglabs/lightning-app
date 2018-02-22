@@ -1,5 +1,6 @@
 import { observe } from 'mobx';
 import { RETRY_DELAY } from '../config';
+import * as log from './logs';
 
 class ActionsChannels {
   constructor(store, actionsGrpc) {
