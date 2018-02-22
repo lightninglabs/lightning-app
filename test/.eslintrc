@@ -6,7 +6,8 @@
   },
   "globals": {
     "expect": true,
-    "sinon": true
+    "sinon": true,
+    "nap": true,
   },
   "env": {
     "mocha": true

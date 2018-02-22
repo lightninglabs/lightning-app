@@ -83,7 +83,7 @@ describe('Actions Wallet Unit Tests', () => {
       actionsGrpc.sendCommand.onFirstCall().rejects();
       await actionsWallet.getBalance();
       actionsGrpc.sendCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
@@ -101,7 +101,7 @@ describe('Actions Wallet Unit Tests', () => {
       actionsGrpc.sendCommand.onFirstCall().rejects();
       await actionsWallet.getChannelBalance();
       actionsGrpc.sendCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
@@ -132,7 +132,7 @@ describe('Actions Wallet Unit Tests', () => {
       actionsGrpc.sendCommand.onFirstCall().rejects();
       await actionsWallet.getNewAddress();
       actionsGrpc.sendCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });

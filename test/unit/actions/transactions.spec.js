@@ -61,7 +61,7 @@ describe('Actions Transactions Unit Tests', () => {
       actionsGrpc.sendCommand.onFirstCall().rejects();
       await actionsTransactions.getTransactions();
       actionsGrpc.sendCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
@@ -95,7 +95,7 @@ describe('Actions Transactions Unit Tests', () => {
       actionsGrpc.sendCommand.onFirstCall().rejects();
       await actionsTransactions.getInvoices();
       actionsGrpc.sendCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
@@ -127,7 +127,7 @@ describe('Actions Transactions Unit Tests', () => {
       actionsGrpc.sendCommand.onFirstCall().rejects();
       await actionsTransactions.getPayments();
       actionsGrpc.sendCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
@@ -144,7 +144,7 @@ describe('Actions Transactions Unit Tests', () => {
       actionsGrpc.sendStreamCommand.onFirstCall().rejects();
       await actionsTransactions.subscribeTransactions();
       actionsGrpc.sendStreamCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendStreamCommand.callCount, 'to be greater than', 1);
     });
   });
@@ -159,7 +159,7 @@ describe('Actions Transactions Unit Tests', () => {
       actionsGrpc.sendStreamCommand.onFirstCall().rejects();
       await actionsTransactions.subscribeInvoices();
       actionsGrpc.sendStreamCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendStreamCommand.callCount, 'to be greater than', 1);
     });
   });

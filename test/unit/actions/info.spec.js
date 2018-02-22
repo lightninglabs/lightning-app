@@ -42,7 +42,7 @@ describe('Actions Info Unit Tests', () => {
         synced_to_chain: true,
       });
       await actionsInfo.getInfo();
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to equal', 1);
     });
 
@@ -51,7 +51,7 @@ describe('Actions Info Unit Tests', () => {
         synced_to_chain: false,
       });
       await actionsInfo.getInfo();
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
 
@@ -59,7 +59,7 @@ describe('Actions Info Unit Tests', () => {
       actionsGrpc.sendCommand.onFirstCall().rejects();
       await actionsInfo.getInfo();
       actionsGrpc.sendCommand.resolves({});
-      await new Promise(resolve => setTimeout(resolve, 30));
+      await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
