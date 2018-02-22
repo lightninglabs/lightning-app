@@ -72,9 +72,16 @@ class ActionsGrpc {
       try {
         let response;
         if (MACAROONS_ENABLED) {
-          response = this.client[method](this.metadata, body ? { body } : {});
+          // TODO
+          response = this.client[method](
+            this.metadata,
+            body ? (method == 'openChannel' ? body : { body }) : {}
+          );
         } else {
-          response = this.client[method](body ? { body } : {});
+          // TODO
+          response = this.client[method](
+            body ? (method == 'openChannel' ? body : { body }) : {}
+          );
         }
         log.info('GRPC: Stream Response', method, response);
         resolve(response);

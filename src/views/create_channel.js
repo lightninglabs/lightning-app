@@ -4,6 +4,7 @@ import TextInput from '../components/textinput';
 import Button from '../components/button';
 import Header from '../components/header';
 import { View } from 'react-native';
+import { actionsChannels, actionsNav } from '../actions';
 import { colors } from '../styles';
 
 class CreateChannel extends Component {
@@ -44,7 +45,10 @@ class CreateChannel extends Component {
         <Button
           disabled={!(pubkey && amount)}
           text="Create Channel"
-          onPress={() => {}}
+          onPress={() => {
+            actionsChannels.createChannel(pubkey, amount);
+            actionsNav.goChannels();
+          }}
           showClear={!!amount || !!pubkey}
           onClear={() => this.setState({ amount: '', pubkey: '' })}
         />

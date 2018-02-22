@@ -1,5 +1,6 @@
 import { observe } from 'mobx';
 import { RETRY_DELAY } from '../config';
+import * as log from './logs';
 
 class ActionsChannels {
   constructor(store, actionsGrpc) {
@@ -87,25 +88,52 @@ class ActionsChannels {
   }
 
   async connectToPeer(host, pubkey) {
-    const { peer_id } = await this._actionsGrpc.sendCommand('connectPeer', {
-      addr: { host, pubkey },
-    });
-    return {
-      peerId: peer_id,
-    };
+    try {
+      const { peer_id } = await this._actionsGrpc.sendCommand('connectPeer', {
+        addr: { host, pubkey },
+      });
+      return {
+        peerId: peer_id,
+      };
+    } catch (err) {
+      log.error(err);
+      throw err;
+    }
   }
 
   async openChannel(pubkey, amount) {
-    const response = await this._actionsGrpc.sendStreamCommand('connectPeer', {
+    const channel = await this._actionsGrpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
-      num_confs: 1,
     });
-    return {
-      chanPending: response.chan_pending,
-      confirmation: response.confirmation,
-      chanOpen: response.chan_open,
-    };
+    let called = false;
+    await new Promise((resolve, reject) => {
+      channel.on('data', data => {
+        if (!called && data.chan_pending.txid) {
+          called = true;
+          resolve(data);
+        } else {
+          reject(new Error('Failed to create channel'));
+        }
+      });
+      channel.on('error', reject);
+    });
+  }
+
+  async createChannel(pubkeyInput, amount) {
+    const [pubkey, host] = pubkeyInput && pubkeyInput.split('@');
+    const peers = this._store.peersResponse.some(
+      peer => peer !== undefined && peer.pubKey === pubkey
+    );
+    if (!peers) {
+      try {
+        this.connectToPeer(host, pubkey);
+      } catch (err) {
+        log.info('ActionsChannels createChannel', err);
+        return;
+      }
+    }
+    await this.openChannel(pubkey, amount);
   }
 }
 
