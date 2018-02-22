@@ -56,13 +56,11 @@ describe('Actions Integration Tests', function() {
   let channels2;
   let transactions2;
   let payments2;
-  let sendLog;
 
   before(async () => {
     rmdir('test/data');
     sandbox = sinon.sandbox.create();
     // sandbox.stub(logger);
-    sendLog = sinon.stub();
     useStrict(false);
     store1 = observable({ lndReady: false, loaded: false });
     store2 = observable({ lndReady: false, loaded: false });
@@ -71,7 +69,7 @@ describe('Actions Integration Tests', function() {
     const globalStub2 = {};
     const remoteStub2 = { getGlobal: arg => globalStub2[arg] };
 
-    btcdProcess = await startBtcdProcess({ isDev, logger, sendLog });
+    btcdProcess = await startBtcdProcess({ isDev, logger });
     const lndProcess1Promise = startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
@@ -81,7 +79,6 @@ describe('Actions Integration Tests', function() {
       lndPeerPort: LND_PEER_PORT_1,
       lndRestPort: LND_REST_PORT_1,
       logger,
-      sendLog,
     });
     const lndProcess2Promise = startLndProcess({
       isDev,
@@ -92,7 +89,6 @@ describe('Actions Integration Tests', function() {
       lndPeerPort: LND_PEER_PORT_2,
       lndRestPort: LND_REST_PORT_2,
       logger,
-      sendLog,
     });
 
     lndProcess1 = await lndProcess1Promise;
@@ -154,7 +150,6 @@ describe('Actions Integration Tests', function() {
       btcdProcess = await startBtcdProcess({
         isDev,
         logger,
-        sendLog,
         miningAddress: store1.walletAddress,
       });
       await nap(5000);
@@ -166,7 +161,6 @@ describe('Actions Integration Tests', function() {
       btcdProcess = await startBtcdProcess({
         isDev,
         logger,
-        sendLog,
         miningAddress: store2.walletAddress,
       });
       await nap(5000);

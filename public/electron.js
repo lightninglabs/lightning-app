@@ -111,7 +111,6 @@ const startLnd = async () => {
     btcdProcess = await startBtcdProcess({
       isDev,
       logger: Logger,
-      sendLog,
     });
     lndProcess = await startLndProcess({
       isDev,
@@ -121,7 +120,6 @@ const startLnd = async () => {
       lndPort: LND_PORT,
       lndPeerPort: LND_PEER_PORT,
       logger: Logger,
-      sendLog,
     });
   } catch (err) {
     Logger.error(`Caught Error When Starting ${LND_NAME}: ${err}`);

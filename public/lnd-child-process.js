@@ -114,7 +114,6 @@ module.exports.startLndProcess = async function({
   lndPort,
   lndPeerPort,
   logger,
-  sendLog,
   lndRestPort,
 }) {
   const processName = 'lnd';
@@ -148,7 +147,6 @@ module.exports.startLndProcess = async function({
 module.exports.startBtcdProcess = async function({
   isDev,
   logger,
-  sendLog,
   miningAddress,
 }) {
   if (!isDev) return; // don't start btcd if neutrino is used
