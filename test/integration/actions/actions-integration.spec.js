@@ -1,4 +1,4 @@
-import { observable, observe, useStrict } from 'mobx';
+import { observable, useStrict } from 'mobx';
 import ActionsGrpc from '../../../src/actions/grpc';
 import * as logger from '../../../src/actions/logs';
 import ActionsNav from '../../../src/actions/nav';
@@ -13,6 +13,7 @@ const {
   createGrpcClient,
   startLndProcess,
   startBtcdProcess,
+  mineBlocks,
 } = require('../../../public/lnd-child-process');
 
 /* eslint-disable no-unused-vars */
@@ -31,6 +32,7 @@ const LND_REST_PORT_2 = 8002;
 const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const MACAROONS_ENABLED = false;
+const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 describe('Actions Integration Tests', function() {
   this.timeout(300000);
@@ -60,7 +62,7 @@ describe('Actions Integration Tests', function() {
   before(async () => {
     rmdir('test/data');
     sandbox = sinon.sandbox.create();
-    // sandbox.stub(logger);
+    sandbox.stub(logger);
     sendLog = sinon.stub();
     useStrict(false);
     store1 = observable({ lndReady: false, loaded: false });
@@ -127,9 +129,7 @@ describe('Actions Integration Tests', function() {
     transactions2 = new ActionsTransactions(store2, grpc2);
     payments2 = new ActionsPayments(store2, grpc2, wallet2);
 
-    while (!store1.lndReady || !store2.lndReady) {
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
+    while (!store1.lndReady || !store2.lndReady) await wait(100);
   });
 
   after(() => {
@@ -148,6 +148,31 @@ describe('Actions Integration Tests', function() {
     it('should create new address for node2', async () => {
       await wallet2.getNewAddress();
       expect(store2.walletAddress, 'to be ok');
+    });
+
+    it('should fund wallet for node1', async () => {
+      btcdProcess.kill();
+      btcdProcess = await startBtcdProcess({
+        isDev,
+        logger,
+        sendLog,
+        miningAddress: store1.walletAddress,
+      });
+      await wait(5000);
+      await mineBlocks({ blocks: 400, logger });
+    });
+
+    it('should fund wallet for node2', async () => {
+      btcdProcess.kill();
+      btcdProcess = await startBtcdProcess({
+        isDev,
+        logger,
+        sendLog,
+        miningAddress: store2.walletAddress,
+      });
+      await wait(5000);
+      await mineBlocks({ blocks: 400, logger });
+      await wait(5000);
     });
   });
 
@@ -176,12 +201,14 @@ describe('Actions Integration Tests', function() {
 
     it('should connect to peer', async () => {
       await channels1.connectToPeer(HOST_2, store2.pubKey);
-      expect(store1.peersResponse[0].pubKey, 'to equal', store2.pubKey);
+      expect(store1.peersResponse[0].pubKey, 'to be', store2.pubKey);
     });
 
-    // it('should list channel after creating a channel', async () => {
-    //   await channels1.openChannel(store2.pubKey, 100);
-    //   expect(store1.channelsResponse.length, 'to equal', 1);
-    // });
+    it('should list channel after creating a channel', async () => {
+      channels1.openChannel(store2.pubKey, 10000);
+      await mineBlocks({ blocks: 6, logger });
+      while (!store1.channelsResponse.length) await wait(100);
+      expect(store1.channelsResponse[0].remotePubkey, 'to be', store2.pubKey);
+    });
   });
 });

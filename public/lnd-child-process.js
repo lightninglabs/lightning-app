@@ -34,6 +34,40 @@ function getProcessName(binName) {
   return cp.spawnSync('type', [binName]).status === 0 ? binName : filePath;
 }
 
+async function startChildProcess(name, args, logger) {
+  return new Promise((resolve, reject) => {
+    const processName = getProcessName(name);
+    logger.info(`Using ${name} in path ${processName}`);
+    const childProcess = cp.spawn(processName, args);
+    childProcess.stdout.on('data', data => {
+      logger.info(`${processName}: ${data}`);
+      resolve(childProcess);
+    });
+    childProcess.stderr.on('data', data => {
+      logger.error(`${processName} Error: ${data}`);
+      reject(new Error(data));
+    });
+    childProcess.on('error', reject);
+  });
+}
+
+function startBlockingProcess(name, args, logger) {
+  return new Promise((resolve, reject) => {
+    const processName = getProcessName(name);
+    logger.info(`Using ${name} in path ${processName}`);
+    const childProcess = cp.spawn(processName, args);
+    childProcess.stdout.on('data', data => {
+      logger.info(`${processName}: ${data}`);
+    });
+    childProcess.stderr.on('data', data => {
+      logger.error(`${processName} Error: ${data}`);
+      reject(new Error(data));
+    });
+    childProcess.on('exit', resolve);
+    childProcess.on('error', reject);
+  });
+}
+
 module.exports.createGrpcClient = async function({
   global,
   lndPort,
@@ -83,7 +117,7 @@ module.exports.startLndProcess = async function({
   sendLog,
   lndRestPort,
 }) {
-  const lndName = 'lnd';
+  const processName = 'lnd';
   const args = [
     isDev ? '--bitcoin.active' : '',
     isDev ? '--bitcoin.simnet' : '',
@@ -108,22 +142,7 @@ module.exports.startLndProcess = async function({
     '--debuglevel=info',
     '--noencryptwallet',
   ];
-
-  return new Promise((resolve, reject) => {
-    const processName = getProcessName(lndName);
-    logger.info(`Using lnd in path ${processName}`);
-    const lndProcess = cp.spawn(processName, args);
-    lndProcess.stdout.on('data', data => {
-      logger.info(`${lndName}: ${data}`);
-      sendLog(`${data}`);
-      resolve(lndProcess);
-    });
-    lndProcess.stderr.on('data', data => {
-      logger.error(`${lndName} Error: ${data}`);
-      sendLog(`ERROR: ${data}`);
-      reject(new Error(data));
-    });
-  });
+  return startChildProcess(processName, args, logger);
 };
 
 module.exports.startBtcdProcess = async function({
@@ -133,8 +152,7 @@ module.exports.startBtcdProcess = async function({
   miningAddress,
 }) {
   if (!isDev) return; // don't start btcd if neutrino is used
-
-  const btcdName = 'btcd';
+  const processName = 'btcd';
   const args = [
     '--simnet',
     '--txindex',
@@ -142,20 +160,17 @@ module.exports.startBtcdProcess = async function({
     '--rpcpass=kek',
     miningAddress ? `--miningaddr=${miningAddress}` : '',
   ];
+  return startChildProcess(processName, args, logger);
+};
 
-  return new Promise((resolve, reject) => {
-    const processName = getProcessName(btcdName);
-    logger.info(`Using btcd in path ${processName}`);
-    const btcdProcess = cp.spawn(processName, args);
-    btcdProcess.stdout.on('data', data => {
-      logger.info(`${processName}: ${data}`);
-      sendLog(`${data}`);
-      resolve(btcdProcess);
-    });
-    btcdProcess.stderr.on('data', data => {
-      logger.error(`${processName} Error: ${data}`);
-      sendLog(`ERROR: ${data}`);
-      reject(new Error(data));
-    });
-  });
+module.exports.mineBlocks = async function({ blocks, logger }) {
+  const processName = 'btcctl';
+  const args = [
+    '--simnet',
+    '--rpcuser=kek',
+    '--rpcpass=kek',
+    'generate',
+    String(blocks),
+  ];
+  return startBlockingProcess(processName, args, logger);
 };
