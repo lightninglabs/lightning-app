@@ -7,6 +7,9 @@ import ActionsWallet from '../../../src/actions/wallet';
 import ActionsChannels from '../../../src/actions/channels';
 import ActionsTransactions from '../../../src/actions/transactions';
 import ActionsPayments from '../../../src/actions/payments';
+import ComputedWallet from '../../../src/computed/wallet';
+import ComputedTransactions from '../../../src/computed/transactions';
+import ComputedChannels from '../../../src/computed/channels';
 import rmdir from './rmdir';
 
 const {
@@ -65,6 +68,14 @@ describe('Actions Integration Tests', function() {
     useStrict(false);
     store1 = observable({ lndReady: false, loaded: false });
     store2 = observable({ lndReady: false, loaded: false });
+
+    ComputedWallet(store1);
+    ComputedWallet(store2);
+    ComputedTransactions(store1);
+    ComputedTransactions(store2);
+    ComputedChannels(store1);
+    ComputedChannels(store2);
+
     const globalStub1 = {};
     const remoteStub1 = { getGlobal: arg => globalStub1[arg] };
     const globalStub2 = {};
@@ -134,7 +145,7 @@ describe('Actions Integration Tests', function() {
     lndProcess1.kill();
     lndProcess2.kill();
     btcdProcess.kill();
-    // sandbox.restore();
+    sandbox.restore();
   });
 
   describe('Wallet and Info actions', () => {
@@ -212,18 +223,34 @@ describe('Actions Integration Tests', function() {
       expect(store1.peersResponse[0].pubKey, 'to be', store2.pubKey);
     });
 
-    it('should list pending channel after opening', async () => {
-      // re-enable logs from this point
-      sandbox.restore();
+    it('should list pending open channel after opening', async () => {
       channels1.openChannel(store2.pubKey, 10000);
       while (!store1.pendingChannelsResponse.length) await nap(100);
-      expect(store1.pendingChannelsResponse.length, 'to be', 1);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'pending-open');
     });
 
     it('should list open channel after mining 6 blocks', async () => {
       await mineBlocks({ blocks: 6, logger });
+      while (store1.pendingChannelsResponse.length) await nap(100);
       while (!store1.channelsResponse.length) await nap(100);
-      expect(store1.channelsResponse[0].remotePubkey, 'to be', store2.pubKey);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'open');
+    });
+
+    it('should list pending closing channel after closing', async () => {
+      channels1.closeChannel(store1.computedChannels[0].channelPoint);
+      while (!store1.pendingChannelsResponse.length) await nap(100);
+      while (store1.channelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'pending-closing');
+    });
+
+    it('should list no channels after mining 6 blocks', async () => {
+      await mineBlocks({ blocks: 6, logger });
+      while (store1.pendingChannelsResponse.length) await nap(100);
+      while (store1.channelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 0);
     });
   });
 });
