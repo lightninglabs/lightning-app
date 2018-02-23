@@ -1,13 +1,9 @@
-import { observe } from 'mobx';
 import { RETRY_DELAY } from '../config';
 
 class ActionsInfo {
   constructor(store, actionsGrpc) {
     this._store = store;
     this._actionsGrpc = actionsGrpc;
-    observe(this._store, 'lndReady', () => {
-      this.getInfo();
-    });
   }
 
   async getInfo() {

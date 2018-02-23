@@ -1,4 +1,3 @@
-import { observe } from 'mobx';
 import * as log from './logs';
 import { RETRY_DELAY, PREFIX_URI, MNEMONIC_WALLET } from '../config';
 import Mnemonic from 'bitcore-mnemonic';
@@ -9,15 +8,6 @@ class ActionsWallet {
     this._store = store;
     this._actionsGrpc = actionsGrpc;
     this._actionsNav = actionsNav;
-    observe(this._store, 'lndReady', () => {
-      this.getBalance();
-      this.getChannelBalance();
-      this.getNewAddress();
-      this.getIPAddress();
-    });
-    observe(this._store, 'loaded', () => {
-      this.initializeWallet();
-    });
   }
 
   initializeWallet() {

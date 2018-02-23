@@ -29,19 +29,6 @@ describe('Actions Wallet Unit Tests', () => {
     actionsWallet = new ActionsWallet(store, actionsGrpc, actionsNav);
   });
 
-  describe('constructor()', () => {
-    it('should get balances, channel balances, new addresse on lndReady', () => {
-      actionsGrpc.sendCommand.resolves({});
-      expect(actionsGrpc.sendCommand, 'was not called');
-      store.lndReady = true;
-      expect(actionsGrpc.sendCommand, 'was called with', 'WalletBalance');
-      expect(actionsGrpc.sendCommand, 'was called with', 'ChannelBalance');
-      expect(actionsGrpc.sendCommand, 'was called with', 'NewAddress');
-      store.loaded = true;
-      expect(actionsNav.goInitializeWallet, 'was called once');
-    });
-  });
-
   describe('initializeWallet()', () => {
     it('should initialize wallet if no seed present', () => {
       store.settings.seedMnemonic = undefined;

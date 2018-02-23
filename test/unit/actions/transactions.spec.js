@@ -23,17 +23,6 @@ describe('Actions Transactions Unit Tests', () => {
     sandbox.restore();
   });
 
-  describe('constructor()', () => {
-    it('should get transactions, invoices, payments on lndReady', () => {
-      actionsGrpc.sendCommand.resolves({});
-      expect(actionsGrpc.sendCommand, 'was not called');
-      store.lndReady = true;
-      expect(actionsGrpc.sendCommand, 'was called with', 'getTransactions');
-      expect(actionsGrpc.sendCommand, 'was called with', 'listInvoices');
-      expect(actionsGrpc.sendCommand, 'was called with', 'listPayments');
-    });
-  });
-
   describe('getTransactions()', () => {
     it('should set transaction response in store', async () => {
       actionsGrpc.sendCommand.withArgs('getTransactions').resolves({

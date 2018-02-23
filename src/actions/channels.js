@@ -1,15 +1,10 @@
-import { observe } from 'mobx';
 import { RETRY_DELAY } from '../config';
+import * as log from './logs';
 
 class ActionsChannels {
   constructor(store, actionsGrpc) {
     this._store = store;
     this._actionsGrpc = actionsGrpc;
-    observe(this._store, 'lndReady', () => {
-      this.getChannels();
-      this.getPendingChannels();
-      this.getPeers();
-    });
   }
 
   async getChannels() {
@@ -87,25 +82,26 @@ class ActionsChannels {
   }
 
   async connectToPeer(host, pubkey) {
-    const { peer_id } = await this._actionsGrpc.sendCommand('connectPeer', {
+    await this._actionsGrpc.sendCommand('connectPeer', {
       addr: { host, pubkey },
     });
-    return {
-      peerId: peer_id,
-    };
+    await this.getPeers();
   }
 
   async openChannel(pubkey, amount) {
-    const response = await this._actionsGrpc.sendStreamCommand('connectPeer', {
+    const stream = await this._actionsGrpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
-      num_confs: 1,
     });
-    return {
-      chanPending: response.chan_pending,
-      confirmation: response.confirmation,
-      chanOpen: response.chan_open,
-    };
+    await new Promise((resolve, reject) => {
+      stream.on('data', data => {
+        if (data.chan_pending) this.getPendingChannels();
+        if (data.chan_open) this.getChannels();
+      });
+      stream.on('end', resolve);
+      stream.on('error', reject);
+      stream.on('status', status => log.info(`Opening channel: ${status}`));
+    });
   }
 }
 

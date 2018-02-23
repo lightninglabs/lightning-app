@@ -1,4 +1,3 @@
-import { observe } from 'mobx';
 import { toHash } from '../helpers';
 import { RETRY_DELAY } from '../config';
 
@@ -6,13 +5,6 @@ class ActionsTransactions {
   constructor(store, actionsGrpc) {
     this._store = store;
     this._actionsGrpc = actionsGrpc;
-    observe(this._store, 'lndReady', () => {
-      this.getTransactions();
-      this.getInvoices();
-      this.getPayments();
-      // this.subscribeTransactions();
-      // this.subscribeInvoices();
-    });
   }
 
   async getTransactions() {
