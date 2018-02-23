@@ -156,6 +156,7 @@ describe('Actions Integration Tests', function() {
       });
       await nap(5000);
       await mineBlocks({ blocks: 400, logger });
+      await nap(5000);
     });
 
     it('should fund wallet for node2', async () => {
