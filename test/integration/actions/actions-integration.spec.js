@@ -218,7 +218,7 @@ describe('Actions Integration Tests', function() {
       expect(store1.pendingChannelsResponse.length, 'to be', 1);
     });
 
-    it('should list open channel after mining 6 blocks', async () => {
+    it.skip('should list open channel after mining 6 blocks', async () => {
       await mineBlocks({ blocks: 100, logger });
       while (!store1.channelsResponse.length) await nap(100);
       expect(store1.channelsResponse[0].remotePubkey, 'to be', store2.pubKey);
