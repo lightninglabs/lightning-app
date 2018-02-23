@@ -137,15 +137,10 @@ describe('Actions Integration Tests', function() {
     sandbox.restore();
   });
 
-  describe('Wallet actions', () => {
+  describe('Wallet and Info actions', () => {
     it('should create new address for node1', async () => {
       await wallet1.getNewAddress();
       expect(store1.walletAddress, 'to be ok');
-    });
-
-    it('should create new address for node2', async () => {
-      await wallet2.getNewAddress();
-      expect(store2.walletAddress, 'to be ok');
     });
 
     it('should fund wallet for node1', async () => {
@@ -159,6 +154,21 @@ describe('Actions Integration Tests', function() {
       await mineBlocks({ blocks: 400, logger });
     });
 
+    it('should get public key node1', async () => {
+      await info1.getInfo();
+      expect(store1.pubKey, 'to be ok');
+    });
+
+    it('should wait until node1 is synced to chain', async () => {
+      while (!store1.syncedToChain) await nap(100);
+      expect(store1.syncedToChain, 'to be true');
+    });
+
+    it('should create new address for node2', async () => {
+      await wallet2.getNewAddress();
+      expect(store2.walletAddress, 'to be ok');
+    });
+
     it('should fund wallet for node2', async () => {
       btcdProcess.kill();
       btcdProcess = await startBtcdProcess({
@@ -168,18 +178,6 @@ describe('Actions Integration Tests', function() {
       });
       await nap(NAP_TIME);
       await mineBlocks({ blocks: 400, logger });
-    });
-  });
-
-  describe('Info actions', () => {
-    it('should get public key node1', async () => {
-      await info1.getInfo();
-      expect(store1.pubKey, 'to be ok');
-    });
-
-    it('should wait until node1 is synced to chain', async () => {
-      while (!store1.syncedToChain) await nap(100);
-      expect(store1.syncedToChain, 'to be true');
     });
 
     it('should get public key node2', async () => {
