@@ -177,7 +177,7 @@ describe('Actions Integration Tests', function() {
       expect(store1.pubKey, 'to be ok');
     });
 
-    it('should wait until node is synced to chain', async () => {
+    it('should wait until node1 is synced to chain', async () => {
       while (!store1.syncedToChain) await nap(100);
       expect(store1.syncedToChain, 'to be true');
     });
@@ -187,7 +187,7 @@ describe('Actions Integration Tests', function() {
       expect(store2.pubKey, 'to be ok');
     });
 
-    it('should wait until node is synced to chain', async () => {
+    it('should wait until node2 is synced to chain', async () => {
       while (!store2.syncedToChain) await nap(100);
       expect(store2.syncedToChain, 'to be true');
     });
