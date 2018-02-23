@@ -13,9 +13,9 @@ cd lightning-app
 
 git checkout v2
 
-yarn install
+npm install
 
-yarn electron-dev
+npm run electron-dev
 ```
 
 In development mode, the app will look for an lnd.conf in the default location for your platform. See [`lnd.conf` details](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md#creating-an-lndconf-optional). A typical lnd.conf for running on simnet will look like the following:
@@ -50,7 +50,7 @@ autopilot.active=1
 
 To build the packaged version of the app for your current platform, run:
 ```
-yarn electron-pack
+npm run electron-pack
 ```
 
 The packaged app will then be available in the lightning-app/dist directory. The packaged version of the app will run on Bitcoin testnet. To debug a packaged app, go to localhost:9997 in your browser.
