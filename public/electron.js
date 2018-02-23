@@ -24,7 +24,7 @@ console.log(`
 `);
 
 const LND_NAME = 'lnd';
-let LND_DATA_DIR = 'lnd_data/lnd';
+let LND_DATA_DIR = 'lnd_data';
 let LND_LOG_DIR = 'lnd_log';
 let LND_PORT = 10009;
 let LND_PEER_PORT = 10019;
@@ -98,6 +98,7 @@ function createWindow() {
   createGrpcClient({
     global,
     lndPort: LND_PORT,
+    lndDataDir: LND_DATA_DIR,
     macaroonsEnabled: MACAROONS_ENABLED,
   });
 
@@ -130,10 +131,6 @@ ps.lookup({ command: LND_NAME }, (err, resultList) => {
   if (err) {
     Logger.info(`lnd ps lookup error`, err);
   } else if (resultList) {
-    // Increment ports and datadir
-    LND_DATA_DIR = `${LND_DATA_DIR}${resultList.length}`;
-    LND_PORT = LND_PORT + resultList.length;
-    LND_PEER_PORT = LND_PEER_PORT + resultList.length;
     Logger.info(`lnd will run on port ${LND_PORT}, ${LND_DATA_DIR}`);
     startLnd();
   } else {
