@@ -4,14 +4,7 @@ const path = require('path');
 const grpc = require('grpc');
 const cp = require('child_process');
 
-const homedir = os.homedir();
-const certPath = {
-  darwin: path.join(homedir, 'Library/Application Support/Lnd/tls.cert'),
-  linux: path.join(homedir, '.lnd/tls.cert'),
-  win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert'),
-}[os.platform()];
-
-async function waitForCertPath() {
+async function waitForCertPath(certPath) {
   let intervalId;
   return new Promise(resolve => {
     intervalId = setInterval(() => {
@@ -71,9 +64,23 @@ function startBlockingProcess(name, args, logger) {
 module.exports.createGrpcClient = async function({
   global,
   lndPort,
+  lndDataDir,
   macaroonsEnabled,
 }) {
-  await waitForCertPath();
+  const homedir = os.homedir();
+
+  let certPath;
+  if (lndDataDir) {
+    certPath = path.join(lndDataDir, 'tls.cert');
+  } else {
+    certPath = {
+      darwin: path.join(homedir, 'Library/Application Support/Lnd/tls.cert'),
+      linux: path.join(homedir, '.lnd/tls.cert'),
+      win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert'),
+    }[os.platform()];
+  }
+
+  await waitForCertPath(certPath);
 
   const lndCert = fs.readFileSync(certPath);
   const credentials = grpc.credentials.createSsl(lndCert);
@@ -133,6 +140,8 @@ module.exports.startLndProcess = async function({
 
     macaroonsEnabled ? '' : '--no-macaroons',
     lndDataDir ? `--datadir=${lndDataDir}` : '',
+    lndDataDir ? `--tlscertpath=${lndDataDir}/tls.cert` : '',
+    lndDataDir ? `--tlskeypath=${lndDataDir}/tls.key` : '',
     lndLogDir ? `--logdir=${lndLogDir}` : '',
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',

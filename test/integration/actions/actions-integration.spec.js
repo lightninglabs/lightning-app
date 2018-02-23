@@ -97,11 +97,13 @@ describe('Actions Integration Tests', function() {
     const createGrpcClient1Promise = createGrpcClient({
       global: globalStub1,
       lndPort: LND_PORT_1,
+      lndDataDir: LND_DATA_DIR_1,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
     const createGrpcClient2Promise = createGrpcClient({
       global: globalStub2,
       lndPort: LND_PORT_2,
+      lndDataDir: LND_DATA_DIR_2,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
