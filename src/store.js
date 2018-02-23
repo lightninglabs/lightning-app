@@ -27,6 +27,7 @@ class Store {
       paymentsResponse: null,
       peersResponse: null,
       channelsResponse: null,
+      pendingChannelsResponse: null,
       paymentRequestResponse: {},
       logs: observable([]),
 

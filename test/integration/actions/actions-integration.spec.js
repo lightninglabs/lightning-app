@@ -32,7 +32,7 @@ const LND_REST_PORT_2 = 8002;
 const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const MACAROONS_ENABLED = false;
-const NAP_TIME = 10000;
+const NAP_TIME = 5000;
 
 describe('Actions Integration Tests', function() {
   this.timeout(300000);
@@ -61,7 +61,7 @@ describe('Actions Integration Tests', function() {
   before(async () => {
     rmdir('test/data');
     sandbox = sinon.sandbox.create();
-    // sandbox.stub(logger);
+    sandbox.stub(logger);
     useStrict(false);
     store1 = observable({ lndReady: false, loaded: false });
     store2 = observable({ lndReady: false, loaded: false });
@@ -157,7 +157,6 @@ describe('Actions Integration Tests', function() {
       });
       await nap(NAP_TIME);
       await mineBlocks({ blocks: 400, logger });
-      await nap(NAP_TIME);
     });
 
     it('should fund wallet for node2', async () => {
@@ -169,7 +168,6 @@ describe('Actions Integration Tests', function() {
       });
       await nap(NAP_TIME);
       await mineBlocks({ blocks: 400, logger });
-      await nap(NAP_TIME);
     });
   });
 
@@ -179,9 +177,19 @@ describe('Actions Integration Tests', function() {
       expect(store1.pubKey, 'to be ok');
     });
 
+    it('should wait until node is synced to chain', async () => {
+      while (!store1.syncedToChain) await nap(100);
+      expect(store1.syncedToChain, 'to be true');
+    });
+
     it('should get public key node2', async () => {
       await info2.getInfo();
       expect(store2.pubKey, 'to be ok');
+    });
+
+    it('should wait until node is synced to chain', async () => {
+      while (!store2.syncedToChain) await nap(100);
+      expect(store2.syncedToChain, 'to be true');
     });
   });
 
@@ -191,7 +199,12 @@ describe('Actions Integration Tests', function() {
       expect(store1.peersResponse, 'to equal', []);
     });
 
-    it('should list no channels initially', async () => {
+    it('should list no pending channels initially', async () => {
+      await channels1.getPendingChannels();
+      expect(store1.pendingChannelsResponse, 'to equal', []);
+    });
+
+    it('should list no open channels initially', async () => {
       await channels1.getChannels();
       expect(store1.channelsResponse, 'to equal', []);
     });
@@ -201,8 +214,13 @@ describe('Actions Integration Tests', function() {
       expect(store1.peersResponse[0].pubKey, 'to be', store2.pubKey);
     });
 
-    it('should list channel after creating a channel', async () => {
+    it('should list pending channel after opening', async () => {
       channels1.openChannel(store2.pubKey, 10000);
+      while (!store1.pendingChannelsResponse.length) await nap(100);
+      expect(store1.pendingChannelsResponse.length, 'to be', 1);
+    });
+
+    it('should list open channel after mining 6 blocks', async () => {
       await mineBlocks({ blocks: 6, logger });
       while (!store1.channelsResponse.length) await nap(100);
       expect(store1.channelsResponse[0].remotePubkey, 'to be', store2.pubKey);
