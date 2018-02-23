@@ -134,7 +134,7 @@ describe('Actions Integration Tests', function() {
     lndProcess1.kill();
     lndProcess2.kill();
     btcdProcess.kill();
-    sandbox.restore();
+    // sandbox.restore();
   });
 
   describe('Wallet and Info actions', () => {
@@ -213,12 +213,14 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list pending channel after opening', async () => {
+      // re-enable logs from this point
+      sandbox.restore();
       channels1.openChannel(store2.pubKey, 10000);
       while (!store1.pendingChannelsResponse.length) await nap(100);
       expect(store1.pendingChannelsResponse.length, 'to be', 1);
     });
 
-    it.skip('should list open channel after mining 6 blocks', async () => {
+    it('should list open channel after mining 6 blocks', async () => {
       await mineBlocks({ blocks: 6, logger });
       while (!store1.channelsResponse.length) await nap(100);
       expect(store1.channelsResponse[0].remotePubkey, 'to be', store2.pubKey);
