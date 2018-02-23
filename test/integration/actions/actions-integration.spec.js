@@ -32,6 +32,7 @@ const LND_REST_PORT_2 = 8002;
 const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const MACAROONS_ENABLED = false;
+const NAP_TIME = 10000;
 
 describe('Actions Integration Tests', function() {
   this.timeout(300000);
@@ -154,9 +155,9 @@ describe('Actions Integration Tests', function() {
         logger,
         miningAddress: store1.walletAddress,
       });
-      await nap(5000);
+      await nap(NAP_TIME);
       await mineBlocks({ blocks: 400, logger });
-      await nap(5000);
+      await nap(NAP_TIME);
     });
 
     it('should fund wallet for node2', async () => {
@@ -166,9 +167,9 @@ describe('Actions Integration Tests', function() {
         logger,
         miningAddress: store2.walletAddress,
       });
-      await nap(5000);
+      await nap(NAP_TIME);
       await mineBlocks({ blocks: 400, logger });
-      await nap(5000);
+      await nap(NAP_TIME);
     });
   });
 
