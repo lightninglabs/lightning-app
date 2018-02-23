@@ -95,12 +95,30 @@ class ActionsChannels {
     });
     await new Promise((resolve, reject) => {
       stream.on('data', data => {
-        if (data.chan_pending) this.getPendingChannels();
-        if (data.chan_open) this.getChannels();
+        this.getPendingChannels();
+        this.getChannels();
       });
       stream.on('end', resolve);
       stream.on('error', reject);
       stream.on('status', status => log.info(`Opening channel: ${status}`));
+    });
+  }
+
+  async closeChannel(channelPoint) {
+    const stream = await this._actionsGrpc.sendStreamCommand('closeChannel', {
+      channel_point: {
+        funding_txid_str: channelPoint.split(':')[0],
+        output_index: parseInt(channelPoint.split(':')[1]),
+      },
+    });
+    await new Promise((resolve, reject) => {
+      stream.on('data', data => {
+        this.getPendingChannels();
+        this.getChannels();
+      });
+      stream.on('end', resolve);
+      stream.on('error', reject);
+      stream.on('status', status => log.info(`Closing channel: ${status}`));
     });
   }
 }

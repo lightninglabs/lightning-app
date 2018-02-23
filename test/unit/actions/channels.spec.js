@@ -98,25 +98,15 @@ describe('Actions Channels Unit Tests', () => {
       sandbox.stub(actionsChannels, 'getPendingChannels');
     });
 
-    it('should call getPendingChannels() on chan_pending data event', async () => {
+    it('should update pending and open channels on data event', async () => {
       const onStub = sinon.stub();
-      onStub.withArgs('data').yields({ chan_pending: {} });
+      onStub.withArgs('data').yields({});
       onStub.withArgs('end').yields();
       actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
         on: onStub,
       });
       await actionsChannels.openChannel(host, pubkey);
       expect(actionsChannels.getPendingChannels, 'was called once');
-    });
-
-    it('should call getChannels() on chan_open data event', async () => {
-      const onStub = sinon.stub();
-      onStub.withArgs('data').yields({ chan_open: {} });
-      onStub.withArgs('end').yields();
-      actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
-        on: onStub,
-      });
-      await actionsChannels.openChannel(host, pubkey);
       expect(actionsChannels.getChannels, 'was called once');
     });
 
@@ -128,6 +118,38 @@ describe('Actions Channels Unit Tests', () => {
       });
       await expect(
         actionsChannels.openChannel(host, pubkey),
+        'to be rejected with error satisfying',
+        /Boom/
+      );
+    });
+  });
+
+  describe('closeChannel()', () => {
+    beforeEach(() => {
+      sandbox.stub(actionsChannels, 'getChannels');
+      sandbox.stub(actionsChannels, 'getPendingChannels');
+    });
+
+    it('should update pending and open channels on data event', async () => {
+      const onStub = sinon.stub();
+      onStub.withArgs('data').yields({});
+      onStub.withArgs('end').yields();
+      actionsGrpc.sendStreamCommand.withArgs('closeChannel').resolves({
+        on: onStub,
+      });
+      await actionsChannels.closeChannel(host, pubkey);
+      expect(actionsChannels.getPendingChannels, 'was called once');
+      expect(actionsChannels.getChannels, 'was called once');
+    });
+
+    it('should reject in case of error event', async () => {
+      const onStub = sinon.stub();
+      onStub.withArgs('error').yields(new Error('Boom!'));
+      actionsGrpc.sendStreamCommand.withArgs('closeChannel').resolves({
+        on: onStub,
+      });
+      await expect(
+        actionsChannels.closeChannel(host, pubkey),
         'to be rejected with error satisfying',
         /Boom/
       );
