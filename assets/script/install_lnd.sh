@@ -33,3 +33,6 @@ go install . ./cmd/...
 
 # copy lnd/btcd binaries to git repo for integration tests
 cp $GOPATH/bin/* $TRAVIS_BUILD_DIR/assets/bin/linux/
+
+# create empty btcd.conf for btcctl
+mkdir $HOME/.btcd && touch $HOME/.btcd/btcd.conf
