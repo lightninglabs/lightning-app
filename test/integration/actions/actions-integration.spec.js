@@ -219,7 +219,7 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list open channel after mining 6 blocks', async () => {
-      await mineBlocks({ blocks: 6, logger });
+      await mineBlocks({ blocks: 100, logger });
       while (!store1.channelsResponse.length) await nap(100);
       expect(store1.channelsResponse[0].remotePubkey, 'to be', store2.pubKey);
     });
