@@ -134,8 +134,8 @@ describe('Actions Channels Unit Tests', () => {
       sandbox.stub(actionsChannels, 'getPendingChannels');
     });
 
-    it('should update pending/open channels on close', async () => {
-      onStub.withArgs('data').yields({});
+    it('should update pending/open channels on close_pending', async () => {
+      onStub.withArgs('data').yields({ close_pending: {} });
       onStub.withArgs('end').yields();
       actionsGrpc.sendStreamCommand
         .withArgs('closeChannel', {
@@ -148,8 +148,10 @@ describe('Actions Channels Unit Tests', () => {
       expect(actionsChannels.getChannels, 'was called once');
     });
 
-    it('should update pending/open channels on force close', async () => {
-      onStub.withArgs('data').yields({});
+    it('should remove pending channel with txid on chan_close (force close)', async () => {
+      store.pendingChannelsResponse = [{ closingTxid: 'abcd' }];
+      const chan_close = { closing_txid: new Buffer('cdab', 'hex') };
+      onStub.withArgs('data').yields({ chan_close });
       onStub.withArgs('end').yields();
       actionsGrpc.sendStreamCommand
         .withArgs('closeChannel', {
@@ -158,8 +160,7 @@ describe('Actions Channels Unit Tests', () => {
         })
         .resolves({ on: onStub });
       await actionsChannels.closeChannel(channelPoint, true);
-      expect(actionsChannels.getPendingChannels, 'was called once');
-      expect(actionsChannels.getChannels, 'was called once');
+      expect(store.pendingChannelsResponse, 'to equal', []);
     });
 
     it('should reject in case of error event', async () => {
