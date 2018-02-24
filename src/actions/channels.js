@@ -95,7 +95,7 @@ class ActionsChannels {
       local_funding_amount: amount,
     });
     await new Promise((resolve, reject) => {
-      stream.on('data', data => {
+      stream.on('data', () => {
         this.getPendingChannels();
         this.getChannels();
       });
