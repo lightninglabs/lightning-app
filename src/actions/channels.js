@@ -1,4 +1,5 @@
 import { RETRY_DELAY } from '../config';
+import { reverse } from '../helpers';
 import * as log from './logs';
 
 class ActionsChannels {
@@ -108,14 +109,22 @@ class ActionsChannels {
     const stream = await this._actionsGrpc.sendStreamCommand('closeChannel', {
       channel_point: {
         funding_txid_str: channelPoint.split(':')[0],
-        output_index: parseInt(channelPoint.split(':')[1]),
+        output_index: parseInt(channelPoint.split(':')[1], 10),
       },
       force,
     });
     await new Promise((resolve, reject) => {
       stream.on('data', data => {
-        this.getPendingChannels();
-        this.getChannels();
+        if (data.close_pending) {
+          this.getPendingChannels();
+          this.getChannels();
+        }
+        if (data.chan_close) {
+          const txid = reverse(data.chan_close.closing_txid).toString('hex');
+          const pc = this._store.pendingChannelsResponse;
+          const channel = pc.find(c => c.closingTxid === txid);
+          if (channel) pc.splice(pc.indexOf(channel));
+        }
       });
       stream.on('end', resolve);
       stream.on('error', reject);

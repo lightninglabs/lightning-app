@@ -22,6 +22,8 @@ const {
 /* eslint-disable no-unused-vars */
 
 const isDev = true;
+const BTCD_DATA_DIR = 'test/data/btcd_data';
+const BTCD_LOG_DIR = 'test/data/btcd_log';
 const LND_DATA_DIR_1 = 'test/data/lnd_data_1';
 const LND_DATA_DIR_2 = 'test/data/lnd_data_2';
 const LND_LOG_DIR_1 = 'test/data/lnd_log_1';
@@ -60,6 +62,7 @@ describe('Actions Integration Tests', function() {
   let channels2;
   let transactions2;
   let payments2;
+  let btcdArgs;
 
   before(async () => {
     rmdir('test/data');
@@ -81,7 +84,14 @@ describe('Actions Integration Tests', function() {
     const globalStub2 = {};
     const remoteStub2 = { getGlobal: arg => globalStub2[arg] };
 
-    btcdProcess = await startBtcdProcess({ isDev, logger });
+    btcdArgs = {
+      isDev,
+      logger,
+      btcdLogDir: BTCD_LOG_DIR,
+      btcdDataDir: BTCD_DATA_DIR,
+    };
+    btcdProcess = await startBtcdProcess(btcdArgs);
+    await nap(NAP_TIME);
     const lndProcess1Promise = startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
@@ -156,11 +166,8 @@ describe('Actions Integration Tests', function() {
 
     it('should fund wallet for node1', async () => {
       btcdProcess.kill();
-      btcdProcess = await startBtcdProcess({
-        isDev,
-        logger,
-        miningAddress: store1.walletAddress,
-      });
+      btcdArgs.miningAddress = store1.walletAddress;
+      btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
       await mineBlocks({ blocks: 400, logger });
     });
@@ -182,11 +189,8 @@ describe('Actions Integration Tests', function() {
 
     it('should fund wallet for node2', async () => {
       btcdProcess.kill();
-      btcdProcess = await startBtcdProcess({
-        isDev,
-        logger,
-        miningAddress: store2.walletAddress,
-      });
+      btcdArgs.miningAddress = store2.walletAddress;
+      btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
       await mineBlocks({ blocks: 400, logger });
     });
@@ -253,7 +257,7 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should open and force close channel', async () => {
-      channels1.openChannel(store2.pubKey, 100000);
+      channels1.openChannel(store2.pubKey, 10000);
       await mineBlocks({ blocks: 6, logger });
       while (!store1.channelsResponse.length) await nap(100);
       channels1.closeChannel(store1.channelsResponse[0].channelPoint, true);
@@ -267,7 +271,7 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list no channels after mining 6 blocks', async () => {
-      await mineBlocks({ blocks: 200, logger });
+      await mineBlocks({ blocks: 6, logger });
       while (store1.pendingChannelsResponse.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 0);
     });
