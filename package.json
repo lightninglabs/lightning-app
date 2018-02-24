@@ -1,24 +1,11 @@
 {
-  "name": "Lightning",
+  "name": "lightning-app",
   "version": "0.1.0",
+  "description": "Lightning Wallet Application",
+  "homepage": "https://lightning.engineering",
+  "license": "GPL-3.0",
   "private": true,
-  "author": "Kevin Johnson <kevinejohn@gmail.com>",
-  "homepage": "./",
-  "description": "Lightning Desktop Wallet",
-  "dependencies": {
-    "bitcore-mnemonic": "^1.5.0",
-    "electron-is-dev": "0.3.0",
-    "electron-log": "2.2.12",
-    "grpc": "1.7.3",
-    "mobx": "3.4.1",
-    "mobx-react": "4.3.5",
-    "ps-node": "0.1.6",
-    "qr-image": "3.2.0",
-    "react": "16.2.0",
-    "react-dom": "16.2.0",
-    "react-native-web": "0.1.16",
-    "react-scripts": "1.0.17"
-  },
+  "main": "public/electron.js",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -35,7 +22,20 @@
     "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\" public/electron.js",
     "postinstall": "electron-builder install-app-deps"
   },
-  "main": "public/electron.js",
+  "dependencies": {
+    "bitcore-mnemonic": "^1.5.0",
+    "electron-is-dev": "0.3.0",
+    "electron-log": "2.2.12",
+    "grpc": "1.7.3",
+    "mobx": "3.4.1",
+    "mobx-react": "4.3.5",
+    "ps-node": "0.1.6",
+    "qr-image": "3.2.0",
+    "react": "16.2.0",
+    "react-dom": "16.2.0",
+    "react-native-web": "0.1.16",
+    "react-scripts": "1.0.17"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
