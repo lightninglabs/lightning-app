@@ -249,7 +249,26 @@ describe('Actions Integration Tests', function() {
     it('should list no channels after mining 6 blocks', async () => {
       await mineBlocks({ blocks: 6, logger });
       while (store1.pendingChannelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 0);
+    });
+
+    it('should open and force close channel', async () => {
+      channels1.openChannel(store2.pubKey, 100000);
+      await mineBlocks({ blocks: 6, logger });
+      while (!store1.channelsResponse.length) await nap(100);
+      channels1.closeChannel(store1.channelsResponse[0].channelPoint, true);
+      while (!store1.pendingChannelsResponse.length) await nap(100);
       while (store1.channelsResponse.length) await nap(100);
+      expect(
+        store1.computedChannels[0].status,
+        'to be',
+        'pending-force-closing'
+      );
+    });
+
+    it('should list no channels after mining 6 blocks', async () => {
+      await mineBlocks({ blocks: 200, logger });
+      while (store1.pendingChannelsResponse.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 0);
     });
   });
