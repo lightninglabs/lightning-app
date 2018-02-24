@@ -125,31 +125,50 @@ describe('Actions Channels Unit Tests', () => {
   });
 
   describe('closeChannel()', () => {
+    const channelPoint = 'FFFF:1';
+    let onStub;
+
     beforeEach(() => {
+      onStub = sinon.stub();
       sandbox.stub(actionsChannels, 'getChannels');
       sandbox.stub(actionsChannels, 'getPendingChannels');
     });
 
-    it('should update pending and open channels on data event', async () => {
-      const onStub = sinon.stub();
+    it('should update pending/open channels on close', async () => {
       onStub.withArgs('data').yields({});
       onStub.withArgs('end').yields();
-      actionsGrpc.sendStreamCommand.withArgs('closeChannel').resolves({
-        on: onStub,
-      });
-      await actionsChannels.closeChannel(host, pubkey);
+      actionsGrpc.sendStreamCommand
+        .withArgs('closeChannel', {
+          channel_point: { funding_txid_str: 'FFFF', output_index: 1 },
+          force: false,
+        })
+        .resolves({ on: onStub });
+      await actionsChannels.closeChannel(channelPoint);
+      expect(actionsChannels.getPendingChannels, 'was called once');
+      expect(actionsChannels.getChannels, 'was called once');
+    });
+
+    it('should update pending/open channels on force close', async () => {
+      onStub.withArgs('data').yields({});
+      onStub.withArgs('end').yields();
+      actionsGrpc.sendStreamCommand
+        .withArgs('closeChannel', {
+          channel_point: { funding_txid_str: 'FFFF', output_index: 1 },
+          force: true,
+        })
+        .resolves({ on: onStub });
+      await actionsChannels.closeChannel(channelPoint, true);
       expect(actionsChannels.getPendingChannels, 'was called once');
       expect(actionsChannels.getChannels, 'was called once');
     });
 
     it('should reject in case of error event', async () => {
-      const onStub = sinon.stub();
       onStub.withArgs('error').yields(new Error('Boom!'));
       actionsGrpc.sendStreamCommand.withArgs('closeChannel').resolves({
         on: onStub,
       });
       await expect(
-        actionsChannels.closeChannel(host, pubkey),
+        actionsChannels.closeChannel(channelPoint),
         'to be rejected with error satisfying',
         /Boom/
       );

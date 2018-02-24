@@ -104,12 +104,13 @@ class ActionsChannels {
     });
   }
 
-  async closeChannel(channelPoint) {
+  async closeChannel(channelPoint, force = false) {
     const stream = await this._actionsGrpc.sendStreamCommand('closeChannel', {
       channel_point: {
         funding_txid_str: channelPoint.split(':')[0],
         output_index: parseInt(channelPoint.split(':')[1]),
       },
+      force,
     });
     await new Promise((resolve, reject) => {
       stream.on('data', data => {
