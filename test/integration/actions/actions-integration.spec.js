@@ -7,6 +7,9 @@ import ActionsWallet from '../../../src/actions/wallet';
 import ActionsChannels from '../../../src/actions/channels';
 import ActionsTransactions from '../../../src/actions/transactions';
 import ActionsPayments from '../../../src/actions/payments';
+import ComputedWallet from '../../../src/computed/wallet';
+import ComputedTransactions from '../../../src/computed/transactions';
+import ComputedChannels from '../../../src/computed/channels';
 import rmdir from './rmdir';
 
 const {
@@ -19,6 +22,8 @@ const {
 /* eslint-disable no-unused-vars */
 
 const isDev = true;
+const BTCD_DATA_DIR = 'test/data/btcd_data';
+const BTCD_LOG_DIR = 'test/data/btcd_log';
 const LND_DATA_DIR_1 = 'test/data/lnd_data_1';
 const LND_DATA_DIR_2 = 'test/data/lnd_data_2';
 const LND_LOG_DIR_1 = 'test/data/lnd_log_1';
@@ -32,7 +37,7 @@ const LND_REST_PORT_2 = 8002;
 const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const MACAROONS_ENABLED = false;
-const NAP_TIME = 5000;
+const NAP_TIME = process.env.NAP_TIME || 5000;
 
 describe('Actions Integration Tests', function() {
   this.timeout(300000);
@@ -57,6 +62,7 @@ describe('Actions Integration Tests', function() {
   let channels2;
   let transactions2;
   let payments2;
+  let btcdArgs;
 
   before(async () => {
     rmdir('test/data');
@@ -65,12 +71,27 @@ describe('Actions Integration Tests', function() {
     useStrict(false);
     store1 = observable({ lndReady: false, loaded: false });
     store2 = observable({ lndReady: false, loaded: false });
+
+    ComputedWallet(store1);
+    ComputedWallet(store2);
+    ComputedTransactions(store1);
+    ComputedTransactions(store2);
+    ComputedChannels(store1);
+    ComputedChannels(store2);
+
     const globalStub1 = {};
     const remoteStub1 = { getGlobal: arg => globalStub1[arg] };
     const globalStub2 = {};
     const remoteStub2 = { getGlobal: arg => globalStub2[arg] };
 
-    btcdProcess = await startBtcdProcess({ isDev, logger });
+    btcdArgs = {
+      isDev,
+      logger,
+      btcdLogDir: BTCD_LOG_DIR,
+      btcdDataDir: BTCD_DATA_DIR,
+    };
+    btcdProcess = await startBtcdProcess(btcdArgs);
+    await nap(NAP_TIME);
     const lndProcess1Promise = startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
@@ -145,13 +166,10 @@ describe('Actions Integration Tests', function() {
 
     it('should fund wallet for node1', async () => {
       btcdProcess.kill();
-      btcdProcess = await startBtcdProcess({
-        isDev,
-        logger,
-        miningAddress: store1.walletAddress,
-      });
+      btcdArgs.miningAddress = store1.walletAddress;
+      btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
-      await mineBlocks({ blocks: 400, logger });
+      await mineAndSync({ blocks: 400 });
     });
 
     it('should get public key node1', async () => {
@@ -171,13 +189,10 @@ describe('Actions Integration Tests', function() {
 
     it('should fund wallet for node2', async () => {
       btcdProcess.kill();
-      btcdProcess = await startBtcdProcess({
-        isDev,
-        logger,
-        miningAddress: store2.walletAddress,
-      });
+      btcdArgs.miningAddress = store2.walletAddress;
+      btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
-      await mineBlocks({ blocks: 400, logger });
+      await mineAndSync({ blocks: 400 });
     });
 
     it('should get public key node2', async () => {
@@ -212,16 +227,73 @@ describe('Actions Integration Tests', function() {
       expect(store1.peersResponse[0].pubKey, 'to be', store2.pubKey);
     });
 
-    it('should list pending channel after opening', async () => {
+    it('should list pending open channel after opening', async () => {
       channels1.openChannel(store2.pubKey, 10000);
       while (!store1.pendingChannelsResponse.length) await nap(100);
-      expect(store1.pendingChannelsResponse.length, 'to be', 1);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'pending-open');
     });
 
-    it.skip('should list open channel after mining 6 blocks', async () => {
-      await mineBlocks({ blocks: 6, logger });
+    it('should list open channel after mining 6 blocks', async () => {
+      await mineAndSync({ blocks: 6 });
+      while (store1.pendingChannelsResponse.length) await nap(100);
       while (!store1.channelsResponse.length) await nap(100);
-      expect(store1.channelsResponse[0].remotePubkey, 'to be', store2.pubKey);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'open');
+    });
+
+    it('should list pending-closing channel after closing', async () => {
+      channels1.closeChannel(store1.computedChannels[0]);
+      while (!store1.pendingChannelsResponse.length) await nap(100);
+      while (store1.channelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'pending-closing');
+    });
+
+    it('should list no channels after mining 6 blocks', async () => {
+      await mineAndSync({ blocks: 6 });
+      while (store1.pendingChannelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 0);
+    });
+
+    it('should list pending open channel after opening', async () => {
+      channels1.openChannel(store2.pubKey, 10000);
+      while (!store1.pendingChannelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'pending-open');
+    });
+
+    it('should list open channel after mining 6 blocks', async () => {
+      await mineAndSync({ blocks: 6 });
+      while (store1.pendingChannelsResponse.length) await nap(100);
+      while (!store1.channelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'open');
+    });
+
+    it('should list pending-force-closing after force closing', async () => {
+      channels1.closeChannel(store1.channelsResponse[0], true);
+      while (!store1.pendingChannelsResponse.length) await nap(100);
+      while (store1.channelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(
+        store1.computedChannels[0].status,
+        'to be',
+        'pending-force-closing'
+      );
+    });
+
+    it('should list no channels after mining 6 blocks', async () => {
+      await mineAndSync({ blocks: 6 });
+      while (store1.pendingChannelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 0);
     });
   });
+
+  const mineAndSync = async ({ blocks }) => {
+    await mineBlocks({ blocks, logger });
+    await info1.getInfo();
+    await info2.getInfo();
+    while (!store1.syncedToChain || !store2.syncedToChain) await nap(100);
+  };
 });

@@ -98,25 +98,15 @@ describe('Actions Channels Unit Tests', () => {
       sandbox.stub(actionsChannels, 'getPendingChannels');
     });
 
-    it('should call getPendingChannels() on chan_pending data event', async () => {
+    it('should update pending and open channels on data event', async () => {
       const onStub = sinon.stub();
-      onStub.withArgs('data').yields({ chan_pending: {} });
+      onStub.withArgs('data').yields({});
       onStub.withArgs('end').yields();
       actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
         on: onStub,
       });
       await actionsChannels.openChannel(host, pubkey);
       expect(actionsChannels.getPendingChannels, 'was called once');
-    });
-
-    it('should call getChannels() on chan_open data event', async () => {
-      const onStub = sinon.stub();
-      onStub.withArgs('data').yields({ chan_open: {} });
-      onStub.withArgs('end').yields();
-      actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
-        on: onStub,
-      });
-      await actionsChannels.openChannel(host, pubkey);
       expect(actionsChannels.getChannels, 'was called once');
     });
 
@@ -128,6 +118,68 @@ describe('Actions Channels Unit Tests', () => {
       });
       await expect(
         actionsChannels.openChannel(host, pubkey),
+        'to be rejected with error satisfying',
+        /Boom/
+      );
+    });
+  });
+
+  describe('closeChannel()', () => {
+    let onStub;
+    let channel;
+
+    beforeEach(() => {
+      onStub = sinon.stub();
+      sandbox.stub(actionsChannels, 'getChannels');
+      sandbox.stub(actionsChannels, 'getPendingChannels');
+      channel = { channelPoint: 'FFFF:1' };
+    });
+
+    it('should update pending/open channels on close_pending', async () => {
+      onStub.withArgs('data').yields({ close_pending: {} });
+      onStub.withArgs('end').yields();
+      actionsGrpc.sendStreamCommand
+        .withArgs('closeChannel', {
+          channel_point: { funding_txid_str: 'FFFF', output_index: 1 },
+          force: false,
+        })
+        .resolves({ on: onStub });
+      await actionsChannels.closeChannel(channel);
+      expect(actionsChannels.getPendingChannels, 'was called once');
+      expect(actionsChannels.getChannels, 'was called once');
+    });
+
+    it('should remove pending channel with txid on chan_close (force close)', async () => {
+      store.pendingChannelsResponse = [{ closingTxid: 'abcd' }];
+      const chan_close = { closing_txid: new Buffer('cdab', 'hex') };
+      onStub.withArgs('data').yields({ chan_close });
+      onStub.withArgs('end').yields();
+      actionsGrpc.sendStreamCommand
+        .withArgs('closeChannel', {
+          channel_point: { funding_txid_str: 'FFFF', output_index: 1 },
+          force: true,
+        })
+        .resolves({ on: onStub });
+      await actionsChannels.closeChannel(channel, true);
+      expect(store.pendingChannelsResponse, 'to equal', []);
+    });
+
+    it('should reject for invalid channel point', async () => {
+      channel.channelPoint = 'asdf';
+      await expect(
+        actionsChannels.closeChannel(channel),
+        'to be rejected with error satisfying',
+        /Invalid channel point/
+      );
+    });
+
+    it('should reject in case of error event', async () => {
+      onStub.withArgs('error').yields(new Error('Boom!'));
+      actionsGrpc.sendStreamCommand.withArgs('closeChannel').resolves({
+        on: onStub,
+      });
+      await expect(
+        actionsChannels.closeChannel(channel),
         'to be rejected with error satisfying',
         /Boom/
       );

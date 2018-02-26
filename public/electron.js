@@ -24,10 +24,12 @@ console.log(`
 `);
 
 const LND_NAME = 'lnd';
-let LND_DATA_DIR = 'lnd_data';
-let LND_LOG_DIR = 'lnd_log';
-let LND_PORT = 10009;
-let LND_PEER_PORT = 10019;
+const LND_DATA_DIR = 'data/lnd_data';
+const LND_LOG_DIR = 'data/lnd_log';
+const BTCD_DATA_DIR = 'data/btcd_data';
+const BTCD_LOG_DIR = 'data/btcd_log';
+const LND_PORT = 10009;
+const LND_PEER_PORT = 10019;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -112,6 +114,8 @@ const startLnd = async () => {
     btcdProcess = await startBtcdProcess({
       isDev,
       logger: Logger,
+      btcdLogDir: BTCD_LOG_DIR,
+      btcdDataDir: BTCD_DATA_DIR,
     });
     lndProcess = await startLndProcess({
       isDev,

@@ -1,4 +1,5 @@
 import { RETRY_DELAY } from '../config';
+import { reverse } from '../helpers';
 import * as log from './logs';
 
 class ActionsChannels {
@@ -94,14 +95,55 @@ class ActionsChannels {
       local_funding_amount: amount,
     });
     await new Promise((resolve, reject) => {
-      stream.on('data', data => {
-        if (data.chan_pending) this.getPendingChannels();
-        if (data.chan_open) this.getChannels();
+      stream.on('data', () => {
+        this.getPendingChannels();
+        this.getChannels();
       });
       stream.on('end', resolve);
       stream.on('error', reject);
       stream.on('status', status => log.info(`Opening channel: ${status}`));
     });
+  }
+
+  async closeChannel(channel, force = false) {
+    const stream = await this._actionsGrpc.sendStreamCommand('closeChannel', {
+      channel_point: this._parseChannelPoint(channel.channelPoint),
+      force,
+    });
+    await new Promise((resolve, reject) => {
+      stream.on('data', data => {
+        if (data.close_pending) {
+          this.getPendingChannels();
+          this.getChannels();
+        }
+        if (data.chan_close) {
+          this._removeClosedChannel(data.chan_close.closing_txid);
+        }
+      });
+      stream.on('end', resolve);
+      stream.on('error', reject);
+      stream.on('status', status => log.info(`Closing channel: ${status}`));
+    });
+  }
+
+  _parseChannelPoint(channelPoint) {
+    if (!channelPoint || !channelPoint.includes(':')) {
+      throw new Error('Invalid channel point');
+    }
+    return {
+      funding_txid_str: channelPoint.split(':')[0],
+      output_index: parseInt(channelPoint.split(':')[1], 10),
+    };
+  }
+
+  _removeClosedChannel(closingTxid) {
+    if (!(closingTxid instanceof Buffer)) {
+      throw new Error('Invalid closing txid');
+    }
+    const txid = reverse(closingTxid).toString('hex');
+    const pc = this._store.pendingChannelsResponse;
+    const channel = pc.find(c => c.closingTxid === txid);
+    if (channel) pc.splice(pc.indexOf(channel));
   }
 }
 
