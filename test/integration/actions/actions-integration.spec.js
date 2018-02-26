@@ -37,7 +37,7 @@ const LND_REST_PORT_2 = 8002;
 const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const MACAROONS_ENABLED = false;
-const NAP_TIME = 10000;
+const NAP_TIME = process.env.NAP_TIME || 5000;
 
 describe('Actions Integration Tests', function() {
   this.timeout(300000);
