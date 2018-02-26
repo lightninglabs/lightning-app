@@ -26,7 +26,7 @@
     "bitcore-mnemonic": "^1.5.0",
     "electron-is-dev": "0.3.0",
     "electron-log": "2.2.12",
-    "grpc": "1.7.3",
+    "grpc": "^1.9.1",
     "mobx": "3.4.1",
     "mobx-react": "4.3.5",
     "ps-node": "0.1.6",
