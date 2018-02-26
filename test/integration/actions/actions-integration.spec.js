@@ -243,7 +243,7 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list pending closing channel after closing', async () => {
-      channels1.closeChannel(store1.computedChannels[0].channelPoint);
+      channels1.closeChannel(store1.computedChannels[0]);
       while (!store1.pendingChannelsResponse.length) await nap(100);
       while (store1.channelsResponse.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
@@ -260,7 +260,7 @@ describe('Actions Integration Tests', function() {
       channels1.openChannel(store2.pubKey, 10000);
       await mineBlocks({ blocks: 6, logger });
       while (!store1.channelsResponse.length) await nap(100);
-      channels1.closeChannel(store1.channelsResponse[0].channelPoint, true);
+      channels1.closeChannel(store1.channelsResponse[0], true);
       while (!store1.pendingChannelsResponse.length) await nap(100);
       while (store1.channelsResponse.length) await nap(100);
       expect(

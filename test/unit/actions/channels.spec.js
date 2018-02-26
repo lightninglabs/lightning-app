@@ -125,13 +125,14 @@ describe('Actions Channels Unit Tests', () => {
   });
 
   describe('closeChannel()', () => {
-    const channelPoint = 'FFFF:1';
     let onStub;
+    let channel;
 
     beforeEach(() => {
       onStub = sinon.stub();
       sandbox.stub(actionsChannels, 'getChannels');
       sandbox.stub(actionsChannels, 'getPendingChannels');
+      channel = { channelPoint: 'FFFF:1' };
     });
 
     it('should update pending/open channels on close_pending', async () => {
@@ -143,7 +144,7 @@ describe('Actions Channels Unit Tests', () => {
           force: false,
         })
         .resolves({ on: onStub });
-      await actionsChannels.closeChannel(channelPoint);
+      await actionsChannels.closeChannel(channel);
       expect(actionsChannels.getPendingChannels, 'was called once');
       expect(actionsChannels.getChannels, 'was called once');
     });
@@ -159,8 +160,17 @@ describe('Actions Channels Unit Tests', () => {
           force: true,
         })
         .resolves({ on: onStub });
-      await actionsChannels.closeChannel(channelPoint, true);
+      await actionsChannels.closeChannel(channel, true);
       expect(store.pendingChannelsResponse, 'to equal', []);
+    });
+
+    it('should reject for invalid channel point', async () => {
+      channel.channelPoint = 'asdf';
+      await expect(
+        actionsChannels.closeChannel(channel),
+        'to be rejected with error satisfying',
+        /Invalid channel point/
+      );
     });
 
     it('should reject in case of error event', async () => {
@@ -169,7 +179,7 @@ describe('Actions Channels Unit Tests', () => {
         on: onStub,
       });
       await expect(
-        actionsChannels.closeChannel(channelPoint),
+        actionsChannels.closeChannel(channel),
         'to be rejected with error satisfying',
         /Boom/
       );
