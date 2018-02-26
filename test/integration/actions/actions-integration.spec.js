@@ -242,7 +242,7 @@ describe('Actions Integration Tests', function() {
       expect(store1.computedChannels[0].status, 'to be', 'open');
     });
 
-    it('should list pending closing channel after closing', async () => {
+    it('should list pending-closing channel after closing', async () => {
       channels1.closeChannel(store1.computedChannels[0]);
       while (!store1.pendingChannelsResponse.length) await nap(100);
       while (store1.channelsResponse.length) await nap(100);
@@ -256,13 +256,26 @@ describe('Actions Integration Tests', function() {
       expect(store1.computedChannels.length, 'to be', 0);
     });
 
-    it('should open and force close channel', async () => {
+    it('should list pending open channel after opening', async () => {
       channels1.openChannel(store2.pubKey, 10000);
+      while (!store1.pendingChannelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'pending-open');
+    });
+
+    it('should list open channel after mining 6 blocks', async () => {
       await mineAndSync({ blocks: 6 });
+      while (store1.pendingChannelsResponse.length) await nap(100);
       while (!store1.channelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'open');
+    });
+
+    it('should list pending-force-closing after force closing', async () => {
       channels1.closeChannel(store1.channelsResponse[0], true);
       while (!store1.pendingChannelsResponse.length) await nap(100);
       while (store1.channelsResponse.length) await nap(100);
+      expect(store1.computedChannels.length, 'to be', 1);
       expect(
         store1.computedChannels[0].status,
         'to be',
