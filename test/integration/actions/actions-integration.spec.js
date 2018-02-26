@@ -169,7 +169,7 @@ describe('Actions Integration Tests', function() {
       btcdArgs.miningAddress = store1.walletAddress;
       btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
-      await mineBlocks({ blocks: 400, logger });
+      await mineAndSync({ blocks: 400 });
     });
 
     it('should get public key node1', async () => {
@@ -192,7 +192,7 @@ describe('Actions Integration Tests', function() {
       btcdArgs.miningAddress = store2.walletAddress;
       btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
-      await mineBlocks({ blocks: 400, logger });
+      await mineAndSync({ blocks: 400 });
     });
 
     it('should get public key node2', async () => {
@@ -235,7 +235,7 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list open channel after mining 6 blocks', async () => {
-      await mineBlocks({ blocks: 6, logger });
+      await mineAndSync({ blocks: 6 });
       while (store1.pendingChannelsResponse.length) await nap(100);
       while (!store1.channelsResponse.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
@@ -251,14 +251,14 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list no channels after mining 6 blocks', async () => {
-      await mineBlocks({ blocks: 6, logger });
+      await mineAndSync({ blocks: 6 });
       while (store1.pendingChannelsResponse.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 0);
     });
 
     it('should open and force close channel', async () => {
       channels1.openChannel(store2.pubKey, 10000);
-      await mineBlocks({ blocks: 6, logger });
+      await mineAndSync({ blocks: 6 });
       while (!store1.channelsResponse.length) await nap(100);
       channels1.closeChannel(store1.channelsResponse[0], true);
       while (!store1.pendingChannelsResponse.length) await nap(100);
@@ -271,9 +271,16 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list no channels after mining 6 blocks', async () => {
-      await mineBlocks({ blocks: 6, logger });
+      await mineAndSync({ blocks: 6 });
       while (store1.pendingChannelsResponse.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 0);
     });
   });
+
+  const mineAndSync = async ({ blocks }) => {
+    await mineBlocks({ blocks, logger });
+    await info1.getInfo();
+    await info2.getInfo();
+    while (!store1.syncedToChain || !store2.syncedToChain) await nap(100);
+  };
 });
