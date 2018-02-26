@@ -28,4 +28,12 @@ describe('Helpers Unit Tests', () => {
       expect(hash, 'to equal', '7e8a1b6a');
     });
   });
+
+  describe('reverse()', () => {
+    it('should reverse a byte array', () => {
+      const src = new Buffer('cdab', 'hex');
+      const dest = helpers.reverse(src);
+      expect(dest.toString('hex'), 'to equal', 'abcd');
+    });
+  });
 });
