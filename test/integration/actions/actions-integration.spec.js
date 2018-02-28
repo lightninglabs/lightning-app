@@ -239,7 +239,7 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list pending open channel after opening', async () => {
-      channels1.openChannel(store2.pubKey, 10000);
+      channels1.openChannel(store2.pubKey, 1000000);
       while (!store1.pendingChannelsResponse.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
       expect(store1.computedChannels[0].status, 'to be', 'pending-open');
@@ -304,7 +304,7 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list pending open channel after opening', async () => {
-      channels1.openChannel(store2.pubKey, 10000);
+      channels1.openChannel(store2.pubKey, 1000000);
       while (!store1.pendingChannelsResponse.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
       expect(store1.computedChannels[0].status, 'to be', 'pending-open');
