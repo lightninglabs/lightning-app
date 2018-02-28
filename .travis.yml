@@ -12,4 +12,4 @@ before_install:
   - ./assets/script/install_lnd.sh
 
 env:
-  - NAP_TIME=10000
+  - NAP_TIME=20000
