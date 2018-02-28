@@ -1,4 +1,5 @@
 import { observable, useStrict } from 'mobx';
+import net from 'net';
 import ActionsGrpc from '../../../src/actions/grpc';
 import * as logger from '../../../src/actions/logs';
 import ActionsNav from '../../../src/actions/nav';
@@ -320,6 +321,7 @@ describe('Actions Integration Tests', function() {
   });
 
   const mineAndSync = async ({ blocks }) => {
+    await poll(() => isBtcdPortOpen());
     await mineBlocks({ blocks, logger });
     await info1.getInfo();
     await info2.getInfo();
@@ -331,5 +333,26 @@ describe('Actions Integration Tests', function() {
     await wallet1.getChannelBalance();
     await wallet2.getBalance();
     await wallet2.getChannelBalance();
+  };
+
+  const poll = async (api, interval = 100, retries = 1000) => {
+    while (retries--) {
+      try {
+        return await api();
+      } catch (err) {
+        if (!retries) throw err;
+      }
+      await nap(interval);
+    }
+  };
+
+  const isBtcdPortOpen = async () => {
+    await new Promise((resolve, reject) => {
+      const client = new net.Socket();
+      client.on('error', reject);
+      client.on('close', resolve);
+      client.on('connect', () => client.destroy());
+      client.connect(18556, 'localhost');
+    });
   };
 });
