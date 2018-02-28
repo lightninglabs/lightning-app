@@ -30,10 +30,10 @@ class ActionsWallet {
 
   async getBalance() {
     try {
-      const response = await this._actionsGrpc.sendCommand('WalletBalance');
-      this._store.balanceSatoshis = response.total_balance;
-      this._store.confirmedBalanceSatoshis = response.confirmed_balance;
-      this._store.unconfirmedBalanceSatoshis = response.unconfirmed_balance;
+      const res = await this._actionsGrpc.sendCommand('WalletBalance');
+      this._store.balanceSatoshis = Number(res.total_balance);
+      this._store.confirmedBalanceSatoshis = Number(res.confirmed_balance);
+      this._store.unconfirmedBalanceSatoshis = Number(res.unconfirmed_balance);
     } catch (err) {
       clearTimeout(this.t1);
       this.t1 = setTimeout(() => this.getBalance(), RETRY_DELAY);
@@ -43,7 +43,7 @@ class ActionsWallet {
   async getChannelBalance() {
     try {
       const response = await this._actionsGrpc.sendCommand('ChannelBalance');
-      this._store.channelBalanceSatoshis = response.balance;
+      this._store.channelBalanceSatoshis = Number(response.balance);
     } catch (err) {
       clearTimeout(this.t2);
       this.t2 = setTimeout(() => this.getChannelBalance(), RETRY_DELAY);
