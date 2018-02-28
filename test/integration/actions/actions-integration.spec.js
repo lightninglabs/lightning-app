@@ -63,6 +63,9 @@ describe('Actions Integration Tests', function() {
   let transactions2;
   let payments2;
   let btcdArgs;
+  let payReq;
+  let currentBalance1;
+  let currentBalance2;
 
   before(async () => {
     rmdir('test/data');
@@ -206,7 +209,7 @@ describe('Actions Integration Tests', function() {
     });
   });
 
-  describe('Channel actions', () => {
+  describe('Channel and Payment actions', () => {
     it('should list no peers initially', async () => {
       await channels1.getPeers();
       expect(store1.peersResponse, 'to equal', []);
@@ -227,6 +230,14 @@ describe('Actions Integration Tests', function() {
       expect(store1.peersResponse[0].pubKey, 'to be', store2.pubKey);
     });
 
+    it('should have no satoshis in channel balance', async () => {
+      await updateBalances();
+      expect(store1.balanceSatoshis, 'to be positive');
+      expect(store1.channelBalanceSatoshis, 'to be', 0);
+      expect(store2.balanceSatoshis, 'to be positive');
+      expect(store2.channelBalanceSatoshis, 'to be', 0);
+    });
+
     it('should list pending open channel after opening', async () => {
       channels1.openChannel(store2.pubKey, 10000);
       while (!store1.pendingChannelsResponse.length) await nap(100);
@@ -240,6 +251,42 @@ describe('Actions Integration Tests', function() {
       while (!store1.channelsResponse.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
       expect(store1.computedChannels[0].status, 'to be', 'open');
+    });
+
+    it('should have enough satoshis in channel balance', async () => {
+      await updateBalances();
+      expect(store1.channelBalanceSatoshis, 'to be positive');
+      expect(store2.channelBalanceSatoshis, 'to be', 0);
+    });
+
+    it('should generate payment request', async () => {
+      payReq = await wallet2.generatePaymentRequest(100, 'coffee');
+      expect(payReq, 'to match', /^lightning:/);
+    });
+
+    it('should send lightning payment from request', async () => {
+      await payments1.payLightning(payReq);
+    });
+
+    it('should have satoshis in node2 channel balance after payment', async () => {
+      await updateBalances();
+      expect(store2.channelBalanceSatoshis, 'to be', 100);
+      currentBalance1 = store1.balanceSatoshis;
+      currentBalance2 = store2.balanceSatoshis;
+    });
+
+    it('should send on-chain payment', async () => {
+      await payments1.sendCoins({
+        addr: store2.walletAddress,
+        amount: 600000000,
+      });
+      await mineAndSync({ blocks: 6 });
+    });
+
+    it('should have less satoshis in on-chain balance after payment', async () => {
+      await updateBalances();
+      expect(store1.balanceSatoshis, 'to be less than', currentBalance1);
+      expect(store2.balanceSatoshis, 'to be greater than', currentBalance2);
     });
 
     it('should list pending-closing channel after closing', async () => {
@@ -295,5 +342,12 @@ describe('Actions Integration Tests', function() {
     await info1.getInfo();
     await info2.getInfo();
     while (!store1.syncedToChain || !store2.syncedToChain) await nap(100);
+  };
+
+  const updateBalances = async () => {
+    await wallet1.getBalance();
+    await wallet1.getChannelBalance();
+    await wallet2.getBalance();
+    await wallet2.getChannelBalance();
   };
 });
