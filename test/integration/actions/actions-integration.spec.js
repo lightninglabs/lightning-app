@@ -191,12 +191,24 @@ describe('Actions Integration Tests', function() {
       expect(store2.walletAddress, 'to be ok');
     });
 
+    it('should list no transactions initially', async () => {
+      await transactions2.getTransactions();
+      expect(store2.transactionsResponse, 'to equal', []);
+      transactions2.subscribeTransactions();
+    });
+
     it('should send some on-chain funds to node2', async () => {
       await payments1.sendCoins({
         addr: store2.walletAddress,
         amount: 1000000000,
       });
+    });
+
+    it('should list transaction as confirmed after mining 6 blocks', async () => {
       await mineAndSync({ blocks: 6 });
+      while (!store2.transactionsResponse.length) await nap(100);
+      const tx = store2.computedTransactions.find(t => t.type === 'bitcoin');
+      expect(tx.status, 'to be', 'confirmed');
     });
 
     it('should get public key node2', async () => {
