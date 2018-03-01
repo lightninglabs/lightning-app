@@ -1,5 +1,5 @@
 import { observable, useStrict } from 'mobx';
-import net from 'net';
+import { rmdir, poll, isPortOpen } from './test-util';
 import ActionsGrpc from '../../../src/actions/grpc';
 import * as logger from '../../../src/actions/logs';
 import ActionsNav from '../../../src/actions/nav';
@@ -11,7 +11,6 @@ import ActionsPayments from '../../../src/actions/payments';
 import ComputedWallet from '../../../src/computed/wallet';
 import ComputedTransactions from '../../../src/computed/transactions';
 import ComputedChannels from '../../../src/computed/channels';
-import rmdir from './rmdir';
 
 const {
   createGrpcClient,
@@ -23,6 +22,7 @@ const {
 /* eslint-disable no-unused-vars */
 
 const isDev = true;
+const BTCD_PORT = 18556;
 const BTCD_DATA_DIR = 'test/data/btcd_data';
 const BTCD_LOG_DIR = 'test/data/btcd_log';
 const LND_DATA_DIR_1 = 'test/data/lnd_data_1';
@@ -93,6 +93,7 @@ describe('Actions Integration Tests', function() {
       btcdDataDir: BTCD_DATA_DIR,
     };
     btcdProcess = await startBtcdProcess(btcdArgs);
+    await poll(() => isPortOpen(BTCD_PORT));
     await nap(NAP_TIME);
     const lndProcess1Promise = startLndProcess({
       isDev,
@@ -170,6 +171,7 @@ describe('Actions Integration Tests', function() {
       btcdProcess.kill();
       btcdArgs.miningAddress = store1.walletAddress;
       btcdProcess = await startBtcdProcess(btcdArgs);
+      await poll(() => isPortOpen(BTCD_PORT));
       await nap(NAP_TIME);
       await mineAndSync({ blocks: 400 });
     });
@@ -321,7 +323,6 @@ describe('Actions Integration Tests', function() {
   });
 
   const mineAndSync = async ({ blocks }) => {
-    await poll(() => isBtcdPortOpen());
     await mineBlocks({ blocks, logger });
     await info1.getInfo();
     await info2.getInfo();
@@ -333,26 +334,5 @@ describe('Actions Integration Tests', function() {
     await wallet1.getChannelBalance();
     await wallet2.getBalance();
     await wallet2.getChannelBalance();
-  };
-
-  const poll = async (api, interval = 100, retries = 1000) => {
-    while (retries--) {
-      try {
-        return await api();
-      } catch (err) {
-        if (!retries) throw err;
-      }
-      await nap(interval);
-    }
-  };
-
-  const isBtcdPortOpen = async () => {
-    await new Promise((resolve, reject) => {
-      const client = new net.Socket();
-      client.on('error', reject);
-      client.on('close', resolve);
-      client.on('connect', () => client.destroy());
-      client.connect(18556, 'localhost');
-    });
   };
 });
