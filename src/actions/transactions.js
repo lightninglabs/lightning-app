@@ -1,3 +1,4 @@
+import * as log from './logs';
 import { toHash } from '../helpers';
 import { RETRY_DELAY } from '../config';
 
@@ -65,27 +66,27 @@ class ActionsTransactions {
   }
 
   async subscribeTransactions() {
-    try {
-      await this._actionsGrpc.sendStreamCommand('subscribeTransactions');
-    } catch (err) {
-      clearTimeout(this.tsubscribeTransactions);
-      this.tsubscribeTransactions = setTimeout(
-        () => this.subscribeTransactions(),
-        RETRY_DELAY
-      );
-    }
+    const stream = await this._actionsGrpc.sendStreamCommand(
+      'subscribeTransactions'
+    );
+    await new Promise((resolve, reject) => {
+      stream.on('data', () => this.getTransactions());
+      stream.on('end', resolve);
+      stream.on('error', reject);
+      stream.on('status', status => log.info(`Transactions update: ${status}`));
+    });
   }
 
   async subscribeInvoices() {
-    try {
-      await this._actionsGrpc.sendStreamCommand('subscribeInvoices');
-    } catch (err) {
-      clearTimeout(this.tsubscribeInvoices);
-      this.tsubscribeInvoices = setTimeout(
-        () => this.subscribeInvoices(),
-        RETRY_DELAY
-      );
-    }
+    const stream = await this._actionsGrpc.sendStreamCommand(
+      'subscribeInvoices'
+    );
+    await new Promise((resolve, reject) => {
+      stream.on('data', () => this.getInvoices());
+      stream.on('end', resolve);
+      stream.on('error', reject);
+      stream.on('status', status => log.info(`Invoices update: ${status}`));
+    });
   }
 }
 
