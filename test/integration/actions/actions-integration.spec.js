@@ -191,12 +191,24 @@ describe('Actions Integration Tests', function() {
       expect(store2.walletAddress, 'to be ok');
     });
 
+    it('should list no transactions initially', async () => {
+      await transactions2.getTransactions();
+      expect(store2.transactionsResponse, 'to equal', []);
+      transactions2.subscribeTransactions();
+    });
+
     it('should send some on-chain funds to node2', async () => {
       await payments1.sendCoins({
         addr: store2.walletAddress,
         amount: 1000000000,
       });
+    });
+
+    it('should list transaction as confirmed after mining 6 blocks', async () => {
       await mineAndSync({ blocks: 6 });
+      while (!store2.transactionsResponse.length) await nap(100);
+      const tx = store2.computedTransactions.find(t => t.type === 'bitcoin');
+      expect(tx.status, 'to be', 'confirmed');
     });
 
     it('should get public key node2', async () => {
@@ -260,13 +272,31 @@ describe('Actions Integration Tests', function() {
       expect(store2.channelBalanceSatoshis, 'to be', 0);
     });
 
+    it('should list no invoices initially', async () => {
+      await transactions2.getInvoices();
+      expect(store2.invoicesResponse, 'to equal', []);
+    });
+
     it('should generate payment request', async () => {
       payReq = await wallet2.generatePaymentRequest(100, 'coffee');
       expect(payReq, 'to match', /^lightning:/);
     });
 
+    it('should list new invoice as in-progress', async () => {
+      await transactions2.getInvoices();
+      expect(store2.invoicesResponse[0].status, 'to be', 'in-progress');
+      transactions2.subscribeInvoices();
+    });
+
     it('should send lightning payment from request', async () => {
       await payments1.payLightning(payReq);
+    });
+
+    it('should update complete invoice via subscription', async () => {
+      while (store2.invoicesResponse[0].status === 'in-progress')
+        await nap(100);
+      const tx = store2.computedTransactions.find(t => t.type === 'lightning');
+      expect(tx.status, 'to be', 'complete');
     });
 
     it('should have satoshis in node2 channel balance after payment', async () => {

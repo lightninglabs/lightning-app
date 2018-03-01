@@ -122,34 +122,64 @@ describe('Actions Transactions Unit Tests', () => {
   });
 
   describe('subscribeTransactions()', () => {
-    it('should set transaction response in store', async () => {
-      actionsGrpc.sendStreamCommand
-        .withArgs('subscribeTransactions')
-        .resolves();
-      await actionsTransactions.subscribeTransactions();
+    let onStub;
+
+    beforeEach(() => {
+      onStub = sinon.stub();
+      sandbox.stub(actionsTransactions, 'getTransactions');
     });
 
-    it('should retry on failure', async () => {
-      actionsGrpc.sendStreamCommand.onFirstCall().rejects();
+    it('should updated transactions on data event', async () => {
+      onStub.withArgs('data').yields();
+      onStub.withArgs('end').yields();
+      actionsGrpc.sendStreamCommand
+        .withArgs('subscribeTransactions')
+        .resolves({ on: onStub });
       await actionsTransactions.subscribeTransactions();
-      actionsGrpc.sendStreamCommand.resolves({});
-      await nap(30);
-      expect(actionsGrpc.sendStreamCommand.callCount, 'to be greater than', 1);
+      expect(actionsTransactions.getTransactions, 'was called once');
+    });
+
+    it('should reject in case of error', async () => {
+      onStub.withArgs('error').yields(new Error('Boom!'));
+      actionsGrpc.sendStreamCommand
+        .withArgs('subscribeTransactions')
+        .resolves({ on: onStub });
+      await expect(
+        actionsTransactions.subscribeTransactions(),
+        'to be rejected with error satisfying',
+        /Boom/
+      );
     });
   });
 
   describe('subscribeInvoices()', () => {
-    it('should set transaction response in store', async () => {
-      actionsGrpc.sendStreamCommand.withArgs('subscribeInvoices').resolves();
-      await actionsTransactions.subscribeInvoices();
+    let onStub;
+
+    beforeEach(() => {
+      onStub = sinon.stub();
+      sandbox.stub(actionsTransactions, 'getInvoices');
     });
 
-    it('should retry on failure', async () => {
-      actionsGrpc.sendStreamCommand.onFirstCall().rejects();
+    it('should update invoices on data event', async () => {
+      onStub.withArgs('data').yields();
+      onStub.withArgs('end').yields();
+      actionsGrpc.sendStreamCommand
+        .withArgs('subscribeInvoices')
+        .resolves({ on: onStub });
       await actionsTransactions.subscribeInvoices();
-      actionsGrpc.sendStreamCommand.resolves({});
-      await nap(30);
-      expect(actionsGrpc.sendStreamCommand.callCount, 'to be greater than', 1);
+      expect(actionsTransactions.getInvoices, 'was called once');
+    });
+
+    it('should reject in case of error', async () => {
+      onStub.withArgs('error').yields(new Error('Boom!'));
+      actionsGrpc.sendStreamCommand
+        .withArgs('subscribeInvoices')
+        .resolves({ on: onStub });
+      await expect(
+        actionsTransactions.subscribeInvoices(),
+        'to be rejected with error satisfying',
+        /Boom/
+      );
     });
   });
 });
