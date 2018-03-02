@@ -5,7 +5,7 @@ import ComputedChannels from './computed/channels';
 import { DEFAULT_ROUTE } from './config';
 import * as log from './actions/logs';
 
-class Store {
+export class Store {
   constructor() {
     extendObservable(this, {
       loaded: false, // Is persistent data loaded

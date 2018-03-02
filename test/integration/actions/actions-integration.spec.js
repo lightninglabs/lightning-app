@@ -1,5 +1,5 @@
-import { observable, useStrict } from 'mobx';
 import { rmdir, poll, isPortOpen } from './test-util';
+import { Store } from '../../../src/store';
 import ActionsGrpc from '../../../src/actions/grpc';
 import * as logger from '../../../src/actions/logs';
 import ActionsNav from '../../../src/actions/nav';
@@ -8,9 +8,6 @@ import ActionsWallet from '../../../src/actions/wallet';
 import ActionsChannels from '../../../src/actions/channels';
 import ActionsTransactions from '../../../src/actions/transactions';
 import ActionsPayments from '../../../src/actions/payments';
-import ComputedWallet from '../../../src/computed/wallet';
-import ComputedTransactions from '../../../src/computed/transactions';
-import ComputedChannels from '../../../src/computed/channels';
 
 const {
   createGrpcClient,
@@ -70,16 +67,8 @@ describe('Actions Integration Tests', function() {
     rmdir('test/data');
     sandbox = sinon.sandbox.create();
     sandbox.stub(logger);
-    useStrict(false);
-    store1 = observable({ lndReady: false, loaded: false });
-    store2 = observable({ lndReady: false, loaded: false });
-
-    ComputedWallet(store1);
-    ComputedWallet(store2);
-    ComputedTransactions(store1);
-    ComputedTransactions(store2);
-    ComputedChannels(store1);
-    ComputedChannels(store2);
+    store1 = new Store();
+    store2 = new Store();
 
     const globalStub1 = {};
     const remoteStub1 = { getGlobal: arg => globalStub1[arg] };
@@ -193,7 +182,7 @@ describe('Actions Integration Tests', function() {
 
     it('should list no transactions initially', async () => {
       await transactions2.getTransactions();
-      expect(store2.transactionsResponse, 'to equal', []);
+      expect(store2.transactionsResponse, 'to be empty');
       transactions2.subscribeTransactions();
     });
 
@@ -233,17 +222,17 @@ describe('Actions Integration Tests', function() {
   describe('Channel and Payment actions', () => {
     it('should list no peers initially', async () => {
       await channels1.getPeers();
-      expect(store1.peersResponse, 'to equal', []);
+      expect(store1.peersResponse, 'to be empty');
     });
 
     it('should list no pending channels initially', async () => {
       await channels1.getPendingChannels();
-      expect(store1.pendingChannelsResponse, 'to equal', []);
+      expect(store1.pendingChannelsResponse, 'to be empty');
     });
 
     it('should list no open channels initially', async () => {
       await channels1.getChannels();
-      expect(store1.channelsResponse, 'to equal', []);
+      expect(store1.channelsResponse, 'to be empty');
     });
 
     it('should connect to peer', async () => {
@@ -274,7 +263,7 @@ describe('Actions Integration Tests', function() {
 
     it('should list no invoices initially', async () => {
       await transactions2.getInvoices();
-      expect(store2.invoicesResponse, 'to equal', []);
+      expect(store2.invoicesResponse, 'to be empty');
     });
 
     it('should generate payment request', async () => {
