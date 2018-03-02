@@ -1,4 +1,3 @@
-import { AsyncStorage } from 'react-native';
 import { extendObservable, action, observable } from 'mobx';
 import ComputedWallet from './computed/wallet';
 import ComputedTransactions from './computed/transactions';
@@ -37,15 +36,15 @@ class Store {
       },
     });
 
-    // DEBUG ONLY!
-    // AsyncStorage.clear();
-
     ComputedWallet(this);
     ComputedTransactions(this);
     ComputedChannels(this);
+  }
 
+  init(AsyncStorage) {
+    this._AsyncStorage = AsyncStorage;
     try {
-      AsyncStorage.getItem('settings').then(
+      this._AsyncStorage.getItem('settings').then(
         action(stateString => {
           const state = JSON.parse(stateString);
           state &&
@@ -67,7 +66,7 @@ class Store {
   save() {
     try {
       const state = JSON.stringify(this.settings);
-      AsyncStorage && AsyncStorage.setItem('settings', state);
+      this._AsyncStorage.setItem('settings', state);
       log.info('Saved state');
     } catch (error) {
       log.info('Store Error', error);

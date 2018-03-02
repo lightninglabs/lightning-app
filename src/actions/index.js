@@ -1,4 +1,5 @@
 import { observe } from 'mobx';
+import { AsyncStorage } from 'react-native';
 import store from '../store';
 import ActionsGrpc from './grpc';
 import ActionsNav from './nav';
@@ -14,6 +15,8 @@ const { remote, ipcRenderer } = window.require('electron');
 //
 // Inject dependencies
 //
+
+store.init(AsyncStorage);
 
 export const actionsLogs = new ActionsLogs(store, ipcRenderer);
 export const actionsGrpc = new ActionsGrpc(store, remote);
