@@ -10,18 +10,8 @@ import { colors } from '../styles';
 import store from '../store';
 
 class Pay extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      payment: '',
-      amount: '',
-    };
-  }
-
   render() {
-    const { payment, amount } = this.state;
-    const { paymentRequestResponse } = store;
+    const { computedPayment } = store;
 
     return (
       <View style={{ flex: 1, padding: 20, backgroundColor: colors.offwhite }}>
@@ -34,34 +24,35 @@ class Pay extends Component {
 
         <TextInput
           placeholder="Payment Request / Bitcoin Address"
-          value={payment}
+          value={computedPayment.payment}
           onChangeText={payment => {
             actionsPayments.decodePaymentRequest(payment);
-            this.setState({ payment });
+            actionsPayments.setPaymentInfo('payment', payment);
           }}
         />
         <TextInput
           rightText="SAT"
           placeholder="Amount"
-          value={paymentRequestResponse.numSatoshis || amount}
-          editable={!paymentRequestResponse.numSatoshis}
-          onChangeText={amount =>
-            this.setState({ amount: amount.replace(/[^0-9.]/g, '') })
-          }
+          value={computedPayment.amount}
+          editable={!computedPayment.isPaymentRequest}
+          keyboardType="numeric"
+          onChangeText={amount => {
+            actionsPayments.setPaymentInfo('amount', amount);
+          }}
         />
-        {paymentRequestResponse.description ? (
+        {computedPayment.description ? (
           <Text style={{ marginLeft: 5 }}>
-            Description: {paymentRequestResponse.description}
+            Description: {computedPayment.description}
           </Text>
         ) : null}
         <Button
-          disabled={!amount || !payment}
+          disabled={!computedPayment.amount || !computedPayment.payment}
           text="Send Payment"
           onPress={() => {
             actionsPayments
               .makePayment({
-                payment,
-                amount,
+                payment: computedPayment.payment,
+                amount: computedPayment.amount,
               })
               .then(response => {
                 console.log('Send Payment response', response);
@@ -70,8 +61,10 @@ class Pay extends Component {
                 console.log('Error Send Payment', error);
               });
           }}
-          showClear={!!amount || !!payment}
-          onClear={() => this.setState({ amount: '', payment: '' })}
+          showClear={!!computedPayment.amount || !!computedPayment.payment}
+          onClear={() => {
+            actionsPayments.clearPaymentInfo();
+          }}
         />
       </View>
     );
