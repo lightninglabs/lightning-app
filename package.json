@@ -61,12 +61,16 @@
   "build": {
     "appId": "com.example.lightning-desktop",
     "mac": {
-      "category": "Network"
+      "category": "Network",
+      "artifactName": "${productName}-darwin-x64v${version}.${ext}"
     },
     "linux": {
-      "category": "Network"
+      "category": "Network",
+      "artifactName": "${productName}-linux-${arch}v${version}.${ext}"
     },
-    "win": {},
+    "win": {
+      "artifactName": "${productName}-win32-${arch}v${version}.${ext}"
+    },
     "productName": "Lightning",
     "files": [
       "build/**/*",

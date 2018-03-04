@@ -1,15 +1,45 @@
-sudo: false
 language: node_js
-
 node_js:
-  - "9"
+- '9'
+
+services:
+- docker
+
+before_install:
+- ./assets/script/install_lnd.sh
+
+before_cache:
+- rm -rf $HOME/.cache/electron-builder/wine
 
 cache:
   directories:
-    - node_modules
-
-before_install:
-  - ./assets/script/install_lnd.sh
+  - node_modules
+  - $HOME/.cache/electron
+  - $HOME/.cache/electron-builder
 
 env:
-  - NAP_TIME=20000
+- NAP_TIME=20000
+
+before_deploy:
+- env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_TAG|TRAVIS|TRAVIS_REPO_|TRAVIS_BUILD_|TRAVIS_BRANCH|TRAVIS_PULL_REQUEST_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_' > env.txt
+- docker run --rm --env-file env.txt --env ELECTRON_CACHE="/root/.cache/electron" --env ELECTRON_BUILDER_CACHE="/root/.cache/electron-builder" -v ${PWD}:/project -v ${PWD##*/}-node-modules:/project/node_modules -v ~/.cache/electron:/root/.cache/electron -v ~/.cache/electron-builder:/root/.cache/electron-builder electronuserland/builder:wine /bin/bash -c "npm i; npm run build; react-scripts build; ./node_modules/.bin/electron-builder --em.main=build/electron.js --linux tar.gz --win zip --mac zip"
+- rm env.txt
+- PACKAGE_VERSION=$(node -pe "require('./package.json').version")
+- cd dist
+- shasum -a 256 Lightning* | sudo tee manifest-v${PACKAGE_VERSION}.txt
+- sudo chown -R travis:travis ./
+- cd ..
+
+deploy:
+  provider: releases
+  api_key:
+    secure: <travis-cli generated api key>
+  file_glob: true
+  file:
+    - dist/Lightning*
+    - dist/manifest*
+  skip_cleanup: true
+  on:
+    repo: lightninglabs/lightning-app
+    branch: <branchname>
+    tags: true
