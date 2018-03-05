@@ -47,7 +47,6 @@ observe(store, 'lndReady', () => {
   actionsWallet.getBalance();
   actionsWallet.getChannelBalance();
   actionsWallet.getNewAddress();
-  actionsWallet.getIPAddress();
   // init info
   actionsInfo.getInfo();
   // init channels

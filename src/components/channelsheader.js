@@ -87,7 +87,9 @@ const ChannelsHeader = ({
     </View>
     <View style={styles.body}>
       <View style={layout.flexRow}>
-        <Text style={styles.pubKey}>{`${pubKey}@${ipAddress}`}</Text>
+        <Text style={styles.pubKey}>
+          {ipAddress ? `${pubKey}@${ipAddress}` : pubKey}
+        </Text>
       </View>
     </View>
   </View>
