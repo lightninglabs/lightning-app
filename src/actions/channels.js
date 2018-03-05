@@ -8,58 +8,65 @@ class ActionsChannels {
     this._actionsGrpc = actionsGrpc;
   }
 
-  async getChannels() {
+  async pollChannels() {
+    clearTimeout(this.tpollChannels);
     try {
-      const { channels } = await this._actionsGrpc.sendCommand('listChannels');
-      this._store.channelsResponse = channels.map(channel => ({
-        remotePubkey: channel.remote_pubkey,
-        id: channel.chan_id,
-        capacity: channel.capacity,
-        localBalance: channel.local_balance,
-        remoteBalance: channel.remote_balance,
-        channelPoint: channel.channel_point,
-        active: channel.active,
-        status: 'open',
-      }));
+      await this.getChannels();
     } catch (err) {
-      clearTimeout(this.tgetChannels);
-      this.tgetChannels = setTimeout(() => this.getChannels(), RETRY_DELAY);
+      log.error('Listing channels failed', err);
     }
+    this.tpollChannels = setTimeout(() => this.pollChannels(), RETRY_DELAY);
+  }
+
+  async getChannels() {
+    const { channels } = await this._actionsGrpc.sendCommand('listChannels');
+    this._store.channelsResponse = channels.map(channel => ({
+      remotePubkey: channel.remote_pubkey,
+      id: channel.chan_id,
+      capacity: channel.capacity,
+      localBalance: channel.local_balance,
+      remoteBalance: channel.remote_balance,
+      channelPoint: channel.channel_point,
+      active: channel.active,
+      status: 'open',
+    }));
+  }
+
+  async pollPendingChannels() {
+    clearTimeout(this.tpPending);
+    try {
+      await this.getPendingChannels();
+    } catch (err) {
+      log.error('Listing pending channels failed', err);
+    }
+    this.tpPending = setTimeout(() => this.pollPendingChannels(), RETRY_DELAY);
   }
 
   async getPendingChannels() {
-    try {
-      const response = await this._actionsGrpc.sendCommand('pendingChannels');
-      const pocs = response.pending_open_channels.map(poc => ({
-        channel: poc.channel,
-        confirmationHeight: poc.confirmation_height,
-        blocksTillOpen: poc.blocks_till_open,
-        commitFee: poc.commit_fee,
-        commitWeight: poc.commit_weight,
-        feePerKw: poc.fee_per_kw,
-        status: 'pending-open',
-      }));
-      const pccs = response.pending_closing_channels.map(pcc => ({
-        channel: pcc.channel,
-        closingTxid: pcc.closing_txid,
-        status: 'pending-closing',
-      }));
-      const pfccs = response.pending_force_closing_channels.map(pfcc => ({
-        channel: pfcc.channel,
-        closingTxid: pfcc.closing_txid,
-        limboBalance: pfcc.limbo_balance,
-        maturityHeight: pfcc.maturity_height,
-        blocksTilMaturity: pfcc.blocks_til_maturity,
-        status: 'pending-force-closing',
-      }));
-      this._store.pendingChannelsResponse = [].concat(pocs, pccs, pfccs);
-    } catch (err) {
-      clearTimeout(this.tgetPendingChannels);
-      this.tgetPendingChannels = setTimeout(
-        () => this.getPendingChannels(),
-        RETRY_DELAY
-      );
-    }
+    const response = await this._actionsGrpc.sendCommand('pendingChannels');
+    const pocs = response.pending_open_channels.map(poc => ({
+      channel: poc.channel,
+      confirmationHeight: poc.confirmation_height,
+      blocksTillOpen: poc.blocks_till_open,
+      commitFee: poc.commit_fee,
+      commitWeight: poc.commit_weight,
+      feePerKw: poc.fee_per_kw,
+      status: 'pending-open',
+    }));
+    const pccs = response.pending_closing_channels.map(pcc => ({
+      channel: pcc.channel,
+      closingTxid: pcc.closing_txid,
+      status: 'pending-closing',
+    }));
+    const pfccs = response.pending_force_closing_channels.map(pfcc => ({
+      channel: pfcc.channel,
+      closingTxid: pfcc.closing_txid,
+      limboBalance: pfcc.limbo_balance,
+      maturityHeight: pfcc.maturity_height,
+      blocksTilMaturity: pfcc.blocks_til_maturity,
+      status: 'pending-force-closing',
+    }));
+    this._store.pendingChannelsResponse = [].concat(pocs, pccs, pfccs);
   }
 
   async getPeers() {
@@ -96,8 +103,8 @@ class ActionsChannels {
     });
     await new Promise((resolve, reject) => {
       stream.on('data', () => {
-        this.getPendingChannels();
-        this.getChannels();
+        this.pollPendingChannels();
+        this.pollChannels();
       });
       stream.on('end', resolve);
       stream.on('error', reject);
@@ -113,8 +120,8 @@ class ActionsChannels {
     await new Promise((resolve, reject) => {
       stream.on('data', data => {
         if (data.close_pending) {
-          this.getPendingChannels();
-          this.getChannels();
+          this.pollPendingChannels();
+          this.pollChannels();
         }
         if (data.chan_close) {
           this._removeClosedChannel(data.chan_close.closing_txid);
