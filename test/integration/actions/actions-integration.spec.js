@@ -188,7 +188,7 @@ describe('Actions Integration Tests', function() {
 
     it('should send some on-chain funds to node2', async () => {
       await payments1.sendCoins({
-        addr: store2.walletAddress,
+        address: store2.walletAddress,
         amount: 1000000000,
       });
     });
@@ -278,7 +278,7 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should send lightning payment from request', async () => {
-      await payments1.payLightning(payReq);
+      await payments1.payLightning({ payment: payReq });
     });
 
     it('should update complete invoice via subscription', async () => {
