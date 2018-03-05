@@ -27,7 +27,8 @@ export class Store {
       peersResponse: null,
       channelsResponse: null,
       pendingChannelsResponse: null,
-      paymentRequestResponse: {},
+      paymentRequestResponse: null,
+      notification: null,
       logs: observable([]),
 
       // Persistent data

@@ -44,15 +44,6 @@ describe('Actions Wallet Unit Tests', () => {
     });
   });
 
-  describe('updateBalances()', () => {
-    it('should get wallet and channel balances', () => {
-      actionsGrpc.sendCommand.resolves({});
-      actionsWallet.updateBalances();
-      expect(actionsGrpc.sendCommand, 'was called with', 'WalletBalance');
-      expect(actionsGrpc.sendCommand, 'was called with', 'ChannelBalance');
-    });
-  });
-
   describe('getBalance()', () => {
     it('should get wallet balance', async () => {
       actionsGrpc.sendCommand.withArgs('WalletBalance').resolves({

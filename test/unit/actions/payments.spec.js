@@ -2,6 +2,7 @@ import { observable, useStrict } from 'mobx';
 import ActionsGrpc from '../../../src/actions/grpc';
 import ActionsWallet from '../../../src/actions/wallet';
 import ActionsPayments from '../../../src/actions/payments';
+import ActionsNotification from '../../../src/actions/notification';
 import * as logger from '../../../src/actions/logs';
 
 describe('Actions Payments Unit Tests', () => {
@@ -10,6 +11,7 @@ describe('Actions Payments Unit Tests', () => {
   let actionsGrpc;
   let actionsWallet;
   let actionsPayments;
+  let actionsNotification;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -19,118 +21,95 @@ describe('Actions Payments Unit Tests', () => {
     require('../../../src/config').RETRY_DELAY = 1;
     actionsGrpc = sinon.createStubInstance(ActionsGrpc);
     actionsWallet = sinon.createStubInstance(ActionsWallet);
-    actionsPayments = new ActionsPayments(store, actionsGrpc, actionsWallet);
+    actionsNotification = sinon.createStubInstance(ActionsNotification);
+    actionsPayments = new ActionsPayments(
+      store,
+      actionsGrpc,
+      actionsWallet,
+      actionsNotification
+    );
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  describe('makePayment()', () => {
-    it('should send payment', async () => {
-      actionsGrpc.sendCommand.withArgs('decodePayReq').resolves({});
-      const paymentsOnStub = sinon
-        .stub()
-        .withArgs('data')
-        .yields({ payment_error: '' });
-      const paymentsWriteStub = sinon.stub();
+  describe('sendCoins()', () => {
+    it('should send on-chain transaction', async () => {
+      actionsGrpc.sendCommand.withArgs('sendCoins').resolves();
+      await actionsPayments.sendCoins({
+        address: 'some-address',
+        amount: 'some-amount',
+      });
+      expect(actionsNotification.display, 'was not called');
+      expect(actionsWallet.getBalance, 'was called once');
+    });
+
+    it('should display notification on error', async () => {
+      actionsGrpc.sendCommand.withArgs('sendCoins').rejects();
+      await actionsPayments.sendCoins({
+        address: 'some-address',
+        amount: 'some-amount',
+      });
+      expect(actionsNotification.display, 'was called once');
+      expect(actionsWallet.getBalance, 'was called once');
+    });
+  });
+
+  describe('payLightning()', () => {
+    let paymentsOnStub;
+    let paymentsWriteStub;
+
+    beforeEach(() => {
+      paymentsOnStub = sinon.stub();
+      paymentsWriteStub = sinon.stub();
       actionsGrpc.sendStreamCommand.withArgs('sendPayment').resolves({
         on: paymentsOnStub,
         write: paymentsWriteStub,
       });
-      await actionsPayments.makePayment({
-        payment: 'some-payment',
-        amount: 'some-amount',
-      });
-      expect(actionsGrpc.sendCommand, 'was called once');
-      expect(actionsGrpc.sendCommand, 'was called with', 'decodePayReq');
+    });
+
+    it('should send lightning payment', async () => {
+      paymentsOnStub.withArgs('data').yields({ payment_error: '' });
+      await actionsPayments.payLightning({ payment: 'some-payment' });
       expect(actionsGrpc.sendStreamCommand, 'was called with', 'sendPayment');
       expect(paymentsWriteStub, 'was called with', {
         payment_request: 'some-payment',
       });
-      expect(actionsWallet.updateBalances, 'was not called');
+      expect(actionsNotification.display, 'was not called');
+      expect(actionsWallet.getChannelBalance, 'was called once');
     });
 
-    it('should throw error if send payment fails', async () => {
-      actionsGrpc.sendCommand.withArgs('decodePayReq').resolves({});
-      const paymentsOnStub = sinon
-        .stub()
-        .withArgs('data')
-        .yields({ payment_error: 'Boom!' });
-      const paymentsWriteStub = sinon.stub();
-      actionsGrpc.sendStreamCommand.withArgs('sendPayment').resolves({
-        on: paymentsOnStub,
-        write: paymentsWriteStub,
-      });
-      await expect(
-        actionsPayments.makePayment({
-          payment: 'some-payment',
-          amount: 'some-amount',
-        }),
-        'to be rejected with error satisfying',
-        /Payment route failure/
-      );
-    });
-
-    it('should send to coin address if decoding payment request failed', async () => {
-      actionsGrpc.sendCommand
-        .withArgs('decodePayReq')
-        .rejects(new Error('Boom!'));
-      actionsGrpc.sendCommand.withArgs('sendCoins').resolves();
-      await actionsPayments.makePayment({
-        payment: 'some-payment',
-        amount: 'some-amount',
-      });
-      expect(actionsGrpc.sendCommand, 'was called with', 'decodePayReq');
-      expect(actionsGrpc.sendStreamCommand, 'was not called');
-      expect(actionsGrpc.sendCommand, 'was called with', 'sendCoins', {
-        addr: 'some-payment',
-        amount: 'some-amount',
-      });
-      expect(actionsWallet.updateBalances, 'was called once');
+    it('should display notification on error', async () => {
+      paymentsOnStub.withArgs('data').yields({ payment_error: 'Boom!' });
+      await actionsPayments.payLightning({ payment: 'some-payment' });
+      expect(actionsNotification.display, 'was called once');
+      expect(actionsWallet.getChannelBalance, 'was called once');
     });
   });
 
   describe('decodePaymentRequest()', () => {
     it('should decode successfully', async () => {
-      const response = {
-        destination:
-          '035b55e3e08538afeef6ff9804e3830293eec1c4a6a9570f1e96a478dad1c86fed',
-        payment_hash:
-          'f99a06c85c12fe00bdd39cc852bf0c606bec23560d81dddbe887dd12f3783c95',
+      actionsGrpc.sendCommand.withArgs('decodePayReq').resolves({
         num_satoshis: '1700',
-        timestamp: '1516991998',
-        expiry: '3600',
-        description: '1 Espresso Coin Panna',
-        description_hash: '',
-        fallback_addr: '',
-        cltv_expiry: '9',
-      };
-      actionsGrpc.sendCommand.withArgs('decodePayReq').resolves(response);
-      await actionsPayments.decodePaymentRequest('goodPaymentRequest');
-      expect(
-        store.paymentRequestResponse.numSatoshis,
-        'to be',
-        response.num_satoshis
-      );
-      expect(
-        store.paymentRequestResponse.description,
-        'to be',
-        response.description
-      );
+        description: 'foo',
+      });
+      await actionsPayments.decodePaymentRequest({
+        payment: 'some-payment',
+      });
+      expect(store.paymentRequestResponse.numSatoshis, 'to be', '1700');
+      expect(store.paymentRequestResponse.description, 'to be', 'foo');
     });
 
-    it('should reset state in case of failure', async () => {
+    it('should set response to null on error', async () => {
       actionsGrpc.sendCommand
         .withArgs('decodePayReq')
         .rejects(new Error('Boom!'));
-      await expect(
-        actionsPayments.decodePaymentRequest('goodPaymentRequest'),
-        'to be rejected with error satisfying',
-        /Boom/
-      );
-      expect(store.paymentRequestResponse.numSatoshis, 'to be', undefined);
-      expect(store.paymentRequestResponse.description, 'to be', undefined);
+      await actionsPayments.decodePaymentRequest({
+        payment: 'some-payment',
+      });
+      expect(store.paymentRequestResponse, 'to be', null);
+      expect(logger.error, 'was called once');
     });
   });
 });

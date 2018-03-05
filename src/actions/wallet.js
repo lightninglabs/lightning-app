@@ -23,11 +23,6 @@ class ActionsWallet {
     }
   }
 
-  updateBalances() {
-    this.getBalance();
-    this.getChannelBalance();
-  }
-
   async getBalance() {
     try {
       const res = await this._actionsGrpc.sendCommand('WalletBalance');

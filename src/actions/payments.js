@@ -2,48 +2,55 @@ import { PREFIX_URI } from '../config';
 import * as log from './logs';
 
 class ActionsPayments {
-  constructor(store, actionsGrpc, actionsWallet) {
+  constructor(store, actionsGrpc, actionsWallet, notification) {
     this._store = store;
     this._actionsGrpc = actionsGrpc;
     this._actionsWallet = actionsWallet;
+    this._notification = notification;
   }
 
-  async makePayment({ payment, amount }) {
+  async sendCoins({ address, amount }) {
     try {
-      await this.decodePaymentRequest(payment);
-    } catch (err) {
-      log.info('ActionsPayments makePayment', err);
-      this.sendCoins({ addr: payment, amount });
-      return;
-    }
-    await this.payLightning(payment);
-  }
-
-  async sendCoins({ addr, amount }) {
-    await this._actionsGrpc.sendCommand('sendCoins', {
-      addr,
-      amount,
-    });
-    this._actionsWallet.updateBalances();
-  }
-
-  async payLightning(payment) {
-    payment = payment.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
-    const payments = await this._actionsGrpc.sendStreamCommand('sendPayment');
-    await new Promise((resolve, reject) => {
-      payments.on('data', data => {
-        if (data.payment_error === '') {
-          resolve();
-        } else {
-          reject(new Error('Payment route failure'));
-        }
+      await this._actionsGrpc.sendCommand('sendCoins', {
+        addr: address,
+        amount,
       });
-      payments.on('error', reject);
-      payments.write({ payment_request: payment });
-    });
+    } catch (err) {
+      this._notification.display({
+        type: 'error',
+        message: 'Sending transaction failed!',
+        error: err,
+      });
+    }
+    await this._actionsWallet.getBalance();
   }
 
-  async decodePaymentRequest(payment) {
+  async payLightning({ payment }) {
+    try {
+      payment = payment.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
+      const stream = await this._actionsGrpc.sendStreamCommand('sendPayment');
+      await new Promise((resolve, reject) => {
+        stream.on('data', data => {
+          if (data.payment_error) {
+            reject(new Error(`Lightning payment error: ${data.payment_error}`));
+          } else {
+            resolve();
+          }
+        });
+        stream.on('error', reject);
+        stream.write({ payment_request: payment });
+      });
+    } catch (err) {
+      this._notification.display({
+        type: 'error',
+        message: 'Lightning payment failed!',
+        error: err,
+      });
+    }
+    await this._actionsWallet.getChannelBalance();
+  }
+
+  async decodePaymentRequest({ payment }) {
     payment = payment.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
     try {
       const request = await this._actionsGrpc.sendCommand('decodePayReq', {
@@ -54,9 +61,8 @@ class ActionsPayments {
         description: request.description,
       };
     } catch (err) {
-      this._store.paymentRequestResponse = {};
+      this._store.paymentRequestResponse = null;
       log.error(err);
-      throw err;
     }
   }
 }
