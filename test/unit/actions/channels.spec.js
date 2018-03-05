@@ -1,6 +1,7 @@
 import { observable, useStrict } from 'mobx';
 import ActionsGrpc from '../../../src/actions/grpc';
 import ActionsChannels from '../../../src/actions/channels';
+import * as logger from '../../../src/actions/logs';
 
 describe('Actions Channels Unit Tests', () => {
   const host = 'localhost:10011';
@@ -13,6 +14,7 @@ describe('Actions Channels Unit Tests', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
+    sandbox.stub(logger);
     useStrict(false);
     store = observable({ lndReady: false });
     require('../../../src/config').RETRY_DELAY = 1;
@@ -25,43 +27,71 @@ describe('Actions Channels Unit Tests', () => {
     sandbox.restore();
   });
 
-  describe('getChannels()', () => {
+  describe('pollChannels()', () => {
+    let response;
+
+    beforeEach(() => {
+      response = { channels: [{ chan_id: 42, active: true }] };
+    });
+
+    afterEach(() => {
+      clearTimeout(actionsChannels.tpollChannels);
+    });
+
     it('should list open channels', async () => {
-      actionsGrpc.sendCommand.withArgs('listChannels').resolves({
-        channels: [{ chan_id: 42, active: true }],
-      });
-      await actionsChannels.getChannels();
+      actionsGrpc.sendCommand.withArgs('listChannels').resolves(response);
+      await actionsChannels.pollChannels();
       expect(store.channelsResponse, 'to satisfy', [
         { id: 42, status: 'open' },
       ]);
     });
 
-    it('should retry on failure', async () => {
-      actionsGrpc.sendCommand.onFirstCall().rejects();
-      await actionsChannels.getChannels();
-      actionsGrpc.sendCommand.resolves({});
+    it('should poll when called', async () => {
+      actionsGrpc.sendCommand.withArgs('listChannels').resolves(response);
+      await actionsChannels.pollChannels();
       await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
+    });
+
+    it('should log error on failure', async () => {
+      actionsGrpc.sendCommand.rejects(new Error('Boom!'));
+      await actionsChannels.pollChannels();
+      expect(logger.error, 'was called');
     });
   });
 
-  describe('getPendingChannels()', () => {
-    it('should list open channels', async () => {
-      actionsGrpc.sendCommand.withArgs('pendingChannels').resolves({
+  describe('pollPendingChannels()', () => {
+    let response;
+
+    beforeEach(() => {
+      response = {
         pending_open_channels: [{}],
         pending_closing_channels: [{}],
         pending_force_closing_channels: [{}],
-      });
-      await actionsChannels.getPendingChannels();
+      };
+    });
+
+    afterEach(() => {
+      clearTimeout(actionsChannels.tpPending);
+    });
+
+    it('should list open channels', async () => {
+      actionsGrpc.sendCommand.withArgs('pendingChannels').resolves(response);
+      await actionsChannels.pollPendingChannels();
       expect(store.pendingChannelsResponse.length, 'to equal', 3);
     });
 
-    it('should retry on failure', async () => {
-      actionsGrpc.sendCommand.onFirstCall().rejects();
-      await actionsChannels.getPendingChannels();
-      actionsGrpc.sendCommand.resolves({});
+    it('should poll when called', async () => {
+      actionsGrpc.sendCommand.withArgs('pendingChannels').resolves(response);
+      await actionsChannels.pollPendingChannels();
       await nap(30);
       expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
+    });
+
+    it('should log error on failure', async () => {
+      actionsGrpc.sendCommand.rejects(new Error('Boom!'));
+      await actionsChannels.pollPendingChannels();
+      expect(logger.error, 'was called');
     });
   });
 
@@ -94,8 +124,8 @@ describe('Actions Channels Unit Tests', () => {
 
   describe('openChannel()', () => {
     beforeEach(() => {
-      sandbox.stub(actionsChannels, 'getChannels');
-      sandbox.stub(actionsChannels, 'getPendingChannels');
+      sandbox.stub(actionsChannels, 'pollChannels');
+      sandbox.stub(actionsChannels, 'pollPendingChannels');
     });
 
     it('should update pending and open channels on data event', async () => {
@@ -106,8 +136,8 @@ describe('Actions Channels Unit Tests', () => {
         on: onStub,
       });
       await actionsChannels.openChannel(host, pubkey);
-      expect(actionsChannels.getPendingChannels, 'was called once');
-      expect(actionsChannels.getChannels, 'was called once');
+      expect(actionsChannels.pollPendingChannels, 'was called once');
+      expect(actionsChannels.pollChannels, 'was called once');
     });
 
     it('should reject in case of error event', async () => {
@@ -130,8 +160,8 @@ describe('Actions Channels Unit Tests', () => {
 
     beforeEach(() => {
       onStub = sinon.stub();
-      sandbox.stub(actionsChannels, 'getChannels');
-      sandbox.stub(actionsChannels, 'getPendingChannels');
+      sandbox.stub(actionsChannels, 'pollChannels');
+      sandbox.stub(actionsChannels, 'pollPendingChannels');
       channel = { channelPoint: 'FFFF:1' };
     });
 
@@ -145,8 +175,8 @@ describe('Actions Channels Unit Tests', () => {
         })
         .resolves({ on: onStub });
       await actionsChannels.closeChannel(channel);
-      expect(actionsChannels.getPendingChannels, 'was called once');
-      expect(actionsChannels.getChannels, 'was called once');
+      expect(actionsChannels.pollPendingChannels, 'was called once');
+      expect(actionsChannels.pollChannels, 'was called once');
     });
 
     it('should remove pending channel with txid on chan_close (force close)', async () => {
