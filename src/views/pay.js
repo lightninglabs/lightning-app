@@ -43,13 +43,16 @@ class Pay extends Component {
         <TextInput
           rightText="SAT"
           placeholder="Amount"
-          value={paymentRequestResponse.numSatoshis || amount}
-          editable={!paymentRequestResponse.numSatoshis}
+          value={
+            (paymentRequestResponse && paymentRequestResponse.numSatoshis) ||
+            amount
+          }
+          editable={!paymentRequestResponse}
           onChangeText={amount =>
             this.setState({ amount: amount.replace(/[^0-9.]/g, '') })
           }
         />
-        {paymentRequestResponse.description ? (
+        {paymentRequestResponse ? (
           <Text style={{ marginLeft: 5 }}>
             Description: {paymentRequestResponse.description}
           </Text>
