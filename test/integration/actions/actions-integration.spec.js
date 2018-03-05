@@ -82,8 +82,8 @@ describe('Actions Integration Tests', function() {
       btcdDataDir: BTCD_DATA_DIR,
     };
     btcdProcess = await startBtcdProcess(btcdArgs);
-    await poll(() => isPortOpen(BTCD_PORT));
     await nap(NAP_TIME);
+    await poll(() => isPortOpen(BTCD_PORT));
     const lndProcess1Promise = startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
@@ -160,8 +160,8 @@ describe('Actions Integration Tests', function() {
       btcdProcess.kill();
       btcdArgs.miningAddress = store1.walletAddress;
       btcdProcess = await startBtcdProcess(btcdArgs);
-      await poll(() => isPortOpen(BTCD_PORT));
       await nap(NAP_TIME);
+      await poll(() => isPortOpen(BTCD_PORT));
       await mineAndSync({ blocks: 400 });
     });
 
