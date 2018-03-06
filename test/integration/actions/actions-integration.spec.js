@@ -345,7 +345,6 @@ describe('Actions Integration Tests', function() {
     await mineBlocks({ blocks, logger });
     await info1.getInfo();
     await info2.getInfo();
-    while (!store1.syncedToChain || !store2.syncedToChain) await nap(100);
   };
 
   const updateBalances = async () => {
