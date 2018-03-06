@@ -9,12 +9,12 @@ class ActionsChannels {
   }
 
   async pollChannels() {
+    clearTimeout(this.tpollChannels);
     try {
       await this.getChannels();
     } catch (err) {
       log.error('Listing channels failed', err);
     }
-    clearTimeout(this.tpollChannels);
     this.tpollChannels = setTimeout(() => this.pollChannels(), RETRY_DELAY);
   }
 
@@ -33,12 +33,12 @@ class ActionsChannels {
   }
 
   async pollPendingChannels() {
+    clearTimeout(this.tpPending);
     try {
       await this.getPendingChannels();
     } catch (err) {
       log.error('Listing pending channels failed', err);
     }
-    clearTimeout(this.tpPending);
     this.tpPending = setTimeout(() => this.pollPendingChannels(), RETRY_DELAY);
   }
 
