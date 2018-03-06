@@ -1,4 +1,4 @@
-import { extendObservable, action, observable } from 'mobx';
+import { extendObservable, action } from 'mobx';
 import ComputedWallet from './computed/wallet';
 import ComputedTransactions from './computed/transactions';
 import ComputedChannels from './computed/channels';
@@ -28,8 +28,8 @@ export class Store {
       channelsResponse: null,
       pendingChannelsResponse: null,
       paymentRequestResponse: null,
-      notification: null,
-      logs: observable([]),
+      notifications: [],
+      logs: [],
 
       // Persistent data
       settings: {

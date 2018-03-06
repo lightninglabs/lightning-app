@@ -11,6 +11,7 @@ describe('Actions Notification Unit Tests', () => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(log);
     store = new Store();
+    require('../../../src/config').NOTIFICATION_DELAY = 1;
     notification = new ActionsNotification(store);
   });
 
@@ -19,13 +20,16 @@ describe('Actions Notification Unit Tests', () => {
   });
 
   describe('display()', () => {
-    it('create info notification by default', async () => {
+    it('create info notification and hide after delay', async () => {
       notification.display({ message: 'hello' });
-      expect(log.error, 'was not called');
-      expect(store.notification, 'to equal', {
+      expect(store.notifications[0], 'to equal', {
         type: 'info',
         message: 'hello',
+        display: true,
       });
+      expect(log.error, 'was not called');
+      await nap(10);
+      expect(store.notifications[0].display, 'to be', false);
     });
 
     it('create log error', async () => {
@@ -39,20 +43,22 @@ describe('Actions Notification Unit Tests', () => {
         handlerLbl: 'Fix this',
       });
       expect(log.error, 'was called with', 'hello', error);
-      expect(store.notification, 'to equal', {
+      expect(store.notifications[0], 'to equal', {
         type: 'error',
         message: 'hello',
         handler,
         handlerLbl: 'Fix this',
+        display: true,
       });
     });
   });
 
   describe('close()', () => {
-    it('to remove notification', async () => {
+    it('stop displaying all notifications', async () => {
       notification.display({ message: 'hello' });
+      expect(store.notifications[0].display, 'to be', true);
       notification.close();
-      expect(store.notification, 'to be null');
+      expect(store.notifications[0].display, 'to be', false);
     });
   });
 });
