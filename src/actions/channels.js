@@ -69,24 +69,29 @@ class ActionsChannels {
     this._store.pendingChannelsResponse = [].concat(pocs, pccs, pfccs);
   }
 
-  async getPeers() {
+  async pollPeers() {
+    clearTimeout(this.tgetPeers);
     try {
-      const { peers } = await this._actionsGrpc.sendCommand('listPeers');
-      this._store.peersResponse = peers.map(peer => ({
-        pubKey: peer.pub_key,
-        peerId: peer.peer_id,
-        address: peer.address,
-        bytesSent: peer.bytes_sent,
-        bytesRecv: peer.bytes_recv,
-        satSent: peer.sat_sent,
-        satRecv: peer.sat_recv,
-        inbound: peer.inbound,
-        pingTime: peer.ping_time,
-      }));
+      await this.getPeers();
     } catch (err) {
-      clearTimeout(this.tgetPeers);
-      this.tgetPeers = setTimeout(() => this.getPeers(), RETRY_DELAY);
+      log.error('Listing peers failed', err);
     }
+    this.tgetPeers = setTimeout(() => this.pollPeers(), RETRY_DELAY);
+  }
+
+  async getPeers() {
+    const { peers } = await this._actionsGrpc.sendCommand('listPeers');
+    this._store.peersResponse = peers.map(peer => ({
+      pubKey: peer.pub_key,
+      peerId: peer.peer_id,
+      address: peer.address,
+      bytesSent: peer.bytes_sent,
+      bytesRecv: peer.bytes_recv,
+      satSent: peer.sat_sent,
+      satRecv: peer.sat_recv,
+      inbound: peer.inbound,
+      pingTime: peer.ping_time,
+    }));
   }
 
   async connectToPeer(host, pubkey) {
@@ -103,8 +108,8 @@ class ActionsChannels {
     });
     await new Promise((resolve, reject) => {
       stream.on('data', () => {
-        this.pollPendingChannels();
-        this.pollChannels();
+        this.getPendingChannels();
+        this.getChannels();
       });
       stream.on('end', resolve);
       stream.on('error', reject);
@@ -120,8 +125,8 @@ class ActionsChannels {
     await new Promise((resolve, reject) => {
       stream.on('data', data => {
         if (data.close_pending) {
-          this.pollPendingChannels();
-          this.pollChannels();
+          this.getPendingChannels();
+          this.getChannels();
         }
         if (data.chan_close) {
           this._removeClosedChannel(data.chan_close.closing_txid);

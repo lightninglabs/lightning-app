@@ -226,12 +226,12 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should list no pending channels initially', async () => {
-      await channels1.pollPendingChannels();
+      await channels1.getPendingChannels();
       expect(store1.pendingChannelsResponse, 'to be empty');
     });
 
     it('should list no open channels initially', async () => {
-      await channels1.pollChannels();
+      await channels1.getChannels();
       expect(store1.channelsResponse, 'to be empty');
     });
 

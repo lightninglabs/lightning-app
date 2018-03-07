@@ -1,4 +1,4 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ActionsGrpc from '../../../src/actions/grpc';
 import ActionsChannels from '../../../src/actions/channels';
 import * as logger from '../../../src/actions/logs';
@@ -15,11 +15,9 @@ describe('Actions Channels Unit Tests', () => {
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(logger);
-    useStrict(false);
-    store = observable({ lndReady: false });
+    store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
     actionsGrpc = sinon.createStubInstance(ActionsGrpc);
-    actionsGrpc.sendCommand.resolves({});
     actionsChannels = new ActionsChannels(store, actionsGrpc);
   });
 
@@ -28,69 +26,99 @@ describe('Actions Channels Unit Tests', () => {
   });
 
   describe('pollChannels()', () => {
-    let response;
-
     beforeEach(() => {
-      response = { channels: [{ chan_id: 42, active: true }] };
+      sandbox.stub(actionsChannels, 'getChannels');
     });
 
     afterEach(() => {
       clearTimeout(actionsChannels.tpollChannels);
     });
 
-    it('should list open channels', async () => {
-      actionsGrpc.sendCommand.withArgs('listChannels').resolves(response);
-      await actionsChannels.pollChannels();
-      expect(store.channelsResponse, 'to satisfy', [
-        { id: 42, status: 'open' },
-      ]);
-    });
-
     it('should poll when called', async () => {
-      actionsGrpc.sendCommand.withArgs('listChannels').resolves(response);
+      actionsChannels.getChannels.resolves();
       await actionsChannels.pollChannels();
       await nap(30);
-      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(actionsChannels.getChannels.callCount, 'to be greater than', 1);
     });
 
     it('should log error on failure', async () => {
-      actionsGrpc.sendCommand.rejects(new Error('Boom!'));
+      actionsChannels.getChannels.rejects(new Error('Boom!'));
       await actionsChannels.pollChannels();
       expect(logger.error, 'was called');
     });
   });
 
-  describe('pollPendingChannels()', () => {
-    let response;
+  describe('getChannels()', () => {
+    it('should list open channels', async () => {
+      actionsGrpc.sendCommand.withArgs('listChannels').resolves({
+        channels: [{ chan_id: 42, active: true }],
+      });
+      await actionsChannels.getChannels();
+      expect(store.channelsResponse[0], 'to satisfy', {
+        id: 42,
+        status: 'open',
+      });
+    });
+  });
 
+  describe('pollPendingChannels()', () => {
     beforeEach(() => {
-      response = {
-        pending_open_channels: [{}],
-        pending_closing_channels: [{}],
-        pending_force_closing_channels: [{}],
-      };
+      sandbox.stub(actionsChannels, 'getPendingChannels');
     });
 
     afterEach(() => {
       clearTimeout(actionsChannels.tpPending);
     });
 
-    it('should list open channels', async () => {
-      actionsGrpc.sendCommand.withArgs('pendingChannels').resolves(response);
-      await actionsChannels.pollPendingChannels();
-      expect(store.pendingChannelsResponse.length, 'to equal', 3);
-    });
-
     it('should poll when called', async () => {
-      actionsGrpc.sendCommand.withArgs('pendingChannels').resolves(response);
+      actionsChannels.getPendingChannels.resolves();
       await actionsChannels.pollPendingChannels();
       await nap(30);
-      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(
+        actionsChannels.getPendingChannels.callCount,
+        'to be greater than',
+        1
+      );
     });
 
     it('should log error on failure', async () => {
-      actionsGrpc.sendCommand.rejects(new Error('Boom!'));
+      actionsChannels.getPendingChannels.rejects(new Error('Boom!'));
       await actionsChannels.pollPendingChannels();
+      expect(logger.error, 'was called');
+    });
+  });
+
+  describe('getPendingChannels()', () => {
+    it('should list pending channels', async () => {
+      actionsGrpc.sendCommand.withArgs('pendingChannels').resolves({
+        pending_open_channels: [{}],
+        pending_closing_channels: [{}],
+        pending_force_closing_channels: [{}],
+      });
+      await actionsChannels.getPendingChannels();
+      expect(store.pendingChannelsResponse.length, 'to equal', 3);
+    });
+  });
+
+  describe('pollPeers()', () => {
+    beforeEach(() => {
+      sandbox.stub(actionsChannels, 'getPeers');
+    });
+
+    afterEach(() => {
+      clearTimeout(actionsChannels.tgetPeers);
+    });
+
+    it('should poll when called', async () => {
+      actionsChannels.getPeers.resolves();
+      await actionsChannels.pollPeers();
+      await nap(30);
+      expect(actionsChannels.getPeers.callCount, 'to be greater than', 1);
+    });
+
+    it('should log error on failure', async () => {
+      actionsChannels.getPeers.rejects(new Error('Boom!'));
+      await actionsChannels.pollPeers();
       expect(logger.error, 'was called');
     });
   });
@@ -103,20 +131,12 @@ describe('Actions Channels Unit Tests', () => {
       await actionsChannels.getPeers();
       expect(store.peersResponse[0].pubKey, 'to equal', 'foo');
     });
-
-    it('should retry on failure', async () => {
-      actionsGrpc.sendCommand.onFirstCall().rejects();
-      await actionsChannels.getPeers();
-      actionsGrpc.sendCommand.resolves({});
-      await nap(30);
-      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
-    });
   });
 
   describe('connectToPeer()', () => {
     it('should list peers after connecting', async () => {
       actionsGrpc.sendCommand.withArgs('connectPeer').resolves();
-      actionsGrpc.sendCommand.withArgs('listPeers').resolves();
+      actionsGrpc.sendCommand.withArgs('listPeers').resolves({ peers: [] });
       await actionsChannels.connectToPeer(host, pubkey);
       expect(actionsGrpc.sendCommand, 'was called with', 'listPeers');
     });
@@ -124,8 +144,8 @@ describe('Actions Channels Unit Tests', () => {
 
   describe('openChannel()', () => {
     beforeEach(() => {
-      sandbox.stub(actionsChannels, 'pollChannels');
-      sandbox.stub(actionsChannels, 'pollPendingChannels');
+      sandbox.stub(actionsChannels, 'getChannels');
+      sandbox.stub(actionsChannels, 'getPendingChannels');
     });
 
     it('should update pending and open channels on data event', async () => {
@@ -136,8 +156,8 @@ describe('Actions Channels Unit Tests', () => {
         on: onStub,
       });
       await actionsChannels.openChannel(host, pubkey);
-      expect(actionsChannels.pollPendingChannels, 'was called once');
-      expect(actionsChannels.pollChannels, 'was called once');
+      expect(actionsChannels.getPendingChannels, 'was called once');
+      expect(actionsChannels.getChannels, 'was called once');
     });
 
     it('should reject in case of error event', async () => {
@@ -160,8 +180,8 @@ describe('Actions Channels Unit Tests', () => {
 
     beforeEach(() => {
       onStub = sinon.stub();
-      sandbox.stub(actionsChannels, 'pollChannels');
-      sandbox.stub(actionsChannels, 'pollPendingChannels');
+      sandbox.stub(actionsChannels, 'getChannels');
+      sandbox.stub(actionsChannels, 'getPendingChannels');
       channel = { channelPoint: 'FFFF:1' };
     });
 
@@ -175,8 +195,8 @@ describe('Actions Channels Unit Tests', () => {
         })
         .resolves({ on: onStub });
       await actionsChannels.closeChannel(channel);
-      expect(actionsChannels.pollPendingChannels, 'was called once');
-      expect(actionsChannels.pollChannels, 'was called once');
+      expect(actionsChannels.getPendingChannels, 'was called once');
+      expect(actionsChannels.getChannels, 'was called once');
     });
 
     it('should remove pending channel with txid on chan_close (force close)', async () => {
@@ -191,7 +211,7 @@ describe('Actions Channels Unit Tests', () => {
         })
         .resolves({ on: onStub });
       await actionsChannels.closeChannel(channel, true);
-      expect(store.pendingChannelsResponse, 'to equal', []);
+      expect(store.pendingChannelsResponse, 'to be empty');
     });
 
     it('should reject for invalid channel point', async () => {

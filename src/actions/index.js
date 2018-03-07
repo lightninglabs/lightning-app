@@ -50,9 +50,9 @@ observe(store, 'lndReady', () => {
   // init info
   actionsInfo.getInfo();
   // init channels
-  actionsChannels.getChannels();
-  actionsChannels.getPendingChannels();
-  actionsChannels.getPeers();
+  actionsChannels.pollChannels();
+  actionsChannels.pollPendingChannels();
+  actionsChannels.pollPeers();
   // init transactions
   actionsTransactions.getTransactions();
   actionsTransactions.getInvoices();
