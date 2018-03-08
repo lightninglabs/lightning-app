@@ -25,7 +25,11 @@ export const actionsGrpc = new ActionsGrpc(store, remote);
 export const actionsNav = new ActionsNav(store, ipcRenderer);
 export const actionsWallet = new ActionsWallet(store, actionsGrpc, actionsNav);
 export const actionsInfo = new ActionsInfo(store, actionsGrpc);
-export const actionsChannels = new ActionsChannels(store, actionsGrpc);
+export const actionsChannels = new ActionsChannels(
+  store,
+  actionsGrpc,
+  actionsNotification
+);
 export const actionsTransactions = new ActionsTransactions(store, actionsGrpc);
 export const actionsPayments = new ActionsPayments(
   store,
