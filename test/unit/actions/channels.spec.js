@@ -1,16 +1,19 @@
 import { Store } from '../../../src/store';
 import ActionsGrpc from '../../../src/actions/grpc';
 import ActionsChannels from '../../../src/actions/channels';
+import ActionsNotification from '../../../src/actions/notification';
 import * as logger from '../../../src/actions/logs';
 
 describe('Actions Channels Unit Tests', () => {
   const host = 'localhost:10011';
   const pubkey = 'pub_12345';
+  const amount = 100000;
 
   let sandbox;
   let store;
   let actionsGrpc;
   let actionsChannels;
+  let actionsNotification;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -18,7 +21,12 @@ describe('Actions Channels Unit Tests', () => {
     store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
     actionsGrpc = sinon.createStubInstance(ActionsGrpc);
-    actionsChannels = new ActionsChannels(store, actionsGrpc);
+    actionsNotification = sinon.createStubInstance(ActionsNotification);
+    actionsChannels = new ActionsChannels(
+      store,
+      actionsGrpc,
+      actionsNotification
+    );
   });
 
   afterEach(() => {
@@ -133,11 +141,42 @@ describe('Actions Channels Unit Tests', () => {
     });
   });
 
+  describe('connectAndOpen()', () => {
+    beforeEach(() => {
+      sandbox.stub(actionsChannels, 'connectToPeer');
+      sandbox.stub(actionsChannels, 'openChannel');
+    });
+
+    it('should connect to peer and open channel', async () => {
+      await actionsChannels.connectAndOpen({
+        pubkeyAtHost: `${pubkey}@${host}`,
+        amount,
+      });
+      expect(actionsChannels.connectToPeer, 'was called with', {
+        host,
+        pubkey,
+      });
+      expect(actionsChannels.openChannel, 'was called with', {
+        pubkey,
+        amount,
+      });
+    });
+
+    it('should display error notification', async () => {
+      actionsChannels.connectToPeer.rejects(new Error('Boom!'));
+      await actionsChannels.connectAndOpen({
+        pubkeyAtHost: `${pubkey}@${host}`,
+        amount,
+      });
+      expect(actionsNotification.display, 'was called once');
+    });
+  });
+
   describe('connectToPeer()', () => {
     it('should list peers after connecting', async () => {
       actionsGrpc.sendCommand.withArgs('connectPeer').resolves();
       actionsGrpc.sendCommand.withArgs('listPeers').resolves({ peers: [] });
-      await actionsChannels.connectToPeer(host, pubkey);
+      await actionsChannels.connectToPeer({ host, pubkey });
       expect(actionsGrpc.sendCommand, 'was called with', 'listPeers');
     });
   });
@@ -155,7 +194,7 @@ describe('Actions Channels Unit Tests', () => {
       actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
         on: onStub,
       });
-      await actionsChannels.openChannel(host, pubkey);
+      await actionsChannels.openChannel({ pubkey, amount });
       expect(actionsChannels.getPendingChannels, 'was called once');
       expect(actionsChannels.getChannels, 'was called once');
     });
@@ -167,7 +206,7 @@ describe('Actions Channels Unit Tests', () => {
         on: onStub,
       });
       await expect(
-        actionsChannels.openChannel(host, pubkey),
+        actionsChannels.openChannel({ pubkey, amount }),
         'to be rejected with error satisfying',
         /Boom/
       );
@@ -176,13 +215,13 @@ describe('Actions Channels Unit Tests', () => {
 
   describe('closeChannel()', () => {
     let onStub;
-    let channel;
+    let channelPoint;
 
     beforeEach(() => {
       onStub = sinon.stub();
       sandbox.stub(actionsChannels, 'getChannels');
       sandbox.stub(actionsChannels, 'getPendingChannels');
-      channel = { channelPoint: 'FFFF:1' };
+      channelPoint = 'FFFF:1';
     });
 
     it('should update pending/open channels on close_pending', async () => {
@@ -194,7 +233,7 @@ describe('Actions Channels Unit Tests', () => {
           force: false,
         })
         .resolves({ on: onStub });
-      await actionsChannels.closeChannel(channel);
+      await actionsChannels.closeChannel({ channelPoint });
       expect(actionsChannels.getPendingChannels, 'was called once');
       expect(actionsChannels.getChannels, 'was called once');
     });
@@ -210,14 +249,14 @@ describe('Actions Channels Unit Tests', () => {
           force: true,
         })
         .resolves({ on: onStub });
-      await actionsChannels.closeChannel(channel, true);
+      await actionsChannels.closeChannel({ channelPoint, force: true });
       expect(store.pendingChannelsResponse, 'to be empty');
     });
 
     it('should reject for invalid channel point', async () => {
-      channel.channelPoint = 'asdf';
+      channelPoint = 'asdf';
       await expect(
-        actionsChannels.closeChannel(channel),
+        actionsChannels.closeChannel({ channelPoint }),
         'to be rejected with error satisfying',
         /Invalid channel point/
       );
@@ -229,7 +268,7 @@ describe('Actions Channels Unit Tests', () => {
         on: onStub,
       });
       await expect(
-        actionsChannels.closeChannel(channel),
+        actionsChannels.closeChannel({ channelPoint }),
         'to be rejected with error satisfying',
         /Boom/
       );

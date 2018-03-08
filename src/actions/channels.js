@@ -3,9 +3,10 @@ import { reverse } from '../helpers';
 import * as log from './logs';
 
 class ActionsChannels {
-  constructor(store, actionsGrpc) {
+  constructor(store, actionsGrpc, notification) {
     this._store = store;
     this._actionsGrpc = actionsGrpc;
+    this._notification = notification;
   }
 
   async pollChannels() {
@@ -94,14 +95,29 @@ class ActionsChannels {
     }));
   }
 
-  async connectToPeer(host, pubkey) {
+  async connectAndOpen({ pubkeyAtHost, amount }) {
+    try {
+      const pubkey = pubkeyAtHost.split('@')[0];
+      const host = pubkeyAtHost.split('@')[1];
+      await this.connectToPeer({ host, pubkey });
+      await this.openChannel({ pubkey, amount });
+    } catch (err) {
+      this._notification.display({
+        type: 'error',
+        message: 'Connecting and opening channel failed!',
+        error: err,
+      });
+    }
+  }
+
+  async connectToPeer({ host, pubkey }) {
     await this._actionsGrpc.sendCommand('connectPeer', {
       addr: { host, pubkey },
     });
     await this.getPeers();
   }
 
-  async openChannel(pubkey, amount) {
+  async openChannel({ pubkey, amount }) {
     const stream = await this._actionsGrpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
@@ -117,9 +133,9 @@ class ActionsChannels {
     });
   }
 
-  async closeChannel(channel, force = false) {
+  async closeChannel({ channelPoint, force = false }) {
     const stream = await this._actionsGrpc.sendStreamCommand('closeChannel', {
-      channel_point: this._parseChannelPoint(channel.channelPoint),
+      channel_point: this._parseChannelPoint(channelPoint),
       force,
     });
     await new Promise((resolve, reject) => {
