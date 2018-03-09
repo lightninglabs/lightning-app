@@ -1,45 +1,38 @@
 language: node_js
 node_js:
-- '9'
+  - '9'
 
 services:
-- docker
+  - docker
 
 before_install:
-- ./assets/script/install_lnd.sh
+  - ./assets/script/install_lnd.sh
 
 before_cache:
-- rm -rf $HOME/.cache/electron-builder/wine
+  - rm -rf $HOME/.cache/electron-builder/wine
 
 cache:
   directories:
-  - node_modules
-  - $HOME/.cache/electron
-  - $HOME/.cache/electron-builder
+    - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
 
 env:
-- NAP_TIME=20000
+  - NAP_TIME=20000
 
 before_deploy:
-- env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_TAG|TRAVIS|TRAVIS_REPO_|TRAVIS_BUILD_|TRAVIS_BRANCH|TRAVIS_PULL_REQUEST_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_' > env.txt
-- docker run --rm --env-file env.txt --env ELECTRON_CACHE="/root/.cache/electron" --env ELECTRON_BUILDER_CACHE="/root/.cache/electron-builder" -v ${PWD}:/project -v ${PWD##*/}-node-modules:/project/node_modules -v ~/.cache/electron:/root/.cache/electron -v ~/.cache/electron-builder:/root/.cache/electron-builder electronuserland/builder:wine /bin/bash -c "npm i; npm run build; react-scripts build; ./node_modules/.bin/electron-builder --em.main=build/electron.js --linux tar.gz --win zip --mac zip"
-- rm env.txt
-- PACKAGE_VERSION=$(node -pe "require('./package.json').version")
-- cd dist
-- shasum -a 256 Lightning* | sudo tee manifest-v${PACKAGE_VERSION}.txt
-- sudo chown -R travis:travis ./
-- cd ..
+  - ./assets/script/build_lnd.sh
 
 deploy:
   provider: releases
   api_key:
-    secure: <travis-cli generated api key>
+    secure: Wy54wEpTwDWDPHCXtG0TOqokurh7oCvjxXgbkMumc98Mhpcj6GfkDcsFAD/6d4byUwoNFddWKLEwvrJlvQ2mFdWyi8PVaVtII5UA+mhQlqubsLG8YbiNXv0AhDnmibEhj8clQiIE8MQ6dHVXgLNrV+rbOUoS0hlArhduTdW1gDQQ9POxvyjtUQWINGzJGM3O4+976pLsV1476H7ShVect6fEoBkypPpYWiKeJUb44/KJT7QFEfkLs908z+iVeGlKTrYj+v8RnCpTGPKi0Dh8BzTrMx3wKB/xig7f8Jrh5gWQAM3PWQ2WHjeel7eXumTWP7k0cxolJbQ1o87b3vnmM9H6Dv2tlf9H6ojg5rMEXARgXNlqMKCcaMPMm/DFCnKkQbKGF6slflgzvM+oTcPVKBEgIfAB0407YWbZ88v4TkglMgT9cHB3cm9i9724ExVbR14HtcdUaTkQpb++/9TPsSdNt2Mttp3GQTKea0hmDXt4RAjieLkseks9Tqw08c6SVV7Uazbd02nds8u7HKYgy+juJ9z7kgFepW+/INdcmsPfWykKoBtKazBYwQ+RC3X1kE1Agbg9WSMh1zkuKn/38ZN9bik6nyrWB10gB5eVSiidtMiM433y6r0dgvT16lP0e1UTM/4e7eChvtvGjOBkvTqvD39uIxy/Tyq0iP+8sEk=
   file_glob: true
   file:
     - dist/Lightning*
     - dist/manifest*
   skip_cleanup: true
   on:
-    repo: lightninglabs/lightning-app
-    branch: <branchname>
+    repo: valentinewallace/lightning-app
+    branch: automate-releases
     tags: true
