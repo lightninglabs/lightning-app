@@ -111,10 +111,18 @@ class ActionsChannels {
   }
 
   async connectToPeer({ host, pubkey }) {
-    await this._actionsGrpc.sendCommand('connectPeer', {
-      addr: { host, pubkey },
-    });
-    await this.getPeers();
+    try {
+      await this._actionsGrpc.sendCommand('connectPeer', {
+        addr: { host, pubkey },
+      });
+      await this.getPeers();
+    } catch (err) {
+      this._notification.display({
+        type: 'error',
+        message: 'Connecting to peer failed!',
+        error: err,
+      });
+    }
   }
 
   async openChannel({ pubkey, amount }) {

@@ -143,8 +143,9 @@ describe('Actions Channels Unit Tests', () => {
 
   describe('connectAndOpen()', () => {
     beforeEach(() => {
-      sandbox.stub(actionsChannels, 'connectToPeer');
       sandbox.stub(actionsChannels, 'openChannel');
+      sandbox.stub(actionsChannels, 'getPeers');
+      actionsGrpc.sendCommand.withArgs('connectPeer').resolves();
     });
 
     it('should connect to peer and open channel', async () => {
@@ -152,9 +153,8 @@ describe('Actions Channels Unit Tests', () => {
         pubkeyAtHost: `${pubkey}@${host}`,
         amount,
       });
-      expect(actionsChannels.connectToPeer, 'was called with', {
-        host,
-        pubkey,
+      expect(actionsGrpc.sendCommand, 'was called with', 'connectPeer', {
+        addr: { host, pubkey },
       });
       expect(actionsChannels.openChannel, 'was called with', {
         pubkey,
@@ -162,13 +162,28 @@ describe('Actions Channels Unit Tests', () => {
       });
     });
 
-    it('should display error notification', async () => {
-      actionsChannels.connectToPeer.rejects(new Error('Boom!'));
+    it('should try to open channel if connect fails', async () => {
+      actionsGrpc.sendCommand
+        .withArgs('connectPeer')
+        .rejects(new Error('Boom!'));
       await actionsChannels.connectAndOpen({
         pubkeyAtHost: `${pubkey}@${host}`,
         amount,
       });
       expect(actionsNotification.display, 'was called once');
+      expect(actionsChannels.openChannel, 'was called once');
+    });
+
+    it('should display notification twice if both fail', async () => {
+      actionsGrpc.sendCommand
+        .withArgs('connectPeer')
+        .rejects(new Error('Boom!'));
+      actionsChannels.openChannel.rejects(new Error('Boom!'));
+      await actionsChannels.connectAndOpen({
+        pubkeyAtHost: `${pubkey}@${host}`,
+        amount,
+      });
+      expect(actionsNotification.display, 'was called twice');
     });
   });
 
@@ -178,6 +193,17 @@ describe('Actions Channels Unit Tests', () => {
       actionsGrpc.sendCommand.withArgs('listPeers').resolves({ peers: [] });
       await actionsChannels.connectToPeer({ host, pubkey });
       expect(actionsGrpc.sendCommand, 'was called with', 'listPeers');
+    });
+
+    it('should display error notification', async () => {
+      actionsGrpc.sendCommand
+        .withArgs('connectPeer')
+        .rejects(new Error('Boom!'));
+      await actionsChannels.connectToPeer({
+        host,
+        pubkey,
+      });
+      expect(actionsNotification.display, 'was called once');
     });
   });
 
