@@ -112,8 +112,8 @@ describe('Actions GRPC Unit Tests', () => {
     it('should fail if lndReady is false', async () => {
       store.lndReady = false;
       return expect(
-        actionsGrpc.sendStreamCommand('listPeers'),
-        'to be rejected with error satisfying',
+        actionsGrpc.sendStreamCommand.bind(actionsGrpc, 'listPeers'),
+        'to throw',
         /still starting/
       );
     });
@@ -121,16 +121,16 @@ describe('Actions GRPC Unit Tests', () => {
     it('should fail if client is not set', async () => {
       actionsGrpc.client = null;
       return expect(
-        actionsGrpc.sendStreamCommand('listPeers'),
-        'to be rejected with error satisfying',
+        actionsGrpc.sendStreamCommand.bind(actionsGrpc, 'listPeers'),
+        'to throw',
         /not connect/
       );
     });
 
     it('should fail for invalid rpc method', async () => {
       return expect(
-        actionsGrpc.sendStreamCommand('foobar'),
-        'to be rejected with error satisfying',
+        actionsGrpc.sendStreamCommand.bind(actionsGrpc, 'foobar'),
+        'to throw',
         /method/
       );
     });
@@ -138,30 +138,24 @@ describe('Actions GRPC Unit Tests', () => {
     it('should handle error response', async () => {
       client.listPeers.throws(new Error('Boom!'));
       return expect(
-        actionsGrpc.sendStreamCommand('listPeers'),
-        'to be rejected with error satisfying',
+        actionsGrpc.sendStreamCommand.bind(actionsGrpc, 'listPeers'),
+        'to throw',
         /Boom!/
       );
     });
 
-    it('should handle successful response', async () => {
+    it('should handle successful response', () => {
       client.listPeers.returns('some-response');
-      const response = await actionsGrpc.sendStreamCommand(
-        'listPeers',
-        'payload'
-      );
+      const response = actionsGrpc.sendStreamCommand('listPeers', 'payload');
       expect(response, 'to equal', 'some-response');
       expect(client.listPeers, 'was called with', 'payload');
     });
 
-    it('should handle successful response with MACAROONS_ENABLED', async () => {
+    it('should handle successful response with MACAROONS_ENABLED', () => {
       require('../../../src/config').MACAROONS_ENABLED = true;
       actionsGrpc = new ActionsGrpc(store, remote);
       client.listPeers.returns('some-response');
-      const response = await actionsGrpc.sendStreamCommand(
-        'listPeers',
-        'payload'
-      );
+      const response = actionsGrpc.sendStreamCommand('listPeers', 'payload');
       expect(response, 'to equal', 'some-response');
       expect(client.listPeers, 'was called with', 'some-metadata', 'payload');
     });

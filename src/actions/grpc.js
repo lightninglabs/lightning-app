@@ -63,25 +63,22 @@ class ActionsGrpc {
   }
 
   sendStreamCommand(method, body) {
-    return new Promise((resolve, reject) => {
-      const { lndReady } = this._store;
-      if (!lndReady) return reject(new Error('Server still starting'));
-      if (!this.client) return reject(new Error('Could not connect over grpc'));
-      if (!this.client[method]) return reject(new Error('Invalid rpc method'));
-
-      try {
-        let response;
-        if (MACAROONS_ENABLED) {
-          response = this.client[method](this.metadata, body);
-        } else {
-          response = this.client[method](body);
-        }
-        resolve(response);
-      } catch (err) {
-        log.info('GRPC: Error From Stream Method', method, err);
-        reject(err);
+    const { lndReady } = this._store;
+    if (!lndReady) throw new Error('Server still starting');
+    if (!this.client) throw new Error('Could not connect over grpc');
+    if (!this.client[method]) throw new Error('Invalid rpc method');
+    try {
+      let response;
+      if (MACAROONS_ENABLED) {
+        response = this.client[method](this.metadata, body);
+      } else {
+        response = this.client[method](body);
       }
-    });
+      return response;
+    } catch (err) {
+      log.info('GRPC: Error From Stream Method', method, err);
+      throw err;
+    }
   }
 }
 
