@@ -76,7 +76,6 @@ class ActionsGrpc {
         } else {
           response = this.client[method](body);
         }
-        log.info('GRPC: Stream Response', method, response);
         resolve(response);
       } catch (err) {
         log.info('GRPC: Error From Stream Method', method, err);
