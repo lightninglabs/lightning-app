@@ -59,6 +59,8 @@ observe(store, 'lndReady', () => {
   actionsChannels.pollPeers();
   // init transactions
   actionsTransactions.getTransactions();
+  actionsTransactions.subscribeTransactions();
   actionsTransactions.getInvoices();
+  actionsTransactions.subscribeInvoices();
   actionsTransactions.getPayments();
 });
