@@ -11,6 +11,7 @@ export class Store {
       loaded: false, // Is persistent data loaded
       lndReady: false, // Is lnd process running
       syncedToChain: false, // Is lnd synced to blockchain
+      unlockerReady: false, // Is wallet unlocker running
       route: DEFAULT_ROUTE,
 
       blockHeight: null,
