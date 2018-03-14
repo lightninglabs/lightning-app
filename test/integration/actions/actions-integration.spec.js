@@ -159,7 +159,7 @@ describe('Actions Integration Tests', function() {
   describe.only('Generate seed and unlock wallet', () => {
     it('should wait for unlockerReady', async () => {
       await grpc1.initUnlocker();
-      while (!store1.unlockerReady) await nap(100);
+      expect(store1.unlockerReady, 'to be true');
     });
 
     it('should generate new seed for node1', async () => {
@@ -173,12 +173,14 @@ describe('Actions Integration Tests', function() {
         seedPassphrase,
         seedMnemonic: store1.seedMnemonic,
       });
+      expect(store1.walletUnlocked, 'to be true');
     });
 
     it('should kill lnd node1', async () => {
       await nap(NAP_TIME);
       lndProcess1.kill();
       store1.unlockerReady = false;
+      store1.walletUnlocked = false;
     });
 
     it('should start new lnd node1', async () => {
@@ -206,6 +208,7 @@ describe('Actions Integration Tests', function() {
 
     it('should unlock wallet for node1', async () => {
       await wallet1.unlockWallet({ walletPassword });
+      expect(store1.walletUnlocked, 'to be true');
     });
   });
 
