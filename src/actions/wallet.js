@@ -27,6 +27,7 @@ class ActionsWallet {
         aezeed_passphrase: seedPassphrase,
         cipher_seed_mnemonic: seedMnemonic,
       });
+      this._store.walletUnlocked = true;
     } catch (err) {
       log.error('Error initializing wallet', err);
       throw err;
@@ -38,6 +39,7 @@ class ActionsWallet {
       await this._actionsGrpc.sendUnlockerCommand('UnlockWallet', {
         wallet_password: walletPassword,
       });
+      this._store.walletUnlocked = true;
     } catch (err) {
       log.error('Error unlocking wallet', err);
       throw err;
