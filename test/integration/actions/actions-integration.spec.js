@@ -224,7 +224,10 @@ describe('Actions Integration Tests', function() {
 
   describe('Wallet and Info actions', () => {
     it('should wait for lndReady', async () => {
-      while (!store1.lndReady || !store2.lndReady) await nap(100);
+      await grpc1.initLnd();
+      expect(store1.lndReady, 'to be true');
+      await grpc2.initLnd();
+      expect(store2.lndReady, 'to be true');
     });
 
     it('should create new address for node1', async () => {
