@@ -36,6 +36,8 @@ const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const MACAROONS_ENABLED = false;
 const NAP_TIME = process.env.NAP_TIME || 5000;
+const seedPassphrase = 'hodlgang';
+const walletPassword = 'bitconeeeeeect';
 
 describe('Actions Integration Tests', function() {
   this.timeout(300000);
@@ -139,8 +141,6 @@ describe('Actions Integration Tests', function() {
     channels2 = new ActionsChannels(store2, grpc2);
     transactions2 = new ActionsTransactions(store2, grpc2);
     payments2 = new ActionsPayments(store2, grpc2, wallet2);
-
-    while (!store1.lndReady || !store2.lndReady) await nap(100);
   });
 
   after(() => {
@@ -150,7 +150,66 @@ describe('Actions Integration Tests', function() {
     sandbox.restore();
   });
 
+  describe.only('Generate seed and unlock wallet', () => {
+    it('should wait for unlockerReady', async () => {
+      while (!store1.unlockerReady) await nap(100);
+    });
+
+    it('should generate new seed for node1', async () => {
+      await wallet1.generateSeed({ seedPassphrase });
+      expect(store1.seedMnemonic, 'to be ok');
+    });
+
+    it('should import existing seed for node1', async () => {
+      await wallet1.initWallet({
+        walletPassword,
+        seedPassphrase,
+        seedMnemonic: store1.seedMnemonic,
+      });
+    });
+
+    it('should kill lnd node1', async () => {
+      await nap(NAP_TIME);
+      lndProcess1.kill();
+      store1.unlockerReady = false;
+    });
+
+    it('should start new lnd node1', async () => {
+      lndProcess1 = await startLndProcess({
+        isDev,
+        macaroonsEnabled: MACAROONS_ENABLED,
+        lndDataDir: LND_DATA_DIR_1,
+        lndLogDir: LND_LOG_DIR_1,
+        lndPort: LND_PORT_1,
+        lndPeerPort: LND_PEER_PORT_1,
+        lndRestPort: LND_REST_PORT_1,
+        logger,
+      });
+
+      const globalStub1 = {};
+      const remoteStub1 = { getGlobal: arg => globalStub1[arg] };
+
+      const createGrpcClient1 = await createGrpcClient({
+        global: globalStub1,
+        lndPort: LND_PORT_1,
+        lndDataDir: LND_DATA_DIR_1,
+        macaroonsEnabled: MACAROONS_ENABLED,
+      });
+      grpc1 = new ActionsGrpc(store1, remoteStub1);
+
+      while (!store1.unlockerReady) await nap(100);
+    });
+
+    it('should unlock wallet for node1', async () => {
+      await wallet1.unlockWallet({ walletPassword });
+    });
+  });
+
   describe('Wallet and Info actions', () => {
+    it('should wait for lndReady', async () => {
+      while (!store1.lndReady || !store2.lndReady) await nap(100);
+    });
+
     it('should create new address for node1', async () => {
       await wallet1.getNewAddress();
       expect(store1.walletAddress, 'to be ok');
