@@ -5,11 +5,8 @@ const isDev = require('electron-is-dev');
 const ps = require('ps-node');
 const log = require('electron-log');
 const { PREFIX_NAME, MACAROONS_ENABLED } = require('../src/config');
-const {
-  createGrpcClient,
-  startLndProcess,
-  startBtcdProcess,
-} = require('./lnd-child-process');
+const { startLndProcess, startBtcdProcess } = require('./lnd-child-process');
+const grcpClient = require('./grpc-client');
 
 console.log(`
  ___       ________       ________  ________  ________
@@ -74,7 +71,6 @@ function createWindow() {
 
   if (isDev) {
     win.loadURL('http://localhost:3000');
-
     // Open the DevTools.
     win.webContents.openDevTools();
   } else {
@@ -97,8 +93,7 @@ function createWindow() {
 
   //////////////// Lightning App ///////////////////////////
 
-  createGrpcClient({
-    global,
+  grcpClient.init({
     lndPort: LND_PORT,
     lndDataDir: LND_DATA_DIR,
     macaroonsEnabled: MACAROONS_ENABLED,

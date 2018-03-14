@@ -11,7 +11,7 @@ import ActionsChannels from './channels';
 import ActionsTransactions from './transactions';
 import ActionsPayments from './payments';
 
-const { remote, ipcRenderer } = window.require('electron');
+const { ipcRenderer } = window.require('electron');
 
 //
 // Inject dependencies
@@ -21,7 +21,7 @@ store.init(AsyncStorage);
 
 export const actionsLogs = new ActionsLogs(store, ipcRenderer);
 export const actionsNotification = new ActionsNotification(store);
-export const actionsGrpc = new ActionsGrpc(store, remote);
+export const actionsGrpc = new ActionsGrpc(store, ipcRenderer);
 export const actionsNav = new ActionsNav(store, ipcRenderer);
 export const actionsWallet = new ActionsWallet(store, actionsGrpc, actionsNav);
 export const actionsInfo = new ActionsInfo(store, actionsGrpc);
@@ -43,7 +43,27 @@ export const actionsPayments = new ActionsPayments(
 //
 
 observe(store, 'loaded', () => {
-  // TODO: initialize wallet
+  actionsGrpc.initUnlocker();
+});
+
+observe(store, 'unlockerReady', async () => {
+  // TODO: wire up to UI
+  const seedPassphrase = 'hodlgang';
+  const walletPassword = 'bitconeeeeeect';
+  try {
+    await actionsWallet.generateSeed({ seedPassphrase });
+    await actionsWallet.initWallet({
+      walletPassword,
+      seedPassphrase,
+      seedMnemonic: store.seedMnemonic,
+    });
+  } catch (err) {
+    await actionsWallet.unlockWallet({ walletPassword });
+  }
+});
+
+observe(store, 'walletUnlocked', () => {
+  actionsGrpc.initLnd();
 });
 
 observe(store, 'lndReady', () => {

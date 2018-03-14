@@ -1,29 +1,6 @@
-const fs = require('fs');
 const os = require('os');
 const path = require('path');
-const grpc = require('grpc');
 const cp = require('child_process');
-
-process.env.GRPC_SSL_CIPHER_SUITES =
-  'ECDHE-RSA-AES128-GCM-SHA256:' +
-  'ECDHE-RSA-AES128-SHA256:' +
-  'ECDHE-RSA-AES256-SHA384:' +
-  'ECDHE-RSA-AES256-GCM-SHA384:' +
-  'ECDHE-ECDSA-AES128-GCM-SHA256:' +
-  'ECDHE-ECDSA-AES128-SHA256:' +
-  'ECDHE-ECDSA-AES256-SHA384:' +
-  'ECDHE-ECDSA-AES256-GCM-SHA384';
-
-async function waitForCertPath(certPath) {
-  let intervalId;
-  return new Promise(resolve => {
-    intervalId = setInterval(() => {
-      if (!fs.existsSync(certPath)) return;
-      clearInterval(intervalId);
-      resolve();
-    }, 500);
-  });
-}
 
 function getProcessName(binName) {
   const filePath = path.join(
@@ -70,65 +47,6 @@ function startBlockingProcess(name, args, logger) {
     childProcess.on('error', reject);
   });
 }
-
-module.exports.createGrpcClient = async function({
-  global,
-  lndPort,
-  lndDataDir,
-  macaroonsEnabled,
-}) {
-  const homedir = os.homedir();
-
-  let certPath;
-  if (lndDataDir) {
-    certPath = path.join(lndDataDir, 'tls.cert');
-  } else {
-    certPath = {
-      darwin: path.join(homedir, 'Library/Application Support/Lnd/tls.cert'),
-      linux: path.join(homedir, '.lnd/tls.cert'),
-      win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert'),
-    }[os.platform()];
-  }
-
-  await waitForCertPath(certPath);
-
-  const lndCert = fs.readFileSync(certPath);
-  const credentials = grpc.credentials.createSsl(lndCert);
-  const { lnrpc } = grpc.load(
-    path.join(__dirname, '..', 'assets', 'rpc.proto')
-  );
-  const connection = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
-  const metadata = new grpc.Metadata();
-  if (macaroonsEnabled) {
-    const macaroonPath = {
-      darwin: path.join(
-        homedir,
-        'Library/Application Support/Lnd/admin.macaroon'
-      ),
-      linux: path.join(homedir, '.lnd/admin.macaroon'),
-      win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'admin.macaroon'),
-    }[os.platform()];
-    const macaroonHex = fs.readFileSync(macaroonPath).toString('hex');
-    metadata.add('macaroon', macaroonHex);
-    global.metadata = metadata;
-  }
-
-  const serverReady = cb => {
-    grpc.waitForClientReady(connection, Infinity, cb);
-  };
-
-  global.connection = connection;
-  global.serverReady = serverReady;
-
-  const unlock = new lnrpc.WalletUnlocker(`localhost:${lndPort}`, credentials);
-
-  const unlockerReady = cb => {
-    grpc.waitForClientReady(unlock, Infinity, cb);
-  };
-
-  global.unlocker = unlock;
-  global.unlockerReady = unlockerReady;
-};
 
 module.exports.startLndProcess = async function({
   isDev,
