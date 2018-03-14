@@ -158,7 +158,6 @@ module.exports.startLndProcess = async function({
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
 
     '--debuglevel=info',
-    '--noencryptwallet',
   ];
   return startChildProcess(processName, args, logger);
 };
