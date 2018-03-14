@@ -6,72 +6,41 @@ class ActionsGrpc {
     this._ipcRenderer = ipcRenderer;
   }
 
-  initUnlocker() {
-    return new Promise((resolve, reject) => {
-      this._ipcRenderer.on('unlockReady', (event, err) => {
-        if (err) {
-          log.error('GRPC: unlocker init failed', err);
-          return reject(err);
-        }
-        log.info('GRPC unlockerReady');
-        this._store.unlockerReady = true;
-        resolve();
-      });
-      this._ipcRenderer.send('unlockInit');
-    });
+  async initUnlocker() {
+    await this._sendIpc('unlockInit', 'unlockReady');
+    log.info('GRPC unlockerReady');
+    this._store.unlockerReady = true;
   }
 
-  sendUnlockerCommand(method, body) {
-    return new Promise((resolve, reject) => {
-      this._ipcRenderer.on(`unlockResponse_${method}`, (event, arg) => {
-        if (arg.err) {
-          log.error('GRPC: Error from method', method, arg.err);
-          return reject(arg.err);
-        }
-        resolve(arg.response);
-      });
-      this._ipcRenderer.send('unlockRequest', { method, body });
-    });
+  async sendUnlockerCommand(method, body) {
+    return this._sendIpc('unlockRequest', 'unlockResponse', method, body);
   }
 
-  initLnd() {
-    return new Promise((resolve, reject) => {
-      this._ipcRenderer.on('lndReady', (event, err) => {
-        if (err) {
-          log.error('GRPC: lnd init failed', err);
-          return reject(err);
-        }
-        log.info('GRPC lndReady');
-        this._store.lndReady = true;
-        resolve();
-      });
-      this._ipcRenderer.send('lndInit');
-    });
+  async initLnd() {
+    await this._sendIpc('lndInit', 'lndReady');
+    log.info('GRPC lndReady');
+    this._store.lndReady = true;
   }
 
   sendCommand(method, body) {
+    return this._sendIpc('lndRequest', 'lndResponse', method, body);
+  }
+
+  sendStreamCommand(method, body) {
+    return this._sendIpc('lndStreamRequest', 'lndStreamResponse', method, body);
+  }
+
+  _sendIpc(event, listen, method, body) {
     return new Promise((resolve, reject) => {
-      this._ipcRenderer.on(`lndResponse_${method}`, (event, arg) => {
+      listen = method ? `${listen}_${method}` : listen;
+      this._ipcRenderer.on(listen, (e, arg) => {
         if (arg.err) {
           log.error('GRPC: Error from method', method, arg.err);
           return reject(arg.err);
         }
         resolve(arg.response);
       });
-      this._ipcRenderer.send('lndRequest', { method, body });
-    });
-  }
-
-  sendStreamCommand(method, body) {
-    return new Promise((resolve, reject) => {
-      this._ipcRenderer.on(`lndStreamResponse_${method}`, (event, arg) => {
-        if (arg.err) {
-          log.error('GRPC: Error from stream method', method, arg.err);
-          return reject(arg.err);
-        }
-        resolve(arg.response);
-      });
-      this._ipcRenderer.send('lndStreamRequest', { method, body });
+      this._ipcRenderer.send(event, { method, body });
     });
   }
 }

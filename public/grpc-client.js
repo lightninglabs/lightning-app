@@ -76,7 +76,7 @@ module.exports.init = async function({
   ipcMain.on('unlockInit', event => {
     unlocker = new lnrpc.WalletUnlocker(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(unlocker, Infinity, err => {
-      event.sender.send('unlockReady', err);
+      event.sender.send('unlockReady', { err });
     });
   });
 
@@ -97,7 +97,7 @@ module.exports.init = async function({
   ipcMain.on('lndInit', event => {
     lnd = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(lnd, Infinity, err => {
-      event.sender.send('lndReady', err);
+      event.sender.send('lndReady', { err });
     });
   });
 
