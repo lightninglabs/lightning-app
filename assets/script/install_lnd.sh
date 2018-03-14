@@ -14,6 +14,9 @@ export GOROOT=$HOME/go
 export GOPATH=$HOME/gocode
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
+# install dep
+go get -u github.com/golang/dep/cmd/dep
+
 # install glide
 GLIDE_DOWNLOAD="https://github.com/Masterminds/glide/releases/download/v$GLIDE_TAG/glide-v$GLIDE_TAG-linux-amd64.tar.gz"
 curl -L $GLIDE_DOWNLOAD | tar -xz
@@ -22,7 +25,7 @@ export PATH=$PWD/linux-amd64/:$PATH
 # install lnd
 git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
 cd $GOPATH/src/github.com/lightningnetwork/lnd
-glide install
+dep ensure
 go install . ./cmd/...
 
 # install btcd
