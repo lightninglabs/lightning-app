@@ -80,6 +80,14 @@ module.exports.init = async function({
     });
   });
 
+  let lnd;
+  ipcMain.on('lndInit', event => {
+    lnd = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
+    grpc.waitForClientReady(lnd, Infinity, err => {
+      event.sender.send('lndReady', { err });
+    });
+  });
+
   ipcMain.on('unlockRequest', (event, { method, body }) => {
     const now = new Date();
     const deadline = new Date(now.getTime() + 300000);
@@ -91,14 +99,6 @@ module.exports.init = async function({
     } else {
       unlocker[method](body, { deadline }, handleResponse);
     }
-  });
-
-  let lnd;
-  ipcMain.on('lndInit', event => {
-    lnd = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
-    grpc.waitForClientReady(lnd, Infinity, err => {
-      event.sender.send('lndReady', { err });
-    });
   });
 
   ipcMain.on('lndRequest', (event, { method, body }) => {
