@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import TextInput from '../components/textinput';
 import Button from '../components/button';
 import Header from '../components/header';
+import { actionsChannels } from '../actions';
 import { View } from 'react-native';
 import { colors } from '../styles';
 
@@ -11,13 +12,13 @@ class CreateChannel extends Component {
     super();
 
     this.state = {
-      pubkey: '',
+      pubkeyAtHost: '',
       amount: '',
     };
   }
 
   render() {
-    const { pubkey, amount } = this.state;
+    const { pubkeyAtHost, amount } = this.state;
 
     return (
       <View style={{ flex: 1, backgroundColor: colors.offwhite, padding: 20 }}>
@@ -28,8 +29,8 @@ class CreateChannel extends Component {
 
         <TextInput
           placeholder="Pubkey@HostIP"
-          value={pubkey}
-          onChangeText={pubkey => this.setState({ pubkey })}
+          value={pubkeyAtHost}
+          onChangeText={pubkeyAtHost => this.setState({ pubkeyAtHost })}
         />
 
         <TextInput
@@ -42,11 +43,13 @@ class CreateChannel extends Component {
         />
 
         <Button
-          disabled={!(pubkey && amount)}
+          disabled={!(pubkeyAtHost && amount)}
           text="Create Channel"
-          onPress={() => {}}
-          showClear={!!amount || !!pubkey}
-          onClear={() => this.setState({ amount: '', pubkey: '' })}
+          onPress={() =>
+            actionsChannels.connectAndOpen({ pubkeyAtHost, amount })
+          }
+          showClear={!!amount || !!pubkeyAtHost}
+          onClear={() => this.setState({ amount: '', pubkeyAtHost: '' })}
         />
       </View>
     );
