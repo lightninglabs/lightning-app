@@ -3,6 +3,9 @@ const os = require('os');
 const path = require('path');
 const grpc = require('grpc');
 
+const GRPC_TIMEOUT = 300000;
+const homedir = os.homedir();
+
 process.env.GRPC_SSL_CIPHER_SUITES =
   'ECDHE-RSA-AES128-GCM-SHA256:' +
   'ECDHE-RSA-AES128-SHA256:' +
@@ -12,8 +15,6 @@ process.env.GRPC_SSL_CIPHER_SUITES =
   'ECDHE-ECDSA-AES128-SHA256:' +
   'ECDHE-ECDSA-AES256-SHA384:' +
   'ECDHE-ECDSA-AES256-GCM-SHA384';
-
-const homedir = os.homedir();
 
 async function waitForCertPath(certPath) {
   let intervalId;
@@ -89,8 +90,7 @@ module.exports.init = async function({
   });
 
   ipcMain.on('unlockRequest', (event, { method, body }) => {
-    const now = new Date();
-    const deadline = new Date(now.getTime() + 300000);
+    const deadline = new Date(new Date().getTime() + GRPC_TIMEOUT);
     const handleResponse = (err, response) => {
       event.sender.send(`unlockResponse_${method}`, { err, response });
     };
@@ -102,8 +102,7 @@ module.exports.init = async function({
   });
 
   ipcMain.on('lndRequest', (event, { method, body }) => {
-    const now = new Date();
-    const deadline = new Date(now.getTime() + 300000);
+    const deadline = new Date(new Date().getTime() + GRPC_TIMEOUT);
     const handleResponse = (err, response) => {
       event.sender.send(`lndResponse_${method}`, { err, response });
     };
