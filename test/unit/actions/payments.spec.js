@@ -63,7 +63,7 @@ describe('Actions Payments Unit Tests', () => {
     beforeEach(() => {
       paymentsOnStub = sinon.stub();
       paymentsWriteStub = sinon.stub();
-      actionsGrpc.sendStreamCommand.withArgs('sendPayment').returns({
+      actionsGrpc.sendStreamCommand.withArgs('sendPayment').resolves({
         on: paymentsOnStub,
         write: paymentsWriteStub,
       });

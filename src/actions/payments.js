@@ -28,7 +28,7 @@ class ActionsPayments {
   async payLightning({ payment }) {
     try {
       payment = payment.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
-      const stream = this._actionsGrpc.sendStreamCommand('sendPayment');
+      const stream = await this._actionsGrpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {
         stream.on('data', data => {
           if (data.payment_error) {

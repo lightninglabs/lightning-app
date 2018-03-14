@@ -126,7 +126,7 @@ class ActionsChannels {
   }
 
   async openChannel({ pubkey, amount }) {
-    const stream = this._actionsGrpc.sendStreamCommand('openChannel', {
+    const stream = await this._actionsGrpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
     });
@@ -142,7 +142,7 @@ class ActionsChannels {
   }
 
   async closeChannel({ channelPoint, force = false }) {
-    const stream = this._actionsGrpc.sendStreamCommand('closeChannel', {
+    const stream = await this._actionsGrpc.sendStreamCommand('closeChannel', {
       channel_point: this._parseChannelPoint(channelPoint),
       force,
     });

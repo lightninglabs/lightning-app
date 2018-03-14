@@ -217,7 +217,7 @@ describe('Actions Channels Unit Tests', () => {
       const onStub = sinon.stub();
       onStub.withArgs('data').yields({});
       onStub.withArgs('end').yields();
-      actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
+      actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
         on: onStub,
       });
       await actionsChannels.openChannel({ pubkey, amount });
@@ -228,7 +228,7 @@ describe('Actions Channels Unit Tests', () => {
     it('should reject in case of error event', async () => {
       const onStub = sinon.stub();
       onStub.withArgs('error').yields(new Error('Boom!'));
-      actionsGrpc.sendStreamCommand.withArgs('openChannel').returns({
+      actionsGrpc.sendStreamCommand.withArgs('openChannel').resolves({
         on: onStub,
       });
       await expect(
@@ -258,7 +258,7 @@ describe('Actions Channels Unit Tests', () => {
           channel_point: { funding_txid_str: 'FFFF', output_index: 1 },
           force: false,
         })
-        .returns({ on: onStub });
+        .resolves({ on: onStub });
       await actionsChannels.closeChannel({ channelPoint });
       expect(actionsChannels.getPendingChannels, 'was called once');
       expect(actionsChannels.getChannels, 'was called once');
@@ -274,7 +274,7 @@ describe('Actions Channels Unit Tests', () => {
           channel_point: { funding_txid_str: 'FFFF', output_index: 1 },
           force: true,
         })
-        .returns({ on: onStub });
+        .resolves({ on: onStub });
       await actionsChannels.closeChannel({ channelPoint, force: true });
       expect(store.pendingChannelsResponse, 'to be empty');
     });
@@ -290,7 +290,7 @@ describe('Actions Channels Unit Tests', () => {
 
     it('should reject in case of error event', async () => {
       onStub.withArgs('error').yields(new Error('Boom!'));
-      actionsGrpc.sendStreamCommand.withArgs('closeChannel').returns({
+      actionsGrpc.sendStreamCommand.withArgs('closeChannel').resolves({
         on: onStub,
       });
       await expect(
