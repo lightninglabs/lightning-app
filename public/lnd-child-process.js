@@ -114,13 +114,20 @@ module.exports.createGrpcClient = async function({
   }
 
   const serverReady = cb => {
-    // var deadline = new Date();
-    // deadline.setSeconds(deadline.getSeconds() + 5);
     grpc.waitForClientReady(connection, Infinity, cb);
   };
 
   global.connection = connection;
   global.serverReady = serverReady;
+
+  const unlock = new lnrpc.WalletUnlocker(`localhost:${lndPort}`, credentials);
+
+  const unlockerReady = cb => {
+    grpc.waitForClientReady(unlock, Infinity, cb);
+  };
+
+  global.unlocker = unlock;
+  global.unlockerReady = unlockerReady;
 };
 
 module.exports.startLndProcess = async function({
