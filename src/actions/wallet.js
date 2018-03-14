@@ -1,7 +1,5 @@
 import * as log from './logs';
-import { RETRY_DELAY, PREFIX_URI, MNEMONIC_WALLET } from '../config';
-import Mnemonic from 'bitcore-mnemonic';
-import __DEV__ from 'electron-is-dev';
+import { RETRY_DELAY, PREFIX_URI } from '../config';
 
 class ActionsWallet {
   constructor(store, actionsGrpc, actionsNav) {
@@ -43,19 +41,6 @@ class ActionsWallet {
     } catch (err) {
       log.error('Error unlocking wallet', err);
       throw err;
-    }
-  }
-
-  initializeWallet() {
-    if (!MNEMONIC_WALLET) return;
-    const { settings: { seedMnemonic } } = this._store;
-    if (!seedMnemonic || !Mnemonic.isValid(seedMnemonic)) {
-      const code = new Mnemonic(Mnemonic.Words.ENGLISH);
-      this._store.settings.seedMnemonic = code.toString();
-      this._store.save();
-      this._actionsNav.goInitializeWallet();
-    } else {
-      __DEV__ && this._actionsNav.goPay();
     }
   }
 

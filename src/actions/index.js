@@ -43,7 +43,7 @@ export const actionsPayments = new ActionsPayments(
 //
 
 observe(store, 'loaded', () => {
-  actionsWallet.initializeWallet();
+  // TODO: initialize wallet
 });
 
 observe(store, 'lndReady', () => {
