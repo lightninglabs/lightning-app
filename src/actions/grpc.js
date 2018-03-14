@@ -23,8 +23,7 @@ class ActionsGrpc {
 
   sendUnlockerCommand(method, body) {
     return new Promise((resolve, reject) => {
-      this._ipcRenderer.on('unlockResponse', (event, arg) => {
-        if (arg.method !== method) return;
+      this._ipcRenderer.on(`unlockResponse_${method}`, (event, arg) => {
         if (arg.err) {
           log.error('GRPC: Error from method', method, arg.err);
           return reject(arg.err);
@@ -52,8 +51,7 @@ class ActionsGrpc {
 
   sendCommand(method, body) {
     return new Promise((resolve, reject) => {
-      this._ipcRenderer.on('lndResponse', (event, arg) => {
-        if (arg.method !== method) return;
+      this._ipcRenderer.on(`lndResponse_${method}`, (event, arg) => {
         if (arg.err) {
           log.error('GRPC: Error from method', method, arg.err);
           return reject(arg.err);
@@ -66,8 +64,7 @@ class ActionsGrpc {
 
   sendStreamCommand(method, body) {
     return new Promise((resolve, reject) => {
-      this._ipcRenderer.on('lndStreamResponse', (event, arg) => {
-        if (arg.method !== method) return;
+      this._ipcRenderer.on(`lndStreamResponse_${method}`, (event, arg) => {
         if (arg.err) {
           log.error('GRPC: Error from stream method', method, arg.err);
           return reject(arg.err);

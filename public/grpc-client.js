@@ -84,7 +84,7 @@ module.exports.init = async function({
     const now = new Date();
     const deadline = new Date(now.getTime() + 300000);
     const handleResponse = (err, response) => {
-      event.sender.send('unlockResponse', { err, method, response });
+      event.sender.send(`unlockResponse_${method}`, { err, response });
     };
     if (metadata) {
       unlocker[method](body, metadata, { deadline }, handleResponse);
@@ -105,7 +105,7 @@ module.exports.init = async function({
     const now = new Date();
     const deadline = new Date(now.getTime() + 300000);
     const handleResponse = (err, response) => {
-      event.sender.send('lndResponse', { err, method, response });
+      event.sender.send(`lndResponse_${method}`, { err, response });
     };
     if (metadata) {
       lnd[method](body, metadata, { deadline }, handleResponse);
@@ -122,9 +122,9 @@ module.exports.init = async function({
       } else {
         response = lnd[method](body);
       }
-      event.sender.send('lndStreamResponse', { method, response });
+      event.sender.send(`lndStreamResponse_${method}`, { response });
     } catch (err) {
-      event.sender.send('lndStreamResponse', { err, method });
+      event.sender.send(`lndStreamResponse_${method}`, { err });
     }
   });
 };
