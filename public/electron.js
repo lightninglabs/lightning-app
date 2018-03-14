@@ -94,6 +94,7 @@ function createWindow() {
   //////////////// Lightning App ///////////////////////////
 
   grcpClient.init({
+    ipcMain,
     lndPort: LND_PORT,
     lndDataDir: LND_DATA_DIR,
     macaroonsEnabled: MACAROONS_ENABLED,

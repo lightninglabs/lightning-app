@@ -1,4 +1,3 @@
-const { ipcMain } = require('electron');
 const fs = require('fs');
 const os = require('os');
 const path = require('path');
@@ -59,6 +58,7 @@ function getMetadata() {
 }
 
 module.exports.init = async function({
+  ipcMain,
   lndPort,
   lndDataDir,
   macaroonsEnabled,

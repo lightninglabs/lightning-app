@@ -8,13 +8,14 @@ import ActionsWallet from '../../../src/actions/wallet';
 import ActionsChannels from '../../../src/actions/channels';
 import ActionsTransactions from '../../../src/actions/transactions';
 import ActionsPayments from '../../../src/actions/payments';
+import { EventEmitter } from 'events';
 
 const {
-  createGrpcClient,
   startLndProcess,
   startBtcdProcess,
   mineBlocks,
 } = require('../../../public/lnd-child-process');
+const grcpClient = require('../../../public/grpc-client');
 
 /* eslint-disable no-unused-vars */
 
@@ -38,6 +39,19 @@ const MACAROONS_ENABLED = false;
 const NAP_TIME = process.env.NAP_TIME || 5000;
 const seedPassphrase = 'hodlgang';
 const walletPassword = 'bitconeeeeeect';
+
+const wireUpIpc = (s1, s2) =>
+  (s1.send = (msg, ...args) => s2.emit(msg, { sender: s2 }, ...args));
+
+const ipcMainStub1 = new EventEmitter();
+const ipcRendererStub1 = new EventEmitter();
+wireUpIpc(ipcMainStub1, ipcRendererStub1);
+wireUpIpc(ipcRendererStub1, ipcMainStub1);
+
+const ipcMainStub2 = new EventEmitter();
+const ipcRendererStub2 = new EventEmitter();
+wireUpIpc(ipcMainStub2, ipcRendererStub2);
+wireUpIpc(ipcRendererStub2, ipcMainStub2);
 
 describe('Actions Integration Tests', function() {
   this.timeout(300000);
@@ -72,11 +86,6 @@ describe('Actions Integration Tests', function() {
     store1 = new Store();
     store2 = new Store();
 
-    const globalStub1 = {};
-    const remoteStub1 = { getGlobal: arg => globalStub1[arg] };
-    const globalStub2 = {};
-    const remoteStub2 = { getGlobal: arg => globalStub2[arg] };
-
     btcdArgs = {
       isDev,
       logger,
@@ -110,24 +119,21 @@ describe('Actions Integration Tests', function() {
     lndProcess1 = await lndProcess1Promise;
     lndProcess2 = await lndProcess2Promise;
 
-    const createGrpcClient1Promise = createGrpcClient({
-      global: globalStub1,
+    await grcpClient.init({
+      ipcMain: ipcMainStub1,
       lndPort: LND_PORT_1,
       lndDataDir: LND_DATA_DIR_1,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
-    const createGrpcClient2Promise = createGrpcClient({
-      global: globalStub2,
+    await grcpClient.init({
+      ipcMain: ipcMainStub2,
       lndPort: LND_PORT_2,
       lndDataDir: LND_DATA_DIR_2,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
-    await createGrpcClient1Promise;
-    await createGrpcClient2Promise;
-
     navStub1 = sinon.createStubInstance(ActionsNav);
-    grpc1 = new ActionsGrpc(store1, remoteStub1);
+    grpc1 = new ActionsGrpc(store1, ipcRendererStub1);
     info1 = new ActionsInfo(store1, grpc1);
     wallet1 = new ActionsWallet(store1, grpc1, navStub1);
     channels1 = new ActionsChannels(store1, grpc1);
@@ -135,7 +141,7 @@ describe('Actions Integration Tests', function() {
     payments1 = new ActionsPayments(store1, grpc1, wallet1);
 
     navStub2 = sinon.createStubInstance(ActionsNav);
-    grpc2 = new ActionsGrpc(store2, remoteStub2);
+    grpc2 = new ActionsGrpc(store2, ipcRendererStub2);
     info2 = new ActionsInfo(store2, grpc2);
     wallet2 = new ActionsWallet(store2, grpc2, navStub2);
     channels2 = new ActionsChannels(store2, grpc2);
@@ -152,6 +158,7 @@ describe('Actions Integration Tests', function() {
 
   describe.only('Generate seed and unlock wallet', () => {
     it('should wait for unlockerReady', async () => {
+      await grpc1.initUnlocker();
       while (!store1.unlockerReady) await nap(100);
     });
 
@@ -186,17 +193,14 @@ describe('Actions Integration Tests', function() {
         logger,
       });
 
-      const globalStub1 = {};
-      const remoteStub1 = { getGlobal: arg => globalStub1[arg] };
-
-      const createGrpcClient1 = await createGrpcClient({
-        global: globalStub1,
+      await grcpClient.init({
+        ipcMain: ipcMainStub1,
         lndPort: LND_PORT_1,
         lndDataDir: LND_DATA_DIR_1,
         macaroonsEnabled: MACAROONS_ENABLED,
       });
-      grpc1 = new ActionsGrpc(store1, remoteStub1);
 
+      await grpc1.initUnlocker();
       while (!store1.unlockerReady) await nap(100);
     });
 
