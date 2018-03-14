@@ -10,6 +10,42 @@ class ActionsWallet {
     this._actionsNav = actionsNav;
   }
 
+  async generateSeed({ seedPassphrase }) {
+    try {
+      const response = await this._actionsGrpc.sendUnlockerCommand('GenSeed', {
+        aezeed_passphrase: seedPassphrase,
+      });
+      this._store.seedMnemonic = response.cipher_seed_mnemonic;
+    } catch (err) {
+      log.error('Error generating seed', err);
+      throw err;
+    }
+  }
+
+  async initWallet({ walletPassword, seedPassphrase, seedMnemonic }) {
+    try {
+      await this._actionsGrpc.sendUnlockerCommand('InitWallet', {
+        wallet_password: walletPassword,
+        aezeed_passphrase: seedPassphrase,
+        cipher_seed_mnemonic: seedMnemonic,
+      });
+    } catch (err) {
+      log.error('Error initializing wallet', err);
+      throw err;
+    }
+  }
+
+  async unlockWallet({ walletPassword }) {
+    try {
+      await this._actionsGrpc.sendUnlockerCommand('UnlockWallet', {
+        wallet_password: walletPassword,
+      });
+    } catch (err) {
+      log.error('Error unlocking wallet', err);
+      throw err;
+    }
+  }
+
   initializeWallet() {
     if (!MNEMONIC_WALLET) return;
     const { settings: { seedMnemonic } } = this._store;
