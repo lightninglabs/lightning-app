@@ -210,6 +210,16 @@ describe('Actions Integration Tests', function() {
       await wallet1.unlockWallet({ walletPassword });
       expect(store1.walletUnlocked, 'to be true');
     });
+
+    it('should wait for lndReady', async () => {
+      await grpc1.initLnd();
+      expect(store1.lndReady, 'to be true');
+    });
+
+    it('should generate payment request', async () => {
+      const invoice = await wallet1.generatePaymentRequest();
+      expect(invoice, 'to be ok');
+    });
   });
 
   describe('Wallet and Info actions', () => {
