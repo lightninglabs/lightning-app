@@ -37,7 +37,7 @@ class ActionsGrpc {
       read() {},
     });
     this._ipcRenderer.on(`lndStreamEvent_${method}`, (e, arg) => {
-      stream.emit(arg.event, arg.data);
+      stream.emit(arg.event, arg.data || arg.err);
     });
     this._ipcRenderer.send('lndStreamRequest', { method, body });
     return stream;
