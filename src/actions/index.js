@@ -23,7 +23,12 @@ export const actionsLogs = new ActionsLogs(store, ipcRenderer);
 export const actionsNotification = new ActionsNotification(store);
 export const actionsGrpc = new ActionsGrpc(store, ipcRenderer);
 export const actionsNav = new ActionsNav(store, ipcRenderer);
-export const actionsWallet = new ActionsWallet(store, actionsGrpc, actionsNav);
+export const actionsWallet = new ActionsWallet(
+  store,
+  actionsGrpc,
+  actionsNav,
+  actionsNotification
+);
 export const actionsInfo = new ActionsInfo(store, actionsGrpc);
 export const actionsChannels = new ActionsChannels(
   store,

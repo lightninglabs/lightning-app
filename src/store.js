@@ -14,7 +14,6 @@ export class Store {
       lndReady: false, // Is lnd process running
       syncedToChain: false, // Is lnd synced to blockchain
       route: DEFAULT_ROUTE,
-
       blockHeight: null,
       balanceSatoshis: null,
       confirmedBalanceSatoshis: null,
@@ -30,13 +29,12 @@ export class Store {
       channelsResponse: null,
       pendingChannelsResponse: null,
       paymentRequestResponse: null,
+      seedMnemonic: null,
       notifications: [],
       logs: [],
 
       // Persistent data
-      settings: {
-        seedMnemonic: null,
-      },
+      settings: {},
     });
 
     ComputedWallet(this);

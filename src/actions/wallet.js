@@ -1,11 +1,11 @@
-import * as log from './logs';
 import { RETRY_DELAY, PREFIX_URI } from '../config';
 
 class ActionsWallet {
-  constructor(store, actionsGrpc, actionsNav) {
+  constructor(store, actionsGrpc, actionsNav, notification) {
     this._store = store;
     this._actionsGrpc = actionsGrpc;
     this._actionsNav = actionsNav;
+    this._notification = notification;
   }
 
   async generateSeed({ seedPassphrase }) {
@@ -15,8 +15,7 @@ class ActionsWallet {
       });
       this._store.seedMnemonic = response.cipher_seed_mnemonic;
     } catch (err) {
-      log.error('Error generating seed', err);
-      throw err;
+      this._notification.display({ msg: 'Generating seed failed', err });
     }
   }
 
@@ -29,8 +28,7 @@ class ActionsWallet {
       });
       this._store.walletUnlocked = true;
     } catch (err) {
-      log.error('Error initializing wallet', err);
-      throw err;
+      this._notification.display({ msg: 'Initializing wallet failed', err });
     }
   }
 
@@ -41,8 +39,7 @@ class ActionsWallet {
       });
       this._store.walletUnlocked = true;
     } catch (err) {
-      log.error('Error unlocking wallet', err);
-      throw err;
+      this._notification.display({ msg: 'Unlocking wallet failed', err });
     }
   }
 
@@ -96,8 +93,8 @@ class ActionsWallet {
       const request = await fetch('https://api.ipify.org?format=json');
       const response = await request.json();
       this._store.ipAddress = response.ip;
-    } catch (e) {
-      log.error('Error fetching IP');
+    } catch (err) {
+      this._notification.display({ msg: 'Getting IP address failed', err });
     }
   }
 }
