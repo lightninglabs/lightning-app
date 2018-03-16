@@ -43,7 +43,9 @@ export const actionsPayments = new ActionsPayments(
 //
 
 observe(store, 'loaded', () => {
-  actionsGrpc.initUnlocker();
+  // TODO: init wallet unlocker instead of lnd
+  actionsGrpc.initLnd();
+  // actionsGrpc.initUnlocker();
 });
 
 observe(store, 'unlockerReady', async () => {
