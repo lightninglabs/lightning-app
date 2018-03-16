@@ -1,4 +1,5 @@
 import * as log from './logs';
+import { Duplex } from 'stream'
 
 class ActionsGrpc {
   constructor(store, ipcRenderer) {
@@ -26,8 +27,23 @@ class ActionsGrpc {
     return this._sendIpc('lndRequest', 'lndResponse', method, body);
   }
 
-  sendStreamCommand(method, body) {
-    return this._sendIpc('lndStreamRequest', 'lndStreamResponse', method, body);
+  async sendStreamCommand(method, body) {
+    const self = this;
+    const stream = new Duplex({
+      write(data, encoding, callback) {
+        self._ipcRenderer.send(`lndStreamWrite`, {
+          method,
+          data: JSON.parse(data.toString('utf8')),
+        });
+        callback();
+      },
+      read() {},
+    });
+    this._ipcRenderer.on(`lndStreamEvent_${method}`, (e, arg) => {
+      stream.emit(arg.event, arg.data);
+    });
+    this._ipcRenderer.send('lndStreamRequest', { method, body });
+    return stream;
   }
 
   _sendIpc(event, listen, method, body) {

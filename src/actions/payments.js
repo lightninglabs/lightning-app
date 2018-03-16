@@ -38,7 +38,7 @@ class ActionsPayments {
           }
         });
         stream.on('error', reject);
-        stream.write({ payment_request: payment });
+        stream.write(JSON.stringify({ payment_request: payment }), 'utf8');
       });
     } catch (err) {
       this._notification.display({

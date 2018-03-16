@@ -113,17 +113,26 @@ module.exports.init = async function({
     }
   });
 
+  const streams = {};
   ipcMain.on('lndStreamRequest', (event, { method, body }) => {
-    try {
-      let response;
-      if (metadata) {
-        response = lnd[method](metadata, body);
-      } else {
-        response = lnd[method](body);
-      }
-      event.sender.send(`lndStreamResponse_${method}`, { response });
-    } catch (err) {
-      event.sender.send(`lndStreamResponse_${method}`, { err });
+    let stream;
+    if (metadata) {
+      stream = lnd[method](metadata, body);
+    } else {
+      stream = lnd[method](body);
     }
+    const send = event.sender.send;
+    const streamEvent = `lndStreamEvent_${method}`;
+    stream.on('data', data => send(streamEvent, { event: 'data', data }));
+    stream.on('end', () => send(streamEvent, { event: 'end' }));
+    stream.on('error', () => send(streamEvent, { event: 'error' }));
+    stream.on('status', data => send(streamEvent, { event: 'status', data }));
+    streams[method] = stream;
+  });
+
+  ipcMain.on('lndStreamWrite', (event, { method, data }) => {
+    const stream = streams[method];
+    if (!stream) return;
+    stream.write(data);
   });
 };
