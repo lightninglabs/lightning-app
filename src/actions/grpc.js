@@ -1,5 +1,5 @@
 import * as log from './logs';
-import { Duplex } from 'stream'
+import { Duplex } from 'stream';
 
 class ActionsGrpc {
   constructor(store, ipcRenderer) {
@@ -27,7 +27,7 @@ class ActionsGrpc {
     return this._sendIpc('lndRequest', 'lndResponse', method, body);
   }
 
-  async sendStreamCommand(method, body) {
+  sendStreamCommand(method, body) {
     const self = this;
     const stream = new Duplex({
       write(data, encoding, callback) {
