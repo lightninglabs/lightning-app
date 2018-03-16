@@ -21,7 +21,7 @@ describe('Actions Notification Unit Tests', () => {
 
   describe('display()', () => {
     it('create info notification and hide after delay', async () => {
-      notification.display({ message: 'hello' });
+      notification.display({ msg: 'hello' });
       expect(store.notifications[0], 'to equal', {
         type: 'info',
         message: 'hello',
@@ -32,17 +32,26 @@ describe('Actions Notification Unit Tests', () => {
       expect(store.notifications[0].display, 'to be', false);
     });
 
+    it('create warning notification when type is set', async () => {
+      notification.display({ type: 'warning', msg: 'hello' });
+      expect(store.notifications[0], 'to equal', {
+        type: 'warning',
+        message: 'hello',
+        display: true,
+      });
+      expect(log.error, 'was not called');
+    });
+
     it('create log error', async () => {
-      const error = new Error('Boom!');
+      const err = new Error('Boom!');
       const handler = () => {};
       notification.display({
-        type: 'error',
-        message: 'hello',
-        error,
+        msg: 'hello',
+        err,
         handler,
         handlerLbl: 'Fix this',
       });
-      expect(log.error, 'was called with', 'hello', error);
+      expect(log.error, 'was called with', 'hello', err);
       expect(store.notifications[0], 'to equal', {
         type: 'error',
         message: 'hello',
@@ -55,7 +64,7 @@ describe('Actions Notification Unit Tests', () => {
 
   describe('close()', () => {
     it('stop displaying all notifications', async () => {
-      notification.display({ message: 'hello' });
+      notification.display({ msg: 'hello' });
       expect(store.notifications[0].display, 'to be', true);
       notification.close();
       expect(store.notifications[0].display, 'to be', false);

@@ -6,11 +6,11 @@ class ActionsNotification {
     this._store = store;
   }
 
-  display({ type = 'info', message, error, handler, handlerLbl }) {
-    if (error) log.error(message, error);
+  display({ type, msg, err, handler, handlerLbl }) {
+    if (err) log.error(msg, err);
     this._store.notifications.push({
-      type,
-      message,
+      type: type || (err ? 'error' : 'info'),
+      message: msg,
       handler,
       handlerLbl,
       display: true,

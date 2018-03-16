@@ -16,11 +16,7 @@ class ActionsPayments {
         amount,
       });
     } catch (err) {
-      this._notification.display({
-        type: 'error',
-        message: 'Sending transaction failed!',
-        error: err,
-      });
+      this._notification.display({ msg: 'Sending transaction failed!', err });
     }
     await this._actionsWallet.getBalance();
   }
@@ -41,11 +37,7 @@ class ActionsPayments {
         stream.write(JSON.stringify({ payment_request: payment }), 'utf8');
       });
     } catch (err) {
-      this._notification.display({
-        type: 'error',
-        message: 'Lightning payment failed!',
-        error: err,
-      });
+      this._notification.display({ msg: 'Lightning payment failed!', err });
     }
     await this._actionsWallet.getChannelBalance();
   }
