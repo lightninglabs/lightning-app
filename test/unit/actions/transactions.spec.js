@@ -134,7 +134,7 @@ describe('Actions Transactions Unit Tests', () => {
       onStub.withArgs('end').yields();
       actionsGrpc.sendStreamCommand
         .withArgs('subscribeTransactions')
-        .resolves({ on: onStub });
+        .returns({ on: onStub });
       await actionsTransactions.subscribeTransactions();
       expect(actionsTransactions.getTransactions, 'was called once');
     });
@@ -143,7 +143,7 @@ describe('Actions Transactions Unit Tests', () => {
       onStub.withArgs('error').yields(new Error('Boom!'));
       actionsGrpc.sendStreamCommand
         .withArgs('subscribeTransactions')
-        .resolves({ on: onStub });
+        .returns({ on: onStub });
       await expect(
         actionsTransactions.subscribeTransactions(),
         'to be rejected with error satisfying',
@@ -165,7 +165,7 @@ describe('Actions Transactions Unit Tests', () => {
       onStub.withArgs('end').yields();
       actionsGrpc.sendStreamCommand
         .withArgs('subscribeInvoices')
-        .resolves({ on: onStub });
+        .returns({ on: onStub });
       await actionsTransactions.subscribeInvoices();
       expect(actionsTransactions.getInvoices, 'was called once');
     });
@@ -174,7 +174,7 @@ describe('Actions Transactions Unit Tests', () => {
       onStub.withArgs('error').yields(new Error('Boom!'));
       actionsGrpc.sendStreamCommand
         .withArgs('subscribeInvoices')
-        .resolves({ on: onStub });
+        .returns({ on: onStub });
       await expect(
         actionsTransactions.subscribeInvoices(),
         'to be rejected with error satisfying',

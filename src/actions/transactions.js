@@ -66,9 +66,7 @@ class ActionsTransactions {
   }
 
   async subscribeTransactions() {
-    const stream = await this._actionsGrpc.sendStreamCommand(
-      'subscribeTransactions'
-    );
+    const stream = this._actionsGrpc.sendStreamCommand('subscribeTransactions');
     await new Promise((resolve, reject) => {
       stream.on('data', () => this.getTransactions());
       stream.on('end', resolve);
@@ -78,9 +76,7 @@ class ActionsTransactions {
   }
 
   async subscribeInvoices() {
-    const stream = await this._actionsGrpc.sendStreamCommand(
-      'subscribeInvoices'
-    );
+    const stream = this._actionsGrpc.sendStreamCommand('subscribeInvoices');
     await new Promise((resolve, reject) => {
       stream.on('data', () => this.getInvoices());
       stream.on('end', resolve);
