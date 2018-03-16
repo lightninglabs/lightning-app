@@ -156,7 +156,7 @@ describe('Actions Integration Tests', function() {
     sandbox.restore();
   });
 
-  describe.only('Generate seed and unlock wallet', () => {
+  describe.skip('Generate seed and unlock wallet', () => {
     it('should wait for unlockerReady', async () => {
       await grpc1.initUnlocker();
       expect(store1.unlockerReady, 'to be true');
