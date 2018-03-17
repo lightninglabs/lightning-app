@@ -11,7 +11,7 @@ import ActionsChannels from './channels';
 import ActionsTransactions from './transactions';
 import ActionsPayments from './payments';
 
-const { ipcRenderer } = window.require('electron');
+const ipcRenderer = window.ipcRenderer; // exposed to sandbox via preload.js
 
 //
 // Inject dependencies
