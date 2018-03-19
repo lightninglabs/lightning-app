@@ -82,7 +82,7 @@ class ActionsChannels {
 
   async getPeers() {
     const { peers } = await this._actionsGrpc.sendCommand('listPeers');
-    this._store.peersResponse = peers.map(peer => ({
+    this._store.peers = peers.map(peer => ({
       pubKey: peer.pub_key,
       peerId: peer.peer_id,
       address: peer.address,

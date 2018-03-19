@@ -301,7 +301,7 @@ describe('Actions Integration Tests', function() {
   describe('Channel and Payment actions', () => {
     it('should list no peers initially', async () => {
       await channels1.getPeers();
-      expect(store1.peersResponse, 'to be empty');
+      expect(store1.peers, 'to be empty');
     });
 
     it('should list no pending channels initially', async () => {
@@ -316,7 +316,7 @@ describe('Actions Integration Tests', function() {
 
     it('should connect to peer', async () => {
       await channels1.connectToPeer({ host: HOST_2, pubkey: store2.pubKey });
-      expect(store1.peersResponse[0].pubKey, 'to be', store2.pubKey);
+      expect(store1.peers[0].pubKey, 'to be', store2.pubKey);
     });
 
     it('should list pending open channel after opening', async () => {

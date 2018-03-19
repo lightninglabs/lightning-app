@@ -137,7 +137,7 @@ describe('Actions Channels Unit Tests', () => {
         peers: [{ pub_key: 'foo' }],
       });
       await actionsChannels.getPeers();
-      expect(store.peersResponse[0].pubKey, 'to equal', 'foo');
+      expect(store.peers[0].pubKey, 'to equal', 'foo');
     });
   });
 

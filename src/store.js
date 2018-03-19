@@ -25,7 +25,7 @@ export class Store {
       transactions: null,
       invoices: null,
       payments: null,
-      peersResponse: null,
+      peers: null,
       channelsResponse: null,
       pendingChannelsResponse: null,
       paymentRequestResponse: null,
