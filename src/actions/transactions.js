@@ -51,7 +51,7 @@ class ActionsTransactions {
   async getPayments() {
     try {
       const { payments } = await this._actionsGrpc.sendCommand('listPayments');
-      this._store.paymentsResponse = payments.map(payment => ({
+      this._store.payments = payments.map(payment => ({
         id: payment.creation_date,
         type: 'lightning',
         amount: payment.value,

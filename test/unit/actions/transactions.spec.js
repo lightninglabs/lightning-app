@@ -102,7 +102,7 @@ describe('Actions Transactions Unit Tests', () => {
         ],
       });
       await actionsTransactions.getPayments();
-      expect(store.paymentsResponse[0], 'to equal', {
+      expect(store.payments[0], 'to equal', {
         id: 1517585154925,
         type: 'lightning',
         amount: 42,
