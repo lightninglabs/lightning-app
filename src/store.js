@@ -28,7 +28,7 @@ export class Store {
       peers: null,
       channels: null,
       pendingChannels: null,
-      paymentRequestResponse: null,
+      paymentRequest: null,
       seedMnemonic: null,
       notifications: [],
       logs: [],

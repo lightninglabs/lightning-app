@@ -100,8 +100,8 @@ describe('Actions Payments Unit Tests', () => {
       await actionsPayments.decodePaymentRequest({
         payment: 'some-payment',
       });
-      expect(store.paymentRequestResponse.numSatoshis, 'to be', '1700');
-      expect(store.paymentRequestResponse.description, 'to be', 'foo');
+      expect(store.paymentRequest.numSatoshis, 'to be', '1700');
+      expect(store.paymentRequest.description, 'to be', 'foo');
     });
 
     it('should set response to null on error', async () => {
@@ -111,7 +111,7 @@ describe('Actions Payments Unit Tests', () => {
       await actionsPayments.decodePaymentRequest({
         payment: 'some-payment',
       });
-      expect(store.paymentRequestResponse, 'to be', null);
+      expect(store.paymentRequest, 'to be', null);
       expect(logger.error, 'was called once');
     });
   });

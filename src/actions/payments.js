@@ -48,12 +48,12 @@ class ActionsPayments {
       const request = await this._actionsGrpc.sendCommand('decodePayReq', {
         pay_req: payment,
       });
-      this._store.paymentRequestResponse = {
+      this._store.paymentRequest = {
         numSatoshis: request.num_satoshis,
         description: request.description,
       };
     } catch (err) {
-      this._store.paymentRequestResponse = null;
+      this._store.paymentRequest = null;
       log.error(err);
     }
   }
