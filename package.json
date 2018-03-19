@@ -60,17 +60,23 @@
   "build": {
     "appId": "com.example.lightning-desktop",
     "mac": {
-      "category": "Network"
+      "category": "Network",
+      "artifactName": "${productName}-darwin-x64v${version}.${ext}",
+      "extraResources": "assets/bin/darwin"
     },
     "linux": {
-      "category": "Network"
+      "category": "Network",
+      "artifactName": "${productName}-linux-${arch}v${version}.${ext}",
+      "extraResources": "assets/bin/linux"
     },
-    "win": {},
+    "win": {
+      "artifactName": "${productName}-win32-${arch}v${version}.${ext}",
+      "extraResources": "assets/bin/win32"
+    },
     "productName": "Lightning",
     "files": [
       "build/**/*",
       "node_modules/**/*",
-      "assets/bin/**/*",
       "assets/rpc.proto",
       "src/config.js"
     ],

@@ -1,15 +1,39 @@
-sudo: false
 language: node_js
-
 node_js:
-  - "9"
+  - '9'
 
-cache:
-  directories:
-    - node_modules
+services:
+  - docker
 
 before_install:
   - ./assets/script/install_lnd.sh
 
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
+
+cache:
+  directories:
+    - node_modules
+    - $HOME/.cache/electron
+    - $HOME/.cache/electron-builder
+
 env:
   - NAP_TIME=20000
+
+before_deploy:
+  - ./assets/script/build_lnd.sh
+
+deploy:
+  provider: releases
+  api_key:
+    secure: <travis-cli generated api key>
+  file_glob: true
+  file:
+    - dist/Lightning*
+    - dist/manifest*
+  skip_cleanup: true
+  on:
+    repo: lightninglabs/lightning-app
+    branch: <branch_name>
+    tags: true
+  draft: true
