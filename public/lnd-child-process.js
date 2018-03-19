@@ -4,18 +4,9 @@ const cp = require('child_process');
 
 function getProcessName(binName) {
   const filename = os.platform() === 'win32' ? `${binName}.exe` : binName;
-  const filePath =
-    __dirname.indexOf('asar') >= 0
-      ? path.join(
-          __dirname,
-          '..',
-          '..',
-          'assets',
-          'bin',
-          os.platform(),
-          filename
-        )
-      : path.join(__dirname, '..', 'assets', 'bin', os.platform(), filename);
+  const filePath = __dirname.includes('asar')
+    ? path.join(__dirname, '..', '..', 'assets', 'bin', os.platform(), filename)
+    : path.join(__dirname, '..', 'assets', 'bin', os.platform(), filename);
   return cp.spawnSync('type', [binName]).status === 0 ? binName : filePath;
 }
 
