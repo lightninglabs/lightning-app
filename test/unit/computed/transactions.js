@@ -17,7 +17,7 @@ describe('Computed Transactions Unit Tests', () => {
 
     it('should aggregate transactions, payments, and invoices', () => {
       store = observable({
-        transactionsResponse: [{ date: new Date() }],
+        transactions: [{ date: new Date() }],
         paymentsResponse: [{ date: new Date() }],
         invoicesResponse: [{ date: new Date() }],
       });

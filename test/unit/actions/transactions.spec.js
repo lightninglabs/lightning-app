@@ -36,7 +36,7 @@ describe('Actions Transactions Unit Tests', () => {
         ],
       });
       await actionsTransactions.getTransactions();
-      expect(store.transactionsResponse[0], 'to equal', {
+      expect(store.transactions[0], 'to equal', {
         id: 'some-hash',
         type: 'bitcoin',
         amount: 42,

@@ -13,7 +13,7 @@ class ActionsTransactions {
       const { transactions } = await this._actionsGrpc.sendCommand(
         'getTransactions'
       );
-      this._store.transactionsResponse = transactions.map(transaction => ({
+      this._store.transactions = transactions.map(transaction => ({
         id: transaction.tx_hash,
         type: 'bitcoin',
         amount: transaction.amount,

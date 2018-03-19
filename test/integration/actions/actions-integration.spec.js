@@ -261,7 +261,7 @@ describe('Actions Integration Tests', function() {
 
     it('should list no transactions initially', async () => {
       await transactions2.getTransactions();
-      expect(store2.transactionsResponse, 'to be empty');
+      expect(store2.transactions, 'to be empty');
       transactions2.subscribeTransactions();
     });
 
@@ -274,7 +274,7 @@ describe('Actions Integration Tests', function() {
 
     it('should list transaction as confirmed after mining 6 blocks', async () => {
       await mineAndSync({ blocks: 6 });
-      while (!store2.transactionsResponse.length) await nap(100);
+      while (!store2.transactions.length) await nap(100);
       const tx = store2.computedTransactions.find(t => t.type === 'bitcoin');
       expect(tx.status, 'to be', 'confirmed');
     });
