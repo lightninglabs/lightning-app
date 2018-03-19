@@ -23,7 +23,7 @@ export class Store {
       walletAddress: null,
       ipAddress: null,
       transactions: null,
-      invoicesResponse: null,
+      invoices: null,
       paymentsResponse: null,
       peersResponse: null,
       channelsResponse: null,

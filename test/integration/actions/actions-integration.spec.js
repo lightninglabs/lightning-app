@@ -342,7 +342,7 @@ describe('Actions Integration Tests', function() {
 
     it('should list no invoices initially', async () => {
       await transactions2.getInvoices();
-      expect(store2.invoicesResponse, 'to be empty');
+      expect(store2.invoices, 'to be empty');
     });
 
     it('should generate payment request', async () => {
@@ -352,7 +352,7 @@ describe('Actions Integration Tests', function() {
 
     it('should list new invoice as in-progress', async () => {
       await transactions2.getInvoices();
-      expect(store2.invoicesResponse[0].status, 'to be', 'in-progress');
+      expect(store2.invoices[0].status, 'to be', 'in-progress');
       transactions2.subscribeInvoices();
     });
 
@@ -361,8 +361,7 @@ describe('Actions Integration Tests', function() {
     });
 
     it('should update complete invoice via subscription', async () => {
-      while (store2.invoicesResponse[0].status === 'in-progress')
-        await nap(100);
+      while (store2.invoices[0].status === 'in-progress') await nap(100);
       const tx = store2.computedTransactions.find(t => t.type === 'lightning');
       expect(tx.status, 'to be', 'complete');
     });

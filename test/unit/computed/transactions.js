@@ -19,7 +19,7 @@ describe('Computed Transactions Unit Tests', () => {
       store = observable({
         transactions: [{ date: new Date() }],
         paymentsResponse: [{ date: new Date() }],
-        invoicesResponse: [{ date: new Date() }],
+        invoices: [{ date: new Date() }],
       });
       ComputedTransactions(store);
       expect(store.computedTransactions.length, 'to equal', 3);

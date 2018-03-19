@@ -33,7 +33,7 @@ class ActionsTransactions {
   async getInvoices() {
     try {
       const { invoices } = await this._actionsGrpc.sendCommand('listInvoices');
-      this._store.invoicesResponse = invoices.map(invoice => ({
+      this._store.invoices = invoices.map(invoice => ({
         id: invoice.creation_date,
         type: 'lightning',
         amount: invoice.value,

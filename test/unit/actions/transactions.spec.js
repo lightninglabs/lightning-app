@@ -69,7 +69,7 @@ describe('Actions Transactions Unit Tests', () => {
         ],
       });
       await actionsTransactions.getInvoices();
-      expect(store.invoicesResponse[0], 'to equal', {
+      expect(store.invoices[0], 'to equal', {
         id: 1517585154925,
         type: 'lightning',
         amount: 42,
