@@ -3,9 +3,9 @@ import { computed, extendObservable } from 'mobx';
 const ComputedChannels = store => {
   extendObservable(store, {
     computedChannels: computed(() => {
-      const { channels, pendingChannelsResponse } = store;
+      const { channels, pendingChannels } = store;
       const c = channels ? channels.slice() : [];
-      const p = pendingChannelsResponse ? pendingChannelsResponse.slice() : [];
+      const p = pendingChannels ? pendingChannels.slice() : [];
       const all = [].concat(c, p);
       all.sort(
         (a, b) => (a.status > b.status ? 1 : a.status < b.status ? -1 : 0)

@@ -23,7 +23,7 @@ describe('Computed Channels Unit Tests', () => {
             status: 'open',
           },
         ],
-        pendingChannelsResponse: [
+        pendingChannels: [
           {
             status: 'pending-open',
           },

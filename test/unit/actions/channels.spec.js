@@ -104,7 +104,7 @@ describe('Actions Channels Unit Tests', () => {
         pending_force_closing_channels: [{}],
       });
       await actionsChannels.getPendingChannels();
-      expect(store.pendingChannelsResponse.length, 'to equal', 3);
+      expect(store.pendingChannels.length, 'to equal', 3);
     });
   });
 
@@ -265,7 +265,7 @@ describe('Actions Channels Unit Tests', () => {
     });
 
     it('should remove pending channel with txid on chan_close (force close)', async () => {
-      store.pendingChannelsResponse = [{ closingTxid: 'abcd' }];
+      store.pendingChannels = [{ closingTxid: 'abcd' }];
       const chan_close = { closing_txid: new Buffer('cdab', 'hex') };
       onStub.withArgs('data').yields({ chan_close });
       onStub.withArgs('end').yields();
@@ -276,7 +276,7 @@ describe('Actions Channels Unit Tests', () => {
         })
         .returns({ on: onStub });
       await actionsChannels.closeChannel({ channelPoint, force: true });
-      expect(store.pendingChannelsResponse, 'to be empty');
+      expect(store.pendingChannels, 'to be empty');
     });
 
     it('should reject for invalid channel point', async () => {

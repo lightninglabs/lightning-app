@@ -67,7 +67,7 @@ class ActionsChannels {
       blocksTilMaturity: pfcc.blocks_til_maturity,
       status: 'pending-force-closing',
     }));
-    this._store.pendingChannelsResponse = [].concat(pocs, pccs, pfccs);
+    this._store.pendingChannels = [].concat(pocs, pccs, pfccs);
   }
 
   async pollPeers() {
@@ -169,7 +169,7 @@ class ActionsChannels {
       throw new Error('Invalid closing txid');
     }
     const txid = reverse(closingTxid).toString('hex');
-    const pc = this._store.pendingChannelsResponse;
+    const pc = this._store.pendingChannels;
     const channel = pc.find(c => c.closingTxid === txid);
     if (channel) pc.splice(pc.indexOf(channel));
   }
