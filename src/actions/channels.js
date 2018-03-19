@@ -102,11 +102,7 @@ class ActionsChannels {
       await this.connectToPeer({ host, pubkey });
       await this.openChannel({ pubkey, amount });
     } catch (err) {
-      this._notification.display({
-        type: 'error',
-        message: 'Connecting and opening channel failed!',
-        error: err,
-      });
+      this._notification.display({ msg: 'Opening channel failed!', err });
     }
   }
 
@@ -117,11 +113,7 @@ class ActionsChannels {
       });
       await this.getPeers();
     } catch (err) {
-      this._notification.display({
-        type: 'error',
-        message: 'Connecting to peer failed!',
-        error: err,
-      });
+      this._notification.display({ msg: 'Connecting to peer failed!', err });
     }
   }
 

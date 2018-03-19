@@ -1,7 +1,8 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ActionsNav from '../../../src/actions/nav';
 import ActionsGrpc from '../../../src/actions/grpc';
 import ActionsWallet from '../../../src/actions/wallet';
+import ActionsNotification from '../../../src/actions/notification';
 import nock from 'nock';
 import 'isomorphic-fetch';
 
@@ -10,37 +11,70 @@ describe('Actions Wallet Unit Tests', () => {
   let actionsNav;
   let actionsGrpc;
   let actionsWallet;
+  let actionsNotification;
 
   beforeEach(() => {
-    useStrict(false);
-    store = observable({
-      lndReady: false,
-      loaded: false,
-      settings: {},
-      save: sinon.stub(),
-    });
+    store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
-    nock('https://api.ipify.org')
-      .get('/')
-      .query({ format: 'json' })
-      .reply(200, { ip: '0.0.0.0' });
     actionsNav = sinon.createStubInstance(ActionsNav);
     actionsGrpc = sinon.createStubInstance(ActionsGrpc);
-    actionsWallet = new ActionsWallet(store, actionsGrpc, actionsNav);
+    actionsNotification = sinon.createStubInstance(ActionsNotification);
+    actionsWallet = new ActionsWallet(
+      store,
+      actionsGrpc,
+      actionsNav,
+      actionsNotification
+    );
   });
 
-  describe('initializeWallet()', () => {
-    it('should initialize wallet if no seed present', () => {
-      store.settings.seedMnemonic = undefined;
-      actionsWallet.initializeWallet();
-      expect(actionsNav.goInitializeWallet, 'was called once');
+  describe('generateSeed()', () => {
+    it('should generate random seed words', async () => {
+      actionsGrpc.sendUnlockerCommand.withArgs('GenSeed').resolves({
+        cipher_seed_mnemonic: 'foo bar',
+      });
+      await actionsWallet.generateSeed({ seedPassphrase: 'baz' });
+      expect(store.seedMnemonic, 'to equal', 'foo bar');
     });
 
-    it('should go to pay view if seed is present', () => {
-      store.settings.seedMnemonic =
-        'milk notable immune soap mechanic urge food innocent heavy orbit alcohol people';
-      actionsWallet.initializeWallet();
-      expect(actionsNav.goPay, 'was not called');
+    it('should display error notification on failure', async () => {
+      actionsGrpc.sendUnlockerCommand
+        .withArgs('GenSeed')
+        .rejects(new Error('Boom!'));
+      await actionsWallet.generateSeed({ seedPassphrase: 'baz' });
+      expect(store.seedMnemonic, 'to be', null);
+      expect(actionsNotification.display, 'was called once');
+    });
+  });
+
+  describe('initWallet()', () => {
+    it('should init wallet', async () => {
+      actionsGrpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
+      await actionsWallet.initWallet({ seedPassphrase: 'baz' });
+      expect(store.walletUnlocked, 'to be', true);
+    });
+
+    it('should display error notification on failure', async () => {
+      actionsGrpc.sendUnlockerCommand
+        .withArgs('InitWallet')
+        .rejects(new Error('Boom!'));
+      await actionsWallet.initWallet({ seedPassphrase: 'baz' });
+      expect(actionsNotification.display, 'was called once');
+    });
+  });
+
+  describe('unlockWallet()', () => {
+    it('should unlock wallet', async () => {
+      actionsGrpc.sendUnlockerCommand.withArgs('UnlockWallet').resolves();
+      await actionsWallet.unlockWallet({ walletPassword: 'baz' });
+      expect(store.walletUnlocked, 'to be', true);
+    });
+
+    it('should display error notification on failure', async () => {
+      actionsGrpc.sendUnlockerCommand
+        .withArgs('UnlockWallet')
+        .rejects(new Error('Boom!'));
+      await actionsWallet.unlockWallet({ seedPassphrase: 'baz' });
+      expect(actionsNotification.display, 'was called once');
     });
   });
 
@@ -117,6 +151,10 @@ describe('Actions Wallet Unit Tests', () => {
 
   describe('getIPAddress()', () => {
     it('should return IP correctly', async () => {
+      nock('https://api.ipify.org')
+        .get('/')
+        .query({ format: 'json' })
+        .reply(200, { ip: '0.0.0.0' });
       await actionsWallet.getIPAddress();
       expect(store.ipAddress, 'to be', '0.0.0.0');
     });

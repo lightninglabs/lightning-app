@@ -1,84 +1,60 @@
-import { MACAROONS_ENABLED } from '../config';
+import { Duplex } from 'stream';
 import * as log from './logs';
 
 class ActionsGrpc {
-  constructor(store, remote) {
+  constructor(store, ipcRenderer) {
     this._store = store;
-    const serverReady = remote.getGlobal('serverReady');
-    if (serverReady) {
-      serverReady(err => {
-        if (err) {
-          log.error('GRPC: serverReady ERROR', err);
-          return;
-        }
-        log.info('GRPC serverReady');
-        this._store.lndReady = true;
-      });
-    } else {
-      log.error('GRPC: ERROR no serverReady');
-    }
+    this._ipcRenderer = ipcRenderer;
+  }
 
-    try {
-      this.client = remote.getGlobal('connection');
-    } catch (err) {
-      log.error('GRPC: Error Connecting to GRPC Server', err);
-    }
+  async initUnlocker() {
+    await this._sendIpc('unlockInit', 'unlockReady');
+    log.info('GRPC unlockerReady');
+    this._store.unlockerReady = true;
+  }
 
-    if (MACAROONS_ENABLED) {
-      try {
-        this.metadata = remote.getGlobal('metadata');
-      } catch (err) {
-        log.error('GRPC: Error getting metadata', err);
-      }
-      log.info('GRPC: Macaroons enabled');
-    } else {
-      log.info('GRPC: Macaroons disabled');
-    }
+  async sendUnlockerCommand(method, body) {
+    return this._sendIpc('unlockRequest', 'unlockResponse', method, body);
+  }
+
+  async initLnd() {
+    await this._sendIpc('lndInit', 'lndReady');
+    log.info('GRPC lndReady');
+    this._store.lndReady = true;
   }
 
   sendCommand(method, body) {
-    return new Promise((resolve, reject) => {
-      const { lndReady } = this._store;
-      if (!lndReady) return reject(new Error('Server still starting'));
-      if (!this.client) return reject(new Error('Could not connect over grpc'));
-      if (!this.client[method]) return reject(new Error('Invalid rpc method'));
-
-      const now = new Date();
-      const deadline = new Date(now.getTime() + 300000);
-
-      const handleResponse = (err, response) => {
-        if (err) {
-          log.info('GRPC: Error From Method', method, err);
-          return reject(err);
-        }
-        resolve(response);
-      };
-
-      if (MACAROONS_ENABLED) {
-        this.client[method](body, this.metadata, { deadline }, handleResponse);
-      } else {
-        this.client[method](body, { deadline }, handleResponse);
-      }
-    });
+    return this._sendIpc('lndRequest', 'lndResponse', method, body);
   }
 
   sendStreamCommand(method, body) {
-    const { lndReady } = this._store;
-    if (!lndReady) throw new Error('Server still starting');
-    if (!this.client) throw new Error('Could not connect over grpc');
-    if (!this.client[method]) throw new Error('Invalid rpc method');
-    try {
-      let response;
-      if (MACAROONS_ENABLED) {
-        response = this.client[method](this.metadata, body);
-      } else {
-        response = this.client[method](body);
-      }
-      return response;
-    } catch (err) {
-      log.info('GRPC: Error From Stream Method', method, err);
-      throw err;
-    }
+    const self = this;
+    const stream = new Duplex({
+      write(data) {
+        data = JSON.parse(data.toString('utf8'));
+        self._ipcRenderer.send('lndStreamWrite', { method, data });
+      },
+      read() {},
+    });
+    this._ipcRenderer.on(`lndStreamEvent_${method}`, (e, arg) => {
+      stream.emit(arg.event, arg.data || arg.err);
+    });
+    this._ipcRenderer.send('lndStreamRequest', { method, body });
+    return stream;
+  }
+
+  _sendIpc(event, listen, method, body) {
+    return new Promise((resolve, reject) => {
+      listen = method ? `${listen}_${method}` : listen;
+      this._ipcRenderer.once(listen, (e, arg) => {
+        if (arg.err) {
+          log.error('GRPC: Error from method', method, arg.err);
+          return reject(arg.err);
+        }
+        resolve(arg.response);
+      });
+      this._ipcRenderer.send(event, { method, body });
+    });
   }
 }
 

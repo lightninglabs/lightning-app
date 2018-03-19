@@ -1,163 +1,125 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ActionsGrpc from '../../../src/actions/grpc';
 import * as logger from '../../../src/actions/logs';
 
 describe('Actions GRPC Unit Tests', () => {
   let store;
-  let remote;
-  let client;
-  let serverReady;
   let actionsGrpc;
   let sandbox;
-  let origMacaroonsEnabled;
+  let ipcRendererStub;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
     sandbox.stub(logger);
-    origMacaroonsEnabled = require('../../../src/config').MACAROONS_ENABLED;
-    useStrict(false);
-    store = observable({ lndReady: false });
-    remote = { getGlobal: sinon.stub() };
-    client = { listPeers: sinon.stub() };
-    serverReady = sinon.stub().yields();
-    remote.getGlobal.withArgs('serverReady').returns(serverReady);
-    remote.getGlobal.withArgs('connection').returns(client);
-    remote.getGlobal.withArgs('metadata').returns('some-metadata');
-    actionsGrpc = new ActionsGrpc(store, remote);
+    store = new Store();
+    ipcRendererStub = {
+      on: sandbox.stub(),
+      once: sandbox.stub(),
+      send: sandbox.stub(),
+    };
+    actionsGrpc = new ActionsGrpc(store, ipcRendererStub);
   });
 
   afterEach(() => {
     sandbox.restore();
-    require('../../../src/config').MACAROONS_ENABLED = origMacaroonsEnabled;
   });
 
-  describe('constructor()', () => {
-    it('should setup client and set lndReady to true', () => {
-      expect(actionsGrpc._store.lndReady, 'to be true');
-      expect(actionsGrpc.client, 'to be ok');
-      expect(actionsGrpc.metadata, 'to be undefined');
+  describe('initUnlocker()', () => {
+    it('should set unlockerReady', async () => {
+      sandbox.stub(actionsGrpc, '_sendIpc').resolves();
+      await actionsGrpc.initUnlocker();
+      expect(store.unlockerReady, 'to be', true);
     });
+  });
 
-    it('should set matadata if MACAROONS_ENABLED', () => {
-      require('../../../src/config').MACAROONS_ENABLED = true;
-      actionsGrpc = new ActionsGrpc(store, remote);
-      expect(actionsGrpc._store.lndReady, 'to be true');
-      expect(actionsGrpc.client, 'to be ok');
-      expect(actionsGrpc.metadata, 'to equal', 'some-metadata');
+  describe('sendUnlockerCommand()', () => {
+    it('should send ipc with correct args', async () => {
+      sandbox.stub(actionsGrpc, '_sendIpc').resolves();
+      await actionsGrpc.sendUnlockerCommand('some-method', 'some-body');
+      expect(
+        actionsGrpc._sendIpc,
+        'was called with',
+        'unlockRequest',
+        'unlockResponse',
+        'some-method',
+        'some-body'
+      );
     });
+  });
 
-    it('should not set lndReady if serverReady fails', () => {
-      serverReady.yields(new Error('Boom!'));
-      store = observable({ lndReady: false });
-      actionsGrpc = new ActionsGrpc(store, remote);
-      expect(actionsGrpc._store.lndReady, 'to be false');
-      expect(actionsGrpc.client, 'to be ok');
-      expect(actionsGrpc.metadata, 'to be undefined');
+  describe('initLnd()', () => {
+    it('should set lndReady', async () => {
+      sandbox.stub(actionsGrpc, '_sendIpc').resolves();
+      await actionsGrpc.initLnd();
+      expect(store.lndReady, 'to be', true);
     });
   });
 
   describe('sendCommand()', () => {
-    it('should fail if lndReady is false', async () => {
-      store.lndReady = false;
-      return expect(
-        actionsGrpc.sendCommand('listPeers'),
-        'to be rejected with error satisfying',
-        /still starting/
+    it('should send ipc with correct args', async () => {
+      sandbox.stub(actionsGrpc, '_sendIpc').resolves();
+      await actionsGrpc.sendCommand('some-method', 'some-body');
+      expect(
+        actionsGrpc._sendIpc,
+        'was called with',
+        'lndRequest',
+        'lndResponse',
+        'some-method',
+        'some-body'
       );
-    });
-
-    it('should fail if client is not set', async () => {
-      actionsGrpc.client = null;
-      return expect(
-        actionsGrpc.sendCommand('listPeers'),
-        'to be rejected with error satisfying',
-        /not connect/
-      );
-    });
-
-    it('should fail for invalid rpc method', async () => {
-      return expect(
-        actionsGrpc.sendCommand('foobar'),
-        'to be rejected with error satisfying',
-        /method/
-      );
-    });
-
-    it('should handle error response', async () => {
-      client.listPeers.yields(new Error('Boom!'));
-      return expect(
-        actionsGrpc.sendCommand('listPeers'),
-        'to be rejected with error satisfying',
-        /Boom!/
-      );
-    });
-
-    it('should handle successful response', async () => {
-      client.listPeers.yields(null, 'some-response');
-      const response = await actionsGrpc.sendCommand('listPeers', 'payload');
-      expect(response, 'to equal', 'some-response');
-    });
-
-    it('should handle successful response with MACAROONS_ENABLED', async () => {
-      require('../../../src/config').MACAROONS_ENABLED = true;
-      actionsGrpc = new ActionsGrpc(store, remote);
-      client.listPeers.yields(null, 'some-response');
-      const response = await actionsGrpc.sendCommand('listPeers', 'payload');
-      expect(response, 'to equal', 'some-response');
-      expect(client.listPeers, 'was called with', 'payload', 'some-metadata');
     });
   });
 
   describe('sendStreamCommand()', () => {
-    it('should fail if lndReady is false', async () => {
-      store.lndReady = false;
-      return expect(
-        actionsGrpc.sendStreamCommand.bind(actionsGrpc, 'listPeers'),
-        'to throw',
-        /still starting/
-      );
+    it('should create duplex stream that parses json', () => {
+      const method = 'some-method';
+      const body = 'some-body';
+      const stream = actionsGrpc.sendStreamCommand(method, body);
+      expect(ipcRendererStub.send, 'was called with', 'lndStreamRequest', {
+        method,
+        body,
+      });
+      stream.write(JSON.stringify({ foo: 'bar' }), 'utf8');
+      expect(ipcRendererStub.send, 'was called with', 'lndStreamWrite', {
+        method,
+        data: { foo: 'bar' },
+      });
     });
+  });
 
-    it('should fail if client is not set', async () => {
-      actionsGrpc.client = null;
-      return expect(
-        actionsGrpc.sendStreamCommand.bind(actionsGrpc, 'listPeers'),
-        'to throw',
-        /not connect/
-      );
-    });
+  describe('_sendIpc()', () => {
+    const event = 'some-event';
+    const listen = 'some-listener';
+    const method = 'some-method';
+    const body = 'some-body';
 
-    it('should fail for invalid rpc method', async () => {
-      return expect(
-        actionsGrpc.sendStreamCommand.bind(actionsGrpc, 'foobar'),
-        'to throw',
-        /method/
-      );
-    });
-
-    it('should handle error response', async () => {
-      client.listPeers.throws(new Error('Boom!'));
-      return expect(
-        actionsGrpc.sendStreamCommand.bind(actionsGrpc, 'listPeers'),
-        'to throw',
-        /Boom!/
-      );
-    });
-
-    it('should handle successful response', () => {
-      client.listPeers.returns('some-response');
-      const response = actionsGrpc.sendStreamCommand('listPeers', 'payload');
+    it('should proxy request via ipc', async () => {
+      ipcRendererStub.once
+        .withArgs('some-listener_some-method')
+        .yields(null, { response: 'some-response' });
+      const response = await actionsGrpc._sendIpc(event, listen, method, body);
       expect(response, 'to equal', 'some-response');
-      expect(client.listPeers, 'was called with', 'payload');
+      expect(ipcRendererStub.send, 'was called with', event, { method, body });
     });
 
-    it('should handle successful response with MACAROONS_ENABLED', () => {
-      require('../../../src/config').MACAROONS_ENABLED = true;
-      actionsGrpc = new ActionsGrpc(store, remote);
-      client.listPeers.returns('some-response');
-      const response = actionsGrpc.sendStreamCommand('listPeers', 'payload');
+    it('should proxy request without method/body', async () => {
+      ipcRendererStub.once
+        .withArgs('some-listener')
+        .yields(null, { response: 'some-response' });
+      const response = await actionsGrpc._sendIpc(event, listen);
       expect(response, 'to equal', 'some-response');
-      expect(client.listPeers, 'was called with', 'some-metadata', 'payload');
+      expect(ipcRendererStub.send, 'was called with', event);
+    });
+
+    it('should proxy error via ipc', async () => {
+      ipcRendererStub.once
+        .withArgs('some-listener_some-method')
+        .yields(null, { err: new Error('Boom!') });
+      await expect(
+        actionsGrpc._sendIpc(event, listen, method, body),
+        'to be rejected with error satisfying',
+        /Boom/
+      );
     });
   });
 });

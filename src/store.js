@@ -9,10 +9,11 @@ export class Store {
   constructor() {
     extendObservable(this, {
       loaded: false, // Is persistent data loaded
+      unlockerReady: false, // Is wallet unlocker running
+      walletUnlocked: false, // Is the wallet unlocked
       lndReady: false, // Is lnd process running
       syncedToChain: false, // Is lnd synced to blockchain
       route: DEFAULT_ROUTE,
-
       blockHeight: null,
       balanceSatoshis: null,
       confirmedBalanceSatoshis: null,
@@ -28,13 +29,12 @@ export class Store {
       channelsResponse: null,
       pendingChannelsResponse: null,
       paymentRequestResponse: null,
+      seedMnemonic: null,
       notifications: [],
       logs: [],
 
       // Persistent data
-      settings: {
-        seedMnemonic: null,
-      },
+      settings: {},
     });
 
     ComputedWallet(this);

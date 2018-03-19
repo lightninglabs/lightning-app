@@ -1,25 +1,45 @@
-import * as log from './logs';
-import { RETRY_DELAY, PREFIX_URI, MNEMONIC_WALLET } from '../config';
-import Mnemonic from 'bitcore-mnemonic';
-import __DEV__ from 'electron-is-dev';
+import { RETRY_DELAY, PREFIX_URI } from '../config';
 
 class ActionsWallet {
-  constructor(store, actionsGrpc, actionsNav) {
+  constructor(store, actionsGrpc, actionsNav, notification) {
     this._store = store;
     this._actionsGrpc = actionsGrpc;
     this._actionsNav = actionsNav;
+    this._notification = notification;
   }
 
-  initializeWallet() {
-    if (!MNEMONIC_WALLET) return;
-    const { settings: { seedMnemonic } } = this._store;
-    if (!seedMnemonic || !Mnemonic.isValid(seedMnemonic)) {
-      const code = new Mnemonic(Mnemonic.Words.ENGLISH);
-      this._store.settings.seedMnemonic = code.toString();
-      this._store.save();
-      this._actionsNav.goInitializeWallet();
-    } else {
-      __DEV__ && this._actionsNav.goPay();
+  async generateSeed({ seedPassphrase }) {
+    try {
+      const response = await this._actionsGrpc.sendUnlockerCommand('GenSeed', {
+        aezeed_passphrase: seedPassphrase,
+      });
+      this._store.seedMnemonic = response.cipher_seed_mnemonic;
+    } catch (err) {
+      this._notification.display({ msg: 'Generating seed failed', err });
+    }
+  }
+
+  async initWallet({ walletPassword, seedPassphrase, seedMnemonic }) {
+    try {
+      await this._actionsGrpc.sendUnlockerCommand('InitWallet', {
+        wallet_password: walletPassword,
+        aezeed_passphrase: seedPassphrase,
+        cipher_seed_mnemonic: seedMnemonic,
+      });
+      this._store.walletUnlocked = true;
+    } catch (err) {
+      this._notification.display({ msg: 'Initializing wallet failed', err });
+    }
+  }
+
+  async unlockWallet({ walletPassword }) {
+    try {
+      await this._actionsGrpc.sendUnlockerCommand('UnlockWallet', {
+        wallet_password: walletPassword,
+      });
+      this._store.walletUnlocked = true;
+    } catch (err) {
+      this._notification.display({ msg: 'Unlocking wallet failed', err });
     }
   }
 
@@ -73,8 +93,8 @@ class ActionsWallet {
       const request = await fetch('https://api.ipify.org?format=json');
       const response = await request.json();
       this._store.ipAddress = response.ip;
-    } catch (e) {
-      log.error('Error fetching IP');
+    } catch (err) {
+      this._notification.display({ msg: 'Getting IP address failed', err });
     }
   }
 }
