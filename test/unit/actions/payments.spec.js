@@ -73,9 +73,12 @@ describe('Actions Payments Unit Tests', () => {
       paymentsOnStub.withArgs('data').yields({ payment_error: '' });
       await actionsPayments.payLightning({ payment: 'some-payment' });
       expect(actionsGrpc.sendStreamCommand, 'was called with', 'sendPayment');
-      expect(paymentsWriteStub, 'was called with', {
-        payment_request: 'some-payment',
-      });
+      expect(
+        paymentsWriteStub,
+        'was called with',
+        JSON.stringify({ payment_request: 'some-payment' }),
+        'utf8'
+      );
       expect(actionsNotification.display, 'was not called');
       expect(actionsWallet.getChannelBalance, 'was called once');
     });
