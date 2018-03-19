@@ -311,7 +311,7 @@ describe('Actions Integration Tests', function() {
 
     it('should list no open channels initially', async () => {
       await channels1.getChannels();
-      expect(store1.channelsResponse, 'to be empty');
+      expect(store1.channels, 'to be empty');
     });
 
     it('should connect to peer', async () => {
@@ -329,7 +329,7 @@ describe('Actions Integration Tests', function() {
     it('should list open channel after mining 6 blocks', async () => {
       await mineAndSync({ blocks: 6 });
       while (store1.pendingChannelsResponse.length) await nap(100);
-      while (!store1.channelsResponse.length) await nap(100);
+      while (!store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
       expect(store1.computedChannels[0].status, 'to be', 'open');
     });
@@ -376,7 +376,7 @@ describe('Actions Integration Tests', function() {
         channelPoint: store1.computedChannels[0].channelPoint,
       });
       while (!store1.pendingChannelsResponse.length) await nap(100);
-      while (store1.channelsResponse.length) await nap(100);
+      while (store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
       expect(store1.computedChannels[0].status, 'to be', 'pending-closing');
     });
@@ -397,18 +397,18 @@ describe('Actions Integration Tests', function() {
     it('should list open channel after mining 6 blocks', async () => {
       await mineAndSync({ blocks: 6 });
       while (store1.pendingChannelsResponse.length) await nap(100);
-      while (!store1.channelsResponse.length) await nap(100);
+      while (!store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
       expect(store1.computedChannels[0].status, 'to be', 'open');
     });
 
     it('should list pending-force-closing after force closing', async () => {
       channels1.closeChannel({
-        channelPoint: store1.channelsResponse[0].channelPoint,
+        channelPoint: store1.channels[0].channelPoint,
         force: true,
       });
       while (!store1.pendingChannelsResponse.length) await nap(100);
-      while (store1.channelsResponse.length) await nap(100);
+      while (store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
       expect(
         store1.computedChannels[0].status,

@@ -21,7 +21,7 @@ class ActionsChannels {
 
   async getChannels() {
     const { channels } = await this._actionsGrpc.sendCommand('listChannels');
-    this._store.channelsResponse = channels.map(channel => ({
+    this._store.channels = channels.map(channel => ({
       remotePubkey: channel.remote_pubkey,
       id: channel.chan_id,
       capacity: channel.capacity,

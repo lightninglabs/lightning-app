@@ -62,7 +62,7 @@ describe('Actions Channels Unit Tests', () => {
         channels: [{ chan_id: 42, active: true }],
       });
       await actionsChannels.getChannels();
-      expect(store.channelsResponse[0], 'to satisfy', {
+      expect(store.channels[0], 'to satisfy', {
         id: 42,
         status: 'open',
       });

@@ -17,7 +17,7 @@ describe('Computed Channels Unit Tests', () => {
 
     it('should aggregate open and pending channels', () => {
       store = observable({
-        channelsResponse: [
+        channels: [
           {
             active: true,
             status: 'open',

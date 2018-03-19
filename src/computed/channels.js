@@ -3,8 +3,8 @@ import { computed, extendObservable } from 'mobx';
 const ComputedChannels = store => {
   extendObservable(store, {
     computedChannels: computed(() => {
-      const { channelsResponse, pendingChannelsResponse } = store;
-      const c = channelsResponse ? channelsResponse.slice() : [];
+      const { channels, pendingChannelsResponse } = store;
+      const c = channels ? channels.slice() : [];
       const p = pendingChannelsResponse ? pendingChannelsResponse.slice() : [];
       const all = [].concat(c, p);
       all.sort(
