@@ -20,7 +20,7 @@ describe('Helpers Unit Tests', () => {
 
   describe('toHash()', () => {
     it('should throw error for undefined', () => {
-      expect(helpers.toHash.bind(), 'to throw', /must be one of type/);
+      expect(helpers.toHash.bind(), 'to throw');
     });
 
     it('should work for string input', () => {
