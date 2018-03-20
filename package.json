@@ -40,7 +40,7 @@
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "concurrently": "3.5.1",
     "electron": "^1.8.4",
-    "electron-builder": "19.49.0",
+    "electron-builder": "^19.49.0",
     "eslint": "^4.16.0",
     "eslint-config-google": "^0.9.1",
     "eslint-config-prettier": "2.9.0",
