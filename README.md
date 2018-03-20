@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=v2)](https://travis-ci.org/lightninglabs/lightning-app)
+[![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app)
 
 ### Developing Locally
 
@@ -10,8 +10,6 @@ git clone https://github.com/lightninglabs/lightning-app.git
 Then go inside the project folder and run the following commands:
 ```
 cd lightning-app
-
-git checkout v2
 
 npm install
 
