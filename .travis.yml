@@ -8,15 +8,6 @@ services:
 before_install:
   - ./assets/script/install_lnd.sh
 
-before_cache:
-  - rm -rf $HOME/.cache/electron-builder/wine
-
-cache:
-  directories:
-    - node_modules
-    - $HOME/.cache/electron
-    - $HOME/.cache/electron-builder
-
 env:
   - NAP_TIME=20000
 
