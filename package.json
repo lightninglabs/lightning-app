@@ -20,7 +20,9 @@
     "electron-only": "electron --enable-sandbox .",
     "preelectron-pack": "npm run build",
     "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\" public/electron.js",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "storybook": "start-storybook -p 9009 -s public",
+    "build-storybook": "build-storybook -s public"
   },
   "dependencies": {
     "electron-is-dev": "^0.3.0",
@@ -36,8 +38,14 @@
     "react-scripts": "^1.1.1"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.3.15",
+    "@storybook/addon-links": "^3.3.15",
+    "@storybook/addons": "^3.3.15",
+    "@storybook/react": "^3.3.15",
     "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+    "babel-preset-react": "^6.24.1",
     "concurrently": "^3.5.1",
     "electron": "^1.8.4",
     "electron-builder": "^19.49.0",
