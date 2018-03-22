@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Text } from '../components/text';
-import TextInput from '../components/textinput';
-import Button from '../components/button';
+import { Text } from '../components-old/text';
+import TextInput from '../components-old/textinput';
+import Button from '../components-old/button';
 import {
   View,
   TouchableOpacity,
   ActivityIndicator,
   Clipboard,
 } from 'react-native';
-import QRCode from '../components/qrcode';
-import ComponentIcon from '../components/icon';
-import Header from '../components/header';
-import Modal from '../components/modal';
+import QRCode from '../components-old/qrcode';
+import ComponentIcon from '../components-old/icon';
+import Header from '../components-old/header';
+import Modal from '../components-old/modal';
 import { actionsWallet } from '../actions';
 import { colors } from '../styles';
 import store from '../store';

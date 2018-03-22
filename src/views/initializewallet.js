@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { actionsNav } from '../actions';
-import { Text, TextB } from '../components/text';
-import Button from '../components/button';
+import { Text, TextB } from '../components-old/text';
+import Button from '../components-old/button';
 import { View } from 'react-native';
 import store from '../store';
 

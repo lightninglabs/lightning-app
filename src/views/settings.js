@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Text } from '../components/text';
-import Header from '../components/header';
-import Button from '../components/button';
+import { Text } from '../components-old/text';
+import Header from '../components-old/header';
+import Button from '../components-old/button';
 import { actionsNav } from '../actions';
 import { View, ScrollView } from 'react-native';
 import { colors } from '../styles';

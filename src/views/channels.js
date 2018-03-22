@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { Text } from '../components/text';
-import ChannelsHeader from '../components/channelsheader';
-import Separator from '../components/separator';
-import ChannelList from '../components/channellist';
+import { Text } from '../components-old/text';
+import ChannelsHeader from '../components-old/channelsheader';
+import Separator from '../components-old/separator';
+import ChannelList from '../components-old/channellist';
 import { View, TouchableOpacity } from 'react-native';
 import { actionsNav } from '../actions';
 import { colors } from '../styles';

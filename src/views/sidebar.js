@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 
 import { actionsNav } from '../actions';
-import ComponentIcon from '../components/icon';
-import Text from '../components/text';
+import ComponentIcon from '../components-old/icon';
+import Text from '../components-old/text';
 import { colors } from '../styles';
 import { View, TouchableOpacity } from 'react-native';
 import store from '../store';

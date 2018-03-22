@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import TextInput from '../components/textinput';
-import Button from '../components/button';
-import Header from '../components/header';
+import TextInput from '../components-old/textinput';
+import Button from '../components-old/button';
+import Header from '../components-old/header';
 import { actionsChannels } from '../actions';
 import { View } from 'react-native';
 import { colors } from '../styles';
