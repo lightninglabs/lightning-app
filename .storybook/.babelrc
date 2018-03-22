@@ -1,6 +1,6 @@
 {
   "presets": [
-    "react"
+    "react-native"
   ],
   "plugins": [
     "react-native-web",
