@@ -1,0 +1,9 @@
+{
+  "presets": [
+    "react-native"
+  ],
+  "plugins": [
+    "react-native-web",
+    "transform-object-rest-spread"
+  ]
+}
