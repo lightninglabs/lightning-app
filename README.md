@@ -2,6 +2,8 @@
 
 ### Developing Locally
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/lightninglabs/lightning-app.svg)](https://greenkeeper.io/)
+
 You'll need to build `lnd` and `btcd` locally using the [installation guide](http://dev.lightning.community/guides/installation/). Then start by pulling down the git repo:
 ```
 git clone https://github.com/lightninglabs/lightning-app.git
