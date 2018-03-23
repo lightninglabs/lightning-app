@@ -1,12 +1,14 @@
 import React from 'react';
-import { Text, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
+import { TextB } from './text';
 import { colors } from './styles';
 
 const styles = {
   text: {
-    color: 'white',
     textAlign: 'center',
+    fontSize: 18,
+    lineHeight: 24,
     margin: 30,
   },
 };
@@ -17,7 +19,7 @@ const Button = ({ onPress, disabled, children }) => (
     disabled={disabled}
     onPress={onPress}
   >
-    <Text style={styles.text}>{children}</Text>
+    <TextB style={styles.text}>{children}</TextB>
   </TouchableOpacity>
 );
 

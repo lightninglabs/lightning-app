@@ -1,0 +1,62 @@
+/* Open Sans */
+
+@font-face {
+  font-family: 'OpenSans';
+  src: url('../../assets/font/OpenSans-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'OpenSans Light';
+  src: url('../../assets/font/OpenSans-Light.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'OpenSans Bold';
+  src: url('../../assets/font/OpenSans-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Poppins */
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('../../assets/font/Poppins-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'Poppins Light';
+  src: url('../../assets/font/Poppins-Light.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'Poppins Bold';
+  src: url('../../assets/font/Poppins-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Work Sans */
+
+@font-face {
+  font-family: 'WorkSans';
+  src: url('../../assets/font/WorkSans-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'WorkSans Light';
+  src: url('../../assets/font/WorkSans-Light.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: 'WorkSans Bold';
+  src: url('../../assets/font/WorkSans-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
