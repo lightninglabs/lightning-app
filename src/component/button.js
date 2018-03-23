@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { colors } from './styles';
@@ -12,9 +12,12 @@ const styles = {
   },
 };
 
-const Button = ({ onPress, disabled, children }) => (
+const Button = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
-    style={{ backgroundColor: disabled ? colors.glasDark : colors.glas }}
+    style={[
+      { backgroundColor: disabled ? colors.glasDark : colors.glas },
+      style,
+    ]}
     disabled={disabled}
     onPress={onPress}
   >
@@ -26,6 +29,7 @@ Button.propTypes = {
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
+  style: ViewPropTypes.style,
 };
 
 export default Button;
