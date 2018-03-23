@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as RNText, TextPropTypes } from 'react-native';
+import { Text as RNText, TextPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { colors } from './styles';
 
@@ -31,14 +31,14 @@ import '../../assets/font/WorkSans-Black.ttf';
 
 import './font.css';
 
-const styles = {
+const styles = StyleSheet.create({
   base: {
     fontFamily: 'OpenSans',
     fontSize: 16,
     lineHeight: 20,
     color: colors.white,
   },
-};
+});
 
 const Text = ({ children, style }) => (
   <RNText style={[styles.base, style]}>{children}</RNText>

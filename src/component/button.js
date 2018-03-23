@@ -1,16 +1,16 @@
 import React from 'react';
-import { TouchableOpacity, ViewPropTypes } from 'react-native';
+import { TouchableOpacity, ViewPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { colors } from './styles';
 
-const styles = {
+const styles = StyleSheet.create({
   text: {
     fontFamily: 'OpenSans Bold',
     textAlign: 'center',
     margin: 30,
   },
-};
+});
 
 const Button = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity

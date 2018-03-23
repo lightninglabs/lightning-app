@@ -1,12 +1,12 @@
 import React from 'react';
-import { View, ViewPropTypes } from 'react-native';
+import { View, ViewPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
-const styles = {
+const styles = StyleSheet.create({
   content: {
     flex: 1,
   },
-};
+});
 
 const MainContent = ({ children, style }) => (
   <View style={[styles.content, style]}>{children}</View>
