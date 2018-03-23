@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as RNText } from 'react-native';
+import { Text as RNText, TextPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 import { colors } from './styles';
 
@@ -39,7 +39,7 @@ export const TextB = ({ children, style }) => (
 
 const propTypes = {
   children: PropTypes.string.isRequired,
-  style: PropTypes.object,
+  style: TextPropTypes.style,
 };
 
 Text.propTypes = propTypes;

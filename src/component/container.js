@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 
 const styles = {
@@ -16,7 +16,7 @@ const Container = ({ children, style }) => (
 
 Container.propTypes = {
   children: PropTypes.node.isRequired,
-  style: PropTypes.object,
+  style: ViewPropTypes.style,
 };
 
 export default Container;
