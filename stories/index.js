@@ -1,5 +1,4 @@
 import React from 'react';
-import { Text } from 'react-native';
 
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
@@ -10,6 +9,7 @@ import { Welcome } from '@storybook/react/demo';
 import Container from '../src/component/container';
 import MainContent from '../src/component/main-content';
 import Button from '../src/component/button';
+import Text from '../src/component/text';
 import { colors } from '../src/component/styles';
 
 storiesOf('Welcome', module).add('to Storybook', () => (

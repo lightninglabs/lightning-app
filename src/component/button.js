@@ -1,11 +1,12 @@
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import { TextB } from './text';
+import Text from './text';
 import { colors } from './styles';
 
 const styles = {
   text: {
+    fontFamily: 'OpenSans Bold',
     textAlign: 'center',
     margin: 30,
   },
@@ -17,7 +18,7 @@ const Button = ({ onPress, disabled, children }) => (
     disabled={disabled}
     onPress={onPress}
   >
-    <TextB style={styles.text}>{children}</TextB>
+    <Text style={styles.text}>{children}</Text>
   </TouchableOpacity>
 );
 
