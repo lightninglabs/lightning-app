@@ -7,8 +7,6 @@ import { colors } from './styles';
 const styles = {
   text: {
     textAlign: 'center',
-    fontSize: 18,
-    lineHeight: 24,
     margin: 30,
   },
 };

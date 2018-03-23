@@ -14,7 +14,7 @@ import '../../assets/font/WorkSans-Bold.ttf';
 import '../../assets/font/WorkSans-Light.ttf';
 import './font.css';
 
-const BASE_FONT_SIZE = 15;
+const BASE_FONT_SIZE = 16;
 const BASE_FONT_HEIGHT = 20;
 
 const styles = {
