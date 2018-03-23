@@ -17,7 +17,7 @@ storiesOf('Welcome', module).add('to Storybook', () => (
 ));
 
 storiesOf('Screen', module).add('prototype', () => (
-  <Container style={{ background: colors.purpleGradient }}>
+  <Container style={{ backgroundImage: colors.purpleGradient }}>
     <MainContent>
       <Text>asdf</Text>
     </MainContent>
