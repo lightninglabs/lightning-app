@@ -8,12 +8,13 @@ const styles = {
   },
 };
 
-const MainContent = ({ children }) => (
-  <View style={styles.content}>{children}</View>
+const MainContent = ({ children, style }) => (
+  <View style={[styles.content, style]}>{children}</View>
 );
 
 MainContent.propTypes = {
   children: PropTypes.node.isRequired,
+  style: PropTypes.object,
 };
 
 export default MainContent;
