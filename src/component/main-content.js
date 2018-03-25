@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 const styles = StyleSheet.create({
   content: {
     flex: 1,
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 });
 

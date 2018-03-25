@@ -7,6 +7,7 @@ const styles = StyleSheet.create({
     height: '100vh',
     width: '100vw',
     flex: 1,
+    flexDirection: 'column',
   },
 });
 

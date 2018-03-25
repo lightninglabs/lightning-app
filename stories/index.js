@@ -18,8 +18,10 @@ storiesOf('Welcome', module).add('to Storybook', () => (
 
 storiesOf('Screen', module).add('prototype', () => (
   <Container style={{ backgroundImage: colors.purpleGradient }}>
-    <MainContent>
+    <MainContent style={{ justifyContent: 'center' }}>
+      <Text>qwre</Text>
       <Text>asdf</Text>
+      <Text>yxcv</Text>
     </MainContent>
     <Button onPress={action('clicked')}>Continue</Button>
   </Container>
