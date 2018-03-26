@@ -33,10 +33,9 @@ import './font.css';
 
 const styles = StyleSheet.create({
   base: {
-    fontFamily: 'OpenSans',
+    fontFamily: 'OpenSans Regular',
     fontSize: 16,
     lineHeight: 20,
-    letterSpacing: 0.5,
     color: colors.white,
   },
 });

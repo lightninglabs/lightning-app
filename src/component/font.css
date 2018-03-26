@@ -11,7 +11,7 @@ body {
   font-weight: 300;
 }
 @font-face {
-  font-family: 'OpenSans';
+  font-family: 'OpenSans Regular';
   src: url('../../assets/font/OpenSans-Regular.ttf') format('truetype');
   font-style: normal;
   font-weight: 400;
@@ -56,7 +56,7 @@ body {
   font-weight: 300;
 }
 @font-face {
-  font-family: 'Poppins';
+  font-family: 'Poppins Regular';
   src: url('../../assets/font/Poppins-Regular.ttf') format('truetype');
   font-style: normal;
   font-weight: 400;
@@ -113,7 +113,7 @@ body {
   font-weight: 300;
 }
 @font-face {
-  font-family: 'WorkSans';
+  font-family: 'WorkSans Regular';
   src: url('../../assets/font/WorkSans-Regular.ttf') format('truetype');
   font-style: normal;
   font-weight: 400;
