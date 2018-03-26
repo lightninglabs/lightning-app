@@ -7,6 +7,7 @@ import { colors } from './styles';
 const styles = StyleSheet.create({
   text: {
     fontFamily: 'OpenSans Bold',
+    letterSpacing: 1.5,
     textAlign: 'center',
     margin: 30,
   },
