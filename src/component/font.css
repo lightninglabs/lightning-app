@@ -1,8 +1,10 @@
-/* Open Sans */
+/* activate font smoothing */
 
 body {
   -webkit-font-smoothing: antialiased;
 }
+
+/* Open Sans */
 
 @font-face {
   font-family: 'OpenSans Light';
