@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 
 const stylesBalance = StyleSheet.create({
   label: {
-    display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
   },
