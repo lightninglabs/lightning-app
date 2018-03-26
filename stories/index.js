@@ -45,9 +45,12 @@ storiesOf('Colors', module)
     <Container style={{ backgroundColor: colors.blueSig }} />
   ));
 
-storiesOf('Screen', module).add('prototype', () => (
+storiesOf('Layout', module).add('With Header', () => (
   <Container style={{ backgroundImage: colors.purpleGradient }}>
-    <Header title="Title" style={{ backgroundColor: colors.purple }} />
+    <Header
+      title="Lighting Payment"
+      style={{ backgroundColor: colors.purple }}
+    />
     <MainContent style={{ justifyContent: 'center' }}>
       <Text>qwre</Text>
       <Text>asdf</Text>
