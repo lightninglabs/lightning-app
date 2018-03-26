@@ -11,7 +11,7 @@ import { colors } from './styles';
 const styles = StyleSheet.create({
   text: {
     fontFamily: 'OpenSans Bold',
-    letterSpacing: 1.5,
+    letterSpacing: 1,
     textAlign: 'center',
     margin: 30,
   },
@@ -47,6 +47,7 @@ const pillStyles = StyleSheet.create({
   touchable: {
     backgroundColor: colors.purple,
     borderRadius: 58.94,
+    alignSelf: 'stretch',
   },
   text: {
     margin: 20,
