@@ -12,12 +12,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     boxShadow: '0 2px 4px 0 rgba(0,0,0,0.15)',
   },
+  title: {
+    fontFamily: 'OpenSans Light',
+    letterSpacing: 2.25,
+  },
 });
 
-const Header = ({ title, style }) => (
+const Header = ({ title = '', style }) => (
   <View style={[styles.header, style]}>
     <View />
-    <Text>{title}</Text>
+    <Text style={styles.title}>{title.toUpperCase()}</Text>
     <View />
   </View>
 );
