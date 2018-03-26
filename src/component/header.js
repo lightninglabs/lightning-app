@@ -12,7 +12,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: colors.purple,
-    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.15)',
+    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.3)',
+    zIndex: 10,
   },
   title: {
     fontFamily: 'OpenSans Regular',
