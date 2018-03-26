@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     boxShadow: '0 2px 4px 0 rgba(0,0,0,0.15)',
   },
   title: {
-    fontFamily: 'OpenSans Light',
+    fontFamily: 'OpenSans Regular',
     letterSpacing: 2.25,
   },
 });
