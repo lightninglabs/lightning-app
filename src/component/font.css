@@ -1,5 +1,9 @@
 /* Open Sans */
 
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
 @font-face {
   font-family: 'OpenSans Light';
   src: url('../../assets/font/OpenSans-Light.ttf') format('truetype');
