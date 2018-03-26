@@ -93,13 +93,13 @@
     "directories": {
       "buildResources": "assets"
     },
-    "publish": null,
-    "greenkeeper": {
-      "ignore": [
-        "mobx",
-        "mobx-react",
-        "electron-builder"
-      ]
-    }
+    "publish": null
+  },
+  "greenkeeper": {
+    "ignore": [
+      "mobx",
+      "mobx-react",
+      "electron-builder"
+    ]
   }
 }
