@@ -82,7 +82,7 @@ storiesOf('Labels', module)
       9,123,456,788
     </LabelBalance>
   ))
-  .add('Balance $', () => (
+  .add('Balance USD', () => (
     <LabelBalance fiat="$" style={{ color: 'black' }}>
       10,000
     </LabelBalance>
@@ -118,17 +118,17 @@ storiesOf('Button', module)
     </ButtonPill>
   ));
 
-storiesOf('Layout', module).add('With Header', () => (
-  <Container style={{ backgroundImage: colors.purpleGradient }}>
-    <Header
-      title="Lighting Payment"
-      style={{ backgroundColor: colors.purple }}
-    />
-    <MainContent style={{ justifyContent: 'center' }}>
-      <Text>qwre</Text>
-      <Text>asdf</Text>
-      <Text>yxcv</Text>
-    </MainContent>
-    <Button onPress={action('clicked')}>Continue</Button>
-  </Container>
-));
+storiesOf('Layout', module)
+  .add('Button bottom', () => (
+    <Container style={{ backgroundImage: colors.purpleGradient }}>
+      <MainContent style={{ justifyContent: 'center' }}>
+        <LabelBalance unit="SAT">9,123,456,788</LabelBalance>
+      </MainContent>
+      <Button onPress={action('clicked')}>Continue</Button>
+    </Container>
+  ))
+  .add('Header', () => (
+    <Container style={{ backgroundImage: colors.purpleGradient }}>
+      <Header title="Lightning Payment" />
+    </Container>
+  ));
