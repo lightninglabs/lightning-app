@@ -45,7 +45,7 @@ const Text = ({ children, style }) => (
 );
 
 Text.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: TextPropTypes.style,
 };
 

@@ -7,6 +7,7 @@ import Container from '../src/component/container';
 import MainContent from '../src/component/main-content';
 import Header from '../src/component/header';
 import { Button, ButtonPill } from '../src/component/button';
+import { LabelBalance } from '../src/component/label';
 import Text from '../src/component/text';
 import { colors } from '../src/component/styles';
 
@@ -74,6 +75,18 @@ const renderFont = fontFamily => (
     </MainContent>
   </Container>
 );
+
+storiesOf('Labels', module)
+  .add('Balance SAT', () => (
+    <LabelBalance unit="SAT" style={{ color: 'black' }}>
+      9,123,456,788
+    </LabelBalance>
+  ))
+  .add('Balance $', () => (
+    <LabelBalance fiat="$" style={{ color: 'black' }}>
+      10,000
+    </LabelBalance>
+  ));
 
 storiesOf('Button', module)
   .add('Default', () => (
