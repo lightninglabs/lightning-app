@@ -15,7 +15,7 @@ const MainContent = ({ children, style }) => (
 );
 
 MainContent.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: ViewPropTypes.style,
 };
 
