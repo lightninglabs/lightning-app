@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans',
     fontSize: 16,
     lineHeight: 20,
+    letterSpacing: 0.5,
     color: colors.white,
   },
 });
