@@ -16,7 +16,7 @@ const Container = ({ children, style }) => (
 );
 
 Container.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   style: ViewPropTypes.style,
 };
 
