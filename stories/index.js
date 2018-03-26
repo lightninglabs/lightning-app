@@ -8,6 +8,7 @@ import { Welcome } from '@storybook/react/demo';
 
 import Container from '../src/component/container';
 import MainContent from '../src/component/main-content';
+import Header from '../src/component/header';
 import Button from '../src/component/button';
 import Text from '../src/component/text';
 import { colors } from '../src/component/styles';
@@ -18,6 +19,7 @@ storiesOf('Welcome', module).add('to Storybook', () => (
 
 storiesOf('Screen', module).add('prototype', () => (
   <Container style={{ backgroundImage: colors.purpleGradient }}>
+    <Header title="Title" style={{ backgroundColor: colors.purple }} />
     <MainContent style={{ justifyContent: 'center' }}>
       <Text>qwre</Text>
       <Text>asdf</Text>
