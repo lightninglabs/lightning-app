@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import Container from '../src/component/container';
 import MainContent from '../src/component/main-content';
 import Header from '../src/component/header';
-import Button from '../src/component/button';
+import { Button, ButtonPill } from '../src/component/button';
 import Text from '../src/component/text';
 import { colors } from '../src/component/styles';
 
@@ -74,6 +74,36 @@ const renderFont = fontFamily => (
     </MainContent>
   </Container>
 );
+
+storiesOf('Button', module)
+  .add('Default', () => (
+    <Container style={{ backgroundImage: colors.purpleGradient }}>
+      <Button onPress={action('clicked')}>Default Button</Button>
+    </Container>
+  ))
+  .add('Disabled', () => (
+    <Container style={{ backgroundImage: colors.purpleGradient }}>
+      <Button disabled onPress={action('clicked')}>
+        Disabled Button
+      </Button>
+    </Container>
+  ))
+  .add('Pill', () => (
+    <ButtonPill onPress={action('clicked')}>Pill Button</ButtonPill>
+  ))
+  .add('Pill Disabled', () => (
+    <ButtonPill disabled onPress={action('clicked')}>
+      Pill Disabled
+    </ButtonPill>
+  ))
+  .add('Pill Orange', () => (
+    <ButtonPill
+      style={{ backgroundColor: colors.orange }}
+      onPress={action('clicked')}
+    >
+      Pill Button
+    </ButtonPill>
+  ));
 
 storiesOf('Layout', module).add('With Header', () => (
   <Container style={{ backgroundImage: colors.purpleGradient }}>
