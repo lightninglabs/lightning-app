@@ -22,7 +22,9 @@ const Button = ({ onPress, disabled, children, style }) => (
     disabled={disabled}
     onPress={onPress}
   >
-    <Text style={styles.text}>{children}</Text>
+    <Text style={[{ opacity: disabled ? 0.5 : 1 }, styles.text]}>
+      {children}
+    </Text>
   </TouchableOpacity>
 );
 
