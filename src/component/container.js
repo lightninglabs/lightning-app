@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
   container: {
     height: '100vh',
     width: '100vw',
-    flex: 1,
+    display: 'flex',
     flexDirection: 'column',
   },
 });
