@@ -13,6 +13,16 @@ cd lightning-app
 
 npm install
 
+npm test
+```
+
+To build the UI style guide
+```
+npm run storybook
+```
+
+To start start the app:
+```
 npm run electron-dev
 ```
 
