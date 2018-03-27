@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { storiesOf } from '@storybook/react';
+import { storiesOf, addDecorator } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import Container from '../src/component/container';
@@ -15,67 +15,21 @@ import { colors } from '../src/component/styles';
 
 import WelcomeView from '../src/view/welcome';
 
+addDecorator(story => <Container>{story()}</Container>);
+
 storiesOf('Colors', module)
-  .add('Primary Purple', () => (
-    <Container>
-      <Background color={colors.purple} />
-    </Container>
-  ))
-  .add('Purple Gradient', () => (
-    <Container>
-      <Background gradient={colors.purpleGradient} />
-    </Container>
-  ))
-  .add('Purple Textured', () => (
-    <Container>
-      <Background image="textured-bg" />
-    </Container>
-  ))
-  .add('Primary Orange', () => (
-    <Container>
-      <Background color={colors.orange} />
-    </Container>
-  ))
-  .add('Orange Gradient', () => (
-    <Container>
-      <Background gradient={colors.orangeGradient} />
-    </Container>
-  ))
-  .add('Dark Mode Black', () => (
-    <Container>
-      <Background color={colors.blackDark} />
-    </Container>
-  ))
-  .add('Background White', () => (
-    <Container>
-      <Background color={colors.whiteBg} />
-    </Container>
-  ))
-  .add('Strait Up White', () => (
-    <Container>
-      <Background color={colors.white} />
-    </Container>
-  ))
-  .add('Good Green', () => (
-    <Container>
-      <Background color={colors.greenSig} />
-    </Container>
-  ))
-  .add('Average Orange', () => (
-    <Container>
-      <Background color={colors.orangeSig} />
-    </Container>
-  ))
-  .add('Bad Pink', () => (
-    <Container>
-      <Background color={colors.pinkSig} />
-    </Container>
-  ))
-  .add('Active Field Blue', () => (
-    <Container>
-      <Background color={colors.blueSig} />
-    </Container>
-  ));
+  .add('Primary Purple', () => <Background color={colors.purple} />)
+  .add('Purple Gradient', () => <Background gradient={colors.purpleGradient} />)
+  .add('Purple Textured', () => <Background image="textured-bg" />)
+  .add('Primary Orange', () => <Background color={colors.orange} />)
+  .add('Orange Gradient', () => <Background gradient={colors.orangeGradient} />)
+  .add('Dark Mode Black', () => <Background color={colors.blackDark} />)
+  .add('Background White', () => <Background color={colors.whiteBg} />)
+  .add('Strait Up White', () => <Background color={colors.white} />)
+  .add('Good Green', () => <Background color={colors.greenSig} />)
+  .add('Average Orange', () => <Background color={colors.orangeSig} />)
+  .add('Bad Pink', () => <Background color={colors.pinkSig} />)
+  .add('Active Field Blue', () => <Background color={colors.blueSig} />);
 
 storiesOf('Fonts', module)
   .add('OpenSans Light', () => renderFont('OpenSans Light'))
@@ -98,13 +52,13 @@ storiesOf('Fonts', module)
   .add('WorkSans Bold', () => renderFont('WorkSans Bold'));
 
 const renderFont = fontFamily => (
-  <Container style={{ backgroundImage: colors.purpleGradient }}>
+  <Background gradient={colors.purpleGradient}>
     <MainContent style={{ justifyContent: 'center' }}>
       <Text style={{ fontFamily }}>
         The quick brown fox jumps over the lazy dog.
       </Text>
     </MainContent>
-  </Container>
+  </Background>
 );
 
 storiesOf('Labels', module)
@@ -120,18 +74,19 @@ storiesOf('Labels', module)
   ));
 
 storiesOf('Button', module)
+  .addDecorator(story => (
+    <Background gradient={colors.purpleGradient}>{story()}</Background>
+  ))
   .add('Default', () => (
-    <Container style={{ backgroundImage: colors.purpleGradient }}>
-      <Button onPress={action('clicked')}>Default Button</Button>
-    </Container>
+    <Button onPress={action('clicked')}>Default Button</Button>
   ))
   .add('Disabled', () => (
-    <Container style={{ backgroundImage: colors.purpleGradient }}>
-      <Button disabled onPress={action('clicked')}>
-        Disabled Button
-      </Button>
-    </Container>
-  ))
+    <Button disabled onPress={action('clicked')}>
+      Disabled Button
+    </Button>
+  ));
+
+storiesOf('Button Pill', module)
   .add('Pill', () => (
     <ButtonPill onPress={action('clicked')}>Pill Button</ButtonPill>
   ))
@@ -151,33 +106,36 @@ storiesOf('Button', module)
 
 storiesOf('Header', module)
   .add('Purple', () => (
-    <Container style={{ backgroundImage: colors.purpleGradient }}>
-      <Header title="Purple" />
-    </Container>
+    <Background gradient={colors.purpleGradient}>
+      <Header title="Purple Header" />
+    </Background>
   ))
   .add('Orange', () => (
-    <Container style={{ backgroundImage: colors.orangeGradient }}>
-      <Header title="Orange" style={{ backgroundColor: colors.orange }} />
-    </Container>
+    <Background gradient={colors.orangeGradient}>
+      <Header
+        title="Orange Header"
+        style={{ backgroundColor: colors.orange }}
+      />
+    </Background>
   ));
 
-storiesOf('Card', module).add('Plain', () => (
-  <Container style={{ backgroundImage: colors.purpleGradient }}>
-    <Card />
-  </Container>
-));
+storiesOf('Card', module)
+  .addDecorator(story => (
+    <Background gradient={colors.purpleGradient}>{story()}</Background>
+  ))
+  .add('Plain', () => <Card />);
 
 storiesOf('Layout', module)
   .add('Button Bottom', () => (
-    <Container style={{ backgroundImage: colors.purpleGradient }}>
+    <Background gradient={colors.purpleGradient}>
       <MainContent style={{ justifyContent: 'center' }}>
         <LabelBalance unit="SAT">9,123,456,788</LabelBalance>
       </MainContent>
       <Button onPress={action('clicked')}>Continue</Button>
-    </Container>
+    </Background>
   ))
   .add('Card Form', () => (
-    <Container style={{ backgroundImage: colors.purpleGradient }}>
+    <Background gradient={colors.purpleGradient}>
       <Header title="Lightning Payment" />
       <Card>
         <Text style={{ color: colors.blackDark }}>
@@ -186,11 +144,7 @@ storiesOf('Layout', module)
         <MainContent />
         <ButtonPill onPress={action('clicked')}>Next</ButtonPill>
       </Card>
-    </Container>
+    </Background>
   ));
 
-storiesOf('Screens', module).add('Welcome', () => (
-  <Container>
-    <WelcomeView />
-  </Container>
-));
+storiesOf('Screens', module).add('Welcome', () => <WelcomeView />);
