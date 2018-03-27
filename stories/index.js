@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 
 import Container from '../src/component/container';
+import Background from '../src/component/background';
 import MainContent from '../src/component/main-content';
 import Header from '../src/component/header';
 import { Button, ButtonPill } from '../src/component/button';
@@ -14,37 +15,59 @@ import { colors } from '../src/component/styles';
 
 storiesOf('Colors', module)
   .add('Primary Purple', () => (
-    <Container style={{ backgroundColor: colors.purple }} />
+    <Container>
+      <Background color={colors.purple} />
+    </Container>
   ))
   .add('Purple Gradient', () => (
-    <Container style={{ backgroundImage: colors.purpleGradient }} />
+    <Container>
+      <Background gradient={colors.purpleGradient} />
+    </Container>
   ))
   .add('Primary Orange', () => (
-    <Container style={{ backgroundColor: colors.orange }} />
+    <Container>
+      <Background color={colors.orange} />
+    </Container>
   ))
   .add('Orange Gradient', () => (
-    <Container style={{ backgroundImage: colors.orangeGradient }} />
+    <Container>
+      <Background gradient={colors.orangeGradient} />
+    </Container>
   ))
   .add('Dark Mode Black', () => (
-    <Container style={{ backgroundColor: colors.blackDark }} />
+    <Container>
+      <Background color={colors.blackDark} />
+    </Container>
   ))
   .add('Background White', () => (
-    <Container style={{ backgroundColor: colors.whiteBg }} />
+    <Container>
+      <Background color={colors.whiteBg} />
+    </Container>
   ))
   .add('Strait Up White', () => (
-    <Container style={{ backgroundColor: colors.white }} />
+    <Container>
+      <Background color={colors.white} />
+    </Container>
   ))
   .add('Good Green', () => (
-    <Container style={{ backgroundColor: colors.greenSig }} />
+    <Container>
+      <Background color={colors.greenSig} />
+    </Container>
   ))
   .add('Average Orange', () => (
-    <Container style={{ backgroundColor: colors.orangeSig }} />
+    <Container>
+      <Background color={colors.orangeSig} />
+    </Container>
   ))
   .add('Bad Pink', () => (
-    <Container style={{ backgroundColor: colors.pinkSig }} />
+    <Container>
+      <Background color={colors.pinkSig} />
+    </Container>
   ))
   .add('Active Field Blue', () => (
-    <Container style={{ backgroundColor: colors.blueSig }} />
+    <Container>
+      <Background color={colors.blueSig} />
+    </Container>
   ));
 
 storiesOf('Fonts', module)
