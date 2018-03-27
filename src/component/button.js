@@ -9,11 +9,15 @@ import { colors } from './styles';
 //
 
 const styles = StyleSheet.create({
+  touchable: {
+    height: 80,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   text: {
     fontFamily: 'OpenSans Bold',
     letterSpacing: 1,
-    textAlign: 'center',
-    margin: 30,
   },
 });
 
@@ -21,6 +25,7 @@ export const Button = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
     style={[
       { backgroundColor: disabled ? colors.glasDark : colors.glas },
+      styles.touchable,
       style,
     ]}
     disabled={disabled}
@@ -45,22 +50,24 @@ Button.propTypes = {
 
 const pillStyles = StyleSheet.create({
   touchable: {
-    backgroundColor: colors.purple,
+    height: 60,
     borderRadius: 58.94,
-    alignSelf: 'stretch',
-  },
-  text: {
-    margin: 20,
+    backgroundColor: colors.purple,
   },
 });
 
 export const ButtonPill = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
-    style={[{ opacity: disabled ? 0.5 : 1 }, pillStyles.touchable, style]}
+    style={[
+      { opacity: disabled ? 0.5 : 1 },
+      styles.touchable,
+      pillStyles.touchable,
+      style,
+    ]}
     disabled={disabled}
     onPress={onPress}
   >
-    <Text style={[styles.text, pillStyles.text]}>{children}</Text>
+    <Text style={styles.text}>{children}</Text>
   </TouchableOpacity>
 );
 
