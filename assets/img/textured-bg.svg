@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1440px" height="985px" viewBox="0 0 1440 985" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->
+    <title>Textured BG</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="1440" height="985"></rect>
+        <linearGradient x1="3.90142632%" y1="4.66974347%" x2="78.3900788%" y2="75.4779882%" id="linearGradient-3">
+            <stop stop-color="#A95BDC" offset="0%"></stop>
+            <stop stop-color="#651399" offset="51.5755742%"></stop>
+            <stop stop-color="#610F96" offset="70.3015434%"></stop>
+            <stop stop-color="#610F96" offset="70.3015434%"></stop>
+            <stop stop-color="#57038D" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="-6.4709114%" y1="-1.00006949%" x2="87.8201134%" y2="84.6960773%" id="linearGradient-4">
+            <stop stop-color="#A95BDC" offset="0%"></stop>
+            <stop stop-color="#651399" offset="51.5755742%"></stop>
+            <stop stop-color="#610F96" offset="70.3015434%"></stop>
+            <stop stop-color="#610F96" offset="70.3015434%"></stop>
+            <stop stop-color="#57038D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Onboarding" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Welcome-Screen" transform="translate(0.000000, -39.000000)">
+            <g id="BG-/-Textured" transform="translate(0.000000, 39.000000)">
+                <g id="BG---Textured" stroke-width="1">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Mask" fill="#D8D8D8" xlink:href="#path-1"></use>
+                    <g id="BG" mask="url(#mask-2)" fill="url(#linearGradient-3)">
+                        <g transform="translate(-676.000000, -339.000000)">
+                            <polygon id="Rectangle-6-Copy-6" points="0.605432284 3.0732425 760.661907 3.0732425 760.661907 1688.63264"></polygon>
+                            <polygon id="Rectangle-6-Copy-5" points="160.397539 3.0732425 920.454014 3.0732425 920.454014 1688.63264"></polygon>
+                            <polygon id="Rectangle-6-Copy-4" points="320.189645 3.0732425 1080.24612 3.0732425 1080.24612 1688.63264"></polygon>
+                            <polygon id="Rectangle-6-Copy-3" points="479.981751 3.0732425 1240.03823 3.0732425 1240.03823 1688.63264"></polygon>
+                            <polygon id="Rectangle-6-Copy" points="639.773858 0.590828051 1399.83033 0.590828051 1399.83033 1686.15023"></polygon>
+                            <polygon id="Rectangle-6-Copy-2" points="799.565964 0.590828051 1561.82826 0.590828051 1561.82826 1691.04202"></polygon>
+                            <polygon id="Rectangle-6-Copy-7" points="961.56389 0.590828051 1723.82618 0.590828051 1723.82618 1691.04202"></polygon>
+                            <polygon id="Rectangle-6-Copy-8" points="1123.56182 0.590828051 1885.82411 0.590828051 1885.82411 1691.04202"></polygon>
+                            <polygon id="Rectangle-6-Copy-9" points="1285.55974 0.590828051 2047.82204 0.590828051 2047.82204 1691.04202"></polygon>
+                            <polygon id="Rectangle-6-Copy-10" points="1447.55767 0.590828051 2209.81996 0.590828051 2209.81996 1691.04202"></polygon>
+                            <polygon id="Rectangle-6-Copy-11" points="1609.55559 0.590828051 2371.81789 0.590828051 2371.81789 1691.04202"></polygon>
+                            <polygon id="Rectangle-6-Copy-12" points="1771.55352 0.590828051 2533.81581 0.590828051 2533.81581 1691.04202"></polygon>
+                        </g>
+                    </g>
+                </g>
+                <rect id="Rectangle" fill="url(#linearGradient-4)" opacity="0.615828804" x="0" y="3" width="1440" height="982"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
