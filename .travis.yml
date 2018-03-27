@@ -5,11 +5,11 @@ node_js:
 services:
   - docker
 
-before_install:
-  - ./assets/script/install_lnd.sh
-
 env:
   - NAP_TIME=20000
+
+before_install:
+  - ./assets/script/install_lnd.sh
 
 script:
   - npm test
