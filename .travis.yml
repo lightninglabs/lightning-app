@@ -11,6 +11,10 @@ before_install:
 env:
   - NAP_TIME=20000
 
+script:
+  - npm test
+  - npm run build-storybook
+
 before_deploy:
   - ./assets/script/build_lnd.sh
 
