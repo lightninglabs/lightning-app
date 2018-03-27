@@ -24,6 +24,11 @@ storiesOf('Colors', module)
       <Background gradient={colors.purpleGradient} />
     </Container>
   ))
+  .add('Purple Textured', () => (
+    <Container>
+      <Background image="textured-bg" />
+    </Container>
+  ))
   .add('Primary Orange', () => (
     <Container>
       <Background color={colors.orange} />
