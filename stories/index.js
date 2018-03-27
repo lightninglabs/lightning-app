@@ -13,6 +13,8 @@ import Card from '../src/component/card';
 import Text from '../src/component/text';
 import { colors } from '../src/component/styles';
 
+import WelcomeView from '../src/view/welcome';
+
 storiesOf('Colors', module)
   .add('Primary Purple', () => (
     <Container>
@@ -186,3 +188,9 @@ storiesOf('Layout', module)
       </Card>
     </Container>
   ));
+
+storiesOf('Screens', module).add('Welcome', () => (
+  <Container>
+    <WelcomeView />
+  </Container>
+));
