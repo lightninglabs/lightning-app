@@ -28,7 +28,7 @@ storiesOf('Fonts', module)
 const renderFont = fontFamily => (
   <Background gradient={colors.purpleGradient}>
     <MainContent style={{ justifyContent: 'center' }}>
-      <Text style={{ fontFamily }}>
+      <Text style={{ fontFamily, fontSize: 24 }}>
         The quick brown fox jumps over the lazy dog.
       </Text>
     </MainContent>
