@@ -137,7 +137,7 @@ storiesOf('Card', module).add('Plain', () => (
   </Container>
 ));
 
-storiesOf('Screen Layout', module)
+storiesOf('Layout', module)
   .add('Button Bottom', () => (
     <Container style={{ backgroundImage: colors.purpleGradient }}>
       <MainContent style={{ justifyContent: 'center' }}>
