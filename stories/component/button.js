@@ -5,7 +5,7 @@ import Background from '../../src/component/background';
 import { Button, ButtonPill } from '../../src/component/button';
 import { colors } from '../../src/component/styles';
 
-storiesOf('Button/Default', module)
+storiesOf('Button', module)
   .addDecorator(story => (
     <Background gradient={colors.purpleGradient}>{story()}</Background>
   ))
@@ -18,7 +18,7 @@ storiesOf('Button/Default', module)
     </Button>
   ));
 
-storiesOf('Button/Pill', module)
+storiesOf('Button', module)
   .add('Pill', () => (
     <ButtonPill onPress={action('clicked')}>Pill Button</ButtonPill>
   ))
