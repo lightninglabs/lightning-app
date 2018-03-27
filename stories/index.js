@@ -8,6 +8,7 @@ import MainContent from '../src/component/main-content';
 import Header from '../src/component/header';
 import { Button, ButtonPill } from '../src/component/button';
 import { LabelBalance } from '../src/component/label';
+import Card from '../src/component/card';
 import Text from '../src/component/text';
 import { colors } from '../src/component/styles';
 
@@ -118,8 +119,26 @@ storiesOf('Button', module)
     </ButtonPill>
   ));
 
-storiesOf('Layout', module)
-  .add('Button bottom', () => (
+storiesOf('Header', module)
+  .add('Purple', () => (
+    <Container style={{ backgroundImage: colors.purpleGradient }}>
+      <Header title="Purple" />
+    </Container>
+  ))
+  .add('Orange', () => (
+    <Container style={{ backgroundImage: colors.orangeGradient }}>
+      <Header title="Orange" style={{ backgroundColor: colors.orange }} />
+    </Container>
+  ));
+
+storiesOf('Card', module).add('Plain', () => (
+  <Container style={{ backgroundImage: colors.purpleGradient }}>
+    <Card />
+  </Container>
+));
+
+storiesOf('Screen Layout', module)
+  .add('Button Bottom', () => (
     <Container style={{ backgroundImage: colors.purpleGradient }}>
       <MainContent style={{ justifyContent: 'center' }}>
         <LabelBalance unit="SAT">9,123,456,788</LabelBalance>
@@ -127,8 +146,15 @@ storiesOf('Layout', module)
       <Button onPress={action('clicked')}>Continue</Button>
     </Container>
   ))
-  .add('Header', () => (
+  .add('Card Form', () => (
     <Container style={{ backgroundImage: colors.purpleGradient }}>
       <Header title="Lightning Payment" />
+      <Card>
+        <Text style={{ color: colors.blackDark }}>
+          Here are some instructions...
+        </Text>
+        <MainContent />
+        <ButtonPill onPress={action('clicked')}>Next</ButtonPill>
+      </Card>
     </Container>
   ));
