@@ -8,7 +8,7 @@ import { Button, ButtonPill } from '../src/component/button';
 import { LabelBalance } from '../src/component/label';
 import Card from '../src/component/card';
 import Text from '../src/component/text';
-import { colors } from '../src/component/styles';
+import { colors } from '../src/component/style';
 
 storiesOf('Layout', module)
   .add('Button Bottom', () => (

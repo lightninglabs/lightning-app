@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Background from '../../src/component/background';
 import { Button, ButtonPill } from '../../src/component/button';
-import { colors } from '../../src/component/styles';
+import { colors } from '../../src/component/style';
 
 storiesOf('Button', module)
   .addDecorator(story => (

@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import Background from '../src/component/background';
 import MainContent from '../src/component/main-content';
 import Text from '../src/component/text';
-import { colors } from '../src/component/styles';
+import { colors } from '../src/component/style';
 
 storiesOf('Fonts', module)
   .add('OpenSans Light', () => renderFont('OpenSans Light'))

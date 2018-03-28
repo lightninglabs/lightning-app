@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text as RNText, TextPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { colors } from './styles';
+import { colors } from './style';
 
 import '../../assets/font/OpenSans-Light.ttf';
 import '../../assets/font/OpenSans-Regular.ttf';

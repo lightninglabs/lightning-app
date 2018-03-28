@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Background from '../src/component/background';
-import { colors } from '../src/component/styles';
+import { colors } from '../src/component/style';
 
 storiesOf('Colors', module)
   .add('Primary Purple', () => <Background color={colors.purple} />)
