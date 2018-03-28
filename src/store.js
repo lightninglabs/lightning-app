@@ -1,7 +1,7 @@
 import { extendObservable, action } from 'mobx';
 import ComputedWallet from './computed/wallet';
-import ComputedTransactions from './computed/transaction';
-import ComputedChannels from './computed/channel';
+import ComputedTransaction from './computed/transaction';
+import ComputedChannel from './computed/channel';
 import { DEFAULT_ROUTE } from './config';
 import * as log from './action/log';
 
@@ -38,8 +38,8 @@ export class Store {
     });
 
     ComputedWallet(this);
-    ComputedTransactions(this);
-    ComputedChannels(this);
+    ComputedTransaction(this);
+    ComputedChannel(this);
   }
 
   init(AsyncStorage) {

@@ -1,5 +1,5 @@
 import { observable, useStrict } from 'mobx';
-import ComputedTransactions from '../../../src/computed/transaction';
+import ComputedTransaction from '../../../src/computed/transaction';
 
 describe('Computed Transactions Unit Tests', () => {
   let store;
@@ -8,10 +8,10 @@ describe('Computed Transactions Unit Tests', () => {
     useStrict(false);
   });
 
-  describe('ComputedTransactions()', () => {
+  describe('ComputedTransaction()', () => {
     it('should work with empty store', () => {
       store = observable({});
-      ComputedTransactions(store);
+      ComputedTransaction(store);
       expect(store.computedTransactions, 'to equal', null);
     });
 
@@ -21,7 +21,7 @@ describe('Computed Transactions Unit Tests', () => {
         payments: [{ date: new Date() }],
         invoices: [{ date: new Date() }],
       });
-      ComputedTransactions(store);
+      ComputedTransaction(store);
       expect(store.computedTransactions.length, 'to equal', 3);
     });
   });

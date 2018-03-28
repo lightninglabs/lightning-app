@@ -1,6 +1,6 @@
 import { computed, extendObservable } from 'mobx';
 
-const ComputedChannels = store => {
+const ComputedChannel = store => {
   extendObservable(store, {
     computedChannels: computed(() => {
       const { channels, pendingChannels } = store;
@@ -16,4 +16,4 @@ const ComputedChannels = store => {
   });
 };
 
-export default ComputedChannels;
+export default ComputedChannel;

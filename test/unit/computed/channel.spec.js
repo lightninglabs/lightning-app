@@ -1,5 +1,5 @@
 import { observable, useStrict } from 'mobx';
-import ComputedChannels from '../../../src/computed/channel';
+import ComputedChannel from '../../../src/computed/channel';
 
 describe('Computed Channels Unit Tests', () => {
   let store;
@@ -8,10 +8,10 @@ describe('Computed Channels Unit Tests', () => {
     useStrict(false);
   });
 
-  describe('ComputedChannels()', () => {
+  describe('ComputedChannel()', () => {
     it('should work with empty store', () => {
       store = observable({});
-      ComputedChannels(store);
+      ComputedChannel(store);
       expect(store.computedChannels.length, 'to equal', 0);
     });
 
@@ -32,7 +32,7 @@ describe('Computed Channels Unit Tests', () => {
           },
         ],
       });
-      ComputedChannels(store);
+      ComputedChannel(store);
       expect(store.computedChannels.length, 'to equal', 3);
     });
   });

@@ -1,6 +1,6 @@
 import { computed, extendObservable } from 'mobx';
 
-const ComputedTransactions = store => {
+const ComputedTransaction = store => {
   extendObservable(store, {
     computedTransactions: computed(() => {
       const { transactions, payments, invoices } = store;
@@ -15,4 +15,4 @@ const ComputedTransactions = store => {
   });
 };
 
-export default ComputedTransactions;
+export default ComputedTransaction;
