@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Text } from './text';
 import ComponentIcon from './icon';
 import ChannelListItem from './channellistitem';
-import { colors, layout } from '../styles';
+import { colors, layout } from './styles';
 
 const styles = {
   placeHolderIcon: {

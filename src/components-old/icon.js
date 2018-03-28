@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import icons from '../icons';
+import icons from './icons';
 
 const ComponentIcon = ({ icon, style }) => (
   <svg viewBox="0 0 24 24" style={style}>

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { nav } from '../action';
 import ComponentIcon from '../components-old/icon';
 import Text from '../components-old/text';
-import { colors } from '../styles';
+import { colors } from '../components-old/styles';
 import { View, TouchableOpacity } from 'react-native';
 import store from '../store';
 

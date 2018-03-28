@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Text } from './text';
 import { View } from 'react-native';
-import { colors } from '../styles';
+import { colors } from './styles';
 
 class ComponentHeader extends Component {
   render() {

@@ -2,7 +2,7 @@ import React from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Text } from './text';
-import { colors, layout } from '../styles';
+import { colors, layout } from './styles';
 
 const styles = {
   header: {

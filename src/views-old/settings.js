@@ -5,7 +5,7 @@ import Header from '../components-old/header';
 import Button from '../components-old/button';
 import { nav } from '../action';
 import { View, ScrollView } from 'react-native';
-import { colors } from '../styles';
+import { colors } from '../components-old/styles';
 import { MNEMONIC_WALLET } from '../config';
 import store from '../store';
 

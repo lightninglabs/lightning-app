@@ -10,7 +10,7 @@ import Settings from './settings';
 import InitializeWallet from './initializewallet';
 import VerifyWallet from './verifywallet';
 import { View } from 'react-native';
-import { colors } from '../styles';
+import { colors } from '../components-old/styles';
 import store from '../store';
 
 class Main extends Component {

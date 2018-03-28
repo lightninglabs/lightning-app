@@ -3,7 +3,7 @@ import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Text } from './text';
 import Separator from './separator';
-import { colors, layout } from '../styles';
+import { colors, layout } from './styles';
 
 const ChannelListItem = ({
   id,

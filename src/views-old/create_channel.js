@@ -5,7 +5,7 @@ import Button from '../components-old/button';
 import Header from '../components-old/header';
 import { channel } from '../action';
 import { View } from 'react-native';
-import { colors } from '../styles';
+import { colors } from '../components-old/styles';
 
 class CreateChannel extends Component {
   constructor() {

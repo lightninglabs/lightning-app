@@ -6,7 +6,7 @@ import Text from '../components-old/text';
 import Button from '../components-old/button';
 import { payment as paymentAction } from '../action';
 import { View } from 'react-native';
-import { colors } from '../styles';
+import { colors } from '../components-old/styles';
 import store from '../store';
 
 class Pay extends Component {

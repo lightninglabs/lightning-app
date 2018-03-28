@@ -14,7 +14,7 @@ import ComponentIcon from '../components-old/icon';
 import Header from '../components-old/header';
 import Modal from '../components-old/modal';
 import { wallet } from '../action';
-import { colors } from '../styles';
+import { colors } from '../components-old/styles';
 import store from '../store';
 
 class Request extends Component {

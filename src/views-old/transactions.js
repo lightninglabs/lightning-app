@@ -4,7 +4,7 @@ import { Text, TextB } from '../components-old/text';
 import Header from '../components-old/header';
 import ComponentIcon from '../components-old/icon';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
-import { colors } from '../styles';
+import { colors } from '../components-old/styles';
 import { formatSatoshis } from '../helper';
 import store from '../store';
 
