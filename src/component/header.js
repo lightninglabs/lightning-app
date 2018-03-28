@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.purple,
     boxShadow: '0 2px 4px 0 rgba(0,0,0,0.3)',
-    zIndex: 10,
+    zIndex: 1,
   },
   title: {
     fontFamily: 'OpenSans Regular',

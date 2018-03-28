@@ -24,7 +24,6 @@ const styles = StyleSheet.create({
   subtitle: {
     marginTop: 12,
     fontFamily: 'OpenSans Light',
-    zIndex: 1,
   },
 });
 
