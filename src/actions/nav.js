@@ -1,6 +1,6 @@
 import * as log from './logs';
 
-class ActionsNav {
+class NavAction {
   constructor(store, ipcRenderer) {
     this._store = store;
     ipcRenderer.on('open-url', (event, arg) => {
@@ -42,4 +42,4 @@ class ActionsNav {
   }
 }
 
-export default ActionsNav;
+export default NavAction;

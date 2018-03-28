@@ -1,7 +1,7 @@
 import * as log from './logs';
 import { NOTIFICATION_DELAY } from '../config';
 
-class ActionsNotification {
+class NotificationAction {
   constructor(store) {
     this._store = store;
   }
@@ -26,4 +26,4 @@ class ActionsNotification {
   }
 }
 
-export default ActionsNotification;
+export default NotificationAction;

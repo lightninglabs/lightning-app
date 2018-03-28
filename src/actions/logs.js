@@ -10,7 +10,7 @@ export function error(...args) {
   _ipcRenderer && _ipcRenderer.send('log-error', args);
 }
 
-class ActionsLogs {
+class LogAction {
   constructor(store, ipcRenderer) {
     _ipcRenderer = ipcRenderer;
     _ipcRenderer.on('logs', (event, arg) => {
@@ -20,4 +20,4 @@ class ActionsLogs {
   }
 }
 
-export default ActionsLogs;
+export default LogAction;

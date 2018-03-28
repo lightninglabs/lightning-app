@@ -1,13 +1,13 @@
 import { rmdir, poll, isPortOpen } from './test-util';
 import { Store } from '../../../src/store';
-import ActionsGrpc from '../../../src/actions/grpc';
+import GrpcAction from '../../../src/actions/grpc';
 import * as logger from '../../../src/actions/logs';
-import ActionsNav from '../../../src/actions/nav';
-import ActionsInfo from '../../../src/actions/info';
-import ActionsWallet from '../../../src/actions/wallet';
-import ActionsChannels from '../../../src/actions/channels';
-import ActionsTransactions from '../../../src/actions/transactions';
-import ActionsPayments from '../../../src/actions/payments';
+import NavAction from '../../../src/actions/nav';
+import InfoAction from '../../../src/actions/info';
+import WalletAction from '../../../src/actions/wallet';
+import ChannelAction from '../../../src/actions/channels';
+import TransactionAction from '../../../src/actions/transactions';
+import PaymentAction from '../../../src/actions/payments';
 import { EventEmitter } from 'events';
 
 const {
@@ -53,7 +53,7 @@ const ipcRendererStub2 = new EventEmitter();
 wireUpIpc(ipcMainStub2, ipcRendererStub2);
 wireUpIpc(ipcRendererStub2, ipcMainStub2);
 
-describe('Actions Integration Tests', function() {
+describe('Action Integration Tests', function() {
   this.timeout(300000);
 
   let store1;
@@ -132,21 +132,21 @@ describe('Actions Integration Tests', function() {
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
-    navStub1 = sinon.createStubInstance(ActionsNav);
-    grpc1 = new ActionsGrpc(store1, ipcRendererStub1);
-    info1 = new ActionsInfo(store1, grpc1);
-    wallet1 = new ActionsWallet(store1, grpc1, navStub1);
-    channels1 = new ActionsChannels(store1, grpc1);
-    transactions1 = new ActionsTransactions(store1, grpc1);
-    payments1 = new ActionsPayments(store1, grpc1, wallet1);
+    navStub1 = sinon.createStubInstance(NavAction);
+    grpc1 = new GrpcAction(store1, ipcRendererStub1);
+    info1 = new InfoAction(store1, grpc1);
+    wallet1 = new WalletAction(store1, grpc1, navStub1);
+    channels1 = new ChannelAction(store1, grpc1);
+    transactions1 = new TransactionAction(store1, grpc1);
+    payments1 = new PaymentAction(store1, grpc1, wallet1);
 
-    navStub2 = sinon.createStubInstance(ActionsNav);
-    grpc2 = new ActionsGrpc(store2, ipcRendererStub2);
-    info2 = new ActionsInfo(store2, grpc2);
-    wallet2 = new ActionsWallet(store2, grpc2, navStub2);
-    channels2 = new ActionsChannels(store2, grpc2);
-    transactions2 = new ActionsTransactions(store2, grpc2);
-    payments2 = new ActionsPayments(store2, grpc2, wallet2);
+    navStub2 = sinon.createStubInstance(NavAction);
+    grpc2 = new GrpcAction(store2, ipcRendererStub2);
+    info2 = new InfoAction(store2, grpc2);
+    wallet2 = new WalletAction(store2, grpc2, navStub2);
+    channels2 = new ChannelAction(store2, grpc2);
+    transactions2 = new TransactionAction(store2, grpc2);
+    payments2 = new PaymentAction(store2, grpc2, wallet2);
   });
 
   after(() => {

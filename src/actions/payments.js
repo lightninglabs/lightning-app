@@ -1,30 +1,30 @@
 import { PREFIX_URI } from '../config';
 import * as log from './logs';
 
-class ActionsPayments {
-  constructor(store, actionsGrpc, actionsWallet, notification) {
+class PaymentAction {
+  constructor(store, grpc, wallet, notification) {
     this._store = store;
-    this._actionsGrpc = actionsGrpc;
-    this._actionsWallet = actionsWallet;
+    this._grpc = grpc;
+    this._wallet = wallet;
     this._notification = notification;
   }
 
   async sendCoins({ address, amount }) {
     try {
-      await this._actionsGrpc.sendCommand('sendCoins', {
+      await this._grpc.sendCommand('sendCoins', {
         addr: address,
         amount,
       });
     } catch (err) {
       this._notification.display({ msg: 'Sending transaction failed!', err });
     }
-    await this._actionsWallet.getBalance();
+    await this._wallet.getBalance();
   }
 
   async payLightning({ payment }) {
     try {
       payment = payment.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
-      const stream = this._actionsGrpc.sendStreamCommand('sendPayment');
+      const stream = this._grpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {
         stream.on('data', data => {
           if (data.payment_error) {
@@ -39,13 +39,13 @@ class ActionsPayments {
     } catch (err) {
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }
-    await this._actionsWallet.getChannelBalance();
+    await this._wallet.getChannelBalance();
   }
 
   async decodePaymentRequest({ payment }) {
     payment = payment.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
     try {
-      const request = await this._actionsGrpc.sendCommand('decodePayReq', {
+      const request = await this._grpc.sendCommand('decodePayReq', {
         pay_req: payment,
       });
       this._store.paymentRequest = {
@@ -59,4 +59,4 @@ class ActionsPayments {
   }
 }
 
-export default ActionsPayments;
+export default PaymentAction;

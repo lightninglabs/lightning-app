@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { actionsNav } from '../actions';
+import { nav } from '../actions';
 import { Text, TextB } from '../components-old/text';
 import TextInput from '../components-old/textinput';
 import Button from '../components-old/button';
@@ -39,11 +39,11 @@ class VerifyWallet extends Component {
         </View>
 
         <View style={{ flexDirection: 'row' }}>
-          <Button text="Back" onPress={() => actionsNav.goInitializeWallet()} />
+          <Button text="Back" onPress={() => nav.goInitializeWallet()} />
           <Button
             disabled={value !== seedMnemonic}
             text="Done"
-            onPress={() => actionsNav.goPay()}
+            onPress={() => nav.goPay()}
           />
         </View>
       </View>

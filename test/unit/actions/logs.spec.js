@@ -1,8 +1,8 @@
 import { observable, useStrict } from 'mobx';
 import * as log from '../../../src/actions/logs';
-import ActionsLogs from '../../../src/actions/logs';
+import LogAction from '../../../src/actions/logs';
 
-describe('Actions Logs Unit Tests', () => {
+describe('Action Logs Unit Tests', () => {
   let store;
   let sandbox;
   let ipcRenderer;
@@ -42,7 +42,7 @@ describe('Actions Logs Unit Tests', () => {
     beforeEach(() => {
       useStrict(false);
       store = observable({ logs: [] });
-      new ActionsLogs(store, ipcRenderer);
+      new LogAction(store, ipcRenderer);
     });
 
     describe('constructor()', () => {

@@ -1,10 +1,10 @@
 import { Store } from '../../../src/store';
-import ActionsGrpc from '../../../src/actions/grpc';
+import GrpcAction from '../../../src/actions/grpc';
 import * as logger from '../../../src/actions/logs';
 
-describe('Actions GRPC Unit Tests', () => {
+describe('Action GRPC Unit Tests', () => {
   let store;
-  let actionsGrpc;
+  let grpc;
   let sandbox;
   let ipcRendererStub;
 
@@ -17,7 +17,7 @@ describe('Actions GRPC Unit Tests', () => {
       once: sandbox.stub(),
       send: sandbox.stub(),
     };
-    actionsGrpc = new ActionsGrpc(store, ipcRendererStub);
+    grpc = new GrpcAction(store, ipcRendererStub);
   });
 
   afterEach(() => {
@@ -26,18 +26,18 @@ describe('Actions GRPC Unit Tests', () => {
 
   describe('initUnlocker()', () => {
     it('should set unlockerReady', async () => {
-      sandbox.stub(actionsGrpc, '_sendIpc').resolves();
-      await actionsGrpc.initUnlocker();
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.initUnlocker();
       expect(store.unlockerReady, 'to be', true);
     });
   });
 
   describe('sendUnlockerCommand()', () => {
     it('should send ipc with correct args', async () => {
-      sandbox.stub(actionsGrpc, '_sendIpc').resolves();
-      await actionsGrpc.sendUnlockerCommand('some-method', 'some-body');
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.sendUnlockerCommand('some-method', 'some-body');
       expect(
-        actionsGrpc._sendIpc,
+        grpc._sendIpc,
         'was called with',
         'unlockRequest',
         'unlockResponse',
@@ -49,18 +49,18 @@ describe('Actions GRPC Unit Tests', () => {
 
   describe('initLnd()', () => {
     it('should set lndReady', async () => {
-      sandbox.stub(actionsGrpc, '_sendIpc').resolves();
-      await actionsGrpc.initLnd();
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.initLnd();
       expect(store.lndReady, 'to be', true);
     });
   });
 
   describe('sendCommand()', () => {
     it('should send ipc with correct args', async () => {
-      sandbox.stub(actionsGrpc, '_sendIpc').resolves();
-      await actionsGrpc.sendCommand('some-method', 'some-body');
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.sendCommand('some-method', 'some-body');
       expect(
-        actionsGrpc._sendIpc,
+        grpc._sendIpc,
         'was called with',
         'lndRequest',
         'lndResponse',
@@ -74,7 +74,7 @@ describe('Actions GRPC Unit Tests', () => {
     it('should create duplex stream that parses json', () => {
       const method = 'some-method';
       const body = 'some-body';
-      const stream = actionsGrpc.sendStreamCommand(method, body);
+      const stream = grpc.sendStreamCommand(method, body);
       expect(ipcRendererStub.send, 'was called with', 'lndStreamRequest', {
         method,
         body,
@@ -97,7 +97,7 @@ describe('Actions GRPC Unit Tests', () => {
       ipcRendererStub.once
         .withArgs('some-listener_some-method')
         .yields(null, { response: 'some-response' });
-      const response = await actionsGrpc._sendIpc(event, listen, method, body);
+      const response = await grpc._sendIpc(event, listen, method, body);
       expect(response, 'to equal', 'some-response');
       expect(ipcRendererStub.send, 'was called with', event, { method, body });
     });
@@ -106,7 +106,7 @@ describe('Actions GRPC Unit Tests', () => {
       ipcRendererStub.once
         .withArgs('some-listener')
         .yields(null, { response: 'some-response' });
-      const response = await actionsGrpc._sendIpc(event, listen);
+      const response = await grpc._sendIpc(event, listen);
       expect(response, 'to equal', 'some-response');
       expect(ipcRendererStub.send, 'was called with', event);
     });
@@ -116,7 +116,7 @@ describe('Actions GRPC Unit Tests', () => {
         .withArgs('some-listener_some-method')
         .yields(null, { err: new Error('Boom!') });
       await expect(
-        actionsGrpc._sendIpc(event, listen, method, body),
+        grpc._sendIpc(event, listen, method, body),
         'to be rejected with error satisfying',
         /Boom/
       );

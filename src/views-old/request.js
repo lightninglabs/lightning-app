@@ -13,7 +13,7 @@ import QRCode from '../components-old/qrcode';
 import ComponentIcon from '../components-old/icon';
 import Header from '../components-old/header';
 import Modal from '../components-old/modal';
-import { actionsWallet } from '../actions';
+import { wallet } from '../actions';
 import { colors } from '../styles';
 import store from '../store';
 
@@ -63,7 +63,7 @@ class Request extends Component {
                 paymentRequest: null,
                 loading: true,
               });
-              actionsWallet
+              wallet
                 .generatePaymentRequest(amount, note)
                 .then(paymentRequest => {
                   this.setState({ paymentRequest, loading: false });

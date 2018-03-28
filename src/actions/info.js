@@ -1,14 +1,14 @@
 import { RETRY_DELAY } from '../config';
 
-class ActionsInfo {
-  constructor(store, actionsGrpc) {
+class InfoAction {
+  constructor(store, grpc) {
     this._store = store;
-    this._actionsGrpc = actionsGrpc;
+    this._grpc = grpc;
   }
 
   async getInfo() {
     try {
-      const response = await this._actionsGrpc.sendCommand('getInfo');
+      const response = await this._grpc.sendCommand('getInfo');
       this._store.pubKey = response.identity_pubkey;
       this._store.syncedToChain = response.synced_to_chain;
       this._store.blockHeight = response.block_height;
@@ -23,4 +23,4 @@ class ActionsInfo {
   }
 }
 
-export default ActionsInfo;
+export default InfoAction;

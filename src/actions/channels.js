@@ -2,10 +2,10 @@ import { RETRY_DELAY } from '../config';
 import { reverse } from '../helpers';
 import * as log from './logs';
 
-class ActionsChannels {
-  constructor(store, actionsGrpc, notification) {
+class ChannelAction {
+  constructor(store, grpc, notification) {
     this._store = store;
-    this._actionsGrpc = actionsGrpc;
+    this._grpc = grpc;
     this._notification = notification;
   }
 
@@ -20,7 +20,7 @@ class ActionsChannels {
   }
 
   async getChannels() {
-    const { channels } = await this._actionsGrpc.sendCommand('listChannels');
+    const { channels } = await this._grpc.sendCommand('listChannels');
     this._store.channels = channels.map(channel => ({
       remotePubkey: channel.remote_pubkey,
       id: channel.chan_id,
@@ -44,7 +44,7 @@ class ActionsChannels {
   }
 
   async getPendingChannels() {
-    const response = await this._actionsGrpc.sendCommand('pendingChannels');
+    const response = await this._grpc.sendCommand('pendingChannels');
     const pocs = response.pending_open_channels.map(poc => ({
       channel: poc.channel,
       confirmationHeight: poc.confirmation_height,
@@ -81,7 +81,7 @@ class ActionsChannels {
   }
 
   async getPeers() {
-    const { peers } = await this._actionsGrpc.sendCommand('listPeers');
+    const { peers } = await this._grpc.sendCommand('listPeers');
     this._store.peers = peers.map(peer => ({
       pubKey: peer.pub_key,
       peerId: peer.peer_id,
@@ -108,7 +108,7 @@ class ActionsChannels {
 
   async connectToPeer({ host, pubkey }) {
     try {
-      await this._actionsGrpc.sendCommand('connectPeer', {
+      await this._grpc.sendCommand('connectPeer', {
         addr: { host, pubkey },
       });
       await this.getPeers();
@@ -118,7 +118,7 @@ class ActionsChannels {
   }
 
   async openChannel({ pubkey, amount }) {
-    const stream = this._actionsGrpc.sendStreamCommand('openChannel', {
+    const stream = this._grpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
     });
@@ -134,7 +134,7 @@ class ActionsChannels {
   }
 
   async closeChannel({ channelPoint, force = false }) {
-    const stream = this._actionsGrpc.sendStreamCommand('closeChannel', {
+    const stream = this._grpc.sendStreamCommand('closeChannel', {
       channel_point: this._parseChannelPoint(channelPoint),
       force,
     });
@@ -175,4 +175,4 @@ class ActionsChannels {
   }
 }
 
-export default ActionsChannels;
+export default ChannelAction;

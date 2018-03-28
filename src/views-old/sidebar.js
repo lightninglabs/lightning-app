@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 
-import { actionsNav } from '../actions';
+import { nav } from '../actions';
 import ComponentIcon from '../components-old/icon';
 import Text from '../components-old/text';
 import { colors } from '../styles';
@@ -42,13 +42,13 @@ class Sidebar extends Component {
     const { computedBalance, pubKey, syncedToChain, blockHeight } = store;
     return (
       <View style={{ width: 170, backgroundColor: colors.sidebar }}>
-        {this.renderRow('Pay', 'coin', () => actionsNav.goPay())}
-        {this.renderRow('Request', 'coin', () => actionsNav.goRequest())}
-        {this.renderRow('Channels', 'wallet', () => actionsNav.goChannels())}
+        {this.renderRow('Pay', 'coin', () => nav.goPay())}
+        {this.renderRow('Request', 'coin', () => nav.goRequest())}
+        {this.renderRow('Channels', 'wallet', () => nav.goChannels())}
         {this.renderRow('Transactions', 'swap-horizontal', () =>
-          actionsNav.goTransactions()
+          nav.goTransactions()
         )}
-        {this.renderRow('Settings', 'settings', () => actionsNav.goSettings())}
+        {this.renderRow('Settings', 'settings', () => nav.goSettings())}
 
         <View style={{ flex: 1 }} />
 
@@ -64,7 +64,7 @@ class Sidebar extends Component {
             padding: 8,
             paddingLeft: 12,
           }}
-          onPress={() => actionsNav.goChannels()}
+          onPress={() => nav.goChannels()}
         >
           <ComponentIcon
             icon="account-circle"

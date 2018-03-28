@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Text } from '../components-old/text';
 import Header from '../components-old/header';
 import Button from '../components-old/button';
-import { actionsNav } from '../actions';
+import { nav } from '../actions';
 import { View, ScrollView } from 'react-native';
 import { colors } from '../styles';
 import { MNEMONIC_WALLET } from '../config';
@@ -30,7 +30,7 @@ class Settings extends Component {
           {MNEMONIC_WALLET && (
             <Button
               text="Backup Wallet"
-              onPress={() => actionsNav.goInitializeWallet()}
+              onPress={() => nav.goInitializeWallet()}
             />
           )}
         </View>

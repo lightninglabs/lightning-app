@@ -5,7 +5,7 @@ import ChannelsHeader from '../components-old/channelsheader';
 import Separator from '../components-old/separator';
 import ChannelList from '../components-old/channellist';
 import { View, TouchableOpacity } from 'react-native';
-import { actionsNav } from '../actions';
+import { nav } from '../actions';
 import { colors } from '../styles';
 import store from '../store';
 
@@ -43,7 +43,7 @@ class Channels extends Component {
             </Text>
             <TouchableOpacity
               style={{ padding: 8 }}
-              onPress={() => actionsNav.goCreateChannel()}
+              onPress={() => nav.goCreateChannel()}
             >
               <Text style={{ color: colors.blue, fontSize: 12 }}>
                 CREATE CHANNEL

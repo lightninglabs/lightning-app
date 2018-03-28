@@ -1,8 +1,8 @@
 import { Store } from '../../../src/store';
 import * as log from '../../../src/actions/logs';
-import ActionsNotification from '../../../src/actions/notification';
+import NotificationAction from '../../../src/actions/notification';
 
-describe('Actions Notification Unit Tests', () => {
+describe('Action Notification Unit Tests', () => {
   let store;
   let sandbox;
   let notification;
@@ -12,7 +12,7 @@ describe('Actions Notification Unit Tests', () => {
     sandbox.stub(log);
     store = new Store();
     require('../../../src/config').NOTIFICATION_DELAY = 1;
-    notification = new ActionsNotification(store);
+    notification = new NotificationAction(store);
   });
 
   afterEach(() => {

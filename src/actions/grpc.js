@@ -1,7 +1,7 @@
 import { Duplex } from 'stream';
 import * as log from './logs';
 
-class ActionsGrpc {
+class GrpcAction {
   constructor(store, ipcRenderer) {
     this._store = store;
     this._ipcRenderer = ipcRenderer;
@@ -58,4 +58,4 @@ class ActionsGrpc {
   }
 }
 
-export default ActionsGrpc;
+export default GrpcAction;

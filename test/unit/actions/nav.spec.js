@@ -1,12 +1,12 @@
 import { observable, useStrict } from 'mobx';
 import * as log from '../../../src/actions/logs';
-import ActionsNav from '../../../src/actions/nav';
+import NavAction from '../../../src/actions/nav';
 
-describe('Actions Nav Unit Tests', () => {
+describe('Action Nav Unit Tests', () => {
   let store;
   let sandbox;
   let ipcRenderer;
-  let actionsNav;
+  let nav;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -17,7 +17,7 @@ describe('Actions Nav Unit Tests', () => {
     };
     useStrict(false);
     store = observable({ route: null });
-    actionsNav = new ActionsNav(store, ipcRenderer);
+    nav = new NavAction(store, ipcRenderer);
   });
 
   afterEach(() => {
@@ -26,63 +26,63 @@ describe('Actions Nav Unit Tests', () => {
 
   describe('constructor()', () => {
     it('should listen to open-url event', () => {
-      expect(actionsNav._store, 'to be ok');
+      expect(nav._store, 'to be ok');
       expect(ipcRenderer.on, 'was called with', 'open-url');
     });
   });
 
   describe('goPay()', () => {
     it('should set correct route', () => {
-      actionsNav.goPay();
+      nav.goPay();
       expect(store.route, 'to equal', 'Pay');
     });
   });
 
   describe('goRequest()', () => {
     it('should set correct route', () => {
-      actionsNav.goRequest();
+      nav.goRequest();
       expect(store.route, 'to equal', 'Request');
     });
   });
 
   describe('goChannels()', () => {
     it('should set correct route', () => {
-      actionsNav.goChannels();
+      nav.goChannels();
       expect(store.route, 'to equal', 'Channels');
     });
   });
 
   describe('goTransactions()', () => {
     it('should set correct route', () => {
-      actionsNav.goTransactions();
+      nav.goTransactions();
       expect(store.route, 'to equal', 'Transactions');
     });
   });
 
   describe('goSettings()', () => {
     it('should set correct route', () => {
-      actionsNav.goSettings();
+      nav.goSettings();
       expect(store.route, 'to equal', 'Settings');
     });
   });
 
   describe('goCreateChannel()', () => {
     it('should set correct route', () => {
-      actionsNav.goCreateChannel();
+      nav.goCreateChannel();
       expect(store.route, 'to equal', 'CreateChannel');
     });
   });
 
   describe('goInitializeWallet()', () => {
     it('should set correct route', () => {
-      actionsNav.goInitializeWallet();
+      nav.goInitializeWallet();
       expect(store.route, 'to equal', 'InitializeWallet');
     });
   });
 
   describe('goVerifyWallet()', () => {
     it('should set correct route', () => {
-      actionsNav.goVerifyWallet();
+      nav.goVerifyWallet();
       expect(store.route, 'to equal', 'VerifyWallet');
     });
   });

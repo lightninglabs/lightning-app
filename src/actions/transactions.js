@@ -2,17 +2,15 @@ import * as log from './logs';
 import { toHash } from '../helpers';
 import { RETRY_DELAY } from '../config';
 
-class ActionsTransactions {
-  constructor(store, actionsGrpc) {
+class TransactionAction {
+  constructor(store, grpc) {
     this._store = store;
-    this._actionsGrpc = actionsGrpc;
+    this._grpc = grpc;
   }
 
   async getTransactions() {
     try {
-      const { transactions } = await this._actionsGrpc.sendCommand(
-        'getTransactions'
-      );
+      const { transactions } = await this._grpc.sendCommand('getTransactions');
       this._store.transactions = transactions.map(transaction => ({
         id: transaction.tx_hash,
         type: 'bitcoin',
@@ -32,7 +30,7 @@ class ActionsTransactions {
 
   async getInvoices() {
     try {
-      const { invoices } = await this._actionsGrpc.sendCommand('listInvoices');
+      const { invoices } = await this._grpc.sendCommand('listInvoices');
       this._store.invoices = invoices.map(invoice => ({
         id: invoice.creation_date,
         type: 'lightning',
@@ -50,7 +48,7 @@ class ActionsTransactions {
 
   async getPayments() {
     try {
-      const { payments } = await this._actionsGrpc.sendCommand('listPayments');
+      const { payments } = await this._grpc.sendCommand('listPayments');
       this._store.payments = payments.map(payment => ({
         id: payment.creation_date,
         type: 'lightning',
@@ -66,7 +64,7 @@ class ActionsTransactions {
   }
 
   async subscribeTransactions() {
-    const stream = this._actionsGrpc.sendStreamCommand('subscribeTransactions');
+    const stream = this._grpc.sendStreamCommand('subscribeTransactions');
     await new Promise((resolve, reject) => {
       stream.on('data', () => this.getTransactions());
       stream.on('end', resolve);
@@ -76,7 +74,7 @@ class ActionsTransactions {
   }
 
   async subscribeInvoices() {
-    const stream = this._actionsGrpc.sendStreamCommand('subscribeInvoices');
+    const stream = this._grpc.sendStreamCommand('subscribeInvoices');
     await new Promise((resolve, reject) => {
       stream.on('data', () => this.getInvoices());
       stream.on('end', resolve);
@@ -86,4 +84,4 @@ class ActionsTransactions {
   }
 }
 
-export default ActionsTransactions;
+export default TransactionAction;

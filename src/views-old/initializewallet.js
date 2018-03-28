@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { actionsNav } from '../actions';
+import { nav } from '../actions';
 import { Text, TextB } from '../components-old/text';
 import Button from '../components-old/button';
 import { View } from 'react-native';
@@ -35,7 +35,7 @@ class InitializeWallet extends Component {
           <Text style={{ fontSize: 22 }}>{seedMnemonic}</Text>
         </View>
 
-        <Button text="Next" onPress={() => actionsNav.goVerifyWallet()} />
+        <Button text="Next" onPress={() => nav.goVerifyWallet()} />
       </View>
     );
   }

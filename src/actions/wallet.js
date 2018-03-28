@@ -1,16 +1,16 @@
 import { RETRY_DELAY, PREFIX_URI } from '../config';
 
-class ActionsWallet {
-  constructor(store, actionsGrpc, actionsNav, notification) {
+class WalletAction {
+  constructor(store, grpc, nav, notification) {
     this._store = store;
-    this._actionsGrpc = actionsGrpc;
-    this._actionsNav = actionsNav;
+    this._grpc = grpc;
+    this._nav = nav;
     this._notification = notification;
   }
 
   async generateSeed({ seedPassphrase }) {
     try {
-      const response = await this._actionsGrpc.sendUnlockerCommand('GenSeed', {
+      const response = await this._grpc.sendUnlockerCommand('GenSeed', {
         aezeed_passphrase: seedPassphrase,
       });
       this._store.seedMnemonic = response.cipher_seed_mnemonic;
@@ -21,7 +21,7 @@ class ActionsWallet {
 
   async initWallet({ walletPassword, seedPassphrase, seedMnemonic }) {
     try {
-      await this._actionsGrpc.sendUnlockerCommand('InitWallet', {
+      await this._grpc.sendUnlockerCommand('InitWallet', {
         wallet_password: walletPassword,
         aezeed_passphrase: seedPassphrase,
         cipher_seed_mnemonic: seedMnemonic,
@@ -34,7 +34,7 @@ class ActionsWallet {
 
   async unlockWallet({ walletPassword }) {
     try {
-      await this._actionsGrpc.sendUnlockerCommand('UnlockWallet', {
+      await this._grpc.sendUnlockerCommand('UnlockWallet', {
         wallet_password: walletPassword,
       });
       this._store.walletUnlocked = true;
@@ -45,7 +45,7 @@ class ActionsWallet {
 
   async getBalance() {
     try {
-      const res = await this._actionsGrpc.sendCommand('WalletBalance');
+      const res = await this._grpc.sendCommand('WalletBalance');
       this._store.balanceSatoshis = Number(res.total_balance);
       this._store.confirmedBalanceSatoshis = Number(res.confirmed_balance);
       this._store.unconfirmedBalanceSatoshis = Number(res.unconfirmed_balance);
@@ -57,7 +57,7 @@ class ActionsWallet {
 
   async getChannelBalance() {
     try {
-      const response = await this._actionsGrpc.sendCommand('ChannelBalance');
+      const response = await this._grpc.sendCommand('ChannelBalance');
       this._store.channelBalanceSatoshis = Number(response.balance);
     } catch (err) {
       clearTimeout(this.t2);
@@ -66,7 +66,7 @@ class ActionsWallet {
   }
 
   async generatePaymentRequest(amount, note) {
-    const response = await this._actionsGrpc.sendCommand('addInvoice', {
+    const response = await this._grpc.sendCommand('addInvoice', {
       value: amount,
       memo: note,
     });
@@ -78,7 +78,7 @@ class ActionsWallet {
     // - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
     // - `p2pkh`:  Pay to public key hash (`PUBKEY_HASH` = 2)
     try {
-      const { address } = await this._actionsGrpc.sendCommand('NewAddress', {
+      const { address } = await this._grpc.sendCommand('NewAddress', {
         type: 1,
       });
       this._store.walletAddress = address;
@@ -99,4 +99,4 @@ class ActionsWallet {
   }
 }
 
-export default ActionsWallet;
+export default WalletAction;

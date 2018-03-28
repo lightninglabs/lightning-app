@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import TextInput from '../components-old/textinput';
 import Button from '../components-old/button';
 import Header from '../components-old/header';
-import { actionsChannels } from '../actions';
+import { channel } from '../actions';
 import { View } from 'react-native';
 import { colors } from '../styles';
 
@@ -45,9 +45,7 @@ class CreateChannel extends Component {
         <Button
           disabled={!(pubkeyAtHost && amount)}
           text="Create Channel"
-          onPress={() =>
-            actionsChannels.connectAndOpen({ pubkeyAtHost, amount })
-          }
+          onPress={() => channel.connectAndOpen({ pubkeyAtHost, amount })}
           showClear={!!amount || !!pubkeyAtHost}
           onClear={() => this.setState({ amount: '', pubkeyAtHost: '' })}
         />

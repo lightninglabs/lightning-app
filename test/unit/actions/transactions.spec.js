@@ -1,13 +1,13 @@
 import { observable, useStrict } from 'mobx';
-import ActionsGrpc from '../../../src/actions/grpc';
-import ActionsTransactions from '../../../src/actions/transactions';
+import GrpcAction from '../../../src/actions/grpc';
+import TransactionAction from '../../../src/actions/transactions';
 import * as logger from '../../../src/actions/logs';
 
-describe('Actions Transactions Unit Tests', () => {
+describe('Action Transactions Unit Tests', () => {
   let store;
   let sandbox;
-  let actionsGrpc;
-  let actionsTransactions;
+  let grpc;
+  let transaction;
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
@@ -15,8 +15,8 @@ describe('Actions Transactions Unit Tests', () => {
     useStrict(false);
     store = observable({ lndReady: false });
     require('../../../src/config').RETRY_DELAY = 1;
-    actionsGrpc = sinon.createStubInstance(ActionsGrpc);
-    actionsTransactions = new ActionsTransactions(store, actionsGrpc);
+    grpc = sinon.createStubInstance(GrpcAction);
+    transaction = new TransactionAction(store, grpc);
   });
 
   afterEach(() => {
@@ -25,7 +25,7 @@ describe('Actions Transactions Unit Tests', () => {
 
   describe('getTransactions()', () => {
     it('should set transaction response in store', async () => {
-      actionsGrpc.sendCommand.withArgs('getTransactions').resolves({
+      grpc.sendCommand.withArgs('getTransactions').resolves({
         transactions: [
           {
             tx_hash: 'some-hash',
@@ -35,7 +35,7 @@ describe('Actions Transactions Unit Tests', () => {
           },
         ],
       });
-      await actionsTransactions.getTransactions();
+      await transaction.getTransactions();
       expect(store.transactions[0], 'to equal', {
         id: 'some-hash',
         type: 'bitcoin',
@@ -47,17 +47,17 @@ describe('Actions Transactions Unit Tests', () => {
     });
 
     it('should retry on failure', async () => {
-      actionsGrpc.sendCommand.onFirstCall().rejects();
-      await actionsTransactions.getTransactions();
-      actionsGrpc.sendCommand.resolves({});
+      grpc.sendCommand.onFirstCall().rejects();
+      await transaction.getTransactions();
+      grpc.sendCommand.resolves({});
       await nap(30);
-      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
 
   describe('getInvoices()', () => {
     it('should set transaction response in store', async () => {
-      actionsGrpc.sendCommand.withArgs('listInvoices').resolves({
+      grpc.sendCommand.withArgs('listInvoices').resolves({
         invoices: [
           {
             creation_date: 1517585154925,
@@ -68,7 +68,7 @@ describe('Actions Transactions Unit Tests', () => {
           },
         ],
       });
-      await actionsTransactions.getInvoices();
+      await transaction.getInvoices();
       expect(store.invoices[0], 'to equal', {
         id: 1517585154925,
         type: 'lightning',
@@ -81,17 +81,17 @@ describe('Actions Transactions Unit Tests', () => {
     });
 
     it('should retry on failure', async () => {
-      actionsGrpc.sendCommand.onFirstCall().rejects();
-      await actionsTransactions.getInvoices();
-      actionsGrpc.sendCommand.resolves({});
+      grpc.sendCommand.onFirstCall().rejects();
+      await transaction.getInvoices();
+      grpc.sendCommand.resolves({});
       await nap(30);
-      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
 
   describe('getPayments()', () => {
     it('should set transaction response in store', async () => {
-      actionsGrpc.sendCommand.withArgs('listPayments').resolves({
+      grpc.sendCommand.withArgs('listPayments').resolves({
         payments: [
           {
             creation_date: 1517585154925,
@@ -101,7 +101,7 @@ describe('Actions Transactions Unit Tests', () => {
           },
         ],
       });
-      await actionsTransactions.getPayments();
+      await transaction.getPayments();
       expect(store.payments[0], 'to equal', {
         id: 1517585154925,
         type: 'lightning',
@@ -113,11 +113,11 @@ describe('Actions Transactions Unit Tests', () => {
     });
 
     it('should retry on failure', async () => {
-      actionsGrpc.sendCommand.onFirstCall().rejects();
-      await actionsTransactions.getPayments();
-      actionsGrpc.sendCommand.resolves({});
+      grpc.sendCommand.onFirstCall().rejects();
+      await transaction.getPayments();
+      grpc.sendCommand.resolves({});
       await nap(30);
-      expect(actionsGrpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
     });
   });
 
@@ -126,26 +126,26 @@ describe('Actions Transactions Unit Tests', () => {
 
     beforeEach(() => {
       onStub = sinon.stub();
-      sandbox.stub(actionsTransactions, 'getTransactions');
+      sandbox.stub(transaction, 'getTransactions');
     });
 
     it('should updated transactions on data event', async () => {
       onStub.withArgs('data').yields();
       onStub.withArgs('end').yields();
-      actionsGrpc.sendStreamCommand
+      grpc.sendStreamCommand
         .withArgs('subscribeTransactions')
         .returns({ on: onStub });
-      await actionsTransactions.subscribeTransactions();
-      expect(actionsTransactions.getTransactions, 'was called once');
+      await transaction.subscribeTransactions();
+      expect(transaction.getTransactions, 'was called once');
     });
 
     it('should reject in case of error', async () => {
       onStub.withArgs('error').yields(new Error('Boom!'));
-      actionsGrpc.sendStreamCommand
+      grpc.sendStreamCommand
         .withArgs('subscribeTransactions')
         .returns({ on: onStub });
       await expect(
-        actionsTransactions.subscribeTransactions(),
+        transaction.subscribeTransactions(),
         'to be rejected with error satisfying',
         /Boom/
       );
@@ -157,26 +157,26 @@ describe('Actions Transactions Unit Tests', () => {
 
     beforeEach(() => {
       onStub = sinon.stub();
-      sandbox.stub(actionsTransactions, 'getInvoices');
+      sandbox.stub(transaction, 'getInvoices');
     });
 
     it('should update invoices on data event', async () => {
       onStub.withArgs('data').yields();
       onStub.withArgs('end').yields();
-      actionsGrpc.sendStreamCommand
+      grpc.sendStreamCommand
         .withArgs('subscribeInvoices')
         .returns({ on: onStub });
-      await actionsTransactions.subscribeInvoices();
-      expect(actionsTransactions.getInvoices, 'was called once');
+      await transaction.subscribeInvoices();
+      expect(transaction.getInvoices, 'was called once');
     });
 
     it('should reject in case of error', async () => {
       onStub.withArgs('error').yields(new Error('Boom!'));
-      actionsGrpc.sendStreamCommand
+      grpc.sendStreamCommand
         .withArgs('subscribeInvoices')
         .returns({ on: onStub });
       await expect(
-        actionsTransactions.subscribeInvoices(),
+        transaction.subscribeInvoices(),
         'to be rejected with error satisfying',
         /Boom/
       );

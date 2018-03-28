@@ -4,7 +4,7 @@ import Header from '../components-old/header';
 import TextInput from '../components-old/textinput';
 import Text from '../components-old/text';
 import Button from '../components-old/button';
-import { actionsPayments } from '../actions';
+import { payment as paymentAction } from '../actions';
 import { View } from 'react-native';
 import { colors } from '../styles';
 import store from '../store';
@@ -36,7 +36,7 @@ class Pay extends Component {
           placeholder="Payment Request / Bitcoin Address"
           value={payment}
           onChangeText={payment => {
-            actionsPayments.decodePaymentRequest(payment);
+            paymentAction.decodePaymentRequest(payment);
             this.setState({ payment });
           }}
         />
@@ -58,7 +58,7 @@ class Pay extends Component {
           disabled={!amount || !payment}
           text="Send Payment"
           onPress={() => {
-            actionsPayments
+            paymentAction
               .makePayment({
                 payment,
                 amount,
