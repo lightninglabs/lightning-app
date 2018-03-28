@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="21px" viewBox="0 0 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.1 (51147) - http://www.bohemiancoding.com/sketch -->
+    <title>icon / dark / cancel</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="header-/-lightning-/-pay/receive" transform="translate(-1382.000000, -45.000000)">
+            <g id="icon-/-dark-/-cancel" transform="translate(1392.826702, 55.105652) rotate(-270.000000) translate(-1392.826702, -55.105652) translate(1382.826702, 45.105652)">
+                <g id="Group-3" stroke-width="1" transform="translate(10.180255, 10.551089) rotate(-315.000000) translate(-10.180255, -10.551089) translate(-3.819745, 9.051089)"></g>
+                <path d="M11.9004707,9.98323757 L19.5694032,17.65217 C20.0988325,18.1815993 20.0988325,19.0399738 19.5694032,19.5694032 C19.0399738,20.0988325 18.1815993,20.0988325 17.65217,19.5694032 L9.98323757,11.9004707 L2.3143051,19.5694032 C1.78487579,20.0988325 0.926501286,20.0988325 0.39707198,19.5694032 C-0.132357327,19.0399738 -0.132357327,18.1815993 0.39707198,17.65217 L8.06600445,9.98323757 L0.39707198,2.3143051 C-0.132357327,1.78487579 -0.132357327,0.926501286 0.39707198,0.39707198 C0.926501286,-0.132357327 1.78487579,-0.132357327 2.3143051,0.39707198 L9.98323757,8.06600445 L17.65217,0.39707198 C18.1815993,-0.132357327 19.0399738,-0.132357327 19.5694032,0.39707198 C20.0988325,0.926501286 20.0988325,1.78487579 19.5694032,2.3143051 L11.9004707,9.98323757 Z" id="Combined-Shape" fill="#FFFFFF" transform="translate(9.983238, 9.983238) rotate(-270.000000) translate(-9.983238, -9.983238) "></path>
+            </g>
+        </g>
+    </g>
+</svg>
