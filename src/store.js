@@ -3,7 +3,7 @@ import ComputedWallet from './computed/wallet';
 import ComputedTransactions from './computed/transactions';
 import ComputedChannels from './computed/channels';
 import { DEFAULT_ROUTE } from './config';
-import * as log from './actions/logs';
+import * as log from './action/logs';
 
 export class Store {
   constructor() {

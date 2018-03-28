@@ -1,6 +1,6 @@
 import { Store } from '../../../src/store';
-import * as log from '../../../src/actions/logs';
-import NotificationAction from '../../../src/actions/notification';
+import * as log from '../../../src/action/logs';
+import NotificationAction from '../../../src/action/notification';
 
 describe('Action Notification Unit Tests', () => {
   let store;

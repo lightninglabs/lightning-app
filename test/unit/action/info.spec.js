@@ -1,6 +1,6 @@
 import { observable, useStrict } from 'mobx';
-import GrpcAction from '../../../src/actions/grpc';
-import InfoAction from '../../../src/actions/info';
+import GrpcAction from '../../../src/action/grpc';
+import InfoAction from '../../../src/action/info';
 
 describe('Action Info Unit Tests', () => {
   let store;

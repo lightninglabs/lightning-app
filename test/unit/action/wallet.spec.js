@@ -1,8 +1,8 @@
 import { Store } from '../../../src/store';
-import NavAction from '../../../src/actions/nav';
-import GrpcAction from '../../../src/actions/grpc';
-import WalletAction from '../../../src/actions/wallet';
-import NotificationAction from '../../../src/actions/notification';
+import NavAction from '../../../src/action/nav';
+import GrpcAction from '../../../src/action/grpc';
+import WalletAction from '../../../src/action/wallet';
+import NotificationAction from '../../../src/action/notification';
 import nock from 'nock';
 import 'isomorphic-fetch';
 

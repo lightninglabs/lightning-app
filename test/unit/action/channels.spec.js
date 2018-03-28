@@ -1,8 +1,8 @@
 import { Store } from '../../../src/store';
-import GrpcAction from '../../../src/actions/grpc';
-import ChannelAction from '../../../src/actions/channels';
-import NotificationAction from '../../../src/actions/notification';
-import * as logger from '../../../src/actions/logs';
+import GrpcAction from '../../../src/action/grpc';
+import ChannelAction from '../../../src/action/channels';
+import NotificationAction from '../../../src/action/notification';
+import * as logger from '../../../src/action/logs';
 
 describe('Action Channels Unit Tests', () => {
   const host = 'localhost:10011';

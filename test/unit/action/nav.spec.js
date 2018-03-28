@@ -1,6 +1,6 @@
 import { observable, useStrict } from 'mobx';
-import * as log from '../../../src/actions/logs';
-import NavAction from '../../../src/actions/nav';
+import * as log from '../../../src/action/logs';
+import NavAction from '../../../src/action/nav';
 
 describe('Action Nav Unit Tests', () => {
   let store;

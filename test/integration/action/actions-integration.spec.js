@@ -1,13 +1,13 @@
 import { rmdir, poll, isPortOpen } from './test-util';
 import { Store } from '../../../src/store';
-import GrpcAction from '../../../src/actions/grpc';
-import * as logger from '../../../src/actions/logs';
-import NavAction from '../../../src/actions/nav';
-import InfoAction from '../../../src/actions/info';
-import WalletAction from '../../../src/actions/wallet';
-import ChannelAction from '../../../src/actions/channels';
-import TransactionAction from '../../../src/actions/transactions';
-import PaymentAction from '../../../src/actions/payments';
+import GrpcAction from '../../../src/action/grpc';
+import * as logger from '../../../src/action/logs';
+import NavAction from '../../../src/action/nav';
+import InfoAction from '../../../src/action/info';
+import WalletAction from '../../../src/action/wallet';
+import ChannelAction from '../../../src/action/channels';
+import TransactionAction from '../../../src/action/transactions';
+import PaymentAction from '../../../src/action/payments';
 import { EventEmitter } from 'events';
 
 const {

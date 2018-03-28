@@ -1,6 +1,6 @@
 import { Store } from '../../../src/store';
-import GrpcAction from '../../../src/actions/grpc';
-import * as logger from '../../../src/actions/logs';
+import GrpcAction from '../../../src/action/grpc';
+import * as logger from '../../../src/action/logs';
 
 describe('Action GRPC Unit Tests', () => {
   let store;
