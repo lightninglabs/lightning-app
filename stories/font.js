@@ -5,6 +5,11 @@ import MainContent from '../src/component/main-content';
 import Text from '../src/component/text';
 
 storiesOf('Fonts', module)
+  .addDecorator(story => (
+    <Background image="purple-gradient-bg">
+      <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
+    </Background>
+  ))
   .add('OpenSans Light', () => renderFont('OpenSans Light'))
   .add('OpenSans Regular', () => renderFont('OpenSans Regular'))
   .add('OpenSans SemiBold', () => renderFont('OpenSans SemiBold'))
@@ -25,11 +30,7 @@ storiesOf('Fonts', module)
   .add('WorkSans Bold', () => renderFont('WorkSans Bold'));
 
 const renderFont = fontFamily => (
-  <Background image="purple-gradient-bg">
-    <MainContent style={{ justifyContent: 'center' }}>
-      <Text style={{ fontFamily, fontSize: 24 }}>
-        The quick brown fox jumps over the lazy dog.
-      </Text>
-    </MainContent>
-  </Background>
+  <Text style={{ fontFamily, fontSize: 24 }}>
+    The quick brown fox jumps over the lazy dog.
+  </Text>
 );
