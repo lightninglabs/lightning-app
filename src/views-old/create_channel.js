@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import TextInput from '../components-old/textinput';
 import Button from '../components-old/button';
 import Header from '../components-old/header';
-import { channel } from '../actions';
+import { channel } from '../action';
 import { View } from 'react-native';
 import { colors } from '../styles';
 

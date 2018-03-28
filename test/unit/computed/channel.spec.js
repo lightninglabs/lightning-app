@@ -1,5 +1,5 @@
 import { observable, useStrict } from 'mobx';
-import ComputedChannels from '../../../src/computed/channels';
+import ComputedChannels from '../../../src/computed/channel';
 
 describe('Computed Channels Unit Tests', () => {
   let store;

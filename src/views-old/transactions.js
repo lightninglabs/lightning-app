@@ -5,7 +5,7 @@ import Header from '../components-old/header';
 import ComponentIcon from '../components-old/icon';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
 import { colors } from '../styles';
-import { formatSatoshis } from '../helpers';
+import { formatSatoshis } from '../helper';
 import store from '../store';
 
 class Transactions extends Component {

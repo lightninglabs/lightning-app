@@ -1,4 +1,4 @@
-import * as helpers from '../../src/helpers';
+import * as helpers from '../../src/helper';
 
 describe('Helpers Unit Tests', () => {
   describe('formatSatoshis()', () => {

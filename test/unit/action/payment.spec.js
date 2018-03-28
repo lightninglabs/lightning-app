@@ -1,9 +1,9 @@
 import { observable, useStrict } from 'mobx';
 import GrpcAction from '../../../src/action/grpc';
 import WalletAction from '../../../src/action/wallet';
-import PaymentAction from '../../../src/action/payments';
+import PaymentAction from '../../../src/action/payment';
 import NotificationAction from '../../../src/action/notification';
-import * as logger from '../../../src/action/logs';
+import * as logger from '../../../src/action/log';
 
 describe('Action Payments Unit Tests', () => {
   let store;

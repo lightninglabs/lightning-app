@@ -1,5 +1,5 @@
-import * as log from './logs';
-import { toHash } from '../helpers';
+import * as log from './log';
+import { toHash } from '../helper';
 import { RETRY_DELAY } from '../config';
 
 class TransactionAction {

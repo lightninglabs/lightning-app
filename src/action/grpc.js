@@ -1,5 +1,5 @@
 import { Duplex } from 'stream';
-import * as log from './logs';
+import * as log from './log';
 
 class GrpcAction {
   constructor(store, ipcRenderer) {

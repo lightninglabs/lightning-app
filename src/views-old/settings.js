@@ -3,7 +3,7 @@ import { observer } from 'mobx-react';
 import { Text } from '../components-old/text';
 import Header from '../components-old/header';
 import Button from '../components-old/button';
-import { nav } from '../actions';
+import { nav } from '../action';
 import { View, ScrollView } from 'react-native';
 import { colors } from '../styles';
 import { MNEMONIC_WALLET } from '../config';

@@ -1,7 +1,7 @@
 import { observable, useStrict } from 'mobx';
 import GrpcAction from '../../../src/action/grpc';
-import TransactionAction from '../../../src/action/transactions';
-import * as logger from '../../../src/action/logs';
+import TransactionAction from '../../../src/action/transaction';
+import * as logger from '../../../src/action/log';
 
 describe('Action Transactions Unit Tests', () => {
   let store;

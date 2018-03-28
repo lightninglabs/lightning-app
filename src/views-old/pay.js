@@ -4,7 +4,7 @@ import Header from '../components-old/header';
 import TextInput from '../components-old/textinput';
 import Text from '../components-old/text';
 import Button from '../components-old/button';
-import { payment as paymentAction } from '../actions';
+import { payment as paymentAction } from '../action';
 import { View } from 'react-native';
 import { colors } from '../styles';
 import store from '../store';

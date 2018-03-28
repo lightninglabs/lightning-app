@@ -1,4 +1,4 @@
-import * as log from './logs';
+import * as log from './log';
 
 class NavAction {
   constructor(store, ipcRenderer) {

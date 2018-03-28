@@ -1,5 +1,5 @@
 import { computed, extendObservable } from 'mobx';
-import { formatSatoshis } from '../helpers';
+import { formatSatoshis } from '../helper';
 
 const ComputedWallet = store => {
   extendObservable(store, {

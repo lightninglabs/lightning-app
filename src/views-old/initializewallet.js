@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { nav } from '../actions';
+import { nav } from '../action';
 import { Text, TextB } from '../components-old/text';
 import Button from '../components-old/button';
 import { View } from 'react-native';

@@ -1,6 +1,6 @@
 import { observable, useStrict } from 'mobx';
-import * as log from '../../../src/action/logs';
-import LogAction from '../../../src/action/logs';
+import * as log from '../../../src/action/log';
+import LogAction from '../../../src/action/log';
 
 describe('Action Logs Unit Tests', () => {
   let store;

@@ -4,12 +4,12 @@ import store from '../store';
 import GrpcAction from './grpc';
 import NavAction from './nav';
 import WalletAction from './wallet';
-import LogAction from './logs';
+import LogAction from './log';
 import InfoAction from './info';
 import NotificationAction from './notification';
-import ChannelAction from './channels';
-import TransactionAction from './transactions';
-import PaymentAction from './payments';
+import ChannelAction from './channel';
+import TransactionAction from './transaction';
+import PaymentAction from './payment';
 
 const ipcRenderer = window.ipcRenderer; // exposed to sandbox via preload.js
 

@@ -5,7 +5,7 @@ import ChannelsHeader from '../components-old/channelsheader';
 import Separator from '../components-old/separator';
 import ChannelList from '../components-old/channellist';
 import { View, TouchableOpacity } from 'react-native';
-import { nav } from '../actions';
+import { nav } from '../action';
 import { colors } from '../styles';
 import store from '../store';
 

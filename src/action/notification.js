@@ -1,4 +1,4 @@
-import * as log from './logs';
+import * as log from './log';
 import { NOTIFICATION_DELAY } from '../config';
 
 class NotificationAction {

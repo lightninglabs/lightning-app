@@ -1,5 +1,5 @@
 import { observable, useStrict } from 'mobx';
-import * as log from '../../../src/action/logs';
+import * as log from '../../../src/action/log';
 import NavAction from '../../../src/action/nav';
 
 describe('Action Nav Unit Tests', () => {

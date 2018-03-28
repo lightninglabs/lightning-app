@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 
-import { nav } from '../actions';
+import { nav } from '../action';
 import ComponentIcon from '../components-old/icon';
 import Text from '../components-old/text';
 import { colors } from '../styles';

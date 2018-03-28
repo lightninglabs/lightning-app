@@ -1,5 +1,5 @@
 import { observable, useStrict } from 'mobx';
-import ComputedTransactions from '../../../src/computed/transactions';
+import ComputedTransactions from '../../../src/computed/transaction';
 
 describe('Computed Transactions Unit Tests', () => {
   let store;

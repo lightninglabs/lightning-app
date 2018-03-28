@@ -13,7 +13,7 @@ import QRCode from '../components-old/qrcode';
 import ComponentIcon from '../components-old/icon';
 import Header from '../components-old/header';
 import Modal from '../components-old/modal';
-import { wallet } from '../actions';
+import { wallet } from '../action';
 import { colors } from '../styles';
 import store from '../store';
 

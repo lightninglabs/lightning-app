@@ -1,5 +1,5 @@
 import { PREFIX_URI } from '../config';
-import * as log from './logs';
+import * as log from './log';
 
 class PaymentAction {
   constructor(store, grpc, wallet, notification) {

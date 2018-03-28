@@ -1,6 +1,6 @@
 import { RETRY_DELAY } from '../config';
-import { reverse } from '../helpers';
-import * as log from './logs';
+import { reverse } from '../helper';
+import * as log from './log';
 
 class ChannelAction {
   constructor(store, grpc, notification) {
