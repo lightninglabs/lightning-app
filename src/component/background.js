@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Background = ({ image, color, gradient, children, style }) =>
+const Background = ({ image, color, children, style }) =>
   image ? (
     <ImageBackground
       source={require(`../../assets/img/${image}.svg`)}
@@ -17,13 +17,7 @@ const Background = ({ image, color, gradient, children, style }) =>
       {children}
     </ImageBackground>
   ) : (
-    <View
-      style={[
-        gradient ? { backgroundImage: gradient } : { backgroundColor: color },
-        styles.background,
-        style,
-      ]}
-    >
+    <View style={[{ backgroundColor: color }, styles.background, style]}>
       {children}
     </View>
   );
@@ -31,7 +25,6 @@ const Background = ({ image, color, gradient, children, style }) =>
 Background.propTypes = {
   image: PropTypes.string,
   color: PropTypes.string,
-  gradient: PropTypes.string,
   children: PropTypes.node,
   style: ViewPropTypes.style,
 };

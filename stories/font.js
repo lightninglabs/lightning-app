@@ -3,7 +3,6 @@ import { storiesOf } from '@storybook/react';
 import Background from '../src/component/background';
 import MainContent from '../src/component/main-content';
 import Text from '../src/component/text';
-import { colors } from '../src/component/style';
 
 storiesOf('Fonts', module)
   .add('OpenSans Light', () => renderFont('OpenSans Light'))
@@ -26,7 +25,7 @@ storiesOf('Fonts', module)
   .add('WorkSans Bold', () => renderFont('WorkSans Bold'));
 
 const renderFont = fontFamily => (
-  <Background gradient={colors.purpleGradient}>
+  <Background image="purple-gradient-bg">
     <MainContent style={{ justifyContent: 'center' }}>
       <Text style={{ fontFamily, fontSize: 24 }}>
         The quick brown fox jumps over the lazy dog.

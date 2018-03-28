@@ -7,7 +7,7 @@ import { colors } from '../../src/component/style';
 
 storiesOf('Button', module)
   .addDecorator(story => (
-    <Background gradient={colors.purpleGradient}>{story()}</Background>
+    <Background image="purple-gradient-bg">{story()}</Background>
   ))
   .add('Default', () => (
     <Button onPress={action('clicked')}>Default Button</Button>

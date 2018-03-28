@@ -6,12 +6,12 @@ import { colors } from '../../src/component/style';
 
 storiesOf('Header', module)
   .add('Purple', () => (
-    <Background gradient={colors.purpleGradient}>
+    <Background image="purple-gradient-bg">
       <Header title="Purple Header" />
     </Background>
   ))
   .add('Orange', () => (
-    <Background gradient={colors.orangeGradient}>
+    <Background image="orange-gradient-bg">
       <Header
         title="Orange Header"
         style={{ backgroundColor: colors.orange }}

@@ -12,7 +12,7 @@ import { colors } from '../src/component/style';
 
 storiesOf('Layout', module)
   .add('Button Bottom', () => (
-    <Background gradient={colors.purpleGradient}>
+    <Background image="purple-gradient-bg">
       <MainContent style={{ justifyContent: 'center' }}>
         <LabelBalance unit="SAT">9,123,456,788</LabelBalance>
       </MainContent>
@@ -20,7 +20,7 @@ storiesOf('Layout', module)
     </Background>
   ))
   .add('Card Form', () => (
-    <Background gradient={colors.purpleGradient}>
+    <Background image="purple-gradient-bg">
       <Header title="Lightning Payment" />
       <Card>
         <Text style={{ color: colors.blackDark }}>

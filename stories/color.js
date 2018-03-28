@@ -5,10 +5,10 @@ import { colors } from '../src/component/style';
 
 storiesOf('Colors', module)
   .add('Primary Purple', () => <Background color={colors.purple} />)
-  .add('Purple Gradient', () => <Background gradient={colors.purpleGradient} />)
+  .add('Purple Gradient', () => <Background image="purple-gradient-bg" />)
   .add('Purple Textured', () => <Background image="textured-bg" />)
   .add('Primary Orange', () => <Background color={colors.orange} />)
-  .add('Orange Gradient', () => <Background gradient={colors.orangeGradient} />)
+  .add('Orange Gradient', () => <Background image="orange-gradient-bg" />)
   .add('Dark Mode Black', () => <Background color={colors.blackDark} />)
   .add('Background White', () => <Background color={colors.whiteBg} />)
   .add('Strait Up White', () => <Background color={colors.white} />)

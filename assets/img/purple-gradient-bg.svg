@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="302px" height="163px" viewBox="0 0 302 163" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>Swatch</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-6.4709114%" y1="-1.00006949%" x2="87.8201134%" y2="84.6960773%" id="linearGradient-1">
+            <stop stop-color="#A95BDC" offset="0%"></stop>
+            <stop stop-color="#651399" offset="51.5755742%"></stop>
+            <stop stop-color="#610F96" offset="70.3015434%"></stop>
+            <stop stop-color="#610F96" offset="70.3015434%"></stop>
+            <stop stop-color="#57038D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Styles" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Color" transform="translate(-570.000000, -286.000000)" fill="url(#linearGradient-1)">
+            <g id="Primary-Palette-Copy" transform="translate(570.000000, 286.486751)">
+                <g id="Color-Holder" transform="translate(0.000000, 0.000000)">
+                    <polygon id="Swatch" points="0 0 301.313177 0 301.313177 161.949584 0 161.949584"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
