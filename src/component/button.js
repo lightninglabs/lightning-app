@@ -56,7 +56,7 @@ const pillStyles = StyleSheet.create({
   },
 });
 
-export const ButtonPill = ({ onPress, disabled, children, style }) => (
+export const PillButton = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
     style={[
       { opacity: disabled ? 0.5 : 1 },
@@ -71,6 +71,6 @@ export const ButtonPill = ({ onPress, disabled, children, style }) => (
   </TouchableOpacity>
 );
 
-ButtonPill.propTypes = Button.propTypes;
+PillButton.propTypes = Button.propTypes;
 
 export default Button;

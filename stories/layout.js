@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import Background from '../src/component/background';
 import MainContent from '../src/component/main-content';
 import Header from '../src/component/header';
-import { Button, ButtonPill } from '../src/component/button';
+import { Button, PillButton } from '../src/component/button';
 import { LabelBalance } from '../src/component/label';
 import Card from '../src/component/card';
 import Text from '../src/component/text';
@@ -27,7 +27,7 @@ storiesOf('Layout', module)
           Here are some instructions...
         </Text>
         <MainContent />
-        <ButtonPill onPress={action('clicked')}>Next</ButtonPill>
+        <PillButton onPress={action('clicked')}>Next</PillButton>
       </Card>
     </Background>
   ));
