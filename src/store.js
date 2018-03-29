@@ -2,7 +2,7 @@ import { extendObservable, action } from 'mobx';
 import ComputedWallet from './computed/wallet';
 import ComputedTransaction from './computed/transaction';
 import ComputedChannel from './computed/channel';
-import { DEFAULT_ROUTE } from './config';
+import { DEFAULT_ROUTE, DEFAULT_UNIT } from './config';
 import * as log from './action/log';
 
 export class Store {
@@ -34,7 +34,9 @@ export class Store {
       logs: [],
 
       // Persistent data
-      settings: {},
+      settings: {
+        unit: DEFAULT_UNIT,
+      },
     });
 
     ComputedWallet(this);
