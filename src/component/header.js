@@ -60,7 +60,7 @@ const titleStyles = StyleSheet.create({
   },
   title: {
     fontFamily: 'OpenSans Regular',
-    fontSize: 16,
+    fontSize: 15,
     letterSpacing: 2,
   },
   titleIcon: {
