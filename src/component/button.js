@@ -2,6 +2,7 @@ import React from 'react';
 import { TouchableOpacity, ViewPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
+import Icon from './icon';
 import { colors } from './style';
 
 //
@@ -72,5 +73,39 @@ export const PillButton = ({ onPress, disabled, children, style }) => (
 );
 
 PillButton.propTypes = Button.propTypes;
+
+//
+// Icon Button
+//
+
+const iconStyles = StyleSheet.create({
+  touchable: {
+    height: 60,
+    width: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    height: 14,
+    width: 14,
+  },
+});
+
+export const IconButton = ({ image, onPress, disabled, style }) => (
+  <TouchableOpacity
+    style={[{ opacity: disabled ? 0.5 : 1 }, iconStyles.touchable]}
+    disabled={disabled}
+    onPress={onPress}
+  >
+    <Icon image={image} style={[iconStyles.icon, style]} />
+  </TouchableOpacity>
+);
+
+IconButton.propTypes = {
+  image: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  style: ViewPropTypes.style,
+};
 
 export default Button;

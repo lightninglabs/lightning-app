@@ -2,7 +2,8 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Background from '../../src/component/background';
-import { Button, ButtonPill } from '../../src/component/button';
+import MainContent from '../../src/component/main-content';
+import { Button, PillButton, IconButton } from '../../src/component/button';
 import { colors } from '../../src/component/style';
 
 storiesOf('Button', module)
@@ -20,18 +21,31 @@ storiesOf('Button', module)
 
 storiesOf('Button', module)
   .add('Pill', () => (
-    <ButtonPill onPress={action('clicked')}>Pill Button</ButtonPill>
+    <PillButton onPress={action('clicked')}>Pill Button</PillButton>
   ))
   .add('Pill Disabled', () => (
-    <ButtonPill disabled onPress={action('clicked')}>
+    <PillButton disabled onPress={action('clicked')}>
       Pill Disabled
-    </ButtonPill>
+    </PillButton>
   ))
   .add('Pill Orange', () => (
-    <ButtonPill
+    <PillButton
       style={{ backgroundColor: colors.orange }}
       onPress={action('clicked')}
     >
       Pill Button
-    </ButtonPill>
+    </PillButton>
+  ));
+
+storiesOf('Button', module)
+  .addDecorator(story => (
+    <Background image="purple-gradient-bg">
+      <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
+    </Background>
+  ))
+  .add('Icon Button', () => (
+    <IconButton image="cancel" onPress={action('clicked')} />
+  ))
+  .add('Icon Disabled', () => (
+    <IconButton image="cancel" disabled onPress={action('clicked')} />
   ));
