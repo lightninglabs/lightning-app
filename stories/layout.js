@@ -8,6 +8,7 @@ import { Button, PillButton } from '../src/component/button';
 import { LabelBalance } from '../src/component/label';
 import Card from '../src/component/card';
 import Text from '../src/component/text';
+import Icon from '../src/component/icon';
 import { colors } from '../src/component/style';
 
 storiesOf('Layout', module)
@@ -21,7 +22,13 @@ storiesOf('Layout', module)
   ))
   .add('Card Form', () => (
     <Background image="purple-gradient-bg">
-      <Header title="Lightning Payment" />
+      <Header
+        title="Lightning Payment"
+        onBack={action('back')}
+        onCancel={action('cancel')}
+      >
+        <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
+      </Header>
       <Card>
         <Text style={{ color: colors.blackDark }}>
           Here are some instructions...
