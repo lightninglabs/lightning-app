@@ -2,8 +2,11 @@ import React from 'react';
 import { View, ViewPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
-import { IconButton } from './button';
 import { colors } from './style';
+
+//
+// Header
+//
 
 const styles = StyleSheet.create({
   header: {
@@ -15,14 +18,29 @@ const styles = StyleSheet.create({
     boxShadow: '0 2px 4px 0 rgba(0,0,0,0.3)',
     zIndex: 1,
   },
-  backIcon: {
-    height: 14,
-    width: 8.4,
+  centerTitle: {
+    justifyContent: 'center',
   },
-  cancelIcon: {
-    height: 14,
-    width: 14,
-  },
+});
+
+export const Header = ({ style, children }) => (
+  <View
+    style={[styles.header, !children.length ? styles.centerTitle : null, style]}
+  >
+    {children}
+  </View>
+);
+
+Header.propTypes = {
+  style: ViewPropTypes.style,
+  children: PropTypes.node,
+};
+
+//
+// Title
+//
+
+const titleStyles = StyleSheet.create({
   titleWrapper: {
     alignItems: 'center',
   },
@@ -37,32 +55,24 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = ({ title = '', style, onBack, onCancel, children }) => (
-  <View style={[styles.header, style]}>
-    {onBack ? (
-      <IconButton image="back" onPress={onBack} style={styles.backIcon} />
-    ) : (
-      <View />
-    )}
-    <View style={styles.titleWrapper}>
-      {children}
-      <Text style={[styles.title, children ? styles.titleIcon : null]}>
-        {title.toUpperCase()}
-      </Text>
-    </View>
-    {onCancel ? (
-      <IconButton image="cancel" onPress={onCancel} style={styles.cancelIcon} />
-    ) : (
-      <View />
-    )}
+export const Title = ({ title = '', style, children }) => (
+  <View style={titleStyles.titleWrapper}>
+    {children}
+    <Text
+      style={[
+        titleStyles.title,
+        children ? titleStyles.titleIcon : null,
+        style,
+      ]}
+    >
+      {title.toUpperCase()}
+    </Text>
   </View>
 );
 
-Header.propTypes = {
+Title.propTypes = {
   title: PropTypes.string,
   style: ViewPropTypes.style,
-  onBack: PropTypes.func,
-  onCancel: PropTypes.func,
   children: PropTypes.node,
 };
 

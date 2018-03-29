@@ -108,4 +108,42 @@ IconButton.propTypes = {
   style: ViewPropTypes.style,
 };
 
+//
+// Back Button
+//
+
+const backStyles = StyleSheet.create({
+  icon: {
+    height: 14,
+    width: 8.4,
+  },
+});
+
+export const BackButton = ({ onPress }) => (
+  <IconButton image="back" onPress={onPress} style={backStyles.icon} />
+);
+
+BackButton.propTypes = {
+  onPress: PropTypes.func,
+};
+
+//
+// Cancel Button
+//
+
+const cancelStyles = StyleSheet.create({
+  icon: {
+    height: 14,
+    width: 14,
+  },
+});
+
+export const CancelButton = ({ onPress }) => (
+  <IconButton image="cancel" onPress={onPress} style={cancelStyles.icon} />
+);
+
+CancelButton.propTypes = {
+  onPress: PropTypes.func,
+};
+
 export default Button;
