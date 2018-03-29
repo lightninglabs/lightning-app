@@ -11,7 +11,7 @@ import { colors } from './style';
 
 const styles = StyleSheet.create({
   touchable: {
-    height: 80,
+    height: 75,
     alignSelf: 'stretch',
     justifyContent: 'center',
     alignItems: 'center',
