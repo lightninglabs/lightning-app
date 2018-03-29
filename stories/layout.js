@@ -27,7 +27,7 @@ storiesOf('Layout', module)
   ))
   .add('Card Form', () => (
     <Background image="purple-gradient-bg">
-      <Header>
+      <Header shadow color={colors.purple}>
         <BackButton onPress={action('back')} />
         <Title title="Lightning Payment">
           <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />

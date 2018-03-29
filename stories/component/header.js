@@ -10,18 +10,27 @@ import { colors } from '../../src/component/style';
 storiesOf('Header', module)
   .add('Purple', () => (
     <Background image="purple-gradient-bg">
-      <Header>
-        <Title title="Purple Header" />
+      <Header shadow color={colors.purple}>
+        <Title title="Purple with Shadow" />
       </Header>
     </Background>
   ))
   .add('Orange with Icons', () => (
     <Background image="orange-gradient-bg">
-      <Header style={{ backgroundColor: colors.orange }}>
+      <Header shadow color={colors.orange}>
         <BackButton onPress={action('back')} />
-        <Title title="Orange Header with Icons">
+        <Title title="Orange with Icons">
           <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
         </Title>
+        <CancelButton onPress={action('cancel')} />
+      </Header>
+    </Background>
+  ))
+  .add('Dark Mode', () => (
+    <Background color={colors.blackDark}>
+      <Header separator>
+        <BackButton onPress={action('back')} />
+        <Title title="Dark with Separator" />
         <CancelButton onPress={action('cancel')} />
       </Header>
     </Background>

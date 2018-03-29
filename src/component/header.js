@@ -14,18 +14,29 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: colors.purple,
+  },
+  shadow: {
     boxShadow: '0 2px 4px 0 rgba(0,0,0,0.3)',
     zIndex: 1,
+  },
+  separator: {
+    boxShadow: `0 0.25px ${colors.white}`,
   },
   centerTitle: {
     justifyContent: 'center',
   },
 });
 
-export const Header = ({ style, children }) => (
+export const Header = ({ style, children, color, shadow, separator }) => (
   <View
-    style={[styles.header, !children.length ? styles.centerTitle : null, style]}
+    style={[
+      styles.header,
+      !children.length ? styles.centerTitle : null,
+      color ? { backgroundColor: color } : null,
+      shadow ? styles.shadow : null,
+      separator ? styles.separator : null,
+      style,
+    ]}
   >
     {children}
   </View>
@@ -34,6 +45,9 @@ export const Header = ({ style, children }) => (
 Header.propTypes = {
   style: ViewPropTypes.style,
   children: PropTypes.node,
+  color: PropTypes.string,
+  shadow: PropTypes.bool,
+  separator: PropTypes.bool,
 };
 
 //
