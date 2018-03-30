@@ -21,19 +21,15 @@ const stylesBalance = StyleSheet.create({
   },
 });
 
-export const LabelBalance = ({ children, fiat, unit, style }) => (
+export const BalanceLabel = ({ children, unit, style }) => (
   <View style={stylesBalance.label}>
-    <Text style={[stylesBalance.numeral, style]}>
-      {fiat}
-      {children}
-    </Text>
+    <Text style={[stylesBalance.numeral, style]}>{children}</Text>
     <Text style={[stylesBalance.unit, style]}>{unit}</Text>
   </View>
 );
 
-LabelBalance.propTypes = {
+BalanceLabel.propTypes = {
   children: PropTypes.string.isRequired,
-  fiat: PropTypes.string,
   unit: PropTypes.string,
   style: TextPropTypes.style,
 };

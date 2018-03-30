@@ -10,7 +10,7 @@ import {
   BackButton,
   CancelButton,
 } from '../src/component/button';
-import { LabelBalance } from '../src/component/label';
+import { BalanceLabel } from '../src/component/label';
 import Card from '../src/component/card';
 import Text from '../src/component/text';
 import Icon from '../src/component/icon';
@@ -20,7 +20,7 @@ storiesOf('Layout', module)
   .add('Button Bottom', () => (
     <Background image="purple-gradient-bg">
       <MainContent style={{ justifyContent: 'center' }}>
-        <LabelBalance unit="SAT">9,123,456,788</LabelBalance>
+        <BalanceLabel unit="SAT">9,123,456,788</BalanceLabel>
       </MainContent>
       <Button onPress={action('clicked')}>Continue</Button>
     </Background>
