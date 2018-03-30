@@ -1,10 +1,17 @@
 export const formatNumber = val => {
-  const num = Number(val);
+  let num = Number(val);
   if (isNaN(num)) {
-    return '';
-  } else {
-    return `${num.toLocaleString()}`;
+    num = 0;
   }
+  return num.toLocaleString(undefined, { maximumFractionDigits: 8 });
+};
+
+export const formatFiat = (val, currency) => {
+  let num = Number(val);
+  if (isNaN(num)) {
+    num = 0;
+  }
+  return num.toLocaleString(undefined, { style: 'currency', currency });
 };
 
 export const toHash = hash => new Buffer(hash, 'base64').toString('hex');
