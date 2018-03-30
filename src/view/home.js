@@ -5,7 +5,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { LabelBalance } from '../component/label';
 import { Header, Title } from '../component/header';
-import store from '../store';
+import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   content: {
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Home = () => {
+const Home = ({ store }) => {
   const { settings, computedChannelsBalance } = store;
   return (
     <Background image="purple-gradient-bg">
@@ -27,6 +27,10 @@ const Home = () => {
       </MainContent>
     </Background>
   );
+};
+
+Home.propTypes = {
+  store: PropTypes.object.isRequired,
 };
 
 export default observer(Home);
