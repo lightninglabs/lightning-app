@@ -5,7 +5,7 @@ import Header from '../components-old/header';
 import ComponentIcon from '../components-old/icon';
 import { View, ScrollView, ActivityIndicator } from 'react-native';
 import { colors } from '../components-old/styles';
-import { formatSatoshis } from '../helper';
+import { formatNumber } from '../helper';
 import store from '../store';
 
 class Transactions extends Component {
@@ -59,7 +59,7 @@ class Transactions extends Component {
 
                 <View style={{ alignItems: 'flex-end' }}>
                   <TextB style={{ fontSize: 12 }}>
-                    {formatSatoshis(transaction.amount)} SAT
+                    {formatNumber(transaction.amount)} SAT
                   </TextB>
                   <Text style={{ fontSize: 12, color: colors.lightgray }}>
                     {transaction.status}

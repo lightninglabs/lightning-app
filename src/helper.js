@@ -1,4 +1,4 @@
-export const formatSatoshis = val => {
+export const formatNumber = val => {
   const num = Number(val);
   if (isNaN(num)) {
     return '';

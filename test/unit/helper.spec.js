@@ -1,19 +1,19 @@
 import * as helpers from '../../src/helper';
 
 describe('Helpers Unit Tests', () => {
-  describe('formatSatoshis()', () => {
+  describe('formatNumber()', () => {
     it('should work for undefined', () => {
-      const num = helpers.formatSatoshis();
+      const num = helpers.formatNumber();
       expect(num, 'to equal', '');
     });
 
     it('should work for string input', () => {
-      const num = helpers.formatSatoshis('1000000');
+      const num = helpers.formatNumber('1000000');
       expect(num.length, 'to equal', 9);
     });
 
     it('should work for number input', () => {
-      const num = helpers.formatSatoshis(1000000);
+      const num = helpers.formatNumber(1000000);
       expect(num.length, 'to equal', 9);
     });
   });
