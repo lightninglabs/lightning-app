@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
+import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
-import { LabelBalance } from '../component/label';
+import { BalanceLabel } from '../component/label';
 import { Header, Title } from '../component/header';
-import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
   content: {
@@ -14,16 +14,14 @@ const styles = StyleSheet.create({
 });
 
 const Home = ({ store }) => {
-  const { settings, computedChannelsBalance } = store;
+  const { channelBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
       <Header separator>
         <Title title="Wallet" />
       </Header>
       <MainContent style={styles.content}>
-        <LabelBalance unit={settings.unit}>
-          {computedChannelsBalance}
-        </LabelBalance>
+        <BalanceLabel unit={unitLabel}>{channelBalanceLabel}</BalanceLabel>
       </MainContent>
     </Background>
   );

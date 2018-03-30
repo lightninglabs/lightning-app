@@ -5,8 +5,6 @@ const prefixName = 'lightning';
 module.exports.PREFIX_NAME = prefixName;
 module.exports.PREFIX_URI = `${prefixName}:`;
 
-module.exports.DEFAULT_UNIT = 'Bits';
-
 module.exports.DEFAULT_ROUTE = 'Pay';
 // module.exports.DEFAULT_ROUTE = 'Channels';
 // module.exports.DEFAULT_ROUTE = 'Request';
@@ -20,3 +18,15 @@ module.exports.MNEMONIC_WALLET = true;
 
 module.exports.MACAROONS_ENABLED = false;
 // module.exports.MACAROONS_ENABLED = true;
+
+module.exports.UNITS = {
+  sat: { display: 'SAT', denominator: 1 },
+  bit: { display: 'bits', denominator: 100 },
+  btc: { display: 'BTC', denominator: 100000000 },
+};
+module.exports.FIATS = {
+  usd: { display: '$' },
+  eur: { display: '€' },
+};
+module.exports.DEFAULT_UNIT = 'bit';
+module.exports.DEFAULT_FIAT = 'usd';
