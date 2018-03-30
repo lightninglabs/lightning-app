@@ -26,13 +26,17 @@ const ComputedWallet = store => {
       const balance = channelBalanceSatoshis / rate / UNITS.btc.denominator;
       return formatFiat(balance, settings.fiat);
     }),
-    unitLabel: computed(() => {
-      const { settings } = store;
-      return !settings.displayFiat ? UNITS[settings.unit].display : null;
+    balanceLabel: computed(() => {
+      const { settings, balanceUnit, balanceFiat } = store;
+      return settings.displayFiat ? balanceFiat : balanceUnit;
     }),
     channelBalanceLabel: computed(() => {
       const { settings, channelBalanceUnit, channelBalanceFiat } = store;
       return settings.displayFiat ? channelBalanceFiat : channelBalanceUnit;
+    }),
+    unitLabel: computed(() => {
+      const { settings } = store;
+      return !settings.displayFiat ? UNITS[settings.unit].display : null;
     }),
   });
 };

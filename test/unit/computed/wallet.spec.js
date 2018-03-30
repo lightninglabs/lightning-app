@@ -15,8 +15,9 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.channelBalanceUnit, 'to equal', '0');
       expect(store.balanceFiat, 'to match', /0[,.]0{2}/);
       expect(store.channelBalanceFiat, 'to match', /0[,.]0{2}/);
-      expect(store.unitLabel, 'to equal', 'bits');
+      expect(store.balanceLabel, 'to equal', '0');
       expect(store.channelBalanceLabel, 'to equal', '0');
+      expect(store.unitLabel, 'to equal', 'bits');
     });
 
     it('should display channel balance in usd', () => {
@@ -29,8 +30,9 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.channelBalanceUnit, 'to equal', '100');
       expect(store.balanceFiat, 'to match', /6[,.]895[,.]13/);
       expect(store.channelBalanceFiat, 'to match', /0[,.]69/);
-      expect(store.unitLabel, 'to equal', null);
+      expect(store.balanceLabel, 'to match', /6[,.]895[,.]13/);
       expect(store.channelBalanceLabel, 'to match', /0[,.]69/);
+      expect(store.unitLabel, 'to equal', null);
     });
 
     it('should display channel balance in sat', () => {
@@ -43,8 +45,9 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.channelBalanceUnit, 'to match', /^1{1}0{1}[,.]0{3}$/);
       expect(store.balanceFiat, 'to match', /6[,.]895[,.]13/);
       expect(store.channelBalanceFiat, 'to match', /0[,.]69/);
-      expect(store.unitLabel, 'to equal', 'SAT');
+      expect(store.balanceLabel, 'to match', /^1{1}0{2}[,.]0{3}[,.]0{3}$/);
       expect(store.channelBalanceLabel, 'to match', /^1{1}0{1}[,.]0{3}$/);
+      expect(store.unitLabel, 'to equal', 'SAT');
     });
   });
 });
