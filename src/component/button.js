@@ -1,12 +1,13 @@
 import React from 'react';
 import {
-  View,
-  TouchableOpacity,
-  ViewPropTypes,
-  StyleSheet,
+    TouchableOpacity,
+    ViewPropTypes,
+    StyleSheet,
+    View,
+    TextPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import Text from './text';
+import Text, { WrappedText } from './text';
 import Icon from './icon';
 import { colors, font } from './style';
 
@@ -302,6 +303,87 @@ DownButton.propTypes = {
   disabled: PropTypes.bool,
   style: ViewPropTypes.style,
   children: PropTypes.string,
+
+//
+// Copy Button
+//
+
+const copyStyles = StyleSheet.create({
+  touchable: {
+    height: 60,
+    borderRadius: 58.94,
+    backgroundColor: colors.purple,
+    flexDirection: 'row',
+  },
+  textWrapper: {
+    borderBottomColor: colors.white,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    height: 30,
+    width: '75%',
+  },
+  text: {
+    fontFamily: 'OpenSans Light',
+  },
+  icon: {
+    height: 15,
+    width: 15,
+    marginLeft: 15,
+    marginBottom: 3,
+  }
+});
+
+// The idea behind "type" and is to make it reusable
+// for when the text has been copied/the Deposit Funds view.
+export const CopyButton = ({ type, onPress, children, style }) => (
+  <TouchableOpacity
+    style={[styles.touchable, copyStyles.touchable, style,]}
+    onPress={onPress}
+  >
+    <View style={copyStyles.textWrapper}>
+      <WrappedText
+        numLines={1}
+        style={copyStyles.text}
+      >
+        {children}
+      </WrappedText>
+    </View>
+    <Icon image="copy" style={copyStyles.icon} />
+  </TouchableOpacity>
+);
+
+CopyButton.propTypes = {
+  type: PropTypes.string,
+  onPress: PropTypes.func,
+  children: PropTypes.string,
+  style: ViewPropTypes.style,
+}
+
+//
+// Text Button
+//
+
+const textStyles = StyleSheet.create({
+  text: {
+    color: colors.purple,
+    fontFamily: 'OpenSans SemiBold',
+    fontSize: 14,
+  },
+});
+
+export const TextButton = ({ children, onPress, style }) => (
+  <TouchableOpacity
+    onPress={onPress}
+  >
+    <Text style={[textStyles.text, style]}>
+      {children.toUpperCase()}
+    </Text>
+  </TouchableOpacity>
+);
+
+TextButton.propTypes = {
+  children: PropTypes.string,
+  onPress: PropTypes.func,
+  style: TextPropTypes.style,
 };
 
 export default Button;
