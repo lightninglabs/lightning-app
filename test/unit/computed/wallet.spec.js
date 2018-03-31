@@ -11,10 +11,6 @@ describe('Computed Wallet Unit Tests', () => {
   describe('ComputedWallet()', () => {
     it('should work with initial store', () => {
       ComputedWallet(store);
-      expect(store.balanceUnit, 'to equal', '0');
-      expect(store.channelBalanceUnit, 'to equal', '0');
-      expect(store.balanceFiat, 'to match', /0[,.]0{2}/);
-      expect(store.channelBalanceFiat, 'to match', /0[,.]0{2}/);
       expect(store.balanceLabel, 'to equal', '0');
       expect(store.channelBalanceLabel, 'to equal', '0');
       expect(store.unitLabel, 'to equal', 'bits');
@@ -26,10 +22,6 @@ describe('Computed Wallet Unit Tests', () => {
       store.balanceSatoshis = 100000000;
       store.channelBalanceSatoshis = 10000;
       ComputedWallet(store);
-      expect(store.balanceUnit, 'to match', /^1[,.]0{3}[,.]0{3}$/);
-      expect(store.channelBalanceUnit, 'to equal', '100');
-      expect(store.balanceFiat, 'to match', /6[,.]895[,.]13/);
-      expect(store.channelBalanceFiat, 'to match', /0[,.]69/);
       expect(store.balanceLabel, 'to match', /6[,.]895[,.]13/);
       expect(store.channelBalanceLabel, 'to match', /0[,.]69/);
       expect(store.unitLabel, 'to equal', null);
@@ -41,10 +33,6 @@ describe('Computed Wallet Unit Tests', () => {
       store.channelBalanceSatoshis = 10000;
       store.settings.unit = 'sat';
       ComputedWallet(store);
-      expect(store.balanceUnit, 'to match', /^1{1}0{2}[,.]0{3}[,.]0{3}$/);
-      expect(store.channelBalanceUnit, 'to match', /^1{1}0{1}[,.]0{3}$/);
-      expect(store.balanceFiat, 'to match', /6[,.]895[,.]13/);
-      expect(store.channelBalanceFiat, 'to match', /0[,.]69/);
       expect(store.balanceLabel, 'to match', /^1{1}0{2}[,.]0{3}[,.]0{3}$/);
       expect(store.channelBalanceLabel, 'to match', /^1{1}0{1}[,.]0{3}$/);
       expect(store.unitLabel, 'to equal', 'SAT');
