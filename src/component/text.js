@@ -53,10 +53,7 @@ Text.propTypes = {
 };
 
 export const WrappedText = ({ children, numLines, style }) => (
-  <RNText
-    numberOfLines={numLines}
-    style={[styles.base, style]}
-  >
+  <RNText numberOfLines={numLines} style={[styles.base, style]}>
     {children}
   </RNText>
 );

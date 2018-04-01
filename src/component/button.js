@@ -1,10 +1,10 @@
 import React from 'react';
 import {
-    TouchableOpacity,
-    ViewPropTypes,
-    StyleSheet,
-    View,
-    TextPropTypes,
+  TouchableOpacity,
+  ViewPropTypes,
+  StyleSheet,
+  View,
+  TextPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Text, { WrappedText } from './text';
@@ -329,21 +329,16 @@ const copyStyles = StyleSheet.create({
     width: 15,
     marginLeft: 15,
     marginBottom: 3,
-  }
+  },
 });
 
-// The idea behind "type" and is to make it reusable
-// for when the text has been copied/the Deposit Funds view.
-export const CopyButton = ({ type, onPress, children, style }) => (
+export const CopyButton = ({ onPress, children, style }) => (
   <TouchableOpacity
-    style={[styles.touchable, copyStyles.touchable, style,]}
+    style={[styles.touchable, copyStyles.touchable, style]}
     onPress={onPress}
   >
     <View style={copyStyles.textWrapper}>
-      <WrappedText
-        numLines={1}
-        style={copyStyles.text}
-      >
+      <WrappedText numLines={1} style={copyStyles.text}>
         {children}
       </WrappedText>
     </View>
@@ -356,7 +351,7 @@ CopyButton.propTypes = {
   onPress: PropTypes.func,
   children: PropTypes.string,
   style: ViewPropTypes.style,
-}
+};
 
 //
 // Text Button
@@ -371,12 +366,8 @@ const textStyles = StyleSheet.create({
 });
 
 export const TextButton = ({ children, onPress, style }) => (
-  <TouchableOpacity
-    onPress={onPress}
-  >
-    <Text style={[textStyles.text, style]}>
-      {children.toUpperCase()}
-    </Text>
+  <TouchableOpacity onPress={onPress}>
+    <Text style={[textStyles.text, style]}>{children.toUpperCase()}</Text>
   </TouchableOpacity>
 );
 
