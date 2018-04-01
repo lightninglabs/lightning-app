@@ -7,7 +7,7 @@ import {
   TextPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import Text, { WrappedText } from './text';
+import Text, { EllipsesText } from './text';
 import Icon from './icon';
 import { colors, font } from './style';
 
@@ -319,30 +319,30 @@ const copyStyles = StyleSheet.create({
     borderBottomColor: colors.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 30,
-    width: '75%',
+    width: '80%',
   },
   text: {
     fontFamily: 'OpenSans Light',
   },
   icon: {
-    height: 15,
+    height: 20,
     width: 15,
-    marginLeft: 15,
+    marginLeft: 10,
     marginBottom: 3,
   },
 });
 
-export const CopyButton = ({ onPress, children, style }) => (
+export const CopyButton = ({ icon, onPress, children, style }) => (
   <TouchableOpacity
     style={[styles.touchable, copyStyles.touchable, style]}
     onPress={onPress}
   >
     <View style={copyStyles.textWrapper}>
-      <WrappedText numLines={1} style={copyStyles.text}>
+      <EllipsesText numLines={1} style={copyStyles.text}>
         {children}
-      </WrappedText>
+      </EllipsesText>
     </View>
-    <Icon image="copy" style={copyStyles.icon} />
+        <Icon image={icon} style={copyStyles.icon} />
   </TouchableOpacity>
 );
 

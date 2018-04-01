@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="25px" viewBox="0 0 20 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon / dark / copy 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0.130371589" y="0.227946489" width="10.302139" height="14.2479108"></rect>
+        <rect id="path-2" x="4.31355584" y="5.60632623" width="10.302139" height="14.2479108"></rect>
+    </defs>
+    <g id="Errors-and-Notifications" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Deposit-Funds---Copied-to-Clipboard" transform="translate(-939.000000, -860.000000)">
+            <g id="Group" transform="translate(441.000000, 825.000000)">
+                <g id="icon-/-dark-/-copy" transform="translate(500.000000, 36.939392)">
+                    <g id="Group" transform="translate(0.645575, 0.286109)">
+                        <g id="Rectangle-Copy-2">
+                            <use fill="#9B9B9B" fill-rule="evenodd" xlink:href="#path-1"></use>
+                            <rect stroke="#000000" stroke-width="2" x="-0.869628411" y="-0.772053511" width="12.302139" height="16.2479108"></rect>
+                        </g>
+                        <g id="Rectangle-Copy">
+                            <use fill="#9B9B9B" fill-rule="evenodd" xlink:href="#path-2"></use>
+                            <rect stroke="#000000" stroke-width="2" x="3.31355584" y="4.60632623" width="12.302139" height="16.2479108"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
