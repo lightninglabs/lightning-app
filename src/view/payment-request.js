@@ -6,7 +6,7 @@ import { NamedField } from '../component/field';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { BackButton, CopyButton, TextButton } from '../component/button';
-import { LabelBalance } from '../component/label';
+import { LabelAmount } from '../component/label';
 import Card from '../component/card';
 import QRCode from '../component/qr-code';
 import { colors } from '../component/style';
@@ -18,11 +18,11 @@ const styles = StyleSheet.create({
   },
   amount: {
     color: colors.darkText,
-    marginTop: 10,
-    marginBottom: 10,
   },
   amountWrapper: {
     alignSelf: 'center',
+    marginTop: 20,
+    marginBottom: 40,
   },
   done: {
     alignSelf: 'center',
@@ -46,9 +46,9 @@ const PaymentRequest = ({ amount, message, invoice }) => (
     <Card>
       <MainContent style={styles.content}>
         <View style={styles.amountWrapper}>
-          <LabelBalance unit="SAT" style={styles.amount}>
+          <LabelAmount unit="SAT" style={styles.amount}>
             {amount}
-          </LabelBalance>
+          </LabelAmount>
         </View>
         <NamedField name="Note">{message}</NamedField>
         <QRCode />
