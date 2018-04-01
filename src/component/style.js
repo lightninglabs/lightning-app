@@ -14,6 +14,7 @@ export const colors = {
   blueSig: '#002FFF',
   glas: 'rgba(255,255,255,0.13)',
   glasDark: 'rgba(255,255,255,0.08)',
+  darkText: '#4A4A4A',
 };
 
 export const font = {
