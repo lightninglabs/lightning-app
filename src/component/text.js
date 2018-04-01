@@ -52,4 +52,19 @@ Text.propTypes = {
   style: TextPropTypes.style,
 };
 
+export const WrappedText = ({ children, numLines, style }) => (
+  <RNText
+    numberOfLines={numLines}
+    style={[styles.base, style]}
+  >
+    {children}
+  </RNText>
+);
+
+WrappedText.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  numLines: PropTypes.number,
+  style: TextPropTypes.style,
+};
+
 export default Text;
