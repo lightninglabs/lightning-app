@@ -342,12 +342,12 @@ export const CopyButton = ({ icon, onPress, children, style }) => (
         {children}
       </EllipsesText>
     </View>
-        <Icon image={icon} style={copyStyles.icon} />
+    <Icon image={icon} style={copyStyles.icon} />
   </TouchableOpacity>
 );
 
 CopyButton.propTypes = {
-  type: PropTypes.string,
+  icon: PropTypes.string,
   onPress: PropTypes.func,
   children: PropTypes.string,
   style: ViewPropTypes.style,

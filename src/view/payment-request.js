@@ -51,8 +51,8 @@ const PaymentRequest = ({ amount, message, invoice }) => (
           </LabelAmount>
         </View>
         <NamedField name="Note">{message}</NamedField>
-        <QRCode />
-        <CopyButton icon="copy-purple" type="paymentReq">{invoice}</CopyButton>
+        <QRCode value={invoice} />
+        <CopyButton icon="copy-purple">{invoice}</CopyButton>
         <TextButton style={styles.done} onPress={() => {}}>
           Done
         </TextButton>
