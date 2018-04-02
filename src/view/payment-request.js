@@ -8,7 +8,7 @@ import { Header, Title } from '../component/header';
 import { BackButton, CopyButton, TextButton } from '../component/button';
 import { LabelAmount } from '../component/label';
 import Card from '../component/card';
-import QRCode from '../component/qr-code';
+import QRCode from '../component/qrcode';
 import { colors } from '../component/style';
 
 const styles = StyleSheet.create({
