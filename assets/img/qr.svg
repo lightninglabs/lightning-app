@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="40px" height="39px" viewBox="0 0 40 39" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>icon / button-medium / QR</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="icon-/-button-medium-/-QR" transform="translate(-7.000000, -1.000000)">
+            <g transform="translate(7.000000, 0.500000)" id="Group-7">
+                <g transform="translate(0.000000, 0.111512)">
+                    <g id="QR-icon" transform="translate(0.947776, 0.775464)">
+                        <rect id="Rectangle-7" stroke="#FFFFFF" stroke-width="2" x="1" y="1" width="15.5903669" height="15.5903669" rx="3"></rect>
+                        <rect id="Rectangle-7-Copy-2" stroke="#FFFFFF" stroke-width="2" x="21.8885606" y="1" width="15.5903669" height="15.5903669" rx="3"></rect>
+                        <rect id="Rectangle-7-Copy" stroke="#FFFFFF" stroke-width="2" x="1" y="21.8885606" width="15.5903669" height="15.5903669" rx="3"></rect>
+                        <path d="" id="Rectangle-7-Copy-3" stroke="#FFFFFF" stroke-width="2" transform="translate(28.584118, 36.445135) rotate(-90.000000) translate(-28.584118, -36.445135) "></path>
+                        <rect id="Rectangle-7" fill="#FFFFFF" x="5.49698964" y="5.49698964" width="6.59638757" height="6.59638757" rx="1"></rect>
+                        <rect id="Rectangle-7-Copy-4" fill="#FFFFFF" x="26.3855503" y="5.49698964" width="6.59638757" height="6.59638757" rx="1"></rect>
+                        <path d="M27.9938817,23.0873565 L27.9707756,23.0873565 L23.0873565,23.0873565 L23.0873565,26.4234428 L23.0873565,27.4849482 L20.8885606,27.4849482 L20.8885606,26.434766 L20.8885606,23.0873565 L20.8885606,20.8885606 L27.9468186,20.8885606 L30.1926776,20.8885606 L30.1926776,23.0873565 L30.1926776,25.0067552 L30.1926776,25.2861524 L35.0521397,25.2861524 L37.2979986,25.2861524 L37.2979986,27.4849482 L35.0760966,27.4849482 L27.9938817,27.4849482 L27.9938817,25.2861524 L27.9938817,25.01327 L27.9938817,23.0873565 Z" id="Combined-Shape" fill="#FFFFFF"></path>
+                        <path d="M27.9938817,34.0813358 L27.9707756,34.0813358 L23.0873565,34.0813358 L23.0873565,37.4174221 L23.0873565,38.4789275 L20.8885606,38.4789275 L20.8885606,37.4287453 L20.8885606,34.0813358 L20.8885606,31.8825399 L27.9468186,31.8825399 L30.1926776,31.8825399 L30.1926776,34.0813358 L30.1926776,36.0007345 L30.1926776,36.2801316 L35.0521397,36.2801316 L37.2979986,36.2801316 L37.2979986,38.4789275 L35.0760966,38.4789275 L27.9938817,38.4789275 L27.9938817,36.2801316 L27.9938817,36.0072493 L27.9938817,34.0813358 Z" id="Combined-Shape-Copy" fill="#FFFFFF" transform="translate(29.093280, 35.180734) rotate(-180.000000) translate(-29.093280, -35.180734) "></path>
+                        <rect id="Rectangle-7-Copy-5" fill="#FFFFFF" x="5.49698964" y="26.3855503" width="6.59638757" height="6.59638757" rx="1"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
