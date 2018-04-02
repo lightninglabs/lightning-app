@@ -119,6 +119,8 @@ LabelAmount.propTypes = {
   children: PropTypes.string.isRequired,
   unit: PropTypes.string,
   style: TextPropTypes.style,
+  numeralStyle: TextPropTypes.style,
+  unitStyle: TextPropTypes.style,
 };
 
 //

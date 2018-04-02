@@ -6,7 +6,7 @@ import { NamedField } from '../component/field';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { BackButton, CopyButton, TextButton } from '../component/button';
-import { LabelAmount } from '../component/label';
+import { LabelBalance } from '../component/label';
 import Card from '../component/card';
 import QRCode from '../component/qrcode';
 import { colors } from '../component/style';
@@ -24,13 +24,20 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 40,
   },
-  done: {
-    alignSelf: 'center',
-    margin: 35,
-  },
   hiddenItem: {
     // Workaround to align header items correctly.
     visibility: 'hidden',
+  },
+  numeral: {
+    fontFamily: 'WorkSans ExtraLight',
+    fontSize: 103,
+    lineHeight: 100,
+  },
+  unit: {
+    fontFamily: 'WorkSans Regular',
+    fontSize: 23,
+    lineHeight: 48,
+    marginLeft: 10,
   },
 });
 
@@ -46,16 +53,19 @@ const PaymentRequest = ({ amount, message, invoice }) => (
     <Card>
       <MainContent style={styles.content}>
         <View style={styles.amountWrapper}>
-          <LabelAmount unit="SAT" style={styles.amount}>
+          <LabelBalance
+            unit="SAT"
+            style={styles.amount}
+            numeralStyle={styles.numeral}
+            unitStyle={styles.unit}
+          >
             {amount}
-          </LabelAmount>
+          </LabelBalance>
         </View>
         <NamedField name="Note">{message}</NamedField>
         <QRCode value={invoice} />
         <CopyButton icon="copy-purple">{invoice}</CopyButton>
-        <TextButton style={styles.done} onPress={() => {}}>
-          Done
-        </TextButton>
+        <TextButton onPress={() => {}}>Done</TextButton>
       </MainContent>
     </Card>
   </Background>

@@ -190,6 +190,7 @@ SmallButton.propTypes = {
   alert: PropTypes.string,
   children: PropTypes.node,
   style: ViewPropTypes.style,
+  touchableStyle: ViewPropTypes.style,
 };
 
 //
@@ -309,7 +310,7 @@ DownButton.propTypes = {
 //
 
 const copyStyles = StyleSheet.create({
-  touchable: {
+  pill: {
     height: 60,
     borderRadius: 58.94,
     backgroundColor: colors.purple,
@@ -319,31 +320,37 @@ const copyStyles = StyleSheet.create({
     borderBottomColor: colors.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 30,
+    marginLeft: 20,
     width: '80%',
   },
   text: {
     fontFamily: 'OpenSans Light',
   },
+  touchable: {
+    height: 40,
+    width: 40,
+    marginBottom: 3,
+  },
   icon: {
     height: 20,
     width: 15,
-    marginLeft: 10,
-    marginBottom: 3,
   },
 });
 
 export const CopyButton = ({ icon, onPress, children, style }) => (
-  <TouchableOpacity
-    style={[styles.touchable, copyStyles.touchable, style]}
-    onPress={onPress}
-  >
+  <View style={[styles.touchable, copyStyles.pill, style]}>
     <View style={copyStyles.textWrapper}>
       <EllipsesText numLines={1} style={copyStyles.text}>
         {children}
       </EllipsesText>
     </View>
-    <Icon image={icon} style={copyStyles.icon} />
-  </TouchableOpacity>
+    <IconButton
+      image={icon}
+      onPress={onPress}
+      touchableStyle={copyStyles.touchable}
+      style={copyStyles.icon}
+    />
+  </View>
 );
 
 CopyButton.propTypes = {
@@ -358,6 +365,14 @@ CopyButton.propTypes = {
 //
 
 const textStyles = StyleSheet.create({
+  touchable: {
+    height: 50,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    margin: 20,
+  },
   text: {
     color: colors.purple,
     fontFamily: 'OpenSans SemiBold',
@@ -366,7 +381,7 @@ const textStyles = StyleSheet.create({
 });
 
 export const TextButton = ({ children, onPress, style }) => (
-  <TouchableOpacity onPress={onPress}>
+  <TouchableOpacity onPress={onPress} style={textStyles.touchable}>
     <Text style={[textStyles.text, style]}>{children.toUpperCase()}</Text>
   </TouchableOpacity>
 );
