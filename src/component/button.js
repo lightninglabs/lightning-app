@@ -146,4 +146,42 @@ CancelButton.propTypes = {
   onPress: PropTypes.func,
 };
 
+//
+// QR Button
+//
+
+const qrStyles = StyleSheet.create({
+  touchable: {
+    height: 60,
+    width: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    height: 24.375,
+    width: 25,
+  },
+  text: {
+    fontSize: 10,
+  },
+});
+
+export const QrButton = ({ onPress, disabled, style, children }) => (
+  <TouchableOpacity
+    style={[{ opacity: disabled ? 0.5 : 1 }, qrStyles.touchable, style]}
+    disabled={disabled}
+    onPress={onPress}
+  >
+    <Icon image="qr" style={qrStyles.icon} />
+    <Text style={qrStyles.text}>{children}</Text>
+  </TouchableOpacity>
+);
+
+QrButton.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  style: ViewPropTypes.style,
+  children: PropTypes.string,
+};
+
 export default Button;
