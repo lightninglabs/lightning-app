@@ -42,17 +42,17 @@ const qrStyles = StyleSheet.create({
   wrapper: {
     alignSelf: 'stretch',
     flexDirection: 'row',
-    alignItems: 'center',
-    top: -20,
-  },
-  button: {
-    width: 42,
+    alignItems: 'flex-start',
+    top: -1,
   },
   separator: {
     flex: 1,
     height: 1,
     boxShadow: `0 0.25px ${colors.white}`,
-    marginBottom: 21,
+  },
+  button: {
+    width: 42,
+    top: -19,
   },
 });
 
