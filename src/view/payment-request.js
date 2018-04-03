@@ -6,7 +6,7 @@ import { NamedField } from '../component/field';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { BackButton, CopyButton, TextButton } from '../component/button';
-import { LabelBalance } from '../component/label';
+import { BalanceLabel } from '../component/label';
 import Card from '../component/card';
 import QRCode from '../component/qrcode';
 import { colors } from '../component/style';
@@ -53,14 +53,14 @@ const PaymentRequest = ({ amount, message, invoice }) => (
     <Card>
       <MainContent style={styles.content}>
         <View style={styles.amountWrapper}>
-          <LabelBalance
+          <BalanceLabel
             unit="SAT"
             style={styles.amount}
             numeralStyle={styles.numeral}
             unitStyle={styles.unit}
           >
             {amount}
-          </LabelBalance>
+          </BalanceLabel>
         </View>
         <NamedField name="Note">{message}</NamedField>
         <QRCode value={invoice} />
