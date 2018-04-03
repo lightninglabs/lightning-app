@@ -6,7 +6,8 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { BalanceLabel } from '../component/label';
 import { Header, Title } from '../component/header';
-import { QrButton } from '../component/button';
+import { QrButton, SmallButton } from '../component/button';
+import Icon from '../component/icon';
 import { colors } from '../component/style';
 
 const styles = StyleSheet.create({
@@ -19,9 +20,7 @@ const Home = ({ store }) => {
   const { channelBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
-      <Header>
-        <Title title="Wallet" />
-      </Header>
+      <HomeHeader goChannels={() => {}} goSettings={() => {}} />
       <QrCodeSeparator goFundWallet={() => {}} />
       <MainContent style={styles.content}>
         <BalanceLabel unit={unitLabel}>{channelBalanceLabel}</BalanceLabel>
@@ -32,6 +31,49 @@ const Home = ({ store }) => {
 
 Home.propTypes = {
   store: PropTypes.object.isRequired,
+};
+
+//
+// Home Header
+//
+
+const headerStyles = StyleSheet.create({
+  btnWrapperLeft: {
+    width: 150,
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    paddingLeft: 20,
+  },
+  btnWrapperRight: {
+    width: 150,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  settingsIcon: {
+    height: 14.7,
+    width: 14,
+  },
+});
+
+const HomeHeader = ({ goChannels, goSettings }) => (
+  <Header>
+    <View style={headerStyles.btnWrapperLeft}>
+      <SmallButton border text="Channels" onPress={goChannels} />
+    </View>
+    <Title title="Wallet" />
+    <View style={headerStyles.btnWrapperRight}>
+      <SmallButton text="Settings" onPress={goSettings}>
+        <Icon image="settings" style={headerStyles.settingsIcon} />
+      </SmallButton>
+    </View>
+  </Header>
+);
+
+HomeHeader.propTypes = {
+  goChannels: PropTypes.func.isRequired,
+  goSettings: PropTypes.func.isRequired,
 };
 
 //

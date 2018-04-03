@@ -72,7 +72,71 @@ export const PillButton = ({ onPress, disabled, children, style }) => (
   </TouchableOpacity>
 );
 
-PillButton.propTypes = Button.propTypes;
+PillButton.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  children: PropTypes.string.isRequired,
+  style: ViewPropTypes.style,
+};
+
+//
+// Small Button
+//
+
+const smallStyles = StyleSheet.create({
+  touchable: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingLeft: 15,
+    paddingRight: 20,
+  },
+  text: {
+    fontFamily: 'OpenSans SemiBold',
+    fontSize: 12,
+    marginLeft: 5,
+  },
+  border: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius: 58.94,
+    borderColor: colors.white,
+  },
+});
+
+export const SmallButton = ({
+  text,
+  onPress,
+  disabled,
+  border,
+  children,
+  style,
+}) => (
+  <TouchableOpacity
+    style={[
+      { opacity: disabled ? 0.5 : 1 },
+      smallStyles.touchable,
+      border ? smallStyles.border : null,
+      style,
+    ]}
+    disabled={disabled}
+    onPress={onPress}
+  >
+    {children}
+    <Text style={smallStyles.text}>{text}</Text>
+  </TouchableOpacity>
+);
+
+SmallButton.propTypes = {
+  text: PropTypes.string,
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  border: PropTypes.bool,
+  children: PropTypes.node,
+  style: ViewPropTypes.style,
+};
 
 //
 // Icon Button

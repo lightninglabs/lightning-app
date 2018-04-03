@@ -3,7 +3,13 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Background from '../../src/component/background';
 import MainContent from '../../src/component/main-content';
-import { Button, PillButton, IconButton } from '../../src/component/button';
+import {
+  Button,
+  PillButton,
+  SmallButton,
+  IconButton,
+} from '../../src/component/button';
+import Icon from '../../src/component/icon';
 import { colors } from '../../src/component/style';
 
 storiesOf('Button', module)
@@ -42,6 +48,14 @@ storiesOf('Button', module)
     <Background image="purple-gradient-bg">
       <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
     </Background>
+  ))
+  .add('Small Button', () => (
+    <SmallButton border text="Small Button" onPress={action('clicked')} />
+  ))
+  .add('Small Icon Button', () => (
+    <SmallButton border text="Small Icon" onPress={action('clicked')}>
+      <Icon image="cancel" style={{ height: 12, width: 12 }} />
+    </SmallButton>
   ))
   .add('Icon Button', () => (
     <IconButton image="cancel" onPress={action('clicked')} />
