@@ -52,10 +52,18 @@ storiesOf('Button', module)
   .add('Small Button', () => (
     <SmallButton border text="Small Button" onPress={action('clicked')} />
   ))
-  .add('Small Icon Button', () => (
+  .add('Small Icon', () => (
     <SmallButton border text="Small Icon" onPress={action('clicked')}>
       <Icon image="cancel" style={{ height: 12, width: 12 }} />
     </SmallButton>
+  ))
+  .add('Small Alert', () => (
+    <SmallButton
+      border
+      alert={colors.pinkSig}
+      text="Small Alert"
+      onPress={action('clicked')}
+    />
   ))
   .add('Icon Button', () => (
     <Button onPress={action('clicked')}>

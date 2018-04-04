@@ -1,5 +1,10 @@
 import React from 'react';
-import { TouchableOpacity, ViewPropTypes, StyleSheet } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  ViewPropTypes,
+  StyleSheet,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import Icon from './icon';
@@ -132,6 +137,17 @@ const smallStyles = StyleSheet.create({
     borderRadius: 58.94,
     borderColor: colors.white,
   },
+  alert: {
+    position: 'absolute',
+    top: -2,
+    right: -1,
+    height: 10,
+    width: 10,
+    borderRadius: 50,
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: '#8f42c3', // "transparent" border in home screen header
+  },
 });
 
 export const SmallButton = ({
@@ -139,6 +155,7 @@ export const SmallButton = ({
   onPress,
   disabled,
   border,
+  alert,
   children,
   style,
 }) => (
@@ -154,6 +171,9 @@ export const SmallButton = ({
   >
     {children}
     <Text style={smallStyles.text}>{text}</Text>
+    {alert ? (
+      <View style={[smallStyles.alert, { backgroundColor: alert }]} />
+    ) : null}
   </TouchableOpacity>
 );
 
@@ -162,6 +182,7 @@ SmallButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   border: PropTypes.bool,
+  alert: PropTypes.string,
   children: PropTypes.node,
   style: ViewPropTypes.style,
 };

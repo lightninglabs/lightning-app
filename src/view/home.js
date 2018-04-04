@@ -60,7 +60,12 @@ const headerStyles = StyleSheet.create({
 const HomeHeader = ({ goChannels, goSettings }) => (
   <Header>
     <View style={headerStyles.btnWrapperLeft}>
-      <SmallButton border text="Channels" onPress={goChannels} />
+      <SmallButton
+        border
+        alert={colors.pinkSig}
+        text="Channels"
+        onPress={goChannels}
+      />
     </View>
     <Title title="Wallet" />
     <View style={headerStyles.btnWrapperRight}>
