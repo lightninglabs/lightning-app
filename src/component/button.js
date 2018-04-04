@@ -11,6 +11,36 @@ import { colors } from './style';
 
 const styles = StyleSheet.create({
   touchable: {
+    height: 60,
+    width: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+export const Button = ({ onPress, disabled, children, style }) => (
+  <TouchableOpacity
+    style={[{ opacity: disabled ? 0.5 : 1 }, styles.touchable, style]}
+    disabled={disabled}
+    onPress={onPress}
+  >
+    {children}
+  </TouchableOpacity>
+);
+
+Button.propTypes = {
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  children: PropTypes.node,
+  style: ViewPropTypes.style,
+};
+
+//
+// Glas Button
+//
+
+const glasStyles = StyleSheet.create({
+  touchable: {
     height: 75,
     alignSelf: 'stretch',
     justifyContent: 'center',
@@ -22,23 +52,23 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Button = ({ onPress, disabled, children, style }) => (
+export const GlasButton = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
     style={[
       { backgroundColor: disabled ? colors.glasDark : colors.glas },
-      styles.touchable,
+      glasStyles.touchable,
       style,
     ]}
     disabled={disabled}
     onPress={onPress}
   >
-    <Text style={[{ opacity: disabled ? 0.5 : 1 }, styles.text]}>
+    <Text style={[{ opacity: disabled ? 0.5 : 1 }, glasStyles.text]}>
       {children}
     </Text>
   </TouchableOpacity>
 );
 
-Button.propTypes = {
+GlasButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
@@ -52,6 +82,9 @@ Button.propTypes = {
 const pillStyles = StyleSheet.create({
   touchable: {
     height: 60,
+    alignSelf: 'stretch',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 58.94,
     backgroundColor: colors.purple,
   },
@@ -59,12 +92,7 @@ const pillStyles = StyleSheet.create({
 
 export const PillButton = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
-    style={[
-      { opacity: disabled ? 0.5 : 1 },
-      styles.touchable,
-      pillStyles.touchable,
-      style,
-    ]}
+    style={[{ opacity: disabled ? 0.5 : 1 }, pillStyles.touchable, style]}
     disabled={disabled}
     onPress={onPress}
   >
@@ -139,40 +167,6 @@ SmallButton.propTypes = {
 };
 
 //
-// Icon Button
-//
-
-const iconStyles = StyleSheet.create({
-  touchable: {
-    height: 60,
-    width: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  icon: {
-    height: 14,
-    width: 14,
-  },
-});
-
-export const IconButton = ({ image, onPress, disabled, style }) => (
-  <TouchableOpacity
-    style={[{ opacity: disabled ? 0.5 : 1 }, iconStyles.touchable]}
-    disabled={disabled}
-    onPress={onPress}
-  >
-    <Icon image={image} style={[iconStyles.icon, style]} />
-  </TouchableOpacity>
-);
-
-IconButton.propTypes = {
-  image: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  style: ViewPropTypes.style,
-};
-
-//
 // Back Button
 //
 
@@ -183,12 +177,16 @@ const backStyles = StyleSheet.create({
   },
 });
 
-export const BackButton = ({ onPress }) => (
-  <IconButton image="back" onPress={onPress} style={backStyles.icon} />
+export const BackButton = ({ onPress, disabled, style }) => (
+  <Button onPress={onPress} disabled={disabled} style={style}>
+    <Icon image="back" style={backStyles.icon} />
+  </Button>
 );
 
 BackButton.propTypes = {
   onPress: PropTypes.func,
+  disabled: PropTypes.bool,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -202,12 +200,16 @@ const cancelStyles = StyleSheet.create({
   },
 });
 
-export const CancelButton = ({ onPress }) => (
-  <IconButton image="cancel" onPress={onPress} style={cancelStyles.icon} />
+export const CancelButton = ({ onPress, disabled, style }) => (
+  <Button onPress={onPress} disabled={disabled} style={style}>
+    <Icon image="cancel" style={cancelStyles.icon} />
+  </Button>
 );
 
 CancelButton.propTypes = {
   onPress: PropTypes.func,
+  disabled: PropTypes.bool,
+  style: ViewPropTypes.style,
 };
 
 //

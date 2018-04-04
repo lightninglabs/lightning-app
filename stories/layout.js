@@ -5,7 +5,7 @@ import Background from '../src/component/background';
 import MainContent from '../src/component/main-content';
 import { Header, Title } from '../src/component/header';
 import {
-  Button,
+  GlasButton,
   PillButton,
   BackButton,
   CancelButton,
@@ -22,7 +22,7 @@ storiesOf('Layout', module)
       <MainContent style={{ justifyContent: 'center' }}>
         <BalanceLabel unit="SAT">9,123,456,788</BalanceLabel>
       </MainContent>
-      <Button onPress={action('clicked')}>Continue</Button>
+      <GlasButton onPress={action('clicked')}>Continue</GlasButton>
     </Background>
   ))
   .add('Card Form', () => (

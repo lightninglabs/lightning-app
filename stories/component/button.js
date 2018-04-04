@@ -5,9 +5,9 @@ import Background from '../../src/component/background';
 import MainContent from '../../src/component/main-content';
 import {
   Button,
+  GlasButton,
   PillButton,
   SmallButton,
-  IconButton,
 } from '../../src/component/button';
 import Icon from '../../src/component/icon';
 import { colors } from '../../src/component/style';
@@ -16,13 +16,13 @@ storiesOf('Button', module)
   .addDecorator(story => (
     <Background image="purple-gradient-bg">{story()}</Background>
   ))
-  .add('Default', () => (
-    <Button onPress={action('clicked')}>Default Button</Button>
+  .add('Glas Button', () => (
+    <GlasButton onPress={action('clicked')}>Glas Button</GlasButton>
   ))
-  .add('Disabled', () => (
-    <Button disabled onPress={action('clicked')}>
-      Disabled Button
-    </Button>
+  .add('Glas Disabled', () => (
+    <GlasButton disabled onPress={action('clicked')}>
+      Glas Disabled
+    </GlasButton>
   ));
 
 storiesOf('Button', module)
@@ -58,8 +58,12 @@ storiesOf('Button', module)
     </SmallButton>
   ))
   .add('Icon Button', () => (
-    <IconButton image="cancel" onPress={action('clicked')} />
+    <Button onPress={action('clicked')}>
+      <Icon image="cancel" style={{ height: 14, width: 14 }} />
+    </Button>
   ))
   .add('Icon Disabled', () => (
-    <IconButton image="cancel" disabled onPress={action('clicked')} />
+    <Button disabled onPress={action('clicked')}>
+      <Icon image="cancel" style={{ height: 14, width: 14 }} />
+    </Button>
   ));
