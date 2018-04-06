@@ -40,6 +40,10 @@ class NavAction {
   goVerifyWallet() {
     this._store.route = 'VerifyWallet';
   }
+
+  goFundWallet() {
+    this._store.route = 'FundWallet';
+  }
 }
 
 export default NavAction;

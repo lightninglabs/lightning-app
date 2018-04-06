@@ -25,20 +25,20 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
     paddingRight: 20,
   },
-  bigBtn: {
-    borderRadius: 21,
-  },
   downBtn: {
     margin: 25,
   },
 });
 
-const Home = ({ store, wallet }) => {
+const Home = ({ store, wallet, nav }) => {
   const { balanceLabel, channelBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
-      <HomeHeader goChannels={() => {}} goSettings={() => {}} />
-      <QrCodeSeparator goFundWallet={() => {}} />
+      <HomeHeader
+        goChannels={() => nav.goChannels()}
+        goSettings={() => nav.goSettings()}
+      />
+      <QrCodeSeparator goFundWallet={() => nav.goFundWallet()} />
       <MainContent style={styles.content}>
         <BalanceDisplay
           balanceLabel={balanceLabel}
@@ -46,10 +46,11 @@ const Home = ({ store, wallet }) => {
           unitLabel={unitLabel}
           toggleDisplayFiat={() => wallet.toggleDisplayFiat()}
         />
-        <GlasButton onPress={() => {}} style={styles.bigBtn}>
-          Continue
-        </GlasButton>
-        <DownButton onPress={() => {}} style={styles.downBtn}>
+        <SendReceiveButton
+          goPay={() => nav.goPay()}
+          goRequest={() => nav.goRequest()}
+        />
+        <DownButton onPress={() => nav.goTransactions()} style={styles.downBtn}>
           Transactions
         </DownButton>
       </MainContent>
@@ -60,6 +61,7 @@ const Home = ({ store, wallet }) => {
 Home.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
+  nav: PropTypes.object.isRequired,
 };
 
 //
