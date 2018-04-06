@@ -8,9 +8,31 @@ import {
   GlasButton,
   PillButton,
   SmallButton,
+  BackButton,
+  CancelButton,
+  QrButton,
+  DownButton,
 } from '../../src/component/button';
 import Icon from '../../src/component/icon';
 import { colors } from '../../src/component/style';
+
+storiesOf('Button', module)
+  .addDecorator(story => (
+    <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
+  ))
+  .add('Default Button', () => (
+    <Button
+      style={{ backgroundColor: colors.purple }}
+      onPress={action('clicked')}
+    />
+  ))
+  .add('Button Disabled', () => (
+    <Button
+      disabled
+      style={{ backgroundColor: colors.purple }}
+      onPress={action('clicked')}
+    />
+  ));
 
 storiesOf('Button', module)
   .addDecorator(story => (
@@ -74,4 +96,12 @@ storiesOf('Button', module)
     <Button disabled onPress={action('clicked')}>
       <Icon image="cancel" style={{ height: 14, width: 14 }} />
     </Button>
+  ))
+  .add('Back Button', () => <BackButton onPress={action('clicked')} />)
+  .add('Cancel Button', () => <CancelButton onPress={action('clicked')} />)
+  .add('QR Button', () => (
+    <QrButton onPress={action('clicked')}>QR Button</QrButton>
+  ))
+  .add('Down Button', () => (
+    <DownButton onPress={action('clicked')}>Down Button</DownButton>
   ));
