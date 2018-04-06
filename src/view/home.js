@@ -109,7 +109,6 @@ const bigBtnStyles = StyleSheet.create({
   wrapper: {
     alignSelf: 'stretch',
     flexDirection: 'row',
-    height: 75,
   },
   leftBtn: {
     flex: 1,
@@ -121,16 +120,13 @@ const bigBtnStyles = StyleSheet.create({
     borderTopRightRadius: 21,
     borderBottomRightRadius: 21,
   },
+  boltWrapper: {
+    justifyContent: 'center',
+    backgroundColor: colors.glas,
+  },
   bolt: {
-    alignSelf: 'center',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    marginLeft: 'auto',
-    marginRight: 'auto',
     height: 126 * 0.4,
     width: 64 * 0.4,
-    zIndex: 2,
   },
 });
 
@@ -139,7 +135,9 @@ const SendReceiveButton = ({ goPay, goRequest }) => (
     <GlasButton onPress={goRequest} style={bigBtnStyles.leftBtn}>
       Receive
     </GlasButton>
-    <Icon image="lightning-bolt-purple" style={bigBtnStyles.bolt} />
+    <View style={bigBtnStyles.boltWrapper}>
+      <Icon image="lightning-bolt-purple" style={bigBtnStyles.bolt} />
+    </View>
     <GlasButton onPress={goPay} style={bigBtnStyles.rightBtn}>
       Pay
     </GlasButton>
