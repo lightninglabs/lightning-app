@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { NamedField } from '../component/field';
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const PaymentRequest = ({ amount, message, invoice }) => (
+const PaymentRequest = ({ store }) => (
   <Background image="purple-gradient-bg">
       <Header shadow color={colors.purple}>
       <BackButton onPress={() => {}} />
@@ -71,12 +72,12 @@ const PaymentRequest = ({ amount, message, invoice }) => (
             numeralStyle={styles.numeral}
             unitStyle={styles.unit}
           >
-            {amount}
+            {store.paymentRequest.amount}
           </BalanceLabel>
         </View>
-        <NamedField name="Note">{message}</NamedField>
-        <QRCode value={invoice} />
-        <CopyButton icon="copy-purple">{invoice}</CopyButton>
+        <NamedField name="Note">{store.paymentRequest.message}</NamedField>
+        <QRCode value={store.paymentRequest.invoice} />
+        <CopyButton icon="copy-purple">{store.paymentRequest.invoice}</CopyButton>
         <SmallButton style={styles.doneTouchable}>
           <Text style={styles.doneText}>DONE</Text>
         </SmallButton>
@@ -90,4 +91,4 @@ PaymentRequest.propTypes = {
   invoice: PropTypes.string,
 };
 
-export default PaymentRequest;
+export default observer(PaymentRequest);
