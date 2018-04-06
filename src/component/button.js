@@ -277,4 +277,33 @@ QrButton.propTypes = {
   children: PropTypes.string,
 };
 
+//
+// Down Button
+//
+
+const downStyles = StyleSheet.create({
+  text: {
+    fontFamily: 'OpenSans SemiBold',
+    fontSize: font.sizeS,
+  },
+  icon: {
+    height: 7.2,
+    width: 18.4,
+  },
+});
+
+export const DownButton = ({ onPress, disabled, style, children }) => (
+  <Button onPress={onPress} disabled={disabled} style={style}>
+    <Text style={downStyles.text}>{children}</Text>
+    <Icon image="arrow-down" style={downStyles.icon} />
+  </Button>
+);
+
+DownButton.propTypes = {
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
+  style: ViewPropTypes.style,
+  children: PropTypes.string,
+};
+
 export default Button;
