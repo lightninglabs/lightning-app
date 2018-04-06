@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   hiddenItem: {
     // Workaround to align header items correctly.
-    visibility: 'hidden',
+    opacity: 0,
   },
   numeral: {
     fontFamily: 'WorkSans ExtraLight',
