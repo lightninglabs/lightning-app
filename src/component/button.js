@@ -16,16 +16,22 @@ import { colors, font } from './style';
 
 const styles = StyleSheet.create({
   touchable: {
-    height: 60,
-    width: 60,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  size: {
+    height: 60,
+    width: 60,
   },
 });
 
 export const Button = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
-    style={[{ opacity: disabled ? 0.5 : 1 }, styles.touchable, style]}
+    style={[
+      { opacity: disabled ? 0.5 : 1 },
+      styles.touchable,
+      style ? style : styles.size,
+    ]}
     disabled={disabled}
     onPress={onPress}
   >
