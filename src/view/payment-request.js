@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
 
 const PaymentRequest = ({ amount, message, invoice }) => (
   <Background image="purple-gradient-bg">
-    <Header>
+      <Header shadow color={colors.purple}>
       <BackButton onPress={() => {}} />
       <Title title="Payment Request" />
       <View style={styles.hiddenItem}>
