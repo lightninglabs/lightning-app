@@ -15,8 +15,8 @@ const balanceStyles = StyleSheet.create({
   },
   numeral: {
     fontFamily: 'WorkSans ExtraLight',
-    fontSize: 80,
-    lineHeight: 100,
+    fontSize: font.sizeXXXL,
+    lineHeight: font.lineHeightXXXL,
   },
   unit: {
     fontFamily: 'WorkSans Regular',

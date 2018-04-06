@@ -18,8 +18,10 @@ export const font = {
   sizeS: 12,
   sizeBase: 16,
   sizeL: 20,
+  sizeXXXL: 80,
   lineHeightXS: 14,
   lineHeightS: 16,
   lineHeightBase: 20,
   lineHeightL: 24,
+  lineHeightXXXL: 100,
 };
