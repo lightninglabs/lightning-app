@@ -9,14 +9,14 @@ const height = width;
 
 const styles = StyleSheet.create({
   base: {
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: colors.white,
     width: width * 1.2,
     height: height * 1.2,
     margin: 40,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 13,
+   borderRadius: 13,
   },
 });
 
