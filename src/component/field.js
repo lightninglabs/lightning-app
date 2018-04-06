@@ -18,7 +18,6 @@ const namedStyles = StyleSheet.create({
   },
   text: {
     fontFamily: 'OpenSans Light',
-//    width: '85%',
     flex: 5,
     color: colors.darkText,
     marginBottom: 7,

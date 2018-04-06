@@ -4,7 +4,6 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { NamedField } from '../component/field';
-import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
 import { BackButton, CopyButton, SmallButton } from '../component/button';
@@ -32,11 +31,13 @@ const styles = StyleSheet.create({
   numeral: {
     fontFamily: 'WorkSans ExtraLight',
     fontSize: 103,
+    color: colors.darkText,
     lineHeight: 100,
   },
   unit: {
     fontFamily: 'WorkSans Regular',
     fontSize: 23,
+    color: colors.darkText,
     lineHeight: 48,
     marginLeft: 10,
   },
@@ -52,12 +53,12 @@ const styles = StyleSheet.create({
     color: colors.purple,
     fontFamily: 'OpenSans SemiBold',
     fontSize: 14,
-  }
+  },
 });
 
 const PaymentRequest = ({ store }) => (
   <Background image="purple-gradient-bg">
-      <Header shadow color={colors.purple}>
+    <Header shadow color={colors.purple}>
       <BackButton onPress={() => {}} />
       <Title title="Payment Request" />
       <View style={styles.hiddenItem}>
@@ -65,30 +66,23 @@ const PaymentRequest = ({ store }) => (
       </View>
     </Header>
     <Card style={styles.content}>
-        <View style={styles.amountWrapper}>
-          <BalanceLabel
-            unit="SAT"
-            style={styles.amount}
-            numeralStyle={styles.numeral}
-            unitStyle={styles.unit}
-          >
-            {store.paymentRequest.amount}
-          </BalanceLabel>
-        </View>
-        <NamedField name="Note">{store.paymentRequest.message}</NamedField>
-        <QRCode value={store.paymentRequest.invoice} />
-        <CopyButton icon="copy-purple">{store.paymentRequest.invoice}</CopyButton>
-        <SmallButton style={styles.doneTouchable}>
-          <Text style={styles.doneText}>DONE</Text>
-        </SmallButton>
+      <View style={styles.amountWrapper}>
+        <BalanceLabel unit={<Text style={styles.unit}>SAT</Text>}>
+          <Text style={styles.numeral}>{store.paymentRequest.amount}</Text>
+        </BalanceLabel>
+      </View>
+      <NamedField name="Note">{store.paymentRequest.message}</NamedField>
+      <QRCode value={store.paymentRequest.invoice} />
+      <CopyButton icon="copy-purple">{store.paymentRequest.invoice}</CopyButton>
+      <SmallButton style={styles.doneTouchable}>
+        <Text style={styles.doneText}>DONE</Text>
+      </SmallButton>
     </Card>
   </Background>
 );
 
 PaymentRequest.propTypes = {
-  amount: PropTypes.string,
-  message: PropTypes.string,
-  invoice: PropTypes.string,
+  store: PropTypes.object.isRequired,
 };
 
 export default observer(PaymentRequest);

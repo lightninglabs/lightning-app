@@ -4,7 +4,6 @@ import {
   ViewPropTypes,
   StyleSheet,
   View,
-  TextPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Text, { EllipsesText } from './text';
@@ -338,13 +337,16 @@ const copyStyles = StyleSheet.create({
 });
 
 export const CopyButton = ({ icon, onPress, children, style }) => (
-  <TouchableOpacity style={[styles.touchable, copyStyles.pill, style]}>
+  <TouchableOpacity
+    onPress={onPress}
+    style={[styles.touchable, copyStyles.pill, style]}
+  >
     <View style={copyStyles.textWrapper}>
       <EllipsesText numLines={1} style={copyStyles.text}>
         {children}
       </EllipsesText>
     </View>
-    <Icon image="copy-purple" style={copyStyles.icon} />
+    <Icon image={icon} style={copyStyles.icon} />
   </TouchableOpacity>
 );
 
