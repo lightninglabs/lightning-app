@@ -93,6 +93,10 @@ const pillStyles = StyleSheet.create({
     borderRadius: 58.94,
     backgroundColor: colors.purple,
   },
+  text: {
+    fontFamily: 'OpenSans Bold',
+    letterSpacing: 1,
+  },
 });
 
 export const PillButton = ({ onPress, disabled, children, style }) => (
@@ -101,7 +105,7 @@ export const PillButton = ({ onPress, disabled, children, style }) => (
     disabled={disabled}
     onPress={onPress}
   >
-    <Text style={styles.text}>{children}</Text>
+    <Text style={pillStyles.text}>{children}</Text>
   </TouchableOpacity>
 );
 
