@@ -4,7 +4,11 @@ import Text from './text';
 import PropTypes from 'prop-types';
 import { font } from './style';
 
-const stylesBalance = StyleSheet.create({
+//
+// Balance Label
+//
+
+const balanceStyles = StyleSheet.create({
   label: {
     flexDirection: 'row',
     alignItems: 'flex-start',
@@ -23,9 +27,9 @@ const stylesBalance = StyleSheet.create({
 });
 
 export const BalanceLabel = ({ children, unit, style }) => (
-  <View style={stylesBalance.label}>
-    <Text style={[stylesBalance.numeral, style]}>{children}</Text>
-    <Text style={[stylesBalance.unit, style]}>{unit}</Text>
+  <View style={balanceStyles.label}>
+    <Text style={[balanceStyles.numeral, style]}>{children}</Text>
+    {unit ? <Text style={[balanceStyles.unit, style]}>{unit}</Text> : null}
   </View>
 );
 
