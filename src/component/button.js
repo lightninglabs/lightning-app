@@ -310,43 +310,43 @@ DownButton.propTypes = {
 
 const copyStyles = StyleSheet.create({
   pill: {
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 60,
     borderRadius: 58.94,
     backgroundColor: colors.purple,
-    flexDirection: 'row',
   },
   textWrapper: {
     borderBottomColor: colors.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 30,
     marginLeft: 20,
-    width: '80%',
+    flex: 9,
   },
   text: {
     fontFamily: 'OpenSans Light',
   },
-  touchable: {
-    height: 40,
-    width: 40,
-    marginBottom: 3,
+  iconWrapper: {
+    flex: 1,
+    marginRight: 10,
   },
   icon: {
     height: 20,
     width: 15,
+    marginLeft: 15,
   },
 });
 
-export const CopyButton = ({ icon, onPress, children, style }) => (
-  <TouchableOpacity
-    onPress={onPress}
-    style={[styles.touchable, copyStyles.pill, style]}
-  >
+export const CopyButton = ({ icon, children, style }) => (
+  <TouchableOpacity onPress={() => {}} style={[copyStyles.pill, style]}>
     <View style={copyStyles.textWrapper}>
       <EllipsesText numLines={1} style={copyStyles.text}>
         {children}
       </EllipsesText>
     </View>
-    <Icon image={icon} style={copyStyles.icon} />
+    <View style={copyStyles.iconWrapper}>
+      <Icon image={icon} style={copyStyles.icon} />
+    </View>
   </TouchableOpacity>
 );
 

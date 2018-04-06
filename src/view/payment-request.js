@@ -15,12 +15,12 @@ import { colors } from '../component/style';
 const styles = StyleSheet.create({
   content: {
     alignItems: 'stretch',
+    overflow: 'scroll',
   },
   amount: {
     color: colors.darkText,
   },
   amountWrapper: {
-    alignSelf: 'center',
     marginTop: 20,
     marginBottom: 40,
   },
