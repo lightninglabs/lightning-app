@@ -14,7 +14,6 @@ import { colors } from '../component/style';
 const styles = StyleSheet.create({
   content: {
     alignItems: 'stretch',
-    width: '98%',
   },
   amount: {
     color: colors.darkText,
@@ -50,8 +49,7 @@ const PaymentRequest = ({ amount, message, invoice }) => (
         <BackButton onPress={() => {}} />
       </View>
     </Header>
-    <Card>
-      <MainContent style={styles.content}>
+    <Card style={styles.content}>
         <View style={styles.amountWrapper}>
           <BalanceLabel
             unit="SAT"
@@ -66,7 +64,6 @@ const PaymentRequest = ({ amount, message, invoice }) => (
         <QRCode value={invoice} />
         <CopyButton icon="copy-purple">{invoice}</CopyButton>
         <TextButton onPress={() => {}}>Done</TextButton>
-      </MainContent>
     </Card>
   </Background>
 );

@@ -14,10 +14,12 @@ const namedStyles = StyleSheet.create({
   name: {
     color: colors.darkText,
     fontSize: 18,
+    flex: 1,
   },
   text: {
     fontFamily: 'OpenSans Light',
-    width: '85%',
+//    width: '85%',
+    flex: 5,
     color: colors.darkText,
     marginBottom: 7,
     fontSize: 18,
