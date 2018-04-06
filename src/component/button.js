@@ -338,19 +338,14 @@ const copyStyles = StyleSheet.create({
 });
 
 export const CopyButton = ({ icon, onPress, children, style }) => (
-  <View style={[styles.touchable, copyStyles.pill, style]}>
+  <TouchableOpacity style={[styles.touchable, copyStyles.pill, style]}>
     <View style={copyStyles.textWrapper}>
       <EllipsesText numLines={1} style={copyStyles.text}>
         {children}
       </EllipsesText>
     </View>
-    <IconButton
-      image={icon}
-      onPress={onPress}
-      touchableStyle={copyStyles.touchable}
-      style={copyStyles.icon}
-    />
-  </View>
+    <Icon image="copy-purple" style={copyStyles.icon} />
+  </TouchableOpacity>
 );
 
 CopyButton.propTypes = {
@@ -358,38 +353,6 @@ CopyButton.propTypes = {
   onPress: PropTypes.func,
   children: PropTypes.string,
   style: ViewPropTypes.style,
-};
-
-//
-// Text Button
-//
-
-const textStyles = StyleSheet.create({
-  touchable: {
-    height: 50,
-    width: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    margin: 20,
-  },
-  text: {
-    color: colors.purple,
-    fontFamily: 'OpenSans SemiBold',
-    fontSize: 14,
-  },
-});
-
-export const TextButton = ({ children, onPress, style }) => (
-  <TouchableOpacity onPress={onPress} style={textStyles.touchable}>
-    <Text style={[textStyles.text, style]}>{children.toUpperCase()}</Text>
-  </TouchableOpacity>
-);
-
-TextButton.propTypes = {
-  children: PropTypes.string,
-  onPress: PropTypes.func,
-  style: TextPropTypes.style,
 };
 
 export default Button;

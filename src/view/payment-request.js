@@ -5,7 +5,8 @@ import Background from '../component/background';
 import { NamedField } from '../component/field';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
-import { BackButton, CopyButton, TextButton } from '../component/button';
+import Text from '../component/text';
+import { BackButton, CopyButton, SmallButton } from '../component/button';
 import { BalanceLabel } from '../component/label';
 import Card from '../component/card';
 import QRCode from '../component/qrcode';
@@ -38,6 +39,19 @@ const styles = StyleSheet.create({
     lineHeight: 48,
     marginLeft: 10,
   },
+  doneTouchable: {
+    height: 50,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    margin: 20,
+  },
+  doneText: {
+    color: colors.purple,
+    fontFamily: 'OpenSans SemiBold',
+    fontSize: 14,
+  }
 });
 
 const PaymentRequest = ({ amount, message, invoice }) => (
@@ -63,7 +77,9 @@ const PaymentRequest = ({ amount, message, invoice }) => (
         <NamedField name="Note">{message}</NamedField>
         <QRCode value={invoice} />
         <CopyButton icon="copy-purple">{invoice}</CopyButton>
-        <TextButton onPress={() => {}}>Done</TextButton>
+        <SmallButton style={styles.doneTouchable}>
+          <Text style={styles.doneText}>DONE</Text>
+        </SmallButton>
     </Card>
   </Background>
 );
