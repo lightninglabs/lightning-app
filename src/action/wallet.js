@@ -43,6 +43,10 @@ class WalletAction {
     }
   }
 
+  toggleDisplayFiat() {
+    this._store.settings.displayFiat = !this._store.settings.displayFiat;
+  }
+
   async getBalance() {
     try {
       const res = await this._grpc.sendCommand('WalletBalance');

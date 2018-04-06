@@ -4,26 +4,54 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
-import { BalanceLabel } from '../component/label';
+import {
+  BalanceLabel,
+  SmallBalanceLabel,
+  SmallLabel,
+} from '../component/label';
 import { Header, Title } from '../component/header';
-import { QrButton, SmallButton } from '../component/button';
+import {
+  Button,
+  QrButton,
+  SmallButton,
+  GlasButton,
+  DownButton,
+} from '../component/button';
 import Icon from '../component/icon';
 import { colors } from '../component/style';
 
 const styles = StyleSheet.create({
   content: {
-    justifyContent: 'center',
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  bigBtn: {
+    borderRadius: 21,
+  },
+  downBtn: {
+    margin: 25,
   },
 });
 
-const Home = ({ store }) => {
-  const { channelBalanceLabel, unitLabel } = store;
+const Home = ({ store, wallet }) => {
+  const { balanceLabel, channelBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
       <HomeHeader goChannels={() => {}} goSettings={() => {}} />
       <QrCodeSeparator goFundWallet={() => {}} />
       <MainContent style={styles.content}>
-        <BalanceLabel unit={unitLabel}>{channelBalanceLabel}</BalanceLabel>
+        <BalanceDisplay
+          balanceLabel={balanceLabel}
+          channelBalanceLabel={channelBalanceLabel}
+          unitLabel={unitLabel}
+          toggleDisplayFiat={() => wallet.toggleDisplayFiat()}
+        />
+        <GlasButton onPress={() => {}} style={styles.bigBtn}>
+          Continue
+        </GlasButton>
+        <DownButton onPress={() => {}} style={styles.downBtn}>
+          Transactions
+        </DownButton>
       </MainContent>
     </Background>
   );
@@ -31,6 +59,44 @@ const Home = ({ store }) => {
 
 Home.propTypes = {
   store: PropTypes.object.isRequired,
+  wallet: PropTypes.object.isRequired,
+};
+
+//
+// Balance Display
+//
+
+const balanceStyles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  smallLabel: {
+    marginTop: 30,
+    marginBottom: 5,
+  },
+});
+
+const BalanceDisplay = ({
+  balanceLabel,
+  channelBalanceLabel,
+  unitLabel,
+  toggleDisplayFiat,
+}) => (
+  <View style={balanceStyles.wrapper}>
+    <Button onPress={toggleDisplayFiat}>
+      <BalanceLabel unit={unitLabel}>{channelBalanceLabel}</BalanceLabel>
+      <SmallLabel style={balanceStyles.smallLabel}>Pending Deposit</SmallLabel>
+      <SmallBalanceLabel unit={unitLabel}>{balanceLabel}</SmallBalanceLabel>
+    </Button>
+  </View>
+);
+
+BalanceDisplay.propTypes = {
+  balanceLabel: PropTypes.string.isRequired,
+  channelBalanceLabel: PropTypes.string.isRequired,
+  unitLabel: PropTypes.string,
+  toggleDisplayFiat: PropTypes.func.isRequired,
 };
 
 //
@@ -90,6 +156,7 @@ const qrStyles = StyleSheet.create({
     alignSelf: 'stretch',
     flexDirection: 'row',
     alignItems: 'flex-start',
+    height: 30,
     top: -1,
   },
   separator: {
