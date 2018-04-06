@@ -2,6 +2,7 @@ import React from 'react';
 import { View, TextPropTypes, StyleSheet } from 'react-native';
 import Text from './text';
 import PropTypes from 'prop-types';
+import { font } from './style';
 
 const stylesBalance = StyleSheet.create({
   label: {
@@ -15,7 +16,7 @@ const stylesBalance = StyleSheet.create({
   },
   unit: {
     fontFamily: 'WorkSans Regular',
-    fontSize: 20,
+    fontSize: font.sizeL,
     lineHeight: 60,
     marginLeft: 10,
   },

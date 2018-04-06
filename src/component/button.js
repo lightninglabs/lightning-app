@@ -8,7 +8,7 @@ import {
 import PropTypes from 'prop-types';
 import Text from './text';
 import Icon from './icon';
-import { colors } from './style';
+import { colors, font } from './style';
 
 //
 // Regular Button
@@ -128,7 +128,7 @@ const smallStyles = StyleSheet.create({
   },
   text: {
     fontFamily: 'OpenSans SemiBold',
-    fontSize: 12,
+    fontSize: font.sizeS,
     marginLeft: 5,
   },
   border: {
@@ -249,7 +249,7 @@ const qrStyles = StyleSheet.create({
     width: 25,
   },
   text: {
-    fontSize: 10,
+    fontSize: font.sizeXS,
   },
 });
 

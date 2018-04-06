@@ -12,3 +12,14 @@ export const colors = {
   glas: 'rgba(255,255,255,0.13)',
   glasDark: 'rgba(255,255,255,0.08)',
 };
+
+export const font = {
+  sizeXS: 10,
+  sizeS: 12,
+  sizeBase: 16,
+  sizeL: 20,
+  lineHeightXS: 14,
+  lineHeightS: 16,
+  lineHeightBase: 20,
+  lineHeightL: 24,
+};
