@@ -4,12 +4,14 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
+import Icon from '../component/icon';
+import { Header, Title } from '../component/header';
+import { colors } from '../component/style';
 import {
   BalanceLabel,
   SmallBalanceLabel,
   SmallLabel,
 } from '../component/label';
-import { Header, Title } from '../component/header';
 import {
   Button,
   QrButton,
@@ -17,8 +19,10 @@ import {
   GlasButton,
   DownButton,
 } from '../component/button';
-import Icon from '../component/icon';
-import { colors } from '../component/style';
+
+//
+// Home View
+//
 
 const styles = StyleSheet.create({
   content: {
