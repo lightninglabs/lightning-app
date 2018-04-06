@@ -18,20 +18,14 @@ const styles = StyleSheet.create({
   touchable: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  size: {
-    height: 60,
-    width: 60,
+    minHeight: 60,
+    minWidth: 60,
   },
 });
 
 export const Button = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
-    style={[
-      { opacity: disabled ? 0.5 : 1 },
-      styles.touchable,
-      style ? style : styles.size,
-    ]}
+    style={[{ opacity: disabled ? 0.5 : 1 }, styles.touchable, style]}
     disabled={disabled}
     onPress={onPress}
   >
