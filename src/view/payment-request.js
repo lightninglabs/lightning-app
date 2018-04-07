@@ -13,33 +13,38 @@ import QRCode from '../component/qrcode';
 import { colors } from '../component/style';
 
 const styles = StyleSheet.create({
+  header: {
+    minWidth: 500,
+    width: '100%',
+    alignSelf: 'center',
+  },
   content: {
     alignItems: 'stretch',
-    overflow: 'scroll',
+    justifyContent: 'flex-start',
+    overflow: 'auto',
   },
   amount: {
     color: colors.darkText,
   },
   amountWrapper: {
     marginTop: 20,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   hiddenItem: {
     // Workaround to align header items correctly.
     opacity: 0,
   },
   numeral: {
+    lineHeight: 70,
     fontFamily: 'WorkSans ExtraLight',
     fontSize: 103,
     color: colors.darkText,
-    lineHeight: 100,
   },
   unit: {
+    lineHeight: 30,
     fontFamily: 'WorkSans Regular',
     fontSize: 23,
     color: colors.darkText,
-    lineHeight: 48,
-    marginLeft: 10,
   },
   doneTouchable: {
     height: 50,
@@ -58,7 +63,7 @@ const styles = StyleSheet.create({
 
 const PaymentRequest = ({ store }) => (
   <Background image="purple-gradient-bg">
-    <Header shadow color={colors.purple}>
+    <Header shadow color={colors.purple} style={styles.header}>
       <BackButton onPress={() => {}} />
       <Title title="Payment Request" />
       <View style={styles.hiddenItem}>
@@ -74,7 +79,7 @@ const PaymentRequest = ({ store }) => (
       <NamedField name="Note">{store.paymentRequest.message}</NamedField>
       <QRCode value={store.paymentRequest.invoice} />
       <CopyButton icon="copy-purple">{store.paymentRequest.invoice}</CopyButton>
-      <SmallButton style={styles.doneTouchable}>
+      <SmallButton onPress={() => {}} style={styles.doneTouchable}>
         <Text style={styles.doneText}>DONE</Text>
       </SmallButton>
     </Card>

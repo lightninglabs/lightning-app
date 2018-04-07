@@ -19,6 +19,7 @@ const balanceStyles = StyleSheet.create({
     lineHeight: font.lineHeightXXXL,
   },
   unit: {
+    display: 'flex',
     fontFamily: 'WorkSans Regular',
     fontSize: font.sizeL,
     lineHeight: 60,
@@ -81,46 +82,9 @@ export const SmallBalanceLabel = ({ children, unit, style }) => (
 );
 
 SmallBalanceLabel.propTypes = {
-    children: PropTypes.string.isRequired,
-    unit: PropTypes.string,
-    style: TextPropTypes.style,
-};
-
-//
-// Amount Label
-//
-
-const stylesAmount = StyleSheet.create({
-  label: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  numeral: {
-    fontFamily: 'WorkSans ExtraLight',
-    fontSize: 103,
-    lineHeight: 100,
-  },
-  unit: {
-    fontFamily: 'WorkSans Regular',
-    fontSize: 23,
-    lineHeight: 48,
-    marginLeft: 10,
-  },
-});
-
-export const LabelAmount = ({ children, unit, style }) => (
-  <View style={stylesAmount.label}>
-    <Text style={[stylesAmount.numeral, style]}>{children}</Text>
-    <Text style={[stylesAmount.unit, style]}>{unit}</Text>
-  </View>
-);
-
-LabelAmount.propTypes = {
   children: PropTypes.string.isRequired,
   unit: PropTypes.string,
   style: TextPropTypes.style,
-  numeralStyle: TextPropTypes.style,
-  unitStyle: TextPropTypes.style,
 };
 
 //

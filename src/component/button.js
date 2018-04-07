@@ -303,6 +303,7 @@ DownButton.propTypes = {
   disabled: PropTypes.bool,
   style: ViewPropTypes.style,
   children: PropTypes.string,
+};
 
 //
 // Copy Button
@@ -312,6 +313,7 @@ const copyStyles = StyleSheet.create({
   pill: {
     flexDirection: 'row',
     alignItems: 'center',
+    alignSelf: 'stretch',
     height: 60,
     borderRadius: 58.94,
     backgroundColor: colors.purple,

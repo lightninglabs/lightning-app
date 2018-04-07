@@ -48,7 +48,11 @@ const Text = ({ children, style, ...props }) => (
 );
 
 Text.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.array,
+    PropTypes.element,
+  ]),
   style: TextPropTypes.style,
 };
 
