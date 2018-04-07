@@ -5,21 +5,22 @@ import {
   SmallBalanceLabel,
   SmallLabel,
 } from '../../src/component/label';
+import { colors } from '../../src/component/style';
 
 storiesOf('Labels', module)
   .add('Balance SAT', () => (
-    <BalanceLabel unit="SAT" style={{ color: 'black' }}>
+    <BalanceLabel unit="SAT" style={{ color: colors.blackText }}>
       9,123,456,788
     </BalanceLabel>
   ))
   .add('Balance USD', () => (
-    <BalanceLabel style={{ color: 'black' }}>$10,000.00</BalanceLabel>
+    <BalanceLabel style={{ color: colors.blackText }}>$10,000.00</BalanceLabel>
   ))
   .add('Small Balance SAT', () => (
-    <SmallBalanceLabel unit="SAT" style={{ color: 'black' }}>
+    <SmallBalanceLabel unit="SAT" style={{ color: colors.blackText }}>
       9,123,456,788
     </SmallBalanceLabel>
   ))
   .add('Small Label', () => (
-    <SmallLabel style={{ color: 'black' }}>Small Label</SmallLabel>
+    <SmallLabel style={{ color: colors.blackText }}>Small Label</SmallLabel>
   ));
