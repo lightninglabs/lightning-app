@@ -1,9 +1,9 @@
 import React from 'react';
 import {
+  View,
   TouchableOpacity,
   ViewPropTypes,
   StyleSheet,
-  View,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Text, { EllipsesText } from './text';
@@ -189,7 +189,6 @@ SmallButton.propTypes = {
   alert: PropTypes.string,
   children: PropTypes.node,
   style: ViewPropTypes.style,
-  touchableStyle: ViewPropTypes.style,
 };
 
 //
