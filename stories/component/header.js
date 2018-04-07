@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import Background from '../../src/component/background';
 import { Header, Title } from '../../src/component/header';
-import { BackButton, CancelButton } from '../../src/component/button';
+import { Button, BackButton, CancelButton } from '../../src/component/button';
 import Icon from '../../src/component/icon';
 import { colors } from '../../src/component/style';
 
@@ -31,7 +31,7 @@ storiesOf('Header', module)
       <Header separator>
         <BackButton onPress={action('back')} />
         <Title title="Dark with Separator" />
-        <CancelButton onPress={action('cancel')} />
+        <Button disabled onPress={() => {}} />
       </Header>
     </Background>
   ));
