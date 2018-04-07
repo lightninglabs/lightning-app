@@ -13,7 +13,7 @@ describe('Computed Wallet Unit Tests', () => {
       ComputedWallet(store);
       expect(store.balanceLabel, 'to equal', '0');
       expect(store.channelBalanceLabel, 'to equal', '0');
-      expect(store.unitLabel, 'to equal', 'bits');
+      expect(store.unitLabel, 'to equal', 'SAT');
     });
 
     it('should display channel balance in usd', () => {
@@ -29,13 +29,17 @@ describe('Computed Wallet Unit Tests', () => {
 
     it('should display channel balance in sat', () => {
       store.settings.exchangeRate.usd = 0.00014503;
-      store.balanceSatoshis = 100000000;
+      store.balanceSatoshis = 100000001;
       store.channelBalanceSatoshis = 10000;
-      store.settings.unit = 'sat';
+      store.settings.unit = 'bit';
       ComputedWallet(store);
-      expect(store.balanceLabel, 'to match', /^1{1}0{2}[,.]0{3}[,.]0{3}$/);
-      expect(store.channelBalanceLabel, 'to match', /^1{1}0{1}[,.]0{3}$/);
-      expect(store.unitLabel, 'to equal', 'SAT');
+      expect(
+        store.balanceLabel,
+        'to match',
+        /^1{1}[,.]0{3}[,.]0{3}[,.]0{1}1{1}$/
+      );
+      expect(store.channelBalanceLabel, 'to equal', '100');
+      expect(store.unitLabel, 'to equal', 'bits');
     });
   });
 });
