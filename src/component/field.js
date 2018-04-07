@@ -7,19 +7,19 @@ import { colors } from './style';
 const namedStyles = StyleSheet.create({
   content: {
     flexDirection: 'row',
-    borderBottomColor: colors.darkText,
+    borderBottomColor: colors.blackText,
     borderBottomWidth: StyleSheet.hairlineWidth,
     justifyContent: 'space-between',
   },
   name: {
-    color: colors.darkText,
+    color: colors.blackText,
     fontSize: 18,
     flex: 1,
   },
   text: {
     fontFamily: 'OpenSans Light',
     flex: 5,
-    color: colors.darkText,
+    color: colors.blackText,
     marginBottom: 7,
     fontSize: 18,
     textAlign: 'right',

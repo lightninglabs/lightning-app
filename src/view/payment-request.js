@@ -3,28 +3,29 @@ import { StyleSheet, View } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
+import MainContent from '../component/main-content';
 import { NamedField } from '../component/field';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
-import { BackButton, CopyButton, SmallButton, Button } from '../component/button';
+import {
+  BackButton,
+  CopyButton,
+  SmallButton,
+  Button,
+} from '../component/button';
 import { BalanceLabel } from '../component/label';
 import Card from '../component/card';
 import QRCode from '../component/qrcode';
 import { colors } from '../component/style';
 
 const styles = StyleSheet.create({
-  header: {
-    minWidth: 500,
-    width: '100%',
-    alignSelf: 'center',
-  },
-  content: {
+  card: {
     alignItems: 'stretch',
     justifyContent: 'flex-start',
-    overflow: 'auto',
+    paddingBottom: 20,
   },
   amount: {
-    color: colors.darkText,
+    color: colors.blackText,
   },
   amountWrapper: {
     marginTop: 20,
@@ -34,13 +35,13 @@ const styles = StyleSheet.create({
     lineHeight: 70,
     fontFamily: 'WorkSans ExtraLight',
     fontSize: 103,
-    color: colors.darkText,
+    color: colors.blackText,
   },
   unit: {
-    lineHeight: 30,
+    lineHeight: 20,
     fontFamily: 'WorkSans Regular',
     fontSize: 23,
-    color: colors.darkText,
+    color: colors.blackText,
   },
   doneTouchable: {
     height: 50,
@@ -64,19 +65,23 @@ const PaymentRequest = ({ store }) => (
       <Title title="Payment Request" />
       <Button disabled onPress={() => {}} />
     </Header>
-    <Card style={styles.content}>
-      <View style={styles.amountWrapper}>
-        <BalanceLabel unit={<Text style={styles.unit}>SAT</Text>}>
-          <Text style={styles.numeral}>{store.paymentRequest.amount}</Text>
-        </BalanceLabel>
-      </View>
-      <NamedField name="Note">{store.paymentRequest.message}</NamedField>
-      <QRCode value={store.paymentRequest.invoice} />
-      <CopyButton icon="copy-purple">{store.paymentRequest.invoice}</CopyButton>
-      <SmallButton onPress={() => {}} style={styles.doneTouchable}>
-        <Text style={styles.doneText}>DONE</Text>
-      </SmallButton>
-    </Card>
+    <MainContent>
+      <Card style={styles.card}>
+        <View style={styles.amountWrapper}>
+          <BalanceLabel unit="SAT" style={styles.unit}>
+            <Text style={styles.numeral}>{store.paymentRequest.amount}</Text>
+          </BalanceLabel>
+        </View>
+        <NamedField name="Note">{store.paymentRequest.message}</NamedField>
+        <QRCode value={store.paymentRequest.invoice} />
+        <CopyButton icon="copy-purple">
+          {store.paymentRequest.invoice}
+        </CopyButton>
+        <SmallButton onPress={() => {}} style={styles.doneTouchable}>
+          <Text style={styles.doneText}>DONE</Text>
+        </SmallButton>
+      </Card>
+    </MainContent>
   </Background>
 );
 
