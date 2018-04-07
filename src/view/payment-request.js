@@ -6,7 +6,7 @@ import Background from '../component/background';
 import { NamedField } from '../component/field';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
-import { BackButton, CopyButton, SmallButton } from '../component/button';
+import { BackButton, CopyButton, SmallButton, Button } from '../component/button';
 import { BalanceLabel } from '../component/label';
 import Card from '../component/card';
 import QRCode from '../component/qrcode';
@@ -29,10 +29,6 @@ const styles = StyleSheet.create({
   amountWrapper: {
     marginTop: 20,
     marginBottom: 20,
-  },
-  hiddenItem: {
-    // Workaround to align header items correctly.
-    opacity: 0,
   },
   numeral: {
     lineHeight: 70,
@@ -66,9 +62,7 @@ const PaymentRequest = ({ store }) => (
     <Header shadow color={colors.purple} style={styles.header}>
       <BackButton onPress={() => {}} />
       <Title title="Payment Request" />
-      <View style={styles.hiddenItem}>
-        <BackButton onPress={() => {}} />
-      </View>
+      <Button disabled onPress={() => {}} />
     </Header>
     <Card style={styles.content}>
       <View style={styles.amountWrapper}>
