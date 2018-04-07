@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Home = ({ store, wallet, nav }) => {
+const HomeView = ({ store, wallet, nav }) => {
   const { balanceLabel, channelBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
@@ -62,7 +62,7 @@ const Home = ({ store, wallet, nav }) => {
   );
 };
 
-Home.propTypes = {
+HomeView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
@@ -238,4 +238,4 @@ QrCodeSeparator.propTypes = {
   goFundWallet: PropTypes.func.isRequired,
 };
 
-export default observer(Home);
+export default observer(HomeView);
