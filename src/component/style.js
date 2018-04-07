@@ -3,6 +3,7 @@ export const colors = {
   whiteBg: '#F5F5F5',
   grey: '#C5C8CF',
   greyText: '#848A99',
+  greyBorder: '#6B6969',
   purple: '#57038D',
   orange: '#F66B1C',
   blackDark: '#252F4A',
