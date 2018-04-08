@@ -43,7 +43,6 @@ storiesOf('Layout', module)
 
             Quisque nec laoreet nulla. Maecenas ullamcorper velit est. Phasellus efficitur, nisi in sodales tincidunt, ex ligula dictum dolor, sit amet eleifend sapien velit eget quam. Praesent dolor nisi, dignissim a nunc egestas, elementum scelerisque velit. Donec at turpis eros. Pellentesque id laoreet nibh. Proin et nulla lorem. Vestibulum fringilla auctor augue, ut imperdiet lectus dictum vel. Nullam at magna massa. Suspendisse vitae ipsum nec mauris pellentesque ullamcorper. Curabitur semper suscipit pharetra. Vestibulum id bibendum tellus.`}
           </Text>
-          <MainContent />
           <PillButton onPress={action('clicked')}>Next</PillButton>
         </Card>
       </MainContent>
