@@ -19,7 +19,6 @@ const balanceStyles = StyleSheet.create({
     lineHeight: font.lineHeightXXXL,
   },
   unit: {
-    display: 'flex',
     fontFamily: 'WorkSans Regular',
     fontSize: font.sizeL,
     lineHeight: 60,
