@@ -66,7 +66,6 @@ const itemStyles = StyleSheet.create({
   item: {
     alignSelf: 'stretch',
     flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     height: 40,
     paddingLeft: 10,
