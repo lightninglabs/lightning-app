@@ -20,7 +20,6 @@ import { colors } from '../component/style';
 
 const styles = StyleSheet.create({
   card: {
-    alignItems: 'stretch',
     justifyContent: 'flex-start',
     paddingBottom: 20,
   },
@@ -46,9 +45,6 @@ const styles = StyleSheet.create({
   doneTouchable: {
     height: 50,
     width: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
     margin: 20,
   },
   doneText: {

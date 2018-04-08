@@ -6,22 +6,23 @@ import { colors } from './style';
 
 const namedStyles = StyleSheet.create({
   content: {
+    justifyContent: 'space-between',
+    alignSelf: 'stretch',
     flexDirection: 'row',
     borderBottomColor: colors.blackText,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    justifyContent: 'space-between',
   },
   name: {
+    flex: 1,
     color: colors.blackText,
     fontSize: 18,
-    flex: 1,
   },
   text: {
-    fontFamily: 'OpenSans Light',
     flex: 5,
+    fontFamily: 'OpenSans Light',
+    fontSize: 18,
     color: colors.blackText,
     marginBottom: 7,
-    fontSize: 18,
     textAlign: 'right',
   },
 });

@@ -318,11 +318,11 @@ const copyStyles = StyleSheet.create({
     backgroundColor: colors.purple,
   },
   textWrapper: {
+    flex: 9,
     borderBottomColor: colors.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 30,
     marginLeft: 20,
-    flex: 9,
   },
   text: {
     fontFamily: 'OpenSans Light',
