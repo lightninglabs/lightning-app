@@ -41,8 +41,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const Text = ({ children, style }) => (
-  <RNText style={[styles.base, style]}>{children}</RNText>
+const Text = ({ children, style, ...props }) => (
+  <RNText style={[styles.base, style]} {...props}>
+    {children}
+  </RNText>
 );
 
 Text.propTypes = {
