@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -7,6 +7,7 @@ import { Header, Title } from '../component/header';
 import { Button, BackButton } from '../component/button';
 import { ListContent, List, ListItem, ListHeader } from '../component/list';
 import Text from '../component/text';
+import Icon from '../component/icon';
 import { colors, font } from '../component/style';
 
 //
@@ -26,7 +27,7 @@ const TransactionView = ({ store }) => {
         <List
           data={transactions}
           renderHeader={() => <TransactionListHeader />}
-          renderItem={item => <TransactionListItem item={item} />}
+          renderItem={item => <TransactionListItem tx={item} />}
         />
       </ListContent>
     </Background>
@@ -38,46 +39,91 @@ TransactionView.propTypes = {
 };
 
 //
+// Transaction List Item
+//
+
+const iStyles = StyleSheet.create({
+  wrap: {
+    paddingRight: 50,
+  },
+  txt: {
+    color: colors.white,
+    fontSize: font.sizeS,
+  },
+  bolt: {
+    height: 126 * 0.14,
+    width: 64 * 0.14,
+  },
+  alert: {
+    height: 6,
+    width: 6,
+    borderRadius: 50,
+    marginRight: 6,
+  },
+  group: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+  },
+  l: { flex: 9 },
+  m: { flex: 3 },
+  s: { flex: 2 },
+  i: { flex: 1 },
+});
+
+const statusColor = tx => {
+  const status = tx.status.toLowerCase();
+  if (tx.type === 'lightning') {
+    return status === 'complete' ? colors.greenSig : colors.orangeSig;
+  } else {
+    return status === 'confirmed' ? colors.greenSig : colors.orangeSig;
+  }
+};
+
+const TransactionListItem = ({ tx }) => (
+  <ListItem>
+    <View style={iStyles.i}>
+      <Icon style={iStyles.bolt} image="lightning-bolt" />
+    </View>
+    <View style={[iStyles.m, iStyles.group]}>
+      <View style={[iStyles.alert, { backgroundColor: statusColor(tx) }]} />
+      <Text style={iStyles.txt}>{tx.status}</Text>
+    </View>
+    <Text style={[iStyles.m, iStyles.txt]}>{tx.date.toLocaleDateString()}</Text>
+    <View style={iStyles.l}>
+      <Text style={[iStyles.txt, iStyles.wrap]} numberOfLines={1}>
+        {tx.id}
+      </Text>
+    </View>
+    <Text style={[iStyles.m, iStyles.txt]}>{tx.amount}</Text>
+    <Text style={[iStyles.s, iStyles.txt]}>{tx.fee}</Text>
+  </ListItem>
+);
+
+TransactionListItem.propTypes = {
+  tx: PropTypes.object.isRequired,
+};
+
+//
 // Transaction List Header
 //
 
-const headStyles = StyleSheet.create({
-  text: {
+const hStyles = StyleSheet.create({
+  txt: {
     color: colors.greyText,
     fontSize: font.sizeXS,
   },
 });
 
 const TransactionListHeader = () => (
-  <ListHeader style={headStyles.wrapper}>
-    <Text style={headStyles.text}>STATUS</Text>
-    <Text style={headStyles.text}>DATE</Text>
-    <Text style={headStyles.text}>TX ID</Text>
-    <Text style={headStyles.text}>AMOUNT</Text>
-    <Text style={headStyles.text}>FEE</Text>
+  <ListHeader>
+    <View style={iStyles.i} />
+    <Text style={[iStyles.m, hStyles.txt]}>STATUS</Text>
+    <Text style={[iStyles.m, hStyles.txt]}>DATE</Text>
+    <Text style={[iStyles.l, hStyles.txt]}>TX ID</Text>
+    <Text style={[iStyles.m, hStyles.txt]}>AMOUNT</Text>
+    <Text style={[iStyles.s, hStyles.txt]}>FEE</Text>
   </ListHeader>
 );
-
-//
-// Transaction List Item
-//
-
-const itemStyles = StyleSheet.create({
-  text: {
-    color: colors.white,
-    fontSize: font.sizeS,
-  },
-});
-
-const TransactionListItem = ({ item }) => (
-  <ListItem>
-    <Text style={itemStyles.text}>{item.id}</Text>
-    <Text style={itemStyles.text}>{item.date.toString()}</Text>
-  </ListItem>
-);
-
-TransactionListItem.propTypes = {
-  item: PropTypes.object.isRequired,
-};
 
 export default observer(TransactionView);
