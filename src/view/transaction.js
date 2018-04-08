@@ -54,6 +54,10 @@ const iStyles = StyleSheet.create({
     height: 126 * 0.14,
     width: 64 * 0.14,
   },
+  btc: {
+    height: 170 * 0.08,
+    width: 135 * 0.08,
+  },
   alert: {
     height: 6,
     width: 6,
@@ -65,8 +69,8 @@ const iStyles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  l: { flex: 9 },
-  m: { flex: 3 },
+  l: { flex: 8 },
+  m: { flex: 4 },
   s: { flex: 2 },
   i: { flex: 1 },
 });
@@ -83,7 +87,11 @@ const statusColor = tx => {
 const TransactionListItem = ({ tx }) => (
   <ListItem>
     <View style={iStyles.i}>
-      <Icon style={iStyles.bolt} image="lightning-bolt" />
+      {tx.type === 'lightning' ? (
+        <Icon image="lightning-bolt" style={iStyles.bolt} />
+      ) : (
+        <Icon image="bitcoin" style={iStyles.btc} />
+      )}
     </View>
     <View style={[iStyles.m, iStyles.group]}>
       <View style={[iStyles.alert, { backgroundColor: statusColor(tx) }]} />
