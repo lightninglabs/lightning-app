@@ -19,7 +19,7 @@ storiesOf('Screens', module)
 
 // set some dummy data
 store.balanceSatoshis = 798765432;
-store.channelBalanceSatoshis = 59876543;
+store.channelBalanceSatoshis = 59876000;
 store.settings.exchangeRate.usd = 0.00014503;
 store.transactions = [...Array(100)].map((x, i) => ({
   id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',

@@ -13,7 +13,7 @@ describe('Computed Wallet Unit Tests', () => {
       ComputedWallet(store);
       expect(store.balanceLabel, 'to equal', '0');
       expect(store.channelBalanceLabel, 'to equal', '0');
-      expect(store.unitLabel, 'to equal', 'SAT');
+      expect(store.unitLabel, 'to equal', 'BTC');
     });
 
     it('should display channel balance in usd', () => {
