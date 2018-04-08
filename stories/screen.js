@@ -22,6 +22,10 @@ store.balanceSatoshis = 798765432;
 store.channelBalanceSatoshis = 59876543;
 store.settings.exchangeRate.usd = 0.00014503;
 store.transactions = [...Array(100)].map((x, i) => ({
-  id: String(i),
+  id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
+  type: 'lightning',
+  amount: '923456',
+  status: 'Complete',
   date: new Date(),
+  fee: '156',
 }));
