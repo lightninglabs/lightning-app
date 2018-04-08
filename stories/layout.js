@@ -10,7 +10,7 @@ import {
   BackButton,
   CancelButton,
 } from '../src/component/button';
-import { BalanceLabel } from '../src/component/label';
+import { BalanceLabel, BalanceLabelNumeral } from '../src/component/label';
 import Card from '../src/component/card';
 import Text from '../src/component/text';
 import Icon from '../src/component/icon';
@@ -20,7 +20,9 @@ storiesOf('Layout', module)
   .add('Button Bottom', () => (
     <Background image="purple-gradient-bg">
       <MainContent style={{ justifyContent: 'center' }}>
-        <BalanceLabel unit="SAT">9,123,456,788</BalanceLabel>
+        <BalanceLabel>
+          <BalanceLabelNumeral>$10,000.00</BalanceLabelNumeral>
+        </BalanceLabel>
       </MainContent>
       <GlasButton onPress={action('clicked')}>Continue</GlasButton>
     </Background>

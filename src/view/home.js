@@ -9,6 +9,8 @@ import { Header, Title } from '../component/header';
 import { colors } from '../component/style';
 import {
   BalanceLabel,
+  BalanceLabelNumeral,
+  BalanceLabelUnit,
   SmallBalanceLabel,
   SmallLabel,
 } from '../component/label';
@@ -91,7 +93,10 @@ const BalanceDisplay = ({
 }) => (
   <View style={balanceStyles.wrapper}>
     <Button onPress={toggleDisplayFiat}>
-      <BalanceLabel unit={unitLabel}>{channelBalanceLabel}</BalanceLabel>
+      <BalanceLabel>
+        <BalanceLabelNumeral>{channelBalanceLabel}</BalanceLabelNumeral>
+        <BalanceLabelUnit>{unitLabel}</BalanceLabelUnit>
+      </BalanceLabel>
       <SmallLabel style={balanceStyles.smallLabel}>Pending Deposit</SmallLabel>
       <SmallBalanceLabel unit={unitLabel}>{balanceLabel}</SmallBalanceLabel>
     </Button>

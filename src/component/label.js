@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextPropTypes, StyleSheet } from 'react-native';
+import { View, ViewPropTypes, TextPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { font } from './style';
@@ -26,16 +26,29 @@ const balanceStyles = StyleSheet.create({
   },
 });
 
-export const BalanceLabel = ({ children, unit, style }) => (
-  <View style={balanceStyles.label}>
-    <Text style={[balanceStyles.numeral, style]}>{children}</Text>
-    {unit ? <Text style={[balanceStyles.unit, style]}>{unit}</Text> : null}
-  </View>
+export const BalanceLabel = ({ children, style }) => (
+  <View style={[balanceStyles.label, style]}>{children}</View>
 );
 
 BalanceLabel.propTypes = {
+  children: PropTypes.node.isRequired,
+  style: ViewPropTypes.style,
+};
+
+export const BalanceLabelNumeral = ({ children, style }) => (
+  <Text style={[balanceStyles.numeral, style]}>{children}</Text>
+);
+
+BalanceLabelNumeral.propTypes = {
   children: PropTypes.string.isRequired,
-  unit: PropTypes.string,
+  style: TextPropTypes.style,
+};
+
+export const BalanceLabelUnit = ({ children, style }) =>
+  children ? <Text style={[balanceStyles.unit, style]}>{children}</Text> : null;
+
+BalanceLabelUnit.propTypes = {
+  children: PropTypes.string,
   style: TextPropTypes.style,
 };
 
