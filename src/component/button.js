@@ -304,4 +304,58 @@ DownButton.propTypes = {
   children: PropTypes.string,
 };
 
+//
+// Copy Button
+//
+
+const copyStyles = StyleSheet.create({
+  pill: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'stretch',
+    height: 60,
+    borderRadius: 58.94,
+    backgroundColor: colors.purple,
+  },
+  textWrapper: {
+    flex: 9,
+    borderBottomColor: colors.white,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    height: 30,
+    marginLeft: 20,
+  },
+  text: {
+    fontFamily: 'OpenSans Light',
+  },
+  iconWrapper: {
+    flex: 1,
+    marginRight: 10,
+  },
+  icon: {
+    height: 20,
+    width: 15,
+    marginLeft: 15,
+  },
+});
+
+export const CopyButton = ({ icon, children, style }) => (
+  <TouchableOpacity onPress={() => {}} style={[copyStyles.pill, style]}>
+    <View style={copyStyles.textWrapper}>
+      <Text numberOfLines={1} style={copyStyles.text}>
+        {children}
+      </Text>
+    </View>
+    <View style={copyStyles.iconWrapper}>
+      <Icon image={icon} style={copyStyles.icon} />
+    </View>
+  </TouchableOpacity>
+);
+
+CopyButton.propTypes = {
+  icon: PropTypes.string,
+  onPress: PropTypes.func,
+  children: PropTypes.string,
+  style: ViewPropTypes.style,
+};
+
 export default Button;

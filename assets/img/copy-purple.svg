@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="19px" height="24px" viewBox="0 0 19 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.2 (51160) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0.130371589" y="0.227946489" width="10.302139" height="14.2479108"></rect>
+        <rect id="path-2" x="4.31355584" y="5.60632623" width="10.302139" height="14.2479108"></rect>
+    </defs>
+    <g id="Errors-and-Notifications" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Receive---Done" transform="translate(-939.000000, -849.000000)">
+            <g id="Group" transform="translate(941.000000, 851.000000)">
+                <g id="Rectangle-Copy-2">
+                    <use fill="#6B249C" fill-rule="evenodd" xlink:href="#path-1"></use>
+                    <rect stroke="#A540CD" stroke-width="2" x="-0.869628411" y="-0.772053511" width="12.302139" height="16.2479108"></rect>
+                </g>
+                <g id="Rectangle-Copy">
+                    <use fill="#6B249C" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    <rect stroke="#A540CD" stroke-width="2" x="3.31355584" y="4.60632623" width="12.302139" height="16.2479108"></rect>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
