@@ -13,7 +13,11 @@ import {
   SmallButton,
   Button,
 } from '../component/button';
-import { BalanceLabel } from '../component/label';
+import {
+  BalanceLabel,
+  BalanceLabelNumeral,
+  BalanceLabelUnit,
+} from '../component/label';
 import Card from '../component/card';
 import QRCode from '../component/qrcode';
 import { colors } from '../component/style';
@@ -32,13 +36,11 @@ const styles = StyleSheet.create({
   },
   numeral: {
     lineHeight: 70,
-    fontFamily: 'WorkSans ExtraLight',
     fontSize: 103,
     color: colors.blackText,
   },
   unit: {
     lineHeight: 20,
-    fontFamily: 'WorkSans Regular',
     fontSize: 23,
     color: colors.blackText,
   },
@@ -64,8 +66,11 @@ const PaymentRequest = ({ store }) => (
     <MainContent>
       <Card style={styles.card}>
         <View style={styles.amountWrapper}>
-          <BalanceLabel unit="SAT" style={styles.unit}>
-            <Text style={styles.numeral}>{store.paymentRequest.amount}</Text>
+          <BalanceLabel>
+            <BalanceLabelNumeral style={styles.numeral}>
+              {store.paymentRequest.amount}
+            </BalanceLabelNumeral>
+            <BalanceLabelUnit style={styles.unit}>SAT</BalanceLabelUnit>
           </BalanceLabel>
         </View>
         <NamedField name="Note">{store.paymentRequest.message}</NamedField>

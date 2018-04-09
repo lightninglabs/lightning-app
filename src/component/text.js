@@ -48,23 +48,7 @@ const Text = ({ children, style, ...props }) => (
 );
 
 Text.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.array,
-    PropTypes.element,
-  ]),
-  style: TextPropTypes.style,
-};
-
-export const EllipsesText = ({ children, numLines, style }) => (
-  <RNText numberOfLines={numLines} style={[styles.base, style]}>
-    {children}
-  </RNText>
-);
-
-EllipsesText.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  numLines: PropTypes.number,
   style: TextPropTypes.style,
 };
 
