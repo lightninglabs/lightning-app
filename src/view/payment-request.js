@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -30,9 +30,9 @@ const styles = StyleSheet.create({
   amount: {
     color: colors.blackText,
   },
-  amountWrapper: {
-    marginTop: 20,
-    marginBottom: 20,
+  balance: {
+    marginTop: 30,
+    marginBottom: 40,
   },
   numeral: {
     lineHeight: 70,
@@ -65,14 +65,12 @@ const PaymentRequest = ({ store }) => (
     </Header>
     <MainContent>
       <Card style={styles.card}>
-        <View style={styles.amountWrapper}>
-          <BalanceLabel>
-            <BalanceLabelNumeral style={styles.numeral}>
-              {store.paymentRequest.amount}
-            </BalanceLabelNumeral>
-            <BalanceLabelUnit style={styles.unit}>SAT</BalanceLabelUnit>
-          </BalanceLabel>
-        </View>
+        <BalanceLabel style={styles.balance}>
+          <BalanceLabelNumeral style={styles.numeral}>
+            {store.paymentRequest.amount}
+          </BalanceLabelNumeral>
+          <BalanceLabelUnit style={styles.unit}>SAT</BalanceLabelUnit>
+        </BalanceLabel>
         <NamedField name="Note">{store.paymentRequest.message}</NamedField>
         <QRCode value={store.paymentRequest.invoice} />
         <CopyButton icon="copy-purple">
