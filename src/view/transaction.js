@@ -14,12 +14,12 @@ import { colors, font } from '../component/style';
 // Transaction View
 //
 
-const TransactionView = ({ store }) => {
+const TransactionView = ({ store, nav }) => {
   const { computedTransactions: transactions } = store;
   return (
     <Background color={colors.blackDark}>
       <Header separator>
-        <BackButton onPress={() => {}} />
+        <BackButton onPress={() => nav.goHome()} />
         <Title title="Transactions" />
         <Button disabled onPress={() => {}} />
       </Header>
@@ -27,7 +27,9 @@ const TransactionView = ({ store }) => {
         <List
           data={transactions}
           renderHeader={() => <TransactionListHeader />}
-          renderItem={item => <TransactionListItem tx={item} />}
+          renderItem={item => (
+            <TransactionListItem tx={item} onSelect={nav.goTransaction} />
+          )}
         />
       </ListContent>
     </Background>
@@ -36,6 +38,7 @@ const TransactionView = ({ store }) => {
 
 TransactionView.propTypes = {
   store: PropTypes.object.isRequired,
+  nav: PropTypes.object.isRequired,
 };
 
 //
@@ -84,8 +87,8 @@ const statusColor = tx => {
   }
 };
 
-const TransactionListItem = ({ tx }) => (
-  <ListItem>
+const TransactionListItem = ({ tx, onSelect }) => (
+  <ListItem onSelect={() => onSelect(tx)}>
     <View style={iStyles.i}>
       {tx.type === 'lightning' ? (
         <Icon image="lightning-bolt" style={iStyles.bolt} />
@@ -110,6 +113,7 @@ const TransactionListItem = ({ tx }) => (
 
 TransactionListItem.propTypes = {
   tx: PropTypes.object.isRequired,
+  onSelect: PropTypes.func.isRequired,
 };
 
 //
