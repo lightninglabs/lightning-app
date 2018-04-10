@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { View, ListView, ViewPropTypes, StyleSheet } from 'react-native';
+import {
+  View,
+  ListView,
+  TouchableOpacity,
+  ViewPropTypes,
+  StyleSheet,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { colors } from './style';
 
@@ -74,11 +80,17 @@ const itemStyles = StyleSheet.create({
   },
 });
 
-export const ListItem = ({ children, style }) => (
-  <View style={[itemStyles.item, style]}>{children}</View>
-);
+export const ListItem = ({ onSelect, children, style }) =>
+  onSelect ? (
+    <TouchableOpacity onPress={onSelect} style={[itemStyles.item, style]}>
+      {children}
+    </TouchableOpacity>
+  ) : (
+    <View style={[itemStyles.item, style]}>{children}</View>
+  );
 
 ListItem.propTypes = {
+  onSelect: PropTypes.func,
   children: PropTypes.node,
   style: ViewPropTypes.style,
 };
