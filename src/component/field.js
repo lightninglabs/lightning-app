@@ -2,28 +2,29 @@ import React from 'react';
 import { ViewPropTypes, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
-import { colors } from './style';
+import { colors, font } from './style';
 
 const namedStyles = StyleSheet.create({
   content: {
-    justifyContent: 'space-between',
     alignSelf: 'stretch',
     flexDirection: 'row',
+    justifyContent: 'space-between',
     borderBottomColor: colors.blackText,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   name: {
-    flex: 1,
     color: colors.blackText,
-    fontSize: 18,
+    fontSize: font.sizeM,
+    marginRight: 10,
   },
   text: {
-    flex: 5,
-    fontFamily: 'OpenSans Light',
-    fontSize: 18,
-    color: colors.blackText,
-    marginBottom: 7,
+    flex: 1,
     textAlign: 'right',
+    fontFamily: 'OpenSans Light',
+    fontSize: font.sizeM,
+    lineHeight: font.lineHeightM,
+    color: colors.blackText,
+    marginBottom: 8,
   },
 });
 
