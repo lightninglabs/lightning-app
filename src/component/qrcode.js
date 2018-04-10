@@ -10,25 +10,24 @@ const styles = StyleSheet.create({
     borderRadius: 13,
     backgroundColor: colors.white,
   },
-  image: {
-    width: 180,
-    height: 180,
-  },
 });
 
-const QRCode = ({ children, style }) => {
-  const uri = `data:image/svg+xml;utf8,${QRImage.imageSync(children, {
-    type: 'svg',
-  })}`;
+const QRCode = ({ children = '', size = 180, style }) => {
+  const uri = `data:image/png;base64,${QRImage.imageSync(children, {
+    type: 'png',
+    size: 10,
+    margin: 0,
+  }).toString('base64')}`;
   return (
     <View style={[styles.base, style]}>
-      <Image source={{ uri }} style={styles.image} />
+      <Image source={{ uri }} style={{ width: size, height: size }} />
     </View>
   );
 };
 
 QRCode.propTypes = {
   children: PropTypes.string.isRequired,
+  size: PropTypes.number,
   style: View.propTypes.style,
 };
 

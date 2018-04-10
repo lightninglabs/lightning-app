@@ -10,4 +10,7 @@ storiesOf('QR Code', module)
       <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
     </Background>
   ))
-  .add('QR Code', () => <QRCode>{'https://lightning.engineering'}</QRCode>);
+  .add('QR Code', () => <QRCode>{'https://lightning.engineering'}</QRCode>)
+  .add('QR Code (sized)', () => (
+    <QRCode size={100}>{'https://lightning.engineering'}</QRCode>
+  ));
