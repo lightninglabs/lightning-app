@@ -6,7 +6,6 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { NamedField } from '../component/field';
 import { Header, Title } from '../component/header';
-import Text from '../component/text';
 import {
   BackButton,
   CopyButton,
@@ -23,14 +22,8 @@ import QRCode from '../component/qrcode';
 import { colors } from '../component/style';
 
 const styles = StyleSheet.create({
-  card: {
-    justifyContent: 'flex-start',
-    paddingBottom: 20,
-  },
-  amount: {
-    color: colors.blackText,
-  },
   balance: {
+    alignSelf: 'stretch',
     marginTop: 30,
     marginBottom: 40,
   },
@@ -55,15 +48,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const PaymentRequest = ({ store }) => (
+const PaymentRequest = ({ store, nav }) => (
   <Background image="purple-gradient-bg">
-    <Header shadow color={colors.purple} style={styles.header}>
+    <Header shadow color={colors.purple}>
       <BackButton onPress={() => {}} />
       <Title title="Payment Request" />
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent>
-      <Card style={styles.card}>
+      <Card>
         <BalanceLabel style={styles.balance}>
           <BalanceLabelNumeral style={styles.numeral}>
             {store.paymentRequest.amount}
@@ -72,10 +65,10 @@ const PaymentRequest = ({ store }) => (
         </BalanceLabel>
         <NamedField name="Note">{store.paymentRequest.message}</NamedField>
         <QRCode style={styles.qrcode}>{store.paymentRequest.invoice}</QRCode>
-        <CopyButton icon="copy-purple">
+        <CopyButton onPress={() => {}} icon="copy-purple">
           {store.paymentRequest.invoice}
         </CopyButton>
-        <Button onPress={() => {}} style={styles.doneBtn}>
+        <Button onPress={() => nav.goHome()} style={styles.doneBtn}>
           <ButtonText style={styles.doneBtnText}>DONE</ButtonText>
         </Button>
       </Card>
@@ -85,6 +78,7 @@ const PaymentRequest = ({ store }) => (
 
 PaymentRequest.propTypes = {
   store: PropTypes.object.isRequired,
+  nav: PropTypes.object.isRequired,
 };
 
 export default observer(PaymentRequest);
