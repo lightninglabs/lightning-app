@@ -16,8 +16,8 @@ const nav = sinon.createStubInstance(NavAction);
 storiesOf('Screens', module)
   .add('Welcome', () => <WelcomeView />)
   .add('Home', () => <HomeView store={store} wallet={wallet} nav={nav} />)
-  .add('Transactions', () => <TransactionView store={store} />)
-  .add('Payment Request', () => <PaymentRequest store={store} />);
+  .add('Transactions', () => <TransactionView store={store} nav={nav} />)
+  .add('Payment Request', () => <PaymentRequest store={store} nav={nav} />);
 
 // set some dummy data
 store.balanceSatoshis = 798765432;
