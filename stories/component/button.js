@@ -5,6 +5,7 @@ import Background from '../../src/component/background';
 import MainContent from '../../src/component/main-content';
 import {
   Button,
+  ButtonText,
   GlasButton,
   PillButton,
   CopyButton,
@@ -92,6 +93,16 @@ storiesOf('Button', module)
       text="Small Alert"
       onPress={action('clicked')}
     />
+  ))
+  .add('Text Button', () => (
+    <Button onPress={action('clicked')}>
+      <ButtonText style={{ color: colors.white }}>Text Button</ButtonText>
+    </Button>
+  ))
+  .add('Text Disabled', () => (
+    <Button disabled onPress={action('clicked')}>
+      <ButtonText style={{ color: colors.white }}>Text Disabled</ButtonText>
+    </Button>
   ))
   .add('Icon Button', () => (
     <Button onPress={action('clicked')}>
