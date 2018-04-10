@@ -3,6 +3,7 @@ import {
   View,
   TouchableOpacity,
   ViewPropTypes,
+  TextPropTypes,
   StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -38,6 +39,26 @@ Button.propTypes = {
   disabled: PropTypes.bool,
   children: PropTypes.node,
   style: ViewPropTypes.style,
+};
+
+//
+// Button Text
+//
+
+const textStyles = StyleSheet.create({
+  text: {
+    fontFamily: 'OpenSans SemiBold',
+    fontSize: 14,
+  },
+});
+
+export const ButtonText = ({ children, style }) => (
+  <Text style={[textStyles.text, style]}>{children}</Text>
+);
+
+ButtonText.propTypes = {
+  children: PropTypes.string.isRequired,
+  style: TextPropTypes.style,
 };
 
 //
