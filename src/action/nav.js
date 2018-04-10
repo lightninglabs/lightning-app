@@ -9,6 +9,10 @@ class NavAction {
     });
   }
 
+  goHome() {
+    this._store.route = 'Home';
+  }
+
   goPay() {
     this._store.route = 'Pay';
   }
@@ -23,6 +27,10 @@ class NavAction {
 
   goTransactions() {
     this._store.route = 'Transactions';
+  }
+
+  goTransaction() {
+    this._store.route = 'Transaction';
   }
 
   goSettings() {
