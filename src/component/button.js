@@ -309,51 +309,48 @@ DownButton.propTypes = {
 //
 
 const copyStyles = StyleSheet.create({
-  pill: {
-    flexDirection: 'row',
-    alignItems: 'center',
+  touchable: {
     alignSelf: 'stretch',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: 60,
     borderRadius: 58.94,
     backgroundColor: colors.purple,
+    paddingLeft: 35,
+    paddingRight: 27,
   },
   textWrapper: {
-    flex: 9,
+    flex: 1,
+    height: 30,
     borderBottomColor: colors.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    height: 30,
-    marginLeft: 20,
   },
   text: {
     fontFamily: 'OpenSans Light',
   },
-  iconWrapper: {
-    flex: 1,
-    marginRight: 10,
-  },
   icon: {
-    height: 20,
-    width: 15,
-    marginLeft: 15,
+    height: 25 * 0.7,
+    width: 20 * 0.7,
+    marginLeft: 5,
+    marginBottom: 7,
   },
 });
 
-export const CopyButton = ({ icon, children, style }) => (
-  <TouchableOpacity onPress={() => {}} style={[copyStyles.pill, style]}>
+export const CopyButton = ({ onPress, icon, children, style }) => (
+  <TouchableOpacity onPress={onPress} style={[copyStyles.touchable, style]}>
     <View style={copyStyles.textWrapper}>
       <Text numberOfLines={1} style={copyStyles.text}>
         {children}
       </Text>
     </View>
-    <View style={copyStyles.iconWrapper}>
-      <Icon image={icon} style={copyStyles.icon} />
-    </View>
+    <Icon image={icon} style={copyStyles.icon} />
   </TouchableOpacity>
 );
 
 CopyButton.propTypes = {
-  icon: PropTypes.string,
   onPress: PropTypes.func,
+  icon: PropTypes.string,
   children: PropTypes.string,
   style: ViewPropTypes.style,
 };
