@@ -7,6 +7,7 @@ import {
   Button,
   GlasButton,
   PillButton,
+  CopyButton,
   SmallButton,
   BackButton,
   CancelButton,
@@ -63,6 +64,11 @@ storiesOf('Button', module)
     >
       Pill Button
     </PillButton>
+  ))
+  .add('Copy Button', () => (
+    <CopyButton icon="copy-purple" onPress={action('clicked')}>
+      Copy Button
+    </CopyButton>
   ));
 
 storiesOf('Button', module)
