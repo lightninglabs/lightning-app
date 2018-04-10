@@ -10,8 +10,8 @@ import Text from '../component/text';
 import {
   BackButton,
   CopyButton,
-  SmallButton,
   Button,
+  ButtonText,
 } from '../component/button';
 import {
   BalanceLabel,
@@ -47,15 +47,11 @@ const styles = StyleSheet.create({
   qrcode: {
     margin: 40,
   },
-  doneTouchable: {
-    height: 50,
-    width: 100,
-    margin: 20,
+  doneBtn: {
+    marginTop: 20,
   },
-  doneText: {
+  doneBtnText: {
     color: colors.purple,
-    fontFamily: 'OpenSans SemiBold',
-    fontSize: 14,
   },
 });
 
@@ -79,9 +75,9 @@ const PaymentRequest = ({ store }) => (
         <CopyButton icon="copy-purple">
           {store.paymentRequest.invoice}
         </CopyButton>
-        <SmallButton onPress={() => {}} style={styles.doneTouchable}>
-          <Text style={styles.doneText}>DONE</Text>
-        </SmallButton>
+        <Button onPress={() => {}} style={styles.doneBtn}>
+          <ButtonText style={styles.doneBtnText}>DONE</ButtonText>
+        </Button>
       </Card>
     </MainContent>
   </Background>
