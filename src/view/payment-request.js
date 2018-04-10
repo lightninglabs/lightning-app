@@ -44,6 +44,9 @@ const styles = StyleSheet.create({
     fontSize: 23,
     color: colors.blackText,
   },
+  qrcode: {
+    margin: 40,
+  },
   doneTouchable: {
     height: 50,
     width: 100,
@@ -72,7 +75,7 @@ const PaymentRequest = ({ store }) => (
           <BalanceLabelUnit style={styles.unit}>SAT</BalanceLabelUnit>
         </BalanceLabel>
         <NamedField name="Note">{store.paymentRequest.message}</NamedField>
-        <QRCode value={store.paymentRequest.invoice} />
+        <QRCode style={styles.qrcode}>{store.paymentRequest.invoice}</QRCode>
         <CopyButton icon="copy-purple">
           {store.paymentRequest.invoice}
         </CopyButton>
