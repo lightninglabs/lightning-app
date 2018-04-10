@@ -15,8 +15,8 @@ const nav = sinon.createStubInstance(NavAction);
 
 storiesOf('Screens', module)
   .add('Welcome', () => <WelcomeView />)
-  .add('Transactions', () => <TransactionView store={store} />)
   .add('Home', () => <HomeView store={store} wallet={wallet} nav={nav} />)
+  .add('Transactions', () => <TransactionView store={store} />)
   .add('Payment Request', () => <PaymentRequest store={store} />);
 
 // set some dummy data
