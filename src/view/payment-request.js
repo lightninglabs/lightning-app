@@ -40,6 +40,9 @@ const styles = StyleSheet.create({
   qrcode: {
     margin: 40,
   },
+  copyBtn: {
+    alignSelf: 'stretch',
+  },
   doneBtn: {
     marginTop: 20,
   },
@@ -65,7 +68,11 @@ const PaymentRequest = ({ store, nav }) => (
         </BalanceLabel>
         <NamedField name="Note">{store.paymentRequest.message}</NamedField>
         <QRCode style={styles.qrcode}>{store.paymentRequest.invoice}</QRCode>
-        <CopyButton onPress={() => {}} icon="copy-purple">
+        <CopyButton
+          onPress={() => {}}
+          icon="copy-purple"
+          style={styles.copyBtn}
+        >
           {store.paymentRequest.invoice}
         </CopyButton>
         <Button onPress={() => nav.goHome()} style={styles.doneBtn}>

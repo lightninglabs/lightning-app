@@ -331,7 +331,6 @@ DownButton.propTypes = {
 
 const copyStyles = StyleSheet.create({
   touchable: {
-    alignSelf: 'stretch',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',

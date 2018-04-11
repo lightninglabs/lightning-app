@@ -4,8 +4,12 @@ import PropTypes from 'prop-types';
 import { colors, font } from './style';
 import './font';
 
-const styles = StyleSheet.create({
-  base: {
+//
+// Base Text
+//
+
+const baseStyles = StyleSheet.create({
+  text: {
     fontFamily: 'OpenSans Regular',
     fontSize: font.sizeBase,
     lineHeight: font.lineHeightBase,
@@ -14,14 +18,56 @@ const styles = StyleSheet.create({
   },
 });
 
-const Text = ({ children, style, ...props }) => (
-  <RNText style={[styles.base, style]} {...props}>
+export const Text = ({ children, style, ...props }) => (
+  <RNText style={[baseStyles.text, style]} {...props}>
     {children}
   </RNText>
 );
 
 Text.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  style: TextPropTypes.style,
+};
+
+//
+// Copy Text
+//
+
+const copyStyles = StyleSheet.create({
+  text: {
+    fontFamily: 'OpenSans Light',
+    fontSize: font.sizeBase,
+    lineHeight: 22,
+  },
+});
+
+export const CopyText = ({ children, style }) => (
+  <Text style={[copyStyles.text, style]}>{children}</Text>
+);
+
+CopyText.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  style: TextPropTypes.style,
+};
+
+//
+// H1 Text
+//
+
+const h1Styles = StyleSheet.create({
+  text: {
+    fontFamily: 'WorkSans Light',
+    fontSize: font.sizeXXL,
+    lineHeight: font.lineHeightXXL,
+  },
+});
+
+export const H1Text = ({ children = '', style }) => (
+  <Text style={[h1Styles.text, style]}>{children.toUpperCase()}</Text>
+);
+
+H1Text.propTypes = {
+  children: PropTypes.string,
   style: TextPropTypes.style,
 };
 
