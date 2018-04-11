@@ -4,8 +4,12 @@ import PropTypes from 'prop-types';
 import { colors, font } from './style';
 import './font';
 
-const styles = StyleSheet.create({
-  base: {
+//
+// Base Text
+//
+
+const baseStyles = StyleSheet.create({
+  text: {
     fontFamily: 'OpenSans Regular',
     fontSize: font.sizeBase,
     lineHeight: font.lineHeightBase,
@@ -14,8 +18,8 @@ const styles = StyleSheet.create({
   },
 });
 
-const Text = ({ children, style, ...props }) => (
-  <RNText style={[styles.base, style]} {...props}>
+export const Text = ({ children, style, ...props }) => (
+  <RNText style={[baseStyles.text, style]} {...props}>
     {children}
   </RNText>
 );
