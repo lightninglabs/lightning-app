@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
 const DepositView = ({ store, nav }) => (
   <SplitBackground image="purple-gradient-bg" bottom={colors.blackDark}>
     <View style={styles.qrWrapper}>
-      <QRCode size={130}>{store.walletAddress}</QRCode>
+      <QRCode size={130}>{`bitcoin:${store.walletAddress}`}</QRCode>
     </View>
     <Header separator>
       <Title title="Deposit Funds" />
