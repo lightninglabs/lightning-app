@@ -7,6 +7,7 @@ import HomeView from '../src/view/home';
 import { Store } from '../src/store';
 import WalletAction from '../src/action/wallet';
 import NavAction from '../src/action/nav';
+import DepositView from '../src/view/deposit';
 import PaymentRequest from '../src/view/payment-request';
 
 const store = new Store();
@@ -17,9 +18,11 @@ storiesOf('Screens', module)
   .add('Welcome', () => <WelcomeView />)
   .add('Home', () => <HomeView store={store} wallet={wallet} nav={nav} />)
   .add('Transactions', () => <TransactionView store={store} nav={nav} />)
+  .add('Deposit Funds', () => <DepositView store={store} nav={nav} />)
   .add('Payment Request', () => <PaymentRequest store={store} nav={nav} />);
 
 // set some dummy data
+store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
 store.balanceSatoshis = 798765432;
 store.channelBalanceSatoshis = 59876000;
 store.settings.exchangeRate.usd = 0.00014503;
