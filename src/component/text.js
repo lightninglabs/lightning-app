@@ -50,4 +50,25 @@ CopyText.propTypes = {
   style: TextPropTypes.style,
 };
 
+//
+// H1 Text
+//
+
+const h1Styles = StyleSheet.create({
+  text: {
+    fontFamily: 'WorkSans Light',
+    fontSize: font.sizeXXL,
+    lineHeight: font.lineHeightXXL,
+  },
+});
+
+export const H1Text = ({ children = '', style }) => (
+  <Text style={[h1Styles.text, style]}>{children.toUpperCase()}</Text>
+);
+
+H1Text.propTypes = {
+  children: PropTypes.string,
+  style: TextPropTypes.style,
+};
+
 export default Text;
