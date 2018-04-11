@@ -11,9 +11,20 @@ describe('Computed Wallet Unit Tests', () => {
   describe('ComputedWallet()', () => {
     it('should work with initial store', () => {
       ComputedWallet(store);
+      expect(store.walletAddressUri, 'to equal', '');
       expect(store.balanceLabel, 'to equal', '0');
       expect(store.channelBalanceLabel, 'to equal', '0');
       expect(store.unitLabel, 'to equal', 'BTC');
+    });
+
+    it('should generate valid wallet address uri', () => {
+      store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
+      ComputedWallet(store);
+      expect(
+        store.walletAddressUri,
+        'to equal',
+        'bitcoin:ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K'
+      );
     });
 
     it('should display channel balance in usd', () => {
