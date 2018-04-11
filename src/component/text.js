@@ -29,4 +29,25 @@ Text.propTypes = {
   style: TextPropTypes.style,
 };
 
+//
+// Copy Text
+//
+
+const copyStyles = StyleSheet.create({
+  text: {
+    fontFamily: 'OpenSans Light',
+    fontSize: font.sizeBase,
+    lineHeight: 22,
+  },
+});
+
+export const CopyText = ({ children, style }) => (
+  <Text style={[copyStyles.text, style]}>{children}</Text>
+);
+
+CopyText.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  style: TextPropTypes.style,
+};
+
 export default Text;
