@@ -1,7 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import Background from '../src/component/background';
+import { Background, SplitBackground } from '../src/component/background';
 import MainContent from '../src/component/main-content';
 import { Header, Title } from '../src/component/header';
 import {
@@ -17,6 +17,9 @@ import Icon from '../src/component/icon';
 import { colors } from '../src/component/style';
 
 storiesOf('Layout', module)
+  .add('Split Background', () => (
+    <SplitBackground image="purple-gradient-bg" bottom={colors.blackDark} />
+  ))
   .add('Button Bottom', () => (
     <Background image="purple-gradient-bg">
       <MainContent style={{ justifyContent: 'center' }}>
