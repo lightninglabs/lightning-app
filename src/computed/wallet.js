@@ -4,7 +4,9 @@ import { UNITS } from '../config';
 
 const ComputedWallet = store => {
   extendObservable(store, {
-    walletAddressUri: computed(() => `bitcoin:${store.walletAddress}`),
+    walletAddressUri: computed(
+      () => (store.walletAddress ? `bitcoin:${store.walletAddress}` : '')
+    ),
     balanceLabel: computed(() => {
       const { balanceSatoshis: satoshis, settings } = store;
       return settings.displayFiat
