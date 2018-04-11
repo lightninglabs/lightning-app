@@ -22,11 +22,13 @@ export const font = {
   sizeBase: 16,
   sizeM: 18,
   sizeL: 20,
+  sizeXXL: 40,
   sizeXXXL: 80,
   lineHeightXS: 14,
   lineHeightS: 16,
   lineHeightBase: 20,
   lineHeightM: 22,
   lineHeightL: 24,
+  lineHeightXXL: 60,
   lineHeightXXXL: 100,
 };
