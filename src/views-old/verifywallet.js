@@ -18,7 +18,9 @@ class VerifyWallet extends Component {
 
   render() {
     const { value } = this.state;
-    const { settings: { seedMnemonic } } = store;
+    const {
+      settings: { seedMnemonic },
+    } = store;
     return (
       <View
         style={{

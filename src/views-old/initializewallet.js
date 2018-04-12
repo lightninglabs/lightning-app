@@ -8,7 +8,9 @@ import store from '../store';
 
 class InitializeWallet extends Component {
   render() {
-    const { settings: { seedMnemonic } } = store;
+    const {
+      settings: { seedMnemonic },
+    } = store;
     return (
       <View
         style={{
