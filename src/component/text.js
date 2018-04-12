@@ -72,6 +72,27 @@ H1Text.propTypes = {
 };
 
 //
+// H3 Text
+//
+
+const h3Styles = StyleSheet.create({
+  text: {
+    fontFamily: 'OpenSans Regular',
+    fontSize: font.sizeM,
+    lineHeight: font.lineHeightM,
+  },
+});
+
+export const H3Text = ({ children = '', style }) => (
+  <Text style={[h3Styles.text, style]}>{children.toUpperCase()}</Text>
+);
+
+H3Text.propTypes = {
+  children: PropTypes.string.isRequired,
+  style: TextPropTypes.style,
+};
+
+//
 // H4 Text
 //
 
