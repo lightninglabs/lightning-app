@@ -67,7 +67,28 @@ export const H1Text = ({ children = '', style }) => (
 );
 
 H1Text.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.string.isRequired,
+  style: TextPropTypes.style,
+};
+
+//
+// H4 Text
+//
+
+const h4Styles = StyleSheet.create({
+  text: {
+    fontFamily: 'OpenSans SemiBold',
+    fontSize: font.sizeS,
+    lineHeight: font.lineHeightS,
+  },
+});
+
+export const H4Text = ({ children, style }) => (
+  <Text style={[h4Styles.text, style]}>{children}</Text>
+);
+
+H4Text.propTypes = {
+  children: PropTypes.string.isRequired,
   style: TextPropTypes.style,
 };
 

@@ -84,24 +84,3 @@ SmallBalanceLabel.propTypes = {
   unit: PropTypes.string,
   style: TextPropTypes.style,
 };
-
-//
-// Small Label
-//
-
-const smallStyles = StyleSheet.create({
-  label: {
-    fontFamily: 'OpenSans SemiBold',
-    fontSize: font.sizeS,
-    lineHeight: font.lineHeightS,
-  },
-});
-
-export const SmallLabel = ({ children, style }) => (
-  <Text style={[smallStyles.label, style]}>{children}</Text>
-);
-
-SmallLabel.propTypes = {
-  children: PropTypes.string.isRequired,
-  style: TextPropTypes.style,
-};

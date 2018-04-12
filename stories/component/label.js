@@ -5,7 +5,6 @@ import {
   BalanceLabelNumeral,
   BalanceLabelUnit,
   SmallBalanceLabel,
-  SmallLabel,
 } from '../../src/component/label';
 import { colors } from '../../src/component/style';
 
@@ -31,7 +30,4 @@ storiesOf('Labels', module)
     <SmallBalanceLabel unit="SAT" style={{ color: colors.blackText }}>
       9,123,456,788
     </SmallBalanceLabel>
-  ))
-  .add('Small Label', () => (
-    <SmallLabel style={{ color: colors.blackText }}>Small Label</SmallLabel>
   ));

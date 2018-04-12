@@ -7,12 +7,12 @@ import MainContent from '../component/main-content';
 import Icon from '../component/icon';
 import { Header, Title } from '../component/header';
 import { colors } from '../component/style';
+import { H4Text } from '../component/text';
 import {
   BalanceLabel,
   BalanceLabelNumeral,
   BalanceLabelUnit,
   SmallBalanceLabel,
-  SmallLabel,
 } from '../component/label';
 import {
   Button,
@@ -97,7 +97,7 @@ const BalanceDisplay = ({
         <BalanceLabelNumeral>{channelBalanceLabel}</BalanceLabelNumeral>
         <BalanceLabelUnit>{unitLabel}</BalanceLabelUnit>
       </BalanceLabel>
-      <SmallLabel style={balanceStyles.smallLabel}>Pending Deposit</SmallLabel>
+      <H4Text style={balanceStyles.smallLabel}>Pending Deposit</H4Text>
       <SmallBalanceLabel unit={unitLabel}>{balanceLabel}</SmallBalanceLabel>
     </Button>
   </View>
