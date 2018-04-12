@@ -23,7 +23,6 @@ import { colors } from '../component/style';
 
 const styles = StyleSheet.create({
   balance: {
-    alignSelf: 'stretch',
     marginTop: 30,
     marginBottom: 40,
   },

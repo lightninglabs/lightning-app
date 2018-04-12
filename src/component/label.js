@@ -11,7 +11,6 @@ import { font } from './style';
 const balanceStyles = StyleSheet.create({
   label: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
   },
   numeral: {
     fontFamily: 'WorkSans ExtraLight',
