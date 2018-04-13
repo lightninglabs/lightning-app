@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 export const Background = ({ image, color, children, style }) =>
   image ? (
     <ImageBackground
-      source={require(`../../assets/img/${image}.svg`)}
+      source={require(`../asset/img/${image}.svg`)}
       style={[styles.background, style]}
     >
       {children}

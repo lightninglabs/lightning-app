@@ -3,7 +3,7 @@ import { Image, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 
 const Icon = ({ image, style }) => (
-  <Image source={require(`../../assets/img/${image}.svg`)} style={style} />
+  <Image source={require(`../asset/icon/${image}.svg`)} style={style} />
 );
 
 Icon.propTypes = {

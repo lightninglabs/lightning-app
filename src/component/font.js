@@ -5,30 +5,30 @@
  * and font.android.js modules.
  */
 
-import '../../assets/font/OpenSans-Light.ttf';
-import '../../assets/font/OpenSans-Regular.ttf';
-import '../../assets/font/OpenSans-SemiBold.ttf';
-import '../../assets/font/OpenSans-Bold.ttf';
-import '../../assets/font/OpenSans-ExtraBold.ttf';
+import '../asset/font/OpenSans-Light.ttf';
+import '../asset/font/OpenSans-Regular.ttf';
+import '../asset/font/OpenSans-SemiBold.ttf';
+import '../asset/font/OpenSans-Bold.ttf';
+import '../asset/font/OpenSans-ExtraBold.ttf';
 
-import '../../assets/font/Poppins-Thin.ttf';
-import '../../assets/font/Poppins-ExtraLight.ttf';
-import '../../assets/font/Poppins-Light.ttf';
-import '../../assets/font/Poppins-Regular.ttf';
-import '../../assets/font/Poppins-Medium.ttf';
-import '../../assets/font/Poppins-SemiBold.ttf';
-import '../../assets/font/Poppins-Bold.ttf';
-import '../../assets/font/Poppins-ExtraBold.ttf';
-import '../../assets/font/Poppins-Black.ttf';
+import '../asset/font/Poppins-Thin.ttf';
+import '../asset/font/Poppins-ExtraLight.ttf';
+import '../asset/font/Poppins-Light.ttf';
+import '../asset/font/Poppins-Regular.ttf';
+import '../asset/font/Poppins-Medium.ttf';
+import '../asset/font/Poppins-SemiBold.ttf';
+import '../asset/font/Poppins-Bold.ttf';
+import '../asset/font/Poppins-ExtraBold.ttf';
+import '../asset/font/Poppins-Black.ttf';
 
-import '../../assets/font/WorkSans-Thin.ttf';
-import '../../assets/font/WorkSans-ExtraLight.ttf';
-import '../../assets/font/WorkSans-Light.ttf';
-import '../../assets/font/WorkSans-Regular.ttf';
-import '../../assets/font/WorkSans-Medium.ttf';
-import '../../assets/font/WorkSans-SemiBold.ttf';
-import '../../assets/font/WorkSans-Bold.ttf';
-import '../../assets/font/WorkSans-ExtraBold.ttf';
-import '../../assets/font/WorkSans-Black.ttf';
+import '../asset/font/WorkSans-Thin.ttf';
+import '../asset/font/WorkSans-ExtraLight.ttf';
+import '../asset/font/WorkSans-Light.ttf';
+import '../asset/font/WorkSans-Regular.ttf';
+import '../asset/font/WorkSans-Medium.ttf';
+import '../asset/font/WorkSans-SemiBold.ttf';
+import '../asset/font/WorkSans-Bold.ttf';
+import '../asset/font/WorkSans-ExtraBold.ttf';
+import '../asset/font/WorkSans-Black.ttf';
 
 import './font.css';
