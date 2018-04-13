@@ -66,8 +66,7 @@ ipcMain.on('logs-ready', () => {
 });
 
 function createWindow() {
-  // Create the browser window.
-  win = new BrowserWindow({
+  const options = {
     width: 850,
     height: 600,
     webPreferences: {
@@ -75,13 +74,16 @@ function createWindow() {
       sandbox: true,
       preload: path.join(__dirname, 'preload.js'),
     },
-  });
-
+  };
   if (isDev) {
+    // Add width for dev tools
+    options.width += 500;
+    win = new BrowserWindow(options);
     win.loadURL('http://localhost:3000');
     // Open the DevTools.
     win.webContents.openDevTools();
   } else {
+    win = new BrowserWindow(options);
     win.loadURL(
       url.format({
         pathname: path.join(__dirname, '..', 'build', 'index.html'),
