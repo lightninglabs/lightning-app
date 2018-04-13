@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Main from './views-old/main';
+import Main from './view/main';
 
 class App extends Component {
   render() {

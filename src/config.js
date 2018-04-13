@@ -5,7 +5,7 @@ const prefixName = 'lightning';
 module.exports.PREFIX_NAME = prefixName;
 module.exports.PREFIX_URI = `${prefixName}:`;
 
-module.exports.DEFAULT_ROUTE = 'Pay';
+module.exports.DEFAULT_ROUTE = 'Home';
 // module.exports.DEFAULT_ROUTE = 'Channels';
 // module.exports.DEFAULT_ROUTE = 'Request';
 // module.exports.DEFAULT_ROUTE = 'CreateChannel';
