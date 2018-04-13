@@ -68,8 +68,8 @@ ipcMain.on('logs-ready', () => {
 function createWindow() {
   // Create the browser window.
   win = new BrowserWindow({
-    width: 750,
-    height: 500,
+    width: 850,
+    height: 600,
     webPreferences: {
       nodeIntegration: false,
       sandbox: true,
