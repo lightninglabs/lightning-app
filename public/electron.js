@@ -69,6 +69,7 @@ function createWindow() {
   const options = {
     width: 850,
     height: 600,
+    backgroundColor: '#57038D',
     webPreferences: {
       nodeIntegration: false,
       sandbox: true,
