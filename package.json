@@ -68,7 +68,7 @@
     "wait-on": "^2.1.0"
   },
   "build": {
-    "appId": "com.example.lightning-desktop",
+    "appId": "engineering.lightning.lightning-app",
     "mac": {
       "category": "Network",
       "artifactName": "${productName}-darwin-x64v${version}.${ext}",
