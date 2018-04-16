@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PaymentRequest = ({ store, nav }) => (
+const PaymentRequestView = ({ store, nav }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={colors.purple}>
       <BackButton onPress={() => {}} />
@@ -82,9 +82,9 @@ const PaymentRequest = ({ store, nav }) => (
   </Background>
 );
 
-PaymentRequest.propTypes = {
+PaymentRequestView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
 };
 
-export default observer(PaymentRequest);
+export default observer(PaymentRequestView);
