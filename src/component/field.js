@@ -47,42 +47,33 @@ AmountInputField.propTypes = {
 //
 
 const inputStyles = StyleSheet.create({
-  wrapper: {
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    borderBottomColor: colors.blackText,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
   input: {
-    flex: 1,
+    alignSelf: 'stretch',
     fontFamily: 'OpenSans Regular',
     fontSize: font.sizeM,
     lineHeight: font.lineHeightM + 2 * 8,
     color: colors.blackText,
     outline: 'none',
     textAlign: 'center',
+    borderBottomColor: colors.blackText,
+    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });
 
 export const InputField = ({ style, ...props }) => (
-  <View style={[inputStyles.wrapper, style]}>
-    <TextInput
-      style={inputStyles.input}
-      multiline={true}
-      numberOfLines={1}
-      autoCorrect={false}
-      autoCapitalize="none"
-      underlineColorAndroid="rgba(0,0,0,0)"
-      placeholderTextColor={colors.greyPlaceholder}
-      {...props}
-    />
-  </View>
+  <TextInput
+    style={[inputStyles.input, style]}
+    autoCorrect={false}
+    autoCapitalize="none"
+    underlineColorAndroid="rgba(0,0,0,0)"
+    placeholderTextColor={colors.greyPlaceholder}
+    {...props}
+  />
 );
 
 InputField.propTypes = {
   children: PropTypes.string,
-  style: ViewPropTypes.style,
+  style: TextPropTypes.style,
 };
 
 //
