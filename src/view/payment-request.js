@@ -22,8 +22,11 @@ import QRCode from '../component/qrcode';
 import { colors } from '../component/style';
 
 const styles = StyleSheet.create({
+  card: {
+    paddingBottom: 0,
+  },
   balance: {
-    marginTop: 30,
+    marginTop: 25,
     marginBottom: 40,
   },
   numeral: {
@@ -43,7 +46,7 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
   },
   doneBtn: {
-    marginTop: 20,
+    marginTop: 10,
   },
   doneBtnText: {
     color: colors.purple,
@@ -58,7 +61,7 @@ const PaymentRequestView = ({ store, nav }) => (
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent>
-      <Card>
+      <Card style={styles.card}>
         <BalanceLabel style={styles.balance}>
           <BalanceLabelNumeral style={styles.numeral}>
             {store.paymentRequest.amount}
