@@ -15,10 +15,6 @@ import { colors, font } from './style';
 //
 
 const amountStyles = StyleSheet.create({
-  wrapper: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
   input: {
     fontFamily: 'WorkSans ExtraLight',
     fontSize: font.sizeXXXL,
