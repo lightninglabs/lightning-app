@@ -122,7 +122,7 @@ TransactionListItem.propTypes = {
 
 const hStyles = StyleSheet.create({
   txt: {
-    color: colors.greyText,
+    color: colors.greyListHeader,
     fontSize: font.sizeXS,
   },
 });
