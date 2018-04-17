@@ -29,7 +29,7 @@ const amountStyles = StyleSheet.create({
   },
 });
 
-export const AmountInputField = ({ name, children, style, ...props }) => (
+export const AmountInputField = ({ style, ...props }) => (
   <TextInput
     style={[amountStyles.input, style]}
     keyboardType="numeric"
@@ -43,8 +43,6 @@ export const AmountInputField = ({ name, children, style, ...props }) => (
 );
 
 AmountInputField.propTypes = {
-  name: PropTypes.string,
-  children: PropTypes.string,
   style: TextPropTypes.style,
 };
 
@@ -71,7 +69,7 @@ const inputStyles = StyleSheet.create({
   },
 });
 
-export const InputField = ({ name, children, style, ...props }) => (
+export const InputField = ({ style, ...props }) => (
   <View style={[inputStyles.wrapper, style]}>
     <TextInput
       style={inputStyles.input}
@@ -87,7 +85,6 @@ export const InputField = ({ name, children, style, ...props }) => (
 );
 
 InputField.propTypes = {
-  name: PropTypes.string,
   children: PropTypes.string,
   style: ViewPropTypes.style,
 };
