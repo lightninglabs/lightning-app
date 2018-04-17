@@ -18,6 +18,7 @@ import {
   BalanceLabelUnit,
 } from '../component/label';
 import Card from '../component/card';
+import Icon from '../component/icon';
 import QRCode from '../component/qrcode';
 import { colors } from '../component/style';
 
@@ -57,7 +58,9 @@ const PaymentRequestView = ({ store, nav }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={colors.purple}>
       <BackButton onPress={() => {}} />
-      <Title title="Payment Request" />
+      <Title title="Payment Request">
+        <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
+      </Title>
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent>
