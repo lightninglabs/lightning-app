@@ -6,7 +6,6 @@ import { colors } from './style';
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    justifyContent: 'space-between',
     alignItems: 'center',
     backgroundColor: colors.whiteBg,
     width: 500,
