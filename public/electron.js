@@ -67,8 +67,8 @@ ipcMain.on('logs-ready', () => {
 
 function createWindow() {
   const options = {
-    width: 850,
-    height: 600,
+    width: 880,
+    height: 635,
     backgroundColor: '#57038D',
     webPreferences: {
       nodeIntegration: false,
