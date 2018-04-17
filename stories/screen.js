@@ -8,6 +8,7 @@ import { Store } from '../src/store';
 import WalletAction from '../src/action/wallet';
 import NavAction from '../src/action/nav';
 import DepositView from '../src/view/deposit';
+import Request from '../src/view/request';
 import PaymentRequest from '../src/view/payment-request';
 
 const store = new Store();
@@ -19,6 +20,7 @@ storiesOf('Screens', module)
   .add('Home', () => <HomeView store={store} wallet={wallet} nav={nav} />)
   .add('Transactions', () => <TransactionView store={store} nav={nav} />)
   .add('Deposit Funds', () => <DepositView store={store} nav={nav} />)
+  .add('Request', () => <Request store={store} nav={nav} />)
   .add('Payment Request', () => <PaymentRequest store={store} nav={nav} />);
 
 // set some dummy data
