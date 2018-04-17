@@ -11,6 +11,8 @@ const styles = StyleSheet.create({
     width: 500,
     paddingLeft: 40,
     paddingRight: 40,
+    paddingTop: 25,
+    paddingBottom: 70,
   },
 });
 
