@@ -69,7 +69,7 @@ const PaymentRequestView = ({ store, nav }) => (
           <BalanceLabelNumeral style={styles.numeral}>
             {store.paymentRequest.amount}
           </BalanceLabelNumeral>
-          <BalanceLabelUnit style={styles.unit}>SAT</BalanceLabelUnit>
+          <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
         </BalanceLabel>
         <NamedField name="Note">{store.paymentRequest.message}</NamedField>
         <QRCode style={styles.qrcode}>{store.paymentRequest.invoice}</QRCode>
