@@ -9,7 +9,7 @@ import WalletAction from '../src/action/wallet';
 import NavAction from '../src/action/nav';
 import DepositView from '../src/view/deposit';
 import Request from '../src/view/request';
-import PaymentRequest from '../src/view/payment-request';
+import RequestQR from '../src/view/request-qr';
 
 const store = new Store();
 const wallet = new WalletAction(store);
@@ -21,7 +21,7 @@ storiesOf('Screens', module)
   .add('Transactions', () => <TransactionView store={store} nav={nav} />)
   .add('Deposit Funds', () => <DepositView store={store} nav={nav} />)
   .add('Request', () => <Request store={store} nav={nav} />)
-  .add('Payment Request', () => <PaymentRequest store={store} nav={nav} />);
+  .add('Request QR', () => <RequestQR store={store} nav={nav} />);
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
