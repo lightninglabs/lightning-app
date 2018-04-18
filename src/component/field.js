@@ -1,13 +1,8 @@
 import React from 'react';
-import {
-  TextInput,
-  TextPropTypes,
-  ViewPropTypes,
-  StyleSheet,
-  View,
-} from 'react-native';
+import { TextPropTypes, ViewPropTypes, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
+import { TextInput, HorizontalExpandingTextInput } from './input';
 import { colors, font } from './style';
 
 //
@@ -16,22 +11,17 @@ import { colors, font } from './style';
 
 const amountStyles = StyleSheet.create({
   input: {
+    textAlign: 'right',
     fontFamily: 'WorkSans ExtraLight',
     fontSize: font.sizeXXXL,
-    lineHeight: font.lineHeightXXXL,
-    color: colors.blackText,
-    outline: 'none',
-    textAlign: 'center',
   },
 });
 
 export const AmountInputField = ({ style, ...props }) => (
-  <TextInput
+  <HorizontalExpandingTextInput
     style={[amountStyles.input, style]}
+    charWidth={46}
     keyboardType="numeric"
-    autoCorrect={false}
-    autoCapitalize="none"
-    underlineColorAndroid="rgba(0,0,0,0)"
     placeholder="0"
     placeholderTextColor={colors.blackText}
     {...props}
@@ -49,26 +39,13 @@ AmountInputField.propTypes = {
 const inputStyles = StyleSheet.create({
   input: {
     alignSelf: 'stretch',
-    fontFamily: 'OpenSans Regular',
-    fontSize: font.sizeM,
-    lineHeight: font.lineHeightM + 2 * 8,
-    color: colors.blackText,
-    outline: 'none',
     textAlign: 'center',
-    borderBottomColor: colors.blackText,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });
 
 export const InputField = ({ style, ...props }) => (
-  <TextInput
-    style={[inputStyles.input, style]}
-    autoCorrect={false}
-    autoCapitalize="none"
-    underlineColorAndroid="rgba(0,0,0,0)"
-    placeholderTextColor={colors.greyPlaceholder}
-    {...props}
-  />
+  <TextInput style={[inputStyles.input, style]} {...props} />
 );
 
 InputField.propTypes = {
