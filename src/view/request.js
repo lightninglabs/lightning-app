@@ -17,13 +17,7 @@ const styles = StyleSheet.create({
   balance: {
     marginTop: 40,
   },
-  numeral: {
-    lineHeight: 70,
-    fontSize: 103,
-  },
   unit: {
-    lineHeight: 20,
-    fontSize: 23,
     color: colors.blackText,
   },
 });
@@ -40,7 +34,7 @@ const RequestView = ({ store, nav }) => (
     <MainContent>
       <Card>
         <BalanceLabel style={styles.balance}>
-          <AmountInputField style={styles.numeral} />
+          <AmountInputField onChangeText={() => {}} />
           <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
         </BalanceLabel>
         <FormStretcher>
