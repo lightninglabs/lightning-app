@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { InputField, AmountInputField } from '../component/field';
 import { Header, Title } from '../component/header';
-import { BackButton, PillButton, Button } from '../component/button';
+import { CancelButton, PillButton, Button } from '../component/button';
 import { BalanceLabel, BalanceLabelUnit } from '../component/label';
 import Card from '../component/card';
 import Icon from '../component/icon';
@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
 const RequestView = ({ store, nav }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={colors.purple}>
-      <BackButton onPress={() => nav.goHome()} />
+      <Button disabled onPress={() => {}} />
       <Title title="Payment Request">
         <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
       </Title>
-      <Button disabled onPress={() => {}} />
+      <CancelButton onPress={() => nav.goHome()} />
     </Header>
     <MainContent>
       <Card>
