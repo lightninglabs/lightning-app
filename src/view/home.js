@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import Icon from '../component/icon';
 import { Header, Title } from '../component/header';
-import { colors } from '../component/style';
+import { color } from '../component/style';
 import { H4Text } from '../component/text';
 import {
   BalanceLabel,
@@ -131,7 +131,7 @@ const bigBtnStyles = StyleSheet.create({
   },
   boltWrapper: {
     justifyContent: 'center',
-    backgroundColor: colors.glas,
+    backgroundColor: color.glas,
   },
   bolt: {
     height: 126 * 0.4,
@@ -187,7 +187,7 @@ const HomeHeader = ({ goChannels, goSettings }) => (
     <View style={headerStyles.btnWrapperLeft}>
       <SmallButton
         border
-        alert={colors.pinkSig}
+        alert={color.pinkSig}
         text="Channels"
         onPress={goChannels}
       />
@@ -221,7 +221,7 @@ const qrStyles = StyleSheet.create({
   separator: {
     flex: 1,
     height: 1,
-    boxShadow: `0 0.25px ${colors.white}`,
+    boxShadow: `0 0.25px ${color.white}`,
   },
   button: {
     width: 43,

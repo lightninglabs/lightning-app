@@ -5,7 +5,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { colors, font } from './style';
+import { color, font } from './style';
 
 //
 // Base Text Input
@@ -16,7 +16,7 @@ const baseStyles = StyleSheet.create({
     fontFamily: 'OpenSans Regular',
     fontSize: font.sizeM,
     lineHeight: font.lineHeightM + 2 * 8,
-    color: colors.blackText,
+    color: color.blackText,
     outline: 'none',
   },
 });
@@ -27,7 +27,7 @@ export const TextInput = ({ style, ...props }) => (
     autoCorrect={false}
     autoCapitalize="none"
     underlineColorAndroid="rgba(0,0,0,0)"
-    placeholderTextColor={colors.greyPlaceholder}
+    placeholderTextColor={color.greyPlaceholder}
     {...props}
   />
 );

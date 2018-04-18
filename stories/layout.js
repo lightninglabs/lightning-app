@@ -14,11 +14,11 @@ import { BalanceLabel, BalanceLabelNumeral } from '../src/component/label';
 import Card from '../src/component/card';
 import Text from '../src/component/text';
 import Icon from '../src/component/icon';
-import { colors } from '../src/component/style';
+import { color } from '../src/component/style';
 
 storiesOf('Layout', module)
   .add('Split Background', () => (
-    <SplitBackground image="purple-gradient-bg" bottom={colors.blackDark} />
+    <SplitBackground image="purple-gradient-bg" bottom={color.blackDark} />
   ))
   .add('Button Bottom', () => (
     <Background image="purple-gradient-bg">
@@ -32,7 +32,7 @@ storiesOf('Layout', module)
   ))
   .add('Card Form', () => (
     <Background image="purple-gradient-bg">
-      <Header shadow color={colors.purple}>
+      <Header shadow color={color.purple}>
         <BackButton onPress={action('back')} />
         <Title title="Lightning Payment">
           <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
@@ -41,7 +41,7 @@ storiesOf('Layout', module)
       </Header>
       <MainContent>
         <Card>
-          <Text style={{ color: colors.blackText, paddingBottom: 40 }}>
+          <Text style={{ color: color.blackText, paddingBottom: 40 }}>
             {`Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse non ultricies est. Ut ut egestas tellus. Duis hendrerit accumsan turpis, nec lacinia leo pharetra sed. Praesent finibus volutpat velit. Vestibulum eget ultrices orci. Aenean iaculis porta pretium. Maecenas placerat, nibh id ultricies hendrerit, arcu turpis bibendum metus, eget pharetra urna dui quis risus. Vivamus rhoncus interdum massa eu ornare. Integer egestas metus ut mi mollis venenatis. Vestibulum non ultrices velit. Nulla dapibus purus id egestas pellentesque. Proin pretium elit mattis neque hendrerit, sed placerat arcu ultrices. Aliquam erat volutpat.
 
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ultrices aliquet mauris nec pulvinar. Suspendisse ornare, ligula in elementum egestas, eros dolor porta leo, sed iaculis massa augue vitae quam. Pellentesque at nulla maximus, molestie odio bibendum, eleifend justo. Vestibulum vel interdum nisi, et blandit dolor. Praesent mattis sapien in orci lobortis, in dapibus sem porta. Etiam imperdiet massa in felis sollicitudin vulputate. Nullam in dignissim mauris. Etiam consequat tortor in dictum mollis. Ut nec egestas nunc. Cras ex velit, pellentesque in ligula sed, bibendum laoreet mauris. Integer sit amet ligula vitae purus sodales porta.

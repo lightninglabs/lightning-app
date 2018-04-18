@@ -8,7 +8,7 @@ import { Button, BackButton } from '../component/button';
 import { ListContent, List, ListItem, ListHeader } from '../component/list';
 import Text from '../component/text';
 import Icon from '../component/icon';
-import { colors, font } from '../component/style';
+import { color, font } from '../component/style';
 
 //
 // Transaction View
@@ -17,7 +17,7 @@ import { colors, font } from '../component/style';
 const TransactionView = ({ store, nav }) => {
   const { computedTransactions: transactions } = store;
   return (
-    <Background color={colors.blackDark}>
+    <Background color={color.blackDark}>
       <Header separator>
         <BackButton onPress={() => nav.goHome()} />
         <Title title="Transactions" />
@@ -50,7 +50,7 @@ const iStyles = StyleSheet.create({
     paddingRight: 50,
   },
   txt: {
-    color: colors.white,
+    color: color.white,
     fontSize: font.sizeS,
   },
   bolt: {
@@ -81,9 +81,9 @@ const iStyles = StyleSheet.create({
 const statusColor = tx => {
   const status = tx.status.toLowerCase();
   if (tx.type === 'lightning') {
-    return status === 'complete' ? colors.greenSig : colors.orangeSig;
+    return status === 'complete' ? color.greenSig : color.orangeSig;
   } else {
-    return status === 'confirmed' ? colors.greenSig : colors.orangeSig;
+    return status === 'confirmed' ? color.greenSig : color.orangeSig;
   }
 };
 
@@ -122,7 +122,7 @@ TransactionListItem.propTypes = {
 
 const hStyles = StyleSheet.create({
   txt: {
-    color: colors.greyListHeader,
+    color: color.greyListHeader,
     fontSize: font.sizeXS,
   },
 });

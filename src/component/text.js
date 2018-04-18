@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text as RNText, TextPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { colors, font } from './style';
+import { color, font } from './style';
 import './font';
 
 //
@@ -13,7 +13,7 @@ const baseStyles = StyleSheet.create({
     fontFamily: 'OpenSans Regular',
     fontSize: font.sizeBase,
     lineHeight: font.lineHeightBase,
-    color: colors.white,
+    color: color.white,
     zIndex: 1,
   },
 });

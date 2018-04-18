@@ -1,13 +1,13 @@
 import React from 'react';
 import { View, ViewPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { colors } from './style';
+import { color } from './style';
 
 const styles = StyleSheet.create({
   card: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: colors.whiteBg,
+    backgroundColor: color.whiteBg,
     width: 500,
     paddingLeft: 40,
     paddingRight: 40,

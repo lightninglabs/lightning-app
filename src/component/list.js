@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { colors } from './style';
+import { color } from './style';
 
 //
 // List Content
@@ -76,7 +76,7 @@ const itemStyles = StyleSheet.create({
     height: 40,
     paddingLeft: 10,
     paddingRight: 10,
-    boxShadow: `0 0.5px ${colors.greyBorder}`,
+    boxShadow: `0 0.5px ${color.greyBorder}`,
   },
 });
 

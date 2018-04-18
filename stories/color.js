@@ -1,18 +1,18 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Background from '../src/component/background';
-import { colors } from '../src/component/style';
+import { color } from '../src/component/style';
 
 storiesOf('Colors', module)
-  .add('Primary Purple', () => <Background color={colors.purple} />)
+  .add('Primary Purple', () => <Background color={color.purple} />)
   .add('Purple Gradient', () => <Background image="purple-gradient-bg" />)
   .add('Purple Textured', () => <Background image="textured-bg" />)
-  .add('Primary Orange', () => <Background color={colors.orange} />)
+  .add('Primary Orange', () => <Background color={color.orange} />)
   .add('Orange Gradient', () => <Background image="orange-gradient-bg" />)
-  .add('Dark Mode Black', () => <Background color={colors.blackDark} />)
-  .add('Background White', () => <Background color={colors.whiteBg} />)
-  .add('Strait Up White', () => <Background color={colors.white} />)
-  .add('Good Green', () => <Background color={colors.greenSig} />)
-  .add('Average Orange', () => <Background color={colors.orangeSig} />)
-  .add('Bad Pink', () => <Background color={colors.pinkSig} />)
-  .add('Active Field Blue', () => <Background color={colors.blueSig} />);
+  .add('Dark Mode Black', () => <Background color={color.blackDark} />)
+  .add('Background White', () => <Background color={color.whiteBg} />)
+  .add('Strait Up White', () => <Background color={color.white} />)
+  .add('Good Green', () => <Background color={color.greenSig} />)
+  .add('Average Orange', () => <Background color={color.orangeSig} />)
+  .add('Bad Pink', () => <Background color={color.pinkSig} />)
+  .add('Active Field Blue', () => <Background color={color.blueSig} />);

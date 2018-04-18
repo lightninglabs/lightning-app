@@ -9,7 +9,7 @@ import {
 import PropTypes from 'prop-types';
 import Text from './text';
 import Icon from './icon';
-import { colors, font } from './style';
+import { color, font } from './style';
 
 //
 // Regular Button
@@ -81,7 +81,7 @@ const glasStyles = StyleSheet.create({
 export const GlasButton = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
     style={[
-      { backgroundColor: disabled ? colors.glasDark : colors.glas },
+      { backgroundColor: disabled ? color.glasDark : color.glas },
       glasStyles.touchable,
       style,
     ]}
@@ -112,7 +112,7 @@ const pillStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 58.94,
-    backgroundColor: colors.purple,
+    backgroundColor: color.purple,
   },
   text: {
     fontFamily: 'OpenSans Bold',
@@ -160,7 +160,7 @@ const smallStyles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: 1,
     borderRadius: 58.94,
-    borderColor: colors.white,
+    borderColor: color.white,
   },
   alert: {
     position: 'absolute',
@@ -336,14 +336,14 @@ const copyStyles = StyleSheet.create({
     alignItems: 'center',
     height: 60,
     borderRadius: 58.94,
-    backgroundColor: colors.purple,
+    backgroundColor: color.purple,
     paddingLeft: 35,
     paddingRight: 27,
   },
   textWrapper: {
     flex: 1,
     height: 30,
-    borderBottomColor: colors.white,
+    borderBottomColor: color.white,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   text: {

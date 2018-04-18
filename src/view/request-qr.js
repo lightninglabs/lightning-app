@@ -20,7 +20,7 @@ import {
 import Card from '../component/card';
 import Icon from '../component/icon';
 import QRCode from '../component/qrcode';
-import { colors } from '../component/style';
+import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   card: {
@@ -33,12 +33,12 @@ const styles = StyleSheet.create({
   numeral: {
     lineHeight: 70,
     fontSize: 103,
-    color: colors.blackText,
+    color: color.blackText,
   },
   unit: {
     lineHeight: 20,
     fontSize: 23,
-    color: colors.blackText,
+    color: color.blackText,
   },
   qrcode: {
     margin: 40,
@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   doneBtnText: {
-    color: colors.purple,
+    color: color.purple,
   },
 });
 
 const RequestQRView = ({ store, nav }) => (
   <Background image="purple-gradient-bg">
-    <Header shadow color={colors.purple}>
+    <Header shadow color={color.purple}>
       <BackButton onPress={() => {}} />
       <Title title="Payment Request">
         <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />

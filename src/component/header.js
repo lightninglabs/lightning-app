@@ -2,7 +2,7 @@ import React from 'react';
 import { View, ViewPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
-import { colors } from './style';
+import { color } from './style';
 
 //
 // Header
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   separator: {
-    boxShadow: `0 0.25px ${colors.white}`,
+    boxShadow: `0 0.25px ${color.white}`,
   },
   centerTitle: {
     justifyContent: 'center',

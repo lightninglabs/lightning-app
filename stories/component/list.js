@@ -8,7 +8,7 @@ import {
   ListItem,
   ListHeader,
 } from '../../src/component/list';
-import { colors } from '../../src/component/style';
+import { color } from '../../src/component/style';
 
 storiesOf('List', module).add('List Content', () => (
   <ListContent>
@@ -16,14 +16,14 @@ storiesOf('List', module).add('List Content', () => (
       data={[...Array(1000)].map((x, i) => ({ id: String(i), data: 'foo' }))}
       renderHeader={() => (
         <ListHeader>
-          <Text style={{ flex: 1, color: colors.greyText }}>ID</Text>
-          <Text style={{ flex: 1, color: colors.greyText }}>Data</Text>
+          <Text style={{ flex: 1, color: color.greyText }}>ID</Text>
+          <Text style={{ flex: 1, color: color.greyText }}>Data</Text>
         </ListHeader>
       )}
       renderItem={item => (
         <ListItem onSelect={action('select')}>
-          <Text style={{ flex: 1, color: colors.blackText }}>{item.id}</Text>
-          <Text style={{ flex: 1, color: colors.blackText }}>{item.data}</Text>
+          <Text style={{ flex: 1, color: color.blackText }}>{item.id}</Text>
+          <Text style={{ flex: 1, color: color.blackText }}>{item.data}</Text>
         </ListItem>
       )}
     />

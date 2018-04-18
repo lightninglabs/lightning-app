@@ -16,7 +16,7 @@ import {
   DownButton,
 } from '../../src/component/button';
 import Icon from '../../src/component/icon';
-import { colors } from '../../src/component/style';
+import { color } from '../../src/component/style';
 
 storiesOf('Button', module)
   .addDecorator(story => (
@@ -24,14 +24,14 @@ storiesOf('Button', module)
   ))
   .add('Default Button', () => (
     <Button
-      style={{ backgroundColor: colors.purple }}
+      style={{ backgroundColor: color.purple }}
       onPress={action('clicked')}
     />
   ))
   .add('Button Disabled', () => (
     <Button
       disabled
-      style={{ backgroundColor: colors.purple }}
+      style={{ backgroundColor: color.purple }}
       onPress={action('clicked')}
     />
   ));
@@ -60,7 +60,7 @@ storiesOf('Button', module)
   ))
   .add('Pill Orange', () => (
     <PillButton
-      style={{ backgroundColor: colors.orange }}
+      style={{ backgroundColor: color.orange }}
       onPress={action('clicked')}
     >
       Pill Button
@@ -89,19 +89,19 @@ storiesOf('Button', module)
   .add('Small Alert', () => (
     <SmallButton
       border
-      alert={colors.pinkSig}
+      alert={color.pinkSig}
       text="Small Alert"
       onPress={action('clicked')}
     />
   ))
   .add('Text Button', () => (
     <Button onPress={action('clicked')}>
-      <ButtonText style={{ color: colors.white }}>Text Button</ButtonText>
+      <ButtonText style={{ color: color.white }}>Text Button</ButtonText>
     </Button>
   ))
   .add('Text Disabled', () => (
     <Button disabled onPress={action('clicked')}>
-      <ButtonText style={{ color: colors.white }}>Text Disabled</ButtonText>
+      <ButtonText style={{ color: color.white }}>Text Disabled</ButtonText>
     </Button>
   ))
   .add('Icon Button', () => (

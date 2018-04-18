@@ -3,7 +3,7 @@ import { TextPropTypes, ViewPropTypes, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { TextInput, HorizontalExpandingTextInput } from './input';
-import { colors, font } from './style';
+import { color, font } from './style';
 
 //
 // Amount Input Field
@@ -23,7 +23,7 @@ export const AmountInputField = ({ style, ...props }) => (
     charWidth={46}
     keyboardType="numeric"
     placeholder="0"
-    placeholderTextColor={colors.blackText}
+    placeholderTextColor={color.blackText}
     {...props}
   />
 );
@@ -62,11 +62,11 @@ const namedStyles = StyleSheet.create({
     alignSelf: 'stretch',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    borderBottomColor: colors.blackText,
+    borderBottomColor: color.blackText,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   name: {
-    color: colors.blackText,
+    color: color.blackText,
     fontSize: font.sizeM,
     lineHeight: font.lineHeightM + 2 * 8,
     marginRight: 10,
@@ -77,7 +77,7 @@ const namedStyles = StyleSheet.create({
     fontFamily: 'OpenSans Light',
     fontSize: font.sizeM,
     lineHeight: font.lineHeightM + 2 * 8,
-    color: colors.blackText,
+    color: color.blackText,
   },
 });
 

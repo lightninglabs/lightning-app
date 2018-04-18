@@ -2,7 +2,7 @@ import React from 'react';
 import { View, TextPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
-import { colors } from './style';
+import { color } from './style';
 
 //
 // Form Stretcher
@@ -33,7 +33,7 @@ FormStretcher.propTypes = {
 
 const subTextStyles = StyleSheet.create({
   text: {
-    color: colors.greyText,
+    color: color.greyText,
     textAlign: 'center',
     paddingTop: 40,
     paddingBottom: 40,

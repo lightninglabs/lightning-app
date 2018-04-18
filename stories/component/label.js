@@ -6,28 +6,28 @@ import {
   BalanceLabelUnit,
   SmallBalanceLabel,
 } from '../../src/component/label';
-import { colors } from '../../src/component/style';
+import { color } from '../../src/component/style';
 
 storiesOf('Labels', module)
   .add('Balance SAT', () => (
     <BalanceLabel>
-      <BalanceLabelNumeral style={{ color: colors.blackText }}>
+      <BalanceLabelNumeral style={{ color: color.blackText }}>
         9,123,456,788
       </BalanceLabelNumeral>
-      <BalanceLabelUnit style={{ color: colors.blackText }}>
+      <BalanceLabelUnit style={{ color: color.blackText }}>
         SAT
       </BalanceLabelUnit>
     </BalanceLabel>
   ))
   .add('Balance USD', () => (
     <BalanceLabel>
-      <BalanceLabelNumeral style={{ color: colors.blackText }}>
+      <BalanceLabelNumeral style={{ color: color.blackText }}>
         $10,000.00
       </BalanceLabelNumeral>
     </BalanceLabel>
   ))
   .add('Small Balance SAT', () => (
-    <SmallBalanceLabel unit="SAT" style={{ color: colors.blackText }}>
+    <SmallBalanceLabel unit="SAT" style={{ color: color.blackText }}>
       9,123,456,788
     </SmallBalanceLabel>
   ));

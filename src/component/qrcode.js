@@ -2,13 +2,13 @@ import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import PropTypes from 'prop-types';
 import QRImage from 'qr-image';
-import { colors } from './style';
+import { color } from './style';
 
 const styles = StyleSheet.create({
   base: {
     padding: 30,
     borderRadius: 13,
-    backgroundColor: colors.white,
+    backgroundColor: color.white,
   },
 });
 

@@ -8,7 +8,7 @@ import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { CopyButton, Button, ButtonText } from '../component/button';
 import QRCode from '../component/qrcode';
-import { colors } from '../component/style';
+import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   qrWrapper: {
@@ -30,13 +30,13 @@ const styles = StyleSheet.create({
     maxWidth: 450,
   },
   copyBtn: {
-    backgroundColor: colors.glas,
+    backgroundColor: color.glas,
     marginBottom: 10,
   },
 });
 
 const DepositView = ({ store, nav }) => (
-  <SplitBackground image="purple-gradient-bg" bottom={colors.blackDark}>
+  <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <View style={styles.qrWrapper}>
       <QRCode size={130}>{store.walletAddressUri}</QRCode>
     </View>

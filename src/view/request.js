@@ -11,20 +11,20 @@ import { BalanceLabel, BalanceLabelUnit } from '../component/label';
 import Card from '../component/card';
 import Icon from '../component/icon';
 import { FormStretcher, FormSubText } from '../component/form';
-import { colors } from '../component/style';
+import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   balance: {
     marginTop: 40,
   },
   unit: {
-    color: colors.blackText,
+    color: color.blackText,
   },
 });
 
 const RequestView = ({ store, nav }) => (
   <Background image="purple-gradient-bg">
-    <Header shadow color={colors.purple}>
+    <Header shadow color={color.purple}>
       <Button disabled onPress={() => {}} />
       <Title title="Payment Request">
         <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
