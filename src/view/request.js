@@ -44,7 +44,7 @@ const RequestView = ({ store, nav }) => (
           Generate a payment request that others can use to pay you immediately
           via the Lightning Network.
         </FormSubText>
-        <PillButton onPress={() => {}}>Next</PillButton>
+        <PillButton onPress={() => nav.goRequestQR()}>Next</PillButton>
       </Card>
     </MainContent>
   </Background>

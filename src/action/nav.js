@@ -21,6 +21,10 @@ class NavAction {
     this._store.route = 'Request';
   }
 
+  goRequestQR() {
+    this._store.route = 'RequestQR';
+  }
+
   goChannels() {
     this._store.route = 'Channels';
   }

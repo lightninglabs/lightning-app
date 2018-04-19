@@ -45,6 +45,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goRequestQR()', () => {
+    it('should set correct route', () => {
+      nav.goRequestQR();
+      expect(store.route, 'to equal', 'RequestQR');
+    });
+  });
+
   describe('goChannels()', () => {
     it('should set correct route', () => {
       nav.goChannels();
