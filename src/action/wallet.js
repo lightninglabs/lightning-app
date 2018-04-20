@@ -1,10 +1,9 @@
-import { RETRY_DELAY, PREFIX_URI } from '../config';
+import { RETRY_DELAY } from '../config';
 
 class WalletAction {
-  constructor(store, grpc, nav, notification) {
+  constructor(store, grpc, notification) {
     this._store = store;
     this._grpc = grpc;
-    this._nav = nav;
     this._notification = notification;
   }
 
@@ -67,14 +66,6 @@ class WalletAction {
       clearTimeout(this.t2);
       this.t2 = setTimeout(() => this.getChannelBalance(), RETRY_DELAY);
     }
-  }
-
-  async generatePaymentRequest(amount, note) {
-    const response = await this._grpc.sendCommand('addInvoice', {
-      value: amount,
-      memo: note,
-    });
-    return `${PREFIX_URI}${response.payment_request}`;
   }
 
   async getNewAddress() {
