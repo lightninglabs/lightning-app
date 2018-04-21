@@ -133,6 +133,16 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.getIPAddress();
       expect(store.ipAddress, 'to be', '0.0.0.0');
     });
+
+    it('should display notification on error', async () => {
+      nock('https://api.ipify.org')
+        .get('/')
+        .query({ format: 'json' })
+        .reply(500, 'Boom!');
+      await wallet.getIPAddress();
+      expect(store.ipAddress, 'to be', null);
+      expect(notification.display, 'was called once');
+    });
   });
 
   describe('getExchangeRate()', () => {

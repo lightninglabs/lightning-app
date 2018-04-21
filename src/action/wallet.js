@@ -85,9 +85,9 @@ class WalletAction {
 
   async getIPAddress() {
     try {
-      const request = await fetch('https://api.ipify.org?format=json');
-      const response = await request.json();
-      this._store.ipAddress = response.ip;
+      const uri = 'https://api.ipify.org?format=json';
+      const response = this._checkStatus(await fetch(uri));
+      this._store.ipAddress = (await response.json()).ip;
     } catch (err) {
       this._notification.display({ msg: 'Getting IP address failed', err });
     }
