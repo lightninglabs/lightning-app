@@ -1,11 +1,13 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import * as log from '../../../src/action/log';
 import NavAction from '../../../src/action/nav';
+import InvoiceAction from '../../../src/action/invoice';
 
 describe('Action Nav Unit Tests', () => {
   let store;
   let sandbox;
   let ipcRenderer;
+  let invoice;
   let nav;
 
   beforeEach(() => {
@@ -15,9 +17,9 @@ describe('Action Nav Unit Tests', () => {
       send: sinon.stub(),
       on: sinon.stub().yields('some-event', 'some-arg'),
     };
-    useStrict(false);
-    store = observable({ route: null });
-    nav = new NavAction(store, ipcRenderer);
+    store = new Store();
+    invoice = sinon.createStubInstance(InvoiceAction);
+    nav = new NavAction(store, invoice, ipcRenderer);
   });
 
   afterEach(() => {
@@ -38,17 +40,25 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe('goRequest()', () => {
-    it('should set correct route', () => {
-      nav.goRequest();
-      expect(store.route, 'to equal', 'Request');
+  describe('goInvoice()', () => {
+    it('should set correct route and clear invoice', () => {
+      nav.goInvoice();
+      expect(store.route, 'to equal', 'Invoice');
+      expect(invoice.clear, 'was called once');
+    });
+
+    it('should set correct route and keep state', () => {
+      nav.goInvoice({ keepState: true });
+      expect(store.route, 'to equal', 'Invoice');
+      expect(invoice.clear, 'was not called');
     });
   });
 
-  describe('goRequestQR()', () => {
-    it('should set correct route', () => {
-      nav.goRequestQR();
-      expect(store.route, 'to equal', 'RequestQR');
+  describe('goInvoiceQR()', () => {
+    it('should set correct route and generate invoice uri', async () => {
+      await nav.goInvoiceQR();
+      expect(store.route, 'to equal', 'InvoiceQR');
+      expect(invoice.generateUri, 'was called once');
     });
   });
 

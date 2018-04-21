@@ -1,5 +1,4 @@
 import { Store } from '../../../src/store';
-import NavAction from '../../../src/action/nav';
 import GrpcAction from '../../../src/action/grpc';
 import WalletAction from '../../../src/action/wallet';
 import NotificationAction from '../../../src/action/notification';
@@ -8,7 +7,6 @@ import 'isomorphic-fetch';
 
 describe('Action Wallet Unit Tests', () => {
   let store;
-  let nav;
   let grpc;
   let wallet;
   let notification;
@@ -16,10 +14,9 @@ describe('Action Wallet Unit Tests', () => {
   beforeEach(() => {
     store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
-    nav = sinon.createStubInstance(NavAction);
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
-    wallet = new WalletAction(store, grpc, nav, notification);
+    wallet = new WalletAction(store, grpc, notification);
   });
 
   describe('generateSeed()', () => {
@@ -106,16 +103,6 @@ describe('Action Wallet Unit Tests', () => {
       grpc.sendCommand.resolves({});
       await nap(30);
       expect(grpc.sendCommand.callCount, 'to be greater than', 1);
-    });
-  });
-
-  describe('generatePaymentRequest()', () => {
-    it('should add invoice and return payment request', async () => {
-      grpc.sendCommand.withArgs('addInvoice').resolves({
-        payment_request: 'some-request',
-      });
-      const request = await wallet.generatePaymentRequest(42, 'some-note');
-      expect(request, 'to equal', 'lightning:some-request');
     });
   });
 

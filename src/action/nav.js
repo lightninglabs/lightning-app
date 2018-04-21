@@ -1,8 +1,9 @@
 import * as log from './log';
 
 class NavAction {
-  constructor(store, ipcRenderer) {
+  constructor(store, invoice, ipcRenderer) {
     this._store = store;
+    this._invoice = invoice;
     ipcRenderer.on('open-url', (event, arg) => {
       // TODO: Go to route
       log.info('open-url', arg);
@@ -17,12 +18,14 @@ class NavAction {
     this._store.route = 'Pay';
   }
 
-  goRequest() {
-    this._store.route = 'Request';
+  goInvoice({ keepState } = {}) {
+    if (!keepState) this._invoice.clear();
+    this._store.route = 'Invoice';
   }
 
-  goRequestQR() {
-    this._store.route = 'RequestQR';
+  async goInvoiceQR() {
+    await this._invoice.generateUri();
+    this._store.route = 'InvoiceQR';
   }
 
   goChannels() {

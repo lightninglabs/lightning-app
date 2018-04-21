@@ -2,12 +2,13 @@ import { rmdir, poll, isPortOpen } from './test-util';
 import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import * as logger from '../../../src/action/log';
-import NavAction from '../../../src/action/nav';
+import NotificationAction from '../../../src/action/notification';
 import InfoAction from '../../../src/action/info';
 import WalletAction from '../../../src/action/wallet';
 import ChannelAction from '../../../src/action/channel';
 import TransactionAction from '../../../src/action/transaction';
 import PaymentAction from '../../../src/action/payment';
+import InvoiceAction from '../../../src/action/invoice';
 import { EventEmitter } from 'events';
 
 const {
@@ -62,22 +63,23 @@ describe('Action Integration Tests', function() {
   let lndProcess1;
   let lndProcess2;
   let btcdProcess;
-  let navStub1;
+  let notificationStub1;
   let grpc1;
   let info1;
   let wallet1;
   let channels1;
   let transactions1;
   let payments1;
-  let navStub2;
+  let invoice1;
+  let notificationStub2;
   let grpc2;
   let info2;
   let wallet2;
   let channels2;
   let transactions2;
   let payments2;
+  let invoice2;
   let btcdArgs;
-  let payReq;
 
   before(async () => {
     rmdir('test/data');
@@ -132,21 +134,23 @@ describe('Action Integration Tests', function() {
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
-    navStub1 = sinon.createStubInstance(NavAction);
+    notificationStub1 = sinon.createStubInstance(NotificationAction);
     grpc1 = new GrpcAction(store1, ipcRendererStub1);
     info1 = new InfoAction(store1, grpc1);
-    wallet1 = new WalletAction(store1, grpc1, navStub1);
-    channels1 = new ChannelAction(store1, grpc1);
+    wallet1 = new WalletAction(store1, grpc1, notificationStub1);
+    channels1 = new ChannelAction(store1, grpc1, notificationStub1);
     transactions1 = new TransactionAction(store1, grpc1);
-    payments1 = new PaymentAction(store1, grpc1, wallet1);
+    payments1 = new PaymentAction(store1, grpc1, wallet1, notificationStub1);
+    invoice1 = new InvoiceAction(store1, grpc1, notificationStub1);
 
-    navStub2 = sinon.createStubInstance(NavAction);
+    notificationStub2 = sinon.createStubInstance(NotificationAction);
     grpc2 = new GrpcAction(store2, ipcRendererStub2);
     info2 = new InfoAction(store2, grpc2);
-    wallet2 = new WalletAction(store2, grpc2, navStub2);
-    channels2 = new ChannelAction(store2, grpc2);
+    wallet2 = new WalletAction(store2, grpc2, notificationStub2);
+    channels2 = new ChannelAction(store2, grpc2, notificationStub2);
     transactions2 = new TransactionAction(store2, grpc2);
-    payments2 = new PaymentAction(store2, grpc2, wallet2);
+    payments2 = new PaymentAction(store2, grpc2, wallet2, notificationStub2);
+    invoice2 = new InvoiceAction(store2, grpc2, notificationStub2);
   });
 
   after(() => {
@@ -216,9 +220,9 @@ describe('Action Integration Tests', function() {
       expect(store1.lndReady, 'to be true');
     });
 
-    it('should generate payment request', async () => {
-      const invoice = await wallet1.generatePaymentRequest();
-      expect(invoice, 'to be ok');
+    it('should get public key node1', async () => {
+      await info1.getInfo();
+      expect(store1.pubKey, 'to be ok');
     });
   });
 
@@ -346,8 +350,10 @@ describe('Action Integration Tests', function() {
     });
 
     it('should generate payment request', async () => {
-      payReq = await wallet2.generatePaymentRequest(100, 'coffee');
-      expect(payReq, 'to match', /^lightning:/);
+      invoice2.setAmount({ amount: '0.000001' });
+      invoice2.setNote({ note: 'coffee' });
+      await invoice2.generateUri();
+      expect(store2.invoice.uri, 'to match', /^lightning:/);
     });
 
     it('should list new invoice as in-progress', async () => {
@@ -357,7 +363,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should send lightning payment from request', async () => {
-      await payments1.payLightning({ payment: payReq });
+      await payments1.payLightning({ invoice: store2.invoice.uri });
     });
 
     it('should update complete invoice via subscription', async () => {

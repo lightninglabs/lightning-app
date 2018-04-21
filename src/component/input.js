@@ -46,22 +46,31 @@ export class HorizontalExpandingTextInput extends Component {
     this.state = { text: '', width: 0 };
   }
   render() {
-    const { charWidth, onChangeText, style, ...props } = this.props;
+    const { value, charWidth, onChangeText, style, ...props } = this.props;
     return (
       <TextInput
-        {...props}
+        value={value || this.state.text}
         onChangeText={text => {
           this.setState({ text, width: charWidth * (text.length + 1) });
           onChangeText && onChangeText(text);
         }}
-        style={[style, { width: Math.max(charWidth * 2, this.state.width) }]}
-        value={this.state.text}
+        style={[
+          style,
+          {
+            width: Math.max(
+              charWidth * 2,
+              value ? charWidth * (value.length + 1) : this.state.width
+            ),
+          },
+        ]}
+        {...props}
       />
     );
   }
 }
 
 HorizontalExpandingTextInput.propTypes = {
+  value: PropTypes.string,
   charWidth: PropTypes.number.isRequired,
   onChangeText: PropTypes.func,
   style: TextPropTypes.style,

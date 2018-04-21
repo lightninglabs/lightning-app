@@ -24,6 +24,12 @@ export class Store {
       ipAddress: null,
       transactions: null,
       invoices: null,
+      invoice: {
+        amount: '',
+        note: '',
+        encoded: null,
+        uri: null,
+      },
       payments: null,
       peers: null,
       channels: null,
