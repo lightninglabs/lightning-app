@@ -97,10 +97,18 @@ class WalletAction {
     try {
       const fiat = this._store.settings.fiat;
       const uri = `https://blockchain.info/tobtc?currency=${fiat}&value=1`;
-      const response = await fetch(uri);
+      const response = this._checkStatus(await fetch(uri));
       this._store.settings.exchangeRate[fiat] = Number(await response.text());
     } catch (err) {
       this._notification.display({ msg: 'Getting exchange rate failed', err });
+    }
+  }
+
+  _checkStatus(response) {
+    if (response.status >= 200 && response.status < 300) {
+      return response;
+    } else {
+      throw new Error(response.statusText);
     }
   }
 }
