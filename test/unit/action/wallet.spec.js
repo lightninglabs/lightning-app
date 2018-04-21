@@ -133,5 +133,36 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.getIPAddress();
       expect(store.ipAddress, 'to be', '0.0.0.0');
     });
+
+    it('should display notification on error', async () => {
+      nock('https://api.ipify.org')
+        .get('/')
+        .query({ format: 'json' })
+        .reply(500, 'Boom!');
+      await wallet.getIPAddress();
+      expect(store.ipAddress, 'to be', null);
+      expect(notification.display, 'was called once');
+    });
+  });
+
+  describe('getExchangeRate()', () => {
+    it('should get exchange rate', async () => {
+      nock('https://blockchain.info')
+        .get('/tobtc')
+        .query({ currency: 'usd', value: 1 })
+        .reply(200, '0.00011536');
+      await wallet.getExchangeRate();
+      expect(store.settings.exchangeRate.usd, 'to be', 0.00011536);
+    });
+
+    it('should display notification on error', async () => {
+      nock('https://blockchain.info')
+        .get('/tobtc')
+        .query({ currency: 'usd', value: 1 })
+        .reply(500, 'Boom!');
+      await wallet.getExchangeRate();
+      expect(store.settings.exchangeRate.usd, 'to be', null);
+      expect(notification.display, 'was called once');
+    });
   });
 });

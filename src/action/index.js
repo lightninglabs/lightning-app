@@ -66,6 +66,7 @@ observe(store, 'lndReady', () => {
   wallet.getBalance();
   wallet.getChannelBalance();
   wallet.getNewAddress();
+  wallet.getExchangeRate();
   // init info
   info.getInfo();
   // init channels
