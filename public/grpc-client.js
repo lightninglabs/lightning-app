@@ -65,9 +65,7 @@ module.exports.init = async function({
   macaroonsEnabled,
 }) {
   const credentials = await getCredentials(lndDataDir);
-  const { lnrpc } = grpc.load(
-    path.join(__dirname, '..', 'assets', 'rpc.proto')
-  );
+  const protoPath = path.join(__dirname, '..', 'assets', 'rpc.proto');
   let metadata;
   if (macaroonsEnabled) {
     metadata = getMetadata();
@@ -75,6 +73,7 @@ module.exports.init = async function({
 
   let unlocker;
   ipcMain.on('unlockInit', event => {
+    const { lnrpc } = grpc.load(protoPath);
     unlocker = new lnrpc.WalletUnlocker(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(unlocker, Infinity, err => {
       event.sender.send('unlockReady', { err });
@@ -83,6 +82,7 @@ module.exports.init = async function({
 
   let lnd;
   ipcMain.on('lndInit', event => {
+    const { lnrpc } = grpc.load(protoPath);
     lnd = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(lnd, Infinity, err => {
       event.sender.send('lndReady', { err });
