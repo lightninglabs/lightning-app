@@ -1,3 +1,4 @@
+import { checkHttpStatus } from '../helper';
 import { RETRY_DELAY } from '../config';
 
 class WalletAction {
@@ -86,7 +87,7 @@ class WalletAction {
   async getIPAddress() {
     try {
       const uri = 'https://api.ipify.org?format=json';
-      const response = this._checkStatus(await fetch(uri));
+      const response = checkHttpStatus(await fetch(uri));
       this._store.ipAddress = (await response.json()).ip;
     } catch (err) {
       this._notification.display({ msg: 'Getting IP address failed', err });
@@ -97,18 +98,10 @@ class WalletAction {
     try {
       const fiat = this._store.settings.fiat;
       const uri = `https://blockchain.info/tobtc?currency=${fiat}&value=1`;
-      const response = this._checkStatus(await fetch(uri));
+      const response = checkHttpStatus(await fetch(uri));
       this._store.settings.exchangeRate[fiat] = Number(await response.text());
     } catch (err) {
       this._notification.display({ msg: 'Getting exchange rate failed', err });
-    }
-  }
-
-  _checkStatus(response) {
-    if (response.status >= 200 && response.status < 300) {
-      return response;
-    } else {
-      throw new Error(response.statusText);
     }
   }
 }
