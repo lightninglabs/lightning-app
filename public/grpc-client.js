@@ -82,6 +82,7 @@ module.exports.init = async function({
 
   let lnd;
   ipcMain.on('lndInit', event => {
+    unlocker && unlocker.close();
     const { lnrpc } = grpc.load(protoPath);
     lnd = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(lnd, Infinity, err => {
