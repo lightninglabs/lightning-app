@@ -134,4 +134,15 @@ describe('Action Wallet Unit Tests', () => {
       expect(store.ipAddress, 'to be', '0.0.0.0');
     });
   });
+
+  describe('getExchangeRate()', () => {
+    it('should get exchange rate', async () => {
+      nock('https://blockchain.info')
+        .get('/tobtc')
+        .query({ currency: 'usd', value: 1 })
+        .reply(200, '0.00011536');
+      await wallet.getExchangeRate();
+      expect(store.settings.exchangeRate.usd, 'to be', 0.00011536);
+    });
+  });
 });

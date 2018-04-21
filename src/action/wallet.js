@@ -92,6 +92,17 @@ class WalletAction {
       this._notification.display({ msg: 'Getting IP address failed', err });
     }
   }
+
+  async getExchangeRate() {
+    try {
+      const fiat = this._store.settings.fiat;
+      const uri = `https://blockchain.info/tobtc?currency=${fiat}&value=1`;
+      const response = await fetch(uri);
+      this._store.settings.exchangeRate[fiat] = Number(await response.text());
+    } catch (err) {
+      this._notification.display({ msg: 'Getting exchange rate failed', err });
+    }
+  }
 }
 
 export default WalletAction;
