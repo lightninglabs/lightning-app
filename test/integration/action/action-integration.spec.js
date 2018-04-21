@@ -180,7 +180,7 @@ describe('Action Integration Tests', function() {
       await wallet1.initWallet({
         walletPassword,
         seedPassphrase,
-        seedMnemonic: store1.seedMnemonic,
+        seedMnemonic: store1.seedMnemonic.toJSON(),
       });
       expect(store1.walletUnlocked, 'to be true');
     });
