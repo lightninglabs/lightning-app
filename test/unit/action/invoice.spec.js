@@ -18,25 +18,25 @@ describe('Action Invoice Unit Tests', () => {
   });
 
   describe('clear()', () => {
-    it('should clear invoice attributes', async () => {
+    it('should clear invoice attributes', () => {
       store.invoice.amount = 'foo';
       store.invoice.note = 'bar';
-      await invoice.clear();
+      invoice.clear();
       expect(store.invoice.amount, 'to equal', '');
       expect(store.invoice.note, 'to equal', '');
     });
   });
 
   describe('setAmount()', () => {
-    it('should clear invoice attributes', async () => {
-      await invoice.setAmount({ amount: '0.01' });
+    it('should clear invoice attributes', () => {
+      invoice.setAmount({ amount: '0.01' });
       expect(store.invoice.amount, 'to equal', '0.01');
     });
   });
 
   describe('setNote()', () => {
-    it('should clear invoice attributes', async () => {
-      await invoice.setNote({ note: 'foo' });
+    it('should clear invoice attributes', () => {
+      invoice.setNote({ note: 'foo' });
       expect(store.invoice.note, 'to equal', 'foo');
     });
   });
