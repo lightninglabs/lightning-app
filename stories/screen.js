@@ -1,26 +1,32 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import sinon from 'sinon';
+import { Store } from '../src/store';
+import NavAction from '../src/action/nav';
+import GrpcAction from '../src/action/grpc';
+import NotificationAction from '../src/action/notification';
+import WalletAction from '../src/action/wallet';
+import InvoiceAction from '../src/action/invoice';
 import WelcomeView from '../src/view/welcome';
 import TransactionView from '../src/view/transaction';
 import HomeView from '../src/view/home';
-import { Store } from '../src/store';
-import WalletAction from '../src/action/wallet';
-import NavAction from '../src/action/nav';
 import DepositView from '../src/view/deposit';
 import Request from '../src/view/request';
 import RequestQR from '../src/view/request-qr';
 
 const store = new Store();
-const wallet = new WalletAction(store);
 const nav = sinon.createStubInstance(NavAction);
+const grpc = sinon.createStubInstance(GrpcAction);
+const notification = sinon.createStubInstance(NotificationAction);
+const wallet = new WalletAction(store, grpc, notification);
+const invoice = new InvoiceAction(store, grpc, notification);
 
 storiesOf('Screens', module)
   .add('Welcome', () => <WelcomeView />)
   .add('Home', () => <HomeView store={store} wallet={wallet} nav={nav} />)
   .add('Transactions', () => <TransactionView store={store} nav={nav} />)
   .add('Deposit Funds', () => <DepositView store={store} nav={nav} />)
-  .add('Request', () => <Request store={store} nav={nav} />)
+  .add('Request', () => <Request store={store} invoice={invoice} nav={nav} />)
   .add('Request QR', () => <RequestQR store={store} nav={nav} />);
 
 // set some dummy data
@@ -36,9 +42,10 @@ store.transactions = [...Array(100)].map((x, i) => ({
   date: new Date(),
   fee: '156',
 }));
-store.paymentRequest = {
-  amount: '456,780',
-  invoice:
+store.invoice = {
+  amount: '0.45678',
+  note: 'For the love of bitcoin',
+  encoded:
     'lnbc4567800n1pdvqx48pp5eng6uyqnkdlx93m2598ug93qtuls8gapygxznshzd56h7n5cxs0sdp9gehhygr5dpjjqmr0wejjqmmxyp3xjarrda5kucqzysmhyrleqpt3yqf5nctzsr3hvrv9vhhnawazkwyzu8t4mf85tllsyjsf8hgu5nt6dj3jaljjgmt999xnlsweqvatypzlu34nhpjlxf59qp4dn2pv',
-  message: 'For the love of bitcoin',
+  uri: `lightning:${this.encoded}`,
 };

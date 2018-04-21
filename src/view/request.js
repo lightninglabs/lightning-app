@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const RequestView = ({ store, nav }) => (
+const RequestView = ({ store, nav, invoice }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={color.purple}>
       <Button disabled onPress={() => {}} />
@@ -34,11 +34,18 @@ const RequestView = ({ store, nav }) => (
     <MainContent>
       <Card>
         <BalanceLabel style={styles.balance}>
-          <AmountInputField onChangeText={() => {}} />
+          <AmountInputField
+            value={store.invoice.amount}
+            onChangeText={amount => invoice.setAmount({ amount })}
+          />
           <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
         </BalanceLabel>
         <FormStretcher>
-          <InputField placeholder="Note" />
+          <InputField
+            placeholder="Note"
+            value={store.invoice.note}
+            onChangeText={note => invoice.setNote({ note })}
+          />
         </FormStretcher>
         <FormSubText>
           Generate a payment request that others can use to pay you immediately
@@ -53,6 +60,7 @@ const RequestView = ({ store, nav }) => (
 RequestView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
+  invoice: PropTypes.object.isRequired,
 };
 
 export default observer(RequestView);
