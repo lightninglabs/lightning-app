@@ -10,6 +10,7 @@ import NotificationAction from './notification';
 import ChannelAction from './channel';
 import TransactionAction from './transaction';
 import PaymentAction from './payment';
+import InvoiceAction from './invoice';
 
 const ipcRenderer = window.ipcRenderer; // exposed to sandbox via preload.js
 
@@ -28,6 +29,7 @@ export const info = new InfoAction(store, grpc);
 export const channel = new ChannelAction(store, grpc, notification);
 export const transaction = new TransactionAction(store, grpc);
 export const payment = new PaymentAction(store, grpc, wallet, notification);
+export const invoice = new InvoiceAction(store, grpc, notification);
 
 //
 // Init actions
