@@ -66,7 +66,7 @@ describe('Action Payments Unit Tests', () => {
 
     it('should send lightning payment', async () => {
       paymentsOnStub.withArgs('data').yields({ payment_error: '' });
-      await payment.payLightning({ payment: 'some-payment' });
+      await payment.payLightning({ invoice: 'some-payment' });
       expect(grpc.sendStreamCommand, 'was called with', 'sendPayment');
       expect(
         paymentsWriteStub,
@@ -80,7 +80,7 @@ describe('Action Payments Unit Tests', () => {
 
     it('should display notification on error', async () => {
       paymentsOnStub.withArgs('data').yields({ payment_error: 'Boom!' });
-      await payment.payLightning({ payment: 'some-payment' });
+      await payment.payLightning({ invoice: 'some-payment' });
       expect(notification.display, 'was called once');
       expect(wallet.getChannelBalance, 'was called once');
     });
@@ -93,16 +93,16 @@ describe('Action Payments Unit Tests', () => {
         description: 'foo',
       });
       await payment.decodePaymentRequest({
-        payment: 'some-payment',
+        invoice: 'some-payment',
       });
-      expect(store.paymentRequest.numSatoshis, 'to be', '1700');
-      expect(store.paymentRequest.description, 'to be', 'foo');
+      expect(store.paymentRequest.amount, 'to be', '1700');
+      expect(store.paymentRequest.note, 'to be', 'foo');
     });
 
     it('should set response to null on error', async () => {
       grpc.sendCommand.withArgs('decodePayReq').rejects(new Error('Boom!'));
       await payment.decodePaymentRequest({
-        payment: 'some-payment',
+        invoice: 'some-payment',
       });
       expect(store.paymentRequest, 'to be', null);
       expect(logger.error, 'was called once');
