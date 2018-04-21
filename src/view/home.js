@@ -54,7 +54,7 @@ const HomeView = ({ store, wallet, nav }) => {
         />
         <SendReceiveButton
           goPay={() => nav.goPay()}
-          goRequest={() => nav.goRequest()}
+          goRequest={() => nav.goInvoice()}
         />
         <DownButton onPress={() => nav.goTransactions()} style={styles.downBtn}>
           Transactions

@@ -40,24 +40,24 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe('goRequest()', () => {
+  describe('goInvoice()', () => {
     it('should set correct route and clear invoice', () => {
-      nav.goRequest();
-      expect(store.route, 'to equal', 'Request');
+      nav.goInvoice();
+      expect(store.route, 'to equal', 'Invoice');
       expect(invoice.clear, 'was called once');
     });
 
     it('should set correct route and keep state', () => {
-      nav.goRequest({ keepState: true });
-      expect(store.route, 'to equal', 'Request');
+      nav.goInvoice({ keepState: true });
+      expect(store.route, 'to equal', 'Invoice');
       expect(invoice.clear, 'was not called');
     });
   });
 
-  describe('goRequestQR()', () => {
+  describe('goInvoiceQR()', () => {
     it('should set correct route and generate invoice uri', async () => {
-      await nav.goRequestQR();
-      expect(store.route, 'to equal', 'RequestQR');
+      await nav.goInvoiceQR();
+      expect(store.route, 'to equal', 'InvoiceQR');
       expect(invoice.generateUri, 'was called once');
     });
   });

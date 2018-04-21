@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const RequestView = ({ store, nav, invoice }) => (
+const InvoiceView = ({ store, nav, invoice }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={color.purple}>
       <Button disabled onPress={() => {}} />
@@ -51,16 +51,16 @@ const RequestView = ({ store, nav, invoice }) => (
           Generate a payment request that others can use to pay you immediately
           via the Lightning Network.
         </FormSubText>
-        <PillButton onPress={() => nav.goRequestQR()}>Next</PillButton>
+        <PillButton onPress={() => nav.goInvoiceQR()}>Next</PillButton>
       </Card>
     </MainContent>
   </Background>
 );
 
-RequestView.propTypes = {
+InvoiceView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   invoice: PropTypes.object.isRequired,
 };
 
-export default observer(RequestView);
+export default observer(InvoiceView);

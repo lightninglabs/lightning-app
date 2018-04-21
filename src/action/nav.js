@@ -18,14 +18,14 @@ class NavAction {
     this._store.route = 'Pay';
   }
 
-  goRequest({ keepState } = {}) {
+  goInvoice({ keepState } = {}) {
     if (!keepState) this._invoice.clear();
-    this._store.route = 'Request';
+    this._store.route = 'Invoice';
   }
 
-  async goRequestQR() {
+  async goInvoiceQR() {
     await this._invoice.generateUri();
-    this._store.route = 'RequestQR';
+    this._store.route = 'InvoiceQR';
   }
 
   goChannels() {

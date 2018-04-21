@@ -7,12 +7,12 @@ import GrpcAction from '../src/action/grpc';
 import NotificationAction from '../src/action/notification';
 import WalletAction from '../src/action/wallet';
 import InvoiceAction from '../src/action/invoice';
-import WelcomeView from '../src/view/welcome';
-import TransactionView from '../src/view/transaction';
-import HomeView from '../src/view/home';
-import DepositView from '../src/view/deposit';
-import Request from '../src/view/request';
-import RequestQR from '../src/view/request-qr';
+import Welcome from '../src/view/welcome';
+import Transaction from '../src/view/transaction';
+import Home from '../src/view/home';
+import Deposit from '../src/view/deposit';
+import Invoice from '../src/view/invoice';
+import InvoiceQR from '../src/view/invoice-qr';
 
 const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
@@ -22,12 +22,12 @@ const wallet = new WalletAction(store, grpc, notification);
 const invoice = new InvoiceAction(store, grpc, notification);
 
 storiesOf('Screens', module)
-  .add('Welcome', () => <WelcomeView />)
-  .add('Home', () => <HomeView store={store} wallet={wallet} nav={nav} />)
-  .add('Transactions', () => <TransactionView store={store} nav={nav} />)
-  .add('Deposit Funds', () => <DepositView store={store} nav={nav} />)
-  .add('Request', () => <Request store={store} invoice={invoice} nav={nav} />)
-  .add('Request QR', () => <RequestQR store={store} nav={nav} />);
+  .add('Welcome', () => <Welcome />)
+  .add('Home', () => <Home store={store} wallet={wallet} nav={nav} />)
+  .add('Transactions', () => <Transaction store={store} nav={nav} />)
+  .add('Deposit', () => <Deposit store={store} nav={nav} />)
+  .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
+  .add('Invoice QR', () => <InvoiceQR store={store} nav={nav} />);
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';

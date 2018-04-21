@@ -54,10 +54,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const RequestQRView = ({ store, nav }) => (
+const InvoiceQRView = ({ store, nav }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={color.purple}>
-      <BackButton onPress={() => nav.goRequest({ keepState: true })} />
+      <BackButton onPress={() => nav.goInvoice({ keepState: true })} />
       <Title title="Payment Request">
         <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
       </Title>
@@ -88,9 +88,9 @@ const RequestQRView = ({ store, nav }) => (
   </Background>
 );
 
-RequestQRView.propTypes = {
+InvoiceQRView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
 };
 
-export default observer(RequestQRView);
+export default observer(InvoiceQRView);
