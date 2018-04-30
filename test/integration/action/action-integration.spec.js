@@ -408,7 +408,7 @@ describe('Action Integration Tests', function() {
       expect(store1.computedChannels[0].status, 'to be', 'open');
     });
 
-    it('should list pending-force-closing after force closing', async () => {
+    it('should list waiting-close after force closing', async () => {
       channels1.closeChannel({
         channelPoint: store1.channels[0].channelPoint,
         force: true,
@@ -416,11 +416,7 @@ describe('Action Integration Tests', function() {
       while (!store1.pendingChannels.length) await nap(100);
       while (store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
-      expect(
-        store1.computedChannels[0].status,
-        'to be',
-        'pending-force-closing'
-      );
+      expect(store1.computedChannels[0].status, 'to be', 'waiting-close');
     });
 
     it('should list no channels after mining 6 blocks', async () => {

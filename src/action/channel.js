@@ -1,5 +1,4 @@
 import { RETRY_DELAY } from '../config';
-import { reverse } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
@@ -67,7 +66,12 @@ class ChannelAction {
       blocksTilMaturity: pfcc.blocks_til_maturity,
       status: 'pending-force-closing',
     }));
-    this._store.pendingChannels = [].concat(pocs, pccs, pfccs);
+    const wccs = response.waiting_close_channels.map(wcc => ({
+      channel: wcc.channel,
+      limboBalance: wcc.limbo_balance,
+      status: 'waiting-close',
+    }));
+    this._store.pendingChannels = [].concat(pocs, pccs, pfccs, wccs);
   }
 
   async pollPeers() {
@@ -145,7 +149,7 @@ class ChannelAction {
           this.getChannels();
         }
         if (data.chan_close) {
-          this._removeClosedChannel(data.chan_close.closing_txid);
+          this._removeClosedChannel(channelPoint);
         }
       });
       stream.on('end', resolve);
@@ -164,13 +168,9 @@ class ChannelAction {
     };
   }
 
-  _removeClosedChannel(closingTxid) {
-    if (!(closingTxid instanceof Buffer)) {
-      throw new Error('Invalid closing txid');
-    }
-    const txid = reverse(closingTxid).toString('hex');
+  _removeClosedChannel(channelPoint) {
     const pc = this._store.pendingChannels;
-    const channel = pc.find(c => c.closingTxid === txid);
+    const channel = pc.find(c => c.channel.channel_point === channelPoint);
     if (channel) pc.splice(pc.indexOf(channel));
   }
 }

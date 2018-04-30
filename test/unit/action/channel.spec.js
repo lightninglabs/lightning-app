@@ -94,9 +94,10 @@ describe('Action Channels Unit Tests', () => {
         pending_open_channels: [{}],
         pending_closing_channels: [{}],
         pending_force_closing_channels: [{}],
+        waiting_close_channels: [{}],
       });
       await channel.getPendingChannels();
-      expect(store.pendingChannels.length, 'to equal', 3);
+      expect(store.pendingChannels.length, 'to equal', 4);
     });
   });
 
@@ -250,8 +251,8 @@ describe('Action Channels Unit Tests', () => {
       expect(channel.getChannels, 'was called once');
     });
 
-    it('should remove pending channel with txid on chan_close (force close)', async () => {
-      store.pendingChannels = [{ closingTxid: 'abcd' }];
+    it('should remove pending channel on chan_close (force close)', async () => {
+      store.pendingChannels = [{ channel: { channel_point: 'FFFF:1' } }];
       const chan_close = { closing_txid: new Buffer('cdab', 'hex') };
       onStub.withArgs('data').yields({ chan_close });
       onStub.withArgs('end').yields();
