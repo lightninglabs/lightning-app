@@ -165,24 +165,34 @@ describe('Action Integration Tests', function() {
     sandbox.restore();
   });
 
-  describe.only('Generate seed and unlock wallet', () => {
+  describe('Generate seed and unlock wallet', () => {
     it('should wait for unlockerReady', async () => {
       await grpc1.initUnlocker();
       expect(store1.unlockerReady, 'to be true');
+      await grpc2.initUnlocker();
+      expect(store2.unlockerReady, 'to be true');
     });
 
-    it('should generate new seed for node1', async () => {
+    it('should generate new seed', async () => {
       await wallet1.generateSeed({ seedPassphrase });
       expect(store1.seedMnemonic, 'to be ok');
+      await wallet2.generateSeed({ seedPassphrase });
+      expect(store2.seedMnemonic, 'to be ok');
     });
 
-    it('should import existing seed for node1', async () => {
+    it('should import existing seed', async () => {
       await wallet1.initWallet({
         walletPassword,
         seedPassphrase,
         seedMnemonic: store1.seedMnemonic.toJSON(),
       });
       expect(store1.walletUnlocked, 'to be true');
+      await wallet2.initWallet({
+        walletPassword,
+        seedPassphrase,
+        seedMnemonic: store2.seedMnemonic.toJSON(),
+      });
+      expect(store2.walletUnlocked, 'to be true');
     });
 
     it('should kill lnd node1', async () => {
@@ -218,16 +228,6 @@ describe('Action Integration Tests', function() {
     it('should unlock wallet for node1', async () => {
       await wallet1.unlockWallet({ walletPassword });
       expect(store1.walletUnlocked, 'to be true');
-    });
-
-    it('should wait for lndReady', async () => {
-      await grpc1.initLnd();
-      expect(store1.lndReady, 'to be true');
-    });
-
-    it('should get public key node1', async () => {
-      await info1.getInfo();
-      expect(store1.pubKey, 'to be ok');
     });
   });
 
