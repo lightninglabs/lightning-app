@@ -51,7 +51,7 @@ const InvoiceView = ({ store, nav, invoice }) => (
           Generate a payment request that others can use to pay you immediately
           via the Lightning Network.
         </FormSubText>
-        <PillButton onPress={() => nav.goInvoiceQR()}>Next</PillButton>
+        <PillButton onPress={() => invoice.generateUri()}>Next</PillButton>
       </Card>
     </MainContent>
   </Background>

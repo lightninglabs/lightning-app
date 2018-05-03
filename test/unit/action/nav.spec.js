@@ -1,13 +1,11 @@
 import { Store } from '../../../src/store';
 import * as log from '../../../src/action/log';
 import NavAction from '../../../src/action/nav';
-import InvoiceAction from '../../../src/action/invoice';
 
 describe('Action Nav Unit Tests', () => {
   let store;
   let sandbox;
   let ipcRenderer;
-  let invoice;
   let nav;
 
   beforeEach(() => {
@@ -18,8 +16,7 @@ describe('Action Nav Unit Tests', () => {
       on: sinon.stub().yields('some-event', 'some-arg'),
     };
     store = new Store();
-    invoice = sinon.createStubInstance(InvoiceAction);
-    nav = new NavAction(store, invoice, ipcRenderer);
+    nav = new NavAction(store, ipcRenderer);
   });
 
   afterEach(() => {
@@ -48,10 +45,9 @@ describe('Action Nav Unit Tests', () => {
   });
 
   describe('goInvoiceQR()', () => {
-    it('should set correct route and generate invoice uri', async () => {
-      await nav.goInvoiceQR();
+    it('should set correct route', () => {
+      nav.goInvoiceQR();
       expect(store.route, 'to equal', 'InvoiceQR');
-      expect(invoice.generateUri, 'was called once');
     });
   });
 

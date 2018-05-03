@@ -1,10 +1,12 @@
 import { Store } from '../../../src/store';
+import NavAction from '../../../src/action/nav';
 import GrpcAction from '../../../src/action/grpc';
 import InvoiceAction from '../../../src/action/invoice';
 import NotificationAction from '../../../src/action/notification';
 
 describe('Action Invoice Unit Tests', () => {
   let store;
+  let nav;
   let grpc;
   let invoice;
   let notification;
@@ -12,9 +14,10 @@ describe('Action Invoice Unit Tests', () => {
   beforeEach(() => {
     store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
+    nav = sinon.createStubInstance(NavAction);
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
-    invoice = new InvoiceAction(store, grpc, notification);
+    invoice = new InvoiceAction(store, grpc, nav, notification);
   });
 
   describe('clear()', () => {
@@ -56,6 +59,14 @@ describe('Action Invoice Unit Tests', () => {
       await invoice.generateUri();
       expect(store.invoice.encoded, 'to equal', 'some-request');
       expect(store.invoice.uri, 'to equal', 'lightning:some-request');
+      expect(nav.goInvoiceQR, 'was called once');
+    });
+
+    it('should display notification on error', async () => {
+      grpc.sendCommand.rejects(new Error('Boom!'));
+      await invoice.generateUri();
+      expect(nav.goInvoiceQR, 'was not called');
+      expect(notification.display, 'was called once');
     });
   });
 });

@@ -1,9 +1,10 @@
 import { PREFIX_URI, UNITS } from '../config';
 
 class InvoiceAction {
-  constructor(store, grpc, notification) {
+  constructor(store, grpc, nav, notification) {
     this._store = store;
     this._grpc = grpc;
+    this._nav = nav;
     this._notification = notification;
   }
 
@@ -32,6 +33,7 @@ class InvoiceAction {
       });
       this._store.invoice.encoded = response.payment_request;
       this._store.invoice.uri = `${PREFIX_URI}${this._store.invoice.encoded}`;
+      this._nav.goInvoiceQR();
     } catch (err) {
       this._notification.display({ msg: 'Creating invoice failed!', err });
     }
