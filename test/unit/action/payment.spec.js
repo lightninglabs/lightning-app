@@ -14,7 +14,7 @@ describe('Action Payments Unit Tests', () => {
   let notification;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     useStrict(false);
     store = observable({ lndReady: false });

@@ -9,7 +9,7 @@ describe('Action GRPC Unit Tests', () => {
   let ipcRendererStub;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store = new Store();
     ipcRendererStub = {

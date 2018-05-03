@@ -10,7 +10,7 @@ describe('Action Transactions Unit Tests', () => {
   let transaction;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     useStrict(false);
     store = observable({ lndReady: false });

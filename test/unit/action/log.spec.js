@@ -8,7 +8,7 @@ describe('Action Logs Unit Tests', () => {
   let ipcRenderer;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox({});
     ipcRenderer = {
       send: sinon.stub(),
       on: sinon.stub().yields('some-event', 'some-arg'),

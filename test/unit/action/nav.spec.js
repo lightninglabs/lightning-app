@@ -11,7 +11,7 @@ describe('Action Nav Unit Tests', () => {
   let nav;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox({});
     sandbox.stub(log);
     ipcRenderer = {
       send: sinon.stub(),
