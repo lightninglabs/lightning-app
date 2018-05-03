@@ -25,8 +25,7 @@ export PATH=$PWD/linux-amd64/:$PATH
 # install lnd
 git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
 cd $GOPATH/src/github.com/lightningnetwork/lnd
-dep ensure
-go install . ./cmd/...
+make && make install
 
 # install btcd
 git clone https://github.com/roasbeef/btcd $GOPATH/src/github.com/roasbeef/btcd
