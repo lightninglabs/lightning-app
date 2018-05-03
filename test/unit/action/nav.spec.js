@@ -41,16 +41,9 @@ describe('Action Nav Unit Tests', () => {
   });
 
   describe('goInvoice()', () => {
-    it('should set correct route and clear invoice', () => {
+    it('should set correct route', () => {
       nav.goInvoice();
       expect(store.route, 'to equal', 'Invoice');
-      expect(invoice.clear, 'was called once');
-    });
-
-    it('should set correct route and keep state', () => {
-      nav.goInvoice({ keepState: true });
-      expect(store.route, 'to equal', 'Invoice');
-      expect(invoice.clear, 'was not called');
     });
   });
 

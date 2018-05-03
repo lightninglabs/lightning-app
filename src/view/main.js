@@ -14,7 +14,9 @@ class MainView extends Component {
     const { route } = store;
     return (
       <Container>
-        {route === 'Home' && <Home store={store} wallet={wallet} nav={nav} />}
+        {route === 'Home' && (
+          <Home store={store} wallet={wallet} invoice={invoice} nav={nav} />
+        )}
         {route === 'Invoice' && (
           <Invoice store={store} invoice={invoice} nav={nav} />
         )}

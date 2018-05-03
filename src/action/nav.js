@@ -18,8 +18,7 @@ class NavAction {
     this._store.route = 'Pay';
   }
 
-  goInvoice({ keepState } = {}) {
-    if (!keepState) this._invoice.clear();
+  goInvoice() {
     this._store.route = 'Invoice';
   }
 

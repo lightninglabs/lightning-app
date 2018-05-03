@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HomeView = ({ store, wallet, nav }) => {
+const HomeView = ({ store, wallet, invoice, nav }) => {
   const { balanceLabel, channelBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
@@ -54,7 +54,10 @@ const HomeView = ({ store, wallet, nav }) => {
         />
         <SendReceiveButton
           goPay={() => nav.goPay()}
-          goRequest={() => nav.goInvoice()}
+          goRequest={() => {
+            invoice.clear();
+            nav.goInvoice();
+          }}
         />
         <DownButton onPress={() => nav.goTransactions()} style={styles.downBtn}>
           Transactions
@@ -67,6 +70,7 @@ const HomeView = ({ store, wallet, nav }) => {
 HomeView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
+  invoice: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
 };
 

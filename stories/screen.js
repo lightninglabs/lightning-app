@@ -23,7 +23,9 @@ const invoice = new InvoiceAction(store, grpc, notification);
 
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
-  .add('Home', () => <Home store={store} wallet={wallet} nav={nav} />)
+  .add('Home', () => (
+    <Home store={store} wallet={wallet} invoice={invoice} nav={nav} />
+  ))
   .add('Transactions', () => <Transaction store={store} nav={nav} />)
   .add('Deposit', () => <Deposit store={store} nav={nav} />)
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
