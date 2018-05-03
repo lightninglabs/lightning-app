@@ -8,7 +8,7 @@ describe('Action Notification Unit Tests', () => {
   let notification;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox({});
     sandbox.stub(log);
     store = new Store();
     require('../../../src/config').NOTIFICATION_DELAY = 1;

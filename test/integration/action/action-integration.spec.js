@@ -83,7 +83,7 @@ describe('Action Integration Tests', function() {
 
   before(async () => {
     rmdir('test/data');
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store1 = new Store();
     store2 = new Store();

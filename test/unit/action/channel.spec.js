@@ -16,7 +16,7 @@ describe('Action Channels Unit Tests', () => {
   let notification;
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
+    sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
