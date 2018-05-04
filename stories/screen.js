@@ -19,7 +19,8 @@ const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
 const notification = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, notification);
-const invoice = sinon.createStubInstance(InvoiceAction);
+const invoice = new InvoiceAction(store, grpc, nav, notification);
+sinon.stub(invoice, 'generateUri');
 
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
