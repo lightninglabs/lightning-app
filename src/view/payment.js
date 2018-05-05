@@ -16,6 +16,7 @@ const styles = StyleSheet.create({
   description: {
     paddingLeft: 40,
     paddingRight: 40,
+    paddingBottom: 40,
   },
   subText: {
     paddingTop: 20,
