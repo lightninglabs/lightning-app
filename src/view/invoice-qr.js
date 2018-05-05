@@ -29,16 +29,12 @@ const styles = StyleSheet.create({
   },
   balance: {
     marginTop: 25,
-    marginBottom: 40,
+    marginBottom: 25,
   },
   numeral: {
-    lineHeight: 70,
-    fontSize: 103,
     color: color.blackText,
   },
   unit: {
-    lineHeight: 20,
-    fontSize: 23,
     color: color.blackText,
   },
   qrcode: {
