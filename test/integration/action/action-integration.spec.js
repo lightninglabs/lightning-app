@@ -372,7 +372,6 @@ describe('Action Integration Tests', function() {
         invoice: 'lightning:invalid_payment_request',
       });
       expect(isValid, 'to be', false);
-      expect(store1.payment.amount, 'to be', '');
     });
 
     it('should decode invoice and return true', async () => {
@@ -380,7 +379,6 @@ describe('Action Integration Tests', function() {
         invoice: store2.invoice.uri,
       });
       expect(isValid, 'to be', true);
-      expect(store1.payment.amount.length, 'to be', 8);
     });
 
     it('should send lightning payment from request', async () => {
