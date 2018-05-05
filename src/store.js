@@ -31,6 +31,11 @@ export class Store {
         uri: null,
       },
       payments: null,
+      payment: {
+        address: '',
+        amount: '',
+        note: '',
+      },
       peers: null,
       channels: null,
       pendingChannels: null,
