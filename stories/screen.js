@@ -7,7 +7,7 @@ import GrpcAction from '../src/action/grpc';
 import NotificationAction from '../src/action/notification';
 import WalletAction from '../src/action/wallet';
 import InvoiceAction from '../src/action/invoice';
-import PaymentAction from '../src/action/invoice';
+import PaymentAction from '../src/action/payment';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import Home from '../src/view/home';
