@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HomeView = ({ store, wallet, invoice, nav }) => {
+const HomeView = ({ store, wallet, payment, invoice, nav }) => {
   const { balanceLabel, channelBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
@@ -53,7 +53,10 @@ const HomeView = ({ store, wallet, invoice, nav }) => {
           toggleDisplayFiat={() => wallet.toggleDisplayFiat()}
         />
         <SendReceiveButton
-          goPay={() => nav.goPay()}
+          goPay={() => {
+            payment.clear();
+            nav.goPay();
+          }}
           goRequest={() => {
             invoice.clear();
             nav.goInvoice();
@@ -70,6 +73,7 @@ const HomeView = ({ store, wallet, invoice, nav }) => {
 HomeView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
+  payment: PropTypes.object.isRequired,
   invoice: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
 };
