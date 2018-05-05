@@ -21,6 +21,7 @@ export const color = {
 export const font = {
   sizeXS: 10,
   sizeS: 12,
+  sizeSub: 14,
   sizeBase: 16,
   sizeM: 18,
   sizeL: 20,
@@ -28,6 +29,7 @@ export const font = {
   sizeXXXL: 80,
   lineHeightXS: 14,
   lineHeightS: 16,
+  lineHeightSub: 18,
   lineHeightBase: 20,
   lineHeightM: 22,
   lineHeightL: 24,

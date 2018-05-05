@@ -68,7 +68,7 @@ const namedStyles = StyleSheet.create({
   name: {
     color: color.blackText,
     fontSize: font.sizeM,
-    lineHeight: font.lineHeightM + 2 * 8,
+    lineHeight: font.lineHeightM + 2 * 12,
     marginRight: 10,
   },
   text: {
@@ -76,7 +76,7 @@ const namedStyles = StyleSheet.create({
     textAlign: 'right',
     fontFamily: 'OpenSans Light',
     fontSize: font.sizeM,
-    lineHeight: font.lineHeightM + 2 * 8,
+    lineHeight: font.lineHeightM + 2 * 12,
     color: color.blackText,
   },
 });
