@@ -367,6 +367,22 @@ describe('Action Integration Tests', function() {
       transactions2.subscribeInvoices();
     });
 
+    it('should not decode invalid invoice and return false', async () => {
+      const isValid = await payments1.decodeInvoice({
+        invoice: 'lightning:invalid_payment_request',
+      });
+      expect(isValid, 'to be', false);
+      expect(store1.payment.amount, 'to be', '');
+    });
+
+    it('should decode invoice and return true', async () => {
+      const isValid = await payments1.decodeInvoice({
+        invoice: store2.invoice.uri,
+      });
+      expect(isValid, 'to be', true);
+      expect(store1.payment.amount.length, 'to be', 8);
+    });
+
     it('should send lightning payment from request', async () => {
       await payments1.payLightning({ invoice: store2.invoice.uri });
     });

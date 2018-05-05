@@ -1,12 +1,53 @@
 import { PREFIX_URI } from '../config';
 import * as log from './log';
+import { formatNumber } from '../helper';
+import { UNITS } from '../config';
 
 class PaymentAction {
-  constructor(store, grpc, wallet, notification) {
+  constructor(store, grpc, wallet, nav, notification) {
     this._store = store;
     this._grpc = grpc;
     this._wallet = wallet;
+    this._nav = nav;
     this._notification = notification;
+  }
+
+  clear() {
+    this._store.payment.address = '';
+    this._store.payment.amount = '';
+    this._store.payment.note = '';
+  }
+
+  setAddress({ address }) {
+    this._store.payment.address = address;
+  }
+
+  async checkType() {
+    if (!this._store.payment.address) {
+      return this._notification.display({ msg: 'Enter an invoice or address' });
+    }
+    if (await this.decodeInvoice({ invoice: this._store.payment.address })) {
+      this._nav.goPayLighting();
+    } else {
+      this._nav.goPayBitcoin();
+    }
+  }
+
+  async decodeInvoice({ invoice }) {
+    invoice = invoice.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
+    try {
+      const request = await this._grpc.sendCommand('decodePayReq', {
+        pay_req: invoice,
+      });
+      const satoshis = Number(request.num_satoshis);
+      const denominator = UNITS[this._store.settings.unit].denominator;
+      this._store.payment.amount = formatNumber(satoshis / denominator);
+      this._store.payment.note = request.description;
+      return true;
+    } catch (err) {
+      log.info(`Decoding payment request failed: ${err.message}`);
+      return false;
+    }
   }
 
   async sendCoins({ address, amount }) {
@@ -40,22 +81,6 @@ class PaymentAction {
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }
     await this._wallet.getChannelBalance();
-  }
-
-  async decodePaymentRequest({ invoice }) {
-    invoice = invoice.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
-    try {
-      const request = await this._grpc.sendCommand('decodePayReq', {
-        pay_req: invoice,
-      });
-      this._store.paymentRequest = {
-        amount: request.num_satoshis,
-        note: request.description,
-      };
-    } catch (err) {
-      this._store.paymentRequest = null;
-      log.error(err);
-    }
   }
 }
 
