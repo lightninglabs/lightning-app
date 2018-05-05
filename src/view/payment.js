@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PaymentView = ({ store, nav, payment }) => (
+const PaymentView = ({ nav, payment }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={color.purple}>
       <Button disabled onPress={() => {}} />
@@ -56,7 +56,6 @@ const PaymentView = ({ store, nav, payment }) => (
 );
 
 PaymentView.propTypes = {
-  store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
 };
