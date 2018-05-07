@@ -1,7 +1,6 @@
 import { PREFIX_URI } from '../config';
+import { toSatoshis, toAmount } from '../helper';
 import * as log from './log';
-import { formatNumber } from '../helper';
-import { UNITS } from '../config';
 
 class PaymentAction {
   constructor(store, grpc, wallet, nav, notification) {
@@ -34,15 +33,13 @@ class PaymentAction {
   }
 
   async decodeInvoice({ invoice }) {
-    invoice = invoice.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
     try {
+      const { payment, settings } = this._store;
       const request = await this._grpc.sendCommand('decodePayReq', {
-        pay_req: invoice,
+        pay_req: invoice.replace(PREFIX_URI, ''),
       });
-      const satoshis = Number(request.num_satoshis);
-      const denominator = UNITS[this._store.settings.unit].denominator;
-      this._store.payment.amount = formatNumber(satoshis / denominator);
-      this._store.payment.note = request.description;
+      payment.amount = toAmount(request.num_satoshis, settings.unit);
+      payment.note = request.description;
       return true;
     } catch (err) {
       log.info(`Decoding payment request failed: ${err.message}`);
@@ -50,11 +47,12 @@ class PaymentAction {
     }
   }
 
-  async sendCoins({ address, amount }) {
+  async payBitcoin() {
     try {
+      const { payment, settings } = this._store;
       await this._grpc.sendCommand('sendCoins', {
-        addr: address,
-        amount,
+        addr: payment.address,
+        amount: toSatoshis(payment.amount, settings.unit),
       });
     } catch (err) {
       this._notification.display({ msg: 'Sending transaction failed!', err });
@@ -62,9 +60,9 @@ class PaymentAction {
     await this._wallet.getBalance();
   }
 
-  async payLightning({ invoice }) {
+  async payLightning() {
     try {
-      invoice = invoice.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
+      const invoice = this._store.payment.address.replace(PREFIX_URI, '');
       const stream = this._grpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {
         stream.on('data', data => {
