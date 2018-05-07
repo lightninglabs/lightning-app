@@ -15,6 +15,8 @@ import Deposit from '../src/view/deposit';
 import Invoice from '../src/view/invoice';
 import InvoiceQR from '../src/view/invoice-qr';
 import Payment from '../src/view/payment';
+import PayBitcoin from '../src/view/pay-bitcoin';
+import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
 
 const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
@@ -24,6 +26,9 @@ const wallet = new WalletAction(store, grpc, notify);
 const invoice = new InvoiceAction(store, grpc, nav, notify);
 sinon.stub(invoice, 'generateUri');
 const payment = new PaymentAction(store, grpc, wallet, nav, notify);
+sinon.stub(payment, 'checkType');
+sinon.stub(payment, 'payBitcoin');
+sinon.stub(payment, 'payLightning');
 
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
@@ -39,6 +44,12 @@ storiesOf('Screens', module)
   .add('Transactions', () => <Transaction store={store} nav={nav} />)
   .add('Deposit', () => <Deposit store={store} nav={nav} />)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)
+  .add('Pay Bitcoin', () => (
+    <PayBitcoin store={store} payment={payment} nav={nav} />
+  ))
+  .add('Pay Bitcoin Confirm', () => (
+    <PayBitcoinConfirm store={store} payment={payment} nav={nav} />
+  ))
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
   .add('Invoice QR', () => <InvoiceQR store={store} nav={nav} />);
 
@@ -55,6 +66,12 @@ store.transactions = [...Array(100)].map((x, i) => ({
   date: new Date(),
   fee: '156',
 }));
+store.payment = {
+  amount: '0.45678',
+  address: 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K',
+  fee: '0.0001',
+  total: '0.45688',
+};
 store.invoice = {
   amount: '0.45678',
   note: 'For the love of bitcoin',
