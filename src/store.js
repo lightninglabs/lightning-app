@@ -34,6 +34,8 @@ export class Store {
       payment: {
         address: '',
         amount: '',
+        fee: '',
+        total: '',
         note: '',
       },
       peers: null,
