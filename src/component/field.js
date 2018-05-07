@@ -90,6 +90,6 @@ export const NamedField = ({ name, children, style }) => (
 
 NamedField.propTypes = {
   name: PropTypes.string,
-  children: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: ViewPropTypes.style,
 };
