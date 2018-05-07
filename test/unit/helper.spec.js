@@ -61,6 +61,85 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
+  describe('toSatoshis()', () => {
+    it('should throw error if amount is undefined', () => {
+      expect(
+        helpers.toSatoshis.bind(null, undefined, 'btc'),
+        'to throw',
+        /Missing/
+      );
+    });
+    it('should throw error if unit is undefined', () => {
+      expect(
+        helpers.toSatoshis.bind(null, '100', undefined),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should be 0 for empty amount', () => {
+      const num = helpers.toSatoshis('', 'btc');
+      expect(num, 'to equal', 0);
+    });
+
+    it('should work for string input', () => {
+      const num = helpers.toSatoshis('0.10', 'btc');
+      expect(num, 'to equal', 10000000);
+    });
+
+    it('should have use ony 8 decimal values', () => {
+      const num = helpers.toSatoshis('0.000000014', 'btc');
+      expect(num, 'to equal', 1);
+    });
+
+    it('should round up to two satoshis', () => {
+      const num = helpers.toSatoshis('0.000000019', 'btc');
+      expect(num, 'to equal', 2);
+    });
+  });
+
+  describe('toAmount()', () => {
+    it('should throw error if satoshis is undefined', () => {
+      expect(
+        helpers.toAmount.bind(null, undefined, 'btc'),
+        'to throw',
+        /Missing/
+      );
+    });
+    it('should throw error if unit is undefined', () => {
+      expect(
+        helpers.toAmount.bind(null, 100, undefined),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should be 0 for empty input', () => {
+      const num = helpers.toAmount('', 'btc');
+      expect(num, 'to equal', '0');
+    });
+
+    it('should work for string input', () => {
+      const num = helpers.toAmount('100000000', 'btc');
+      expect(num, 'to equal', '1');
+    });
+
+    it('should work for number input', () => {
+      const num = helpers.toAmount(100000000, 'btc');
+      expect(num, 'to equal', '1');
+    });
+
+    it('should format number input', () => {
+      const num = helpers.toAmount(100000000000, 'btc');
+      expect(num, 'to match', /^1{1}[,.]0{3}$/);
+    });
+
+    it('should ingore decimal values', () => {
+      const num = helpers.toAmount(100000000.9, 'btc');
+      expect(num, 'to equal', '1');
+    });
+  });
+
   describe('toHash()', () => {
     it('should throw error for undefined', () => {
       expect(helpers.toHash.bind(), 'to throw');

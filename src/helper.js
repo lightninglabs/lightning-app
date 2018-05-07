@@ -1,3 +1,5 @@
+import { UNITS } from './config';
+
 export const formatNumber = val => {
   let num = Number(val);
   if (isNaN(num)) {
@@ -12,6 +14,18 @@ export const formatFiat = (val, currency) => {
     num = 0;
   }
   return num.toLocaleString(undefined, { style: 'currency', currency });
+};
+
+export const toSatoshis = (amount, unit) => {
+  if (typeof amount !== 'string' || !unit) throw new Error('Missing args!');
+  return Math.round(Number(amount) * UNITS[unit].denominator);
+};
+
+export const toAmount = (satoshis, unit) => {
+  if ((typeof satoshis !== 'number' && typeof satoshis !== 'string') || !unit) {
+    throw new Error('Missing args!');
+  }
+  return formatNumber(parseInt(satoshis, 10) / UNITS[unit].denominator);
 };
 
 export const toHash = hash => new Buffer(hash, 'base64').toString('hex');
