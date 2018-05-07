@@ -21,6 +21,10 @@ class PaymentAction {
     this._store.payment.address = address;
   }
 
+  setAmount({ amount }) {
+    this._store.payment.amount = amount;
+  }
+
   async checkType() {
     if (!this._store.payment.address) {
       return this._notification.display({ msg: 'Enter an invoice or address' });

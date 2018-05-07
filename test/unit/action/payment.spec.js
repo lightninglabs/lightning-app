@@ -50,6 +50,13 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
+  describe('setAmount()', () => {
+    it('should clear payment attributes', () => {
+      payment.setAmount({ amount: 'some-amount' });
+      expect(store.payment.amount, 'to equal', 'some-amount');
+    });
+  });
+
   describe('decodeInvoice()', () => {
     it('should decode successfully', async () => {
       grpc.sendCommand.withArgs('decodePayReq').resolves({
