@@ -275,10 +275,9 @@ describe('Action Integration Tests', function() {
     });
 
     it('should send some on-chain funds to node2', async () => {
-      await payments1.sendCoins({
-        address: store2.walletAddress,
-        amount: 1000000000,
-      });
+      store1.payment.address = store2.walletAddress;
+      store1.payment.amount = '10';
+      await payments1.payBitcoin();
     });
 
     it('should list transaction as confirmed after mining 6 blocks', async () => {
@@ -382,7 +381,8 @@ describe('Action Integration Tests', function() {
     });
 
     it('should send lightning payment from request', async () => {
-      await payments1.payLightning({ invoice: store2.invoice.uri });
+      store1.payment.address = store2.invoice.uri;
+      await payments1.payLightning();
     });
 
     it('should update complete invoice via subscription', async () => {
