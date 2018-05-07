@@ -1,4 +1,5 @@
-import { PREFIX_URI, UNITS } from '../config';
+import { PREFIX_URI } from '../config';
+import { toSatoshis } from '../helper';
 
 class InvoiceAction {
   constructor(store, grpc, nav, notification) {
@@ -23,16 +24,13 @@ class InvoiceAction {
 
   async generateUri() {
     try {
-      const satoshis = Math.round(
-        Number(this._store.invoice.amount) *
-          UNITS[this._store.settings.unit].denominator
-      );
+      const { invoice, settings } = this._store;
       const response = await this._grpc.sendCommand('addInvoice', {
-        value: satoshis,
-        memo: this._store.invoice.note,
+        value: toSatoshis(invoice.amount, settings.unit),
+        memo: invoice.note,
       });
-      this._store.invoice.encoded = response.payment_request;
-      this._store.invoice.uri = `${PREFIX_URI}${this._store.invoice.encoded}`;
+      invoice.encoded = response.payment_request;
+      invoice.uri = `${PREFIX_URI}${invoice.encoded}`;
       this._nav.goInvoiceQR();
     } catch (err) {
       this._notification.display({ msg: 'Creating invoice failed!', err });
