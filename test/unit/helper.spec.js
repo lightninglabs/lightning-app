@@ -69,6 +69,7 @@ describe('Helpers Unit Tests', () => {
         /Missing/
       );
     });
+
     it('should throw error if unit is undefined', () => {
       expect(
         helpers.toSatoshis.bind(null, '100', undefined),
@@ -106,6 +107,7 @@ describe('Helpers Unit Tests', () => {
         /Missing/
       );
     });
+
     it('should throw error if unit is undefined', () => {
       expect(
         helpers.toAmount.bind(null, 100, undefined),
@@ -137,6 +139,26 @@ describe('Helpers Unit Tests', () => {
     it('should ingore decimal values', () => {
       const num = helpers.toAmount(100000000.9, 'btc');
       expect(num, 'to equal', '1');
+    });
+  });
+
+  describe('calculateExchangeRate()', () => {
+    const settings = {
+      fiat: 'usd',
+      exchangeRate: { usd: 0.00014503 },
+    };
+
+    it('should throw error if satoshis is undefined', () => {
+      expect(
+        helpers.calculateExchangeRate.bind(null, undefined, settings),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should work', () => {
+      const rate = helpers.calculateExchangeRate(100000, settings);
+      expect(rate, 'to match', /6{1}[,.]9{1}0{1}/);
     });
   });
 

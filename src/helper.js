@@ -28,6 +28,13 @@ export const toAmount = (satoshis, unit) => {
   return formatNumber(parseInt(satoshis, 10) / UNITS[unit].denominator);
 };
 
+export const calculateExchangeRate = (satoshis, settings) => {
+  if (typeof satoshis !== 'number') throw new Error('Missing args!');
+  const rate = settings.exchangeRate[settings.fiat];
+  const balance = satoshis / rate / UNITS.btc.denominator;
+  return formatFiat(balance, settings.fiat);
+};
+
 export const toHash = hash => new Buffer(hash, 'base64').toString('hex');
 
 export const reverse = src => {
