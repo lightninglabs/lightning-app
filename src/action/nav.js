@@ -25,6 +25,10 @@ class NavAction {
     this._store.route = 'PayBitcoin';
   }
 
+  goPayBitcoinConfirm() {
+    this._store.route = 'PayBitcoinConfirm';
+  }
+
   goInvoice() {
     this._store.route = 'Invoice';
   }
