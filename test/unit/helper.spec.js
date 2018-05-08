@@ -32,6 +32,7 @@ describe('Helpers Unit Tests', () => {
       expect(num, 'to match', /^0[,.]0{7}1{1}$/);
     });
   });
+
   describe('formatFiat()', () => {
     it('should work for undefined', () => {
       const num = helpers.formatFiat(undefined, 'usd');
@@ -68,6 +69,10 @@ describe('Helpers Unit Tests', () => {
         'to throw',
         /Missing/
       );
+    });
+
+    it('should throw error if amount is number', () => {
+      expect(helpers.toSatoshis.bind(null, 0.1, 'btc'), 'to throw', /Missing/);
     });
 
     it('should throw error if unit is undefined', () => {
@@ -108,17 +113,24 @@ describe('Helpers Unit Tests', () => {
       );
     });
 
+    it('should throw error if satoshis is not a number', () => {
+      expect(
+        helpers.toAmount.bind(null, 'not-a-number', 'btc'),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error for empty input', () => {
+      expect(helpers.toAmount.bind(null, '', 'btc'), 'to throw', /Invalid/);
+    });
+
     it('should throw error if unit is undefined', () => {
       expect(
         helpers.toAmount.bind(null, 100, undefined),
         'to throw',
         /Missing/
       );
-    });
-
-    it('should be 0 for empty input', () => {
-      const num = helpers.toAmount('', 'btc');
-      expect(num, 'to equal', '0');
     });
 
     it('should work for string input', () => {
@@ -131,14 +143,19 @@ describe('Helpers Unit Tests', () => {
       expect(num, 'to equal', '1');
     });
 
-    it('should format number input', () => {
+    it('should not format number input', () => {
       const num = helpers.toAmount(100000000000, 'btc');
-      expect(num, 'to match', /^1{1}[,.]0{3}$/);
+      expect(num, 'to equal', '1000');
     });
 
-    it('should ingore decimal values', () => {
+    it('should ingore satoshi decimal values', () => {
       const num = helpers.toAmount(100000000.9, 'btc');
       expect(num, 'to equal', '1');
+    });
+
+    it('should use period for decimals values', () => {
+      const num = helpers.toAmount(10000000, 'btc');
+      expect(num, 'to equal', '0.1');
     });
   });
 

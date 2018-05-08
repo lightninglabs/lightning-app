@@ -17,7 +17,9 @@ export const formatFiat = (val, currency) => {
 };
 
 export const toSatoshis = (amount, unit) => {
-  if (typeof amount !== 'string' || !unit) throw new Error('Missing args!');
+  if (typeof amount !== 'string' || !unit) {
+    throw new Error('Missing args!');
+  }
   return Math.round(Number(amount) * UNITS[unit].denominator);
 };
 
@@ -25,7 +27,11 @@ export const toAmount = (satoshis, unit) => {
   if ((typeof satoshis !== 'number' && typeof satoshis !== 'string') || !unit) {
     throw new Error('Missing args!');
   }
-  return formatNumber(parseInt(satoshis, 10) / UNITS[unit].denominator);
+  let num = parseInt(satoshis, 10) / UNITS[unit].denominator;
+  if (isNaN(num)) {
+    throw new Error('Invalid input!');
+  }
+  return num.toString();
 };
 
 export const calculateExchangeRate = (satoshis, settings) => {
