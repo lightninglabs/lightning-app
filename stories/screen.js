@@ -70,7 +70,6 @@ store.payment = {
   amount: '0.45678',
   address: 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K',
   fee: '0.0001',
-  total: '0.45688',
 };
 store.invoice = {
   amount: '0.45678',

@@ -72,7 +72,7 @@ const PayBitcoinView = ({ store, nav, payment }) => (
             {formatNumber(store.payment.fee)} {store.unit}
           </NamedField>
           <NamedField name="Total" style={styles.totalLbl}>
-            {formatNumber(store.payment.total)} {store.unit}
+            {store.paymentTotalLabel} {store.unit}
           </NamedField>
         </FormStretcher>
         <PillButton
