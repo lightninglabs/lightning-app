@@ -70,15 +70,11 @@ store.transactions = [...Array(100)].map((x, i) => ({
   date: new Date(),
   fee: '156',
 }));
-store.payment = {
-  amount: '0.45678',
-  address: 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K',
-  fee: '0.0001',
-};
-store.invoice = {
-  amount: '0.45678',
-  note: 'For the love of bitcoin',
-  encoded:
-    'lnbc4567800n1pdvqx48pp5eng6uyqnkdlx93m2598ug93qtuls8gapygxznshzd56h7n5cxs0sdp9gehhygr5dpjjqmr0wejjqmmxyp3xjarrda5kucqzysmhyrleqpt3yqf5nctzsr3hvrv9vhhnawazkwyzu8t4mf85tllsyjsf8hgu5nt6dj3jaljjgmt999xnlsweqvatypzlu34nhpjlxf59qp4dn2pv',
-  uri: `lightning:${this.encoded}`,
-};
+store.payment.amount = '0.45678';
+store.payment.address = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
+store.payment.fee = '0.0001';
+store.invoice.amount = '0.45678';
+store.invoice.note = 'For the love of bitcoin';
+store.invoice.encoded =
+  'lnbc4567800n1pdvqx48pp5eng6uyqnkdlx93m2598ug93qtuls8gapygxznshzd56h7n5cxs0sdp9gehhygr5dpjjqmr0wejjqmmxyp3xjarrda5kucqzysmhyrleqpt3yqf5nctzsr3hvrv9vhhnawazkwyzu8t4mf85tllsyjsf8hgu5nt6dj3jaljjgmt999xnlsweqvatypzlu34nhpjlxf59qp4dn2pv';
+store.invoice.uri = `lightning:${store.invoice.encoded}`;
