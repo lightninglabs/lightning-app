@@ -16,7 +16,6 @@ import {
   BalanceLabelUnit,
 } from '../component/label';
 import { color } from '../component/style';
-import { formatNumber } from '../helper';
 
 const styles = StyleSheet.create({
   description: {
@@ -57,14 +56,14 @@ const PayLightningView = ({ store, nav, payment }) => (
         <FormStretcher>
           <BalanceLabel style={styles.balance}>
             <BalanceLabelNumeral style={styles.numeral}>
-              {formatNumber(store.payment.amount)}
+              {store.paymentAmountLabel}
             </BalanceLabelNumeral>
             <BalanceLabelUnit style={styles.unit}>
               {store.unit}
             </BalanceLabelUnit>
           </BalanceLabel>
           <NamedField name="Fee">
-            {formatNumber(store.payment.fee)} {store.unit}
+            {store.paymentFeeLabel} {store.unit}
           </NamedField>
           <NamedField name="Total" style={styles.totalLbl}>
             {store.paymentTotalLabel} {store.unit}

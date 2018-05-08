@@ -21,7 +21,6 @@ import Card from '../component/card';
 import Icon from '../component/icon';
 import QRCode from '../component/qrcode';
 import { color } from '../component/style';
-import { formatNumber } from '../helper';
 
 const styles = StyleSheet.create({
   card: {
@@ -64,7 +63,7 @@ const InvoiceQRView = ({ store, nav }) => (
       <Card style={styles.card}>
         <BalanceLabel style={styles.balance}>
           <BalanceLabelNumeral style={styles.numeral}>
-            {formatNumber(store.invoice.amount)}
+            {store.invoiceAmountLabel}
           </BalanceLabelNumeral>
           <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
         </BalanceLabel>

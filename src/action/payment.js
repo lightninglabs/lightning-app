@@ -14,6 +14,7 @@ class PaymentAction {
   clear() {
     this._store.payment.address = '';
     this._store.payment.amount = '';
+    this._store.payment.fee = '';
     this._store.payment.note = '';
   }
 
