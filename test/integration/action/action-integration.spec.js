@@ -64,8 +64,8 @@ describe('Action Integration Tests', function() {
   let lndProcess1;
   let lndProcess2;
   let btcdProcess;
-  let nav1Stub;
-  let notificationStub1;
+  let nav1;
+  let notify1;
   let grpc1;
   let info1;
   let wallet1;
@@ -73,8 +73,8 @@ describe('Action Integration Tests', function() {
   let transactions1;
   let payments1;
   let invoice1;
-  let nav2Stub;
-  let notificationStub2;
+  let nav2;
+  let notify2;
   let grpc2;
   let info2;
   let wallet2;
@@ -137,25 +137,25 @@ describe('Action Integration Tests', function() {
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
-    nav1Stub = sinon.createStubInstance(NavAction);
-    notificationStub1 = sinon.createStubInstance(NotificationAction);
+    nav1 = sinon.createStubInstance(NavAction);
+    notify1 = sinon.createStubInstance(NotificationAction);
     grpc1 = new GrpcAction(store1, ipcRendererStub1);
     info1 = new InfoAction(store1, grpc1);
-    wallet1 = new WalletAction(store1, grpc1, notificationStub1);
-    channels1 = new ChannelAction(store1, grpc1, notificationStub1);
+    wallet1 = new WalletAction(store1, grpc1, notify1);
+    channels1 = new ChannelAction(store1, grpc1, notify1);
     transactions1 = new TransactionAction(store1, grpc1);
-    payments1 = new PaymentAction(store1, grpc1, wallet1, notificationStub1);
-    invoice1 = new InvoiceAction(store1, grpc1, nav1Stub, notificationStub1);
+    payments1 = new PaymentAction(store1, grpc1, wallet1, nav1, notify1);
+    invoice1 = new InvoiceAction(store1, grpc1, nav1, notify1);
 
-    nav2Stub = sinon.createStubInstance(NavAction);
-    notificationStub2 = sinon.createStubInstance(NotificationAction);
+    nav2 = sinon.createStubInstance(NavAction);
+    notify2 = sinon.createStubInstance(NotificationAction);
     grpc2 = new GrpcAction(store2, ipcRendererStub2);
     info2 = new InfoAction(store2, grpc2);
-    wallet2 = new WalletAction(store2, grpc2, notificationStub2);
-    channels2 = new ChannelAction(store2, grpc2, notificationStub2);
+    wallet2 = new WalletAction(store2, grpc2, notify2);
+    channels2 = new ChannelAction(store2, grpc2, notify2);
     transactions2 = new TransactionAction(store2, grpc2);
-    payments2 = new PaymentAction(store2, grpc2, wallet2, notificationStub2);
-    invoice2 = new InvoiceAction(store2, grpc2, nav2Stub, notificationStub2);
+    payments2 = new PaymentAction(store2, grpc2, wallet2, nav2, notify2);
+    invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
   });
 
   after(() => {
