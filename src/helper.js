@@ -1,3 +1,5 @@
+import { UNITS } from './config';
+
 export const formatNumber = val => {
   let num = Number(val);
   if (isNaN(num)) {
@@ -12,6 +14,31 @@ export const formatFiat = (val, currency) => {
     num = 0;
   }
   return num.toLocaleString(undefined, { style: 'currency', currency });
+};
+
+export const toSatoshis = (amount, unit) => {
+  if (typeof amount !== 'string' || !unit) {
+    throw new Error('Missing args!');
+  }
+  return Math.round(Number(amount) * UNITS[unit].denominator);
+};
+
+export const toAmount = (satoshis, unit) => {
+  if ((typeof satoshis !== 'number' && typeof satoshis !== 'string') || !unit) {
+    throw new Error('Missing args!');
+  }
+  let num = parseInt(satoshis, 10) / UNITS[unit].denominator;
+  if (isNaN(num)) {
+    throw new Error('Invalid input!');
+  }
+  return num.toString();
+};
+
+export const calculateExchangeRate = (satoshis, settings) => {
+  if (typeof satoshis !== 'number') throw new Error('Missing args!');
+  const rate = settings.exchangeRate[settings.fiat];
+  const balance = satoshis / rate / UNITS.btc.denominator;
+  return formatFiat(balance, settings.fiat);
 };
 
 export const toHash = hash => new Buffer(hash, 'base64').toString('hex');

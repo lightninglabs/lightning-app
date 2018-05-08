@@ -1,5 +1,5 @@
 import { computed, extendObservable } from 'mobx';
-import { formatNumber, formatFiat } from '../helper';
+import { formatNumber, calculateExchangeRate } from '../helper';
 import { UNITS } from '../config';
 
 const ComputedWallet = store => {
@@ -25,12 +25,6 @@ const ComputedWallet = store => {
     }),
     unit: computed(() => UNITS[store.settings.unit].display),
   });
-};
-
-const calculateExchangeRate = (satoshis, settings) => {
-  const rate = settings.exchangeRate[settings.fiat];
-  const balance = satoshis / rate / UNITS.btc.denominator;
-  return formatFiat(balance, settings.fiat);
 };
 
 export default ComputedWallet;

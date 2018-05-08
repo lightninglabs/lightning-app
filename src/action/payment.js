@@ -1,7 +1,6 @@
 import { PREFIX_URI } from '../config';
+import { toSatoshis, toAmount } from '../helper';
 import * as log from './log';
-import { formatNumber } from '../helper';
-import { UNITS } from '../config';
 
 class PaymentAction {
   constructor(store, grpc, wallet, nav, notification) {
@@ -15,6 +14,7 @@ class PaymentAction {
   clear() {
     this._store.payment.address = '';
     this._store.payment.amount = '';
+    this._store.payment.fee = '';
     this._store.payment.note = '';
   }
 
@@ -22,27 +22,29 @@ class PaymentAction {
     this._store.payment.address = address;
   }
 
+  setAmount({ amount }) {
+    this._store.payment.amount = amount;
+  }
+
   async checkType() {
     if (!this._store.payment.address) {
       return this._notification.display({ msg: 'Enter an invoice or address' });
     }
     if (await this.decodeInvoice({ invoice: this._store.payment.address })) {
-      this._nav.goPayLighting();
+      this._nav.goPayLightningConfirm();
     } else {
       this._nav.goPayBitcoin();
     }
   }
 
   async decodeInvoice({ invoice }) {
-    invoice = invoice.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
     try {
+      const { payment, settings } = this._store;
       const request = await this._grpc.sendCommand('decodePayReq', {
-        pay_req: invoice,
+        pay_req: invoice.replace(PREFIX_URI, ''),
       });
-      const satoshis = Number(request.num_satoshis);
-      const denominator = UNITS[this._store.settings.unit].denominator;
-      this._store.payment.amount = formatNumber(satoshis / denominator);
-      this._store.payment.note = request.description;
+      payment.amount = toAmount(request.num_satoshis, settings.unit);
+      payment.note = request.description;
       return true;
     } catch (err) {
       log.info(`Decoding payment request failed: ${err.message}`);
@@ -50,21 +52,23 @@ class PaymentAction {
     }
   }
 
-  async sendCoins({ address, amount }) {
+  async payBitcoin() {
     try {
+      const { payment, settings } = this._store;
       await this._grpc.sendCommand('sendCoins', {
-        addr: address,
-        amount,
+        addr: payment.address,
+        amount: toSatoshis(payment.amount, settings.unit),
       });
+      this._nav.goHome();
     } catch (err) {
       this._notification.display({ msg: 'Sending transaction failed!', err });
     }
     await this._wallet.getBalance();
   }
 
-  async payLightning({ invoice }) {
+  async payLightning() {
     try {
-      invoice = invoice.replace(PREFIX_URI, ''); // Remove URI prefix if it exists
+      const invoice = this._store.payment.address.replace(PREFIX_URI, '');
       const stream = this._grpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {
         stream.on('data', data => {
@@ -77,6 +81,7 @@ class PaymentAction {
         stream.on('error', reject);
         stream.write(JSON.stringify({ payment_request: invoice }), 'utf8');
       });
+      this._nav.goHome();
     } catch (err) {
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }

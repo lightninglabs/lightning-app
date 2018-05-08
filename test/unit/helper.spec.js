@@ -32,6 +32,7 @@ describe('Helpers Unit Tests', () => {
       expect(num, 'to match', /^0[,.]0{7}1{1}$/);
     });
   });
+
   describe('formatFiat()', () => {
     it('should work for undefined', () => {
       const num = helpers.formatFiat(undefined, 'usd');
@@ -58,6 +59,123 @@ describe('Helpers Unit Tests', () => {
       const num = helpers.formatFiat(1000000, 'usd');
       expect(num, 'to match', /1[,.]0{3}[,.]0{3}[,.]0{2}/);
       expect(num, 'to match', /\${1}/);
+    });
+  });
+
+  describe('toSatoshis()', () => {
+    it('should throw error if amount is undefined', () => {
+      expect(
+        helpers.toSatoshis.bind(null, undefined, 'btc'),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should throw error if amount is number', () => {
+      expect(helpers.toSatoshis.bind(null, 0.1, 'btc'), 'to throw', /Missing/);
+    });
+
+    it('should throw error if unit is undefined', () => {
+      expect(
+        helpers.toSatoshis.bind(null, '100', undefined),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should be 0 for empty amount', () => {
+      const num = helpers.toSatoshis('', 'btc');
+      expect(num, 'to equal', 0);
+    });
+
+    it('should work for string input', () => {
+      const num = helpers.toSatoshis('0.10', 'btc');
+      expect(num, 'to equal', 10000000);
+    });
+
+    it('should have use ony 8 decimal values', () => {
+      const num = helpers.toSatoshis('0.000000014', 'btc');
+      expect(num, 'to equal', 1);
+    });
+
+    it('should round up to two satoshis', () => {
+      const num = helpers.toSatoshis('0.000000019', 'btc');
+      expect(num, 'to equal', 2);
+    });
+  });
+
+  describe('toAmount()', () => {
+    it('should throw error if satoshis is undefined', () => {
+      expect(
+        helpers.toAmount.bind(null, undefined, 'btc'),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should throw error if satoshis is not a number', () => {
+      expect(
+        helpers.toAmount.bind(null, 'not-a-number', 'btc'),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error for empty input', () => {
+      expect(helpers.toAmount.bind(null, '', 'btc'), 'to throw', /Invalid/);
+    });
+
+    it('should throw error if unit is undefined', () => {
+      expect(
+        helpers.toAmount.bind(null, 100, undefined),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should work for string input', () => {
+      const num = helpers.toAmount('100000000', 'btc');
+      expect(num, 'to equal', '1');
+    });
+
+    it('should work for number input', () => {
+      const num = helpers.toAmount(100000000, 'btc');
+      expect(num, 'to equal', '1');
+    });
+
+    it('should not format number input', () => {
+      const num = helpers.toAmount(100000000000, 'btc');
+      expect(num, 'to equal', '1000');
+    });
+
+    it('should ingore satoshi decimal values', () => {
+      const num = helpers.toAmount(100000000.9, 'btc');
+      expect(num, 'to equal', '1');
+    });
+
+    it('should use period for decimals values', () => {
+      const num = helpers.toAmount(10000000, 'btc');
+      expect(num, 'to equal', '0.1');
+    });
+  });
+
+  describe('calculateExchangeRate()', () => {
+    const settings = {
+      fiat: 'usd',
+      exchangeRate: { usd: 0.00014503 },
+    };
+
+    it('should throw error if satoshis is undefined', () => {
+      expect(
+        helpers.calculateExchangeRate.bind(null, undefined, settings),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should work', () => {
+      const rate = helpers.calculateExchangeRate(100000, settings);
+      expect(rate, 'to match', /6{1}[,.]9{1}0{1}/);
     });
   });
 

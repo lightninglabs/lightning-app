@@ -36,7 +36,6 @@ const textStyles = StyleSheet.create({
     color: color.blackText,
     textAlign: 'center',
     paddingTop: 10,
-    paddingBottom: 40,
   },
 });
 

@@ -2,6 +2,8 @@ import { extendObservable, action } from 'mobx';
 import ComputedWallet from './computed/wallet';
 import ComputedTransaction from './computed/transaction';
 import ComputedChannel from './computed/channel';
+import ComputedInvoice from './computed/invoice';
+import ComputedPayment from './computed/payment';
 import { DEFAULT_ROUTE, DEFAULT_UNIT, DEFAULT_FIAT } from './config';
 import * as log from './action/log';
 
@@ -34,6 +36,7 @@ export class Store {
       payment: {
         address: '',
         amount: '',
+        fee: '',
         note: '',
       },
       peers: null,
@@ -59,6 +62,8 @@ export class Store {
     ComputedWallet(this);
     ComputedTransaction(this);
     ComputedChannel(this);
+    ComputedInvoice(this);
+    ComputedPayment(this);
   }
 
   init(AsyncStorage) {

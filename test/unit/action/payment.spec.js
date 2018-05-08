@@ -50,6 +50,13 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
+  describe('setAmount()', () => {
+    it('should clear payment attributes', () => {
+      payment.setAmount({ amount: 'some-amount' });
+      expect(store.payment.amount, 'to equal', 'some-amount');
+    });
+  });
+
   describe('decodeInvoice()', () => {
     it('should decode successfully', async () => {
       grpc.sendCommand.withArgs('decodePayReq').resolves({
@@ -72,23 +79,24 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
-  describe('sendCoins()', () => {
+  describe('payBitcoin()', () => {
     it('should send on-chain transaction', async () => {
+      store.payment.amount = '0.00001';
+      store.payment.address = 'some-address';
       grpc.sendCommand.withArgs('sendCoins').resolves();
-      await payment.sendCoins({
-        address: 'some-address',
-        amount: 'some-amount',
+      await payment.payBitcoin();
+      expect(grpc.sendCommand, 'was called with', 'sendCoins', {
+        addr: 'some-address',
+        amount: 1000,
       });
+      expect(nav.goHome, 'was called once');
       expect(notification.display, 'was not called');
       expect(wallet.getBalance, 'was called once');
     });
 
     it('should display notification on error', async () => {
       grpc.sendCommand.withArgs('sendCoins').rejects();
-      await payment.sendCoins({
-        address: 'some-address',
-        amount: 'some-amount',
-      });
+      await payment.payBitcoin();
       expect(notification.display, 'was called once');
       expect(wallet.getBalance, 'was called once');
     });
@@ -109,14 +117,16 @@ describe('Action Payments Unit Tests', () => {
 
     it('should send lightning payment', async () => {
       paymentsOnStub.withArgs('data').yields({ payment_error: '' });
-      await payment.payLightning({ invoice: 'some-payment' });
+      store.payment.address = 'lightning:some-invoice';
+      await payment.payLightning();
       expect(grpc.sendStreamCommand, 'was called with', 'sendPayment');
       expect(
         paymentsWriteStub,
         'was called with',
-        JSON.stringify({ payment_request: 'some-payment' }),
+        JSON.stringify({ payment_request: 'some-invoice' }),
         'utf8'
       );
+      expect(nav.goHome, 'was called once');
       expect(notification.display, 'was not called');
       expect(wallet.getChannelBalance, 'was called once');
     });
