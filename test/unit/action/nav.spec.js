@@ -37,10 +37,10 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe('goPayLighting()', () => {
+  describe('goPayLightningConfirm()', () => {
     it('should set correct route', () => {
-      nav.goPayLighting();
-      expect(store.route, 'to equal', 'PayLighting');
+      nav.goPayLightningConfirm();
+      expect(store.route, 'to equal', 'PayLightningConfirm');
     });
   });
 
