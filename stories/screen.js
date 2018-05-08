@@ -15,6 +15,7 @@ import Deposit from '../src/view/deposit';
 import Invoice from '../src/view/invoice';
 import InvoiceQR from '../src/view/invoice-qr';
 import Payment from '../src/view/payment';
+import PayLightningConfirm from '../src/view/pay-lightning-confirm';
 import PayBitcoin from '../src/view/pay-bitcoin';
 import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
 
@@ -44,6 +45,9 @@ storiesOf('Screens', module)
   .add('Transactions', () => <Transaction store={store} nav={nav} />)
   .add('Deposit', () => <Deposit store={store} nav={nav} />)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)
+  .add('Pay Lightning Confirm', () => (
+    <PayLightningConfirm store={store} payment={payment} nav={nav} />
+  ))
   .add('Pay Bitcoin', () => (
     <PayBitcoin store={store} payment={payment} nav={nav} />
   ))

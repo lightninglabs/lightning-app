@@ -30,7 +30,7 @@ class PaymentAction {
       return this._notification.display({ msg: 'Enter an invoice or address' });
     }
     if (await this.decodeInvoice({ invoice: this._store.payment.address })) {
-      this._nav.goPayLighting();
+      this._nav.goPayLightningConfirm();
     } else {
       this._nav.goPayBitcoin();
     }

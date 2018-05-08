@@ -17,8 +17,8 @@ class NavAction {
     this._store.route = 'Pay';
   }
 
-  goPayLighting() {
-    this._store.route = 'PayLighting';
+  goPayLightningConfirm() {
+    this._store.route = 'PayLightningConfirm';
   }
 
   goPayBitcoin() {
