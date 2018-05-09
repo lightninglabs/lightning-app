@@ -163,7 +163,6 @@ describe('Action Integration Tests', function() {
     lndProcess1.kill();
     lndProcess2.kill();
     btcdProcess.kill();
-    sandbox.restore();
   });
 
   describe('Generate seed and unlock wallet', () => {
