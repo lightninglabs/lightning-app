@@ -196,45 +196,6 @@ describe('Action Integration Tests', function() {
       expect(store2.walletUnlocked, 'to be true');
     });
 
-    it('should close grpc client for node1', async () => {
-      await grpc1.closeUnlocker();
-      store1.unlockerReady = false;
-      store1.walletUnlocked = false;
-    });
-
-    it('should kill lnd node1', async () => {
-      await nap(NAP_TIME);
-      lndProcess1.kill();
-    });
-
-    it('should start new lnd node1', async () => {
-      lndProcess1 = await startLndProcess({
-        isDev,
-        macaroonsEnabled: MACAROONS_ENABLED,
-        lndDataDir: LND_DATA_DIR_1,
-        lndLogDir: LND_LOG_DIR_1,
-        lndPort: LND_PORT_1,
-        lndPeerPort: LND_PEER_PORT_1,
-        lndRestPort: LND_REST_PORT_1,
-        logger,
-      });
-
-      await grcpClient.init({
-        ipcMain: ipcMainStub1,
-        lndPort: LND_PORT_1,
-        lndDataDir: LND_DATA_DIR_1,
-        macaroonsEnabled: MACAROONS_ENABLED,
-      });
-
-      await grpc1.initUnlocker();
-      while (!store1.unlockerReady) await nap(100);
-    });
-
-    it('should unlock wallet for node1', async () => {
-      await wallet1.unlockWallet({ walletPassword });
-      expect(store1.walletUnlocked, 'to be true');
-    });
-
     it('should close unlocker grpc clients', async () => {
       await nap(NAP_TIME);
       await grpc1.closeUnlocker();
