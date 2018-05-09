@@ -158,7 +158,8 @@ describe('Action Integration Tests', function() {
     invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
   });
 
-  after(() => {
+  after(async () => {
+    await Promise.all([grpc1.closeLnd(), grpc2.closeLnd()]);
     lndProcess1.kill();
     lndProcess2.kill();
     btcdProcess.kill();
@@ -195,11 +196,15 @@ describe('Action Integration Tests', function() {
       expect(store2.walletUnlocked, 'to be true');
     });
 
+    it('should close grpc client for node1', async () => {
+      await grpc1.closeUnlocker();
+      store1.unlockerReady = false;
+      store1.walletUnlocked = false;
+    });
+
     it('should kill lnd node1', async () => {
       await nap(NAP_TIME);
       lndProcess1.kill();
-      store1.unlockerReady = false;
-      store1.walletUnlocked = false;
     });
 
     it('should start new lnd node1', async () => {
@@ -228,6 +233,12 @@ describe('Action Integration Tests', function() {
     it('should unlock wallet for node1', async () => {
       await wallet1.unlockWallet({ walletPassword });
       expect(store1.walletUnlocked, 'to be true');
+    });
+
+    it('should close unlocker grpc clients', async () => {
+      await nap(NAP_TIME);
+      await grpc1.closeUnlocker();
+      await grpc2.closeUnlocker();
     });
   });
 
