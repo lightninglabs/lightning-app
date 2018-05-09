@@ -35,10 +35,8 @@ export const invoice = new InvoiceAction(store, grpc, nav, notify);
 // Init actions
 //
 
-observe(store, 'loaded', () => {
-  // TODO: init wallet unlocker instead of lnd
-  grpc.initLnd();
-  // grpc.initUnlocker();
+observe(store, 'loaded', async () => {
+  await grpc.initUnlocker();
 });
 
 observe(store, 'unlockerReady', async () => {
@@ -50,15 +48,16 @@ observe(store, 'unlockerReady', async () => {
     await wallet.initWallet({
       walletPassword,
       seedPassphrase,
-      seedMnemonic: store.seedMnemonic,
+      seedMnemonic: store.seedMnemonic.toJSON(),
     });
   } catch (err) {
     await wallet.unlockWallet({ walletPassword });
   }
 });
 
-observe(store, 'walletUnlocked', () => {
-  grpc.initLnd();
+observe(store, 'walletUnlocked', async () => {
+  await grpc.closeUnlocker();
+  await grpc.initLnd();
 });
 
 observe(store, 'lndReady', () => {
