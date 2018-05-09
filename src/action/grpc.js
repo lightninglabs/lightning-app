@@ -7,20 +7,38 @@ class GrpcAction {
     this._ipcRenderer = ipcRenderer;
   }
 
+  //
+  // WalletUnlocker grpc client
+  //
+
   async initUnlocker() {
     await this._sendIpc('unlockInit', 'unlockReady');
     log.info('GRPC unlockerReady');
     this._store.unlockerReady = true;
   }
 
+  async closeUnlocker() {
+    await this._sendIpc('unlockClose', 'unlockClosed');
+    log.info('GRPC unlockerClosed');
+  }
+
   async sendUnlockerCommand(method, body) {
     return this._sendIpc('unlockRequest', 'unlockResponse', method, body);
   }
+
+  //
+  // Lightning (lnd) grpc client
+  //
 
   async initLnd() {
     await this._sendIpc('lndInit', 'lndReady');
     log.info('GRPC lndReady');
     this._store.lndReady = true;
+  }
+
+  async closeLnd() {
+    await this._sendIpc('lndClose', 'lndClosed');
+    log.info('GRPC lndClosed');
   }
 
   sendCommand(method, body) {
@@ -42,6 +60,10 @@ class GrpcAction {
     this._ipcRenderer.send('lndStreamRequest', { method, body });
     return stream;
   }
+
+  //
+  // Helper functions
+  //
 
   _sendIpc(event, listen, method, body) {
     return new Promise((resolve, reject) => {

@@ -80,14 +80,23 @@ module.exports.init = async function({
     });
   });
 
+  ipcMain.on('unlockClose', event => {
+    unlocker.close();
+    event.sender.send('unlockClosed', {});
+  });
+
   let lnd;
   ipcMain.on('lndInit', event => {
-    unlocker && unlocker.close();
     const { lnrpc } = grpc.load(protoPath);
     lnd = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(lnd, Infinity, err => {
       event.sender.send('lndReady', { err });
     });
+  });
+
+  ipcMain.on('lndClose', event => {
+    lnd.close();
+    event.sender.send('lndClosed', {});
   });
 
   ipcMain.on('unlockRequest', (event, { method, body }) => {
