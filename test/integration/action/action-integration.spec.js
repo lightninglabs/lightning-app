@@ -158,76 +158,47 @@ describe('Action Integration Tests', function() {
     invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
   });
 
-  after(() => {
+  after(async () => {
+    await Promise.all([grpc1.closeLnd(), grpc2.closeLnd()]);
     lndProcess1.kill();
     lndProcess2.kill();
     btcdProcess.kill();
-    sandbox.restore();
   });
 
-  describe.skip('Generate seed and unlock wallet', () => {
+  describe('Generate seed and unlock wallet', () => {
     it('should wait for unlockerReady', async () => {
       await grpc1.initUnlocker();
       expect(store1.unlockerReady, 'to be true');
+      await grpc2.initUnlocker();
+      expect(store2.unlockerReady, 'to be true');
     });
 
-    it('should generate new seed for node1', async () => {
+    it('should generate new seed', async () => {
       await wallet1.generateSeed({ seedPassphrase });
       expect(store1.seedMnemonic, 'to be ok');
+      await wallet2.generateSeed({ seedPassphrase });
+      expect(store2.seedMnemonic, 'to be ok');
     });
 
-    it('should import existing seed for node1', async () => {
+    it('should import existing seed', async () => {
       await wallet1.initWallet({
         walletPassword,
         seedPassphrase,
-        seedMnemonic: store1.seedMnemonic,
+        seedMnemonic: store1.seedMnemonic.toJSON(),
       });
       expect(store1.walletUnlocked, 'to be true');
+      await wallet2.initWallet({
+        walletPassword,
+        seedPassphrase,
+        seedMnemonic: store2.seedMnemonic.toJSON(),
+      });
+      expect(store2.walletUnlocked, 'to be true');
     });
 
-    it('should kill lnd node1', async () => {
+    it('should close unlocker grpc clients', async () => {
       await nap(NAP_TIME);
-      lndProcess1.kill();
-      store1.unlockerReady = false;
-      store1.walletUnlocked = false;
-    });
-
-    it('should start new lnd node1', async () => {
-      lndProcess1 = await startLndProcess({
-        isDev,
-        macaroonsEnabled: MACAROONS_ENABLED,
-        lndDataDir: LND_DATA_DIR_1,
-        lndLogDir: LND_LOG_DIR_1,
-        lndPort: LND_PORT_1,
-        lndPeerPort: LND_PEER_PORT_1,
-        lndRestPort: LND_REST_PORT_1,
-        logger,
-      });
-
-      await grcpClient.init({
-        ipcMain: ipcMainStub1,
-        lndPort: LND_PORT_1,
-        lndDataDir: LND_DATA_DIR_1,
-        macaroonsEnabled: MACAROONS_ENABLED,
-      });
-
-      await grpc1.initUnlocker();
-      while (!store1.unlockerReady) await nap(100);
-    });
-
-    it('should unlock wallet for node1', async () => {
-      await wallet1.unlockWallet({ walletPassword });
-      expect(store1.walletUnlocked, 'to be true');
-    });
-
-    it('should wait for lndReady', async () => {
-      await grpc1.initLnd();
-      expect(store1.lndReady, 'to be true');
-    });
-
-    it('should get public key node1', async () => {
-      await info1.getInfo();
-      expect(store1.pubKey, 'to be ok');
+      await grpc1.closeUnlocker();
+      await grpc2.closeUnlocker();
     });
   });
 

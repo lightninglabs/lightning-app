@@ -32,6 +32,14 @@ describe('Action GRPC Unit Tests', () => {
     });
   });
 
+  describe('closeUnlocker()', () => {
+    it('should send ipc close call', async () => {
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.closeUnlocker();
+      expect(grpc._sendIpc, 'was called with', 'unlockClose', 'unlockClosed');
+    });
+  });
+
   describe('sendUnlockerCommand()', () => {
     it('should send ipc with correct args', async () => {
       sandbox.stub(grpc, '_sendIpc').resolves();
@@ -52,6 +60,14 @@ describe('Action GRPC Unit Tests', () => {
       sandbox.stub(grpc, '_sendIpc').resolves();
       await grpc.initLnd();
       expect(store.lndReady, 'to be', true);
+    });
+  });
+
+  describe('closeLnd()', () => {
+    it('should send ipc close call', async () => {
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.closeLnd();
+      expect(grpc._sendIpc, 'was called with', 'lndClose', 'lndClosed');
     });
   });
 
