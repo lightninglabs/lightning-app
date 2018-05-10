@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PayBitcoinView = ({ store, nav, payment }) => (
+const PayBitcoinConfirmView = ({ store, nav, payment }) => (
   <Background image="orange-gradient-bg">
     <Header shadow color={color.orange}>
       <BackButton onPress={() => nav.goPayBitcoin()} />
@@ -85,10 +85,10 @@ const PayBitcoinView = ({ store, nav, payment }) => (
   </Background>
 );
 
-PayBitcoinView.propTypes = {
+PayBitcoinConfirmView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
 };
 
-export default observer(PayBitcoinView);
+export default observer(PayBitcoinConfirmView);

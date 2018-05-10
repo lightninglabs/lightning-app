@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PayLightningView = ({ store, nav, payment }) => (
+const PayLightningConfirmView = ({ store, nav, payment }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={color.purple}>
       <BackButton onPress={() => nav.goPay()} />
@@ -80,10 +80,10 @@ const PayLightningView = ({ store, nav, payment }) => (
   </Background>
 );
 
-PayLightningView.propTypes = {
+PayLightningConfirmView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
 };
 
-export default observer(PayLightningView);
+export default observer(PayLightningConfirmView);
