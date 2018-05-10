@@ -16,8 +16,10 @@ import Invoice from '../src/view/invoice';
 import InvoiceQR from '../src/view/invoice-qr';
 import Payment from '../src/view/payment';
 import PayLightningConfirm from '../src/view/pay-lightning-confirm';
+import PayLightningDone from '../src/view/pay-lightning-done';
 import PayBitcoin from '../src/view/pay-bitcoin';
 import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
+import PayBitcoinDone from '../src/view/pay-bitcoin-done';
 
 const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
@@ -48,12 +50,16 @@ storiesOf('Screens', module)
   .add('Pay Lightning Confirm', () => (
     <PayLightningConfirm store={store} payment={payment} nav={nav} />
   ))
+  .add('Pay Lightning Done', () => (
+    <PayLightningDone store={store} payment={payment} nav={nav} />
+  ))
   .add('Pay Bitcoin', () => (
     <PayBitcoin store={store} payment={payment} nav={nav} />
   ))
   .add('Pay Bitcoin Confirm', () => (
     <PayBitcoinConfirm store={store} payment={payment} nav={nav} />
   ))
+  .add('Pay Bitcoin Done', () => <PayBitcoinDone payment={payment} nav={nav} />)
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
   .add('Invoice QR', () => <InvoiceQR store={store} nav={nav} />);
 
