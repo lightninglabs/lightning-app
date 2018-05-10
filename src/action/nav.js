@@ -21,12 +21,20 @@ class NavAction {
     this._store.route = 'PayLightningConfirm';
   }
 
+  goPayLightningDone() {
+    this._store.route = 'PayLightningDone';
+  }
+
   goPayBitcoin() {
     this._store.route = 'PayBitcoin';
   }
 
   goPayBitcoinConfirm() {
     this._store.route = 'PayBitcoinConfirm';
+  }
+
+  goPayBitcoinDone() {
+    this._store.route = 'PayBitcoinDone';
   }
 
   goInvoice() {

@@ -60,7 +60,7 @@ class PaymentAction {
         addr: payment.address,
         amount: toSatoshis(payment.amount, settings.unit),
       });
-      this._nav.goHome();
+      this._nav.goPayBitcoinDone();
     } catch (err) {
       this._notification.display({ msg: 'Sending transaction failed!', err });
     }
@@ -82,7 +82,7 @@ class PaymentAction {
         stream.on('error', reject);
         stream.write(JSON.stringify({ payment_request: invoice }), 'utf8');
       });
-      this._nav.goHome();
+      this._nav.goPayLightningDone();
     } catch (err) {
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }

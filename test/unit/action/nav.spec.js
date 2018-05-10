@@ -44,6 +44,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goPayLightningDone()', () => {
+    it('should set correct route', () => {
+      nav.goPayLightningDone();
+      expect(store.route, 'to equal', 'PayLightningDone');
+    });
+  });
+
   describe('goPayBitcoin()', () => {
     it('should set correct route', () => {
       nav.goPayBitcoin();
@@ -55,6 +62,13 @@ describe('Action Nav Unit Tests', () => {
     it('should set correct route', () => {
       nav.goPayBitcoinConfirm();
       expect(store.route, 'to equal', 'PayBitcoinConfirm');
+    });
+  });
+
+  describe('goPayBitcoinDone()', () => {
+    it('should set correct route', () => {
+      nav.goPayBitcoinDone();
+      expect(store.route, 'to equal', 'PayBitcoinDone');
     });
   });
 

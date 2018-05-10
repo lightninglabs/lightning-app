@@ -90,7 +90,7 @@ describe('Action Payments Unit Tests', () => {
         addr: 'some-address',
         amount: 1000,
       });
-      expect(nav.goHome, 'was called once');
+      expect(nav.goPayBitcoinDone, 'was called once');
       expect(notification.display, 'was not called');
       expect(wallet.getBalance, 'was called once');
     });
@@ -127,7 +127,7 @@ describe('Action Payments Unit Tests', () => {
         JSON.stringify({ payment_request: 'some-invoice' }),
         'utf8'
       );
-      expect(nav.goHome, 'was called once');
+      expect(nav.goPayLightningDone, 'was called once');
       expect(notification.display, 'was not called');
       expect(wallet.getChannelBalance, 'was called once');
     });
