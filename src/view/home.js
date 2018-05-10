@@ -53,14 +53,8 @@ const HomeView = ({ store, wallet, payment, invoice, nav }) => {
           toggleDisplayFiat={() => wallet.toggleDisplayFiat()}
         />
         <SendReceiveButton
-          goPay={() => {
-            payment.clear();
-            nav.goPay();
-          }}
-          goRequest={() => {
-            invoice.clear();
-            nav.goInvoice();
-          }}
+          goPay={() => payment.init()}
+          goRequest={() => invoice.init()}
         />
         <DownButton onPress={() => nav.goTransactions()} style={styles.downBtn}>
           Transactions

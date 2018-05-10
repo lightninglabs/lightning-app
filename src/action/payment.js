@@ -11,11 +11,12 @@ class PaymentAction {
     this._notification = notification;
   }
 
-  clear() {
+  init() {
     this._store.payment.address = '';
     this._store.payment.amount = '';
     this._store.payment.fee = '';
     this._store.payment.note = '';
+    this._nav.goPay();
   }
 
   setAddress({ address }) {

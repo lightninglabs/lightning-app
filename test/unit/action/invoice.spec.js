@@ -20,13 +20,14 @@ describe('Action Invoice Unit Tests', () => {
     invoice = new InvoiceAction(store, grpc, nav, notification);
   });
 
-  describe('clear()', () => {
-    it('should clear invoice attributes', () => {
+  describe('init()', () => {
+    it('should clear attributes and navigate to invoice view', () => {
       store.invoice.amount = 'foo';
       store.invoice.note = 'bar';
-      invoice.clear();
+      invoice.init();
       expect(store.invoice.amount, 'to equal', '');
       expect(store.invoice.note, 'to equal', '');
+      expect(nav.goInvoice, 'was called once');
     });
   });
 

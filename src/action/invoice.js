@@ -9,9 +9,10 @@ class InvoiceAction {
     this._notification = notification;
   }
 
-  clear() {
+  init() {
     this._store.invoice.amount = '';
     this._store.invoice.note = '';
+    this._nav.goInvoice();
   }
 
   setAmount({ amount }) {

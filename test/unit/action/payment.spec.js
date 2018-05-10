@@ -31,15 +31,16 @@ describe('Action Payments Unit Tests', () => {
     sandbox.restore();
   });
 
-  describe('clear()', () => {
-    it('should clear payment attributes', () => {
+  describe('init()', () => {
+    it('should clear attributes and navigate to payment view', () => {
       store.payment.address = 'foo';
       store.payment.amount = 'bar';
       store.payment.note = 'baz';
-      payment.clear();
+      payment.init();
       expect(store.payment.address, 'to equal', '');
       expect(store.payment.amount, 'to equal', '');
       expect(store.payment.note, 'to equal', '');
+      expect(nav.goPayment, 'was called once');
     });
   });
 
