@@ -40,7 +40,7 @@ describe('Action Payments Unit Tests', () => {
       expect(store.payment.address, 'to equal', '');
       expect(store.payment.amount, 'to equal', '');
       expect(store.payment.note, 'to equal', '');
-      expect(nav.goPayment, 'was called once');
+      expect(nav.goPay, 'was called once');
     });
   });
 
