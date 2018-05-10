@@ -1,4 +1,5 @@
 import React from 'react';
+import { Clipboard } from 'react-native';
 import { storiesOf } from '@storybook/react';
 import sinon from 'sinon';
 import { Store } from '../src/store';
@@ -26,7 +27,7 @@ const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
 const notify = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, notify);
-const invoice = new InvoiceAction(store, grpc, nav, notify);
+const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 sinon.stub(invoice, 'generateUri');
 const payment = new PaymentAction(store, grpc, wallet, nav, notify);
 sinon.stub(payment, 'checkType');
@@ -45,7 +46,7 @@ storiesOf('Screens', module)
     />
   ))
   .add('Transactions', () => <Transaction store={store} nav={nav} />)
-  .add('Deposit', () => <Deposit store={store} nav={nav} />)
+  .add('Deposit', () => <Deposit store={store} invoice={invoice} nav={nav} />)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)
   .add('Pay Lightning Confirm', () => (
     <PayLightningConfirm store={store} payment={payment} nav={nav} />
@@ -61,7 +62,9 @@ storiesOf('Screens', module)
   ))
   .add('Pay Bitcoin Done', () => <PayBitcoinDone payment={payment} nav={nav} />)
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
-  .add('Invoice QR', () => <InvoiceQR store={store} nav={nav} />);
+  .add('Invoice QR', () => (
+    <InvoiceQR store={store} invoice={invoice} nav={nav} />
+  ));
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';

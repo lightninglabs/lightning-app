@@ -10,6 +10,7 @@ describe('Action Invoice Unit Tests', () => {
   let grpc;
   let invoice;
   let notification;
+  let clipboard;
 
   beforeEach(() => {
     store = new Store();
@@ -17,7 +18,8 @@ describe('Action Invoice Unit Tests', () => {
     nav = sinon.createStubInstance(NavAction);
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
-    invoice = new InvoiceAction(store, grpc, nav, notification);
+    clipboard = { setString: sinon.stub() };
+    invoice = new InvoiceAction(store, grpc, nav, notification, clipboard);
   });
 
   describe('init()', () => {
@@ -68,6 +70,13 @@ describe('Action Invoice Unit Tests', () => {
       await invoice.generateUri();
       expect(nav.goInvoiceQR, 'was not called');
       expect(notification.display, 'was called once');
+    });
+  });
+
+  describe('toClipboard()', () => {
+    it('should call react native ClipBoard.setString', () => {
+      invoice.toClipboard({ text: 'foo' });
+      expect(clipboard.setString, 'was called with', 'foo');
     });
   });
 });

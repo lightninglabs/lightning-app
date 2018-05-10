@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const InvoiceQRView = ({ store, nav }) => (
+const InvoiceQRView = ({ store, nav, invoice }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={color.purple}>
       <BackButton onPress={() => nav.goInvoice()} />
@@ -70,7 +70,7 @@ const InvoiceQRView = ({ store, nav }) => (
         <NamedField name="Note">{store.invoice.note}</NamedField>
         <QRCode style={styles.qrcode}>{store.invoice.uri}</QRCode>
         <CopyButton
-          onPress={() => {}}
+          onPress={() => invoice.toClipboard({ text: store.invoice.encoded })}
           icon="copy-purple"
           style={styles.copyBtn}
         >
@@ -87,6 +87,7 @@ const InvoiceQRView = ({ store, nav }) => (
 InvoiceQRView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
+  invoice: PropTypes.object.isRequired,
 };
 
 export default observer(InvoiceQRView);

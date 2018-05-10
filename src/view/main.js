@@ -50,8 +50,12 @@ class MainView extends Component {
         {route === 'Invoice' && (
           <Invoice store={store} invoice={invoice} nav={nav} />
         )}
-        {route === 'InvoiceQR' && <InvoiceQR store={store} nav={nav} />}
-        {route === 'FundWallet' && <Deposit store={store} nav={nav} />}
+        {route === 'InvoiceQR' && (
+          <InvoiceQR store={store} invoice={invoice} nav={nav} />
+        )}
+        {route === 'FundWallet' && (
+          <Deposit store={store} invoice={invoice} nav={nav} />
+        )}
         {route === 'Transactions' && <Transaction store={store} nav={nav} />}
       </Container>
     );

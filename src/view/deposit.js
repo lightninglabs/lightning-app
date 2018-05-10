@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const DepositView = ({ store, nav }) => (
+const DepositView = ({ store, nav, invoice }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <View style={styles.qrWrapper}>
       <QRCode size={130}>{store.walletAddressUri}</QRCode>
@@ -49,7 +49,11 @@ const DepositView = ({ store, nav }) => (
         exchange. Only Bitcoin works at the moment.
       </CopyText>
       <View>
-        <CopyButton onPress={() => {}} icon="copy-dark" style={styles.copyBtn}>
+        <CopyButton
+          onPress={() => invoice.toClipboard({ text: store.walletAddress })}
+          icon="copy-dark"
+          style={styles.copyBtn}
+        >
           {store.walletAddress}
         </CopyButton>
         <Button onPress={() => nav.goHome()}>
@@ -63,6 +67,7 @@ const DepositView = ({ store, nav }) => (
 DepositView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
+  invoice: PropTypes.object.isRequired,
 };
 
 export default observer(DepositView);

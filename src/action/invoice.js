@@ -2,11 +2,12 @@ import { PREFIX_URI } from '../config';
 import { toSatoshis } from '../helper';
 
 class InvoiceAction {
-  constructor(store, grpc, nav, notification) {
+  constructor(store, grpc, nav, notification, clipboard) {
     this._store = store;
     this._grpc = grpc;
     this._nav = nav;
     this._notification = notification;
+    this._clipboard = clipboard;
   }
 
   init() {
@@ -36,6 +37,10 @@ class InvoiceAction {
     } catch (err) {
       this._notification.display({ msg: 'Creating invoice failed!', err });
     }
+  }
+
+  toClipboard({ text }) {
+    this._clipboard.setString(text);
   }
 }
 

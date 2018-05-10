@@ -1,5 +1,5 @@
 import { observe } from 'mobx';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, Clipboard } from 'react-native';
 import store from '../store';
 import GrpcAction from './grpc';
 import NavAction from './nav';
@@ -29,7 +29,7 @@ export const info = new InfoAction(store, grpc);
 export const channel = new ChannelAction(store, grpc, notify);
 export const transaction = new TransactionAction(store, grpc);
 export const payment = new PaymentAction(store, grpc, wallet, nav, notify);
-export const invoice = new InvoiceAction(store, grpc, nav, notify);
+export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 
 //
 // Init actions
