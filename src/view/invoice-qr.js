@@ -20,6 +20,7 @@ import {
 import Card from '../component/card';
 import Icon from '../component/icon';
 import QRCode from '../component/qrcode';
+import { CopiedNotification } from '../component/notification';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
@@ -80,6 +81,10 @@ const InvoiceQRView = ({ store, nav, invoice }) => (
           <ButtonText style={styles.doneBtnText}>DONE</ButtonText>
         </Button>
       </Card>
+      <CopiedNotification
+        display={store.displayCopied}
+        color={color.notifyDark}
+      />
     </MainContent>
   </Background>
 );

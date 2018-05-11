@@ -41,6 +41,7 @@ class InvoiceAction {
 
   toClipboard({ text }) {
     this._clipboard.setString(text);
+    this._store.displayCopied = true;
   }
 }
 

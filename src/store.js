@@ -23,6 +23,7 @@ export class Store {
       channelBalanceSatoshis: null,
       pubKey: null,
       walletAddress: null,
+      displayCopied: false,
       ipAddress: null,
       transactions: null,
       invoices: null,

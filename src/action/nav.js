@@ -42,6 +42,7 @@ class NavAction {
   }
 
   goInvoiceQR() {
+    this._store.displayCopied = false;
     this._store.route = 'InvoiceQR';
   }
 
@@ -74,6 +75,7 @@ class NavAction {
   }
 
   goFundWallet() {
+    this._store.displayCopied = false;
     this._store.route = 'FundWallet';
   }
 }

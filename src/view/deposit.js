@@ -7,6 +7,7 @@ import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { CopyButton, Button, ButtonText } from '../component/button';
+import { CopiedNotification } from '../component/notification';
 import QRCode from '../component/qrcode';
 import { color } from '../component/style';
 
@@ -60,6 +61,10 @@ const DepositView = ({ store, nav, invoice }) => (
           <ButtonText style={styles.doneBtnText}>DONE</ButtonText>
         </Button>
       </View>
+      <CopiedNotification
+        display={store.displayCopied}
+        color={color.notifyLight}
+      />
     </MainContent>
   </SplitBackground>
 );
