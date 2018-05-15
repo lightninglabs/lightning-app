@@ -44,12 +44,15 @@ class ChannelAction {
 
   async getPendingChannels() {
     const response = await this._grpc.sendCommand('pendingChannels');
+    const mapPendingAttributes = channel => ({
+      remotePubkey: channel.remote_node_pub,
+      capacity: channel.capacity,
+      localBalance: channel.local_balance,
+      remoteBalance: channel.remote_balance,
+      channelPoint: channel.channel_point,
+    });
     const pocs = response.pending_open_channels.map(poc => ({
-      remotePubkey: poc.channel.remote_node_pub,
-      capacity: poc.channel.capacity,
-      localBalance: poc.channel.local_balance,
-      remoteBalance: poc.channel.remote_balance,
-      channelPoint: poc.channel.channel_point,
+      ...mapPendingAttributes(poc.channel),
       confirmationHeight: poc.confirmation_height,
       blocksTillOpen: poc.blocks_till_open,
       commitFee: poc.commit_fee,
@@ -58,20 +61,12 @@ class ChannelAction {
       status: 'pending-open',
     }));
     const pccs = response.pending_closing_channels.map(pcc => ({
-      remotePubkey: pcc.channel.remote_node_pub,
-      capacity: pcc.channel.capacity,
-      localBalance: pcc.channel.local_balance,
-      remoteBalance: pcc.channel.remote_balance,
-      channelPoint: pcc.channel.channel_point,
+      ...mapPendingAttributes(pcc.channel),
       closingTxid: pcc.closing_txid,
       status: 'pending-closing',
     }));
     const pfccs = response.pending_force_closing_channels.map(pfcc => ({
-      remotePubkey: pfcc.channel.remote_node_pub,
-      capacity: pfcc.channel.capacity,
-      localBalance: pfcc.channel.local_balance,
-      remoteBalance: pfcc.channel.remote_balance,
-      channelPoint: pfcc.channel.channel_point,
+      ...mapPendingAttributes(pfcc.channel),
       closingTxid: pfcc.closing_txid,
       limboBalance: pfcc.limbo_balance,
       maturityHeight: pfcc.maturity_height,
@@ -79,11 +74,7 @@ class ChannelAction {
       status: 'pending-force-closing',
     }));
     const wccs = response.waiting_close_channels.map(wcc => ({
-      remotePubkey: wcc.channel.remote_node_pub,
-      capacity: wcc.channel.capacity,
-      localBalance: wcc.channel.local_balance,
-      remoteBalance: wcc.channel.remote_balance,
-      channelPoint: wcc.channel.channel_point,
+      ...mapPendingAttributes(wcc.channel),
       limboBalance: wcc.limbo_balance,
       status: 'waiting-close',
     }));
