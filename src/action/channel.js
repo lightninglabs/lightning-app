@@ -1,4 +1,5 @@
 import { RETRY_DELAY } from '../config';
+import { parseSat } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
@@ -23,9 +24,9 @@ class ChannelAction {
     this._store.channels = channels.map(channel => ({
       remotePubkey: channel.remote_pubkey,
       id: channel.chan_id,
-      capacity: channel.capacity,
-      localBalance: channel.local_balance,
-      remoteBalance: channel.remote_balance,
+      capacity: parseSat(channel.capacity),
+      localBalance: parseSat(channel.local_balance),
+      remoteBalance: parseSat(channel.remote_balance),
       channelPoint: channel.channel_point,
       active: channel.active,
       status: 'open',
@@ -46,9 +47,9 @@ class ChannelAction {
     const response = await this._grpc.sendCommand('pendingChannels');
     const mapPendingAttributes = channel => ({
       remotePubkey: channel.remote_node_pub,
-      capacity: channel.capacity,
-      localBalance: channel.local_balance,
-      remoteBalance: channel.remote_balance,
+      capacity: parseSat(channel.capacity),
+      localBalance: parseSat(channel.local_balance),
+      remoteBalance: parseSat(channel.remote_balance),
       channelPoint: channel.channel_point,
     });
     const pocs = response.pending_open_channels.map(poc => ({

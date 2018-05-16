@@ -55,7 +55,15 @@ describe('Action Channels Unit Tests', () => {
   describe('getChannels()', () => {
     it('should list open channels', async () => {
       grpc.sendCommand.withArgs('listChannels').resolves({
-        channels: [{ chan_id: 42, active: true }],
+        channels: [
+          {
+            chan_id: 42,
+            active: true,
+            capacity: '100',
+            local_balance: '10',
+            remote_balance: '90',
+          },
+        ],
       });
       await channel.getChannels();
       expect(store.channels[0], 'to satisfy', {
@@ -91,9 +99,9 @@ describe('Action Channels Unit Tests', () => {
   describe('getPendingChannels()', () => {
     const pendingChannel = {
       remote_node_pub: 'some-key',
-      capacity: 'some-capacity',
-      local_balance: 'some-local',
-      remote_balance: 'some-remote',
+      capacity: '100',
+      local_balance: '10',
+      remote_balance: '90',
       channel_point: 'some-point',
     };
 
