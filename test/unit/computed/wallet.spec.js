@@ -8,6 +8,10 @@ describe('Computed Wallet Unit Tests', () => {
   beforeEach(() => {
     useStrict(false);
     store = observable({
+      balanceSatoshis: 0,
+      confirmedBalanceSatoshis: 0,
+      unconfirmedBalanceSatoshis: 0,
+      channelBalanceSatoshis: 0,
       settings: {
         unit: DEFAULT_UNIT,
         fiat: DEFAULT_FIAT,
