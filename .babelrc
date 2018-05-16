@@ -1,8 +1,7 @@
 {
   "presets": [],
   "plugins": [
-    "transform-es2015-modules-commonjs"
-  ],
-  "retainLines": true,
-  "sourceMaps": "inline"
+    "transform-es2015-modules-commonjs",
+    "transform-object-rest-spread"
+  ]
 }
