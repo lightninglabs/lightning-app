@@ -169,14 +169,12 @@ const headerStyles = StyleSheet.create({
     width: 150,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    alignItems: 'center',
     paddingLeft: 20,
   },
   btnWrapperRight: {
     width: 150,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'center',
   },
   settingsIcon: {
     height: 14.7,
