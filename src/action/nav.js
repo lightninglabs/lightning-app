@@ -50,6 +50,14 @@ class NavAction {
     this._store.route = 'Channels';
   }
 
+  goChannelDetail() {
+    this._store.route = 'ChannelDetail';
+  }
+
+  goChannelCreate() {
+    this._store.route = 'ChannelCreate';
+  }
+
   goTransactions() {
     this._store.route = 'Transactions';
   }
