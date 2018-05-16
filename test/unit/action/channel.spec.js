@@ -89,15 +89,24 @@ describe('Action Channels Unit Tests', () => {
   });
 
   describe('getPendingChannels()', () => {
+    const pendingChannel = {
+      remote_node_pub: 'some-key',
+      capacity: 'some-capacity',
+      local_balance: 'some-local',
+      remote_balance: 'some-remote',
+      channel_point: 'some-point',
+    };
+
     it('should list pending channels', async () => {
       grpc.sendCommand.withArgs('pendingChannels').resolves({
-        pending_open_channels: [{}],
-        pending_closing_channels: [{}],
-        pending_force_closing_channels: [{}],
-        waiting_close_channels: [{}],
+        pending_open_channels: [{ channel: { ...pendingChannel } }],
+        pending_closing_channels: [{ channel: { ...pendingChannel } }],
+        pending_force_closing_channels: [{ channel: { ...pendingChannel } }],
+        waiting_close_channels: [{ channel: { ...pendingChannel } }],
       });
       await channel.getPendingChannels();
       expect(store.pendingChannels.length, 'to equal', 4);
+      expect(store.pendingChannels[0].remotePubkey, 'to equal', 'some-key');
     });
   });
 
