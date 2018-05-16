@@ -1,5 +1,10 @@
 import { UNITS } from './config';
 
+/**
+ * Format a number value in locale format with either . or ,
+ * @param  {string|number} val The number value
+ * @return {string}        The formatted number value
+ */
 export const formatNumber = val => {
   let num = Number(val);
   if (isNaN(num)) {
@@ -8,6 +13,12 @@ export const formatNumber = val => {
   return num.toLocaleString(undefined, { maximumFractionDigits: 8 });
 };
 
+/**
+ * Format a fiat currency value in local format with currency symbol and either . or ,
+ * @param  {string|number} val The number value
+ * @param  {string} currency   The fiat currency e.g. 'usd'
+ * @return {string}            The formatte fiat currency value
+ */
 export const formatFiat = (val, currency) => {
   let num = Number(val);
   if (isNaN(num)) {
@@ -16,35 +27,109 @@ export const formatFiat = (val, currency) => {
   return num.toLocaleString(undefined, { style: 'currency', currency });
 };
 
+/**
+ * Convert a string formatted BTC amount to satoshis
+ * @param  {string} amount The amount e.g. '0.0001'
+ * @param  {string} unit   The BTC unit e.g. 'btc' or 'bit'
+ * @return {number}        The satoshis as an integer
+ */
 export const toSatoshis = (amount, unit) => {
-  if (typeof amount !== 'string' || !unit) {
+  if (
+    typeof amount !== 'string' ||
+    !/^[0-9]*[.]?[0-9]*$/.test(amount) ||
+    !unit
+  ) {
     throw new Error('Missing args!');
   }
   return Math.round(Number(amount) * UNITS[unit].denominator);
 };
 
-export const toAmount = (satoshis, unit) => {
-  if ((typeof satoshis !== 'number' && typeof satoshis !== 'string') || !unit) {
-    throw new Error('Missing args!');
-  }
-  let num = parseInt(satoshis, 10) / UNITS[unit].denominator;
-  if (isNaN(num)) {
+/**
+ * Parse satoshi values to an integer number
+ * @param  {string|number} satoshis The value as a string or number
+ * @return {number}                 The satoshi integer as a number
+ */
+export const parseSat = satoshis => {
+  if (typeof satoshis !== 'number' && typeof satoshis !== 'string') {
     throw new Error('Invalid input!');
   }
-  return num.toString();
+  satoshis = parseInt(satoshis, 10);
+  if (isNaN(satoshis)) {
+    throw new Error('Invalid input!');
+  }
+  return satoshis;
 };
 
+/**
+ * Convert satoshis to a BTC values than can set as a text input value
+ * @param  {string|number} satoshis The value as a string or number
+ * @param  {string} unit            The BTC unit e.g. 'btc' or 'bit'
+ * @return {string}                 The amount formatted as '0.0001'
+ */
+export const toAmount = (satoshis, unit) => {
+  satoshis = parseSat(satoshis);
+  if (!UNITS[unit]) {
+    throw new Error('Invalid input!');
+  }
+  return (satoshis / UNITS[unit].denominator).toString();
+};
+
+/**
+ * Calculate the current fiat currency rate for a satoshi input
+ * @param  {string|number} satoshis The BTC amount in satoshis
+ * @param  {Object} settings        Contains the current exchange rate
+ * @return {string}                 The locale formatted rate
+ */
 export const calculateExchangeRate = (satoshis, settings) => {
-  if (typeof satoshis !== 'number') throw new Error('Missing args!');
+  satoshis = parseSat(satoshis);
   const rate = settings.exchangeRate[settings.fiat];
   const balance = satoshis / rate / UNITS.btc.denominator;
   return formatFiat(balance, settings.fiat);
 };
 
-export const toHash = hash => new Buffer(hash, 'base64').toString('hex');
+/**
+ * Convert a satoshi value either to fiat or the selected BTC unit.
+ * The output should be used throughout the UI for value labels.
+ * @param  {string|number} satoshis The BTC amount in satoshis
+ * @param  {Object} settings        Contains the current exchange rate
+ * @return {string}                 The corresponding value label
+ */
+export const toAmountLabel = (satoshis, settings) => {
+  if (typeof settings.displayFiat !== 'boolean') {
+    throw new Error('Invalid settings input!');
+  }
+  return settings.displayFiat
+    ? calculateExchangeRate(satoshis, settings)
+    : formatNumber(toAmount(satoshis, settings.unit));
+};
 
+/**
+ * Split '-' separated words and convert to uppercase
+ * @param  {string} value     The input string
+ * @param  {string} separator The separator to be used
+ * @return {string}           The words conected with the separator
+ */
+export const toCaps = (value = '', separator = ' ') => {
+  return value
+    .split('-')
+    .map(v => v.charAt(0).toUpperCase() + v.substring(1))
+    .reduce((a, b) => `${a}${separator}${b}`);
+};
+
+/**
+ * Convert a base64 encoded string to hex
+ * @param  {string} str The base64 encoded string
+ * @return {string}     The hex encoded string
+ */
+export const toHash = str => Buffer.from(str, 'base64').toString('hex');
+
+/**
+ * Revers bytes of a buffer
+ * @param  {Buffer} src The source buffer
+ * @return {Buffer}     The reversed buffer
+ */
 export const reverse = src => {
-  const buffer = new Buffer(src.length);
+  const buffer = Buffer.alloc(src.length);
   for (var i = 0, j = src.length - 1; i <= j; ++i, --j) {
     buffer[i] = src[j];
     buffer[j] = src[i];
@@ -52,6 +137,11 @@ export const reverse = src => {
   return buffer;
 };
 
+/**
+ * Check if the HTTP status code signals is successful
+ * @param  {Object} response The fetch api's response object
+ * @return {Object}          The response object if successful
+ */
 export const checkHttpStatus = response => {
   if (response.status >= 200 && response.status < 300) {
     return response;
