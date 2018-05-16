@@ -1,5 +1,5 @@
 import * as log from './log';
-import { toHash } from '../helper';
+import { parseSat, toHash } from '../helper';
 import { RETRY_DELAY } from '../config';
 
 class TransactionAction {
@@ -14,7 +14,8 @@ class TransactionAction {
       this._store.transactions = transactions.map(transaction => ({
         id: transaction.tx_hash,
         type: 'bitcoin',
-        amount: transaction.amount,
+        amount: parseSat(transaction.amount),
+        fee: parseSat(transaction.total_fees),
         status: transaction.num_confirmations < 1 ? 'unconfirmed' : 'confirmed',
         date: new Date(parseInt(transaction.time_stamp, 10)),
         hash: transaction.tx_hash,
@@ -34,7 +35,7 @@ class TransactionAction {
       this._store.invoices = invoices.map(invoice => ({
         id: invoice.creation_date,
         type: 'lightning',
-        amount: invoice.value,
+        amount: parseSat(invoice.value),
         status: invoice.settled ? 'complete' : 'in-progress',
         date: new Date(parseInt(invoice.creation_date, 10)),
         memo: invoice.memo,
@@ -52,7 +53,8 @@ class TransactionAction {
       this._store.payments = payments.map(payment => ({
         id: payment.creation_date,
         type: 'lightning',
-        amount: payment.value,
+        amount: parseSat(payment.value),
+        fee: parseSat(payment.fee),
         status: 'complete',
         date: new Date(parseInt(payment.creation_date, 10)),
         hash: payment.payment_hash,
