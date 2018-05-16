@@ -6,6 +6,7 @@ import Background from '../component/background';
 import { Header, Title } from '../component/header';
 import { Button, BackButton } from '../component/button';
 import { ListContent, List, ListItem, ListHeader } from '../component/list';
+import { Alert } from '../component/notification';
 import Text from '../component/text';
 import Icon from '../component/icon';
 import { color, font } from '../component/style';
@@ -62,9 +63,6 @@ const iStyles = StyleSheet.create({
     width: 135 * 0.08,
   },
   alert: {
-    height: 6,
-    width: 6,
-    borderRadius: 50,
     marginRight: 6,
   },
   group: {
@@ -97,7 +95,7 @@ const TransactionListItem = ({ tx, onSelect }) => (
       )}
     </View>
     <View style={[iStyles.m, iStyles.group]}>
-      <View style={[iStyles.alert, { backgroundColor: statusColor(tx) }]} />
+      <Alert color={statusColor(tx)} style={iStyles.alert} />
       <Text style={iStyles.txt}>{tx.status}</Text>
     </View>
     <Text style={[iStyles.m, iStyles.txt]}>{tx.date.toLocaleDateString()}</Text>

@@ -5,6 +5,27 @@ import { H4Text } from './text';
 import Icon from './icon';
 
 //
+// Alert
+//
+
+const alertStyles = StyleSheet.create({
+  dot: {
+    height: 6,
+    width: 6,
+    borderRadius: 3,
+  },
+});
+
+export const Alert = ({ color, style }) => (
+  <View style={[alertStyles.dot, { backgroundColor: color }, style]} />
+);
+
+Alert.propTypes = {
+  color: PropTypes.string.isRequired,
+  style: View.propTypes.style,
+};
+
+//
 // Copied Notification
 //
 
