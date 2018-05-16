@@ -28,7 +28,7 @@ const TransactionView = ({ store, nav }) => {
           data={transactions}
           renderHeader={() => <TransactionListHeader />}
           renderItem={item => (
-            <TransactionListItem tx={item} onSelect={nav.goTransaction} />
+            <TransactionListItem tx={item} onSelect={nav.goTransactionDetail} />
           )}
         />
       </ListContent>
