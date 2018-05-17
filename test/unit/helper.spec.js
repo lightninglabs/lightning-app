@@ -62,6 +62,47 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
+  describe('parseSat()', () => {
+    it('should throw error if satoshis is undefined', () => {
+      expect(helpers.parseSat.bind(null, undefined), 'to throw', /Invalid/);
+    });
+
+    it('should throw error if satoshis is null', () => {
+      expect(helpers.parseSat.bind(null, null), 'to throw', /Invalid/);
+    });
+
+    it('should throw error for empty satoshis', () => {
+      expect(helpers.parseSat.bind(null, ''), 'to throw', /Invalid/);
+    });
+
+    it('should throw error if satoshis is not a number', () => {
+      expect(
+        helpers.parseSat.bind(null, 'not-a-number'),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error for string decimal values', () => {
+      expect(helpers.parseSat.bind(null, '100000000.9'), 'to throw', /Invalid/);
+    });
+
+    it('should work for single char', () => {
+      const num = helpers.parseSat('0');
+      expect(num, 'to equal', 0);
+    });
+
+    it('should work for single char', () => {
+      const num = helpers.parseSat('1');
+      expect(num, 'to equal', 1);
+    });
+
+    it('should work for string input', () => {
+      const num = helpers.parseSat('100000000');
+      expect(num, 'to equal', 100000000);
+    });
+  });
+
   describe('toSatoshis()', () => {
     it('should throw error if amount is undefined', () => {
       expect(
@@ -113,47 +154,6 @@ describe('Helpers Unit Tests', () => {
     it('should round up to two satoshis', () => {
       const num = helpers.toSatoshis('0.000000019', 'btc');
       expect(num, 'to equal', 2);
-    });
-  });
-
-  describe('parseSat()', () => {
-    it('should throw error if satoshis is undefined', () => {
-      expect(helpers.parseSat.bind(null, undefined), 'to throw', /Invalid/);
-    });
-
-    it('should throw error if satoshis is null', () => {
-      expect(helpers.parseSat.bind(null, null), 'to throw', /Invalid/);
-    });
-
-    it('should throw error for empty satoshis', () => {
-      expect(helpers.parseSat.bind(null, ''), 'to throw', /Invalid/);
-    });
-
-    it('should throw error if satoshis is not a number', () => {
-      expect(
-        helpers.parseSat.bind(null, 'not-a-number'),
-        'to throw',
-        /Invalid/
-      );
-    });
-
-    it('should throw error for string decimal values', () => {
-      expect(helpers.parseSat.bind(null, '100000000.9'), 'to throw', /Invalid/);
-    });
-
-    it('should work for single char', () => {
-      const num = helpers.parseSat('0');
-      expect(num, 'to equal', 0);
-    });
-
-    it('should work for single char', () => {
-      const num = helpers.parseSat('1');
-      expect(num, 'to equal', 1);
-    });
-
-    it('should work for string input', () => {
-      const num = helpers.parseSat('100000000');
-      expect(num, 'to equal', 100000000);
     });
   });
 

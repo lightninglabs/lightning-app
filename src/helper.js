@@ -28,6 +28,22 @@ export const formatFiat = (val, currency) => {
 };
 
 /**
+ * Parse satoshi values to an integer number
+ * @param  {string} satoshis The integer value as a string
+ * @return {number}          The satoshi integer as a number
+ */
+export const parseSat = satoshis => {
+  if (typeof satoshis !== 'string' || !/^[0-9]+$/.test(satoshis)) {
+    throw new Error('Invalid input!');
+  }
+  satoshis = parseInt(satoshis, 10);
+  if (isNaN(satoshis)) {
+    throw new Error('Invalid input!');
+  }
+  return satoshis;
+};
+
+/**
  * Convert a string formatted BTC amount to satoshis
  * @param  {string} amount The amount e.g. '0.0001'
  * @param  {string} unit   The BTC unit e.g. 'btc' or 'bit'
@@ -42,22 +58,6 @@ export const toSatoshis = (amount, unit) => {
     throw new Error('Missing args!');
   }
   return Math.round(Number(amount) * UNITS[unit].denominator);
-};
-
-/**
- * Parse satoshi values to an integer number
- * @param  {string} satoshis The integer value as a string
- * @return {number}          The satoshi integer as a number
- */
-export const parseSat = satoshis => {
-  if (typeof satoshis !== 'string' || !/^[0-9]+$/.test(satoshis)) {
-    throw new Error('Invalid input!');
-  }
-  satoshis = parseInt(satoshis, 10);
-  if (isNaN(satoshis)) {
-    throw new Error('Invalid input!');
-  }
-  return satoshis;
 };
 
 /**
