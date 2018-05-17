@@ -77,11 +77,10 @@ const iStyles = StyleSheet.create({
 });
 
 const statusColor = tx => {
-  const status = tx.status.toLowerCase();
   if (tx.type === 'lightning') {
-    return status === 'complete' ? color.greenSig : color.orangeSig;
+    return tx.status === 'complete' ? color.greenSig : color.orangeSig;
   } else {
-    return status === 'confirmed' ? color.greenSig : color.orangeSig;
+    return tx.status === 'confirmed' ? color.greenSig : color.orangeSig;
   }
 };
 
@@ -96,16 +95,16 @@ const TransactionListItem = ({ tx, onSelect }) => (
     </View>
     <View style={[iStyles.m, iStyles.group]}>
       <Alert color={statusColor(tx)} style={iStyles.alert} />
-      <Text style={iStyles.txt}>{tx.status}</Text>
+      <Text style={iStyles.txt}>{tx.statusLabel}</Text>
     </View>
-    <Text style={[iStyles.m, iStyles.txt]}>{tx.date.toLocaleDateString()}</Text>
+    <Text style={[iStyles.m, iStyles.txt]}>{tx.dateLabel}</Text>
     <View style={iStyles.l}>
       <Text style={[iStyles.txt, iStyles.wrap]} numberOfLines={1}>
         {tx.id}
       </Text>
     </View>
-    <Text style={[iStyles.m, iStyles.txt]}>{tx.amount}</Text>
-    <Text style={[iStyles.s, iStyles.txt]}>{tx.fee}</Text>
+    <Text style={[iStyles.m, iStyles.txt]}>{tx.amountLabel}</Text>
+    <Text style={[iStyles.s, iStyles.txt]}>{tx.feeLabel}</Text>
   </ListItem>
 );
 
