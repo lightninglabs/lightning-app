@@ -11,6 +11,7 @@ storiesOf('Icons', module)
     </Background>
   ))
   .add('Back', () => <Icon image="back" style={{ height: 20, width: 12 }} />)
+  .add('Plus', () => <Icon image="plus" style={{ height: 21, width: 21 }} />)
   .add('Cancel', () => (
     <Icon image="cancel" style={{ height: 21, width: 21 }} />
   ))

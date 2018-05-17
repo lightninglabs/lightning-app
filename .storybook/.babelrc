@@ -3,7 +3,6 @@
     "react-native"
   ],
   "plugins": [
-    "react-native-web",
-    "transform-object-rest-spread"
+    "react-native-web"
   ]
 }

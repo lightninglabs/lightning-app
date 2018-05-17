@@ -71,9 +71,9 @@ describe('Action Wallet Unit Tests', () => {
   describe('getBalance()', () => {
     it('should get wallet balance', async () => {
       grpc.sendCommand.withArgs('WalletBalance').resolves({
-        total_balance: 1,
-        confirmed_balance: 2,
-        unconfirmed_balance: 3,
+        total_balance: '1',
+        confirmed_balance: '2',
+        unconfirmed_balance: '3',
       });
       await wallet.getBalance();
       expect(store.balanceSatoshis, 'to equal', 1);
@@ -92,7 +92,7 @@ describe('Action Wallet Unit Tests', () => {
 
   describe('getChannelBalance()', () => {
     it('should get channel balance', async () => {
-      grpc.sendCommand.withArgs('ChannelBalance').resolves({ balance: 1 });
+      grpc.sendCommand.withArgs('ChannelBalance').resolves({ balance: '1' });
       await wallet.getChannelBalance();
       expect(store.channelBalanceSatoshis, 'to equal', 1);
     });

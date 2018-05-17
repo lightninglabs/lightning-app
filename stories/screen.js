@@ -11,6 +11,7 @@ import InvoiceAction from '../src/action/invoice';
 import PaymentAction from '../src/action/payment';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
+import Channel from '../src/view/channel';
 import Home from '../src/view/home';
 import Deposit from '../src/view/deposit';
 import Invoice from '../src/view/invoice';
@@ -46,6 +47,7 @@ storiesOf('Screens', module)
     />
   ))
   .add('Transactions', () => <Transaction store={store} nav={nav} />)
+  .add('Channels', () => <Channel store={store} nav={nav} />)
   .add('Deposit', () => <Deposit store={store} invoice={invoice} nav={nav} />)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)
   .add('Pay Lightning Confirm', () => (
@@ -71,14 +73,6 @@ store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
 store.balanceSatoshis = 798765432;
 store.channelBalanceSatoshis = 59876000;
 store.settings.exchangeRate.usd = 0.00014503;
-store.transactions = [...Array(100)].map((x, i) => ({
-  id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
-  type: i % 2 === 0 ? 'lightning' : 'bitcoin',
-  amount: '923456',
-  status: i % 2 === 0 ? 'Complete' : 'Unconfirmed',
-  date: new Date(),
-  fee: '156',
-}));
 store.payment.amount = '0.45678';
 store.payment.address = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
 store.payment.fee = '0.0001';
@@ -87,3 +81,49 @@ store.invoice.note = 'For the love of bitcoin';
 store.invoice.encoded =
   'lnbc4567800n1pdvqx48pp5eng6uyqnkdlx93m2598ug93qtuls8gapygxznshzd56h7n5cxs0sdp9gehhygr5dpjjqmr0wejjqmmxyp3xjarrda5kucqzysmhyrleqpt3yqf5nctzsr3hvrv9vhhnawazkwyzu8t4mf85tllsyjsf8hgu5nt6dj3jaljjgmt999xnlsweqvatypzlu34nhpjlxf59qp4dn2pv';
 store.invoice.uri = `lightning:${store.invoice.encoded}`;
+store.transactions = [...Array(5)].map((x, i) => ({
+  id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
+  type: 'bitcoin',
+  amount: 923456,
+  fee: 8250,
+  status: i % 2 === 0 ? 'unconfirmed' : 'confirmed',
+  date: new Date(),
+}));
+store.invoices = [...Array(1)].map(() => ({
+  id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
+  type: 'lightning',
+  amount: 81345,
+  status: 'in-progress',
+  date: new Date(),
+}));
+store.payments = [...Array(10)].map(() => ({
+  id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
+  type: 'lightning',
+  amount: 92345,
+  fee: 1,
+  status: 'complete',
+  date: new Date(),
+}));
+store.channels = [...Array(4)].map(() => ({
+  remotePubkey:
+    '0343bc80b914aebf8e50eb0b8e445fc79b9e6e8e5e018fa8c5f85c7d429c117b38',
+  id: '1337006139441152',
+  capacity: 2005000,
+  localBalance: 1990000,
+  remoteBalance: 10000,
+  channelPoint:
+    '3511ae8a52c97d957eaf65f828504e68d0991f0276adff94c6ba91c7f6cd4275',
+  active: true,
+  status: 'open',
+}));
+store.pendingChannels = [...Array(6)].map((x, i) => ({
+  remotePubkey:
+    '0343bc80b914aebf8e50eb0b8e445fc79b9e6e8e5e018fa8c5f85c7d429c117b38',
+  id: '1337006139441152',
+  capacity: 1005000,
+  localBalance: 600000,
+  remoteBalance: 400000,
+  channelPoint:
+    '3511ae8a52c97d957eaf65f828504e68d0991f0276adff94c6ba91c7f6cd4275',
+  status: i % 2 === 0 ? 'pending-closing' : 'pending-open',
+}));

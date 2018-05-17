@@ -1,4 +1,5 @@
 import { RETRY_DELAY } from '../config';
+import { parseSat } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
@@ -23,9 +24,9 @@ class ChannelAction {
     this._store.channels = channels.map(channel => ({
       remotePubkey: channel.remote_pubkey,
       id: channel.chan_id,
-      capacity: channel.capacity,
-      localBalance: channel.local_balance,
-      remoteBalance: channel.remote_balance,
+      capacity: parseSat(channel.capacity),
+      localBalance: parseSat(channel.local_balance),
+      remoteBalance: parseSat(channel.remote_balance),
       channelPoint: channel.channel_point,
       active: channel.active,
       status: 'open',
@@ -44,8 +45,15 @@ class ChannelAction {
 
   async getPendingChannels() {
     const response = await this._grpc.sendCommand('pendingChannels');
+    const mapPendingAttributes = channel => ({
+      remotePubkey: channel.remote_node_pub,
+      capacity: parseSat(channel.capacity),
+      localBalance: parseSat(channel.local_balance),
+      remoteBalance: parseSat(channel.remote_balance),
+      channelPoint: channel.channel_point,
+    });
     const pocs = response.pending_open_channels.map(poc => ({
-      channel: poc.channel,
+      ...mapPendingAttributes(poc.channel),
       confirmationHeight: poc.confirmation_height,
       blocksTillOpen: poc.blocks_till_open,
       commitFee: poc.commit_fee,
@@ -54,12 +62,12 @@ class ChannelAction {
       status: 'pending-open',
     }));
     const pccs = response.pending_closing_channels.map(pcc => ({
-      channel: pcc.channel,
+      ...mapPendingAttributes(pcc.channel),
       closingTxid: pcc.closing_txid,
       status: 'pending-closing',
     }));
     const pfccs = response.pending_force_closing_channels.map(pfcc => ({
-      channel: pfcc.channel,
+      ...mapPendingAttributes(pfcc.channel),
       closingTxid: pfcc.closing_txid,
       limboBalance: pfcc.limbo_balance,
       maturityHeight: pfcc.maturity_height,
@@ -67,7 +75,7 @@ class ChannelAction {
       status: 'pending-force-closing',
     }));
     const wccs = response.waiting_close_channels.map(wcc => ({
-      channel: wcc.channel,
+      ...mapPendingAttributes(wcc.channel),
       limboBalance: wcc.limbo_balance,
       status: 'waiting-close',
     }));
@@ -170,7 +178,7 @@ class ChannelAction {
 
   _removeClosedChannel(channelPoint) {
     const pc = this._store.pendingChannels;
-    const channel = pc.find(c => c.channel.channel_point === channelPoint);
+    const channel = pc.find(c => c.channelPoint === channelPoint);
     if (channel) pc.splice(pc.indexOf(channel));
   }
 }

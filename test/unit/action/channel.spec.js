@@ -55,7 +55,15 @@ describe('Action Channels Unit Tests', () => {
   describe('getChannels()', () => {
     it('should list open channels', async () => {
       grpc.sendCommand.withArgs('listChannels').resolves({
-        channels: [{ chan_id: 42, active: true }],
+        channels: [
+          {
+            chan_id: 42,
+            active: true,
+            capacity: '100',
+            local_balance: '10',
+            remote_balance: '90',
+          },
+        ],
       });
       await channel.getChannels();
       expect(store.channels[0], 'to satisfy', {
@@ -89,15 +97,24 @@ describe('Action Channels Unit Tests', () => {
   });
 
   describe('getPendingChannels()', () => {
+    const pendingChannel = {
+      remote_node_pub: 'some-key',
+      capacity: '100',
+      local_balance: '10',
+      remote_balance: '90',
+      channel_point: 'some-point',
+    };
+
     it('should list pending channels', async () => {
       grpc.sendCommand.withArgs('pendingChannels').resolves({
-        pending_open_channels: [{}],
-        pending_closing_channels: [{}],
-        pending_force_closing_channels: [{}],
-        waiting_close_channels: [{}],
+        pending_open_channels: [{ channel: { ...pendingChannel } }],
+        pending_closing_channels: [{ channel: { ...pendingChannel } }],
+        pending_force_closing_channels: [{ channel: { ...pendingChannel } }],
+        waiting_close_channels: [{ channel: { ...pendingChannel } }],
       });
       await channel.getPendingChannels();
       expect(store.pendingChannels.length, 'to equal', 4);
+      expect(store.pendingChannels[0].remotePubkey, 'to equal', 'some-key');
     });
   });
 

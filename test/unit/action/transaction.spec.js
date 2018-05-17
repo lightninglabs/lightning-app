@@ -29,7 +29,8 @@ describe('Action Transactions Unit Tests', () => {
         transactions: [
           {
             tx_hash: 'some-hash',
-            amount: 42,
+            amount: '42',
+            total_fees: '10',
             num_confirmations: 6,
             time_stamp: 1517585154925,
           },
@@ -40,6 +41,7 @@ describe('Action Transactions Unit Tests', () => {
         id: 'some-hash',
         type: 'bitcoin',
         amount: 42,
+        fee: 10,
         status: 'confirmed',
         date: new Date('Fri, 02 Feb 2018 15:25:54.925 GMT'),
         hash: 'some-hash',
@@ -61,7 +63,7 @@ describe('Action Transactions Unit Tests', () => {
         invoices: [
           {
             creation_date: 1517585154925,
-            value: 42,
+            value: '42',
             settled: true,
             memo: 'some-memo',
             r_preimage: 'some-preimage',
@@ -95,7 +97,8 @@ describe('Action Transactions Unit Tests', () => {
         payments: [
           {
             creation_date: 1517585154925,
-            value: 42,
+            value: '42',
+            fee: '10',
             settled: true,
             payment_hash: 'some-hash',
           },
@@ -106,6 +109,7 @@ describe('Action Transactions Unit Tests', () => {
         id: 1517585154925,
         type: 'lightning',
         amount: 42,
+        fee: 10,
         status: 'complete',
         date: new Date('Fri, 02 Feb 2018 15:25:54.925 GMT'),
         hash: 'some-hash',

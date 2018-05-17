@@ -1,4 +1,4 @@
-import { checkHttpStatus } from '../helper';
+import { parseSat, checkHttpStatus } from '../helper';
 import { RETRY_DELAY } from '../config';
 
 class WalletAction {
@@ -49,10 +49,10 @@ class WalletAction {
 
   async getBalance() {
     try {
-      const res = await this._grpc.sendCommand('WalletBalance');
-      this._store.balanceSatoshis = Number(res.total_balance);
-      this._store.confirmedBalanceSatoshis = Number(res.confirmed_balance);
-      this._store.unconfirmedBalanceSatoshis = Number(res.unconfirmed_balance);
+      const r = await this._grpc.sendCommand('WalletBalance');
+      this._store.balanceSatoshis = parseSat(r.total_balance);
+      this._store.confirmedBalanceSatoshis = parseSat(r.confirmed_balance);
+      this._store.unconfirmedBalanceSatoshis = parseSat(r.unconfirmed_balance);
     } catch (err) {
       clearTimeout(this.t1);
       this.t1 = setTimeout(() => this.getBalance(), RETRY_DELAY);
@@ -62,7 +62,7 @@ class WalletAction {
   async getChannelBalance() {
     try {
       const response = await this._grpc.sendCommand('ChannelBalance');
-      this._store.channelBalanceSatoshis = Number(response.balance);
+      this._store.channelBalanceSatoshis = parseSat(response.balance);
     } catch (err) {
       clearTimeout(this.t2);
       this.t2 = setTimeout(() => this.getChannelBalance(), RETRY_DELAY);

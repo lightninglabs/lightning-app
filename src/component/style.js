@@ -16,6 +16,7 @@ export const color = {
   blueSig: '#002FFF',
   glas: 'rgba(255,255,255,0.13)',
   glasDark: 'rgba(255,255,255,0.08)',
+  glasDarker: 'rgba(255,255,255,0.04)',
   notifyDark: 'rgba(37,47,74,0.5)',
   notifyLight: 'rgba(255,255,255,0.5)',
 };
