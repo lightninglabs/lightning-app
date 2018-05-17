@@ -1,5 +1,5 @@
 import { PREFIX_URI } from '../config';
-import { toSatoshis, toAmount } from '../helper';
+import { toSatoshis, toAmount, parseSat } from '../helper';
 import * as log from './log';
 
 class PaymentAction {
@@ -44,7 +44,7 @@ class PaymentAction {
       const request = await this._grpc.sendCommand('decodePayReq', {
         pay_req: invoice.replace(PREFIX_URI, ''),
       });
-      payment.amount = toAmount(request.num_satoshis, settings.unit);
+      payment.amount = toAmount(parseSat(request.num_satoshis), settings.unit);
       payment.note = request.description;
       return true;
     } catch (err) {
