@@ -89,14 +89,14 @@ store.transactions = [...Array(5)].map((x, i) => ({
   status: i % 2 === 0 ? 'unconfirmed' : 'confirmed',
   date: new Date(),
 }));
-store.invoices = [...Array(1)].map(x => ({
+store.invoices = [...Array(1)].map(() => ({
   id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
   type: 'lightning',
   amount: 81345,
   status: 'in-progress',
   date: new Date(),
 }));
-store.payments = [...Array(10)].map(x => ({
+store.payments = [...Array(10)].map(() => ({
   id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
   type: 'lightning',
   amount: 92345,
@@ -104,7 +104,7 @@ store.payments = [...Array(10)].map(x => ({
   status: 'complete',
   date: new Date(),
 }));
-store.channels = [...Array(4)].map(x => ({
+store.channels = [...Array(4)].map(() => ({
   remotePubkey:
     '0343bc80b914aebf8e50eb0b8e445fc79b9e6e8e5e018fa8c5f85c7d429c117b38',
   id: '1337006139441152',
