@@ -3,7 +3,7 @@ import { UNITS } from './config';
 /**
  * Format a number value in locale format with either . or ,
  * @param  {string|number} val The number value
- * @return {string}        The formatted number value
+ * @return {string}            The formatted number value
  */
 export const formatNumber = val => {
   let num = Number(val);
@@ -46,11 +46,11 @@ export const toSatoshis = (amount, unit) => {
 
 /**
  * Parse satoshi values to an integer number
- * @param  {string|number} satoshis The value as a string or number
- * @return {number}                 The satoshi integer as a number
+ * @param  {string} satoshis The integer value as a string
+ * @return {number}          The satoshi integer as a number
  */
 export const parseSat = satoshis => {
-  if (typeof satoshis !== 'number' && typeof satoshis !== 'string') {
+  if (typeof satoshis !== 'string' || !/^[0-9]+$/.test(satoshis)) {
     throw new Error('Invalid input!');
   }
   satoshis = parseInt(satoshis, 10);
@@ -62,13 +62,12 @@ export const parseSat = satoshis => {
 
 /**
  * Convert satoshis to a BTC values than can set as a text input value
- * @param  {string|number} satoshis The value as a string or number
+ * @param  {number} satoshis The value as a string or number
  * @param  {string} unit            The BTC unit e.g. 'btc' or 'bit'
  * @return {string}                 The amount formatted as '0.0001'
  */
 export const toAmount = (satoshis, unit) => {
-  satoshis = parseSat(satoshis);
-  if (!UNITS[unit]) {
+  if (!Number.isInteger(satoshis) || !UNITS[unit]) {
     throw new Error('Invalid input!');
   }
   return (satoshis / UNITS[unit].denominator).toString();
@@ -76,12 +75,17 @@ export const toAmount = (satoshis, unit) => {
 
 /**
  * Calculate the current fiat currency rate for a satoshi input
- * @param  {string|number} satoshis The BTC amount in satoshis
- * @param  {Object} settings        Contains the current exchange rate
- * @return {string}                 The locale formatted rate
+ * @param  {number} satoshis The BTC amount in satoshis
+ * @param  {Object} settings Contains the current exchange rate
+ * @return {string}          The locale formatted rate
  */
 export const calculateExchangeRate = (satoshis, settings) => {
-  satoshis = parseSat(satoshis);
+  if (
+    !Number.isInteger(satoshis) ||
+    typeof settings.displayFiat !== 'boolean'
+  ) {
+    throw new Error('Invalid input!');
+  }
   const rate = settings.exchangeRate[settings.fiat];
   const balance = satoshis / rate / UNITS.btc.denominator;
   return formatFiat(balance, settings.fiat);
@@ -90,13 +94,16 @@ export const calculateExchangeRate = (satoshis, settings) => {
 /**
  * Convert a satoshi value either to fiat or the selected BTC unit.
  * The output should be used throughout the UI for value labels.
- * @param  {string|number} satoshis The BTC amount in satoshis
- * @param  {Object} settings        Contains the current exchange rate
- * @return {string}                 The corresponding value label
+ * @param  {number} satoshis The BTC amount in satoshis
+ * @param  {Object} settings Contains the current exchange rate
+ * @return {string}          The corresponding value label
  */
 export const toAmountLabel = (satoshis, settings) => {
-  if (typeof settings.displayFiat !== 'boolean') {
-    throw new Error('Invalid settings input!');
+  if (
+    !Number.isInteger(satoshis) ||
+    typeof settings.displayFiat !== 'boolean'
+  ) {
+    throw new Error('Invalid input!');
   }
   return settings.displayFiat
     ? calculateExchangeRate(satoshis, settings)

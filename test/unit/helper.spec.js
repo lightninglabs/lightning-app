@@ -137,23 +137,22 @@ describe('Helpers Unit Tests', () => {
       );
     });
 
+    it('should throw error for string decimal values', () => {
+      expect(helpers.parseSat.bind(null, '100000000.9'), 'to throw', /Invalid/);
+    });
+
+    it('should work for single char', () => {
+      const num = helpers.parseSat('0');
+      expect(num, 'to equal', 0);
+    });
+
+    it('should work for single char', () => {
+      const num = helpers.parseSat('1');
+      expect(num, 'to equal', 1);
+    });
+
     it('should work for string input', () => {
       const num = helpers.parseSat('100000000');
-      expect(num, 'to equal', 100000000);
-    });
-
-    it('should work for number input', () => {
-      const num = helpers.parseSat(100000000);
-      expect(num, 'to equal', 100000000);
-    });
-
-    it('should ingore number decimal values', () => {
-      const num = helpers.parseSat(100000000.9);
-      expect(num, 'to equal', 100000000);
-    });
-
-    it('should ingore string decimal values', () => {
-      const num = helpers.parseSat('100000000.9');
       expect(num, 'to equal', 100000000);
     });
   });
@@ -179,8 +178,8 @@ describe('Helpers Unit Tests', () => {
       );
     });
 
-    it('should throw error for empty input', () => {
-      expect(helpers.toAmount.bind(null, '', 'btc'), 'to throw', /Invalid/);
+    it('should throw error for string number', () => {
+      expect(helpers.toAmount.bind(null, '100', 'btc'), 'to throw', /Invalid/);
     });
 
     it('should throw error if unit is invalid', () => {
@@ -199,9 +198,12 @@ describe('Helpers Unit Tests', () => {
       );
     });
 
-    it('should work for string input', () => {
-      const num = helpers.toAmount('100000000', 'btc');
-      expect(num, 'to equal', '1');
+    it('should throw error for non-integer numbers', () => {
+      expect(
+        helpers.toAmount.bind(null, 100000000.9, 'btc'),
+        'to throw',
+        /Invalid/
+      );
     });
 
     it('should work for number input', () => {
@@ -214,14 +216,14 @@ describe('Helpers Unit Tests', () => {
       expect(num, 'to equal', '1000');
     });
 
-    it('should ingore satoshi decimal values', () => {
-      const num = helpers.toAmount(100000000.9, 'btc');
-      expect(num, 'to equal', '1');
-    });
-
     it('should use period for decimals values', () => {
       const num = helpers.toAmount(10000000, 'btc');
       expect(num, 'to equal', '0.1');
+    });
+
+    it('should work for 0', () => {
+      const num = helpers.toAmount(0, 'btc');
+      expect(num, 'to equal', '0');
     });
   });
 
@@ -229,6 +231,7 @@ describe('Helpers Unit Tests', () => {
     const settings = {
       fiat: 'usd',
       exchangeRate: { usd: 0.00014503 },
+      displayFiat: true,
     };
 
     it('should throw error if satoshis is undefined', () => {
@@ -247,6 +250,22 @@ describe('Helpers Unit Tests', () => {
       );
     });
 
+    it('should throw error if satoshis is string', () => {
+      expect(
+        helpers.calculateExchangeRate.bind(null, '100000', settings),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error for non-integer numbers', () => {
+      expect(
+        helpers.calculateExchangeRate.bind(null, 100000000.9, settings),
+        'to throw',
+        /Invalid/
+      );
+    });
+
     it('should throw error if settings is undefined', () => {
       expect(
         helpers.calculateExchangeRate.bind(null, 100000, undefined),
@@ -259,17 +278,12 @@ describe('Helpers Unit Tests', () => {
       expect(
         helpers.calculateExchangeRate.bind(null, 100000, {}),
         'to throw',
-        /Cannot read property/
+        /Invalid/
       );
     });
 
     it('should work for a number value', () => {
       const rate = helpers.calculateExchangeRate(100000, settings);
-      expect(rate, 'to match', /6{1}[,.]9{1}0{1}/);
-    });
-
-    it('should work for a string value', () => {
-      const rate = helpers.calculateExchangeRate('100000', settings);
       expect(rate, 'to match', /6{1}[,.]9{1}0{1}/);
     });
   });
@@ -319,10 +333,10 @@ describe('Helpers Unit Tests', () => {
       );
     });
 
-    it('should throw error if satoshis is empty for amount', () => {
+    it('should throw error if satoshis is string value', () => {
       settings.displayFiat = false;
       expect(
-        helpers.toAmountLabel.bind(null, '', settings),
+        helpers.toAmountLabel.bind(null, '100000', settings),
         'to throw',
         /Invalid/
       );
@@ -340,7 +354,7 @@ describe('Helpers Unit Tests', () => {
       expect(
         helpers.toAmountLabel.bind(null, 100000, {}),
         'to throw',
-        /Invalid settings/
+        /Invalid/
       );
     });
 
@@ -349,20 +363,9 @@ describe('Helpers Unit Tests', () => {
       expect(lbl, 'to match', /6{1}[,.]9{1}0{1}/);
     });
 
-    it('should convert string value to fiat', () => {
-      const lbl = helpers.toAmountLabel('100000', settings);
-      expect(lbl, 'to match', /6{1}[,.]9{1}0{1}/);
-    });
-
     it('should format a number value', () => {
       settings.displayFiat = false;
       const lbl = helpers.toAmountLabel(100000, settings);
-      expect(lbl, 'to match', /0{1}[,.]0{2}1{1}/);
-    });
-
-    it('should format a string value', () => {
-      settings.displayFiat = false;
-      const lbl = helpers.toAmountLabel('100000', settings);
       expect(lbl, 'to match', /0{1}[,.]0{2}1{1}/);
     });
   });
