@@ -11,6 +11,7 @@ import PayBitcoinDone from './pay-bitcoin-done';
 import Invoice from './invoice';
 import InvoiceQR from './invoice-qr';
 import Deposit from './deposit';
+import Channel from './channel';
 import Transaction from './transaction';
 import { nav, wallet, payment, invoice } from '../action';
 import store from '../store';
@@ -56,6 +57,7 @@ class MainView extends Component {
         {route === 'FundWallet' && (
           <Deposit store={store} invoice={invoice} nav={nav} />
         )}
+        {route === 'Channels' && <Channel store={store} nav={nav} />}
         {route === 'Transactions' && <Transaction store={store} nav={nav} />}
       </Container>
     );
