@@ -45,14 +45,14 @@ describe('Action Payments Unit Tests', () => {
   });
 
   describe('setAddress()', () => {
-    it('should clear payment attributes', () => {
+    it('should set attribute', () => {
       payment.setAddress({ address: 'some-address' });
       expect(store.payment.address, 'to equal', 'some-address');
     });
   });
 
   describe('setAmount()', () => {
-    it('should clear payment attributes', () => {
+    it('should set attribute', () => {
       payment.setAmount({ amount: 'some-amount' });
       expect(store.payment.amount, 'to equal', 'some-amount');
     });

@@ -42,6 +42,10 @@ export class Store {
       },
       peers: null,
       channels: null,
+      channel: {
+        pubkeyAtHost: '',
+        amount: '',
+      },
       pendingChannels: null,
       paymentRequest: null,
       seedMnemonic: null,

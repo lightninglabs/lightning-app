@@ -3,10 +3,25 @@ import { parseSat } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
-  constructor(store, grpc, notification) {
+  constructor(store, grpc, nav, notification) {
     this._store = store;
     this._grpc = grpc;
+    this._nav = nav;
     this._notification = notification;
+  }
+
+  init() {
+    this._store.channel.pubkeyAtHost = '';
+    this._store.channel.amount = '';
+    this._nav.goChannelCreate();
+  }
+
+  setAmount({ amount }) {
+    this._store.channel.amount = amount;
+  }
+
+  setPubkeyAtHost({ pubkeyAtHost }) {
+    this._store.channel.pubkeyAtHost = pubkeyAtHost;
   }
 
   async pollChannels() {
@@ -107,14 +122,19 @@ class ChannelAction {
     }));
   }
 
-  async connectAndOpen({ pubkeyAtHost, amount }) {
+  async connectAndOpen() {
     try {
+      const pubkeyAtHost = this._store.channel.pubkeyAtHost;
+      if (!pubkeyAtHost.includes('@')) {
+        return this._notification.display({ msg: 'Please enter pubkey@host' });
+      }
       const pubkey = pubkeyAtHost.split('@')[0];
       const host = pubkeyAtHost.split('@')[1];
       await this.connectToPeer({ host, pubkey });
-      await this.openChannel({ pubkey, amount });
+      this._nav.goChannels();
+      await this.openChannel({ pubkey, amount: this._store.channel.amount });
     } catch (err) {
-      this._notification.display({ msg: 'Opening channel failed!', err });
+      this._notification.display({ msg: 'Creating channel failed!', err });
     }
   }
 
@@ -134,13 +154,16 @@ class ChannelAction {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
     });
-    await new Promise((resolve, reject) => {
+    await new Promise(resolve => {
       stream.on('data', () => {
         this.getPendingChannels();
         this.getChannels();
       });
       stream.on('end', resolve);
-      stream.on('error', reject);
+      stream.on('error', err => {
+        this._notification.display({ msg: 'Opening channel failed!', err });
+        resolve();
+      });
       stream.on('status', status => log.info(`Opening channel: ${status}`));
     });
   }
