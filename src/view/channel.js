@@ -15,7 +15,7 @@ import { color, font } from '../component/style';
 // Channel View
 //
 
-const ChannelView = ({ store, nav }) => {
+const ChannelView = ({ store, nav, channel }) => {
   const {
     computedChannels: channels,
     channelBalanceOpenLabel,
@@ -26,7 +26,7 @@ const ChannelView = ({ store, nav }) => {
   return (
     <Background color={color.blackDark}>
       <ChannelHeader
-        goChannelCreate={() => nav.goChannelCreate()}
+        goChannelCreate={() => channel.init()}
         goHome={() => nav.goHome()}
       />
       <ChannelSummary
@@ -51,6 +51,7 @@ const ChannelView = ({ store, nav }) => {
 ChannelView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
+  channel: PropTypes.object.isRequired,
 };
 
 //

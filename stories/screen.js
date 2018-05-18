@@ -9,9 +9,11 @@ import NotificationAction from '../src/action/notification';
 import WalletAction from '../src/action/wallet';
 import InvoiceAction from '../src/action/invoice';
 import PaymentAction from '../src/action/payment';
+import ChannelAction from '../src/action/channel';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import Channel from '../src/view/channel';
+import ChannelCreate from '../src/view/channel-create';
 import Home from '../src/view/home';
 import Deposit from '../src/view/deposit';
 import Invoice from '../src/view/invoice';
@@ -34,6 +36,8 @@ const payment = new PaymentAction(store, grpc, wallet, nav, notify);
 sinon.stub(payment, 'checkType');
 sinon.stub(payment, 'payBitcoin');
 sinon.stub(payment, 'payLightning');
+const channel = new ChannelAction(store, grpc, nav, notify);
+sinon.stub(channel, 'connectAndOpen');
 
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
@@ -47,7 +51,10 @@ storiesOf('Screens', module)
     />
   ))
   .add('Transactions', () => <Transaction store={store} nav={nav} />)
-  .add('Channels', () => <Channel store={store} nav={nav} />)
+  .add('Channels', () => <Channel store={store} channel={channel} nav={nav} />)
+  .add('Channel Create', () => (
+    <ChannelCreate store={store} channel={channel} nav={nav} />
+  ))
   .add('Deposit', () => <Deposit store={store} invoice={invoice} nav={nav} />)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)
   .add('Pay Lightning Confirm', () => (
