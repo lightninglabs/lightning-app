@@ -53,7 +53,7 @@ export const toSatoshis = (amount, unit) => {
   if (
     typeof amount !== 'string' ||
     !/^[0-9]*[.]?[0-9]*$/.test(amount) ||
-    !unit
+    !UNITS[unit]
   ) {
     throw new Error('Missing args!');
   }
@@ -63,8 +63,8 @@ export const toSatoshis = (amount, unit) => {
 /**
  * Convert satoshis to a BTC values than can set as a text input value
  * @param  {number} satoshis The value as a string or number
- * @param  {string} unit            The BTC unit e.g. 'btc' or 'bit'
- * @return {string}                 The amount formatted as '0.0001'
+ * @param  {string} unit     The BTC unit e.g. 'btc' or 'bit'
+ * @return {string}          The amount formatted as '0.0001'
  */
 export const toAmount = (satoshis, unit) => {
   if (!Number.isInteger(satoshis) || !UNITS[unit]) {
