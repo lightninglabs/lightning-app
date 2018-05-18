@@ -84,16 +84,6 @@ class WalletAction {
     }
   }
 
-  async getIPAddress() {
-    try {
-      const uri = 'https://api.ipify.org?format=json';
-      const response = checkHttpStatus(await fetch(uri));
-      this._store.ipAddress = (await response.json()).ip;
-    } catch (err) {
-      this._notification.display({ msg: 'Getting IP address failed', err });
-    }
-  }
-
   async getExchangeRate() {
     try {
       const fiat = this._store.settings.fiat;

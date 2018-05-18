@@ -124,27 +124,6 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
-  describe('getIPAddress()', () => {
-    it('should return IP correctly', async () => {
-      nock('https://api.ipify.org')
-        .get('/')
-        .query({ format: 'json' })
-        .reply(200, { ip: '0.0.0.0' });
-      await wallet.getIPAddress();
-      expect(store.ipAddress, 'to be', '0.0.0.0');
-    });
-
-    it('should display notification on error', async () => {
-      nock('https://api.ipify.org')
-        .get('/')
-        .query({ format: 'json' })
-        .reply(500, 'Boom!');
-      await wallet.getIPAddress();
-      expect(store.ipAddress, 'to be', null);
-      expect(notification.display, 'was called once');
-    });
-  });
-
   describe('getExchangeRate()', () => {
     it('should get exchange rate', async () => {
       nock('https://blockchain.info')
