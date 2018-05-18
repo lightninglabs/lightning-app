@@ -43,6 +43,7 @@ const HomeView = ({ store, wallet, payment, invoice, nav }) => {
       <HomeHeader
         goChannels={() => nav.goChannels()}
         goSettings={() => nav.goSettings()}
+        showChannelAlert={store.showChannelAlert}
       />
       <QrCodeSeparator goFundWallet={() => nav.goFundWallet()} />
       <MainContent style={styles.content}>
@@ -182,12 +183,12 @@ const headerStyles = StyleSheet.create({
   },
 });
 
-const HomeHeader = ({ goChannels, goSettings }) => (
+const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
   <Header>
     <View style={headerStyles.btnWrapperLeft}>
       <SmallButton
         border
-        alert={color.pinkSig}
+        alert={showChannelAlert ? color.pinkSig : null}
         text="Channels"
         onPress={goChannels}
       />
@@ -204,6 +205,7 @@ const HomeHeader = ({ goChannels, goSettings }) => (
 HomeHeader.propTypes = {
   goChannels: PropTypes.func.isRequired,
   goSettings: PropTypes.func.isRequired,
+  showChannelAlert: PropTypes.bool.isRequired,
 };
 
 //

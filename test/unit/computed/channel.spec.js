@@ -61,6 +61,7 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalanceOpenLabel, 'to equal', '0');
       expect(store.channelBalancePendingLabel, 'to equal', '0');
       expect(store.channelBalanceClosingLabel, 'to equal', '0');
+      expect(store.showChannelAlert, 'to equal', true);
     });
 
     it('should aggregate open and pending channels', () => {
@@ -74,6 +75,7 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalanceOpenLabel, 'to match', /0[,.]0199/);
       expect(store.channelBalancePendingLabel, 'to match', /0[,.]006/);
       expect(store.channelBalanceClosingLabel, 'to match', /0[,.]005/);
+      expect(store.showChannelAlert, 'to equal', false);
     });
 
     it('should channel values in usd', () => {

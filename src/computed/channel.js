@@ -43,6 +43,7 @@ const ComputedChannel = store => {
         .reduce((a, b) => a + b, 0);
       return toAmountLabel(sum, settings);
     }),
+    showChannelAlert: computed(() => (store.channels || []).length === 0),
   });
 };
 
