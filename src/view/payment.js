@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PaymentView = ({ nav, payment }) => (
+const PaymentView = ({ store, nav, payment }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={color.purple}>
       <Button disabled onPress={() => {}} />
@@ -43,6 +43,7 @@ const PaymentView = ({ nav, payment }) => (
         <FormStretcher>
           <InputField
             placeholder="Payment Request / Bitcoin Address"
+            value={store.payment.address}
             onChangeText={address => payment.setAddress({ address })}
           />
           <FormSubText style={styles.subText}>
@@ -57,6 +58,7 @@ const PaymentView = ({ nav, payment }) => (
 );
 
 PaymentView.propTypes = {
+  store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
 };
