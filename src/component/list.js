@@ -53,6 +53,7 @@ export class List extends Component {
         dataSource={this.state.dataSource}
         renderHeader={this.props.renderHeader}
         renderRow={this.props.renderItem}
+        enableEmptySections={true}
       />
     );
   }
