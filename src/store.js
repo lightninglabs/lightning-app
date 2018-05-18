@@ -30,8 +30,8 @@ export class Store {
       invoice: {
         amount: '',
         note: '',
-        encoded: null,
-        uri: null,
+        encoded: '',
+        uri: '',
       },
       payments: null,
       payment: {
