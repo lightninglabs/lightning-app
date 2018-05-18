@@ -13,6 +13,8 @@ class InvoiceAction {
   init() {
     this._store.invoice.amount = '';
     this._store.invoice.note = '';
+    this._store.invoice.encoded = '';
+    this._store.invoice.uri = '';
     this._nav.goInvoice();
   }
 

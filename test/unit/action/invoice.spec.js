@@ -26,9 +26,13 @@ describe('Action Invoice Unit Tests', () => {
     it('should clear attributes and navigate to invoice view', () => {
       store.invoice.amount = 'foo';
       store.invoice.note = 'bar';
+      store.invoice.encoded = 'baz';
+      store.invoice.uri = 'blub';
       invoice.init();
       expect(store.invoice.amount, 'to equal', '');
       expect(store.invoice.note, 'to equal', '');
+      expect(store.invoice.encoded, 'to equal', '');
+      expect(store.invoice.uri, 'to equal', '');
       expect(nav.goInvoice, 'was called once');
     });
   });
