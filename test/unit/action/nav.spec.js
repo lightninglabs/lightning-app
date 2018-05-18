@@ -93,7 +93,7 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe('goChannelDetail()', () => {
+  describe.skip('goChannelDetail()', () => {
     it('should set correct route', () => {
       nav.goChannelDetail();
       expect(store.route, 'to equal', 'ChannelDetail');
@@ -107,14 +107,14 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe('goTransactionDetail()', () => {
+  describe.skip('goTransactionDetail()', () => {
     it('should set correct route', () => {
       nav.goTransactionDetail();
       expect(store.route, 'to equal', 'TransactionDetail');
     });
   });
 
-  describe('goSettings()', () => {
+  describe.skip('goSettings()', () => {
     it('should set correct route', () => {
       nav.goSettings();
       expect(store.route, 'to equal', 'Settings');

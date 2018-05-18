@@ -51,7 +51,7 @@ class NavAction {
   }
 
   goChannelDetail() {
-    this._store.route = 'ChannelDetail';
+    // this._store.route = 'ChannelDetail';
   }
 
   goChannelCreate() {
@@ -63,11 +63,11 @@ class NavAction {
   }
 
   goTransactionDetail() {
-    this._store.route = 'TransactionDetail';
+    // this._store.route = 'TransactionDetail';
   }
 
   goSettings() {
-    this._store.route = 'Settings';
+    // this._store.route = 'Settings';
   }
 
   goCreateChannel() {
