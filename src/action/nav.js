@@ -55,6 +55,10 @@ class NavAction {
     this._store.route = 'ChannelDetail';
   }
 
+  goChannelDelete() {
+    this._store.route = 'ChannelDelete';
+  }
+
   goChannelCreate() {
     this._store.route = 'ChannelCreate';
   }

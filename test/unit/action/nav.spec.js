@@ -100,6 +100,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goChannelDelete()', () => {
+    it('should set correct route', () => {
+      nav.goChannelDelete();
+      expect(store.route, 'to equal', 'ChannelDelete');
+    });
+  });
+
   describe('goTransactions()', () => {
     it('should set correct route', () => {
       nav.goTransactions();
