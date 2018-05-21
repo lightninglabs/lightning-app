@@ -93,3 +93,40 @@ NamedField.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: ViewPropTypes.style,
 };
+
+//
+// Detail Field
+//
+
+const detailStyles = StyleSheet.create({
+  content: {
+    alignSelf: 'stretch',
+    marginTop: 12,
+    borderBottomColor: color.greyLight,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  name: {
+    fontFamily: 'OpenSans Bold',
+    fontSize: font.sizeXS,
+    lineHeight: font.lineHeightXS,
+    color: color.blackDark,
+  },
+  text: {
+    fontSize: font.sizeXS,
+    lineHeight: font.lineHeightXS + 2 * 3,
+    color: color.blackDark,
+  },
+});
+
+export const DetailField = ({ name, children, style }) => (
+  <View style={[detailStyles.content, style]}>
+    <Text style={detailStyles.name}>{name}</Text>
+    <Text style={detailStyles.text}>{children}</Text>
+  </View>
+);
+
+DetailField.propTypes = {
+  name: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  style: ViewPropTypes.style,
+};
