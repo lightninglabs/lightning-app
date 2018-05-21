@@ -13,6 +13,7 @@ import ChannelAction from '../src/action/channel';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import Channel from '../src/view/channel';
+import ChannelDetail from '../src/view/channel-detail';
 import ChannelCreate from '../src/view/channel-create';
 import Home from '../src/view/home';
 import Deposit from '../src/view/deposit';
@@ -52,6 +53,7 @@ storiesOf('Screens', module)
   ))
   .add('Transactions', () => <Transaction store={store} nav={nav} />)
   .add('Channels', () => <Channel store={store} channel={channel} nav={nav} />)
+  .add('Channel Details', () => <ChannelDetail store={store} nav={nav} />)
   .add('Channel Create', () => (
     <ChannelCreate store={store} channel={channel} nav={nav} />
   ))
@@ -131,3 +133,4 @@ store.pendingChannels = [...Array(6)].map((x, i) => ({
     '3511ae8a52c97d957eaf65f828504e68d0991f0276adff94c6ba91c7f6cd4275',
   status: i % 2 === 0 ? 'pending-closing' : 'pending-open',
 }));
+store.selectedChannel = store.computedChannels && store.computedChannels[0];
