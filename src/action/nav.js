@@ -50,8 +50,9 @@ class NavAction {
     this._store.route = 'Channels';
   }
 
-  goChannelDetail() {
-    // this._store.route = 'ChannelDetail';
+  goChannelDetail(selectedChannel) {
+    this._store.selectedChannel = selectedChannel;
+    this._store.route = 'ChannelDetail';
   }
 
   goChannelCreate() {

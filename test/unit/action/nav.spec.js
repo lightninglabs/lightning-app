@@ -93,7 +93,7 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe.skip('goChannelDetail()', () => {
+  describe('goChannelDetail()', () => {
     it('should set correct route', () => {
       nav.goChannelDetail();
       expect(store.route, 'to equal', 'ChannelDetail');
