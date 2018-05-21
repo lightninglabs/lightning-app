@@ -14,6 +14,7 @@ import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import Channel from '../src/view/channel';
 import ChannelDetail from '../src/view/channel-detail';
+import ChannelDelete from '../src/view/channel-delete';
 import ChannelCreate from '../src/view/channel-create';
 import Home from '../src/view/home';
 import Deposit from '../src/view/deposit';
@@ -39,6 +40,7 @@ sinon.stub(payment, 'payBitcoin');
 sinon.stub(payment, 'payLightning');
 const channel = new ChannelAction(store, grpc, nav, notify);
 sinon.stub(channel, 'connectAndOpen');
+sinon.stub(channel, 'closeSelectedChannel');
 
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
@@ -54,6 +56,9 @@ storiesOf('Screens', module)
   .add('Transactions', () => <Transaction store={store} nav={nav} />)
   .add('Channels', () => <Channel store={store} channel={channel} nav={nav} />)
   .add('Channel Details', () => <ChannelDetail store={store} nav={nav} />)
+  .add('Channel Delete', () => (
+    <ChannelDelete store={store} channel={channel} nav={nav} />
+  ))
   .add('Channel Create', () => (
     <ChannelCreate store={store} channel={channel} nav={nav} />
   ))

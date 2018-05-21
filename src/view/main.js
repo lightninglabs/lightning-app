@@ -13,6 +13,7 @@ import InvoiceQR from './invoice-qr';
 import Deposit from './deposit';
 import Channel from './channel';
 import ChannelDetail from './channel-detail';
+import ChannelDelete from './channel-delete';
 import ChannelCreate from './channel-create';
 import Transaction from './transaction';
 import { nav, wallet, payment, invoice, channel } from '../action';
@@ -64,6 +65,9 @@ class MainView extends Component {
         )}
         {route === 'ChannelDetail' && (
           <ChannelDetail store={store} channel={channel} nav={nav} />
+        )}
+        {route === 'ChannelDelete' && (
+          <ChannelDelete store={store} channel={channel} nav={nav} />
         )}
         {route === 'ChannelCreate' && (
           <ChannelCreate store={store} channel={channel} nav={nav} />
