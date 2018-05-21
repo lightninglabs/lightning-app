@@ -168,6 +168,19 @@ class ChannelAction {
     });
   }
 
+  async closeSelectedChannel() {
+    try {
+      const channel = this._store.selectedChannel;
+      this._nav.goChannels();
+      await this.closeChannel({
+        channelPoint: channel.channelPoint,
+        force: !channel.status.includes('open'), // force close already closing
+      });
+    } catch (err) {
+      this._notification.display({ msg: 'Closing channel failed!', err });
+    }
+  }
+
   async closeChannel({ channelPoint, force = false }) {
     const stream = this._grpc.sendStreamCommand('closeChannel', {
       channel_point: this._parseChannelPoint(channelPoint),

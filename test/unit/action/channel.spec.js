@@ -272,6 +272,41 @@ describe('Action Channels Unit Tests', () => {
     });
   });
 
+  describe('closeSelectedChannel()', () => {
+    beforeEach(() => {
+      store.selectedChannel = {
+        channelPoint: 'some-channel-point',
+        status: 'open',
+      };
+      sandbox.stub(channel, 'closeChannel');
+    });
+
+    it('should close open channel and navigate to channels view', async () => {
+      await channel.closeSelectedChannel();
+      expect(nav.goChannels, 'was called once');
+      expect(channel.closeChannel, 'was called with', {
+        channelPoint: 'some-channel-point',
+        force: false,
+      });
+    });
+
+    it('should force close pending-closing channel', async () => {
+      store.selectedChannel.status = 'pending-closing';
+      await channel.closeSelectedChannel();
+      expect(channel.closeChannel, 'was called with', {
+        channelPoint: 'some-channel-point',
+        force: true,
+      });
+    });
+
+    it('should display notification in case of error event', async () => {
+      channel.closeChannel.rejects(new Error('Boom!'));
+      await channel.closeSelectedChannel();
+      expect(nav.goChannels, 'was called once');
+      expect(notification.display, 'was called once');
+    });
+  });
+
   describe('closeChannel()', () => {
     let onStub;
     let channelPoint;
