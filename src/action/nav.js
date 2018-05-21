@@ -68,7 +68,7 @@ class NavAction {
   }
 
   goTransactionDetail() {
-    // this._store.route = 'TransactionDetail';
+    this._store.route = 'TransactionDetail';
   }
 
   goSettings() {

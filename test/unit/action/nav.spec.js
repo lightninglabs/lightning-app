@@ -114,7 +114,7 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe.skip('goTransactionDetail()', () => {
+  describe('goTransactionDetail()', () => {
     it('should set correct route', () => {
       nav.goTransactionDetail();
       expect(store.route, 'to equal', 'TransactionDetail');
