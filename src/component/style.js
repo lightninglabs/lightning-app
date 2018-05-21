@@ -6,6 +6,7 @@ export const color = {
   greyListHeader: '#848A99',
   greyPlaceholder: 'rgba(74,74,74,0.5)',
   greyBorder: '#6B6969',
+  greyLight: '#D7D4D4',
   purple: '#57038D',
   orange: '#F66B1C',
   blackDark: '#252F4A',
