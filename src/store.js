@@ -42,6 +42,7 @@ export class Store {
       },
       peers: null,
       channels: null,
+      selectedChannel: null,
       channel: {
         pubkeyAtHost: '',
         amount: '',
