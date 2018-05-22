@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ChannelDeleteView = ({ store, nav, channel }) => (
+const ChannelDeleteView = ({ nav, channel }) => (
   <Background color={color.blackDark}>
     <MainContent>
       <FormStretcher>
@@ -48,7 +48,6 @@ const ChannelDeleteView = ({ store, nav, channel }) => (
 );
 
 ChannelDeleteView.propTypes = {
-  store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
 };
