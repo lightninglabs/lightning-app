@@ -16,7 +16,7 @@ import ChannelDetail from './channel-detail';
 import ChannelDelete from './channel-delete';
 import ChannelCreate from './channel-create';
 import Transaction from './transaction';
-import { nav, wallet, payment, invoice, channel } from '../action';
+import { nav, wallet, payment, invoice, channel, transaction } from '../action';
 import store from '../store';
 
 class MainView extends Component {
@@ -72,7 +72,9 @@ class MainView extends Component {
         {route === 'ChannelCreate' && (
           <ChannelCreate store={store} channel={channel} nav={nav} />
         )}
-        {route === 'Transactions' && <Transaction store={store} nav={nav} />}
+        {route === 'Transactions' && (
+          <Transaction store={store} transaction={transaction} nav={nav} />
+        )}
       </Container>
     );
   }

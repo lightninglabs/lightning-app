@@ -10,6 +10,7 @@ import WalletAction from '../src/action/wallet';
 import InvoiceAction from '../src/action/invoice';
 import PaymentAction from '../src/action/payment';
 import ChannelAction from '../src/action/channel';
+import TransactionAction from '../src/action/transaction';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import Channel from '../src/view/channel';
@@ -41,6 +42,7 @@ sinon.stub(payment, 'payLightning');
 const channel = new ChannelAction(store, grpc, nav, notify);
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
+const transaction = new TransactionAction(store, grpc, nav);
 
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
@@ -53,7 +55,12 @@ storiesOf('Screens', module)
       nav={nav}
     />
   ))
-  .add('Transactions', () => <Transaction store={store} nav={nav} />)
+  .add('Transactions', () => (
+    <Transaction store={store} transaction={transaction} nav={nav} />
+  ))
+  .add('Transaction Details', () => (
+    <TransactionDetail store={store} nav={nav} />
+  ))
   .add('Channels', () => <Channel store={store} channel={channel} nav={nav} />)
   .add('Channel Details', () => <ChannelDetail store={store} nav={nav} />)
   .add('Channel Delete', () => (

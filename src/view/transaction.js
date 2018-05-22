@@ -15,7 +15,7 @@ import { color, font } from '../component/style';
 // Transaction View
 //
 
-const TransactionView = ({ store, nav }) => {
+const TransactionView = ({ store, nav, transaction }) => {
   const { computedTransactions: transactions } = store;
   return (
     <Background color={color.blackDark}>
@@ -29,7 +29,10 @@ const TransactionView = ({ store, nav }) => {
           data={transactions}
           renderHeader={() => <TransactionListHeader />}
           renderItem={item => (
-            <TransactionListItem tx={item} onSelect={nav.goTransactionDetail} />
+            <TransactionListItem
+              tx={item}
+              onSelect={() => transaction.select({ item })}
+            />
           )}
         />
       </ListContent>
@@ -40,6 +43,7 @@ const TransactionView = ({ store, nav }) => {
 TransactionView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
+  transaction: PropTypes.object.isRequired,
 };
 
 //
@@ -85,7 +89,7 @@ const statusColor = tx => {
 };
 
 const TransactionListItem = ({ tx, onSelect }) => (
-  <ListItem onSelect={() => onSelect(tx)}>
+  <ListItem onSelect={onSelect}>
     <View style={iStyles.i}>
       {tx.type === 'lightning' ? (
         <Icon image="lightning-bolt" style={iStyles.bolt} />
