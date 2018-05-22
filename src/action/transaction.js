@@ -22,6 +22,7 @@ class TransactionAction {
         type: 'bitcoin',
         amount: parseSat(transaction.amount),
         fee: parseSat(transaction.total_fees),
+        confirmations: parseInt(transaction.num_confirmations, 10),
         status: transaction.num_confirmations < 1 ? 'unconfirmed' : 'confirmed',
         date: new Date(parseInt(transaction.time_stamp, 10)),
         hash: transaction.tx_hash,
