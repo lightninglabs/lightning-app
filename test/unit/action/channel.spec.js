@@ -57,6 +57,15 @@ describe('Action Channels Unit Tests', () => {
     });
   });
 
+  describe('select()', () => {
+    it('should set selectedChannel', () => {
+      const item = 'some-channel';
+      channel.select({ item });
+      expect(store.selectedChannel, 'to equal', 'some-channel');
+      expect(nav.goChannelDetail, 'was called once');
+    });
+  });
+
   describe('pollChannels()', () => {
     beforeEach(() => {
       sandbox.stub(channel, 'getChannels');

@@ -24,6 +24,11 @@ class ChannelAction {
     this._store.channel.pubkeyAtHost = pubkeyAtHost;
   }
 
+  select({ item }) {
+    this._store.selectedChannel = item;
+    this._nav.goChannelDetail();
+  }
+
   async pollChannels() {
     clearTimeout(this.tpollChannels);
     try {
