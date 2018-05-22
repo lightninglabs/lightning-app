@@ -23,6 +23,7 @@ describe('Computed Transactions Unit Tests', () => {
           type: 'bitcoin',
           amount: 923456,
           fee: 8250,
+          confirmations: 0,
           status: 'unconfirmed',
           date: new Date(),
         },
@@ -62,12 +63,16 @@ describe('Computed Transactions Unit Tests', () => {
       ComputedTransaction(store);
       expect(store.computedTransactions.length, 'to equal', 3);
       const tx = store.computedTransactions.find(t => t.id === '0');
+      expect(tx.typeLabel, 'to equal', 'Bitcoin');
       expect(tx.statusLabel, 'to equal', 'Unconfirmed');
       expect(tx.dateLabel, 'to be ok');
+      expect(tx.dateTimeLabel, 'to be ok');
       expect(tx.amountLabel, 'to match', /0[,.]00923456/);
       expect(tx.feeLabel, 'to match', /0[,.]0000825/);
+      expect(tx.confirmationsLabel, 'to equal', '0');
       const inv = store.computedTransactions.find(t => t.id === '2');
       expect(inv.feeLabel, 'to equal', '-');
+      expect(inv.confirmationsLabel, 'to be', undefined);
     });
 
     it('should transaction values in usd', () => {

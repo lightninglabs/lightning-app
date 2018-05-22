@@ -12,12 +12,17 @@ const ComputedTransaction = store => {
       const all = [].concat(t, p, i);
       all.sort((a, b) => b.date.getTime() - a.date.getTime());
       all.forEach(t => {
+        t.typeLabel = toCaps(t.type);
         t.statusLabel = toCaps(t.status);
         t.dateLabel = t.date.toLocaleDateString();
+        t.dateTimeLabel = t.date.toLocaleString();
         t.amountLabel = toAmountLabel(t.amount, settings);
         t.feeLabel = Number.isInteger(t.fee)
           ? toAmountLabel(t.fee, settings)
           : '-';
+        if (Number.isInteger(t.confirmations)) {
+          t.confirmationsLabel = t.confirmations.toString();
+        }
       });
       return all;
     }),
