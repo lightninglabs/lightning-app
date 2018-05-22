@@ -13,6 +13,7 @@ import ChannelAction from '../src/action/channel';
 import TransactionAction from '../src/action/transaction';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
+import TransactionDetail from '../src/view/transaction-detail';
 import Channel from '../src/view/channel';
 import ChannelDetail from '../src/view/channel-detail';
 import ChannelDelete from '../src/view/channel-delete';
@@ -104,6 +105,7 @@ store.transactions = [...Array(5)].map((x, i) => ({
   type: 'bitcoin',
   amount: 923456,
   fee: 8250,
+  confirmations: i % 2 === 0 ? 0 : 6,
   status: i % 2 === 0 ? 'unconfirmed' : 'confirmed',
   date: new Date(),
 }));
@@ -122,6 +124,9 @@ store.payments = [...Array(10)].map(() => ({
   status: 'complete',
   date: new Date(),
 }));
+store.selectedTransaction = (store.computedTransactions || []).find(
+  tx => tx.type === 'bitcoin'
+);
 store.channels = [...Array(4)].map(() => ({
   remotePubkey:
     '0343bc80b914aebf8e50eb0b8e445fc79b9e6e8e5e018fa8c5f85c7d429c117b38',
