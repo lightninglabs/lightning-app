@@ -8,7 +8,7 @@ import * as logger from '../../../src/action/log';
 describe('Action Channels Unit Tests', () => {
   const host = 'localhost:10011';
   const pubkey = 'pub_12345';
-  const amount = 100000;
+  const amount = '0.001';
 
   let sandbox;
   let store;
@@ -204,7 +204,7 @@ describe('Action Channels Unit Tests', () => {
       });
       expect(channel.openChannel, 'was called with', {
         pubkey,
-        amount,
+        amount: 100000,
       });
     });
 
@@ -265,7 +265,7 @@ describe('Action Channels Unit Tests', () => {
       grpc.sendStreamCommand.withArgs('openChannel').returns({
         on: onStub,
       });
-      await channel.openChannel({ pubkey, amount });
+      await channel.openChannel({ pubkey, amount: 100000 });
       expect(channel.getPendingChannels, 'was called once');
       expect(channel.getChannels, 'was called once');
     });
@@ -276,7 +276,7 @@ describe('Action Channels Unit Tests', () => {
       grpc.sendStreamCommand.withArgs('openChannel').returns({
         on: onStub,
       });
-      await channel.openChannel({ pubkey, amount });
+      await channel.openChannel({ pubkey, amount: 100000 });
       expect(notification.display, 'was called once');
     });
   });

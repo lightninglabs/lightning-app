@@ -1,5 +1,5 @@
 import { RETRY_DELAY } from '../config';
-import { parseSat } from '../helper';
+import { toSatoshis, parseSat } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
@@ -129,15 +129,16 @@ class ChannelAction {
 
   async connectAndOpen() {
     try {
-      const pubkeyAtHost = this._store.channel.pubkeyAtHost;
-      if (!pubkeyAtHost.includes('@')) {
+      const { channel, settings } = this._store;
+      const amount = toSatoshis(channel.amount, settings.unit);
+      if (!channel.pubkeyAtHost.includes('@')) {
         return this._notification.display({ msg: 'Please enter pubkey@host' });
       }
-      const pubkey = pubkeyAtHost.split('@')[0];
-      const host = pubkeyAtHost.split('@')[1];
+      const pubkey = channel.pubkeyAtHost.split('@')[0];
+      const host = channel.pubkeyAtHost.split('@')[1];
       await this.connectToPeer({ host, pubkey });
       this._nav.goChannels();
-      await this.openChannel({ pubkey, amount: this._store.channel.amount });
+      await this.openChannel({ pubkey, amount });
     } catch (err) {
       this._notification.display({ msg: 'Creating channel failed!', err });
     }
@@ -175,11 +176,11 @@ class ChannelAction {
 
   async closeSelectedChannel() {
     try {
-      const channel = this._store.selectedChannel;
+      const { selectedChannel } = this._store;
       this._nav.goChannels();
       await this.closeChannel({
-        channelPoint: channel.channelPoint,
-        force: !channel.status.includes('open'), // force close already closing
+        channelPoint: selectedChannel.channelPoint,
+        force: !selectedChannel.status.includes('open'), // force close already closing
       });
     } catch (err) {
       this._notification.display({ msg: 'Closing channel failed!', err });

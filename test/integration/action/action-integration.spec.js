@@ -293,14 +293,15 @@ describe('Action Integration Tests', function() {
       expect(store1.channels, 'to be empty');
     });
 
-    it('should connect to peer', async () => {
-      await channels1.connectToPeer({ host: HOST_2, pubkey: store2.pubKey });
-      expect(store1.peers[0].pubKey, 'to be', store2.pubKey);
+    it('should connect to peer and open channel', () => {
+      channels1.setAmount({ amount: '0.01' });
+      channels1.setPubkeyAtHost({ pubkeyAtHost: `${store2.pubKey}@${HOST_2}` });
+      channels1.connectAndOpen();
     });
 
-    it('should list pending open channel after opening', async () => {
-      channels1.openChannel({ pubkey: store2.pubKey, amount: 1000000 });
+    it('should list pending open channel', async () => {
       while (!store1.pendingChannels.length) await nap(100);
+      expect(store1.peers[0].pubKey, 'to be', store2.pubKey);
       expect(store1.computedChannels.length, 'to be', 1);
       expect(store1.computedChannels[0].status, 'to be', 'pending-open');
     });
@@ -368,9 +369,8 @@ describe('Action Integration Tests', function() {
     });
 
     it('should list pending-closing channel after closing', async () => {
-      channels1.closeChannel({
-        channelPoint: store1.computedChannels[0].channelPoint,
-      });
+      channels1.select({ item: store1.computedChannels[0] });
+      channels1.closeSelectedChannel();
       while (!store1.pendingChannels.length) await nap(100);
       while (store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
