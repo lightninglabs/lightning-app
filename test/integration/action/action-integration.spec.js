@@ -143,7 +143,7 @@ describe('Action Integration Tests', function() {
     info1 = new InfoAction(store1, grpc1);
     wallet1 = new WalletAction(store1, grpc1, notify1);
     channels1 = new ChannelAction(store1, grpc1, nav1, notify1);
-    transactions1 = new TransactionAction(store1, grpc1);
+    transactions1 = new TransactionAction(store1, grpc1, nav1);
     payments1 = new PaymentAction(store1, grpc1, wallet1, nav1, notify1);
     invoice1 = new InvoiceAction(store1, grpc1, nav1, notify1);
 
@@ -153,7 +153,7 @@ describe('Action Integration Tests', function() {
     info2 = new InfoAction(store2, grpc2);
     wallet2 = new WalletAction(store2, grpc2, notify2);
     channels2 = new ChannelAction(store2, grpc2, nav2, notify2);
-    transactions2 = new TransactionAction(store2, grpc2);
+    transactions2 = new TransactionAction(store2, grpc2, nav2);
     payments2 = new PaymentAction(store2, grpc2, wallet2, nav2, notify2);
     invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
   });
