@@ -40,7 +40,10 @@ const ChannelView = ({ store, nav, channel }) => {
           data={channels}
           renderHeader={() => <ChannelListHeader />}
           renderItem={item => (
-            <ChannelListItem ch={item} onSelect={nav.goChannelDetail} />
+            <ChannelListItem
+              ch={item}
+              onSelect={() => channel.select({ item })}
+            />
           )}
         />
       </ListContent>
@@ -198,7 +201,7 @@ const statusColor = ch =>
       : color.pinkSig;
 
 const ChannelListItem = ({ ch, onSelect }) => (
-  <ListItem onSelect={() => onSelect(ch)}>
+  <ListItem onSelect={onSelect}>
     <View style={[iStyles.m, iStyles.group]}>
       <Alert color={statusColor(ch)} style={iStyles.alert} />
       <Text style={iStyles.txt}>{ch.statusLabel}</Text>
