@@ -26,6 +26,7 @@ export class Store {
       displayCopied: false,
       ipAddress: null,
       transactions: null,
+      selectedTransaction: null,
       invoices: null,
       invoice: {
         amount: '',

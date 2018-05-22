@@ -3,9 +3,15 @@ import { parseSat, toHash } from '../helper';
 import { RETRY_DELAY } from '../config';
 
 class TransactionAction {
-  constructor(store, grpc) {
+  constructor(store, grpc, nav) {
     this._store = store;
     this._grpc = grpc;
+    this._nav = nav;
+  }
+
+  select({ item }) {
+    this._store.selectedTransaction = item;
+    this._nav.goTransactionDetail();
   }
 
   async getTransactions() {

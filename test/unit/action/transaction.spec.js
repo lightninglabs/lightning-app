@@ -1,12 +1,14 @@
 import { observable, useStrict } from 'mobx';
 import GrpcAction from '../../../src/action/grpc';
 import TransactionAction from '../../../src/action/transaction';
+import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
 
 describe('Action Transactions Unit Tests', () => {
   let store;
   let sandbox;
   let grpc;
+  let nav;
   let transaction;
 
   beforeEach(() => {
@@ -16,11 +18,21 @@ describe('Action Transactions Unit Tests', () => {
     store = observable({ lndReady: false });
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
-    transaction = new TransactionAction(store, grpc);
+    nav = sinon.createStubInstance(NavAction);
+    transaction = new TransactionAction(store, grpc, nav);
   });
 
   afterEach(() => {
     sandbox.restore();
+  });
+
+  describe('select()', () => {
+    it('should set selectedTransaction', () => {
+      const item = 'some-transaction';
+      transaction.select({ item });
+      expect(store.selectedTransaction, 'to equal', 'some-transaction');
+      expect(nav.goTransactionDetail, 'was called once');
+    });
   });
 
   describe('getTransactions()', () => {
