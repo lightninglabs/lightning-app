@@ -44,7 +44,7 @@ describe('Action Transactions Unit Tests', () => {
             amount: '42',
             total_fees: '10',
             num_confirmations: '6',
-            time_stamp: 1517585154925,
+            time_stamp: '1527070395',
           },
         ],
       });
@@ -56,7 +56,7 @@ describe('Action Transactions Unit Tests', () => {
         fee: 10,
         confirmations: 6,
         status: 'confirmed',
-        date: new Date('Fri, 02 Feb 2018 15:25:54.925 GMT'),
+        date: new Date('2018-05-23T10:13:15.000Z'),
         hash: 'some-hash',
       });
     });
@@ -75,7 +75,7 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.withArgs('listInvoices').resolves({
         invoices: [
           {
-            creation_date: 1517585154925,
+            creation_date: '1527070395',
             value: '42',
             settled: true,
             memo: 'some-memo',
@@ -89,7 +89,7 @@ describe('Action Transactions Unit Tests', () => {
         type: 'lightning',
         amount: 42,
         status: 'complete',
-        date: new Date('Fri, 02 Feb 2018 15:25:54.925 GMT'),
+        date: new Date('2018-05-23T10:13:15.000Z'),
         memo: 'some-memo',
         hash: 'b2899efa9ade8a66a0',
       });
@@ -109,7 +109,7 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.withArgs('listPayments').resolves({
         payments: [
           {
-            creation_date: 1517585154925,
+            creation_date: '1527070395',
             value: '42',
             fee: '10',
             settled: true,
@@ -124,7 +124,7 @@ describe('Action Transactions Unit Tests', () => {
         amount: 42,
         fee: 10,
         status: 'complete',
-        date: new Date('Fri, 02 Feb 2018 15:25:54.925 GMT'),
+        date: new Date('2018-05-23T10:13:15.000Z'),
         hash: 'some-hash',
       });
     });

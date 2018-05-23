@@ -1,6 +1,6 @@
 import * as log from './log';
-import { parseSat, toHash } from '../helper';
 import { RETRY_DELAY } from '../config';
+import { parseDate, parseSat, toHex, toHash } from '../helper';
 
 class TransactionAction {
   constructor(store, grpc, nav) {
@@ -24,7 +24,7 @@ class TransactionAction {
         fee: parseSat(transaction.total_fees),
         confirmations: parseInt(transaction.num_confirmations, 10),
         status: transaction.num_confirmations < 1 ? 'unconfirmed' : 'confirmed',
-        date: new Date(parseInt(transaction.time_stamp, 10)),
+        date: parseDate(transaction.time_stamp),
         hash: transaction.tx_hash,
       }));
     } catch (err) {
@@ -44,7 +44,7 @@ class TransactionAction {
         type: 'lightning',
         amount: parseSat(invoice.value),
         status: invoice.settled ? 'complete' : 'in-progress',
-        date: new Date(parseInt(invoice.creation_date, 10)),
+        date: parseDate(invoice.creation_date),
         memo: invoice.memo,
         hash: toHash(invoice.r_preimage),
       }));
@@ -63,7 +63,7 @@ class TransactionAction {
         amount: parseSat(payment.value),
         fee: parseSat(payment.fee),
         status: 'complete',
-        date: new Date(parseInt(payment.creation_date, 10)),
+        date: parseDate(payment.creation_date),
         hash: payment.payment_hash,
       }));
     } catch (err) {
