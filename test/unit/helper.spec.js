@@ -62,6 +62,51 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
+  describe('parseDate()', () => {
+    it('should throw error if timeStamp is undefined', () => {
+      expect(helpers.parseDate.bind(null, undefined), 'to throw', /Invalid/);
+    });
+
+    it('should throw error if timeStamp is null', () => {
+      expect(helpers.parseDate.bind(null, null), 'to throw', /Invalid/);
+    });
+
+    it('should throw error for empty timeStamp', () => {
+      expect(helpers.parseDate.bind(null, ''), 'to throw', /Invalid/);
+    });
+
+    it('should throw error if timeStamp is not a number', () => {
+      expect(
+        helpers.parseDate.bind(null, 'not-a-number'),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error for string decimal values', () => {
+      expect(helpers.parseDate.bind(null, '100000.9'), 'to throw', /Invalid/);
+    });
+
+    it('should throw error for negative string input', () => {
+      expect(helpers.parseDate.bind(null, '-1000'), 'to throw', /Invalid/);
+    });
+
+    it('should work for single char', () => {
+      const date = helpers.parseDate('0');
+      expect(date.toISOString(), 'to equal', '1970-01-01T00:00:00.000Z');
+    });
+
+    it('should work for single char', () => {
+      const date = helpers.parseDate('1');
+      expect(date.toISOString(), 'to equal', '1970-01-01T00:00:01.000Z');
+    });
+
+    it('should work for string input', () => {
+      const date = helpers.parseDate('1527070395');
+      expect(date.toISOString(), 'to equal', '2018-05-23T10:13:15.000Z');
+    });
+  });
+
   describe('parseSat()', () => {
     it('should throw error if satoshis is undefined', () => {
       expect(helpers.parseSat.bind(null, undefined), 'to throw', /Invalid/);
@@ -102,7 +147,7 @@ describe('Helpers Unit Tests', () => {
       expect(num, 'to equal', 100000000);
     });
 
-    it('should work for string input', () => {
+    it('should work for negative string input', () => {
       const num = helpers.parseSat('-100000000');
       expect(num, 'to equal', -100000000);
     });
