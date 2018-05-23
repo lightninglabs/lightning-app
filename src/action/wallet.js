@@ -1,4 +1,4 @@
-import { parseSat, checkHttpStatus } from '../helper';
+import { toBuffer, parseSat, checkHttpStatus } from '../helper';
 import { RETRY_DELAY } from '../config';
 
 class WalletAction {
