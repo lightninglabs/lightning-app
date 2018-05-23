@@ -86,12 +86,10 @@ describe('Action Transactions Unit Tests', () => {
       });
     });
 
-    it('should retry on failure', async () => {
-      grpc.sendCommand.onFirstCall().rejects();
+    it('should log error on failure', async () => {
+      grpc.sendCommand.rejects();
       await transaction.getTransactions();
-      grpc.sendCommand.resolves({});
-      await nap(30);
-      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(logger.error, 'was called once');
     });
   });
 
@@ -121,12 +119,10 @@ describe('Action Transactions Unit Tests', () => {
       });
     });
 
-    it('should retry on failure', async () => {
-      grpc.sendCommand.onFirstCall().rejects();
+    it('should log error on failure', async () => {
+      grpc.sendCommand.rejects();
       await transaction.getInvoices();
-      grpc.sendCommand.resolves({});
-      await nap(30);
-      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(logger.error, 'was called once');
     });
   });
 
@@ -155,12 +151,10 @@ describe('Action Transactions Unit Tests', () => {
       });
     });
 
-    it('should retry on failure', async () => {
-      grpc.sendCommand.onFirstCall().rejects();
+    it('should log error on failure', async () => {
+      grpc.sendCommand.rejects();
       await transaction.getPayments();
-      grpc.sendCommand.resolves({});
-      await nap(30);
-      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(logger.error, 'was called once');
     });
   });
 

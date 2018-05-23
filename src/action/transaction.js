@@ -1,5 +1,4 @@
 import * as log from './log';
-import { RETRY_DELAY } from '../config';
 import { parseDate, parseSat, toHex, toHash } from '../helper';
 
 class TransactionAction {
@@ -28,11 +27,7 @@ class TransactionAction {
         hash: transaction.tx_hash,
       }));
     } catch (err) {
-      clearTimeout(this.tgetTransactions);
-      this.tgetTransactions = setTimeout(
-        () => this.getTransactions(),
-        RETRY_DELAY
-      );
+      log.error('Listing transactions failed', err);
     }
   }
 
@@ -49,8 +44,7 @@ class TransactionAction {
         hash: toHash(invoice.r_preimage),
       }));
     } catch (err) {
-      clearTimeout(this.tgetInvoices);
-      this.tgetInvoices = setTimeout(() => this.getInvoices(), RETRY_DELAY);
+      log.error('Listing invoices failed', err);
     }
   }
 
@@ -67,8 +61,7 @@ class TransactionAction {
         hash: payment.payment_hash,
       }));
     } catch (err) {
-      clearTimeout(this.tgetPayments);
-      this.tgetPayments = setTimeout(() => this.getPayments(), RETRY_DELAY);
+      log.error('Listing payments failed', err);
     }
   }
 
