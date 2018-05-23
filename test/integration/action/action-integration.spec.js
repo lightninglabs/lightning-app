@@ -39,7 +39,6 @@ const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const MACAROONS_ENABLED = false;
 const NAP_TIME = process.env.NAP_TIME || 5000;
-const seedPassphrase = 'hodlgang';
 const walletPassword = 'bitconeeeeeect';
 
 const wireUpIpc = (s1, s2) =>
@@ -174,22 +173,20 @@ describe('Action Integration Tests', function() {
     });
 
     it('should generate new seed', async () => {
-      await wallet1.generateSeed({ seedPassphrase });
+      await wallet1.generateSeed();
       expect(store1.seedMnemonic, 'to be ok');
-      await wallet2.generateSeed({ seedPassphrase });
+      await wallet2.generateSeed();
       expect(store2.seedMnemonic, 'to be ok');
     });
 
     it('should import existing seed', async () => {
       await wallet1.initWallet({
         walletPassword,
-        seedPassphrase,
         seedMnemonic: store1.seedMnemonic.toJSON(),
       });
       expect(store1.walletUnlocked, 'to be true');
       await wallet2.initWallet({
         walletPassword,
-        seedPassphrase,
         seedMnemonic: store2.seedMnemonic.toJSON(),
       });
       expect(store2.walletUnlocked, 'to be true');

@@ -24,13 +24,13 @@ describe('Action Wallet Unit Tests', () => {
       grpc.sendUnlockerCommand.withArgs('GenSeed').resolves({
         cipher_seed_mnemonic: 'foo bar',
       });
-      await wallet.generateSeed({ seedPassphrase: 'baz' });
+      await wallet.generateSeed();
       expect(store.seedMnemonic, 'to equal', 'foo bar');
     });
 
     it('should display error notification on failure', async () => {
       grpc.sendUnlockerCommand.withArgs('GenSeed').rejects(new Error('Boom!'));
-      await wallet.generateSeed({ seedPassphrase: 'baz' });
+      await wallet.generateSeed();
       expect(store.seedMnemonic, 'to be', null);
       expect(notification.display, 'was called once');
     });
@@ -39,15 +39,19 @@ describe('Action Wallet Unit Tests', () => {
   describe('initWallet()', () => {
     it('should init wallet', async () => {
       grpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
-      await wallet.initWallet({ seedPassphrase: 'baz' });
+      await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
       expect(store.walletUnlocked, 'to be', true);
+      expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
+        wallet_password: 'baz',
+        cipher_seed_mnemonic: ['foo'],
+      });
     });
 
     it('should display error notification on failure', async () => {
       grpc.sendUnlockerCommand
         .withArgs('InitWallet')
         .rejects(new Error('Boom!'));
-      await wallet.initWallet({ seedPassphrase: 'baz' });
+      await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
       expect(notification.display, 'was called once');
     });
   });
@@ -57,13 +61,16 @@ describe('Action Wallet Unit Tests', () => {
       grpc.sendUnlockerCommand.withArgs('UnlockWallet').resolves();
       await wallet.unlockWallet({ walletPassword: 'baz' });
       expect(store.walletUnlocked, 'to be', true);
+      expect(grpc.sendUnlockerCommand, 'was called with', 'UnlockWallet', {
+        wallet_password: 'baz',
+      });
     });
 
     it('should display error notification on failure', async () => {
       grpc.sendUnlockerCommand
         .withArgs('UnlockWallet')
         .rejects(new Error('Boom!'));
-      await wallet.unlockWallet({ seedPassphrase: 'baz' });
+      await wallet.unlockWallet({ walletPassword: 'baz' });
       expect(notification.display, 'was called once');
     });
   });
