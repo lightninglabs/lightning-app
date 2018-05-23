@@ -33,7 +33,7 @@ export const formatFiat = (val, currency) => {
  * @return {number}          The satoshi integer as a number
  */
 export const parseSat = satoshis => {
-  if (typeof satoshis !== 'string' || !/^[0-9]+$/.test(satoshis)) {
+  if (typeof satoshis !== 'string' || !/^-*[0-9]+$/.test(satoshis)) {
     throw new Error('Invalid input!');
   }
   satoshis = parseInt(satoshis, 10);

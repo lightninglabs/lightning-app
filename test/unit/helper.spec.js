@@ -101,6 +101,11 @@ describe('Helpers Unit Tests', () => {
       const num = helpers.parseSat('100000000');
       expect(num, 'to equal', 100000000);
     });
+
+    it('should work for string input', () => {
+      const num = helpers.parseSat('-100000000');
+      expect(num, 'to equal', -100000000);
+    });
   });
 
   describe('toSatoshis()', () => {
