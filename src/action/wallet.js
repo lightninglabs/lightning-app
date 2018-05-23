@@ -1,5 +1,5 @@
 import { toBuffer, parseSat, checkHttpStatus } from '../helper';
-import { RETRY_DELAY } from '../config';
+import * as log from './log';
 
 class WalletAction {
   constructor(store, grpc, notification) {
@@ -51,8 +51,7 @@ class WalletAction {
       this._store.confirmedBalanceSatoshis = parseSat(r.confirmed_balance);
       this._store.unconfirmedBalanceSatoshis = parseSat(r.unconfirmed_balance);
     } catch (err) {
-      clearTimeout(this.t1);
-      this.t1 = setTimeout(() => this.getBalance(), RETRY_DELAY);
+      log.error(`Getting wallet balance failed: ${err.message}`);
     }
   }
 
@@ -61,8 +60,7 @@ class WalletAction {
       const response = await this._grpc.sendCommand('ChannelBalance');
       this._store.channelBalanceSatoshis = parseSat(response.balance);
     } catch (err) {
-      clearTimeout(this.t2);
-      this.t2 = setTimeout(() => this.getChannelBalance(), RETRY_DELAY);
+      log.error(`Getting channel balance failed: ${err.message}`);
     }
   }
 
@@ -76,8 +74,7 @@ class WalletAction {
       });
       this._store.walletAddress = address;
     } catch (err) {
-      clearTimeout(this.t2342);
-      this.t2342 = setTimeout(() => this.getNewAddress(), RETRY_DELAY);
+      log.error(`Getting new wallet address failed: ${err.message}`);
     }
   }
 
@@ -88,7 +85,7 @@ class WalletAction {
       const response = checkHttpStatus(await fetch(uri));
       this._store.settings.exchangeRate[fiat] = Number(await response.text());
     } catch (err) {
-      this._notification.display({ msg: 'Getting exchange rate failed', err });
+      log.error(`Getting exchange rate failed: ${err.message}`);
     }
   }
 }

@@ -2,21 +2,29 @@ import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import WalletAction from '../../../src/action/wallet';
 import NotificationAction from '../../../src/action/notification';
+import * as logger from '../../../src/action/log';
 import nock from 'nock';
 import 'isomorphic-fetch';
 
 describe('Action Wallet Unit Tests', () => {
   let store;
+  let sandbox;
   let grpc;
   let wallet;
   let notification;
 
   beforeEach(() => {
+    sandbox = sinon.createSandbox({});
+    sandbox.stub(logger);
     store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     wallet = new WalletAction(store, grpc, notification);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   describe('generateSeed()', () => {
@@ -88,12 +96,10 @@ describe('Action Wallet Unit Tests', () => {
       expect(store.unconfirmedBalanceSatoshis, 'to equal', 3);
     });
 
-    it('should retry on failure', async () => {
-      grpc.sendCommand.onFirstCall().rejects();
+    it('should log error on failure', async () => {
+      grpc.sendCommand.rejects();
       await wallet.getBalance();
-      grpc.sendCommand.resolves({});
-      await nap(30);
-      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(logger.error, 'was called once');
     });
   });
 
@@ -104,12 +110,10 @@ describe('Action Wallet Unit Tests', () => {
       expect(store.channelBalanceSatoshis, 'to equal', 1);
     });
 
-    it('should retry on failure', async () => {
-      grpc.sendCommand.onFirstCall().rejects();
+    it('should log error on failure', async () => {
+      grpc.sendCommand.rejects();
       await wallet.getChannelBalance();
-      grpc.sendCommand.resolves({});
-      await nap(30);
-      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(logger.error, 'was called once');
     });
   });
 
@@ -122,12 +126,10 @@ describe('Action Wallet Unit Tests', () => {
       expect(store.walletAddress, 'to equal', 'some-address');
     });
 
-    it('should retry on failure', async () => {
-      grpc.sendCommand.onFirstCall().rejects();
+    it('should log error on failure', async () => {
+      grpc.sendCommand.rejects();
       await wallet.getNewAddress();
-      grpc.sendCommand.resolves({});
-      await nap(30);
-      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(logger.error, 'was called once');
     });
   });
 
@@ -148,7 +150,7 @@ describe('Action Wallet Unit Tests', () => {
         .reply(500, 'Boom!');
       await wallet.getExchangeRate();
       expect(store.settings.exchangeRate.usd, 'to be', null);
-      expect(notification.display, 'was called once');
+      expect(logger.error, 'was called once');
     });
   });
 });
