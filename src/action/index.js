@@ -41,13 +41,11 @@ observe(store, 'loaded', async () => {
 
 observe(store, 'unlockerReady', async () => {
   // TODO: wire up to UI
-  const seedPassphrase = 'hodlgang';
   const walletPassword = 'bitconeeeeeect';
   try {
-    await wallet.generateSeed({ seedPassphrase });
+    await wallet.generateSeed();
     await wallet.initWallet({
       walletPassword,
-      seedPassphrase,
       seedMnemonic: store.seedMnemonic.toJSON(),
     });
   } catch (err) {
