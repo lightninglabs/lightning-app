@@ -412,6 +412,28 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
+  describe('toBuffer()', () => {
+    it('should throw error for undefined', () => {
+      expect(helpers.toBuffer.bind(), 'to throw', /Invalid/);
+    });
+
+    it('should work for string input', () => {
+      const buf = helpers.toBuffer('foobar');
+      expect(buf.toString('utf8'), 'to equal', 'foobar');
+    });
+  });
+
+  describe('toHex()', () => {
+    it('should throw error for undefined', () => {
+      expect(helpers.toHex.bind(), 'to throw', /Invalid/);
+    });
+
+    it('should work for buffer input', () => {
+      const hex = helpers.toHex(Buffer.from('cdab', 'hex'));
+      expect(hex, 'to equal', 'cdab');
+    });
+  });
+
   describe('toHash()', () => {
     it('should throw error for undefined', () => {
       expect(helpers.toHash.bind(), 'to throw');

@@ -124,6 +124,30 @@ export const toCaps = (value = '', separator = ' ') => {
 };
 
 /**
+ * Convert a string to bytes
+ * @param  {string} str The input string in utf8
+ * @return {Buffer}     The output bytes
+ */
+export const toBuffer = str => {
+  if (typeof str !== 'string') {
+    throw new Error('Invalid input!');
+  }
+  return Buffer.from(str, 'utf8');
+};
+
+/**
+ * Convert bytes to a hex encoded string
+ * @param  {Buffer} buf The input as bytes
+ * @return {string}     The output as hex
+ */
+export const toHex = buf => {
+  if (!Buffer.isBuffer(buf)) {
+    throw new Error('Invalid input!');
+  }
+  return buf.toString('hex');
+};
+
+/**
  * Convert a base64 encoded string to hex
  * @param  {string} str The base64 encoded string
  * @return {string}     The hex encoded string
