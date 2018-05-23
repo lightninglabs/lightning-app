@@ -8,22 +8,19 @@ class WalletAction {
     this._notification = notification;
   }
 
-  async generateSeed({ seedPassphrase }) {
+  async generateSeed() {
     try {
-      const response = await this._grpc.sendUnlockerCommand('GenSeed', {
-        aezeed_passphrase: seedPassphrase,
-      });
+      const response = await this._grpc.sendUnlockerCommand('GenSeed');
       this._store.seedMnemonic = response.cipher_seed_mnemonic;
     } catch (err) {
       this._notification.display({ msg: 'Generating seed failed', err });
     }
   }
 
-  async initWallet({ walletPassword, seedPassphrase, seedMnemonic }) {
+  async initWallet({ walletPassword, seedMnemonic }) {
     try {
       await this._grpc.sendUnlockerCommand('InitWallet', {
         wallet_password: walletPassword,
-        aezeed_passphrase: seedPassphrase,
         cipher_seed_mnemonic: seedMnemonic,
       });
       this._store.walletUnlocked = true;
