@@ -42,7 +42,7 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
       expect(store.walletUnlocked, 'to be', true);
       expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
-        wallet_password: 'baz',
+        wallet_password: Buffer.from('baz', 'utf8'),
         cipher_seed_mnemonic: ['foo'],
       });
     });
@@ -62,7 +62,7 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.unlockWallet({ walletPassword: 'baz' });
       expect(store.walletUnlocked, 'to be', true);
       expect(grpc.sendUnlockerCommand, 'was called with', 'UnlockWallet', {
-        wallet_password: 'baz',
+        wallet_password: Buffer.from('baz', 'utf8'),
       });
     });
 

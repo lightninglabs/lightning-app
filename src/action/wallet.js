@@ -20,7 +20,7 @@ class WalletAction {
   async initWallet({ walletPassword, seedMnemonic }) {
     try {
       await this._grpc.sendUnlockerCommand('InitWallet', {
-        wallet_password: walletPassword,
+        wallet_password: toBuffer(walletPassword),
         cipher_seed_mnemonic: seedMnemonic,
       });
       this._store.walletUnlocked = true;
@@ -32,7 +32,7 @@ class WalletAction {
   async unlockWallet({ walletPassword }) {
     try {
       await this._grpc.sendUnlockerCommand('UnlockWallet', {
-        wallet_password: walletPassword,
+        wallet_password: toBuffer(walletPassword),
       });
       this._store.walletUnlocked = true;
     } catch (err) {
