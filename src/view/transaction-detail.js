@@ -25,6 +25,11 @@ const TransactionDetailView = ({ store, nav }) => (
         <DetailField name="Date">
           {store.selectedTransaction.dateTimeLabel}
         </DetailField>
+        {store.selectedTransaction.memo ? (
+          <DetailField name="Note">
+            {store.selectedTransaction.memo}
+          </DetailField>
+        ) : null}
         <DetailField name="Amount">
           {store.selectedTransaction.amountLabel} {store.unitLabel}
         </DetailField>
