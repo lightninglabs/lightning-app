@@ -75,6 +75,7 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.withArgs('listInvoices').resolves({
         invoices: [
           {
+            r_hash: Buffer.from('cdab', 'hex'),
             creation_date: '1527070395',
             value: '42',
             settled: true,
@@ -85,7 +86,7 @@ describe('Action Transactions Unit Tests', () => {
       });
       await transaction.getInvoices();
       expect(store.invoices[0], 'to equal', {
-        id: 1517585154925,
+        id: 'cdab',
         type: 'lightning',
         amount: 42,
         status: 'complete',
@@ -119,7 +120,7 @@ describe('Action Transactions Unit Tests', () => {
       });
       await transaction.getPayments();
       expect(store.payments[0], 'to equal', {
-        id: 1517585154925,
+        id: 'some-hash',
         type: 'lightning',
         amount: 42,
         fee: 10,
