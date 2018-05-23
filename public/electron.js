@@ -25,6 +25,7 @@ const LND_DATA_DIR = 'data/lnd_data';
 const LND_LOG_DIR = 'data/lnd_log';
 const BTCD_DATA_DIR = 'data/btcd_data';
 const BTCD_LOG_DIR = 'data/btcd_log';
+const BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
 const LND_PORT = 10009;
 const LND_PEER_PORT = 10019;
 
@@ -123,6 +124,7 @@ const startLnd = async () => {
       logger: Logger,
       btcdLogDir: BTCD_LOG_DIR,
       btcdDataDir: BTCD_DATA_DIR,
+      miningAddress: BTCD_MINING_ADDRESS,
     });
     lndProcess = await startLndProcess({
       isDev,
