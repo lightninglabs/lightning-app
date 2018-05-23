@@ -36,7 +36,32 @@ describe('Action Transactions Unit Tests', () => {
   });
 
   describe('getTransactions()', () => {
-    it('should set transaction response in store', async () => {
+    it('should set unconfirmed transaction in store', async () => {
+      grpc.sendCommand.withArgs('getTransactions').resolves({
+        transactions: [
+          {
+            tx_hash: 'some-hash',
+            amount: '42',
+            total_fees: '10',
+            num_confirmations: '5',
+            time_stamp: '1527070395',
+          },
+        ],
+      });
+      await transaction.getTransactions();
+      expect(store.transactions[0], 'to equal', {
+        id: 'some-hash',
+        type: 'bitcoin',
+        amount: 42,
+        fee: 10,
+        confirmations: 5,
+        status: 'unconfirmed',
+        date: new Date('2018-05-23T10:13:15.000Z'),
+        hash: 'some-hash',
+      });
+    });
+
+    it('should set confirmed transaction in store', async () => {
       grpc.sendCommand.withArgs('getTransactions').resolves({
         transactions: [
           {

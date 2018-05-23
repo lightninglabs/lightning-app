@@ -23,7 +23,7 @@ class TransactionAction {
         amount: parseSat(transaction.amount),
         fee: parseSat(transaction.total_fees),
         confirmations: parseInt(transaction.num_confirmations, 10),
-        status: transaction.num_confirmations < 1 ? 'unconfirmed' : 'confirmed',
+        status: transaction.num_confirmations < 6 ? 'unconfirmed' : 'confirmed',
         date: parseDate(transaction.time_stamp),
         hash: transaction.tx_hash,
       }));
