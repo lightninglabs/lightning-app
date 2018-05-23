@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app) [![Greenkeeper badge](https://badges.greenkeeper.io/lightninglabs/lightning-app.svg)](https://greenkeeper.io/)
 
+**N.B. The app is under development. Wallet data stored on disk is currently not encrypted proberly and the code has not yet been audited. But feel free to poke around and contribute. The best place to get started is the `ToDos (next release)` column in our [GitHub project board](https://github.com/lightninglabs/lightning-app/projects/1?fullscreen=true).**
+
 ### Developing Locally
 
 You'll need to build `lnd` and `btcd` locally using the [installation guide](http://dev.lightning.community/guides/installation/). Then start by pulling down the git repo:
