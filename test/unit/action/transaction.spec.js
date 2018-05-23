@@ -147,7 +147,7 @@ describe('Action Transactions Unit Tests', () => {
       expect(store.payments[0], 'to equal', {
         id: 'some-hash',
         type: 'lightning',
-        amount: 42,
+        amount: -42,
         fee: 10,
         status: 'complete',
         date: new Date('2018-05-23T10:13:15.000Z'),

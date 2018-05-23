@@ -60,7 +60,7 @@ class TransactionAction {
       this._store.payments = payments.map(payment => ({
         id: payment.payment_hash,
         type: 'lightning',
-        amount: parseSat(payment.value),
+        amount: -1 * parseSat(payment.value),
         fee: parseSat(payment.fee),
         status: 'complete',
         date: parseDate(payment.creation_date),
