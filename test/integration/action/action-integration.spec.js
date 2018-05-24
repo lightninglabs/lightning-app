@@ -252,7 +252,7 @@ describe('Action Integration Tests', function() {
       await mineAndSync({ blocks: 6 });
       while (!store2.transactions.length) await nap(100);
       const tx = store2.computedTransactions.find(t => t.type === 'bitcoin');
-      expect(tx.status, 'to be', 'confirmed');
+      expect(tx.confirmations, 'to be positive');
     });
 
     it('should get public key node2', async () => {
