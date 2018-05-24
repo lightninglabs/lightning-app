@@ -51,7 +51,7 @@ class WalletAction {
       this._store.confirmedBalanceSatoshis = parseSat(r.confirmed_balance);
       this._store.unconfirmedBalanceSatoshis = parseSat(r.unconfirmed_balance);
     } catch (err) {
-      log.error(`Getting wallet balance failed: ${err.message}`);
+      log.error('Getting wallet balance failed', err);
     }
   }
 
@@ -60,7 +60,7 @@ class WalletAction {
       const response = await this._grpc.sendCommand('ChannelBalance');
       this._store.channelBalanceSatoshis = parseSat(response.balance);
     } catch (err) {
-      log.error(`Getting channel balance failed: ${err.message}`);
+      log.error('Getting channel balance failed', err);
     }
   }
 
@@ -74,7 +74,7 @@ class WalletAction {
       });
       this._store.walletAddress = address;
     } catch (err) {
-      log.error(`Getting new wallet address failed: ${err.message}`);
+      log.error('Getting new wallet address failed', err);
     }
   }
 
@@ -85,7 +85,7 @@ class WalletAction {
       const response = checkHttpStatus(await fetch(uri));
       this._store.settings.exchangeRate[fiat] = Number(await response.text());
     } catch (err) {
-      log.error(`Getting exchange rate failed: ${err.message}`);
+      log.error('Getting exchange rate failed', err);
     }
   }
 }
