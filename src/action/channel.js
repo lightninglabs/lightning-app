@@ -1,4 +1,3 @@
-import { RETRY_DELAY } from '../config';
 import { toSatoshis, parseSat } from '../helper';
 import * as log from './log';
 
@@ -29,12 +28,6 @@ class ChannelAction {
     this._nav.goChannelDetail();
   }
 
-  async pollChannels() {
-    clearTimeout(this.tpollChannels);
-    await this.getChannels();
-    this.tpollChannels = setTimeout(() => this.pollChannels(), RETRY_DELAY);
-  }
-
   async getChannels() {
     try {
       const { channels } = await this._grpc.sendCommand('listChannels');
@@ -51,12 +44,6 @@ class ChannelAction {
     } catch (err) {
       log.error('Listing channels failed', err);
     }
-  }
-
-  async pollPendingChannels() {
-    clearTimeout(this.tpPending);
-    await this.getPendingChannels();
-    this.tpPending = setTimeout(() => this.pollPendingChannels(), RETRY_DELAY);
   }
 
   async getPendingChannels() {
@@ -100,12 +87,6 @@ class ChannelAction {
     } catch (err) {
       log.error('Listing pending channels failed', err);
     }
-  }
-
-  async pollPeers() {
-    clearTimeout(this.tgetPeers);
-    await this.getPeers();
-    this.tgetPeers = setTimeout(() => this.pollPeers(), RETRY_DELAY);
   }
 
   async getPeers() {
