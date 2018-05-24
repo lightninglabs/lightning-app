@@ -130,12 +130,11 @@ module.exports.init = async function({
     } else {
       stream = lnd[method](body);
     }
-    const send = event.sender.send;
-    const streamEvent = `lndStreamEvent_${method}`;
-    stream.on('data', data => send(streamEvent, { event: 'data', data }));
-    stream.on('end', () => send(streamEvent, { event: 'end' }));
-    stream.on('error', err => send(streamEvent, { event: 'error', err }));
-    stream.on('status', data => send(streamEvent, { event: 'status', data }));
+    const send = res => event.sender.send(`lndStreamEvent_${method}`, res);
+    stream.on('data', data => send({ event: 'data', data }));
+    stream.on('end', () => send({ event: 'end' }));
+    stream.on('error', err => send({ event: 'error', err }));
+    stream.on('status', data => send({ event: 'status', data }));
     streams[method] = stream;
   });
 
