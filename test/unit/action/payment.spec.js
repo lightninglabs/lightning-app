@@ -2,6 +2,7 @@ import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import WalletAction from '../../../src/action/wallet';
 import PaymentAction from '../../../src/action/payment';
+import TransactionAction from '../../../src/action/transaction';
 import NotificationAction from '../../../src/action/notification';
 import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
@@ -11,6 +12,7 @@ describe('Action Payments Unit Tests', () => {
   let sandbox;
   let grpc;
   let wallet;
+  let transaction;
   let payment;
   let nav;
   let notification;
@@ -24,7 +26,15 @@ describe('Action Payments Unit Tests', () => {
     wallet = sinon.createStubInstance(WalletAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    payment = new PaymentAction(store, grpc, wallet, nav, notification);
+    transaction = sinon.createStubInstance(TransactionAction);
+    payment = new PaymentAction(
+      store,
+      grpc,
+      wallet,
+      transaction,
+      nav,
+      notification
+    );
   });
 
   afterEach(() => {
