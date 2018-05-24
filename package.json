@@ -96,5 +96,11 @@
       "buildResources": "assets"
     },
     "publish": null
+  },
+  "greenkeeper": {
+    "ignore": [
+      "mobx",
+      "mobx-react"
+    ]
   }
 }
