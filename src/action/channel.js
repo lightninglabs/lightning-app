@@ -40,17 +40,21 @@ class ChannelAction {
   }
 
   async getChannels() {
-    const { channels } = await this._grpc.sendCommand('listChannels');
-    this._store.channels = channels.map(channel => ({
-      remotePubkey: channel.remote_pubkey,
-      id: channel.chan_id,
-      capacity: parseSat(channel.capacity),
-      localBalance: parseSat(channel.local_balance),
-      remoteBalance: parseSat(channel.remote_balance),
-      channelPoint: channel.channel_point,
-      active: channel.active,
-      status: 'open',
-    }));
+    try {
+      const { channels } = await this._grpc.sendCommand('listChannels');
+      this._store.channels = channels.map(channel => ({
+        remotePubkey: channel.remote_pubkey,
+        id: channel.chan_id,
+        capacity: parseSat(channel.capacity),
+        localBalance: parseSat(channel.local_balance),
+        remoteBalance: parseSat(channel.remote_balance),
+        channelPoint: channel.channel_point,
+        active: channel.active,
+        status: 'open',
+      }));
+    } catch (err) {
+      log.error('Listing channels failed', err);
+    }
   }
 
   async pollPendingChannels() {
@@ -64,42 +68,46 @@ class ChannelAction {
   }
 
   async getPendingChannels() {
-    const response = await this._grpc.sendCommand('pendingChannels');
-    const mapPendingAttributes = channel => ({
-      remotePubkey: channel.remote_node_pub,
-      capacity: parseSat(channel.capacity),
-      localBalance: parseSat(channel.local_balance),
-      remoteBalance: parseSat(channel.remote_balance),
-      channelPoint: channel.channel_point,
-    });
-    const pocs = response.pending_open_channels.map(poc => ({
-      ...mapPendingAttributes(poc.channel),
-      confirmationHeight: poc.confirmation_height,
-      blocksTillOpen: poc.blocks_till_open,
-      commitFee: poc.commit_fee,
-      commitWeight: poc.commit_weight,
-      feePerKw: poc.fee_per_kw,
-      status: 'pending-open',
-    }));
-    const pccs = response.pending_closing_channels.map(pcc => ({
-      ...mapPendingAttributes(pcc.channel),
-      closingTxid: pcc.closing_txid,
-      status: 'pending-closing',
-    }));
-    const pfccs = response.pending_force_closing_channels.map(pfcc => ({
-      ...mapPendingAttributes(pfcc.channel),
-      closingTxid: pfcc.closing_txid,
-      limboBalance: pfcc.limbo_balance,
-      maturityHeight: pfcc.maturity_height,
-      blocksTilMaturity: pfcc.blocks_til_maturity,
-      status: 'pending-force-closing',
-    }));
-    const wccs = response.waiting_close_channels.map(wcc => ({
-      ...mapPendingAttributes(wcc.channel),
-      limboBalance: wcc.limbo_balance,
-      status: 'waiting-close',
-    }));
-    this._store.pendingChannels = [].concat(pocs, pccs, pfccs, wccs);
+    try {
+      const response = await this._grpc.sendCommand('pendingChannels');
+      const mapPendingAttributes = channel => ({
+        remotePubkey: channel.remote_node_pub,
+        capacity: parseSat(channel.capacity),
+        localBalance: parseSat(channel.local_balance),
+        remoteBalance: parseSat(channel.remote_balance),
+        channelPoint: channel.channel_point,
+      });
+      const pocs = response.pending_open_channels.map(poc => ({
+        ...mapPendingAttributes(poc.channel),
+        confirmationHeight: poc.confirmation_height,
+        blocksTillOpen: poc.blocks_till_open,
+        commitFee: poc.commit_fee,
+        commitWeight: poc.commit_weight,
+        feePerKw: poc.fee_per_kw,
+        status: 'pending-open',
+      }));
+      const pccs = response.pending_closing_channels.map(pcc => ({
+        ...mapPendingAttributes(pcc.channel),
+        closingTxid: pcc.closing_txid,
+        status: 'pending-closing',
+      }));
+      const pfccs = response.pending_force_closing_channels.map(pfcc => ({
+        ...mapPendingAttributes(pfcc.channel),
+        closingTxid: pfcc.closing_txid,
+        limboBalance: pfcc.limbo_balance,
+        maturityHeight: pfcc.maturity_height,
+        blocksTilMaturity: pfcc.blocks_til_maturity,
+        status: 'pending-force-closing',
+      }));
+      const wccs = response.waiting_close_channels.map(wcc => ({
+        ...mapPendingAttributes(wcc.channel),
+        limboBalance: wcc.limbo_balance,
+        status: 'waiting-close',
+      }));
+      this._store.pendingChannels = [].concat(pocs, pccs, pfccs, wccs);
+    } catch (err) {
+      log.error('Listing pending channels failed', err);
+    }
   }
 
   async pollPeers() {
@@ -113,18 +121,22 @@ class ChannelAction {
   }
 
   async getPeers() {
-    const { peers } = await this._grpc.sendCommand('listPeers');
-    this._store.peers = peers.map(peer => ({
-      pubKey: peer.pub_key,
-      peerId: peer.peer_id,
-      address: peer.address,
-      bytesSent: peer.bytes_sent,
-      bytesRecv: peer.bytes_recv,
-      satSent: peer.sat_sent,
-      satRecv: peer.sat_recv,
-      inbound: peer.inbound,
-      pingTime: peer.ping_time,
-    }));
+    try {
+      const { peers } = await this._grpc.sendCommand('listPeers');
+      this._store.peers = peers.map(peer => ({
+        pubKey: peer.pub_key,
+        peerId: peer.peer_id,
+        address: peer.address,
+        bytesSent: peer.bytes_sent,
+        bytesRecv: peer.bytes_recv,
+        satSent: peer.sat_sent,
+        satRecv: peer.sat_recv,
+        inbound: peer.inbound,
+        pingTime: peer.ping_time,
+      }));
+    } catch (err) {
+      log.error('Listing peers failed', err);
+    }
   }
 
   async connectAndOpen() {
