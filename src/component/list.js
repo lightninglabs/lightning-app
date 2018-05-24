@@ -39,18 +39,19 @@ ListContent.propTypes = {
 export class List extends Component {
   constructor(props) {
     super(props);
-    const ds = new ListView.DataSource({
+    this.ds = new ListView.DataSource({
       rowHasChanged: (r1, r2) => r1 !== r2,
     });
-    this.state = {
-      dataSource: ds.cloneWithRows(props.data),
-    };
+  }
+
+  get dataSource() {
+    return this.ds.cloneWithRows(this.props.data);
   }
 
   render() {
     return (
       <ListView
-        dataSource={this.state.dataSource}
+        dataSource={this.dataSource}
         renderHeader={this.props.renderHeader}
         renderRow={this.props.renderItem}
         enableEmptySections={true}
