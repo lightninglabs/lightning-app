@@ -74,9 +74,9 @@ observe(store, 'lndReady', () => {
   // init info
   info.getInfo();
   // init channels
-  channel.pollChannels();
-  channel.pollPendingChannels();
-  channel.pollPeers();
+  channel.getChannels();
+  channel.getPendingChannels();
+  channel.getPeers();
   // init transactions
   transaction.getTransactions();
   transaction.subscribeTransactions();
