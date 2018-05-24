@@ -115,10 +115,10 @@ class ChannelAction {
       if (!channel.pubkeyAtHost.includes('@')) {
         return this._notification.display({ msg: 'Please enter pubkey@host' });
       }
+      this._nav.goChannels();
       const pubkey = channel.pubkeyAtHost.split('@')[0];
       const host = channel.pubkeyAtHost.split('@')[1];
       await this.connectToPeer({ host, pubkey });
-      this._nav.goChannels();
       await this.openChannel({ pubkey, amount });
     } catch (err) {
       this._notification.display({ msg: 'Creating channel failed!', err });
