@@ -250,12 +250,7 @@ describe('Action Integration Tests', function() {
 
     it('should list transaction as confirmed after mining 6 blocks', async () => {
       await mineAndSync({ blocks: 6 });
-      while (
-        !store2.transactions.length ||
-        store2.transactions[0].confirmations < 6
-      ) {
-        await nap(100);
-      }
+      while (!store2.transactions.length) await nap(100);
       const tx = store2.computedTransactions.find(t => t.type === 'bitcoin');
       expect(tx.status, 'to be', 'confirmed');
     });
