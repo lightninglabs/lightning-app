@@ -64,9 +64,9 @@
     "nock": "^9.1.6",
     "prettier": "^1.11.1",
     "prop-types": "^15.6.0",
-    "sinon": "^4.0.0",
+    "sinon": "^5.0.9",
     "unexpected": "^10.37.2",
-    "unexpected-sinon": "^10.8.2",
+    "unexpected-sinon": "^10.10.1",
     "wait-on": "^2.1.0"
   },
   "build": {
