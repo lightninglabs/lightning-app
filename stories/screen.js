@@ -34,9 +34,16 @@ const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
 const notify = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, notify);
-const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
-sinon.stub(invoice, 'generateUri');
 const transaction = new TransactionAction(store, grpc, nav);
+const invoice = new InvoiceAction(
+  store,
+  grpc,
+  transaction,
+  nav,
+  notify,
+  Clipboard
+);
+sinon.stub(invoice, 'generateUri');
 const payment = new PaymentAction(
   store,
   grpc,
