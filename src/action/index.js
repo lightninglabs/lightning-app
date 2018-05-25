@@ -36,14 +36,7 @@ export const invoice = new InvoiceAction(
   notify,
   Clipboard
 );
-export const payment = new PaymentAction(
-  store,
-  grpc,
-  wallet,
-  transaction,
-  nav,
-  notify
-);
+export const payment = new PaymentAction(store, grpc, transaction, nav, notify);
 
 //
 // Init actions

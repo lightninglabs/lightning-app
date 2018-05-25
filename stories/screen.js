@@ -44,14 +44,7 @@ const invoice = new InvoiceAction(
   Clipboard
 );
 sinon.stub(invoice, 'generateUri');
-const payment = new PaymentAction(
-  store,
-  grpc,
-  wallet,
-  transaction,
-  nav,
-  notify
-);
+const payment = new PaymentAction(store, grpc, transaction, nav, notify);
 sinon.stub(payment, 'checkType');
 sinon.stub(payment, 'payBitcoin');
 sinon.stub(payment, 'payLightning');

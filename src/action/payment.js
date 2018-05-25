@@ -3,10 +3,9 @@ import { toSatoshis, toAmount, parseSat } from '../helper';
 import * as log from './log';
 
 class PaymentAction {
-  constructor(store, grpc, wallet, transaction, nav, notification) {
+  constructor(store, grpc, transaction, nav, notification) {
     this._store = store;
     this._grpc = grpc;
-    this._wallet = wallet;
     this._transaction = transaction;
     this._nav = nav;
     this._notification = notification;
@@ -65,8 +64,7 @@ class PaymentAction {
     } catch (err) {
       this._notification.display({ msg: 'Sending transaction failed!', err });
     }
-    await this._wallet.getBalance();
-    await this._transaction.getTransactions();
+    this._transaction.update();
   }
 
   async payLightning() {
@@ -88,8 +86,7 @@ class PaymentAction {
     } catch (err) {
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }
-    await this._wallet.getChannelBalance();
-    await this._transaction.getPayments();
+    this._transaction.update();
   }
 }
 
