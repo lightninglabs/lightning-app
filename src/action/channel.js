@@ -1,4 +1,3 @@
-import { RETRY_DELAY } from '../config';
 import { toSatoshis, parseSat } from '../helper';
 import * as log from './log';
 
@@ -10,7 +9,11 @@ class ChannelAction {
     this._notification = notification;
   }
 
-  init() {
+  //
+  // Create channel actions
+  //
+
+  initCreate() {
     this._store.channel.pubkeyAtHost = '';
     this._store.channel.amount = '';
     this._nav.goChannelCreate();
@@ -24,107 +27,107 @@ class ChannelAction {
     this._store.channel.pubkeyAtHost = pubkeyAtHost;
   }
 
-  select({ item }) {
-    this._store.selectedChannel = item;
-    this._nav.goChannelDetail();
+  //
+  // Channel list actions
+  //
+
+  async init() {
+    this._nav.goChannels();
+    await this.update();
   }
 
-  async pollChannels() {
-    clearTimeout(this.tpollChannels);
-    try {
-      await this.getChannels();
-    } catch (err) {
-      log.error('Listing channels failed', err);
-    }
-    this.tpollChannels = setTimeout(() => this.pollChannels(), RETRY_DELAY);
+  async select({ item }) {
+    this._store.selectedChannel = item;
+    this._nav.goChannelDetail();
+    await this.update();
+  }
+
+  async update() {
+    await Promise.all([
+      this.getPeers(),
+      this.getChannels(),
+      this.getPendingChannels(),
+    ]);
   }
 
   async getChannels() {
-    const { channels } = await this._grpc.sendCommand('listChannels');
-    this._store.channels = channels.map(channel => ({
-      remotePubkey: channel.remote_pubkey,
-      id: channel.chan_id,
-      capacity: parseSat(channel.capacity),
-      localBalance: parseSat(channel.local_balance),
-      remoteBalance: parseSat(channel.remote_balance),
-      channelPoint: channel.channel_point,
-      active: channel.active,
-      status: 'open',
-    }));
-  }
-
-  async pollPendingChannels() {
-    clearTimeout(this.tpPending);
     try {
-      await this.getPendingChannels();
+      const { channels } = await this._grpc.sendCommand('listChannels');
+      this._store.channels = channels.map(channel => ({
+        remotePubkey: channel.remote_pubkey,
+        id: channel.chan_id,
+        capacity: parseSat(channel.capacity),
+        localBalance: parseSat(channel.local_balance),
+        remoteBalance: parseSat(channel.remote_balance),
+        channelPoint: channel.channel_point,
+        active: channel.active,
+        status: 'open',
+      }));
     } catch (err) {
-      log.error('Listing pending channels failed', err);
+      log.error('Listing channels failed', err);
     }
-    this.tpPending = setTimeout(() => this.pollPendingChannels(), RETRY_DELAY);
   }
 
   async getPendingChannels() {
-    const response = await this._grpc.sendCommand('pendingChannels');
-    const mapPendingAttributes = channel => ({
-      remotePubkey: channel.remote_node_pub,
-      capacity: parseSat(channel.capacity),
-      localBalance: parseSat(channel.local_balance),
-      remoteBalance: parseSat(channel.remote_balance),
-      channelPoint: channel.channel_point,
-    });
-    const pocs = response.pending_open_channels.map(poc => ({
-      ...mapPendingAttributes(poc.channel),
-      confirmationHeight: poc.confirmation_height,
-      blocksTillOpen: poc.blocks_till_open,
-      commitFee: poc.commit_fee,
-      commitWeight: poc.commit_weight,
-      feePerKw: poc.fee_per_kw,
-      status: 'pending-open',
-    }));
-    const pccs = response.pending_closing_channels.map(pcc => ({
-      ...mapPendingAttributes(pcc.channel),
-      closingTxid: pcc.closing_txid,
-      status: 'pending-closing',
-    }));
-    const pfccs = response.pending_force_closing_channels.map(pfcc => ({
-      ...mapPendingAttributes(pfcc.channel),
-      closingTxid: pfcc.closing_txid,
-      limboBalance: pfcc.limbo_balance,
-      maturityHeight: pfcc.maturity_height,
-      blocksTilMaturity: pfcc.blocks_til_maturity,
-      status: 'pending-force-closing',
-    }));
-    const wccs = response.waiting_close_channels.map(wcc => ({
-      ...mapPendingAttributes(wcc.channel),
-      limboBalance: wcc.limbo_balance,
-      status: 'waiting-close',
-    }));
-    this._store.pendingChannels = [].concat(pocs, pccs, pfccs, wccs);
-  }
-
-  async pollPeers() {
-    clearTimeout(this.tgetPeers);
     try {
-      await this.getPeers();
+      const response = await this._grpc.sendCommand('pendingChannels');
+      const mapPendingAttributes = channel => ({
+        remotePubkey: channel.remote_node_pub,
+        capacity: parseSat(channel.capacity),
+        localBalance: parseSat(channel.local_balance),
+        remoteBalance: parseSat(channel.remote_balance),
+        channelPoint: channel.channel_point,
+      });
+      const pocs = response.pending_open_channels.map(poc => ({
+        ...mapPendingAttributes(poc.channel),
+        confirmationHeight: poc.confirmation_height,
+        blocksTillOpen: poc.blocks_till_open,
+        commitFee: poc.commit_fee,
+        commitWeight: poc.commit_weight,
+        feePerKw: poc.fee_per_kw,
+        status: 'pending-open',
+      }));
+      const pccs = response.pending_closing_channels.map(pcc => ({
+        ...mapPendingAttributes(pcc.channel),
+        closingTxid: pcc.closing_txid,
+        status: 'pending-closing',
+      }));
+      const pfccs = response.pending_force_closing_channels.map(pfcc => ({
+        ...mapPendingAttributes(pfcc.channel),
+        closingTxid: pfcc.closing_txid,
+        limboBalance: pfcc.limbo_balance,
+        maturityHeight: pfcc.maturity_height,
+        blocksTilMaturity: pfcc.blocks_til_maturity,
+        status: 'pending-force-closing',
+      }));
+      const wccs = response.waiting_close_channels.map(wcc => ({
+        ...mapPendingAttributes(wcc.channel),
+        limboBalance: wcc.limbo_balance,
+        status: 'waiting-close',
+      }));
+      this._store.pendingChannels = [].concat(pocs, pccs, pfccs, wccs);
     } catch (err) {
-      log.error('Listing peers failed', err);
+      log.error('Listing pending channels failed', err);
     }
-    this.tgetPeers = setTimeout(() => this.pollPeers(), RETRY_DELAY);
   }
 
   async getPeers() {
-    const { peers } = await this._grpc.sendCommand('listPeers');
-    this._store.peers = peers.map(peer => ({
-      pubKey: peer.pub_key,
-      peerId: peer.peer_id,
-      address: peer.address,
-      bytesSent: peer.bytes_sent,
-      bytesRecv: peer.bytes_recv,
-      satSent: peer.sat_sent,
-      satRecv: peer.sat_recv,
-      inbound: peer.inbound,
-      pingTime: peer.ping_time,
-    }));
+    try {
+      const { peers } = await this._grpc.sendCommand('listPeers');
+      this._store.peers = peers.map(peer => ({
+        pubKey: peer.pub_key,
+        peerId: peer.peer_id,
+        address: peer.address,
+        bytesSent: peer.bytes_sent,
+        bytesRecv: peer.bytes_recv,
+        satSent: peer.sat_sent,
+        satRecv: peer.sat_recv,
+        inbound: peer.inbound,
+        pingTime: peer.ping_time,
+      }));
+    } catch (err) {
+      log.error('Listing peers failed', err);
+    }
   }
 
   async connectAndOpen() {
@@ -134,10 +137,10 @@ class ChannelAction {
       if (!channel.pubkeyAtHost.includes('@')) {
         return this._notification.display({ msg: 'Please enter pubkey@host' });
       }
+      this._nav.goChannels();
       const pubkey = channel.pubkeyAtHost.split('@')[0];
       const host = channel.pubkeyAtHost.split('@')[1];
       await this.connectToPeer({ host, pubkey });
-      this._nav.goChannels();
       await this.openChannel({ pubkey, amount });
     } catch (err) {
       this._notification.display({ msg: 'Creating channel failed!', err });
@@ -149,9 +152,8 @@ class ChannelAction {
       await this._grpc.sendCommand('connectPeer', {
         addr: { host, pubkey },
       });
-      await this.getPeers();
     } catch (err) {
-      this._notification.display({ msg: 'Connecting to peer failed!', err });
+      log.info('Connecting to peer failed', err);
     }
   }
 
@@ -161,10 +163,7 @@ class ChannelAction {
       local_funding_amount: amount,
     });
     await new Promise(resolve => {
-      stream.on('data', () => {
-        this.getPendingChannels();
-        this.getChannels();
-      });
+      stream.on('data', () => this.update());
       stream.on('end', resolve);
       stream.on('error', err => {
         this._notification.display({ msg: 'Opening channel failed!', err });
@@ -195,8 +194,7 @@ class ChannelAction {
     await new Promise((resolve, reject) => {
       stream.on('data', data => {
         if (data.close_pending) {
-          this.getPendingChannels();
-          this.getChannels();
+          this.update();
         }
         if (data.chan_close) {
           this._removeClosedChannel(channelPoint);

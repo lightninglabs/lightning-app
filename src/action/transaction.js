@@ -2,15 +2,32 @@ import * as log from './log';
 import { parseDate, parseSat, toHex, toHash } from '../helper';
 
 class TransactionAction {
-  constructor(store, grpc, nav) {
+  constructor(store, grpc, wallet, nav) {
     this._store = store;
     this._grpc = grpc;
+    this._wallet = wallet;
     this._nav = nav;
   }
 
-  select({ item }) {
+  async init() {
+    this._nav.goTransactions();
+    await this.update();
+  }
+
+  async select({ item }) {
     this._store.selectedTransaction = item;
     this._nav.goTransactionDetail();
+    await this.update();
+  }
+
+  async update() {
+    await Promise.all([
+      this.getTransactions(),
+      this.getInvoices(),
+      this.getPayments(),
+      this._wallet.getBalance(),
+      this._wallet.getChannelBalance(),
+    ]);
   }
 
   async getTransactions() {
@@ -21,7 +38,7 @@ class TransactionAction {
         type: 'bitcoin',
         amount: parseSat(transaction.amount),
         fee: parseSat(transaction.total_fees),
-        confirmations: parseInt(transaction.num_confirmations, 10),
+        confirmations: transaction.num_confirmations,
         status: transaction.num_confirmations < 6 ? 'unconfirmed' : 'confirmed',
         date: parseDate(transaction.time_stamp),
         hash: transaction.tx_hash,
@@ -68,7 +85,7 @@ class TransactionAction {
   async subscribeTransactions() {
     const stream = this._grpc.sendStreamCommand('subscribeTransactions');
     await new Promise((resolve, reject) => {
-      stream.on('data', () => this.getTransactions());
+      stream.on('data', () => this.update());
       stream.on('end', resolve);
       stream.on('error', reject);
       stream.on('status', status => log.info(`Transactions update: ${status}`));
@@ -78,7 +95,7 @@ class TransactionAction {
   async subscribeInvoices() {
     const stream = this._grpc.sendStreamCommand('subscribeInvoices');
     await new Promise((resolve, reject) => {
-      stream.on('data', () => this.getInvoices());
+      stream.on('data', () => this.update());
       stream.on('end', resolve);
       stream.on('error', reject);
       stream.on('status', status => log.info(`Invoices update: ${status}`));

@@ -36,12 +36,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const HomeView = ({ store, wallet, payment, invoice, nav }) => {
+const HomeView = ({
+  store,
+  wallet,
+  channel,
+  payment,
+  invoice,
+  transaction,
+  nav,
+}) => {
   const { balanceLabel, channelBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
       <HomeHeader
-        goChannels={() => nav.goChannels()}
+        goChannels={() => channel.init()}
         goSettings={() => nav.goSettings()}
         showChannelAlert={store.showChannelAlert}
       />
@@ -57,7 +65,7 @@ const HomeView = ({ store, wallet, payment, invoice, nav }) => {
           goPay={() => payment.init()}
           goRequest={() => invoice.init()}
         />
-        <DownButton onPress={() => nav.goTransactions()} style={styles.downBtn}>
+        <DownButton onPress={() => transaction.init()} style={styles.downBtn}>
           Transactions
         </DownButton>
       </MainContent>
@@ -68,8 +76,10 @@ const HomeView = ({ store, wallet, payment, invoice, nav }) => {
 HomeView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
+  channel: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
   invoice: PropTypes.object.isRequired,
+  transaction: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
 };
 

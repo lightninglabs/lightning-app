@@ -2,6 +2,7 @@ import { Store } from '../../../src/store';
 import NavAction from '../../../src/action/nav';
 import GrpcAction from '../../../src/action/grpc';
 import InvoiceAction from '../../../src/action/invoice';
+import TransactionAction from '../../../src/action/transaction';
 import NotificationAction from '../../../src/action/notification';
 
 describe('Action Invoice Unit Tests', () => {
@@ -9,6 +10,7 @@ describe('Action Invoice Unit Tests', () => {
   let nav;
   let grpc;
   let invoice;
+  let transaction;
   let notification;
   let clipboard;
 
@@ -19,7 +21,15 @@ describe('Action Invoice Unit Tests', () => {
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     clipboard = { setString: sinon.stub() };
-    invoice = new InvoiceAction(store, grpc, nav, notification, clipboard);
+    transaction = sinon.createStubInstance(TransactionAction);
+    invoice = new InvoiceAction(
+      store,
+      grpc,
+      transaction,
+      nav,
+      notification,
+      clipboard
+    );
   });
 
   describe('init()', () => {
@@ -67,6 +77,7 @@ describe('Action Invoice Unit Tests', () => {
       expect(store.invoice.encoded, 'to equal', 'some-request');
       expect(store.invoice.uri, 'to equal', 'lightning:some-request');
       expect(nav.goInvoiceQR, 'was called once');
+      expect(transaction.update, 'was called once');
     });
 
     it('should display notification on error', async () => {

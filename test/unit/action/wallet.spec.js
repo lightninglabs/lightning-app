@@ -27,6 +27,15 @@ describe('Action Wallet Unit Tests', () => {
     sandbox.restore();
   });
 
+  describe('update()', () => {
+    it('should refresh balances, exchange rate and address', async () => {
+      sandbox.stub(wallet, 'getExchangeRate');
+      await wallet.update();
+      expect(grpc.sendCommand, 'was called thrice');
+      expect(wallet.getExchangeRate, 'was called once');
+    });
+  });
+
   describe('generateSeed()', () => {
     it('should generate random seed words', async () => {
       grpc.sendUnlockerCommand.withArgs('GenSeed').resolves({

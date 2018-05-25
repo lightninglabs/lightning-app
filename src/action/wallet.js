@@ -8,6 +8,15 @@ class WalletAction {
     this._notification = notification;
   }
 
+  async update() {
+    await Promise.all([
+      this.getBalance(),
+      this.getChannelBalance(),
+      this.getNewAddress(),
+      this.getExchangeRate(),
+    ]);
+  }
+
   async generateSeed() {
     try {
       const response = await this._grpc.sendUnlockerCommand('GenSeed');

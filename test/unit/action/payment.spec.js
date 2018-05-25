@@ -1,7 +1,7 @@
 import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
-import WalletAction from '../../../src/action/wallet';
 import PaymentAction from '../../../src/action/payment';
+import TransactionAction from '../../../src/action/transaction';
 import NotificationAction from '../../../src/action/notification';
 import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
@@ -10,7 +10,7 @@ describe('Action Payments Unit Tests', () => {
   let store;
   let sandbox;
   let grpc;
-  let wallet;
+  let transaction;
   let payment;
   let nav;
   let notification;
@@ -21,10 +21,10 @@ describe('Action Payments Unit Tests', () => {
     store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
-    wallet = sinon.createStubInstance(WalletAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    payment = new PaymentAction(store, grpc, wallet, nav, notification);
+    transaction = sinon.createStubInstance(TransactionAction);
+    payment = new PaymentAction(store, grpc, transaction, nav, notification);
   });
 
   afterEach(() => {
@@ -92,14 +92,14 @@ describe('Action Payments Unit Tests', () => {
       });
       expect(nav.goPayBitcoinDone, 'was called once');
       expect(notification.display, 'was not called');
-      expect(wallet.getBalance, 'was called once');
+      expect(transaction.update, 'was called once');
     });
 
     it('should display notification on error', async () => {
       grpc.sendCommand.withArgs('sendCoins').rejects();
       await payment.payBitcoin();
       expect(notification.display, 'was called once');
-      expect(wallet.getBalance, 'was called once');
+      expect(transaction.update, 'was called once');
     });
   });
 
@@ -129,14 +129,14 @@ describe('Action Payments Unit Tests', () => {
       );
       expect(nav.goPayLightningDone, 'was called once');
       expect(notification.display, 'was not called');
-      expect(wallet.getChannelBalance, 'was called once');
+      expect(transaction.update, 'was called once');
     });
 
     it('should display notification on error', async () => {
       paymentsOnStub.withArgs('data').yields({ payment_error: 'Boom!' });
       await payment.payLightning({ invoice: 'some-payment' });
       expect(notification.display, 'was called once');
-      expect(wallet.getChannelBalance, 'was called once');
+      expect(transaction.update, 'was called once');
     });
   });
 });

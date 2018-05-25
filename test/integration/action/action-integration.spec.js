@@ -142,9 +142,9 @@ describe('Action Integration Tests', function() {
     info1 = new InfoAction(store1, grpc1);
     wallet1 = new WalletAction(store1, grpc1, notify1);
     channels1 = new ChannelAction(store1, grpc1, nav1, notify1);
-    transactions1 = new TransactionAction(store1, grpc1, nav1);
-    payments1 = new PaymentAction(store1, grpc1, wallet1, nav1, notify1);
-    invoice1 = new InvoiceAction(store1, grpc1, nav1, notify1);
+    transactions1 = new TransactionAction(store1, grpc1, wallet1, nav1);
+    invoice1 = new InvoiceAction(store1, grpc1, transactions1, nav1, notify1);
+    payments1 = new PaymentAction(store1, grpc1, transactions1, nav1, notify1);
 
     nav2 = sinon.createStubInstance(NavAction);
     notify2 = sinon.createStubInstance(NotificationAction);
@@ -152,9 +152,9 @@ describe('Action Integration Tests', function() {
     info2 = new InfoAction(store2, grpc2);
     wallet2 = new WalletAction(store2, grpc2, notify2);
     channels2 = new ChannelAction(store2, grpc2, nav2, notify2);
-    transactions2 = new TransactionAction(store2, grpc2, nav2);
-    payments2 = new PaymentAction(store2, grpc2, wallet2, nav2, notify2);
-    invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
+    transactions2 = new TransactionAction(store2, grpc2, wallet2, nav2);
+    invoice2 = new InvoiceAction(store2, grpc2, transactions2, nav2, notify2);
+    payments2 = new PaymentAction(store2, grpc2, transactions2, nav2, notify2);
   });
 
   after(async () => {
@@ -365,13 +365,13 @@ describe('Action Integration Tests', function() {
       expect(store2.channelBalanceSatoshis, 'to be', 100);
     });
 
-    it('should list pending-closing channel after closing', async () => {
-      channels1.select({ item: store1.computedChannels[0] });
+    it('should list waiting-close channel after closing', async () => {
+      await channels1.select({ item: store1.computedChannels[0] });
       channels1.closeSelectedChannel();
       while (!store1.pendingChannels.length) await nap(100);
       while (store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
-      expect(store1.computedChannels[0].status, 'to be', 'pending-closing');
+      expect(store1.computedChannels[0].status, 'to be', 'waiting-close');
     });
 
     it('should list no channels after mining 6 blocks', async () => {

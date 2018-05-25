@@ -27,9 +27,16 @@ export const notify = new NotificationAction(store);
 export const wallet = new WalletAction(store, grpc, notify);
 export const info = new InfoAction(store, grpc);
 export const channel = new ChannelAction(store, grpc, nav, notify);
-export const transaction = new TransactionAction(store, grpc, nav);
-export const payment = new PaymentAction(store, grpc, wallet, nav, notify);
-export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
+export const transaction = new TransactionAction(store, grpc, wallet, nav);
+export const invoice = new InvoiceAction(
+  store,
+  grpc,
+  transaction,
+  nav,
+  notify,
+  Clipboard
+);
+export const payment = new PaymentAction(store, grpc, transaction, nav, notify);
 
 //
 // Init actions
@@ -59,21 +66,10 @@ observe(store, 'walletUnlocked', async () => {
 });
 
 observe(store, 'lndReady', () => {
-  // init wallet
-  wallet.getBalance();
-  wallet.getChannelBalance();
-  wallet.getNewAddress();
-  wallet.getExchangeRate();
-  // init info
   info.getInfo();
-  // init channels
-  channel.pollChannels();
-  channel.pollPendingChannels();
-  channel.pollPeers();
-  // init transactions
-  transaction.getTransactions();
+  wallet.update();
+  channel.update();
+  transaction.update();
   transaction.subscribeTransactions();
-  transaction.getInvoices();
   transaction.subscribeInvoices();
-  transaction.getPayments();
 });
