@@ -34,6 +34,7 @@ const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
 const notify = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, notify);
+sinon.stub(wallet, 'update');
 const transaction = new TransactionAction(store, grpc, wallet, nav);
 sinon.stub(transaction, 'update');
 const invoice = new InvoiceAction(
@@ -50,6 +51,7 @@ sinon.stub(payment, 'checkType');
 sinon.stub(payment, 'payBitcoin');
 sinon.stub(payment, 'payLightning');
 const channel = new ChannelAction(store, grpc, nav, notify);
+sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
 
