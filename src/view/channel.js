@@ -26,7 +26,7 @@ const ChannelView = ({ store, nav, channel }) => {
   return (
     <Background color={color.blackDark}>
       <ChannelHeader
-        goChannelCreate={() => channel.init()}
+        goChannelCreate={() => channel.initCreate()}
         goHome={() => nav.goHome()}
       />
       <ChannelSummary

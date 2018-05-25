@@ -59,6 +59,7 @@ storiesOf('Screens', module)
     <Home
       store={store}
       wallet={wallet}
+      channel={channel}
       payment={payment}
       invoice={invoice}
       transaction={transaction}

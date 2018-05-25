@@ -29,6 +29,7 @@ class MainView extends Component {
           <Home
             store={store}
             wallet={wallet}
+            channel={channel}
             payment={payment}
             invoice={invoice}
             transaction={transaction}
