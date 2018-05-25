@@ -30,18 +30,18 @@ describe('Action Transactions Unit Tests', () => {
   });
 
   describe('init()', () => {
-    it('should refresh and navigate to list', async () => {
+    it('should refresh and navigate to list', () => {
       sandbox.stub(transaction, 'update');
-      await transaction.init();
+      transaction.init();
       expect(transaction.update, 'was called once');
       expect(nav.goTransactions, 'was called once');
     });
   });
 
   describe('select()', () => {
-    it('should set selectedTransaction', async () => {
+    it('should set selectedTransaction', () => {
       sandbox.stub(transaction, 'update');
-      await transaction.select({ item: 'some-transaction' });
+      transaction.select({ item: 'some-transaction' });
       expect(store.selectedTransaction, 'to equal', 'some-transaction');
       expect(transaction.update, 'was called once');
       expect(nav.goTransactionDetail, 'was called once');
