@@ -366,7 +366,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should list pending-closing channel after closing', async () => {
-      channels1.select({ item: store1.computedChannels[0] });
+      await channels1.select({ item: store1.computedChannels[0] });
       channels1.closeSelectedChannel();
       while (!store1.pendingChannels.length) await nap(100);
       while (store1.channels.length) await nap(100);

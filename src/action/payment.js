@@ -64,7 +64,7 @@ class PaymentAction {
     } catch (err) {
       this._notification.display({ msg: 'Sending transaction failed!', err });
     }
-    this._transaction.update();
+    await this._transaction.update();
   }
 
   async payLightning() {
@@ -86,7 +86,7 @@ class PaymentAction {
     } catch (err) {
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }
-    this._transaction.update();
+    await this._transaction.update();
   }
 }
 
