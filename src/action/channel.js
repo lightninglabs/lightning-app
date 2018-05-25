@@ -9,7 +9,11 @@ class ChannelAction {
     this._notification = notification;
   }
 
-  init() {
+  //
+  // Create channel actions
+  //
+
+  initCreate() {
     this._store.channel.pubkeyAtHost = '';
     this._store.channel.amount = '';
     this._nav.goChannelCreate();
@@ -23,9 +27,27 @@ class ChannelAction {
     this._store.channel.pubkeyAtHost = pubkeyAtHost;
   }
 
+  //
+  // Channel list actions
+  //
+
+  init() {
+    this.update();
+    this._nav.goChannels();
+  }
+
   select({ item }) {
     this._store.selectedChannel = item;
+    this.update();
     this._nav.goChannelDetail();
+  }
+
+  async update() {
+    await Promise.all([
+      this.getPeers(),
+      this.getChannels(),
+      this.getPendingChannels(),
+    ]);
   }
 
   async getChannels() {
@@ -130,9 +152,8 @@ class ChannelAction {
       await this._grpc.sendCommand('connectPeer', {
         addr: { host, pubkey },
       });
-      await this.getPeers();
     } catch (err) {
-      this._notification.display({ msg: 'Connecting to peer failed!', err });
+      log.info('Connecting to peer failed', err);
     }
   }
 
@@ -142,10 +163,7 @@ class ChannelAction {
       local_funding_amount: amount,
     });
     await new Promise(resolve => {
-      stream.on('data', () => {
-        this.getPendingChannels();
-        this.getChannels();
-      });
+      stream.on('data', () => this.update());
       stream.on('end', resolve);
       stream.on('error', err => {
         this._notification.display({ msg: 'Opening channel failed!', err });
@@ -176,8 +194,7 @@ class ChannelAction {
     await new Promise((resolve, reject) => {
       stream.on('data', data => {
         if (data.close_pending) {
-          this.getPendingChannels();
-          this.getChannels();
+          this.update();
         }
         if (data.chan_close) {
           this._removeClosedChannel(channelPoint);
