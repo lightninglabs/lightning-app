@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # versions
-GO_TAG=1.10
+GO_TAG=1.10.2
 GLIDE_TAG=0.12.3
 
 # install go
