@@ -84,7 +84,7 @@ const ChannelHeader = ({ goChannelCreate, goHome }) => (
     <View style={headerStyles.btnWrapperLeft}>
       <BackButton onPress={goHome} />
     </View>
-    <Title title="Wallet" />
+    <Title title="Channels" />
     <View style={headerStyles.btnWrapperRight}>
       <SmallButton border text="Add" onPress={goChannelCreate}>
         <Icon image="plus" style={headerStyles.plusIcon} />
