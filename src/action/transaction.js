@@ -22,7 +22,7 @@ class TransactionAction {
         type: 'bitcoin',
         amount: parseSat(transaction.amount),
         fee: parseSat(transaction.total_fees),
-        confirmations: parseInt(transaction.num_confirmations, 10),
+        confirmations: transaction.num_confirmations,
         status: transaction.num_confirmations < 6 ? 'unconfirmed' : 'confirmed',
         date: parseDate(transaction.time_stamp),
         hash: transaction.tx_hash,
