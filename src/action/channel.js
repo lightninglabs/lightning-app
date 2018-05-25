@@ -32,14 +32,14 @@ class ChannelAction {
   //
 
   init() {
-    this.update();
     this._nav.goChannels();
+    this.update();
   }
 
   select({ item }) {
     this._store.selectedChannel = item;
-    this.update();
     this._nav.goChannelDetail();
+    this.update();
   }
 
   async update() {

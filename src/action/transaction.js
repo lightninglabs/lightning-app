@@ -10,14 +10,14 @@ class TransactionAction {
   }
 
   init() {
-    this.update();
     this._nav.goTransactions();
+    this.update();
   }
 
   select({ item }) {
     this._store.selectedTransaction = item;
-    this.update();
     this._nav.goTransactionDetail();
+    this.update();
   }
 
   async update() {
