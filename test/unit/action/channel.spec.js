@@ -58,19 +58,19 @@ describe('Action Channels Unit Tests', () => {
   });
 
   describe('init()', () => {
-    it('should update channels and navigate to list', () => {
+    it('should update channels and navigate to list', async () => {
       sandbox.stub(channel, 'update');
-      channel.init();
+      await channel.init();
       expect(channel.update, 'was called once');
       expect(nav.goChannels, 'was called once');
     });
   });
 
   describe('select()', () => {
-    it('should set selectedChannel', () => {
+    it('should set selectedChannel', async () => {
       sandbox.stub(channel, 'update');
       const item = 'some-channel';
-      channel.select({ item });
+      await channel.select({ item });
       expect(store.selectedChannel, 'to equal', 'some-channel');
       expect(channel.update, 'was called once');
       expect(nav.goChannelDetail, 'was called once');

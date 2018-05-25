@@ -31,15 +31,15 @@ class ChannelAction {
   // Channel list actions
   //
 
-  init() {
+  async init() {
     this._nav.goChannels();
-    this.update();
+    await this.update();
   }
 
-  select({ item }) {
+  async select({ item }) {
     this._store.selectedChannel = item;
     this._nav.goChannelDetail();
-    this.update();
+    await this.update();
   }
 
   async update() {

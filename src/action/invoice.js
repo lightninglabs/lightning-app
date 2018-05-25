@@ -40,7 +40,7 @@ class InvoiceAction {
     } catch (err) {
       this._notification.display({ msg: 'Creating invoice failed!', err });
     }
-    this._transaction.update();
+    await this._transaction.update();
   }
 
   toClipboard({ text }) {
