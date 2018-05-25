@@ -66,21 +66,10 @@ observe(store, 'walletUnlocked', async () => {
 });
 
 observe(store, 'lndReady', () => {
-  // init wallet
-  wallet.getBalance();
-  wallet.getChannelBalance();
-  wallet.getNewAddress();
-  wallet.getExchangeRate();
-  // init info
   info.getInfo();
-  // init channels
-  channel.getChannels();
-  channel.getPendingChannels();
-  channel.getPeers();
-  // init transactions
-  transaction.getTransactions();
+  wallet.update();
+  channel.update();
+  transaction.update();
   transaction.subscribeTransactions();
-  transaction.getInvoices();
   transaction.subscribeInvoices();
-  transaction.getPayments();
 });
