@@ -1,19 +1,27 @@
 import { observable, useStrict } from 'mobx';
 import GrpcAction from '../../../src/action/grpc';
 import InfoAction from '../../../src/action/info';
+import * as logger from '../../../src/action/log';
 
 describe('Action Info Unit Tests', () => {
+  let sandbox;
   let store;
   let grpc;
   let info;
 
   beforeEach(() => {
+    sandbox = sinon.createSandbox({});
+    sandbox.stub(logger);
     useStrict(false);
     store = observable({ lndReady: false });
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     grpc.sendCommand.resolves({});
     info = new InfoAction(store, grpc);
+  });
+
+  afterEach(() => {
+    sandbox.restore();
   });
 
   describe('getInfo()', () => {
@@ -48,11 +56,9 @@ describe('Action Info Unit Tests', () => {
     });
 
     it('should retry on failure', async () => {
-      grpc.sendCommand.onFirstCall().rejects();
+      grpc.sendCommand.rejects();
       await info.getInfo();
-      grpc.sendCommand.resolves({});
-      await nap(30);
-      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
+      expect(logger.error, 'was called once');
     });
   });
 });

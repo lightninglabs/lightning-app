@@ -1,4 +1,5 @@
 import { RETRY_DELAY } from '../config';
+import * as log from './log';
 
 class InfoAction {
   constructor(store, grpc) {
@@ -17,8 +18,7 @@ class InfoAction {
         this.t3 = setTimeout(() => this.getInfo(), RETRY_DELAY);
       }
     } catch (err) {
-      clearTimeout(this.t3);
-      this.t3 = setTimeout(() => this.getInfo(), RETRY_DELAY);
+      log.error('Getting node info failed', err);
     }
   }
 }
