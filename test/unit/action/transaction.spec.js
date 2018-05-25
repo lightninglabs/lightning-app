@@ -1,6 +1,7 @@
 import { observable, useStrict } from 'mobx';
 import GrpcAction from '../../../src/action/grpc';
 import TransactionAction from '../../../src/action/transaction';
+import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
 
@@ -9,6 +10,7 @@ describe('Action Transactions Unit Tests', () => {
   let sandbox;
   let grpc;
   let nav;
+  let wallet;
   let transaction;
 
   beforeEach(() => {
@@ -19,19 +21,39 @@ describe('Action Transactions Unit Tests', () => {
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     nav = sinon.createStubInstance(NavAction);
-    transaction = new TransactionAction(store, grpc, nav);
+    wallet = sinon.createStubInstance(WalletAction);
+    transaction = new TransactionAction(store, grpc, wallet, nav);
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
+  describe('init()', () => {
+    it('should refresh and navigate to list', () => {
+      sandbox.stub(transaction, 'update');
+      transaction.init();
+      expect(transaction.update, 'was called once');
+      expect(nav.goTransactions, 'was called once');
+    });
+  });
+
   describe('select()', () => {
     it('should set selectedTransaction', () => {
-      const item = 'some-transaction';
-      transaction.select({ item });
+      sandbox.stub(transaction, 'update');
+      transaction.select({ item: 'some-transaction' });
       expect(store.selectedTransaction, 'to equal', 'some-transaction');
+      expect(transaction.update, 'was called once');
       expect(nav.goTransactionDetail, 'was called once');
+    });
+  });
+
+  describe('update()', () => {
+    it('should refresh transactions and balances', async () => {
+      await transaction.update();
+      expect(grpc.sendCommand, 'was called thrice');
+      expect(wallet.getBalance, 'was called once');
+      expect(wallet.getChannelBalance, 'was called once');
     });
   });
 
@@ -163,7 +185,7 @@ describe('Action Transactions Unit Tests', () => {
 
     beforeEach(() => {
       onStub = sinon.stub();
-      sandbox.stub(transaction, 'getTransactions');
+      sandbox.stub(transaction, 'update');
     });
 
     it('should updated transactions on data event', async () => {
@@ -173,7 +195,7 @@ describe('Action Transactions Unit Tests', () => {
         .withArgs('subscribeTransactions')
         .returns({ on: onStub });
       await transaction.subscribeTransactions();
-      expect(transaction.getTransactions, 'was called once');
+      expect(transaction.update, 'was called once');
     });
 
     it('should reject in case of error', async () => {
@@ -194,7 +216,7 @@ describe('Action Transactions Unit Tests', () => {
 
     beforeEach(() => {
       onStub = sinon.stub();
-      sandbox.stub(transaction, 'getInvoices');
+      sandbox.stub(transaction, 'update');
     });
 
     it('should update invoices on data event', async () => {
@@ -204,7 +226,7 @@ describe('Action Transactions Unit Tests', () => {
         .withArgs('subscribeInvoices')
         .returns({ on: onStub });
       await transaction.subscribeInvoices();
-      expect(transaction.getInvoices, 'was called once');
+      expect(transaction.update, 'was called once');
     });
 
     it('should reject in case of error', async () => {

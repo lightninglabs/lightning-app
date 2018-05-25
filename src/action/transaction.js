@@ -9,9 +9,25 @@ class TransactionAction {
     this._nav = nav;
   }
 
+  init() {
+    this.update();
+    this._nav.goTransactions();
+  }
+
   select({ item }) {
     this._store.selectedTransaction = item;
+    this.update();
     this._nav.goTransactionDetail();
+  }
+
+  async update() {
+    await Promise.all([
+      this.getTransactions(),
+      this.getInvoices(),
+      this.getPayments(),
+      this._wallet.getBalance(),
+      this._wallet.getChannelBalance(),
+    ]);
   }
 
   async getTransactions() {
@@ -69,10 +85,7 @@ class TransactionAction {
   async subscribeTransactions() {
     const stream = this._grpc.sendStreamCommand('subscribeTransactions');
     await new Promise((resolve, reject) => {
-      stream.on('data', () => {
-        this.getTransactions();
-        this._wallet.getBalance();
-      });
+      stream.on('data', () => this.update());
       stream.on('end', resolve);
       stream.on('error', reject);
       stream.on('status', status => log.info(`Transactions update: ${status}`));
@@ -82,11 +95,7 @@ class TransactionAction {
   async subscribeInvoices() {
     const stream = this._grpc.sendStreamCommand('subscribeInvoices');
     await new Promise((resolve, reject) => {
-      stream.on('data', () => {
-        this.getInvoices();
-        this.getPayments();
-        this._wallet.getChannelBalance();
-      });
+      stream.on('data', () => this.update());
       stream.on('end', resolve);
       stream.on('error', reject);
       stream.on('status', status => log.info(`Invoices update: ${status}`));
