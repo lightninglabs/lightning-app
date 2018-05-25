@@ -34,7 +34,8 @@ const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
 const notify = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, notify);
-const transaction = new TransactionAction(store, grpc, nav);
+const transaction = new TransactionAction(store, grpc, wallet, nav);
+sinon.stub(transaction, 'update');
 const invoice = new InvoiceAction(
   store,
   grpc,
@@ -60,6 +61,7 @@ storiesOf('Screens', module)
       wallet={wallet}
       payment={payment}
       invoice={invoice}
+      transaction={transaction}
       nav={nav}
     />
   ))

@@ -31,6 +31,7 @@ class MainView extends Component {
             wallet={wallet}
             payment={payment}
             invoice={invoice}
+            transaction={transaction}
             nav={nav}
           />
         )}
