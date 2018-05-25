@@ -77,6 +77,7 @@ describe('Action Invoice Unit Tests', () => {
       expect(store.invoice.encoded, 'to equal', 'some-request');
       expect(store.invoice.uri, 'to equal', 'lightning:some-request');
       expect(nav.goInvoiceQR, 'was called once');
+      expect(transaction.update, 'was called once');
     });
 
     it('should display notification on error', async () => {

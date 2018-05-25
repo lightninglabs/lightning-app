@@ -37,10 +37,10 @@ class InvoiceAction {
       invoice.encoded = response.payment_request;
       invoice.uri = `${PREFIX_URI}${invoice.encoded}`;
       this._nav.goInvoiceQR();
-      await this._transaction.getInvoices();
     } catch (err) {
       this._notification.display({ msg: 'Creating invoice failed!', err });
     }
+    this._transaction.update();
   }
 
   toClipboard({ text }) {
