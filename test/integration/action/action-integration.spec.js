@@ -365,13 +365,13 @@ describe('Action Integration Tests', function() {
       expect(store2.channelBalanceSatoshis, 'to be', 100);
     });
 
-    it('should list pending-closing channel after closing', async () => {
+    it('should list waiting-close channel after closing', async () => {
       await channels1.select({ item: store1.computedChannels[0] });
       channels1.closeSelectedChannel();
       while (!store1.pendingChannels.length) await nap(100);
       while (store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
-      expect(store1.computedChannels[0].status, 'to be', 'pending-closing');
+      expect(store1.computedChannels[0].status, 'to be', 'waiting-close');
     });
 
     it('should list no channels after mining 6 blocks', async () => {
