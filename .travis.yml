@@ -21,7 +21,14 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: <travis-cli generated api key>
+    secure: AAAAB3NzaC1yc2EAAAADAQABAAACAQCqSyckMe5CZ7OjeCDVbNJ9pjqlSwXQwZuDTIS7pxkYE6VUL/C9KdBxOz$
+XKviXDj3730K9fQLYFrgtVybyvqwfUY3BhTYmc6+hpPj5t3Sqn0L99RRVOD3lU1OxwIuqzWwp/kfdQRn9p97yLO8JgqHinU
+9+KEk2H04ehwOC3h/RsR2KsD/lBHHSrvnE5uvpiA0qbC52vyl4gc4MwF5/5g05CDyWYphSrtlJNmZEFT6b3e7mrZKQmg7Cb
+C84ZvMWxRC8ElBhSGoLymHNgqQ0gMzj677AuUtuU4GjDPCX+3Z14vLgyZUY3gwZSs9YtrhIzfZUAZgBIhHuUybmq3GuTZWo
+ymtWBnq1Ct5iokXp0+brKrCy5lw7d1CjYXOtFVPSklMRNsOOJKAqpOWcEc3aLG87ZsDXD++dY/UtMl/swKk3eH4KNzDsgmk
+tRxi40cHlD7oFYAddqSyGN3ydouL16+mH25CWyNKCUF8+CadthgwKutblQuZgzz9S443PLpsxnmb+EDg0+7qvx8td7ETfsE
+LW7s53kmEKJnVK3ZeZ5MQqU6gdJ2lqziFcwPZQ8fzzNXPEItyLcKEKQAGq9m3h/qWsq48UTU1WWnQfW9pAtIO9BoisSIpFA
+rKk8xx1/cemAyMl8zuVtM9MgCuW3khUT6HHjQtt1mQEzkKtKljLIlO1Zw==
   file_glob: true
   file:
     - dist/Lightning*
@@ -29,6 +36,6 @@ deploy:
   skip_cleanup: true
   on:
     repo: lightninglabs/lightning-app
-    branch: <branch_name>
+    branch: releases
     tags: true
   draft: true
