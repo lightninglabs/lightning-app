@@ -28,6 +28,7 @@ import PayLightningDone from '../src/view/pay-lightning-done';
 import PayBitcoin from '../src/view/pay-bitcoin';
 import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
 import PayBitcoinDone from '../src/view/pay-bitcoin-done';
+import Loader from '../src/view/loader';
 
 const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
@@ -100,7 +101,8 @@ storiesOf('Screens', module)
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
   .add('Invoice QR', () => (
     <InvoiceQR store={store} invoice={invoice} nav={nav} />
-  ));
+  ))
+  .add('Loader - First Time', () => <Loader />);
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
