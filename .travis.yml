@@ -21,7 +21,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: $DEPLOY_API_KEY
+    secure: FffN3aEzl4csnZq24BzqB9RB6Q5r/Dxx/foU1DImQeQUugvES6RSHlvgu6C+GUqCDWdBM3CbGWSXKwLis0h5DB5WgWIJvHtCHPKIXQqTTAI4WUYoTzHtnxmV+vPxqlmwvH+Ej33EQcZyzoGkLlQf9GMAjezNRxqUjU+Vse3LPOVqenqILVhGfaicmSjIzESukaTtqFbri4drx7wwyDZWnk+pf8Zxxv0szpjcIvZHQkF3k75GYpcd9OszvYqod0cP75+kDcozqeRaDvHmjisD0ZzxD7ikg3YcDN4T/Wl+cHR3mS0cRDkjGQZAT8eX/NfQZpRfdvOvO0eUhBidstSRZLRb3vB2BemX95EY1SfI+6a0fS60IuwcMHmJIytD5oOXiLd88+koScuqVQxMFwhfPYH+YEyN2/j1FIubEWp4nTpLrZfDT7/8EW2nqVEKX99Yc5h76U5kK3hxkNz9FUjT/yoKkwtuuANfGVJG+KO6moEMOEo+ceggBLJFykkbOFmrjX5MzgGG8Mh1O9k9hj/FlDLOM31PMSkSXVbeN1wvtYlIr1Mom32138itZhoCMbdmfjz8rvW3gCoZGZB60LShelg85ATZYD/TH8L+ZQouoUlB8l8zHnOmAj2qJrEYNQXkJTtNFc6kXYIjZtUysEkAMQ/pSDUnS4DDoaB46/6lvVY=
   file_glob: true
   file:
     - dist/Lightning*
@@ -29,6 +29,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: lightninglabs/lightning-app
-    branch: release
     tags: true
-  draft: true
