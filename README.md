@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app) [![Greenkeeper badge](https://badges.greenkeeper.io/lightninglabs/lightning-app.svg)](https://greenkeeper.io/)
 
-**N.B. The app is under development. Wallet data stored on disk is currently not encrypted proberly and the code has not yet been audited.**
+**N.B. The app is under development. Wallet data stored on disk is currently not encrypted properly and the code has not yet been audited.**
 
 ### Developing Locally
 
