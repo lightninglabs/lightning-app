@@ -29,6 +29,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: lightninglabs/lightning-app
-    branch: release
     tags: true
-  draft: true
