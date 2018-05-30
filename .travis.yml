@@ -21,7 +21,7 @@ before_deploy:
 deploy:
   provider: releases
   api_key:
-    secure: <travis-cli generated api key>
+    secure: $DEPLOY_API_KEY
   file_glob: true
   file:
     - dist/Lightning*
@@ -29,6 +29,6 @@ deploy:
   skip_cleanup: true
   on:
     repo: lightninglabs/lightning-app
-    branch: <branch_name>
+    branch: release
     tags: true
   draft: true
