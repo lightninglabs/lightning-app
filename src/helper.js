@@ -28,6 +28,25 @@ export const formatFiat = (val, currency) => {
 };
 
 /**
+ * Format the index of seed word as ordinal.
+ * @param {number} val The number value
+ */
+export const formatOrdinal = val => {
+  const j = val % 10,
+    k = val % 100;
+  if (j == 1 && k != 11) {
+    return val.toString() + 'st';
+  }
+  if (j == 2 && k != 12) {
+    return val.toString() + 'nd';
+  }
+  if (j == 3 && k != 13) {
+    return val.toString() + 'rd';
+  }
+  return val.toString() + 'th';
+};
+
+/**
  * Parse a unix time stamp to a JavaScript date object
  * @param  {string} timeStamp The unix time stamp in seconds
  * @return {Date}             The date object
