@@ -25,7 +25,7 @@ describe('Computed Notification Unit Tests', () => {
         display: true,
       });
       ComputedNotification(store);
-      expect(store.lastNotification, 'to be ok');
+      expect(store.lastNotification.type, 'to equal', 'error');
       expect(store.displayNotification, 'to equal', true);
     });
   });
