@@ -15,9 +15,10 @@ storiesOf('Notification', module).add('Notification Bar', () => (
   />
 ));
 
-notify.display({
+store.notifications.push({
   type: 'error',
-  msg: 'Oops something went wrong',
+  message: 'Oops something went wrong',
   handler: action('handle_error'),
-  handlerLbl: 'Handle Error',
+  handlerLbl: 'Handle error',
+  display: true,
 });
