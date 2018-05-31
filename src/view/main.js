@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import Container from '../component/container';
+import { NotificationBar } from '../component/notification';
 import Home from './home';
 import Payment from './payment';
 import PayLightningConfirm from './pay-lightning-confirm';
@@ -22,9 +23,13 @@ import store from '../store';
 
 class MainView extends Component {
   render() {
-    const { route } = store;
+    const { route, lastNotification, displayNotification } = store;
     return (
       <Container>
+        <NotificationBar
+          notification={lastNotification}
+          display={displayNotification}
+        />
         {route === 'Home' && (
           <Home
             store={store}
