@@ -69,11 +69,8 @@ class GrpcAction {
     return new Promise((resolve, reject) => {
       listen = method ? `${listen}_${method}` : listen;
       this._ipcRenderer.once(listen, (e, arg) => {
-        if (arg.err) {
-          log.error('GRPC: Error from method', method, arg.err);
-          return reject(arg.err);
-        }
-        resolve(arg.response);
+        if (arg.err) reject(arg.err);
+        else resolve(arg.response);
       });
       this._ipcRenderer.send(event, { method, body });
     });
