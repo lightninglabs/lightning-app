@@ -34,12 +34,12 @@ const barStyles = StyleSheet.create({
   },
 });
 
-export const NotificationBar = ({ notification, style }) =>
-  notification && notification.display ? (
+export const NotificationBar = ({ notification, display, style }) =>
+  notification && display ? (
     <View style={[barStyles.bar, style]}>
       <View style={barStyles.msgWrapper}>
         <Alert
-          color={notification.type === 'error' ? color.pinkSig : color.greenSig}
+          color={notification.type === 'info' ? color.orangeSig : color.pinkSig}
           style={barStyles.alert}
         />
         <Text style={barStyles.text}>{notification.message}</Text>
@@ -54,7 +54,8 @@ export const NotificationBar = ({ notification, style }) =>
   ) : null;
 
 NotificationBar.propTypes = {
-  notification: PropTypes.object.isRequired,
+  notification: PropTypes.object,
+  display: PropTypes.bool.isRequired,
   style: View.propTypes.style,
 };
 
