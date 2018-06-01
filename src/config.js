@@ -1,5 +1,5 @@
 module.exports.RETRY_DELAY = 3000;
-module.exports.NOTIFICATION_DELAY = 10000;
+module.exports.NOTIFICATION_DELAY = 5000;
 
 const prefixName = 'lightning';
 module.exports.PREFIX_NAME = prefixName;

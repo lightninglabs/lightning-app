@@ -213,6 +213,52 @@ SmallButton.propTypes = {
 };
 
 //
+// Small Pill Button
+//
+
+const smallPillStyles = StyleSheet.create({
+  touchable: {
+    paddingTop: 3,
+    paddingBottom: 4,
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  text: {
+    fontFamily: 'OpenSans Regular',
+    fontSize: font.sizeXS,
+    lineHeight: font.lineHeightXS,
+  },
+  border: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius: 58.94,
+    borderColor: color.greyPill,
+  },
+});
+
+export const SmallPillButton = ({ text, onPress, disabled, style }) => (
+  <TouchableOpacity
+    style={[
+      { opacity: disabled ? 0.5 : 1 },
+      smallPillStyles.touchable,
+      smallPillStyles.border,
+      style,
+    ]}
+    disabled={disabled}
+    onPress={onPress}
+  >
+    <Text style={smallPillStyles.text}>{text}</Text>
+  </TouchableOpacity>
+);
+
+SmallPillButton.propTypes = {
+  text: PropTypes.string,
+  onPress: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
+  style: ViewPropTypes.style,
+};
+
+//
 // Back Button
 //
 

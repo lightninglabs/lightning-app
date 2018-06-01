@@ -1,8 +1,63 @@
 import React, { Component } from 'react';
 import { Animated, StyleSheet, ViewPropTypes, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { H4Text } from './text';
+import { SmallPillButton } from './button';
+import { Text, H4Text } from './text';
 import Icon from './icon';
+import { color, font } from '../component/style';
+
+//
+// NotificationBar
+//
+
+const barStyles = StyleSheet.create({
+  bar: {
+    alignSelf: 'stretch',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 45,
+    paddingLeft: 20,
+    paddingRight: 20,
+    backgroundColor: color.blackDark,
+  },
+  msgWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  alert: {
+    marginRight: 8,
+  },
+  text: {
+    fontSize: font.sizeXS,
+    lineHeight: font.lineHeightXS,
+  },
+});
+
+export const NotificationBar = ({ notification, display, style }) =>
+  notification && display ? (
+    <View style={[barStyles.bar, style]}>
+      <View style={barStyles.msgWrapper}>
+        <Alert
+          color={notification.type === 'info' ? color.orangeSig : color.pinkSig}
+          style={barStyles.alert}
+        />
+        <Text style={barStyles.text}>{notification.message}</Text>
+      </View>
+      {notification.handler ? (
+        <SmallPillButton
+          text={notification.handlerLbl}
+          onPress={notification.handler}
+        />
+      ) : null}
+    </View>
+  ) : null;
+
+NotificationBar.propTypes = {
+  notification: PropTypes.object,
+  display: PropTypes.bool.isRequired,
+  style: View.propTypes.style,
+};
 
 //
 // Alert

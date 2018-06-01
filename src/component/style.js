@@ -3,6 +3,7 @@ export const color = {
   whiteBg: '#F5F5F5',
   grey: '#C5C8CF',
   greyText: '#969596',
+  greyPill: '#979797',
   greyListHeader: '#848A99',
   greyPlaceholder: 'rgba(74,74,74,0.5)',
   greyBorder: '#6B6969',

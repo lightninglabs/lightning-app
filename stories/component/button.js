@@ -10,6 +10,7 @@ import {
   PillButton,
   CopyButton,
   SmallButton,
+  SmallPillButton,
   BackButton,
   CancelButton,
   QrButton,
@@ -93,6 +94,9 @@ storiesOf('Button', module)
       text="Small Alert"
       onPress={action('clicked')}
     />
+  ))
+  .add('Small Pill Button', () => (
+    <SmallPillButton text="Small Pill" onPress={action('clicked')} />
   ))
   .add('Text Button', () => (
     <Button onPress={action('clicked')}>
