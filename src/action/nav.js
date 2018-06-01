@@ -70,8 +70,24 @@ class NavAction {
     this._store.route = 'TransactionDetail';
   }
 
+  goNotifications() {
+    this._store.route = 'Notifications';
+  }
+
   goSettings() {
-    // this._store.route = 'Settings';
+    this._store.route = 'Settings';
+  }
+
+  goSettingsUnit() {
+    this._store.route = 'SettingsUnit';
+  }
+
+  goSettingsFiat() {
+    this._store.route = 'SettingsFiat';
+  }
+
+  goCLI() {
+    this._store.route = 'CLI';
   }
 
   goCreateChannel() {
