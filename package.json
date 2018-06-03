@@ -16,10 +16,10 @@
     "test:react": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron --enable-sandbox .\"",
-    "electron-pack": "build --c.extraMetadata.main=build/electron.js",
-    "electron-deploy": "build --c.extraMetadata.main=build/electron.js --linux --win",
+    "electron-dmg": "build --c.extraMetadata.main=build/electron.js --mac dmg",
+    "electron-deploy": "build --c.extraMetadata.main=build/electron.js --mac zip --linux --win",
     "electron-only": "electron --enable-sandbox .",
-    "preelectron-pack": "npm run build",
+    "preelectron-dmg": "npm run build",
     "preelectron-deploy": "npm run build",
     "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\" public/electron.js",
     "postinstall": "electron-builder install-app-deps",
@@ -77,21 +77,18 @@
       "category": "Network",
       "artifactName": "${productName}-darwin-x64v${version}.${ext}",
       "extraResources": "assets/bin/darwin",
-      "icon": "assets/app-icon/desktop.icns",
-      "target": "dmg"
+      "icon": "assets/app-icon/desktop.icns"
     },
     "linux": {
       "category": "Network",
       "artifactName": "${productName}-linux-${arch}v${version}.${ext}",
       "extraResources": "assets/bin/linux",
-      "icon": "assets/app-icon/desktop.png",
-      "target": "AppImage"
+      "icon": "assets/app-icon/desktop.png"
     },
     "win": {
       "artifactName": "${productName}-win32-${arch}v${version}.${ext}",
       "extraResources": "assets/bin/win32",
-      "icon": "assets/app-icon/desktop.ico",
-      "target": "nsis"
+      "icon": "assets/app-icon/desktop.ico"
     },
     "productName": "Lightning",
     "files": [
