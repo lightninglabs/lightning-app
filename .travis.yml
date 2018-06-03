@@ -23,7 +23,7 @@ script:
   - npm run build-storybook
 
 before_deploy:
-  - ./assets/script/build_lnd.sh
+  - ./assets/script/build_app.sh
 
 deploy:
   provider: releases
