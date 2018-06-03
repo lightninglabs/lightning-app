@@ -9,7 +9,7 @@ if [ "$(uname)" == "Darwin" ]; then
   npm run electron-pack
 else
   # build binaries for windows
-  cd ../win32
+  cd assets/bin/win32
   env GOOS="windows" GOARCH="386" go build -v github.com/lightningnetwork/lnd
   env GOOS="windows" GOARCH="386" go build -v github.com/btcsuite/btcd
 
