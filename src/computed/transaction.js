@@ -5,7 +5,6 @@ const ComputedTransaction = store => {
   extendObservable(store, {
     computedTransactions: computed(() => {
       const { transactions, payments, invoices, settings } = store;
-      if (!transactions && !payments && !invoices) return null;
       const t = transactions ? transactions.slice() : [];
       const p = payments ? payments.slice() : [];
       const i = invoices ? invoices.slice() : [];

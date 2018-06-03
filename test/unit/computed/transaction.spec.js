@@ -56,7 +56,7 @@ describe('Computed Transactions Unit Tests', () => {
       store.payments = null;
       store.invoices = null;
       ComputedTransaction(store);
-      expect(store.computedTransactions, 'to equal', null);
+      expect(store.computedTransactions.length, 'to equal', 0);
     });
 
     it('should aggregate transactions, payments, and invoices', () => {
