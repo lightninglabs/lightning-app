@@ -2,10 +2,14 @@
 
 # versions
 GO_TAG=1.10.2
+
+# create empty btcd.conf for btcctl
 if [ "$(uname)" == "Darwin" ]; then
   PLATFORM="darwin"
+  mkdir $HOME/Library/Application\ Support/Btcd && touch $HOME/Library/Application\ Support/Btcd/btcd.conf
 else
   PLATFORM="linux"
+  mkdir $HOME/.btcd && touch $HOME/.btcd/btcd.conf
 fi
 
 # install go
@@ -37,6 +41,3 @@ go install . ./cmd/...
 
 # copy lnd/btcd binaries to git repo for integration tests
 cp $GOPATH/bin/* $TRAVIS_BUILD_DIR/assets/bin/$PLATFORM/
-
-# create empty btcd.conf for btcctl
-mkdir $HOME/.btcd && touch $HOME/.btcd/btcd.conf
