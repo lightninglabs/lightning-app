@@ -78,7 +78,7 @@
       "artifactName": "${productName}-darwin-x64v${version}.${ext}",
       "extraResources": "assets/bin/darwin",
       "icon": "assets/app-icon/desktop.icns",
-      "dmg"
+      "target": "dmg"
     },
     "linux": {
       "category": "Network",
