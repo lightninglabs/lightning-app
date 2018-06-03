@@ -11,10 +11,10 @@ cp $GOPATH/bin/lnd $GOPATH/bin/btcd ./assets/bin/linux
 # build binaries for darwin/windows
 cd ./assets/bin/darwin
 env GOOS="darwin" GOARCH="amd64" go build -v github.com/lightningnetwork/lnd
-env GOOS="darwin" GOARCH="amd64" go build -v github.com/roasbeef/btcd
+env GOOS="darwin" GOARCH="amd64" go build -v github.com/btcsuite/btcd
 cd ../win32
 env GOOS="windows" GOARCH="386" go build -v github.com/lightningnetwork/lnd
-env GOOS="windows" GOARCH="386" go build -v github.com/roasbeef/btcd
+env GOOS="windows" GOARCH="386" go build -v github.com/btcsuite/btcd
 
 # build the packages using electron-builder on docker
 cd $TRAVIS_BUILD_DIR
