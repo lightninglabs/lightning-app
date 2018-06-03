@@ -30,9 +30,4 @@ else
   npm run electron-pack
 fi
 
-# create the file with the package hashes
-PACKAGE_VERSION=$(node -pe "require('./package.json').version")
-cd dist
-shasum -a 256 Lightning* | sudo tee manifest-v${PACKAGE_VERSION}.txt
-sudo chown -R travis:travis ./
-cd ..
+sudo chown -R travis:travis dist
