@@ -77,18 +77,21 @@
       "category": "Network",
       "artifactName": "${productName}-darwin-x64v${version}.${ext}",
       "extraResources": "assets/bin/darwin",
-      "icon": "assets/app-icon/desktop.icns"
+      "icon": "assets/app-icon/desktop.icns",
+      "target": "dmg"
     },
     "linux": {
       "category": "Network",
       "artifactName": "${productName}-linux-${arch}v${version}.${ext}",
       "extraResources": "assets/bin/linux",
-      "icon": "assets/app-icon/desktop.png"
+      "icon": "assets/app-icon/desktop.png",
+      "target": "AppImage"
     },
     "win": {
       "artifactName": "${productName}-win32-${arch}v${version}.${ext}",
       "extraResources": "assets/bin/win32",
-      "icon": "assets/app-icon/desktop.ico"
+      "icon": "assets/app-icon/desktop.ico",
+      "target": "nsis"
     },
     "productName": "Lightning",
     "files": [
