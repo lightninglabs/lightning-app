@@ -8,7 +8,7 @@ PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 if [ "$(uname)" == "Darwin" ]; then
   npm run electron-dmg
 else
-  # build binaries forwindows
+  # build binaries for windows
   cd ../win32
   env GOOS="windows" GOARCH="386" go build -v github.com/lightningnetwork/lnd
   env GOOS="windows" GOARCH="386" go build -v github.com/btcsuite/btcd
