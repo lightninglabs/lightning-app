@@ -9,9 +9,6 @@ matrix:
       language: node_js
       node_js: '8'
 
-services:
-  - docker
-
 env:
   - NAP_TIME=20000 ELECTRON_CACHE=$HOME/.cache/electron ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
