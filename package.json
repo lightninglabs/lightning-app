@@ -74,20 +74,20 @@
     "mac": {
       "category": "Network",
       "artifactName": "${productName}-darwin-x64v${version}.${ext}",
-      "extraResources": "assets/bin/darwin",
+      "extraResources": "assets/bin/darwin/lnd",
       "icon": "assets/app-icon/desktop.icns",
       "target": "dmg"
     },
     "linux": {
       "category": "Network",
       "artifactName": "${productName}-linux-${arch}v${version}.${ext}",
-      "extraResources": "assets/bin/linux",
+      "extraResources": "assets/bin/linux/lnd",
       "icon": "assets/app-icon/desktop.png",
       "target": "AppImage"
     },
     "win": {
       "artifactName": "${productName}-win32-${arch}v${version}.${ext}",
-      "extraResources": "assets/bin/win32",
+      "extraResources": "assets/bin/win32/lnd.exe",
       "icon": "assets/app-icon/desktop.ico",
       "target": "nsis"
     },
