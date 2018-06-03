@@ -17,7 +17,7 @@
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"BROWSER=none npm start\" \"wait-on http://localhost:3000 && electron --enable-sandbox .\"",
     "electron-pack": "build --c.extraMetadata.main=build/electron.js",
-    "electron-deploy": "build --c.extraMetadata.main=build/electron.js --linux tar.gz --win zip --mac dmg",
+    "electron-deploy": "build --c.extraMetadata.main=build/electron.js --linux --win",
     "electron-only": "electron --enable-sandbox .",
     "preelectron-pack": "npm run build",
     "preelectron-deploy": "npm run build",

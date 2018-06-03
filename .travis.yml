@@ -1,6 +1,16 @@
-language: node_js
-node_js:
-  - '8'
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode9.3
+      language: node_js
+      node_js: '8'
+      env:
+        - ELECTRON_CACHE=$HOME/.cache/electron
+        - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+    - os: linux
+      services: docker
+      language: node_js
+      node_js: '8'
 
 services:
   - docker
