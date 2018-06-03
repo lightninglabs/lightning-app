@@ -5,7 +5,9 @@ GOPATH=$HOME/gocode
 GOROOT=$HOME/go
 PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
-if [ "$TRAVIS_OS_NAME" == "linux" ]; then
+if [ "$(uname)" == "Darwin" ]; then
+  npm run electron-pack
+else
   # build binaries forwindows
   cd ../win32
   env GOOS="windows" GOARCH="386" go build -v github.com/lightningnetwork/lnd
@@ -33,8 +35,4 @@ if [ "$TRAVIS_OS_NAME" == "linux" ]; then
   shasum -a 256 Lightning* | sudo tee manifest-v${PACKAGE_VERSION}.txt
   sudo chown -R travis:travis ./
   cd ..
-else
-  npm run electron-pack
 fi
-
-
