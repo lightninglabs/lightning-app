@@ -29,7 +29,7 @@ docker run --rm \
   -v ~/.cache/electron:/root/.cache/electron \
   -v ~/.cache/electron-builder:/root/.cache/electron-builder \
   electronuserland/builder:wine \
-  /bin/bash -c "npm i && npm run electron-deploy"
+  /bin/bash -c "npm i && npm run build && npm run electron-deploy"
 rm env.txt
 
 # create the file with the package hashes
