@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const os = require('os');
 const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
@@ -71,6 +72,13 @@ function createWindow() {
     width: 880,
     height: 635,
     backgroundColor: '#57038D',
+    icon: path.join(
+      __dirname,
+      '..',
+      'assets',
+      'app-icon',
+      'desktop' + ({ darwin: '.icns', win32: '.ico' }[os.platform()] || '.png')
+    ),
     webPreferences: {
       nodeIntegration: false,
       sandbox: true,
