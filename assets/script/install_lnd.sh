@@ -2,9 +2,14 @@
 
 # versions
 GO_TAG=1.10.2
+if [ "$(uname)" == "Darwin" ]; then
+  PLATFORM="darwin"
+else
+  PLATFORM="linux"
+fi
 
 # install go
-GO_DOWNLOAD="https://storage.googleapis.com/golang/go$GO_TAG.linux-amd64.tar.gz"
+GO_DOWNLOAD="https://storage.googleapis.com/golang/go$GO_TAG.$PLATFORM-amd64.tar.gz"
 curl -L $GO_DOWNLOAD | tar -xz
 mv go $HOME
 
@@ -31,7 +36,7 @@ glide install
 go install . ./cmd/...
 
 # copy lnd/btcd binaries to git repo for integration tests
-cp $GOPATH/bin/* $TRAVIS_BUILD_DIR/assets/bin/linux/
+cp $GOPATH/bin/* $TRAVIS_BUILD_DIR/assets/bin/$PLATFORM/
 
 # create empty btcd.conf for btcctl
 mkdir $HOME/.btcd && touch $HOME/.btcd/btcd.conf
