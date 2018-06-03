@@ -74,16 +74,19 @@
     "mac": {
       "category": "Network",
       "artifactName": "${productName}-darwin-x64v${version}.${ext}",
-      "extraResources": "assets/bin/darwin"
+      "extraResources": "assets/bin/darwin",
+      "icon": "assets/app-icon/desktop.icns"
     },
     "linux": {
       "category": "Network",
       "artifactName": "${productName}-linux-${arch}v${version}.${ext}",
-      "extraResources": "assets/bin/linux"
+      "extraResources": "assets/bin/linux",
+      "icon": "assets/app-icon/desktop.png"
     },
     "win": {
       "artifactName": "${productName}-win32-${arch}v${version}.${ext}",
-      "extraResources": "assets/bin/win32"
+      "extraResources": "assets/bin/win32",
+      "icon": "assets/app-icon/desktop.ico"
     },
     "productName": "Lightning",
     "files": [
