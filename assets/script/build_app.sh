@@ -6,7 +6,7 @@ GOROOT=$HOME/go
 PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 if [ "$(uname)" == "Darwin" ]; then
-  npm run electron-dmg
+  npm run electron-pack
 else
   # build binaries for windows
   cd ../win32
@@ -26,7 +26,7 @@ else
     -v ~/.cache/electron:/root/.cache/electron \
     -v ~/.cache/electron-builder:/root/.cache/electron-builder \
     electronuserland/builder:wine \
-    /bin/bash -c "npm i && npm run electron-deploy"
+    /bin/bash -c "npm i && npm run electron-pack -- --linux --win"
   rm env.txt
 
   # create the file with the package hashes
