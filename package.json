@@ -20,6 +20,7 @@
     "electron-deploy": "build --c.extraMetadata.main=build/electron.js --linux tar.gz --win zip --mac dmg",
     "electron-only": "electron --enable-sandbox .",
     "preelectron-pack": "npm run build",
+    "preelectron-deploy": "npm run build",
     "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\" public/electron.js",
     "postinstall": "electron-builder install-app-deps",
     "storybook": "start-storybook -p 9009 -s public",
