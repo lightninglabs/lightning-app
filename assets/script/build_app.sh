@@ -28,11 +28,4 @@ else
     electronuserland/builder:wine \
     /bin/bash -c "npm i && npm run electron-pack -- --linux --win"
   rm env.txt
-
-  # create the file with the package hashes
-  PACKAGE_VERSION=$(node -pe "require('./package.json').version")
-  cd dist
-  shasum -a 256 Lightning* | sudo tee manifest-v${PACKAGE_VERSION}.txt
-  sudo chown -R travis:travis ./
-  cd ..
 fi
