@@ -76,7 +76,7 @@
     "publish": {
       "provider": "github",
       "vPrefixedTagName": "true",
-      "releaseType": "release"
+      "releaseType": "draft"
     },
     "mac": {
       "category": "Network",
