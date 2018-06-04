@@ -108,8 +108,7 @@
     ],
     "directories": {
       "buildResources": "assets"
-    },
-    "publish": null
+    }
   },
   "greenkeeper": {
     "ignore": [
