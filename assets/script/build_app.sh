@@ -6,7 +6,7 @@ GOROOT=$HOME/go
 PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 if [ "$(uname)" == "Darwin" ]; then
-  npm run electron-pack
+  npm run electron-pack -- --mac
 else
   # build binaries for windows
   cd assets/bin/win32
