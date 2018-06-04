@@ -19,7 +19,6 @@ else
   docker run --rm \
     --env-file env.txt \
     --env ELECTRON_CACHE="/root/.cache/electron" \
-    --env DEBUG=electron-builder \
     --env ELECTRON_BUILDER_CACHE="/root/.cache/electron-builder" \
     -v ${PWD}:/project \
     -v ${PWD##*/}-node-modules:/project/node_modules \
