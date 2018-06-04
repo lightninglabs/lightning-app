@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const os = require('os');
 const path = require('path');
@@ -22,8 +22,27 @@ console.log(`
 
 `);
 
-autoUpdater.checkForUpdatesAndNotify();
-console.log('Checking for updates...\n');
+//
+// Check for updates
+//
+
+autoUpdater.autoDownload = true;
+autoUpdater.autoInstallOnAppQuit = true;
+autoUpdater.on('update-downloaded', () => {
+  const opt = {
+    type: 'question',
+    buttons: ['Install', 'Later'],
+    title: 'Update available',
+    message: 'Restart the app and install the update?',
+  };
+  dialog.showMessageBox(opt, choice => {
+    if (choice === 0) autoUpdater.quitAndInstall();
+  });
+});
+
+//
+// Start application
+//
 
 const LND_NAME = 'lnd';
 const LND_DATA_DIR = 'data/lnd_data';
@@ -168,7 +187,10 @@ ps.lookup({ command: LND_NAME }, (err, resultList) => {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  autoUpdater.checkForUpdates();
+  createWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
