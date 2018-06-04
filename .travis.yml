@@ -20,7 +20,7 @@ env:
 
 cache:
   directories:
-  - $HOME/.npm
+  - node_modules
   - $HOME/.cache/electron
   - $HOME/.cache/electron-builder
 
