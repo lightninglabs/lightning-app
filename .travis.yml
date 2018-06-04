@@ -17,6 +17,12 @@ env:
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
 
+cache:
+  directories:
+  - $HOME/.npm
+  - $HOME/.cache/electron
+  - $HOME/.cache/electron-builder
+
 before_install:
   - ./assets/script/install_lnd.sh
 
