@@ -28,6 +28,7 @@
   "dependencies": {
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.14",
+    "electron-updater": "^2.21.10",
     "grpc": "^1.10.0",
     "mobx": "^3.6.2",
     "mobx-react": "^4.4.3",
@@ -72,12 +73,18 @@
   },
   "build": {
     "appId": "engineering.lightning.lightning-app",
+    "publish": {
+      "provider": "github"
+    },
     "mac": {
       "category": "Network",
       "artifactName": "${productName}-darwin-x64v${version}.${ext}",
       "extraResources": "assets/bin/darwin/lnd",
       "icon": "assets/app-icon/desktop.icns",
-      "target": "dmg"
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "linux": {
       "category": "Network",

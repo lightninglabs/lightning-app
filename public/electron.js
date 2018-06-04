@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const { autoUpdater } = require('electron-updater');
 const os = require('os');
 const path = require('path');
 const url = require('url');
@@ -20,6 +21,9 @@ console.log(`
 
 
 `);
+
+autoUpdater.checkForUpdatesAndNotify();
+console.log('Checking for updates...\n');
 
 const LND_NAME = 'lnd';
 const LND_DATA_DIR = 'data/lnd_data';
