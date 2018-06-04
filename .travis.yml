@@ -1,3 +1,5 @@
+sudo: false
+
 matrix:
   include:
     - os: osx
