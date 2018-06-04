@@ -75,7 +75,8 @@
     "appId": "engineering.lightning.lightning-app",
     "publish": {
       "provider": "github",
-      "vPrefixedTagName": "true"
+      "vPrefixedTagName": "true",
+      "releaseType": "release"
     },
     "mac": {
       "category": "Network",
