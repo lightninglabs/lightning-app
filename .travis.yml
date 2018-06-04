@@ -31,4 +31,3 @@ deploy:
   on:
     repo: lightninglabs/lightning-app
     tags: true
-  prerelease: true
