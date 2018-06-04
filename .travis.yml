@@ -37,3 +37,6 @@ deploy:
   on:
     repo: lightninglabs/lightning-app
     tags: true
+
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
