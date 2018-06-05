@@ -47,13 +47,13 @@ function startBlockingProcess(name, args, logger) {
 module.exports.startLndProcess = async function({
   isDev,
   macaroonsEnabled,
-  lndDataDir,
-  lndLogDir,
+  lndSettingsDir,
   lndPort,
   lndPeerPort,
   logger,
   lndRestPort,
 }) {
+  if (!lndSettingsDir) throw new Error('lndSettingsDir not set!');
   const processName = 'lnd';
   const args = [
     '--bitcoin.active',
@@ -61,16 +61,17 @@ module.exports.startLndProcess = async function({
     isDev ? '--btcd.rpcuser=kek' : '',
     isDev ? '--btcd.rpcpass=kek' : '',
     isDev ? '--bitcoin.node=btcd' : '--bitcoin.node=neutrino',
+    isDev ? '' : `--configfile=${path.join(lndSettingsDir, 'lnd.conf')}`,
     isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
     isDev ? '' : '--neutrino.connect=faucet.lightning.community',
     isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
     isDev ? '' : '--autopilot.active',
 
     macaroonsEnabled ? '' : '--no-macaroons',
-    isDev && lndDataDir ? `--datadir=${lndDataDir}` : '',
-    isDev && lndDataDir ? `--tlscertpath=${lndDataDir}/tls.cert` : '',
-    isDev && lndDataDir ? `--tlskeypath=${lndDataDir}/tls.key` : '',
-    isDev && lndLogDir ? `--logdir=${lndLogDir}` : '',
+    `--datadir=${path.join(lndSettingsDir, 'data')}`,
+    `--logdir=${path.join(lndSettingsDir, 'logs')}`,
+    `--tlscertpath=${path.join(lndSettingsDir, 'tls.cert')}`,
+    `--tlskeypath=${path.join(lndSettingsDir, 'tls.key')}`,
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',

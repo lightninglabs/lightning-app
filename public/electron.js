@@ -27,8 +27,6 @@ const lndSettingsDir = isDev
   : path.join(app.getPath('userData'), 'lnd');
 
 const LND_NAME = 'lnd';
-const LND_DATA_DIR = 'data/lnd_data';
-const LND_LOG_DIR = 'data/lnd_log';
 const BTCD_DATA_DIR = 'data/btcd_data';
 const BTCD_LOG_DIR = 'data/btcd_log';
 const BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
@@ -141,9 +139,8 @@ const startLnd = async () => {
     });
     lndProcess = await startLndProcess({
       isDev,
+      lndSettingsDir,
       macaroonsEnabled: MACAROONS_ENABLED,
-      lndDataDir: LND_DATA_DIR,
-      lndLogDir: LND_LOG_DIR,
       lndPort: LND_PORT,
       lndPeerPort: LND_PEER_PORT,
       logger: Logger,
@@ -157,7 +154,7 @@ ps.lookup({ command: LND_NAME }, (err, resultList) => {
   if (err) {
     Logger.info(`lnd ps lookup error`, err);
   } else if (resultList) {
-    Logger.info(`lnd will run on port ${LND_PORT}, ${LND_DATA_DIR}`);
+    Logger.info(`lnd will run on port ${LND_PORT}, ${lndSettingsDir}`);
     startLnd();
   } else {
     startLnd();
