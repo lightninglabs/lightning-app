@@ -1,7 +1,8 @@
 {
   "name": "lightning-app",
-  "version": "0.1.0",
+  "version": "0.2.0-prealpha.2",
   "description": "Lightning Wallet Application",
+  "author": "Lightning Labs, Inc",
   "homepage": "./",
   "license": "GPL-3.0",
   "private": true,
@@ -27,6 +28,7 @@
   "dependencies": {
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.14",
+    "electron-updater": "^2.21.10",
     "grpc": "^1.10.0",
     "mobx": "^3.6.2",
     "mobx-react": "^4.4.3",
@@ -52,7 +54,7 @@
     "babel-preset-react-native": "^4.0.0",
     "concurrently": "^3.5.1",
     "electron": "^1.8.7",
-    "electron-builder": "^20.8.1",
+    "electron-builder": "^20.15.1",
     "eslint": "^4.19.0",
     "eslint-config-google": "^0.9.1",
     "eslint-config-prettier": "^2.9.0",
@@ -71,19 +73,36 @@
   },
   "build": {
     "appId": "engineering.lightning.lightning-app",
+    "publish": {
+      "provider": "github",
+      "owner": "lightninglabs",
+      "repo": "lightning-app",
+      "vPrefixedTagName": true,
+      "publishAutoUpdate": true,
+      "releaseType": "draft"
+    },
     "mac": {
       "category": "Network",
       "artifactName": "${productName}-darwin-x64v${version}.${ext}",
-      "extraResources": "assets/bin/darwin"
+      "extraResources": "assets/bin/darwin/lnd",
+      "icon": "assets/app-icon/desktop.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ]
     },
     "linux": {
       "category": "Network",
       "artifactName": "${productName}-linux-${arch}v${version}.${ext}",
-      "extraResources": "assets/bin/linux"
+      "extraResources": "assets/bin/linux/lnd",
+      "icon": "assets/app-icon/desktop.png",
+      "target": "AppImage"
     },
     "win": {
       "artifactName": "${productName}-win32-${arch}v${version}.${ext}",
-      "extraResources": "assets/bin/win32"
+      "extraResources": "assets/bin/win32/lnd.exe",
+      "icon": "assets/app-icon/desktop.ico",
+      "target": "nsis"
     },
     "productName": "Lightning",
     "files": [
@@ -94,8 +113,7 @@
     ],
     "directories": {
       "buildResources": "assets"
-    },
-    "publish": null
+    }
   },
   "greenkeeper": {
     "ignore": [

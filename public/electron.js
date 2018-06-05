@@ -1,4 +1,6 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { autoUpdater } = require('electron-updater');
+const os = require('os');
 const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
@@ -71,6 +73,13 @@ function createWindow() {
     width: 880,
     height: 635,
     backgroundColor: '#57038D',
+    icon: path.join(
+      __dirname,
+      '..',
+      'assets',
+      'app-icon',
+      'desktop' + ({ darwin: '.icns', win32: '.ico' }[os.platform()] || '.png')
+    ),
     webPreferences: {
       nodeIntegration: false,
       sandbox: true,
@@ -153,10 +162,32 @@ ps.lookup({ command: LND_NAME }, (err, resultList) => {
 
 ///////////////////////////////////////////////////
 
+// Check for updates
+autoUpdater.on('update-downloaded', () => {
+  const opt = {
+    type: 'question',
+    buttons: ['Install', 'Later'],
+    title: 'Update available',
+    message: 'Restart the app and install the update?',
+  };
+  dialog.showMessageBox(opt, choice => {
+    if (choice !== 0) return;
+    setTimeout(() => autoUpdater.quitAndInstall(), 100);
+  });
+});
+
+function initAutoUpdate() {
+  const oneHour = 60 * 60 * 1000;
+  setInterval(() => autoUpdater.checkForUpdates(), oneHour);
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+app.on('ready', () => {
+  initAutoUpdate();
+  createWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {

@@ -2,11 +2,27 @@ language: node_js
 node_js:
   - '8'
 
-services:
-  - docker
+matrix:
+  include:
+    - os: osx
+      osx_image: xcode9.3
+    - os: linux
+      sudo: required
+      dist: trusty
+      services: docker
 
 env:
-  - NAP_TIME=20000
+  global:
+    - secure: "JM64XBK3zx13Dn+adsldtwVHOLyZ1kwqvRby3Q7awEq6HBm9xJJ1TEo3y6vCyqkUyGocd8e+wLm7rUW6ryhXUpdTDH744mfreCuZ5Al/12O2E8fHmv4wpGRrdqhzayWFPcLVmLtlak6QCFCp60q3g9o73107JpYgSA/6G/IdIS5JACo2AOOomimfcEl+Kum6zdkAGoZQIObKRfamFfZ9CebfEZ2HXjfACu4mX3a0fwoOoXLYv7gVEVGKTdtLwC8OCbvPPNP74zoq4U3kGST0xtma3gIIgsSsxmRGj00O6tfOZypwzx3JZacgFqTlI0EjNtd+MD/DiBZ196lyWiTLDCWJ/y4cechat2qDVtLdlpsSXabaXPZanx1aVAy5SITwhBkWe8HONrjVx1ViynPGAtN5lM9EUwrTqNHbvEIVouzxZQiGHH7ynhTYn/uURrC/ZiEzjRawizxeUQKoehvC8ydLLRWBvATEv6r4hz+wH7hpdk2RDdPM24iilIvnViwkkbehOdEV7fHDkKwkmhZ0NCeNTDXNqJtka+SxWjREhSetbMQib8mJlLtMoulVlCWUvwMbMnDVB3W1Jn6UmSwFYrgoEGpUR+64cANSETTuv/hhr08Ucn97tE+oFlw4eox1S3A7kZ3RQxqE+KAdu4gHVervvSvyZL2UJqXeiBETF7M="
+    - NAP_TIME=20000
+    - ELECTRON_CACHE=$HOME/.cache/electron
+    - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
+
+cache:
+  directories:
+  - node_modules
+  - $HOME/.cache/electron
+  - $HOME/.cache/electron-builder
 
 before_install:
   - ./assets/script/install_lnd.sh
@@ -15,19 +31,13 @@ script:
   - npm test
   - npm run build-storybook
 
-before_deploy:
-  - ./assets/script/build_lnd.sh
-
 deploy:
-  provider: releases
-  api_key:
-    secure: FffN3aEzl4csnZq24BzqB9RB6Q5r/Dxx/foU1DImQeQUugvES6RSHlvgu6C+GUqCDWdBM3CbGWSXKwLis0h5DB5WgWIJvHtCHPKIXQqTTAI4WUYoTzHtnxmV+vPxqlmwvH+Ej33EQcZyzoGkLlQf9GMAjezNRxqUjU+Vse3LPOVqenqILVhGfaicmSjIzESukaTtqFbri4drx7wwyDZWnk+pf8Zxxv0szpjcIvZHQkF3k75GYpcd9OszvYqod0cP75+kDcozqeRaDvHmjisD0ZzxD7ikg3YcDN4T/Wl+cHR3mS0cRDkjGQZAT8eX/NfQZpRfdvOvO0eUhBidstSRZLRb3vB2BemX95EY1SfI+6a0fS60IuwcMHmJIytD5oOXiLd88+koScuqVQxMFwhfPYH+YEyN2/j1FIubEWp4nTpLrZfDT7/8EW2nqVEKX99Yc5h76U5kK3hxkNz9FUjT/yoKkwtuuANfGVJG+KO6moEMOEo+ceggBLJFykkbOFmrjX5MzgGG8Mh1O9k9hj/FlDLOM31PMSkSXVbeN1wvtYlIr1Mom32138itZhoCMbdmfjz8rvW3gCoZGZB60LShelg85ATZYD/TH8L+ZQouoUlB8l8zHnOmAj2qJrEYNQXkJTtNFc6kXYIjZtUysEkAMQ/pSDUnS4DDoaB46/6lvVY=
-  file_glob: true
-  file:
-    - dist/Lightning*
-    - dist/manifest*
+  provider: script
+  script: ./assets/script/build_app.sh
   skip_cleanup: true
   on:
     repo: lightninglabs/lightning-app
     tags: true
-  prerelease: true
+
+before_cache:
+  - rm -rf $HOME/.cache/electron-builder/wine
