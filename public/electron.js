@@ -23,13 +23,15 @@ console.log(`
 `);
 
 const LND_NAME = 'lnd';
-const BTCD_SETTINGS_DIR = 'data/btcd';
 const BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
 const LND_PORT = 10009;
 const LND_PEER_PORT = 10019;
 const lndSettingsDir = isDev
   ? 'data/lnd'
   : path.join(app.getPath('userData'), 'lnd');
+const btcdSettingsDir = isDev
+  ? 'data/btcd'
+  : path.join(app.getPath('userData'), 'btcd');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -131,7 +133,7 @@ const startLnd = async () => {
     btcdProcess = await startBtcdProcess({
       isDev,
       logger: Logger,
-      btcdSettingsDir: BTCD_SETTINGS_DIR,
+      btcdSettingsDir,
       miningAddress: BTCD_MINING_ADDRESS,
     });
     lndProcess = await startLndProcess({
