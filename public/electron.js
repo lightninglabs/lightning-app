@@ -22,6 +22,10 @@ console.log(`
 
 `);
 
+const lndSettingsDir = isDev
+  ? 'data/lnd'
+  : path.join(app.getPath('userData'), 'lnd');
+
 const LND_NAME = 'lnd';
 const LND_DATA_DIR = 'data/lnd_data';
 const LND_LOG_DIR = 'data/lnd_log';
@@ -116,9 +120,8 @@ function createWindow() {
 
   grcpClient.init({
     ipcMain,
-    isDev,
+    lndSettingsDir,
     lndPort: LND_PORT,
-    lndDataDir: LND_DATA_DIR,
     macaroonsEnabled: MACAROONS_ENABLED,
   });
 

@@ -29,6 +29,8 @@ const LND_DATA_DIR_1 = 'test/data/lnd_data_1';
 const LND_DATA_DIR_2 = 'test/data/lnd_data_2';
 const LND_LOG_DIR_1 = 'test/data/lnd_log_1';
 const LND_LOG_DIR_2 = 'test/data/lnd_log_2';
+const LND_SETTINGS_DIR_1 = 'test/data/lnd_1';
+const LND_SETTINGS_DIR_2 = 'test/data/lnd_2';
 const LND_PORT_1 = 10001;
 const LND_PORT_2 = 10002;
 const LND_PEER_PORT_1 = 10011;
@@ -124,17 +126,15 @@ describe('Action Integration Tests', function() {
     lndProcess2 = await lndProcess2Promise;
 
     await grcpClient.init({
-      isDev,
       ipcMain: ipcMainStub1,
       lndPort: LND_PORT_1,
-      lndDataDir: LND_DATA_DIR_1,
+      lndSettingsDir: LND_SETTINGS_DIR_1,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
     await grcpClient.init({
-      isDev,
       ipcMain: ipcMainStub2,
       lndPort: LND_PORT_2,
-      lndDataDir: LND_DATA_DIR_2,
+      lndSettingsDir: LND_SETTINGS_DIR_2,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
