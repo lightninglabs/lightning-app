@@ -1,4 +1,5 @@
 const os = require('os');
+const fs = require('fs');
 const path = require('path');
 const cp = require('child_process');
 
@@ -7,7 +8,7 @@ function getProcessName(binName) {
   const filePath = __dirname.includes('asar')
     ? path.join(__dirname, '..', '..', 'assets', 'bin', os.platform(), filename)
     : path.join(__dirname, '..', 'assets', 'bin', os.platform(), filename);
-  return cp.spawnSync('type', [filePath]).status === 0 ? filePath : binName;
+  return fs.existsSync(filePath) ? filePath : filename;
 }
 
 async function startChildProcess(name, args, logger) {
