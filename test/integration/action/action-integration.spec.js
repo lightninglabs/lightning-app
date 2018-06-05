@@ -23,8 +23,7 @@ const grcpClient = require('../../../public/grpc-client');
 
 const isDev = true;
 const BTCD_PORT = 18556;
-const BTCD_DATA_DIR = 'test/data/btcd_data';
-const BTCD_LOG_DIR = 'test/data/btcd_log';
+const BTCD_SETTINGS_DIR = 'test/data/btcd';
 const LND_SETTINGS_DIR_1 = 'test/data/lnd_1';
 const LND_SETTINGS_DIR_2 = 'test/data/lnd_2';
 const LND_PORT_1 = 10001;
@@ -91,8 +90,7 @@ describe('Action Integration Tests', function() {
     btcdArgs = {
       isDev,
       logger,
-      btcdLogDir: BTCD_LOG_DIR,
-      btcdDataDir: BTCD_DATA_DIR,
+      btcdSettingsDir: BTCD_SETTINGS_DIR,
     };
     btcdProcess = await startBtcdProcess(btcdArgs);
     await nap(NAP_TIME);

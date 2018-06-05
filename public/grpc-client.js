@@ -4,7 +4,6 @@ const path = require('path');
 const grpc = require('grpc');
 
 const GRPC_TIMEOUT = 300000;
-const homedir = os.homedir();
 
 process.env.GRPC_SSL_CIPHER_SUITES =
   'ECDHE-RSA-AES128-GCM-SHA256:' +

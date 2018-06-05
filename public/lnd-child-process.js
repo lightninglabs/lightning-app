@@ -84,8 +84,7 @@ module.exports.startLndProcess = async function({
 module.exports.startBtcdProcess = async function({
   isDev,
   logger,
-  btcdLogDir,
-  btcdDataDir,
+  btcdSettingsDir,
   miningAddress,
 }) {
   if (!isDev) return; // don't start btcd if neutrino is used
@@ -95,8 +94,8 @@ module.exports.startBtcdProcess = async function({
     '--txindex',
     '--rpcuser=kek',
     '--rpcpass=kek',
-    btcdDataDir ? `--datadir=${btcdDataDir}` : '',
-    btcdLogDir ? `--logdir=${btcdLogDir}` : '',
+    btcdSettingsDir ? `--datadir=${path.join(btcdSettingsDir, 'data')}` : '',
+    btcdSettingsDir ? `--logdir=${path.join(btcdSettingsDir, 'logs')}` : '',
     miningAddress ? `--miningaddr=${miningAddress}` : '',
   ];
   return startChildProcess(processName, args, logger);
