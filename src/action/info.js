@@ -16,6 +16,7 @@ class InfoAction {
       this._store.blockHeight = response.block_height;
       if (!response.synced_to_chain) {
         this._notification.display({ msg: 'Syncing to chain ...' });
+        log.info(`Syncing to chain ... block height: ${response.block_height}`);
         clearTimeout(this.t3);
         this.t3 = setTimeout(() => this.getInfo(), RETRY_DELAY);
       }
