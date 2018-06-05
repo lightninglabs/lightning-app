@@ -24,6 +24,7 @@ describe('Action Info Unit Tests', () => {
   });
 
   afterEach(() => {
+    clearTimeout(info.t3);
     sandbox.restore();
   });
 
