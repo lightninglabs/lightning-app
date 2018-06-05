@@ -4,7 +4,6 @@ const os = require('os');
 const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
-const ps = require('ps-node');
 const log = require('electron-log');
 const { PREFIX_NAME, MACAROONS_ENABLED } = require('../src/config');
 const { startLndProcess, startBtcdProcess } = require('./lnd-child-process');
@@ -149,17 +148,6 @@ const startLnd = async () => {
   }
 };
 
-ps.lookup({ command: LND_NAME }, (err, resultList) => {
-  if (err) {
-    Logger.info(`lnd ps lookup error`, err);
-  } else if (resultList) {
-    Logger.info(`lnd will run on port ${LND_PORT}, ${lndSettingsDir}`);
-    startLnd();
-  } else {
-    startLnd();
-  }
-});
-
 ///////////////////////////////////////////////////
 
 // Check for updates
@@ -188,6 +176,7 @@ function initAutoUpdate() {
 app.on('ready', () => {
   initAutoUpdate();
   createWindow();
+  startLnd();
 });
 
 // Quit when all windows are closed.
