@@ -23,12 +23,9 @@ const grcpClient = require('../../../public/grpc-client');
 
 const isDev = true;
 const BTCD_PORT = 18556;
-const BTCD_DATA_DIR = 'test/data/btcd_data';
-const BTCD_LOG_DIR = 'test/data/btcd_log';
-const LND_DATA_DIR_1 = 'test/data/lnd_data_1';
-const LND_DATA_DIR_2 = 'test/data/lnd_data_2';
-const LND_LOG_DIR_1 = 'test/data/lnd_log_1';
-const LND_LOG_DIR_2 = 'test/data/lnd_log_2';
+const BTCD_SETTINGS_DIR = 'test/data/btcd';
+const LND_SETTINGS_DIR_1 = 'test/data/lnd_1';
+const LND_SETTINGS_DIR_2 = 'test/data/lnd_2';
 const LND_PORT_1 = 10001;
 const LND_PORT_2 = 10002;
 const LND_PEER_PORT_1 = 10011;
@@ -93,8 +90,7 @@ describe('Action Integration Tests', function() {
     btcdArgs = {
       isDev,
       logger,
-      btcdLogDir: BTCD_LOG_DIR,
-      btcdDataDir: BTCD_DATA_DIR,
+      btcdSettingsDir: BTCD_SETTINGS_DIR,
     };
     btcdProcess = await startBtcdProcess(btcdArgs);
     await nap(NAP_TIME);
@@ -102,8 +98,7 @@ describe('Action Integration Tests', function() {
     const lndProcess1Promise = startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
-      lndDataDir: LND_DATA_DIR_1,
-      lndLogDir: LND_LOG_DIR_1,
+      lndSettingsDir: LND_SETTINGS_DIR_1,
       lndPort: LND_PORT_1,
       lndPeerPort: LND_PEER_PORT_1,
       lndRestPort: LND_REST_PORT_1,
@@ -112,8 +107,7 @@ describe('Action Integration Tests', function() {
     const lndProcess2Promise = startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
-      lndDataDir: LND_DATA_DIR_2,
-      lndLogDir: LND_LOG_DIR_2,
+      lndSettingsDir: LND_SETTINGS_DIR_2,
       lndPort: LND_PORT_2,
       lndPeerPort: LND_PEER_PORT_2,
       lndRestPort: LND_REST_PORT_2,
@@ -124,17 +118,15 @@ describe('Action Integration Tests', function() {
     lndProcess2 = await lndProcess2Promise;
 
     await grcpClient.init({
-      isDev,
       ipcMain: ipcMainStub1,
       lndPort: LND_PORT_1,
-      lndDataDir: LND_DATA_DIR_1,
+      lndSettingsDir: LND_SETTINGS_DIR_1,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
     await grcpClient.init({
-      isDev,
       ipcMain: ipcMainStub2,
       lndPort: LND_PORT_2,
-      lndDataDir: LND_DATA_DIR_2,
+      lndSettingsDir: LND_SETTINGS_DIR_2,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 

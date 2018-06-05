@@ -1,10 +1,8 @@
 const fs = require('fs');
-const os = require('os');
 const path = require('path');
 const grpc = require('grpc');
 
 const GRPC_TIMEOUT = 300000;
-const homedir = os.homedir();
 
 process.env.GRPC_SSL_CIPHER_SUITES =
   'ECDHE-RSA-AES128-GCM-SHA256:' +
@@ -27,50 +25,33 @@ async function waitForCertPath(certPath) {
   });
 }
 
-async function getCredentials(lndDataDir) {
-  let certPath;
-  if (lndDataDir) {
-    certPath = path.join(lndDataDir, 'tls.cert');
-  } else {
-    certPath = {
-      darwin: path.join(homedir, 'Library/Application Support/Lnd/tls.cert'),
-      linux: path.join(homedir, '.lnd/tls.cert'),
-      win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert'),
-    }[os.platform()];
-  }
+async function getCredentials(lndSettingsDir) {
+  let certPath = path.join(lndSettingsDir, 'tls.cert');
   await waitForCertPath(certPath);
   const lndCert = fs.readFileSync(certPath);
   return grpc.credentials.createSsl(lndCert);
 }
 
-function getMetadata() {
+function getMetadata(lndSettingsDir) {
   const metadata = new grpc.Metadata();
-  const macaroonPath = {
-    darwin: path.join(
-      homedir,
-      'Library/Application Support/Lnd/admin.macaroon'
-    ),
-    linux: path.join(homedir, '.lnd/admin.macaroon'),
-    win32: path.join(homedir, 'AppData', 'Local', 'Lnd', 'admin.macaroon'),
-  }[os.platform()];
+  const macaroonPath = path.join(lndSettingsDir, 'admin.macaroon');
   const macaroonHex = fs.readFileSync(macaroonPath).toString('hex');
   metadata.add('macaroon', macaroonHex);
   return metadata;
 }
 
 module.exports.init = async function({
-  isDev,
   ipcMain,
   lndPort,
-  lndDataDir,
+  lndSettingsDir,
   macaroonsEnabled,
 }) {
-  const credentials = await getCredentials(isDev && lndDataDir);
+  const credentials = await getCredentials(lndSettingsDir);
   const protoPath = path.join(__dirname, '..', 'assets', 'rpc.proto');
   const { lnrpc } = grpc.load(protoPath);
   let metadata;
   if (macaroonsEnabled) {
-    metadata = getMetadata();
+    metadata = getMetadata(lndSettingsDir);
   }
 
   let unlocker;

@@ -4,7 +4,6 @@ const os = require('os');
 const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
-const ps = require('ps-node');
 const log = require('electron-log');
 const { PREFIX_NAME, MACAROONS_ENABLED } = require('../src/config');
 const { startLndProcess, startBtcdProcess } = require('./lnd-child-process');
@@ -23,13 +22,12 @@ console.log(`
 `);
 
 const LND_NAME = 'lnd';
-const LND_DATA_DIR = 'data/lnd_data';
-const LND_LOG_DIR = 'data/lnd_log';
-const BTCD_DATA_DIR = 'data/btcd_data';
-const BTCD_LOG_DIR = 'data/btcd_log';
 const BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
 const LND_PORT = 10009;
 const LND_PEER_PORT = 10019;
+const userDataPath = app.getPath('userData');
+const lndSettingsDir = path.join(isDev ? 'data' : userDataPath, 'lnd');
+const btcdSettingsDir = path.join(isDev ? 'data' : userDataPath, 'btcd');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -116,9 +114,8 @@ function createWindow() {
 
   grcpClient.init({
     ipcMain,
-    isDev,
+    lndSettingsDir,
     lndPort: LND_PORT,
-    lndDataDir: LND_DATA_DIR,
     macaroonsEnabled: MACAROONS_ENABLED,
   });
 
@@ -132,15 +129,13 @@ const startLnd = async () => {
     btcdProcess = await startBtcdProcess({
       isDev,
       logger: Logger,
-      btcdLogDir: BTCD_LOG_DIR,
-      btcdDataDir: BTCD_DATA_DIR,
+      btcdSettingsDir,
       miningAddress: BTCD_MINING_ADDRESS,
     });
     lndProcess = await startLndProcess({
       isDev,
+      lndSettingsDir,
       macaroonsEnabled: MACAROONS_ENABLED,
-      lndDataDir: LND_DATA_DIR,
-      lndLogDir: LND_LOG_DIR,
       lndPort: LND_PORT,
       lndPeerPort: LND_PEER_PORT,
       logger: Logger,
@@ -149,17 +144,6 @@ const startLnd = async () => {
     Logger.error(`Caught Error When Starting ${LND_NAME}: ${err}`);
   }
 };
-
-ps.lookup({ command: LND_NAME }, (err, resultList) => {
-  if (err) {
-    Logger.info(`lnd ps lookup error`, err);
-  } else if (resultList) {
-    Logger.info(`lnd will run on port ${LND_PORT}, ${LND_DATA_DIR}`);
-    startLnd();
-  } else {
-    startLnd();
-  }
-});
 
 ///////////////////////////////////////////////////
 
@@ -189,6 +173,7 @@ function initAutoUpdate() {
 app.on('ready', () => {
   initAutoUpdate();
   createWindow();
+  startLnd();
 });
 
 // Quit when all windows are closed.
