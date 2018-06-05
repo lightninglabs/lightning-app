@@ -22,28 +22,6 @@ console.log(`
 
 `);
 
-//
-// Check for updates
-//
-
-autoUpdater.autoDownload = true;
-autoUpdater.autoInstallOnAppQuit = true;
-autoUpdater.on('update-downloaded', () => {
-  const opt = {
-    type: 'question',
-    buttons: ['Install', 'Later'],
-    title: 'Update available',
-    message: 'Restart the app and install the update?',
-  };
-  dialog.showMessageBox(opt, choice => {
-    if (choice === 0) autoUpdater.quitAndInstall();
-  });
-});
-
-//
-// Start application
-//
-
 const LND_NAME = 'lnd';
 const LND_DATA_DIR = 'data/lnd_data';
 const LND_LOG_DIR = 'data/lnd_log';
@@ -184,11 +162,30 @@ ps.lookup({ command: LND_NAME }, (err, resultList) => {
 
 ///////////////////////////////////////////////////
 
+// Check for updates
+autoUpdater.on('update-downloaded', () => {
+  const opt = {
+    type: 'question',
+    buttons: ['Install', 'Later'],
+    title: 'Update available',
+    message: 'Restart the app and install the update?',
+  };
+  dialog.showMessageBox(opt, choice => {
+    if (choice !== 0) return;
+    setTimeout(() => autoUpdater.quitAndInstall(), 100);
+  });
+});
+
+function initAutoUpdate() {
+  const oneHour = 60 * 60 * 1000;
+  setInterval(() => autoUpdater.checkForUpdates(), oneHour);
+}
+
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
-  autoUpdater.checkForUpdates();
+  initAutoUpdate();
   createWindow();
 });
 
