@@ -124,12 +124,14 @@ describe('Action Integration Tests', function() {
     lndProcess2 = await lndProcess2Promise;
 
     await grcpClient.init({
+      isDev,
       ipcMain: ipcMainStub1,
       lndPort: LND_PORT_1,
       lndDataDir: LND_DATA_DIR_1,
       macaroonsEnabled: MACAROONS_ENABLED,
     });
     await grcpClient.init({
+      isDev,
       ipcMain: ipcMainStub2,
       lndPort: LND_PORT_2,
       lndDataDir: LND_DATA_DIR_2,

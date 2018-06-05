@@ -59,12 +59,13 @@ function getMetadata() {
 }
 
 module.exports.init = async function({
+  isDev,
   ipcMain,
   lndPort,
   lndDataDir,
   macaroonsEnabled,
 }) {
-  const credentials = await getCredentials(lndDataDir);
+  const credentials = await getCredentials(isDev && lndDataDir);
   const protoPath = path.join(__dirname, '..', 'assets', 'rpc.proto');
   const { lnrpc } = grpc.load(protoPath);
   let metadata;

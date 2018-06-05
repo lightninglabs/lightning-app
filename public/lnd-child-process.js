@@ -56,24 +56,21 @@ module.exports.startLndProcess = async function({
 }) {
   const processName = 'lnd';
   const args = [
-    isDev ? '--bitcoin.active' : '',
-    isDev ? '--bitcoin.simnet' : '',
+    '--bitcoin.active',
+    isDev ? '--bitcoin.simnet' : '--bitcoin.testnet',
     isDev ? '--btcd.rpcuser=kek' : '',
     isDev ? '--btcd.rpcpass=kek' : '',
     isDev ? '--bitcoin.node=btcd' : '--bitcoin.node=neutrino',
-
-    isDev ? '' : '--bitcoin.active',
-    isDev ? '' : '--configfile=../lnd.conf',
-    isDev ? '' : '--bitcoin.testnet',
     isDev ? '' : '--neutrino.connect=btcd0.lightning.computer:18333',
+    isDev ? '' : '--neutrino.connect=faucet.lightning.community',
     isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
     isDev ? '' : '--autopilot.active',
 
     macaroonsEnabled ? '' : '--no-macaroons',
-    lndDataDir ? `--datadir=${lndDataDir}` : '',
-    lndDataDir ? `--tlscertpath=${lndDataDir}/tls.cert` : '',
-    lndDataDir ? `--tlskeypath=${lndDataDir}/tls.key` : '',
-    lndLogDir ? `--logdir=${lndLogDir}` : '',
+    isDev && lndDataDir ? `--datadir=${lndDataDir}` : '',
+    isDev && lndDataDir ? `--tlscertpath=${lndDataDir}/tls.cert` : '',
+    isDev && lndDataDir ? `--tlskeypath=${lndDataDir}/tls.key` : '',
+    isDev && lndLogDir ? `--logdir=${lndLogDir}` : '',
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
