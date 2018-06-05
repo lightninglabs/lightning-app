@@ -7,7 +7,7 @@ function getProcessName(binName) {
   const filePath = __dirname.includes('asar')
     ? path.join(__dirname, '..', '..', 'assets', 'bin', os.platform(), filename)
     : path.join(__dirname, '..', 'assets', 'bin', os.platform(), filename);
-  return cp.spawnSync('type', [binName]).status === 0 ? binName : filePath;
+  return cp.spawnSync('type', [filePath]).status === 0 ? filePath : filename;
 }
 
 async function startChildProcess(name, args, logger) {
