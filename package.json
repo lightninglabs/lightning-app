@@ -75,6 +75,8 @@
     "appId": "engineering.lightning.lightning-app",
     "publish": {
       "provider": "github",
+      "owner": "lightninglabs",
+      "repo": "lightning-app",
       "vPrefixedTagName": true,
       "publishAutoUpdate": true,
       "releaseType": "draft"
