@@ -2,9 +2,10 @@ import { RETRY_DELAY } from '../config';
 import * as log from './log';
 
 class InfoAction {
-  constructor(store, grpc) {
+  constructor(store, grpc, notification) {
     this._store = store;
     this._grpc = grpc;
+    this._notification = notification;
   }
 
   async getInfo() {
@@ -14,6 +15,7 @@ class InfoAction {
       this._store.syncedToChain = response.synced_to_chain;
       this._store.blockHeight = response.block_height;
       if (!response.synced_to_chain) {
+        this._notification.display({ msg: 'Syncing to chain ...' });
         clearTimeout(this.t3);
         this.t3 = setTimeout(() => this.getInfo(), RETRY_DELAY);
       }

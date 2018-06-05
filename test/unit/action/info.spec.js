@@ -1,5 +1,6 @@
 import { observable, useStrict } from 'mobx';
 import GrpcAction from '../../../src/action/grpc';
+import NotificationAction from '../../../src/action/notification';
 import InfoAction from '../../../src/action/info';
 import * as logger from '../../../src/action/log';
 
@@ -8,6 +9,7 @@ describe('Action Info Unit Tests', () => {
   let store;
   let grpc;
   let info;
+  let notification;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
@@ -17,7 +19,8 @@ describe('Action Info Unit Tests', () => {
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     grpc.sendCommand.resolves({});
-    info = new InfoAction(store, grpc);
+    notification = sinon.createStubInstance(NotificationAction);
+    info = new InfoAction(store, grpc, notification);
   });
 
   afterEach(() => {
