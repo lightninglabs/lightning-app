@@ -25,12 +25,9 @@ const LND_NAME = 'lnd';
 const BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
 const LND_PORT = 10009;
 const LND_PEER_PORT = 10019;
-const lndSettingsDir = isDev
-  ? 'data/lnd'
-  : path.join(app.getPath('userData'), 'lnd');
-const btcdSettingsDir = isDev
-  ? 'data/btcd'
-  : path.join(app.getPath('userData'), 'btcd');
+const userDataPath = app.getPath('userData');
+const lndSettingsDir = path.join(isDev ? 'data' : userDataPath, 'lnd');
+const btcdSettingsDir = path.join(isDev ? 'data' : userDataPath, 'btcd');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
