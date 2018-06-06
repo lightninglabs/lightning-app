@@ -97,9 +97,10 @@ const countStyles = StyleSheet.create({
   },
 });
 
-export const CountBubble = ({ children, style }) => (
-  <H4Text style={[countStyles.bubble, style]}>{children}</H4Text>
-);
+export const CountBubble = ({ children, style }) =>
+  children && children !== '0' ? (
+    <H4Text style={[countStyles.bubble, style]}>{children}</H4Text>
+  ) : null;
 
 CountBubble.propTypes = {
   children: PropTypes.string.isRequired,

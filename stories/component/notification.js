@@ -17,6 +17,9 @@ storiesOf('Notification', module)
   ))
   .add('Count Bubble', () => (
     <CountBubble style={{ alignSelf: 'flex-start' }}>42</CountBubble>
+  ))
+  .add('Count Bubble (0)', () => (
+    <CountBubble style={{ alignSelf: 'flex-start' }}>0</CountBubble>
   ));
 
 store.notifications.push({
