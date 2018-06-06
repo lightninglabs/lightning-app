@@ -51,6 +51,27 @@ CopyText.propTypes = {
 };
 
 //
+// CopyOnboard Text
+//
+
+const copyOnboardStyles = StyleSheet.create({
+  text: {
+    fontFamily: 'WorkSans Light',
+    fontSize: font.sizeXXL,
+    lineHeight: font.lineHeightXXL,
+  },
+});
+
+export const CopyOnboardText = ({ children = '', style }) => (
+  <Text style={[copyOnboardStyles.text, style]}>{children}</Text>
+);
+
+CopyOnboardText.propTypes = {
+  children: PropTypes.string.isRequired,
+  style: TextPropTypes.style,
+};
+
+//
 // H1 Text
 //
 
