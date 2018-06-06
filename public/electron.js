@@ -5,9 +5,15 @@ const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
 const log = require('electron-log');
-const { PREFIX_NAME, MACAROONS_ENABLED } = require('../src/config');
 const { startLndProcess, startBtcdProcess } = require('./lnd-child-process');
 const grcpClient = require('./grpc-client');
+const {
+  PREFIX_NAME,
+  MACAROONS_ENABLED,
+  LND_PORT,
+  LND_PEER_PORT,
+  BTCD_MINING_ADDRESS,
+} = require('../src/config');
 
 console.log(`
  ___       ________       ________  ________  ________
@@ -21,10 +27,6 @@ console.log(`
 
 `);
 
-const LND_NAME = 'lnd';
-const BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
-const LND_PORT = 10009;
-const LND_PEER_PORT = 10019;
 const userDataPath = app.getPath('userData');
 const lndSettingsDir = path.join(isDev ? 'data' : userDataPath, 'lnd');
 const btcdSettingsDir = path.join(isDev ? 'data' : userDataPath, 'btcd');
@@ -110,19 +112,13 @@ function createWindow() {
     win = null;
   });
 
-  //////////////// Lightning App ///////////////////////////
-
   grcpClient.init({
     ipcMain,
     lndSettingsDir,
     lndPort: LND_PORT,
     macaroonsEnabled: MACAROONS_ENABLED,
   });
-
-  ///////////////////////////////////////////////////
 }
-
-//////////////// Lightning App ///////////////////////////
 
 const startLnd = async () => {
   try {
@@ -141,11 +137,9 @@ const startLnd = async () => {
       logger: Logger,
     });
   } catch (err) {
-    Logger.error(`Caught Error When Starting ${LND_NAME}: ${err}`);
+    Logger.error(`Caught Error When Starting lnd: ${err}`);
   }
 };
-
-///////////////////////////////////////////////////
 
 // Check for updates
 autoUpdater.on('update-downloaded', () => {
@@ -208,6 +202,3 @@ app.on('open-url', (event, url) => {
 process.on('uncaughtException', error => {
   Logger.error('Caught Main Process Error:', error);
 });
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

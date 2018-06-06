@@ -1,23 +1,16 @@
 module.exports.RETRY_DELAY = 3000;
 module.exports.NOTIFICATION_DELAY = 5000;
 
+module.exports.LND_PORT = 10009;
+module.exports.LND_PEER_PORT = 10019;
+module.exports.MACAROONS_ENABLED = false;
+module.exports.BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
+
 const prefixName = 'lightning';
 module.exports.PREFIX_NAME = prefixName;
 module.exports.PREFIX_URI = `${prefixName}:`;
 
 module.exports.DEFAULT_ROUTE = 'Home';
-// module.exports.DEFAULT_ROUTE = 'Channels';
-// module.exports.DEFAULT_ROUTE = 'Request';
-// module.exports.DEFAULT_ROUTE = 'CreateChannel';
-// module.exports.DEFAULT_ROUTE = 'Settings';
-// module.exports.DEFAULT_ROUTE = 'Transactions';
-// module.exports.DEFAULT_ROUTE = 'InitializeWallet';
-
-// module.exports.MNEMONIC_WALLET = false;
-module.exports.MNEMONIC_WALLET = true;
-
-module.exports.MACAROONS_ENABLED = false;
-// module.exports.MACAROONS_ENABLED = true;
 
 module.exports.UNITS = {
   sat: { display: 'SAT', denominator: 1 },
