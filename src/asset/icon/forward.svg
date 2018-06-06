@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="9px" height="15px" viewBox="0 0 9 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>icon / dark / forward</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Styles" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Buttons" transform="translate(-1323.000000, -1993.000000)" fill="#FFFFFF">
+            <g id="Group-Copy-4" transform="translate(39.000000, 1983.500000)">
+                <g id="icon-/-dark-/-forward" transform="translate(1285.039845, 16.873984) rotate(-360.000000) translate(-1285.039845, -16.873984) translate(1277.039845, 9.373984)">
+                    <path d="M9.54622638,7.51445307 L15.6818717,13.2651527 C16.1053081,13.662023 16.1053081,14.3054769 15.6818717,14.7023473 C15.2584354,15.0992176 14.5719093,15.0992176 14.1484729,14.7023473 L7.47135798,8.44414945 C7.43578017,8.41080376 7.40425286,8.3750993 7.37677607,8.33757317 C7.33091698,8.3063907 7.2870748,8.27142805 7.24573855,8.23268521 C6.82208699,7.83561323 6.82208699,7.19183235 7.24573855,6.79476037 L14.1480833,0.325463452 C14.5717349,-0.0716085272 15.2586098,-0.0716085272 15.6822613,0.325463452 C16.1059129,0.722535432 16.1059129,1.36631631 15.6822613,1.76338829 L9.54622638,7.51445307 Z" id="Combined-Shape" transform="translate(11.464000, 7.513830) rotate(-180.000000) translate(-11.464000, -7.513830) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
