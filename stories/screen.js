@@ -13,6 +13,7 @@ import ChannelAction from '../src/action/channel';
 import TransactionAction from '../src/action/transaction';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
+import Setting from '../src/view/setting';
 import TransactionDetail from '../src/view/transaction-detail';
 import Channel from '../src/view/channel';
 import ChannelDetail from '../src/view/channel-detail';
@@ -68,6 +69,7 @@ storiesOf('Screens', module)
       nav={nav}
     />
   ))
+  .add('Settings', () => <Setting store={store} nav={nav} />)
   .add('Transactions', () => (
     <Transaction store={store} transaction={transaction} nav={nav} />
   ))
@@ -112,6 +114,11 @@ store.invoice.note = 'For the love of bitcoin';
 store.invoice.encoded =
   'lnbc4567800n1pdvqx48pp5eng6uyqnkdlx93m2598ug93qtuls8gapygxznshzd56h7n5cxs0sdp9gehhygr5dpjjqmr0wejjqmmxyp3xjarrda5kucqzysmhyrleqpt3yqf5nctzsr3hvrv9vhhnawazkwyzu8t4mf85tllsyjsf8hgu5nt6dj3jaljjgmt999xnlsweqvatypzlu34nhpjlxf59qp4dn2pv';
 store.invoice.uri = `lightning:${store.invoice.encoded}`;
+store.notifications = [...Array(5)].map((x, i) => ({
+  type: i % 2 === 0 ? 'error' : 'info',
+  message: 'Ooops. Something went wrong.',
+  display: true,
+}));
 store.transactions = [...Array(5)].map((x, i) => ({
   id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
   type: 'bitcoin',

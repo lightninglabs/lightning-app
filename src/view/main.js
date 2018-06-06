@@ -17,6 +17,7 @@ import ChannelDetail from './channel-detail';
 import ChannelDelete from './channel-delete';
 import ChannelCreate from './channel-create';
 import Transaction from './transaction';
+import Setting from './setting';
 import TransactionDetail from './transaction-detail';
 import { nav, wallet, payment, invoice, channel, transaction } from '../action';
 import store from '../store';
@@ -41,6 +42,7 @@ class MainView extends Component {
             nav={nav}
           />
         )}
+        {route === 'Settings' && <Setting store={store} nav={nav} />}
         {route === 'Pay' && (
           <Payment store={store} payment={payment} nav={nav} />
         )}
