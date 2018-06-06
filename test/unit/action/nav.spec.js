@@ -121,7 +121,7 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe('goNotifications()', () => {
+  describe.skip('goNotifications()', () => {
     it('should set correct route', () => {
       nav.goNotifications();
       expect(store.route, 'to equal', 'Notifications');
@@ -135,21 +135,21 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe('goSettingsUnit()', () => {
+  describe.skip('goSettingsUnit()', () => {
     it('should set correct route', () => {
       nav.goSettingsUnit();
       expect(store.route, 'to equal', 'SettingsUnit');
     });
   });
 
-  describe('goSettingsFiat()', () => {
+  describe.skip('goSettingsFiat()', () => {
     it('should set correct route', () => {
       nav.goSettingsFiat();
       expect(store.route, 'to equal', 'SettingsFiat');
     });
   });
 
-  describe('goCLI()', () => {
+  describe.skip('goCLI()', () => {
     it('should set correct route', () => {
       nav.goCLI();
       expect(store.route, 'to equal', 'CLI');

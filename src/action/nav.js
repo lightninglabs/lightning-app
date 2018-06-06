@@ -71,7 +71,7 @@ class NavAction {
   }
 
   goNotifications() {
-    this._store.route = 'Notifications';
+    // this._store.route = 'Notifications';
   }
 
   goSettings() {
@@ -79,15 +79,15 @@ class NavAction {
   }
 
   goSettingsUnit() {
-    this._store.route = 'SettingsUnit';
+    // this._store.route = 'SettingsUnit';
   }
 
   goSettingsFiat() {
-    this._store.route = 'SettingsFiat';
+    // this._store.route = 'SettingsFiat';
   }
 
   goCLI() {
-    this._store.route = 'CLI';
+    // this._store.route = 'CLI';
   }
 
   goCreateChannel() {
