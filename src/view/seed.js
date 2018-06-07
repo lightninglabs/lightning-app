@@ -57,14 +57,14 @@ const styles = StyleSheet.create({
 
 const SeedView = ({ seedMnemonic }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
-    <MainContent style={styles.splitTop}>
+    <View style={styles.splitTop}>
       <H1Text style={styles.title}>First, write down your seed</H1Text>
       <CopyText style={styles.copyTxt}>
         A seed is a group of words that will help you to recover your wallet if
         you lose your password or computer. Write it down, and keep it in a safe
         place.
       </CopyText>
-    </MainContent>
+    </View>
     <MainContent style={styles.split}>
       <List
         data={seedMnemonic}
