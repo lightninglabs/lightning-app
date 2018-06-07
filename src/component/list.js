@@ -45,7 +45,7 @@ export class List extends Component {
   }
 
   get dataSource() {
-    return this.ds.cloneWithRows(this.props.data);
+    return this.ds.cloneWithRows(this.props.data.slice());
   }
 
   render() {
