@@ -65,7 +65,7 @@ const SeedView = ({ seedMnemonic }) => (
         place.
       </CopyText>
     </View>
-    <MainContent style={styles.split}>
+    <MainContent>
       <List
         data={seedMnemonic}
         renderItem={(word, _, rowID) => (
