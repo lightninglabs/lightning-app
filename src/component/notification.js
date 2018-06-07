@@ -81,6 +81,33 @@ Alert.propTypes = {
 };
 
 //
+// CountBubble
+//
+
+const countStyles = StyleSheet.create({
+  bubble: {
+    fontSize: font.sizeXS,
+    lineHeight: font.lineHeightXS,
+    paddingTop: 1,
+    paddingBottom: 2,
+    paddingRight: 10,
+    paddingLeft: 10,
+    borderRadius: 13,
+    backgroundColor: color.pinkSig,
+  },
+});
+
+export const CountBubble = ({ children, style }) =>
+  children && children !== '0' ? (
+    <H4Text style={[countStyles.bubble, style]}>{children}</H4Text>
+  ) : null;
+
+CountBubble.propTypes = {
+  children: PropTypes.string.isRequired,
+  style: View.propTypes.style,
+};
+
+//
 // Copied Notification
 //
 

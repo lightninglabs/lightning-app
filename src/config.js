@@ -18,8 +18,8 @@ module.exports.UNITS = {
   btc: { display: 'BTC', denominator: 100000000 },
 };
 module.exports.FIATS = {
-  usd: { display: '$' },
-  eur: { display: '€' },
+  usd: { display: 'US Dollar' },
+  eur: { display: 'Euro' },
 };
 module.exports.DEFAULT_UNIT = 'btc';
 module.exports.DEFAULT_FIAT = 'usd';

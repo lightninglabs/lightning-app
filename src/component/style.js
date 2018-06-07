@@ -5,6 +5,7 @@ export const color = {
   greyText: '#969596',
   greyPill: '#979797',
   greyListHeader: '#848A99',
+  greyListLabel: '#DBDBDB',
   greyPlaceholder: 'rgba(74,74,74,0.5)',
   greyBorder: '#6B6969',
   greyLight: '#D7D4D4',
