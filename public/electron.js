@@ -149,7 +149,7 @@ autoUpdater.on('update-downloaded', () => {
     title: 'Update available',
     message: 'Restart the app and install the update?',
   };
-  dialog.showMessageBox(opt, choice => {
+  dialog.showMessageBox(win, opt, choice => {
     if (choice !== 0) return;
     setTimeout(() => autoUpdater.quitAndInstall(), 100);
   });
