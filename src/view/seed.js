@@ -6,7 +6,6 @@ import MainContent from '../component/main-content';
 import { CopyText, H1Text, Text } from '../component/text';
 import { SplitBackground } from '../component/background';
 import { GlasButton } from '../component/button';
-import { List } from '../component/list';
 import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
@@ -35,10 +34,8 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 25,
-    paddingBottom: 25,
-    paddingLeft: 100,
-    paddingRight: 100,
+    flex: 1,
+    padding: 20,
   },
   wordWrapper: {
     justifyContent: 'center',
@@ -55,7 +52,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SeedView = ({ seedMnemonic }) => (
+const SeedView = ({ store }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <View style={styles.splitTop}>
       <H1Text style={styles.title}>First, write down your seed</H1Text>
@@ -66,34 +63,31 @@ const SeedView = ({ seedMnemonic }) => (
       </CopyText>
     </View>
     <MainContent>
-      <List
-        data={seedMnemonic.slice()}
-        renderItem={(word, _, rowID) => (
-          <Word word={word} ind={parseInt(rowID) + 1} />
-        )}
-        contentStyle={styles.wordList}
-        initialListSize={24}
-      />
+      <View style={styles.wordList}>
+        {store.seedMnemonic
+          .slice()
+          .map((word, ind) => <Word word={word} key={ind + 1} />)}
+      </View>
       <GlasButton onPress={() => {}}>Next</GlasButton>
     </MainContent>
   </SplitBackground>
 );
 
 SeedView.propTypes = {
-  seedMnemonic: PropTypes.object.isRequired,
+  store: PropTypes.object.isRequired,
 };
 
-const Word = ({ word, ind }) => (
+const Word = ({ word, key }) => (
   <View style={styles.wordWrapper}>
     <Text style={styles.word}>
-      {ind}. {word}
+      {key}. {word}
     </Text>
   </View>
 );
 
 Word.propTypes = {
   word: PropTypes.string,
-  ind: PropTypes.number,
+  key: PropTypes.number,
 };
 
 export default observer(SeedView);

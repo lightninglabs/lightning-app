@@ -55,8 +55,6 @@ export class List extends Component {
         renderHeader={this.props.renderHeader}
         renderRow={this.props.renderItem}
         enableEmptySections={true}
-        contentContainerStyle={this.props.contentStyle}
-        initialListSize={this.props.initialListSize}
       />
     );
   }
@@ -66,8 +64,6 @@ List.propTypes = {
   data: PropTypes.array.isRequired,
   renderHeader: PropTypes.func,
   renderItem: PropTypes.func.isRequired,
-  contentStyle: ViewPropTypes.style,
-  initialListSize: PropTypes.number,
 };
 
 //

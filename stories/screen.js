@@ -108,7 +108,7 @@ storiesOf('Screens', module)
   ))
   .add('Loader - First Time', () => <Loader />)
   .add('Seed Success', () => <SeedSuccess />)
-  .add('Seed', () => <Seed seedMnemonic={store.seedMnemonic} />);
+  .add('Seed', () => <Seed store={store} />);
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
