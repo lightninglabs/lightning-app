@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, Menu } = require('electron');
 const { autoUpdater } = require('electron-updater');
 const os = require('os');
 const path = require('path');
@@ -167,6 +167,7 @@ function initAutoUpdate() {
 app.on('ready', () => {
   initAutoUpdate();
   createWindow();
+  initApplicationMenu();
   startLnd();
 });
 
@@ -202,3 +203,37 @@ app.on('open-url', (event, url) => {
 process.on('uncaughtException', error => {
   Logger.error('Caught Main Process Error:', error);
 });
+
+// Create the Application's main menu
+function initApplicationMenu() {
+  const template = [
+    {
+      label: 'Edit',
+      submenu: [
+        { role: 'undo' },
+        { role: 'redo' },
+        { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+      ],
+    },
+  ];
+  if (process.platform === 'darwin') {
+    template.unshift({
+      label: app.getName(),
+      submenu: [
+        { role: 'about' },
+        { type: 'separator' },
+        { role: 'hide' },
+        { role: 'hideothers' },
+        { role: 'unhide' },
+        { type: 'separator' },
+        { role: 'quit' },
+      ],
+    });
+    // Edit menu
+    template[1].submenu.push({ type: 'separator' });
+  }
+  Menu.setApplicationMenu(Menu.buildFromTemplate(template));
+}
