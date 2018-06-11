@@ -15,19 +15,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    padding: 20,
-    fontSize: font.sizeXXL,
-    textAlign: 'center',
+    marginBottom: 15,
   },
   copyTxt: {
-    alignSelf: 'center',
     textAlign: 'center',
-    fontSize: font.sizeL,
-    lineHeight: font.lineHeightL,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingBottom: 20,
-    maxWidth: 600,
+    maxWidth: 410,
   },
   wordList: {
     flexDirection: 'row',
