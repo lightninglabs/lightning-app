@@ -7,32 +7,30 @@ import { H1Text, CopyText } from '../component/text';
 import { GlasButton } from '../component/button';
 
 const styles = StyleSheet.create({
-  info: {
+  wrapper: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
   },
   icon: {
-    height: 272,
-    width: 210,
-    marginBottom: 60,
+    height: 281 * 0.75,
+    width: 218 * 0.75,
+    marginBottom: 50,
   },
   title: {
-    textAlign: 'center',
-    paddingBottom: 20,
+    marginBottom: 10,
   },
   copy: {
     textAlign: 'center',
-    maxWidth: 487,
-    paddingBottom: 15,
+    maxWidth: 330,
   },
 });
 
 const SeedSuccessView = () => (
   <Background image="purple-gradient-bg">
     <MainContent>
-      <View style={styles.info}>
+      <View style={styles.wrapper}>
         <Icon image="shield" style={styles.icon} />
         <H1Text style={styles.title}>Good job you!</H1Text>
         <CopyText style={styles.copy}>
