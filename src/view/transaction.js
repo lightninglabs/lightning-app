@@ -51,6 +51,10 @@ TransactionView.propTypes = {
 //
 
 const iStyles = StyleSheet.create({
+  item: {
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   wrap: {
     paddingRight: 50,
   },
@@ -89,7 +93,7 @@ const statusType = tx => {
 };
 
 const TransactionListItem = ({ tx, onSelect }) => (
-  <ListItem onSelect={onSelect}>
+  <ListItem style={iStyles.item} onSelect={onSelect}>
     <View style={iStyles.i}>
       {tx.type === 'lightning' ? (
         <Icon image="lightning-bolt" style={iStyles.bolt} />
@@ -129,7 +133,7 @@ const hStyles = StyleSheet.create({
 });
 
 const TransactionListHeader = () => (
-  <ListHeader>
+  <ListHeader style={iStyles.item}>
     <View style={iStyles.i} />
     <Text style={[iStyles.m, hStyles.txt]}>STATUS</Text>
     <Text style={[iStyles.m, hStyles.txt]}>DATE</Text>
