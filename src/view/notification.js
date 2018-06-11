@@ -101,7 +101,7 @@ const hStyles = StyleSheet.create({
 const NotificationListHeader = () => (
   <ListHeader>
     <Text style={[iStyles.s, hStyles.txt]}>TYPE</Text>
-    <Text style={[iStyles.m, hStyles.txt]}>DATE</Text>
+    <Text style={[iStyles.m, hStyles.txt]}>TIME</Text>
     <Text style={[iStyles.l, hStyles.txt]}>DESCRIPTION</Text>
   </ListHeader>
 );
