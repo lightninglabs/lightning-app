@@ -38,10 +38,7 @@ export const NotificationBar = ({ notification, display, style }) =>
   notification && display ? (
     <View style={[barStyles.bar, style]}>
       <View style={barStyles.msgWrapper}>
-        <Alert
-          color={notification.type === 'info' ? color.orangeSig : color.pinkSig}
-          style={barStyles.alert}
-        />
+        <Alert type={notification.type} style={barStyles.alert} />
         <Text style={barStyles.text}>{notification.message}</Text>
       </View>
       {notification.handler ? (
@@ -63,6 +60,14 @@ NotificationBar.propTypes = {
 // Alert
 //
 
+export const alertColor = type => {
+  return type === 'success'
+    ? color.greenSig
+    : type === 'error'
+      ? color.pinkSig
+      : color.orangeSig;
+};
+
 const alertStyles = StyleSheet.create({
   dot: {
     height: 6,
@@ -71,12 +76,14 @@ const alertStyles = StyleSheet.create({
   },
 });
 
-export const Alert = ({ color, style }) => (
-  <View style={[alertStyles.dot, { backgroundColor: color }, style]} />
+export const Alert = ({ type, style }) => (
+  <View
+    style={[alertStyles.dot, { backgroundColor: alertColor(type) }, style]}
+  />
 );
 
 Alert.propTypes = {
-  color: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   style: View.propTypes.style,
 };
 

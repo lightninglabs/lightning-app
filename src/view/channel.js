@@ -137,21 +137,21 @@ const ChannelSummary = ({
 }) => (
   <View style={summaryStyles.wrapper}>
     <View style={summaryStyles.box}>
-      <Alert color={color.greenSig} style={summaryStyles.alert} />
+      <Alert type="success" style={summaryStyles.alert} />
       <Text style={summaryStyles.txt}>Opened</Text>
       <Text style={[summaryStyles.txt, summaryStyles.total]}>
         {channelBalanceOpenLabel} {unitLabel}
       </Text>
     </View>
     <View style={summaryStyles.box}>
-      <Alert color={color.orangeSig} style={summaryStyles.alert} />
+      <Alert type="info" style={summaryStyles.alert} />
       <Text style={summaryStyles.txt}>Pending</Text>
       <Text style={[summaryStyles.txt, summaryStyles.total]}>
         {channelBalancePendingLabel} {unitLabel}
       </Text>
     </View>
     <View style={summaryStyles.box}>
-      <Alert color={color.pinkSig} style={summaryStyles.alert} />
+      <Alert type="error" style={summaryStyles.alert} />
       <Text style={summaryStyles.txt}>Closing</Text>
       <Text style={[summaryStyles.txt, summaryStyles.total]}>
         {channelBalanceClosingLabel} {unitLabel}
@@ -193,17 +193,17 @@ const iStyles = StyleSheet.create({
   i: { flex: 1 },
 });
 
-const statusColor = ch =>
+const statusType = ch =>
   ch.status === 'open'
-    ? color.greenSig
+    ? 'success'
     : ch.status.includes('open')
-      ? color.orangeSig
-      : color.pinkSig;
+      ? 'info'
+      : 'error';
 
 const ChannelListItem = ({ ch, onSelect }) => (
   <ListItem onSelect={onSelect}>
     <View style={[iStyles.m, iStyles.group]}>
-      <Alert color={statusColor(ch)} style={iStyles.alert} />
+      <Alert type={statusType(ch)} style={iStyles.alert} />
       <Text style={iStyles.txt}>{ch.statusLabel}</Text>
     </View>
     <Text style={[iStyles.m, iStyles.txt]}>{ch.capacityLabel}</Text>
