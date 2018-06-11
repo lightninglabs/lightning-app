@@ -121,7 +121,7 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe.skip('goNotifications()', () => {
+  describe('goNotifications()', () => {
     it('should set correct route', () => {
       nav.goNotifications();
       expect(store.route, 'to equal', 'Notifications');
