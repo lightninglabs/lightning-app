@@ -33,8 +33,8 @@ describe('Computed Notification Unit Tests', () => {
         {
           typeLabel: 'Error',
           message: 'Oops something went wrong',
-          dateLabel: '11.6.2018',
-          dateTimeLabel: '11.6.2018, 09:57:01',
+          dateLabel: new Date(1528703821406).toLocaleDateString(),
+          dateTimeLabel: new Date(1528703821406).toLocaleString(),
         },
       ]);
     });
