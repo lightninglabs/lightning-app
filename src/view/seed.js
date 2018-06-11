@@ -37,7 +37,8 @@ const copyStyles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    marginBottom: 15,
+    margin: 15,
+    textAlign: 'center',
   },
   copyTxt: {
     textAlign: 'center',
