@@ -7,5 +7,5 @@ import { color } from './style';
 //
 
 export const SmallSpinner = () => (
-  <ActivityIndicator size="large" color={color.purpleSpinner} />
+  <ActivityIndicator size="large" color={color.purple} />
 );
