@@ -31,6 +31,7 @@ import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
 import PayBitcoinDone from '../src/view/pay-bitcoin-done';
 import Loader from '../src/view/loader';
 import SeedSuccess from '../src/view/seed-success';
+import Seed from '../src/view/seed';
 
 const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
@@ -106,7 +107,8 @@ storiesOf('Screens', module)
     <InvoiceQR store={store} invoice={invoice} nav={nav} />
   ))
   .add('Loader - First Time', () => <Loader />)
-  .add('Seed Success', () => <SeedSuccess />);
+  .add('Seed Success', () => <SeedSuccess />)
+  .add('Seed', () => <Seed store={store} />);
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
@@ -174,3 +176,29 @@ store.pendingChannels = [...Array(6)].map((x, i) => ({
   status: i % 2 === 0 ? 'pending-closing' : 'pending-open',
 }));
 store.selectedChannel = store.computedChannels && store.computedChannels[0];
+store.seedMnemonic = [
+  'empower',
+  'neglect',
+  'experience',
+  'elevator',
+  'entropy',
+  'future',
+  'trust',
+  'swift',
+  'pluck',
+  'easy',
+  'kite',
+  'measure',
+  'engage',
+  'settle',
+  'dog',
+  'manager',
+  'tool',
+  'fan',
+  'neglect',
+  'conduct',
+  'blouse',
+  'stone',
+  'quit',
+  'cashew',
+];
