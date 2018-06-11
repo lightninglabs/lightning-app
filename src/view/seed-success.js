@@ -5,7 +5,6 @@ import Background from '../component/background';
 import Icon from '../component/icon';
 import { H1Text, CopyText } from '../component/text';
 import { GlasButton } from '../component/button';
-import { font } from '../component/style';
 
 const styles = StyleSheet.create({
   info: {
@@ -20,15 +19,11 @@ const styles = StyleSheet.create({
     marginBottom: 60,
   },
   title: {
-    fontSize: font.sizeXXL,
-    lineHeight: font.lineHeightXXL,
     textAlign: 'center',
     paddingBottom: 20,
   },
   copy: {
     textAlign: 'center',
-    fontSize: font.sizeL,
-    lineHeight: font.lineHeightL,
     maxWidth: 487,
     paddingBottom: 15,
   },
