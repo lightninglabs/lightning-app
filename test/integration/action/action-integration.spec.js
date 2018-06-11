@@ -131,7 +131,7 @@ describe('Action Integration Tests', function() {
     });
 
     nav1 = sinon.createStubInstance(NavAction);
-    notify1 = sinon.createStubInstance(NotificationAction);
+    notify1 = sinon.createStubInstance(NotificationAction, nav1);
     grpc1 = new GrpcAction(store1, ipcRendererStub1);
     info1 = new InfoAction(store1, grpc1, notify1);
     wallet1 = new WalletAction(store1, grpc1, notify1);
@@ -141,7 +141,7 @@ describe('Action Integration Tests', function() {
     payments1 = new PaymentAction(store1, grpc1, transactions1, nav1, notify1);
 
     nav2 = sinon.createStubInstance(NavAction);
-    notify2 = sinon.createStubInstance(NotificationAction);
+    notify2 = sinon.createStubInstance(NotificationAction, nav2);
     grpc2 = new GrpcAction(store2, ipcRendererStub2);
     info2 = new InfoAction(store2, grpc2, notify2);
     wallet2 = new WalletAction(store2, grpc2, notify2);

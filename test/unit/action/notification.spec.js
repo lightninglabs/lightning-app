@@ -1,10 +1,12 @@
 import { Store } from '../../../src/store';
 import * as log from '../../../src/action/log';
+import NavAction from '../../../src/action/nav';
 import NotificationAction from '../../../src/action/notification';
 
 describe('Action Notification Unit Tests', () => {
   let store;
   let sandbox;
+  let nav;
   let notification;
 
   beforeEach(() => {
@@ -12,7 +14,8 @@ describe('Action Notification Unit Tests', () => {
     sandbox.stub(log);
     store = new Store();
     require('../../../src/config').NOTIFICATION_DELAY = 1;
-    notification = new NotificationAction(store);
+    nav = sinon.createStubInstance(NavAction);
+    notification = new NotificationAction(store, nav);
   });
 
   afterEach(() => {
@@ -22,9 +25,11 @@ describe('Action Notification Unit Tests', () => {
   describe('display()', () => {
     it('create info notification and hide after delay', async () => {
       notification.display({ msg: 'hello' });
-      expect(store.notifications[0], 'to equal', {
+      expect(store.notifications[0], 'to satisfy', {
         type: 'info',
         message: 'hello',
+        handler: null,
+        handlerLbl: null,
         display: true,
       });
       expect(log.error, 'was not called');
@@ -32,17 +37,19 @@ describe('Action Notification Unit Tests', () => {
       expect(store.notifications[0].display, 'to be', false);
     });
 
-    it('create warning notification when type is set', async () => {
+    it('create warning notification when type is set', () => {
       notification.display({ type: 'warning', msg: 'hello' });
-      expect(store.notifications[0], 'to equal', {
+      expect(store.notifications[0], 'to satisfy', {
         type: 'warning',
         message: 'hello',
+        handler: null,
+        handlerLbl: null,
         display: true,
       });
       expect(log.error, 'was not called');
     });
 
-    it('create log error', async () => {
+    it('create log error', () => {
       const err = new Error('Boom!');
       const handler = () => {};
       notification.display({
@@ -52,7 +59,7 @@ describe('Action Notification Unit Tests', () => {
         handlerLbl: 'Fix this',
       });
       expect(log.error, 'was called with', 'hello', err);
-      expect(store.notifications[0], 'to equal', {
+      expect(store.notifications[0], 'to satisfy', {
         type: 'error',
         message: 'hello',
         handler,
@@ -60,10 +67,26 @@ describe('Action Notification Unit Tests', () => {
         display: true,
       });
     });
+
+    it('set default error handler if not is set', () => {
+      const err = new Error('Boom!');
+      notification.display({
+        msg: 'hello',
+        err,
+      });
+      expect(store.notifications[0], 'to satisfy', {
+        type: 'error',
+        message: 'hello',
+        handlerLbl: 'Show error logs',
+        display: true,
+      });
+      store.notifications[0].handler();
+      expect(nav.goCLI, 'was called once');
+    });
   });
 
   describe('close()', () => {
-    it('stop displaying all notifications', async () => {
+    it('stop displaying all notifications', () => {
       notification.display({ msg: 'hello' });
       expect(store.notifications[0].display, 'to be', true);
       notification.close();

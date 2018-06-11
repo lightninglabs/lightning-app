@@ -23,7 +23,7 @@ store.init(AsyncStorage);
 export const log = new LogAction(store, ipcRenderer);
 export const nav = new NavAction(store, ipcRenderer);
 export const grpc = new GrpcAction(store, ipcRenderer);
-export const notify = new NotificationAction(store);
+export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, notify);
 export const info = new InfoAction(store, grpc, notify);
 export const channel = new ChannelAction(store, grpc, nav, notify);
