@@ -124,11 +124,14 @@ store.invoice.encoded =
   'lnbc4567800n1pdvqx48pp5eng6uyqnkdlx93m2598ug93qtuls8gapygxznshzd56h7n5cxs0sdp9gehhygr5dpjjqmr0wejjqmmxyp3xjarrda5kucqzysmhyrleqpt3yqf5nctzsr3hvrv9vhhnawazkwyzu8t4mf85tllsyjsf8hgu5nt6dj3jaljjgmt999xnlsweqvatypzlu34nhpjlxf59qp4dn2pv';
 store.invoice.uri = `lightning:${store.invoice.encoded}`;
 store.notifications = [...Array(5)].map((x, i) => ({
-  type: i % 2 === 0 ? 'error' : 'info',
-  message: 'Ooops. Something went wrong.',
+  type: i % 2 === 0 ? 'error' : 'success',
+  message:
+    i % 2 === 0
+      ? 'Oops. Something went wrong.'
+      : 'Something good happened.',
   date: new Date(),
-  handler: action('handle_error'),
-  handlerLbl: 'Handle error',
+  handler: i % 2 === 0 ? action('handle_error') : null,
+  handlerLbl: i % 2 === 0 ? 'Show error logs' : null,
   display: true,
 }));
 store.transactions = [...Array(5)].map((x, i) => ({
