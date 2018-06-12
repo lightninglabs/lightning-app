@@ -63,6 +63,9 @@ sinon.stub(channel, 'closeSelectedChannel');
 
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
+  .add('Loader - First Time', () => <Loader />)
+  .add('Seed', () => <Seed store={store} />)
+  .add('Seed Success', () => <SeedSuccess />)
   .add('Home', () => (
     <Home
       store={store}
@@ -108,10 +111,7 @@ storiesOf('Screens', module)
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
   .add('Invoice QR', () => (
     <InvoiceQR store={store} invoice={invoice} nav={nav} />
-  ))
-  .add('Loader - First Time', () => <Loader />)
-  .add('Seed Success', () => <SeedSuccess />)
-  .add('Seed', () => <Seed store={store} />);
+  ));
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
