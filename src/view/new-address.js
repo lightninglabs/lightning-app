@@ -30,10 +30,7 @@ const styles = StyleSheet.create({
   },
   copyBtn: {
     backgroundColor: color.blackDark,
-    marginBottom: 30,
-  },
-  doneBtn: {
-    alignSelf: 'stretch',
+    marginBottom: 40,
   },
 });
 
@@ -52,9 +49,7 @@ const NewAddressView = ({ store, invoice }) => (
         >
           {store.walletAddress}
         </CopyButton>
-        <GlasButton style={styles.doneBtn} onPress={() => {}}>
-          Done
-        </GlasButton>
+        <GlasButton onPress={() => {}}>Done</GlasButton>
       </View>
       <CopiedNotification
         display={store.displayCopied}
