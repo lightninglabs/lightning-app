@@ -27,6 +27,8 @@ const styles = StyleSheet.create({
   card: {
     maxHeight: 350,
     maxWidth: 680,
+    paddingLeft: 45,
+    paddingRight: 45,
     paddingBottom: 50,
   },
 });
