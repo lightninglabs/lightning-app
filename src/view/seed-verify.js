@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     textAlign: 'center',
-    fontSize: font.sizeXXL,
     padding: 20,
   },
   card: {
@@ -98,7 +97,6 @@ const entryStyles = StyleSheet.create({
   leaderTxt: {
     alignSelf: 'center',
     color: color.greyText,
-    borderBottomColor: color.greyText,
     fontSize: font.sizeL,
     lineHeight: font.lineHeightL,
     width: 35,
