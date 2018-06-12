@@ -32,6 +32,9 @@ const styles = StyleSheet.create({
     backgroundColor: color.blackDark,
     marginBottom: 40,
   },
+  copied: {
+    bottom: 180,
+  },
 });
 
 const NewAddressView = ({ store, invoice }) => (
@@ -54,6 +57,7 @@ const NewAddressView = ({ store, invoice }) => (
       <CopiedNotification
         display={store.displayCopied}
         color={color.notifyLight}
+        style={styles.copied}
       />
     </MainContent>
   </SplitBackground>
