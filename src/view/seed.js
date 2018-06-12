@@ -38,10 +38,10 @@ const copyStyles = StyleSheet.create({
   },
   title: {
     textAlign: 'center',
-    marginBottom: 15,
   },
   copyTxt: {
     textAlign: 'center',
+    marginTop: 15,
     maxWidth: 410,
   },
 });
