@@ -21,22 +21,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    alignSelf: 'center',
-    marginTop: 30,
-    textAlign: 'center',
-  },
   content: {
     justifyContent: 'space-between',
   },
   buttons: {
     alignSelf: 'stretch',
     alignItems: 'center',
-  },
-  copyTxt: {
-    textAlign: 'center',
-    marginTop: 25,
-    maxWidth: 450,
   },
   copyBtn: {
     backgroundColor: color.blackDark,
@@ -52,12 +42,8 @@ const NewAddressView = ({ store, invoice }) => (
     <View style={styles.qrWrapper}>
       <QRCode size={130}>{store.walletAddressUri}</QRCode>
     </View>
-    <H1Text style={styles.title}>Your shiny new address</H1Text>
     <MainContent style={styles.content}>
-      <CopyText style={styles.copyTxt}>
-        Scan the QR code, or copy the address to send from another wallet or
-        exchange. Only Bitcoin works at the moment.
-      </CopyText>
+      <CopySection />
       <View style={styles.buttons}>
         <CopyButton
           onPress={() => invoice.toClipboard({ text: store.walletAddress })}
@@ -82,5 +68,34 @@ NewAddressView.propTypes = {
   store: PropTypes.object.isRequired,
   invoice: PropTypes.object.isRequired,
 };
+
+//
+// Copy Section
+//
+
+const copyStyles = StyleSheet.create({
+  wrapper: {
+    alignItems: 'center',
+  },
+  title: {
+    textAlign: 'center',
+    marginTop: 60,
+  },
+  copyTxt: {
+    textAlign: 'center',
+    marginTop: 10,
+    maxWidth: 450,
+  },
+});
+
+const CopySection = () => (
+  <View style={copyStyles.wrapper}>
+    <H1Text style={copyStyles.title}>Your shiny new address</H1Text>
+    <CopyText style={copyStyles.copyTxt}>
+      Scan the QR code, or copy the address to send from another wallet or
+      exchange. Only Bitcoin works at the moment.
+    </CopyText>
+  </View>
+);
 
 export default observer(NewAddressView);
