@@ -4,8 +4,9 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
+import { Header } from '../component/header';
 import { H1Text, Text } from '../component/text';
-import { GlasButton } from '../component/button';
+import { Button, BackButton, GlasButton } from '../component/button';
 import { InputField } from '../component/field';
 import Card from '../component/card';
 import { FormStretcher } from '../component/form';
@@ -18,28 +19,26 @@ import { formatOrdinal } from '../helper';
 
 const styles = StyleSheet.create({
   content: {
-    alignItems: 'stretch',
-  },
-  background: {
-    alignItems: 'center',
     justifyContent: 'flex-end',
   },
   title: {
-    flex: 1,
-    justifyContent: 'flex-end',
     textAlign: 'center',
-    padding: 20,
+    marginBottom: 20,
   },
   card: {
-    maxHeight: 450,
+    maxHeight: 350,
     maxWidth: 680,
-    paddingTop: 38,
+    paddingBottom: 50,
   },
 });
 
 const SeedVerifyView = ({ store }) => (
-  <MainContent style={styles.content}>
-    <Background image="purple-gradient-bg" style={styles.background}>
+  <Background image="purple-gradient-bg">
+    <Header>
+      <BackButton onPress={() => {}} />
+      <Button disabled onPress={() => {}} />
+    </Header>
+    <MainContent style={styles.content}>
       <View>
         <H1Text style={styles.title}>{"Let's double check"}</H1Text>
       </View>
@@ -50,8 +49,8 @@ const SeedVerifyView = ({ store }) => (
         ))}
       </Card>
       <GlasButton onPress={() => {}}>Next</GlasButton>
-    </Background>
-  </MainContent>
+    </MainContent>
+  </Background>
 );
 
 SeedVerifyView.propTypes = {
