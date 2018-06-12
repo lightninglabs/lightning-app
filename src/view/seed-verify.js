@@ -11,7 +11,6 @@ import { InputField } from '../component/field';
 import Card from '../component/card';
 import { FormSubText } from '../component/form';
 import { color, font } from '../component/style';
-import { formatOrdinal } from '../helper';
 
 //
 // Seed Verify View
@@ -43,8 +42,8 @@ const SeedVerifyView = ({ store }) => (
         <H1Text style={styles.title}>{"Let's double check"}</H1Text>
       </View>
       <Card style={styles.card}>
-        <CopySection seedCheck={store.seedCheck} />
-        {store.seedCheck.map((seedIndex, i) => (
+        <FormSubText>{store.seedVerifyCopy}</FormSubText>
+        {store.seedVerifyIndexes.map((seedIndex, i) => (
           <SeedEntry seedIndex={seedIndex} key={i} />
         ))}
       </Card>
@@ -55,21 +54,6 @@ const SeedVerifyView = ({ store }) => (
 
 SeedVerifyView.propTypes = {
   store: PropTypes.object.isRequired,
-};
-
-//
-// Copy Section
-//
-
-const CopySection = ({ seedCheck }) => (
-  <FormSubText>
-    Type the {formatOrdinal(seedCheck[0])}, {formatOrdinal(seedCheck[1])}, and{' '}
-    {formatOrdinal(seedCheck[2])} words of your seed.
-  </FormSubText>
-);
-
-CopySection.propTypes = {
-  seedCheck: PropTypes.array,
 };
 
 //

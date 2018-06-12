@@ -62,49 +62,6 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
-  describe('formatOrdinal()', () => {
-    it('should work for undefined', () => {
-      const ordinal = helpers.formatOrdinal(undefined);
-      expect(ordinal, 'to equal', '0th');
-    });
-    it('should work for NaN', () => {
-      const ordinal = helpers.formatOrdinal(NaN);
-      expect(ordinal, 'to equal', '0th');
-    });
-    it('should work for null', () => {
-      const ordinal = helpers.formatOrdinal(null);
-      expect(ordinal, 'to equal', '0th');
-    });
-    it('should work for string input', () => {
-      const ordinal = helpers.formatOrdinal('3');
-      expect(ordinal, 'to equal', '3rd');
-    });
-    it('should work for numbers ending in 1', () => {
-      const first = helpers.formatOrdinal(1);
-      const eleventh = helpers.formatOrdinal(11);
-      const twentyfirst = helpers.formatOrdinal(21);
-      expect(first, 'to equal', '1st');
-      expect(eleventh, 'to equal', '11th');
-      expect(twentyfirst, 'to equal', '21st');
-    });
-    it('should work for numbers ending in 2', () => {
-      const second = helpers.formatOrdinal(2);
-      const twelfth = helpers.formatOrdinal(12);
-      const twentysecond = helpers.formatOrdinal(22);
-      expect(second, 'to equal', '2nd');
-      expect(twelfth, 'to equal', '12th');
-      expect(twentysecond, 'to equal', '22nd');
-    });
-    it('should work for numbers ending in 3', () => {
-      const third = helpers.formatOrdinal(3);
-      const thirteenth = helpers.formatOrdinal(13);
-      const twentythird = helpers.formatOrdinal(23);
-      expect(third, 'to equal', '3rd');
-      expect(thirteenth, 'to equal', '13th');
-      expect(twentythird, 'to equal', '23rd');
-    });
-  });
-
   describe('parseDate()', () => {
     it('should throw error if timeStamp is undefined', () => {
       expect(helpers.parseDate.bind(null, undefined), 'to throw', /Invalid/);
