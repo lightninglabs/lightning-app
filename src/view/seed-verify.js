@@ -45,7 +45,7 @@ const SeedVerifyView = ({ store }) => (
       <Card style={styles.card}>
         <CopySection seedCheck={store.seedCheck} />
         {store.seedCheck.map((seedIndex, i) => (
-          <SeedEntry leaderText={seedIndex} key={i} />
+          <SeedEntry seedIndex={seedIndex} key={i} />
         ))}
       </Card>
       <GlasButton onPress={() => {}}>Next</GlasButton>
@@ -77,41 +77,36 @@ CopySection.propTypes = {
 //
 
 const entryStyles = StyleSheet.create({
-  entry: {
-    flexDirection: 'row',
+  wrapper: {
     alignSelf: 'stretch',
-    paddingTop: 50,
-    paddingBottom: 20,
-    maxWidth: 553,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 40,
     borderBottomColor: color.greyText,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
-  leaderTxt: {
-    alignSelf: 'center',
+  index: {
     color: color.greyText,
-    fontSize: font.sizeL,
-    lineHeight: font.lineHeightL,
+    fontSize: font.sizeM,
+    lineHeight: font.lineHeightM,
     width: 35,
   },
   input: {
-    flex: 8,
-    alignSelf: 'center',
-    borderBottomWidth: 0,
+    flex: 1,
     textAlign: 'left',
-    fontSize: font.sizeL,
-    lineHeight: font.lineHeightL,
+    borderBottomWidth: 0,
   },
 });
 
-const SeedEntry = ({ leaderText }) => (
-  <FormStretcher style={entryStyles.entry}>
-    <Text style={entryStyles.leaderTxt}>{leaderText}.</Text>
+const SeedEntry = ({ seedIndex }) => (
+  <View style={entryStyles.wrapper}>
+    <Text style={entryStyles.index}>{seedIndex}.</Text>
     <InputField style={entryStyles.input} onChangeText={() => {}} />
-  </FormStretcher>
+  </View>
 );
 
 SeedEntry.propTypes = {
-  leaderText: PropTypes.number,
+  seedIndex: PropTypes.number,
 };
 
 export default observer(SeedVerifyView);
