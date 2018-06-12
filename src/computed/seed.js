@@ -4,7 +4,7 @@ const ComputedSeed = store => {
   extendObservable(store, {
     seedVerifyIndexes: computed(() => {
       const { seedMnemonic: words } = store;
-      return words.length ? getSeedCheck(1, words.length, 3) : [];
+      return words.length ? getSeedIndexes(1, words.length, 3) : [];
     }),
     seedVerifyCopy: computed(() => {
       const { seedVerifyIndexes } = store;
@@ -23,7 +23,7 @@ const ComputedSeed = store => {
  * @param  {number} numWords The length of the array to generate
  * @return {Array}           The array of indexes to verify
  */
-const getSeedCheck = (min, max, numWords) => {
+const getSeedIndexes = (min, max, numWords) => {
   let indices = [];
   for (let i = 0; i < numWords; i++) {
     let foundValid = false;
