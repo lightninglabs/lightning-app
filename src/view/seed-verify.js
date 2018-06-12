@@ -9,7 +9,7 @@ import { H1Text, Text } from '../component/text';
 import { Button, BackButton, GlasButton } from '../component/button';
 import { InputField } from '../component/field';
 import Card from '../component/card';
-import { FormStretcher } from '../component/form';
+import { FormSubText } from '../component/form';
 import { color, font } from '../component/style';
 import { formatOrdinal } from '../helper';
 
@@ -62,17 +62,17 @@ SeedVerifyView.propTypes = {
 //
 
 const copyStyles = StyleSheet.create({
-  copy: {
-    color: color.greyText,
-    fontSize: font.sizeM,
+  subText: {
+    paddingTop: 0,
+    paddingBottom: 0,
   },
 });
 
 const CopySection = ({ seedCheck }) => (
-  <Text style={copyStyles.copy}>
+  <FormSubText style={copyStyles.subText}>
     Type the {formatOrdinal(seedCheck[0])}, {formatOrdinal(seedCheck[1])}, and{' '}
     {formatOrdinal(seedCheck[2])} words of your seed.
-  </Text>
+  </FormSubText>
 );
 
 CopySection.propTypes = {
