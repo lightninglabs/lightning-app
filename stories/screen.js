@@ -126,9 +126,7 @@ store.invoice.uri = `lightning:${store.invoice.encoded}`;
 store.notifications = [...Array(5)].map((x, i) => ({
   type: i % 2 === 0 ? 'error' : 'success',
   message:
-    i % 2 === 0
-      ? 'Oops. Something went wrong.'
-      : 'Something good happened.',
+    i % 2 === 0 ? 'Oops. Something went wrong.' : 'Something good happened.',
   date: new Date(),
   handler: i % 2 === 0 ? action('handle_error') : null,
   handlerLbl: i % 2 === 0 ? 'Show error logs' : null,
