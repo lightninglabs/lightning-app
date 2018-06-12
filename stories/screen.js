@@ -66,7 +66,7 @@ storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
   .add('Loader - First Time', () => <Loader />)
   .add('Seed', () => <Seed store={store} />)
-  .add('Seed Verify', () => <SeedVerify seedCheck={store.seedCheck} />)
+  .add('Seed Verify', () => <SeedVerify store={store} />)
   .add('Seed Success', () => <SeedSuccess />)
   .add('Home', () => (
     <Home

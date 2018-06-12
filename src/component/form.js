@@ -20,7 +20,7 @@ const stretcherStyles = StyleSheet.create({
 });
 
 export const FormStretcher = ({ children, style }) => (
-  <View style={(stretcherStyles.content, style)}>{children}</View>
+  <View style={[stretcherStyles.content, style]}>{children}</View>
 );
 
 FormStretcher.propTypes = {

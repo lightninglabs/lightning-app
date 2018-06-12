@@ -32,18 +32,22 @@ export const formatFiat = (val, currency) => {
  * @param {number} val The number value
  */
 export const formatOrdinal = val => {
-  const j = val % 10,
-    k = val % 100;
+  let num = Number(val);
+  if (isNaN(num)) {
+    num = 0;
+  }
+  const j = num % 10,
+    k = num % 100;
   if (j == 1 && k != 11) {
-    return val.toString() + 'st';
+    return num.toString() + 'st';
   }
   if (j == 2 && k != 12) {
-    return val.toString() + 'nd';
+    return num.toString() + 'nd';
   }
   if (j == 3 && k != 13) {
-    return val.toString() + 'rd';
+    return num.toString() + 'rd';
   }
-  return val.toString() + 'th';
+  return num.toString() + 'th';
 };
 
 /**

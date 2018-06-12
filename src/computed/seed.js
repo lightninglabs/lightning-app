@@ -4,7 +4,7 @@ const ComputedSeed = store => {
   extendObservable(store, {
     seedCheck: computed(() => {
       const { seedMnemonic: words } = store;
-      return words ? getSeedCheck(1, words.length, 3) : null;
+      return words.length ? getSeedCheck(1, words.length, 3) : [];
     }),
   });
 };

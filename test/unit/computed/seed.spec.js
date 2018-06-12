@@ -6,13 +6,13 @@ describe('Computed Seed Unit Tests', () => {
 
   beforeEach(() => {
     useStrict(false);
-    store = observable({ seedMnemonic: null });
+    store = observable({ seedMnemonic: [] });
   });
 
   describe('ComputedSeed()', () => {
     it('should work with initial store', () => {
       ComputedSeed(store);
-      expect(store.seedCheck, 'to equal', null);
+      expect(store.seedCheck, 'to equal', []);
     });
 
     it('should set seed check attributes', () => {

@@ -12,6 +12,10 @@ import { FormStretcher } from '../component/form';
 import { color, font } from '../component/style';
 import { formatOrdinal } from '../helper';
 
+//
+// Seed Verify View
+//
+
 const styles = StyleSheet.create({
   content: {
     alignItems: 'stretch',
@@ -32,13 +36,58 @@ const styles = StyleSheet.create({
     maxWidth: 680,
     paddingTop: 38,
   },
-  description: {
+});
+
+const SeedVerifyView = ({ store }) => (
+  <MainContent style={styles.content}>
+    <Background image="purple-gradient-bg" style={styles.background}>
+      <View>
+        <H1Text style={styles.title}>{"Let's double check"}</H1Text>
+      </View>
+      <Card style={styles.card}>
+        <CopySection seedCheck={store.seedCheck} />
+        {store.seedCheck.map((seedIndex, i) => (
+          <SeedEntry leaderText={seedIndex} key={i} />
+        ))}
+      </Card>
+      <GlasButton onPress={() => {}}>Next</GlasButton>
+    </Background>
+  </MainContent>
+);
+
+SeedVerifyView.propTypes = {
+  store: PropTypes.object.isRequired,
+};
+
+//
+// Copy Section
+//
+
+const copyStyles = StyleSheet.create({
+  copy: {
     color: color.greyText,
     fontSize: font.sizeM,
   },
+});
+
+const CopySection = ({ seedCheck }) => (
+  <Text style={copyStyles.copy}>
+    Type the {formatOrdinal(seedCheck[0])}, {formatOrdinal(seedCheck[1])}, and{' '}
+    {formatOrdinal(seedCheck[2])} words of your seed.
+  </Text>
+);
+
+CopySection.propTypes = {
+  seedCheck: PropTypes.array,
+};
+
+//
+// Seed Entry
+//
+
+const entryStyles = StyleSheet.create({
   entry: {
     flexDirection: 'row',
-    justifyContent: 'stretch',
     alignSelf: 'stretch',
     paddingTop: 50,
     paddingBottom: 20,
@@ -64,39 +113,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const SeedVerifyView = ({ seedCheck }) => (
-  <MainContent style={styles.content}>
-    <Background image="purple-gradient-bg" style={styles.background}>
-      <View>
-        <H1Text style={styles.title}>{"Let's double check"}</H1Text>
-      </View>
-      <Card style={styles.card}>
-        <Text style={styles.description}>
-          Type the {formatOrdinal(seedCheck[0])}, {formatOrdinal(seedCheck[1])},
-          and {formatOrdinal(seedCheck[2])} words of your seed.
-        </Text>
-        <SeedEntry leaderText={seedCheck[0]} />
-        <SeedEntry leaderText={seedCheck[1]} />
-        <SeedEntry leaderText={seedCheck[2]} />
-      </Card>
-      <GlasButton>Next</GlasButton>
-    </Background>
-  </MainContent>
-);
-
-SeedVerifyView.propTypes = {
-  seedCheck: PropTypes.array,
-};
-
 const SeedEntry = ({ leaderText }) => (
-  <FormStretcher style={styles.entry}>
-    <Text style={styles.leaderTxt}>{leaderText}.</Text>
-    <InputField style={styles.input} onChangeText={() => {}} />
+  <FormStretcher style={entryStyles.entry}>
+    <Text style={entryStyles.leaderTxt}>{leaderText}.</Text>
+    <InputField style={entryStyles.input} onChangeText={() => {}} />
   </FormStretcher>
 );
 
 SeedEntry.propTypes = {
-  leaderText: PropTypes.string,
+  leaderText: PropTypes.number,
 };
 
 export default observer(SeedVerifyView);
