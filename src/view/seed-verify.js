@@ -61,15 +61,8 @@ SeedVerifyView.propTypes = {
 // Copy Section
 //
 
-const copyStyles = StyleSheet.create({
-  subText: {
-    paddingTop: 0,
-    paddingBottom: 0,
-  },
-});
-
 const CopySection = ({ seedCheck }) => (
-  <FormSubText style={copyStyles.subText}>
+  <FormSubText>
     Type the {formatOrdinal(seedCheck[0])}, {formatOrdinal(seedCheck[1])}, and{' '}
     {formatOrdinal(seedCheck[2])} words of your seed.
   </FormSubText>

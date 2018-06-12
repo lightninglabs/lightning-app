@@ -20,6 +20,7 @@ const styles = StyleSheet.create({
   },
   subText: {
     paddingTop: 20,
+    paddingBottom: 40,
     paddingLeft: 40,
     paddingRight: 40,
   },

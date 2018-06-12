@@ -59,8 +59,6 @@ const subTextStyles = StyleSheet.create({
     lineHeight: font.lineHeightSub,
     color: color.greyText,
     textAlign: 'center',
-    paddingTop: 40,
-    paddingBottom: 40,
   },
 });
 
