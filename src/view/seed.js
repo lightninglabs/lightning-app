@@ -35,10 +35,11 @@ const copyStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    padding: 15,
   },
   title: {
-    margin: 15,
     textAlign: 'center',
+    marginBottom: 15,
   },
   copyTxt: {
     textAlign: 'center',
