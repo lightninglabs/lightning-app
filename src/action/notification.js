@@ -2,8 +2,9 @@ import * as log from './log';
 import { NOTIFICATION_DELAY } from '../config';
 
 class NotificationAction {
-  constructor(store) {
+  constructor(store, nav) {
     this._store = store;
+    this._nav = nav;
   }
 
   display({ type, msg, err, handler, handlerLbl }) {
@@ -11,8 +12,9 @@ class NotificationAction {
     this._store.notifications.push({
       type: type || (err ? 'error' : 'info'),
       message: msg,
-      handler,
-      handlerLbl,
+      date: new Date(),
+      handler: handler || (err ? () => this._nav.goCLI() : null),
+      handlerLbl: handlerLbl || (err ? 'Show error logs' : null),
       display: true,
     });
     clearTimeout(this.tdisplay);

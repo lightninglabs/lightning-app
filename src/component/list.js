@@ -76,8 +76,6 @@ const itemStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 40,
-    paddingLeft: 10,
-    paddingRight: 10,
     boxShadow: `0 0.5px ${color.greyBorder}`,
   },
 });

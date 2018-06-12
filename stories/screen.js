@@ -1,6 +1,7 @@
 import React from 'react';
 import { Clipboard } from 'react-native';
 import { storiesOf } from '@storybook/react';
+import { action } from '@storybook/addon-actions';
 import sinon from 'sinon';
 import { Store } from '../src/store';
 import NavAction from '../src/action/nav';
@@ -14,6 +15,7 @@ import TransactionAction from '../src/action/transaction';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import Setting from '../src/view/setting';
+import Notification from '../src/view/notification';
 import TransactionDetail from '../src/view/transaction-detail';
 import Channel from '../src/view/channel';
 import ChannelDetail from '../src/view/channel-detail';
@@ -73,6 +75,7 @@ storiesOf('Screens', module)
     />
   ))
   .add('Settings', () => <Setting store={store} nav={nav} />)
+  .add('Notifications', () => <Notification store={store} nav={nav} />)
   .add('Transactions', () => (
     <Transaction store={store} transaction={transaction} nav={nav} />
   ))
@@ -123,6 +126,9 @@ store.invoice.uri = `lightning:${store.invoice.encoded}`;
 store.notifications = [...Array(5)].map((x, i) => ({
   type: i % 2 === 0 ? 'error' : 'info',
   message: 'Ooops. Something went wrong.',
+  date: new Date(),
+  handler: action('handle_error'),
+  handlerLbl: 'Handle error',
   display: true,
 }));
 store.transactions = [...Array(5)].map((x, i) => ({

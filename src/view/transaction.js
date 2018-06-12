@@ -51,6 +51,10 @@ TransactionView.propTypes = {
 //
 
 const iStyles = StyleSheet.create({
+  item: {
+    paddingLeft: 10,
+    paddingRight: 10,
+  },
   wrap: {
     paddingRight: 50,
   },
@@ -80,16 +84,16 @@ const iStyles = StyleSheet.create({
   i: { flex: 1 },
 });
 
-const statusColor = tx => {
+const statusType = tx => {
   if (tx.type === 'lightning') {
-    return tx.status === 'complete' ? color.greenSig : color.orangeSig;
+    return tx.status === 'complete' ? 'success' : 'info';
   } else {
-    return tx.status === 'confirmed' ? color.greenSig : color.orangeSig;
+    return tx.status === 'confirmed' ? 'success' : 'info';
   }
 };
 
 const TransactionListItem = ({ tx, onSelect }) => (
-  <ListItem onSelect={onSelect}>
+  <ListItem style={iStyles.item} onSelect={onSelect}>
     <View style={iStyles.i}>
       {tx.type === 'lightning' ? (
         <Icon image="lightning-bolt" style={iStyles.bolt} />
@@ -98,7 +102,7 @@ const TransactionListItem = ({ tx, onSelect }) => (
       )}
     </View>
     <View style={[iStyles.m, iStyles.group]}>
-      <Alert color={statusColor(tx)} style={iStyles.alert} />
+      <Alert type={statusType(tx)} style={iStyles.alert} />
       <Text style={iStyles.txt}>{tx.statusLabel}</Text>
     </View>
     <Text style={[iStyles.m, iStyles.txt]}>{tx.dateLabel}</Text>
@@ -129,7 +133,7 @@ const hStyles = StyleSheet.create({
 });
 
 const TransactionListHeader = () => (
-  <ListHeader>
+  <ListHeader style={iStyles.item}>
     <View style={iStyles.i} />
     <Text style={[iStyles.m, hStyles.txt]}>STATUS</Text>
     <Text style={[iStyles.m, hStyles.txt]}>DATE</Text>

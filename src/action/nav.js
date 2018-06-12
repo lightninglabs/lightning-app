@@ -71,7 +71,7 @@ class NavAction {
   }
 
   goNotifications() {
-    // this._store.route = 'Notifications';
+    this._store.route = 'Notifications';
   }
 
   goSettings() {
