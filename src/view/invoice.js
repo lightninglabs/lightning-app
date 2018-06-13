@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
   unit: {
     color: color.blackText,
   },
+  subText: {
+    paddingTop: 40,
+    paddingBottom: 40,
+  },
 });
 
 const InvoiceView = ({ store, nav, invoice }) => (
@@ -47,7 +51,7 @@ const InvoiceView = ({ store, nav, invoice }) => (
             onChangeText={note => invoice.setNote({ note })}
           />
         </FormStretcher>
-        <FormSubText>
+        <FormSubText style={styles.subText}>
           Generate a payment request that others can use to pay you immediately
           via the Lightning Network.
         </FormSubText>

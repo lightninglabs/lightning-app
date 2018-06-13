@@ -34,6 +34,7 @@ import PayBitcoinDone from '../src/view/pay-bitcoin-done';
 import Loader from '../src/view/loader';
 import SeedSuccess from '../src/view/seed-success';
 import Seed from '../src/view/seed';
+import SeedVerify from '../src/view/seed-verify';
 
 const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
@@ -65,6 +66,7 @@ storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
   .add('Loader - First Time', () => <Loader />)
   .add('Seed', () => <Seed store={store} />)
+  .add('Seed Verify', () => <SeedVerify store={store} />)
   .add('Seed Success', () => <SeedSuccess />)
   .add('Home', () => (
     <Home

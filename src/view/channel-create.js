@@ -19,6 +19,10 @@ const styles = StyleSheet.create({
   unit: {
     color: color.blackText,
   },
+  subText: {
+    paddingTop: 40,
+    paddingBottom: 40,
+  },
   doneBtn: {
     backgroundColor: color.blackDark,
   },
@@ -49,7 +53,7 @@ const ChannelCreateView = ({ store, nav, channel }) => (
             }
           />
         </FormStretcher>
-        <FormSubText>
+        <FormSubText style={styles.subText}>
           Add the amount you want in the channel, then the peer you would like
           to connect with.
         </FormSubText>

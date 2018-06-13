@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextPropTypes, StyleSheet } from 'react-native';
+import { View, TextPropTypes, ViewPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { color, font } from './style';
@@ -19,12 +19,13 @@ const stretcherStyles = StyleSheet.create({
   },
 });
 
-export const FormStretcher = ({ children }) => (
-  <View style={stretcherStyles.content}>{children}</View>
+export const FormStretcher = ({ children, style }) => (
+  <View style={[stretcherStyles.content, style]}>{children}</View>
 );
 
 FormStretcher.propTypes = {
   children: PropTypes.node,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -58,8 +59,6 @@ const subTextStyles = StyleSheet.create({
     lineHeight: font.lineHeightSub,
     color: color.greyText,
     textAlign: 'center',
-    paddingTop: 40,
-    paddingBottom: 40,
   },
 });
 
