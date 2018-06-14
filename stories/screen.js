@@ -35,7 +35,6 @@ import Loader from '../src/view/loader';
 import SeedSuccess from '../src/view/seed-success';
 import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
-import NewAddress from '../src/view/new-address';
 
 const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
@@ -114,11 +113,7 @@ storiesOf('Screens', module)
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
   .add('Invoice QR', () => (
     <InvoiceQR store={store} invoice={invoice} nav={nav} />
-  ))
-  .add('Loader - First Time', () => <Loader />)
-  .add('Seed Success', () => <SeedSuccess />)
-  .add('Seed', () => <Seed store={store} />)
-  .add('New Address', () => <NewAddress store={store} invoice={invoice} />);
+  ));
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
