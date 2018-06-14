@@ -69,6 +69,7 @@ storiesOf('Screens', module)
   .add('Seed', () => <Seed store={store} />)
   .add('Seed Verify', () => <SeedVerify store={store} />)
   .add('Seed Success', () => <SeedSuccess />)
+  .add('New Address', () => <NewAddress store={store} invoice={invoice} />)
   .add('Home', () => (
     <Home
       store={store}
@@ -114,11 +115,7 @@ storiesOf('Screens', module)
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
   .add('Invoice QR', () => (
     <InvoiceQR store={store} invoice={invoice} nav={nav} />
-  ))
-  .add('Loader - First Time', () => <Loader />)
-  .add('Seed Success', () => <SeedSuccess />)
-  .add('Seed', () => <Seed store={store} />)
-  .add('New Address', () => <NewAddress store={store} invoice={invoice} />);
+  ));
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
