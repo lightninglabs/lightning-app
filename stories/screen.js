@@ -35,6 +35,7 @@ import Loader from '../src/view/loader';
 import SeedSuccess from '../src/view/seed-success';
 import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
+import NewAddress from '../src/view/new-address';
 
 const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
@@ -68,6 +69,7 @@ storiesOf('Screens', module)
   .add('Seed', () => <Seed store={store} />)
   .add('Seed Verify', () => <SeedVerify store={store} />)
   .add('Seed Success', () => <SeedSuccess />)
+  .add('New Address', () => <NewAddress store={store} invoice={invoice} />)
   .add('Home', () => (
     <Home
       store={store}
