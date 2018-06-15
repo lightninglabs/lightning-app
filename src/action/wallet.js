@@ -1,11 +1,65 @@
-import { toBuffer, parseSat, checkHttpStatus } from '../helper';
+import { toBuffer, parseSat, checkHttpStatus, nap } from '../helper';
+import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY } from '../config';
 import * as log from './log';
 
 class WalletAction {
-  constructor(store, grpc, notification) {
+  constructor(store, grpc, nav, notification) {
     this._store = store;
     this._grpc = grpc;
+    this._nav = nav;
     this._notification = notification;
+  }
+
+  //
+  // Verify Seed actions
+  //
+
+  initSeedVerify() {
+    this._store.wallet.seedVerify = ['', '', ''];
+    this._nav.goSeedVerify();
+  }
+
+  setSeedVerify({ word, index }) {
+    this._store.wallet.seedVerify[index] = word;
+  }
+
+  //
+  // Wallet Password actions
+  //
+
+  initSetPassword() {
+    this._store.wallet.password = '';
+    this._store.wallet.passwordVerify = '';
+    this._nav.goSetPassword();
+  }
+
+  initPassword() {
+    this._store.wallet.password = '';
+    this._nav.goPassword();
+  }
+
+  setPassword({ password }) {
+    this._store.wallet.password = password;
+  }
+
+  setPasswordVerify({ password }) {
+    this._store.wallet.passwordVerify = password;
+  }
+
+  //
+  // Wallet actions
+  //
+
+  async init() {
+    try {
+      const response = await this._grpc.sendUnlockerCommand('GenSeed');
+      this._store.seedMnemonic = response.cipher_seed_mnemonic;
+      this._nav.goLoader();
+      await nap(NOTIFICATION_DELAY);
+      this._nav.goSeed();
+    } catch (err) {
+      this.initPassword();
+    }
   }
 
   async update() {
@@ -17,13 +71,36 @@ class WalletAction {
     ]);
   }
 
-  async generateSeed() {
-    try {
-      const response = await this._grpc.sendUnlockerCommand('GenSeed');
-      this._store.seedMnemonic = response.cipher_seed_mnemonic;
-    } catch (err) {
-      this._notification.display({ msg: 'Generating seed failed', err });
+  async checkSeed() {
+    const {
+      wallet: { seedVerify },
+      seedMnemonic,
+      seedVerifyIndexes,
+    } = this._store;
+    if (
+      seedVerify[0] !== seedMnemonic[seedVerifyIndexes[0] - 1] ||
+      seedVerify[1] !== seedMnemonic[seedVerifyIndexes[1] - 1] ||
+      seedVerify[2] !== seedMnemonic[seedVerifyIndexes[2] - 1]
+    ) {
+      return this._notification.display({ msg: 'Seed words do not match!' });
     }
+    this.initSetPassword();
+  }
+
+  async checkNewPassword() {
+    const { password, passwordVerify } = this._store.wallet;
+    if (!password || password.length < MIN_PASSWORD_LENGTH) {
+      return this._notification.display({
+        msg: `Set a password with at least ${MIN_PASSWORD_LENGTH} characters.`,
+      });
+    }
+    if (password !== passwordVerify) {
+      return this._notification.display({ msg: 'Passwords do not match!' });
+    }
+    await this.initWallet({
+      walletPassword: password,
+      seedMnemonic: this._store.seedMnemonic.toJSON(),
+    });
   }
 
   async initWallet({ walletPassword, seedMnemonic }) {
@@ -33,9 +110,15 @@ class WalletAction {
         cipher_seed_mnemonic: seedMnemonic,
       });
       this._store.walletUnlocked = true;
+      this._nav.goSeedSuccess();
     } catch (err) {
       this._notification.display({ msg: 'Initializing wallet failed', err });
     }
+  }
+
+  async checkPassword() {
+    const { password } = this._store.wallet;
+    await this.unlockWallet({ walletPassword: password });
   }
 
   async unlockWallet({ walletPassword }) {
@@ -44,8 +127,9 @@ class WalletAction {
         wallet_password: toBuffer(walletPassword),
       });
       this._store.walletUnlocked = true;
+      this._nav.goHome();
     } catch (err) {
-      this._notification.display({ msg: 'Unlocking wallet failed', err });
+      this._notification.display({ type: 'error', msg: 'Invalid password' });
     }
   }
 

@@ -28,6 +28,11 @@ export class Store {
       walletAddress: null,
       displayCopied: false,
       ipAddress: null,
+      wallet: {
+        password: '',
+        passwordVerify: '',
+        seedVerify: ['', '', ''],
+      },
       transactions: null,
       selectedTransaction: null,
       invoices: null,
