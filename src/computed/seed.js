@@ -29,7 +29,7 @@ const getSeedIndexes = (min, max, numWords) => {
     let foundValid = false;
     while (!foundValid) {
       let candidate = Math.floor(Math.random() * (max - min + 1)) + min;
-      if (indices.indexOf(candidate) == -1) {
+      if (indices.indexOf(candidate) === -1) {
         indices.push(candidate);
         foundValid = true;
       }
@@ -50,13 +50,13 @@ export const formatOrdinal = val => {
   }
   const j = num % 10,
     k = num % 100;
-  if (j == 1 && k != 11) {
+  if (j === 1 && k !== 11) {
     return num.toString() + 'st';
   }
-  if (j == 2 && k != 12) {
+  if (j === 2 && k !== 12) {
     return num.toString() + 'nd';
   }
-  if (j == 3 && k != 13) {
+  if (j === 3 && k !== 13) {
     return num.toString() + 'rd';
   }
   return num.toString() + 'th';
