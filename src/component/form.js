@@ -67,6 +67,6 @@ export const FormSubText = ({ children, style }) => (
 );
 
 FormSubText.propTypes = {
-  children: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: TextPropTypes.style,
 };
