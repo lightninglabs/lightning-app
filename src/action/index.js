@@ -1,5 +1,6 @@
 import { observe } from 'mobx';
 import { AsyncStorage, Clipboard } from 'react-native';
+import { nap } from '../helper';
 import store from '../store';
 import GrpcAction from './grpc';
 import NavAction from './nav';
@@ -24,7 +25,7 @@ export const log = new LogAction(store, ipcRenderer);
 export const nav = new NavAction(store, ipcRenderer);
 export const grpc = new GrpcAction(store, ipcRenderer);
 export const notify = new NotificationAction(store, nav);
-export const wallet = new WalletAction(store, grpc, notify);
+export const wallet = new WalletAction(store, grpc, nav, notify);
 export const info = new InfoAction(store, grpc, notify);
 export const channel = new ChannelAction(store, grpc, nav, notify);
 export const transaction = new TransactionAction(store, grpc, wallet, nav);
@@ -47,20 +48,11 @@ observe(store, 'loaded', async () => {
 });
 
 observe(store, 'unlockerReady', async () => {
-  // TODO: wire up to UI
-  const walletPassword = 'bitconeeeeeect';
-  try {
-    await wallet.generateSeed();
-    await wallet.initWallet({
-      walletPassword,
-      seedMnemonic: store.seedMnemonic.toJSON(),
-    });
-  } catch (err) {
-    await wallet.unlockWallet({ walletPassword });
-  }
+  await wallet.init();
 });
 
 observe(store, 'walletUnlocked', async () => {
+  await nap();
   await grpc.closeUnlocker();
   await grpc.initLnd();
 });

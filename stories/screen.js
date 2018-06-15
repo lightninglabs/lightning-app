@@ -41,8 +41,11 @@ const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
 const notify = sinon.createStubInstance(NotificationAction);
-const wallet = new WalletAction(store, grpc, notify);
+const wallet = new WalletAction(store, grpc, nav, notify);
 sinon.stub(wallet, 'update');
+sinon.stub(wallet, 'checkSeed');
+sinon.stub(wallet, 'checkNewPassword');
+sinon.stub(wallet, 'checkPassword');
 const transaction = new TransactionAction(store, grpc, wallet, nav);
 sinon.stub(transaction, 'update');
 const invoice = new InvoiceAction(
