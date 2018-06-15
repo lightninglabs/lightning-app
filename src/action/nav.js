@@ -9,6 +9,34 @@ class NavAction {
     });
   }
 
+  goLoader() {
+    this._store.route = 'Loader';
+  }
+
+  goSeed() {
+    this._store.route = 'Seed';
+  }
+
+  goSeedVerify() {
+    this._store.route = 'SeedVerify';
+  }
+
+  goSeedSuccess() {
+    this._store.route = 'SeedSuccess';
+  }
+
+  goSetPassword() {
+    this._store.route = 'SetPassword';
+  }
+
+  goPassword() {
+    this._store.route = 'Password';
+  }
+
+  goNewAddress() {
+    this._store.route = 'NewAddress';
+  }
+
   goHome() {
     this._store.route = 'Home';
   }

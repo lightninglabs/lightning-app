@@ -30,6 +30,62 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goLoader()', () => {
+    it('should set correct route', () => {
+      nav.goLoader();
+      expect(store.route, 'to equal', 'Loader');
+    });
+  });
+
+  describe('goSeed()', () => {
+    it('should set correct route', () => {
+      nav.goSeed();
+      expect(store.route, 'to equal', 'Seed');
+    });
+  });
+
+  describe('goSeedVerify()', () => {
+    it('should set correct route', () => {
+      nav.goSeedVerify();
+      expect(store.route, 'to equal', 'SeedVerify');
+    });
+  });
+
+  describe('goSeedSuccess()', () => {
+    it('should set correct route', () => {
+      nav.goSeedSuccess();
+      expect(store.route, 'to equal', 'SeedSuccess');
+    });
+  });
+
+  describe('goSetPassword()', () => {
+    it('should set correct route', () => {
+      nav.goSetPassword();
+      expect(store.route, 'to equal', 'SetPassword');
+    });
+  });
+
+  describe('goPassword()', () => {
+    it('should set correct route', () => {
+      nav.goPassword();
+      expect(store.route, 'to equal', 'Password');
+    });
+  });
+
+  describe('goNewAddress()', () => {
+    it('should set correct route', () => {
+      nav.goNewAddress();
+      expect(store.route, 'to equal', 'NewAddress');
+    });
+  });
+
+  describe('goHome()', () => {
+    it('should set correct route', () => {
+      nav.goHome();
+      expect(store.route, 'to equal', 'Home');
+    });
+  });
+
   describe('goPay()', () => {
     it('should set correct route', () => {
       nav.goPay();
