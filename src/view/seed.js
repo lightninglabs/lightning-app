@@ -12,18 +12,19 @@ import { color, font } from '../component/style';
 // Seed View
 //
 
-const SeedView = ({ store }) => (
+const SeedView = ({ store, wallet }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <CopySection />
     <MainContent>
       <WordList seedMnemonic={store.seedMnemonic.slice()} />
-      <GlasButton onPress={() => {}}>Next</GlasButton>
+      <GlasButton onPress={() => wallet.initSeedVerify()}>Next</GlasButton>
     </MainContent>
   </SplitBackground>
 );
 
 SeedView.propTypes = {
   store: PropTypes.object.isRequired,
+  wallet: PropTypes.object.isRequired,
 };
 
 //
