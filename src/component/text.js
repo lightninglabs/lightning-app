@@ -58,7 +58,7 @@ const copyOnboardStyles = StyleSheet.create({
   text: {
     fontFamily: 'WorkSans Light',
     fontSize: font.sizeXXL,
-    lineHeight: font.lineHeightXXL,
+    lineHeight: font.sizeXXL + 10,
   },
 });
 
