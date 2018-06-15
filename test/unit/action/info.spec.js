@@ -3,6 +3,7 @@ import GrpcAction from '../../../src/action/grpc';
 import NotificationAction from '../../../src/action/notification';
 import InfoAction from '../../../src/action/info';
 import * as logger from '../../../src/action/log';
+import { nap } from '../../../src/helper';
 
 describe('Action Info Unit Tests', () => {
   let sandbox;

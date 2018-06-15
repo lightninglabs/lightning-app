@@ -10,6 +10,7 @@ import ChannelAction from '../../../src/action/channel';
 import TransactionAction from '../../../src/action/transaction';
 import PaymentAction from '../../../src/action/payment';
 import InvoiceAction from '../../../src/action/invoice';
+import { nap } from '../../../src/helper';
 import { EventEmitter } from 'events';
 
 const {

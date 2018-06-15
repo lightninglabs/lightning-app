@@ -1,4 +1,5 @@
 module.exports.RETRY_DELAY = 3000;
+module.exports.LND_INIT_DELAY = 5000;
 module.exports.NOTIFICATION_DELAY = 5000;
 
 module.exports.LND_PORT = 10009;

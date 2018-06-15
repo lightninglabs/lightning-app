@@ -1,4 +1,4 @@
-import { UNITS } from './config';
+import { UNITS, LND_INIT_DELAY } from './config';
 
 /**
  * Format a number value in locale format with either . or ,
@@ -191,4 +191,12 @@ export const checkHttpStatus = response => {
   } else {
     throw new Error(response.statusText);
   }
+};
+
+/**
+ * Take a nice little nap :)
+ * @param  {number} ms The amount of milliseconds to sleep
+ */
+export const nap = (ms = LND_INIT_DELAY) => {
+  return new Promise(resolve => setTimeout(resolve, ms));
 };
