@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app) [![Greenkeeper badge](https://badges.greenkeeper.io/lightninglabs/lightning-app.svg)](https://greenkeeper.io/)
 
-**N.B. The app is under development. Wallet data stored on disk is currently not encrypted properly and the code has not yet been audited.**
+**N.B. The app is under development and the code has not yet been audited.**
 
 ### Developing Locally
 
@@ -28,33 +28,7 @@ To start start the app:
 npm run electron-dev
 ```
 
-In development mode, the app will look for an lnd.conf in the default location for your platform. See [`lnd.conf` details](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md#creating-an-lndconf-optional). A typical lnd.conf for running on simnet will look like the following:
-
-```
-debuglevel=debug
-bitcoin.active=1
-bitcoin.simnet=1
-bitcoin.rpcuser=lnd
-bitcoin.rpcpass=lnd
-```
-
-Running in development mode can allow you to run in full node mode instead of the default neutrino mode, and will also allow you to run in simnet node for testing.
-
-Note that in order to run in simnet node, you will have also had to separately install and configure the [roasbeef fork of `btcd`](https://github.com/roasbeef/btcd). Additional instructions for running simnet can be found [here](https://gist.github.com/davecgh/2992ed85d41307e794f6).
-
-Also note that if you have installed and built [`lnd`](https://github.com/lightningnetwork/lnd) separately, if an instance is running when the app starts, the app will connect to the already running instance rather than attempt to start a new one.
-
-If you want your lnd.conf to replicate the configuration used by the packaged app, you can use the following:
-
-```
-debuglevel=info
-bitcoin.active=1
-bitcoin.testnet=1
-neutrino.active=1
-neutrino.connect=btcd0.lightning.computer:18333
-autopilot.active=1
-```
-
+Running in development mode can allow you to run in full node mode instead of the default neutrino mode, and will also allow you to run in simnet node for testing. The app will use it's own lnd config/data dir and does not share state with other lnd installations on your system.
 
 ### Building the Packaged App
 
