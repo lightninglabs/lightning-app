@@ -126,6 +126,25 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('generateSeed()', () => {
+    it('should generate seed', async () => {
+      grpc.sendUnlockerCommand.withArgs('GenSeed').resolves({
+        cipher_seed_mnemonic: 'foo bar',
+      });
+      await wallet.generateSeed();
+      expect(store.seedMnemonic, 'to equal', 'foo bar');
+    });
+
+    it('should throw error up', async () => {
+      grpc.sendUnlockerCommand.withArgs('GenSeed').rejects(new Error('Boom!'));
+      await expect(
+        wallet.generateSeed(),
+        'to be rejected with error satisfying',
+        /Boom/
+      );
+    });
+  });
+
   describe('checkSeed()', () => {
     beforeEach(() => {
       sandbox.stub(wallet, 'initSetPassword');

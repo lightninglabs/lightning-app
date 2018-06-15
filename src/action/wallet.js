@@ -52,8 +52,7 @@ class WalletAction {
 
   async init() {
     try {
-      const response = await this._grpc.sendUnlockerCommand('GenSeed');
-      this._store.seedMnemonic = response.cipher_seed_mnemonic;
+      await this.generateSeed();
       this._nav.goLoader();
       await nap(NOTIFICATION_DELAY);
       this._nav.goSeed();
@@ -69,6 +68,11 @@ class WalletAction {
       this.getNewAddress(),
       this.getExchangeRate(),
     ]);
+  }
+
+  async generateSeed() {
+    const response = await this._grpc.sendUnlockerCommand('GenSeed');
+    this._store.seedMnemonic = response.cipher_seed_mnemonic;
   }
 
   async checkSeed() {
