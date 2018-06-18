@@ -33,10 +33,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const SeedVerifyView = ({ store }) => (
+const SeedVerifyView = ({ store, nav, wallet }) => (
   <Background image="purple-gradient-bg">
     <Header>
-      <BackButton onPress={() => {}} />
+      <BackButton onPress={() => nav.goSeed()} />
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent style={styles.content}>
@@ -46,16 +46,23 @@ const SeedVerifyView = ({ store }) => (
       <Card style={styles.card}>
         <FormSubText>{store.seedVerifyCopy}</FormSubText>
         {store.seedVerifyIndexes.map((seedIndex, i) => (
-          <SeedEntry seedIndex={seedIndex} key={i} />
+          <SeedEntry
+            seedIndex={seedIndex}
+            value={store.wallet.seedVerify[i]}
+            onChangeText={word => wallet.setSeedVerify({ word, index: i })}
+            key={i}
+          />
         ))}
       </Card>
-      <GlasButton onPress={() => {}}>Next</GlasButton>
+      <GlasButton onPress={() => wallet.checkSeed()}>Next</GlasButton>
     </MainContent>
   </Background>
 );
 
 SeedVerifyView.propTypes = {
   store: PropTypes.object.isRequired,
+  nav: PropTypes.object.isRequired,
+  wallet: PropTypes.object.isRequired,
 };
 
 //
@@ -84,15 +91,21 @@ const entryStyles = StyleSheet.create({
   },
 });
 
-const SeedEntry = ({ seedIndex }) => (
+const SeedEntry = ({ seedIndex, value, onChangeText }) => (
   <View style={entryStyles.wrapper}>
     <Text style={entryStyles.index}>{seedIndex}.</Text>
-    <InputField style={entryStyles.input} onChangeText={() => {}} />
+    <InputField
+      style={entryStyles.input}
+      value={value}
+      onChangeText={onChangeText}
+    />
   </View>
 );
 
 SeedEntry.propTypes = {
   seedIndex: PropTypes.number,
+  value: PropTypes.string.isRequired,
+  onChangeText: PropTypes.func.isRequired,
 };
 
 export default observer(SeedVerifyView);

@@ -35,14 +35,19 @@ import Loader from '../src/view/loader';
 import SeedSuccess from '../src/view/seed-success';
 import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
+import SetPassword from '../src/view/set-password';
+import Password from '../src/view/password';
 import NewAddress from '../src/view/new-address';
 
 const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
 const notify = sinon.createStubInstance(NotificationAction);
-const wallet = new WalletAction(store, grpc, notify);
+const wallet = new WalletAction(store, grpc, nav, notify);
 sinon.stub(wallet, 'update');
+sinon.stub(wallet, 'checkSeed');
+sinon.stub(wallet, 'checkNewPassword');
+sinon.stub(wallet, 'checkPassword');
 const transaction = new TransactionAction(store, grpc, wallet, nav);
 sinon.stub(transaction, 'update');
 const invoice = new InvoiceAction(
@@ -66,10 +71,16 @@ sinon.stub(channel, 'closeSelectedChannel');
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
   .add('Loader - First Time', () => <Loader />)
-  .add('Seed', () => <Seed store={store} />)
-  .add('Seed Verify', () => <SeedVerify store={store} />)
-  .add('Seed Success', () => <SeedSuccess />)
-  .add('New Address', () => <NewAddress store={store} invoice={invoice} />)
+  .add('Seed', () => <Seed store={store} wallet={wallet} />)
+  .add('Seed Verify', () => (
+    <SeedVerify store={store} nav={nav} wallet={wallet} />
+  ))
+  .add('Seed Success', () => <SeedSuccess nav={nav} />)
+  .add('Set Password', () => <SetPassword store={store} wallet={wallet} />)
+  .add('Password', () => <Password store={store} wallet={wallet} />)
+  .add('New Address', () => (
+    <NewAddress store={store} nav={nav} invoice={invoice} />
+  ))
   .add('Home', () => (
     <Home
       store={store}

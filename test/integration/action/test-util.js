@@ -1,5 +1,6 @@
 import fs from 'fs';
 import net from 'net';
+import { nap } from '../../../src/helper';
 
 export const rmdir = path => {
   if (fs.existsSync(path)) {

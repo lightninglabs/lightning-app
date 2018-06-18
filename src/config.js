@@ -1,4 +1,5 @@
 module.exports.RETRY_DELAY = 3000;
+module.exports.LND_INIT_DELAY = 5000;
 module.exports.NOTIFICATION_DELAY = 5000;
 
 module.exports.LND_PORT = 10009;
@@ -10,7 +11,8 @@ const prefixName = 'lightning';
 module.exports.PREFIX_NAME = prefixName;
 module.exports.PREFIX_URI = `${prefixName}:`;
 
-module.exports.DEFAULT_ROUTE = 'Home';
+module.exports.DEFAULT_ROUTE = 'Welcome';
+module.exports.MIN_PASSWORD_LENGTH = 8;
 
 module.exports.UNITS = {
   sat: { display: 'SAT', denominator: 1 },

@@ -2,6 +2,7 @@ import { Store } from '../../../src/store';
 import * as log from '../../../src/action/log';
 import NavAction from '../../../src/action/nav';
 import NotificationAction from '../../../src/action/notification';
+import { nap } from '../../../src/helper';
 
 describe('Action Notification Unit Tests', () => {
   let store;

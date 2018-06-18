@@ -3,7 +3,6 @@ import { StyleSheet, View } from 'react-native';
 import Background from '../component/background';
 import { CopyOnboardText } from '../component/text';
 import MainContent from '../component/main-content';
-import Icon from '../component/icon';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
@@ -12,10 +11,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   copy: {
-    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    width: 900,
+    maxWidth: 720,
     paddingLeft: 30,
     paddingRight: 30,
   },
@@ -27,9 +24,9 @@ const styles = StyleSheet.create({
     marginLeft: 26,
     backgroundColor: color.purple,
   },
-  bolt: {
-    height: 37,
-    width: 19,
+  copy2: {
+    marginTop: 25,
+    paddingRight: 200,
   },
 });
 
@@ -38,16 +35,12 @@ const LoaderView = () => (
     <MainContent style={styles.content}>
       <View style={styles.copy}>
         <CopyOnboardText>The fastest way to transfer Bitcoin.</CopyOnboardText>
-        <Bolt />
+        <CopyOnboardText style={styles.copy2}>
+          The most advanced easy-to-use wallet.
+        </CopyOnboardText>
       </View>
     </MainContent>
   </Background>
-);
-
-const Bolt = () => (
-  <View style={styles.boltBackground}>
-    <Icon image="lightning-bolt" style={styles.bolt} />
-  </View>
 );
 
 export default LoaderView;

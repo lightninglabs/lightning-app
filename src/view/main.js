@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import Container from '../component/container';
 import { NotificationBar } from '../component/notification';
+import Welcome from './welcome';
+import Loader from './loader';
+import Seed from './seed';
+import SeedVerify from './seed-verify';
+import SeedSuccess from './seed-success';
+import SetPassword from './set-password';
+import Password from './password';
+import NewAddress from './new-address';
 import Home from './home';
 import Payment from './payment';
 import PayLightningConfirm from './pay-lightning-confirm';
@@ -32,6 +40,20 @@ class MainView extends Component {
           notification={lastNotification}
           display={displayNotification}
         />
+        {route === 'Welcome' && <Welcome />}
+        {route === 'Loader' && <Loader />}
+        {route === 'Seed' && <Seed store={store} wallet={wallet} />}
+        {route === 'SeedVerify' && (
+          <SeedVerify store={store} nav={nav} wallet={wallet} />
+        )}
+        {route === 'SeedSuccess' && <SeedSuccess nav={nav} />}
+        {route === 'SetPassword' && (
+          <SetPassword store={store} wallet={wallet} />
+        )}
+        {route === 'Password' && <Password store={store} wallet={wallet} />}
+        {route === 'NewAddress' && (
+          <NewAddress store={store} nav={nav} invoice={invoice} />
+        )}
         {route === 'Home' && (
           <Home
             store={store}

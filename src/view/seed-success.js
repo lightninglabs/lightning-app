@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import PropTypes from 'prop-types';
 import MainContent from '../component/main-content';
 import Background from '../component/background';
 import Icon from '../component/icon';
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SeedSuccessView = () => (
+const SeedSuccessView = ({ nav }) => (
   <Background image="purple-gradient-bg">
     <MainContent>
       <View style={styles.wrapper}>
@@ -39,9 +40,13 @@ const SeedSuccessView = () => (
           }
         </CopyText>
       </View>
-      <GlasButton onPress={() => {}}>Add some coin</GlasButton>
+      <GlasButton onPress={() => nav.goNewAddress()}>Add some coin</GlasButton>
     </MainContent>
   </Background>
 );
+
+SeedSuccessView.propTypes = {
+  nav: PropTypes.object.isRequired,
+};
 
 export default SeedSuccessView;
