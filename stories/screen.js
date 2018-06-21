@@ -7,6 +7,7 @@ import { Store } from '../src/store';
 import NavAction from '../src/action/nav';
 import GrpcAction from '../src/action/grpc';
 import NotificationAction from '../src/action/notification';
+import SettingAction from '../src/action/setting';
 import WalletAction from '../src/action/wallet';
 import InvoiceAction from '../src/action/invoice';
 import PaymentAction from '../src/action/payment';
@@ -15,6 +16,7 @@ import TransactionAction from '../src/action/transaction';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import Setting from '../src/view/setting';
+import BitcoinUnits from '../src/view/bitcoin-units';
 import Notification from '../src/view/notification';
 import TransactionDetail from '../src/view/transaction-detail';
 import Channel from '../src/view/channel';
@@ -44,6 +46,7 @@ const store = new Store();
 const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
 const notify = sinon.createStubInstance(NotificationAction);
+const setting = new SettingAction(store);
 const wallet = new WalletAction(store, grpc, nav, notify);
 sinon.stub(wallet, 'update');
 sinon.stub(wallet, 'checkSeed');
@@ -94,6 +97,9 @@ storiesOf('Screens', module)
     />
   ))
   .add('Settings', () => <Setting store={store} nav={nav} />)
+  .add('Bitcoin Units', () => (
+    <BitcoinUnits store={store} nav={nav} setting={setting} />
+  ))
   .add('Notifications', () => <Notification store={store} nav={nav} />)
   .add('Transactions', () => (
     <Transaction store={store} transaction={transaction} nav={nav} />
