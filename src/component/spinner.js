@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { color, font } from './style';
 import Icon from '../component/icon';
 import Text from '../component/text';
-import Svg, { Path, Circle, Defs, Stop, LinearGradient } from 'svgs';
+import Svg, { Path, Circle, Defs, Stop, LinearGradient } from '../component/svg';
 
 //
 // Small Spinner
