@@ -56,7 +56,7 @@ const loadNetworkStyles = StyleSheet.create({
   },
 });
 
-export const LoadNetworkSpinner = ({ percentage, msg }) => (
+export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
   <View style={loadNetworkStyles.spinner}>
     <View style={{ width: sizeM, height: sizeM }}>
       <Svg width={sizeM} height={sizeM}>
@@ -99,6 +99,7 @@ const LoadNetworkGradient = () => (
 LoadNetworkSpinner.propTypes = {
   percentage: PropTypes.number.isRequired,
   msg: PropTypes.string.isRequired,
+  style: PropTypes.object,
 };
 
 const generateArc = (percentage, radius) => {
