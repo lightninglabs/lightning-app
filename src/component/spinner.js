@@ -17,7 +17,7 @@ const smallStyles = StyleSheet.create({
 });
 export const SmallSpinner = ({ ...props }) => (
   <ActivityIndicator
-    size="small"
+    sizeM="small"
     color={color.purple}
     style={smallStyles.spinner}
     {...props}
@@ -28,8 +28,8 @@ export const SmallSpinner = ({ ...props }) => (
 // Load Network Spinner
 //
 
-const size = 121;
-const progressWidth = 5;
+const sizeM = 121;
+const progressWidthM = 5;
 
 const loadNetworkStyles = StyleSheet.create({
   spinner: {
@@ -58,34 +58,21 @@ const loadNetworkStyles = StyleSheet.create({
 
 export const LoadNetworkSpinner = ({ percentage, msg }) => (
   <View style={loadNetworkStyles.spinner}>
-    <View style={{ width: size, height: size }}>
-      <Svg width={size} height={size}>
-        <Defs>
-          <LinearGradient id="linearGrad" x1="0" y1="0" x2="1" y2="1">
-            <Stop offset="0%" stopColor={color.spinnerLightPurple} />
-            <Stop offset="50%" stopColor={color.spinnerMedPurple} />
-            <Stop offset="70%" stopColor={color.spinnerMedDarkPurple} />
-            <Stop offset="100%" stopColor={color.purple} />
-          </LinearGradient>
-        </Defs>
-        <Circle
-          cx={size / 2}
-          cy={size / 2}
-          r={size / 2}
-          fill={color.blackDark}
-        />
+    <View style={{ width: sizeM, height: sizeM }}>
+      <Svg width={sizeM} height={sizeM}>
+        <LoadNetworkGradient />
         <Path
-          d={`M${size / 2} ${size / 2} L${size / 2} 0 ${generateArc(
+          d={`M${sizeM / 2} ${sizeM / 2} L${sizeM / 2} 0 ${generateArc(
             percentage,
-            size / 2
+            sizeM / 2
           )} Z`}
           fill="url(#linearGrad)"
         />
         {
           <Circle
-            cx={size / 2}
-            cy={size / 2}
-            r={size / 2 - progressWidth}
+            cx={sizeM / 2}
+            cy={sizeM / 2}
+            r={sizeM / 2 - progressWidthM}
             fill={color.blackDark}
           />
         }
@@ -96,6 +83,17 @@ export const LoadNetworkSpinner = ({ percentage, msg }) => (
     </View>
     <Text style={loadNetworkStyles.copy}>{msg}</Text>
   </View>
+);
+
+const LoadNetworkGradient = () => (
+  <Defs>
+    <LinearGradient id="linearGrad" x1="0" y1="0" x2="1" y2="1">
+      <Stop offset="0%" stopColor={color.spinnerLightPurple} />
+      <Stop offset="50%" stopColor={color.spinnerMedPurple} />
+      <Stop offset="70%" stopColor={color.spinnerMedDarkPurple} />
+      <Stop offset="100%" stopColor={color.purple} />
+    </LinearGradient>
+  </Defs>
 );
 
 LoadNetworkSpinner.propTypes = {
