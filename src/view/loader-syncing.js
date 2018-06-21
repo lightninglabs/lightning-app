@@ -4,20 +4,29 @@ import Background from '../component/background';
 import { H1Text, CopyText } from '../component/text';
 import MainContent from '../component/main-content';
 import { LoadNetworkSpinner } from '../component/spinner';
+import { DownButton } from '../component/button';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
-    justifyContent: 'flex-start',
+  },
+  spinner: {
+    marginTop: 90,
+  },
+  downBtn: {
+    margin: 25,
   },
 });
 
 const LoaderSyncingView = () => (
   <Background color={color.blackDark}>
     <MainContent style={styles.content}>
-      <LoadNetworkSpinner percentage={30} msg="Loading network..." />
+      <LoadNetworkSpinner percentage={30} msg="Loading network..." style={styles.spinner} />
       <CopySection />
+      <DownButton onPress={() => {}} style={styles.downBtn}>
+        Learn More
+      </DownButton>
     </MainContent>
   </Background>
 );
