@@ -4,7 +4,13 @@ import PropTypes from 'prop-types';
 import { color, font } from './style';
 import Icon from '../component/icon';
 import Text from '../component/text';
-import Svg, { Path, Circle, Defs, Stop, LinearGradient } from '../component/svg';
+import Svg, {
+  Path,
+  Circle,
+  Defs,
+  Stop,
+  LinearGradient,
+} from '../component/svg';
 
 //
 // Small Spinner
@@ -57,7 +63,7 @@ const loadNetworkStyles = StyleSheet.create({
 });
 
 export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
-  <View style={loadNetworkStyles.spinner}>
+  <View style={[loadNetworkStyles.spinner, style]}>
     <View style={{ width: sizeM, height: sizeM }}>
       <Svg width={sizeM} height={sizeM}>
         <LoadNetworkGradient />
