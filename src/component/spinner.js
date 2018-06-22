@@ -2,15 +2,9 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { color, font } from './style';
-import Icon from '../component/icon';
-import Text from '../component/text';
-import Svg, {
-  Path,
-  Circle,
-  Defs,
-  Stop,
-  LinearGradient,
-} from '../component/svg';
+import Icon from './icon';
+import Text from './text';
+import Svg, { Path, Circle, Defs, Stop, LinearGradient } from './svg';
 
 //
 // Small Spinner
