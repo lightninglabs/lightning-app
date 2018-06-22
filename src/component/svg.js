@@ -1,16 +1,3 @@
-import SvgJS, {
-  Path as PathJS,
-  Circle as CircleJS,
-  Defs as DefsJS,
-  Stop as StopJS,
-  LinearGradient as LinearGradientJS,
-} from 'svgs';
-
-export const Path = PathJS;
-export const Circle = CircleJS;
-export const Defs = DefsJS;
-export const Stop = StopJS;
-export const LinearGradient = LinearGradientJS;
-
-const Svg = SvgJS;
-export default Svg;
+import SvgJS from 'svgs';
+export default SvgJS;
+export * from 'svgs';
