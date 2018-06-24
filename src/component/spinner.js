@@ -61,19 +61,16 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
     <View style={{ width: sizeM, height: sizeM }}>
       <Svg width={sizeM} height={sizeM}>
         <LoadNetworkGradient />
-        <Path
-          d={`M${sizeM / 2} ${sizeM / 2} L${sizeM / 2} 0 ${generateArc(
-            percentage,
-            sizeM / 2
-          )} Z`}
-          fill="url(#linearGrad)"
+        <SpinnerProgress
+          width={sizeM}
+          percentage={percentage}
+          color="url(#loadNetworkGrad)"
         />
         {
-          <Circle
-            cx={sizeM / 2}
-            cy={sizeM / 2}
-            r={sizeM / 2 - progressWidthM}
-            fill={color.blackDark}
+          <SpinnerFill
+            spinnerWidth={sizeM}
+            progressWidth={progressWidthM}
+            color={color.blackDark}
           />
         }
       </Svg>
@@ -85,9 +82,18 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
   </View>
 );
 
+LoadNetworkSpinner.propTypes = {
+  percentage: PropTypes.number.isRequired,
+  msg: PropTypes.string.isRequired,
+  style: PropTypes.object,
+};
+
+//
+// Loading Network Gradient
+//
 const LoadNetworkGradient = () => (
   <Defs>
-    <LinearGradient id="linearGrad" x1="0" y1="0" x2="1" y2="1">
+    <LinearGradient id="loadNetworkGrad" x1="0" y1="0" x2="1" y2="1">
       <Stop offset="0%" stopColor={color.spinnerLightPurple} />
       <Stop offset="50%" stopColor={color.spinnerMedPurple} />
       <Stop offset="70%" stopColor={color.spinnerMedDarkPurple} />
@@ -96,10 +102,41 @@ const LoadNetworkGradient = () => (
   </Defs>
 );
 
-LoadNetworkSpinner.propTypes = {
+//
+// Spinner Progress Path
+//
+const SpinnerProgress = ({ width, percentage, color }) => (
+  <Path
+    d={`M${width / 2} ${width / 2} L${width / 2} 0 ${generateArc(
+      percentage,
+      width / 2
+    )} Z`}
+    fill={color}
+  />
+);
+
+SpinnerProgress.propTypes = {
+  width: PropTypes.number.isRequired,
   percentage: PropTypes.number.isRequired,
-  msg: PropTypes.string.isRequired,
-  style: PropTypes.object,
+  color: PropTypes.string.isRequired,
+};
+
+//
+// Spinner Fill
+//
+const SpinnerFill = ({ spinnerWidth, progressWidth, color }) => (
+  <Circle
+    cx={spinnerWidth / 2}
+    cy={spinnerWidth / 2}
+    r={spinnerWidth / 2 - progressWidth}
+    fill={color}
+  />
+);
+
+SpinnerFill.propTypes = {
+  spinnerWidth: PropTypes.number.isRequired,
+  progressWidth: PropTypes.number.isRequired,
+  color: PropTypes.string.isRequired,
 };
 
 const generateArc = (percentage, radius) => {
