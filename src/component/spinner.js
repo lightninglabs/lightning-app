@@ -187,7 +187,7 @@ const generateArc = (percentage, radius) => {
   if (percentage === 0) {
     percentage = 0.001;
   } else if (percentage === 1) {
-    percentage = 0.999;
+    percentage = 0.9999;
   }
   const a = percentage * 2 * Math.PI; // angle (in radian) depends on percentage
   const r = radius; // radius of the circle
