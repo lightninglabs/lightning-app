@@ -52,8 +52,8 @@ const loadNetworkStyles = StyleSheet.create({
   },
 });
 
-export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
-  <View style={[loadNetworkStyles.spinner, style]}>
+export const LoadNetworkSpinner = ({ percentage, msg }) => (
+  <View style={loadNetworkStyles.spinner}>
     <ResizeableSpinner
       percentage={percentage}
       size={sizeM}
@@ -69,7 +69,6 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
 LoadNetworkSpinner.propTypes = {
   percentage: PropTypes.number.isRequired,
   msg: PropTypes.string.isRequired,
-  style: PropTypes.object,
 };
 
 //
