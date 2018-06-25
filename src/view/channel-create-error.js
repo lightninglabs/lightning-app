@@ -1,21 +1,16 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { H1Text, CopyText } from '../component/text';
+import { FormStretcher } from '../component/form';
 import { Button, ButtonText, PillButton } from '../component/button';
 import Icon from '../component/icon';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 25,
-  },
   icon: {
     height: 115,
     width: 58,
@@ -38,13 +33,13 @@ const styles = StyleSheet.create({
 const ChannelCreateErrorView = ({ nav, channel }) => (
   <Background color={color.blackDark}>
     <MainContent>
-      <View style={styles.wrapper}>
+      <FormStretcher>
         <Icon image="lightning-error" style={styles.icon} />
         <H1Text>No route found</H1Text>
         <CopyText style={styles.copyTxt}>
           {"You'll need to manually create a channel"}
         </CopyText>
-      </View>
+      </FormStretcher>
       <PillButton
         style={styles.createBtn}
         onPress={() => nav.goChannelCreate()}
