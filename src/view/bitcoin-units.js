@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
   },
+  list: {
+    flex: 1,
+    justifyContent: 'center',
+  },
 });
 
 const BitcoinUnitsView = ({ store, nav, setting }) => {
@@ -31,24 +35,26 @@ const BitcoinUnitsView = ({ store, nav, setting }) => {
         <Button disabled onPress={() => {}} />
       </Header>
       <MainContent style={styles.content}>
-        <UnitsListItem
-          name="Satoshi   (0.00000001 BTC)"
-          type="sat"
-          selectedUnit={store.settings.unit}
-          onSelect={() => setting.setBitcoinUnit({ unit: 'sat' })}
-        />
-        <UnitsListItem
-          name="Bits   (0.000001 BTC)"
-          type="bit"
-          selectedUnit={store.settings.unit}
-          onSelect={() => setting.setBitcoinUnit({ unit: 'bit' })}
-        />
-        <UnitsListItem
-          name="Bitcoin"
-          type="btc"
-          selectedUnit={store.settings.unit}
-          onSelect={() => setting.setBitcoinUnit({ unit: 'btc' })}
-        />
+        <View style={styles.list}>
+          <UnitsListItem
+            name="Satoshi   (0.00000001 BTC)"
+            type="sat"
+            selectedUnit={store.settings.unit}
+            onSelect={() => setting.setBitcoinUnit({ unit: 'sat' })}
+          />
+          <UnitsListItem
+            name="Bits   (0.000001 BTC)"
+            type="bit"
+            selectedUnit={store.settings.unit}
+            onSelect={() => setting.setBitcoinUnit({ unit: 'bit' })}
+          />
+          <UnitsListItem
+            name="Bitcoin"
+            type="btc"
+            selectedUnit={store.settings.unit}
+            onSelect={() => setting.setBitcoinUnit({ unit: 'btc' })}
+          />
+        </View>
       </MainContent>
     </Background>
   );
@@ -66,7 +72,6 @@ BitcoinUnitsView.propTypes = {
 
 const iStyles = StyleSheet.create({
   item: {
-    alignSelf: 'center',
     width: 500,
     height: 60,
     paddingLeft: 0,
