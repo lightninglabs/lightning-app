@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
-import { Button, BackButton } from '../component/button';
+import { Button, BackButton, RadioButton } from '../component/button';
 import { ListItem } from '../component/list';
 import Text from '../component/text';
 import { color } from '../component/style';
@@ -35,19 +35,19 @@ const BitcoinUnitsView = ({ store, nav, setting }) => {
           name="Satoshi   (0.00000001 BTC)"
           type="sat"
           selectedUnit={store.settings.unit}
-          onSelect={() => setting.setBitcoinUnit('sat')}
+          onSelect={() => setting.setBitcoinUnit({ unit: 'sat' })}
         />
         <UnitsListItem
           name="Bits   (0.000001 BTC)"
           type="bit"
           selectedUnit={store.settings.unit}
-          onSelect={() => setting.setBitcoinUnit('bit')}
+          onSelect={() => setting.setBitcoinUnit({ unit: 'bit' })}
         />
         <UnitsListItem
           name="Bitcoin"
           type="btc"
           selectedUnit={store.settings.unit}
-          onSelect={() => setting.setBitcoinUnit('btc')}
+          onSelect={() => setting.setBitcoinUnit({ unit: 'btc' })}
         />
       </MainContent>
     </Background>
@@ -76,19 +76,12 @@ const iStyles = StyleSheet.create({
     flex: 1,
     color: color.grey,
   },
-  selection: {
-    height: 14,
-    width: 14,
-    borderRadius: 50,
-    borderWidth: 1,
-    borderColor: color.lightPurple,
-  },
 });
 
 const UnitsListItem = ({ name, type, onSelect, selectedUnit }) => (
   <ListItem style={iStyles.item} onSelect={onSelect}>
     <Text style={iStyles.name}>{name}</Text>
-    <ItemRadioBtn selected={type === selectedUnit} />
+    <RadioButton selected={type === selectedUnit} />
   </ListItem>
 );
 
@@ -97,23 +90,6 @@ UnitsListItem.propTypes = {
   type: PropTypes.string.isRequired,
   onSelect: PropTypes.func.isRequired,
   selectedUnit: PropTypes.string.isRequired,
-};
-
-//
-// Units Item Radio Button
-//
-
-const ItemRadioBtn = ({ selected }) => (
-  <View
-    style={[
-      iStyles.selection,
-      { backgroundColor: selected ? color.lightPurple : color.blackDark },
-    ]}
-  />
-);
-
-ItemRadioBtn.propTypes = {
-  selected: PropTypes.bool.isRequired,
 };
 
 export default observer(BitcoinUnitsView);
