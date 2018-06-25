@@ -12,8 +12,8 @@ import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   icon: {
-    height: 115,
-    width: 58,
+    height: 115 * 0.8,
+    width: 60 * 0.8,
     marginBottom: 25,
   },
   copyTxt: {
