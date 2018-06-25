@@ -21,7 +21,6 @@ import Channel from '../src/view/channel';
 import ChannelDetail from '../src/view/channel-detail';
 import ChannelDelete from '../src/view/channel-delete';
 import ChannelCreate from '../src/view/channel-create';
-import ChannelCreateError from '../src/view/channel-create-error';
 import Home from '../src/view/home';
 import Deposit from '../src/view/deposit';
 import Invoice from '../src/view/invoice';
@@ -32,6 +31,7 @@ import PayLightningDone from '../src/view/pay-lightning-done';
 import PayBitcoin from '../src/view/pay-bitcoin';
 import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
 import PayBitcoinDone from '../src/view/pay-bitcoin-done';
+import NoRoute from '../src/view/no-route';
 import Loader from '../src/view/loader';
 import SeedSuccess from '../src/view/seed-success';
 import Seed from '../src/view/seed';
@@ -109,9 +109,6 @@ storiesOf('Screens', module)
   .add('Channel Create', () => (
     <ChannelCreate store={store} channel={channel} nav={nav} />
   ))
-  .add('Channel Create Error', () => (
-    <ChannelCreateError channel={channel} payment={payment} />
-  ))
   .add('Deposit', () => <Deposit store={store} invoice={invoice} nav={nav} />)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)
   .add('Pay Lightning Confirm', () => (
@@ -120,6 +117,7 @@ storiesOf('Screens', module)
   .add('Pay Lightning Done', () => (
     <PayLightningDone store={store} payment={payment} nav={nav} />
   ))
+  .add('No Route Found', () => <NoRoute channel={channel} payment={payment} />)
   .add('Pay Bitcoin', () => (
     <PayBitcoin store={store} payment={payment} nav={nav} />
   ))

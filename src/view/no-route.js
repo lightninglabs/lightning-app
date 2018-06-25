@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ChannelCreateErrorView = ({ channel, payment }) => (
+const NoRouteView = ({ channel, payment }) => (
   <Background color={color.blackDark}>
     <MainContent>
       <FormStretcher>
@@ -50,9 +50,9 @@ const ChannelCreateErrorView = ({ channel, payment }) => (
   </Background>
 );
 
-ChannelCreateErrorView.propTypes = {
+NoRouteView.propTypes = {
   channel: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
 };
 
-export default observer(ChannelCreateErrorView);
+export default observer(NoRouteView);
