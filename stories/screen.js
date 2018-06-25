@@ -21,6 +21,7 @@ import Channel from '../src/view/channel';
 import ChannelDetail from '../src/view/channel-detail';
 import ChannelDelete from '../src/view/channel-delete';
 import ChannelCreate from '../src/view/channel-create';
+import ChannelCreateError from '../src/view/channel-create-error';
 import Home from '../src/view/home';
 import Deposit from '../src/view/deposit';
 import Invoice from '../src/view/invoice';
@@ -107,6 +108,9 @@ storiesOf('Screens', module)
   ))
   .add('Channel Create', () => (
     <ChannelCreate store={store} channel={channel} nav={nav} />
+  ))
+  .add('Channel Create Error', () => (
+    <ChannelCreateError channel={channel} nav={nav} />
   ))
   .add('Deposit', () => <Deposit store={store} invoice={invoice} nav={nav} />)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)
