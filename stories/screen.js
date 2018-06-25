@@ -110,7 +110,7 @@ storiesOf('Screens', module)
     <ChannelCreate store={store} channel={channel} nav={nav} />
   ))
   .add('Channel Create Error', () => (
-    <ChannelCreateError channel={channel} nav={nav} />
+    <ChannelCreateError channel={channel} payment={payment} />
   ))
   .add('Deposit', () => <Deposit store={store} invoice={invoice} nav={nav} />)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)

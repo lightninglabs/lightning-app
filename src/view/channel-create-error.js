@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const ChannelCreateErrorView = ({ nav, channel }) => (
+const ChannelCreateErrorView = ({ channel, payment }) => (
   <Background color={color.blackDark}>
     <MainContent>
       <FormStretcher>
@@ -40,13 +40,10 @@ const ChannelCreateErrorView = ({ nav, channel }) => (
           {"You'll need to manually create a channel"}
         </CopyText>
       </FormStretcher>
-      <PillButton
-        style={styles.createBtn}
-        onPress={() => nav.goChannelCreate()}
-      >
+      <PillButton style={styles.createBtn} onPress={() => channel.initCreate()}>
         Create channel
       </PillButton>
-      <Button style={styles.retryBtn} onPress={() => channel.connectAndOpen()}>
+      <Button style={styles.retryBtn} onPress={() => payment.init()}>
         <ButtonText>Try again</ButtonText>
       </Button>
     </MainContent>
@@ -54,8 +51,8 @@ const ChannelCreateErrorView = ({ nav, channel }) => (
 );
 
 ChannelCreateErrorView.propTypes = {
-  nav: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
+  payment: PropTypes.object.isRequired,
 };
 
 export default observer(ChannelCreateErrorView);
