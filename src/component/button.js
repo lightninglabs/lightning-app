@@ -421,4 +421,31 @@ CopyButton.propTypes = {
   style: ViewPropTypes.style,
 };
 
+//
+// Radio Button
+//
+
+const radioStyles = StyleSheet.create({
+  selection: {
+    height: 14,
+    width: 14,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: color.lightPurple,
+  },
+});
+
+export const RadioButton = ({ selected }) => (
+  <View
+    style={[
+      radioStyles.selection,
+      { backgroundColor: selected ? color.lightPurple : color.blackDark },
+    ]}
+  />
+);
+
+RadioButton.propTypes = {
+  selected: PropTypes.bool.isRequired,
+};
+
 export default Button;
