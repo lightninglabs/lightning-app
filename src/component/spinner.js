@@ -1,5 +1,10 @@
 import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  View,
+  ViewPropTypes,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { color, font } from './style';
 import Icon from './icon';
@@ -35,15 +40,6 @@ const loadNetworkStyles = StyleSheet.create({
   spinner: {
     margin: 20,
   },
-  fill: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   bolt: {
     height: 32,
     width: 16,
@@ -58,26 +54,14 @@ const loadNetworkStyles = StyleSheet.create({
 
 export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
   <View style={[loadNetworkStyles.spinner, style]}>
-    <View style={{ width: sizeM, height: sizeM }}>
-      <Svg width={sizeM} height={sizeM}>
-        <LoadNetworkGradient />
-        <SpinnerProgress
-          width={sizeM}
-          percentage={percentage}
-          color="url(#loadNetworkGrad)"
-        />
-        {
-          <SpinnerFill
-            spinnerWidth={sizeM}
-            progressWidth={progressWidthM}
-            color={color.blackDark}
-          />
-        }
-      </Svg>
-      <View style={loadNetworkStyles.fill}>
-        <Icon image="lightning-bolt" style={loadNetworkStyles.bolt} />
-      </View>
-    </View>
+    <ResizeableSpinner
+      percentage={percentage}
+      size={sizeM}
+      progressWidth={progressWidthM}
+      gradient="loadNetworkGrad"
+      icon="lightning-bolt"
+      iconStyles={loadNetworkStyles.bolt}
+    />
     <Text style={loadNetworkStyles.copy}>{msg}</Text>
   </View>
 );
@@ -89,15 +73,74 @@ LoadNetworkSpinner.propTypes = {
 };
 
 //
+// ResizeableSpinner
+//
+
+const resizeableStyles = StyleSheet.create({
+  iconWrapper: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    bottom: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
+
+const ResizeableSpinner = ({
+  percentage,
+  size,
+  gradient,
+  progressWidth,
+  icon,
+  iconStyles,
+}) => (
+  <View style={{ width: size, height: size }}>
+    <Svg width={size} height={size}>
+      <Gradients />
+      <SpinnerProgress
+        width={size}
+        percentage={percentage}
+        color={`url(#${gradient})`}
+      />
+      {
+        <SpinnerFill
+          spinnerWidth={size}
+          progressWidth={progressWidth}
+          color={color.blackDark}
+        />
+      }
+    </Svg>
+    <View style={resizeableStyles.iconWrapper}>
+      <Icon image={icon} style={iconStyles} />
+    </View>
+  </View>
+);
+
+ResizeableSpinner.propTypes = {
+  percentage: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  progressWidth: PropTypes.number.isRequired,
+  gradient: PropTypes.string.isRequired,
+  icon: PropTypes.string.isRequired,
+  iconStyles: ViewPropTypes.style,
+};
+
+//
 // Loading Network Gradient
 //
-const LoadNetworkGradient = () => (
+const Gradients = () => (
   <Defs>
     <LinearGradient id="loadNetworkGrad" x1="0" y1="0" x2="1" y2="1">
-      <Stop offset="0%" stopColor={color.spinnerLightPurple} />
-      <Stop offset="50%" stopColor={color.spinnerMedPurple} />
-      <Stop offset="70%" stopColor={color.spinnerMedDarkPurple} />
+      <Stop offset="0%" stopColor={color.loadNetworkLightPurple} />
+      <Stop offset="50%" stopColor={color.loadNetworkMedPurple} />
+      <Stop offset="70%" stopColor={color.loadNetworkMedDarkPurple} />
       <Stop offset="100%" stopColor={color.purple} />
+    </LinearGradient>
+    <LinearGradient id="openChannelsGrad" x1="0" y1="0" x2="1" y2="1">
+      <Stop offset="0%" stopColor={color.openChansLightPurple} />
+      <Stop offset="50%" stopColor={color.openChansDarkPurple} />
     </LinearGradient>
   </Defs>
 );
