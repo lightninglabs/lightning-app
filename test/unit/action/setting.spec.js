@@ -21,18 +21,19 @@ describe('Action Setting Unit Test', () => {
 
   describe('setBitcoinUnit()', () => {
     it('should set a valid unit', () => {
-      setting.setBitcoinUnit('sat');
+      setting.setBitcoinUnit({ unit: 'sat' });
       expect(store.settings.unit, 'to equal', 'sat');
-      setting.setBitcoinUnit('bit');
+      setting.setBitcoinUnit({ unit: 'bit' });
       expect(store.settings.unit, 'to equal', 'bit');
-      setting.setBitcoinUnit('btc');
+      setting.setBitcoinUnit({ unit: 'btc' });
       expect(store.settings.unit, 'to equal', 'btc');
     });
-    it('should reject invalid unit types', () => {
-      setting.setBitcoinUnit('invalid');
-      expect(store.settings.unit, 'to equal', 'btc');
-      setting.setBitcoinUnit(null);
-      expect(store.settings.unit, 'to equal', 'btc');
+    it('should throw error on invalid unit type', () => {
+      expect(
+        setting.setBitcoinUnit.bind(null, { unit: 'invalid' }),
+        'to throw',
+        /Invalid/
+      );
     });
   });
 });
