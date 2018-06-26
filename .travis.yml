@@ -13,7 +13,6 @@ matrix:
 
 env:
   global:
-    - secure: "JM64XBK3zx13Dn+adsldtwVHOLyZ1kwqvRby3Q7awEq6HBm9xJJ1TEo3y6vCyqkUyGocd8e+wLm7rUW6ryhXUpdTDH744mfreCuZ5Al/12O2E8fHmv4wpGRrdqhzayWFPcLVmLtlak6QCFCp60q3g9o73107JpYgSA/6G/IdIS5JACo2AOOomimfcEl+Kum6zdkAGoZQIObKRfamFfZ9CebfEZ2HXjfACu4mX3a0fwoOoXLYv7gVEVGKTdtLwC8OCbvPPNP74zoq4U3kGST0xtma3gIIgsSsxmRGj00O6tfOZypwzx3JZacgFqTlI0EjNtd+MD/DiBZ196lyWiTLDCWJ/y4cechat2qDVtLdlpsSXabaXPZanx1aVAy5SITwhBkWe8HONrjVx1ViynPGAtN5lM9EUwrTqNHbvEIVouzxZQiGHH7ynhTYn/uURrC/ZiEzjRawizxeUQKoehvC8ydLLRWBvATEv6r4hz+wH7hpdk2RDdPM24iilIvnViwkkbehOdEV7fHDkKwkmhZ0NCeNTDXNqJtka+SxWjREhSetbMQib8mJlLtMoulVlCWUvwMbMnDVB3W1Jn6UmSwFYrgoEGpUR+64cANSETTuv/hhr08Ucn97tE+oFlw4eox1S3A7kZ3RQxqE+KAdu4gHVervvSvyZL2UJqXeiBETF7M="
     - NAP_TIME=20000
     - ELECTRON_CACHE=$HOME/.cache/electron
     - ELECTRON_BUILDER_CACHE=$HOME/.cache/electron-builder
