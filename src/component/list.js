@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PureComponent } from 'react';
 import {
   View,
   ListView,
@@ -80,14 +80,18 @@ const itemStyles = StyleSheet.create({
   },
 });
 
-export const ListItem = ({ onSelect, children, style }) =>
-  onSelect ? (
-    <TouchableOpacity onPress={onSelect} style={[itemStyles.item, style]}>
-      {children}
-    </TouchableOpacity>
-  ) : (
-    <View style={[itemStyles.item, style]}>{children}</View>
-  );
+export class ListItem extends PureComponent {
+  render() {
+    const { onSelect, children, style } = this.props;
+    return onSelect ? (
+      <TouchableOpacity onPress={onSelect} style={[itemStyles.item, style]}>
+        {children}
+      </TouchableOpacity>
+    ) : (
+      <View style={[itemStyles.item, style]}>{children}</View>
+    );
+  }
+}
 
 ListItem.propTypes = {
   onSelect: PropTypes.func,
