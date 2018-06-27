@@ -33,7 +33,7 @@ export class Store {
         passwordVerify: '',
         seedVerify: ['', '', ''],
       },
-      transactions: null,
+      transactions: [],
       selectedTransaction: null,
       invoices: null,
       invoice: {

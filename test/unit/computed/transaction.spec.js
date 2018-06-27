@@ -1,52 +1,34 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ComputedTransaction from '../../../src/computed/transaction';
-import { DEFAULT_UNIT, DEFAULT_FIAT } from '../../../src/config';
 
 describe('Computed Transactions Unit Tests', () => {
   let store;
 
   beforeEach(() => {
-    useStrict(false);
-    store = observable({
-      settings: {
-        unit: DEFAULT_UNIT,
-        fiat: DEFAULT_FIAT,
-        displayFiat: false,
-        exchangeRate: {
-          usd: null,
-          eur: null,
-        },
-      },
-      transactions: [
-        {
-          id: '0',
-          type: 'bitcoin',
-          amount: 923456,
-          fee: 8250,
-          confirmations: 0,
-          status: 'unconfirmed',
-          date: new Date(),
-        },
-      ],
-      payments: [
-        {
-          id: '1',
-          type: 'lightning',
-          amount: 92345,
-          fee: 1,
-          status: 'complete',
-          date: new Date(),
-        },
-      ],
-      invoices: [
-        {
-          id: '2',
-          type: 'lightning',
-          amount: 81345,
-          status: 'in-progress',
-          date: new Date(),
-        },
-      ],
+    store = new Store();
+    store.transactions.push({
+      id: '0',
+      type: 'bitcoin',
+      amount: 923456,
+      fee: 8250,
+      confirmations: 0,
+      status: 'unconfirmed',
+      date: new Date(),
+    });
+    store.payments.push({
+      id: '1',
+      type: 'lightning',
+      amount: 92345,
+      fee: 1,
+      status: 'complete',
+      date: new Date(),
+    });
+    store.invoices.push({
+      id: '2',
+      type: 'lightning',
+      amount: 81345,
+      status: 'in-progress',
+      date: new Date(),
     });
   });
 
