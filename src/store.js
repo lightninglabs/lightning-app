@@ -42,7 +42,7 @@ export class Store {
         encoded: '',
         uri: '',
       },
-      payments: null,
+      payments: [],
       payment: {
         address: '',
         amount: '',
