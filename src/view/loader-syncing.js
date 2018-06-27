@@ -2,18 +2,15 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
-import { H1Text, CopyText } from '../component/text';
+import { Text, H1Text, CopyText } from '../component/text';
 import MainContent from '../component/main-content';
-import { LoadNetworkSpinner } from '../component/spinner';
+import { ResizeableSpinner } from '../component/spinner';
 import { DownButton } from '../component/button';
-import { color } from '../component/style';
+import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
-  },
-  spinner: {
-    marginTop: 90,
   },
   downBtn: {
     margin: 25,
@@ -26,7 +23,6 @@ const LoaderSyncingView = ({ store }) => (
       <LoadNetworkSpinner
         percentage={store.percentSynced}
         msg={store.loadingMsg}
-        style={styles.spinner}
       />
       <CopySection />
       <DownButton onPress={() => {}} style={styles.downBtn}>
@@ -38,6 +34,49 @@ const LoaderSyncingView = ({ store }) => (
 
 LoaderSyncingView.propTypes = {
   store: PropTypes.object.isRequired,
+};
+
+//
+// Load Network Spinner
+//
+
+const size = 121;
+const progressWidth = 5;
+
+const loadNetworkStyles = StyleSheet.create({
+  spinner: {
+    margin: 20,
+    marginTop: 60,
+  },
+  bolt: {
+    height: 32,
+    width: 16,
+  },
+  copy: {
+    fontSize: font.sizeS,
+    marginTop: 10,
+    color: color.white,
+    textAlign: 'center',
+  },
+});
+
+export const LoadNetworkSpinner = ({ percentage, msg }) => (
+  <View style={loadNetworkStyles.spinner}>
+    <ResizeableSpinner
+      percentage={percentage}
+      size={size}
+      progressWidth={progressWidth}
+      gradient="loadNetworkGrad"
+      icon="lightning-bolt"
+      iconStyles={loadNetworkStyles.bolt}
+    />
+    <Text style={loadNetworkStyles.copy}>{msg}</Text>
+  </View>
+);
+
+LoadNetworkSpinner.propTypes = {
+  percentage: PropTypes.number.isRequired,
+  msg: PropTypes.string.isRequired,
 };
 
 //
