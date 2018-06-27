@@ -58,7 +58,7 @@ export class Store {
         amount: '',
       },
       paymentRequest: null,
-      seedMnemonic: null,
+      seedMnemonic: [],
       notifications: [],
       logs: [],
 
