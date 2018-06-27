@@ -236,7 +236,6 @@ const qrStyles = StyleSheet.create({
     boxShadow: `0 0.25px ${color.white}`,
   },
   button: {
-    width: 43,
     top: -19,
   },
 });

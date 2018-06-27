@@ -311,7 +311,8 @@ CancelButton.propTypes = {
 const qrStyles = StyleSheet.create({
   touchable: {
     height: 60,
-    width: 60,
+    marginRight: 1, // prevent box-shadow blinking when pressing QrButton
+    marginLeft: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
