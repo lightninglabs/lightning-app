@@ -1,27 +1,11 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ComputedWallet from '../../../src/computed/wallet';
-import { DEFAULT_UNIT, DEFAULT_FIAT } from '../../../src/config';
 
 describe('Computed Wallet Unit Tests', () => {
   let store;
 
   beforeEach(() => {
-    useStrict(false);
-    store = observable({
-      balanceSatoshis: 0,
-      confirmedBalanceSatoshis: 0,
-      unconfirmedBalanceSatoshis: 0,
-      channelBalanceSatoshis: 0,
-      settings: {
-        unit: DEFAULT_UNIT,
-        fiat: DEFAULT_FIAT,
-        displayFiat: false,
-        exchangeRate: {
-          usd: null,
-          eur: null,
-        },
-      },
-    });
+    store = new Store();
   });
 
   describe('ComputedWallet()', () => {
