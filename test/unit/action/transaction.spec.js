@@ -1,4 +1,4 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import TransactionAction from '../../../src/action/transaction';
 import WalletAction from '../../../src/action/wallet';
@@ -16,8 +16,7 @@ describe('Action Transactions Unit Tests', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
-    useStrict(false);
-    store = observable({ lndReady: false });
+    store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     nav = sinon.createStubInstance(NavAction);

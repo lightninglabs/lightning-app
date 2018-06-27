@@ -1,4 +1,4 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
@@ -18,23 +18,7 @@ describe('Action Wallet Unit Tests', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
-    useStrict(false);
-    store = observable({
-      wallet: {
-        password: '',
-        passwordVerify: '',
-        seedVerify: ['', '', ''],
-      },
-      seedMnemonic: [],
-      settings: {
-        unit: 'btc',
-        fiat: 'usd',
-        displayFiat: false,
-        exchangeRate: {
-          usd: null,
-        },
-      },
-    });
+    store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
     require('../../../src/config').NOTIFICATION_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
