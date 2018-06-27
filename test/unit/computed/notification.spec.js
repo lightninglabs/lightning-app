@@ -1,14 +1,11 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ComputedNotification from '../../../src/computed/notification';
 
 describe('Computed Notification Unit Tests', () => {
   let store;
 
   beforeEach(() => {
-    useStrict(false);
-    store = observable({
-      notifications: [],
-    });
+    store = new Store();
   });
 
   describe('ComputedNotification()', () => {
