@@ -24,15 +24,22 @@ describe('Computed Settings Unit Tests', () => {
   describe('ComputedSetting()', () => {
     it('should work with initial store', () => {
       ComputedSetting(store);
-      expect(store.selectedUnitLabel, 'to equal', 'BTC');
+      expect(store.selectedUnitLabel, 'to equal', 'Bitcoin');
       expect(store.selectedFiatLabel, 'to equal', 'US Dollar');
       expect(store.notificationCountLabel, 'to equal', '0');
+      expect(store.satUnitLabel, 'to be ok');
+      expect(store.bitUnitLabel, 'to be ok');
+      expect(store.btcUnitLabel, 'to be ok');
     });
 
     it('should display satoshis denmoinated in BTC', () => {
       store.settings.unit = 'sat';
       ComputedSetting(store);
-      expect(store.selectedUnitLabel, 'to match', /SAT \(0[,.]00000001 BTC\)/);
+      expect(
+        store.selectedUnitLabel,
+        'to match',
+        /Satoshi {3}\(0[,.]00000001 BTC\)/
+      );
     });
 
     it('should display notification count as a string', () => {

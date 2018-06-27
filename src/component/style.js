@@ -10,6 +10,7 @@ export const color = {
   greyBorder: '#6B6969',
   greyLight: '#D7D4D4',
   purple: '#57038D',
+  lightPurple: '#A540CD',
   orange: '#F66B1C',
   blackDark: '#252F4A',
   blackText: '#4A4A4A',

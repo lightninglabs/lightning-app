@@ -191,7 +191,7 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe.skip('goSettingsUnit()', () => {
+  describe('goSettingsUnit()', () => {
     it('should set correct route', () => {
       nav.goSettingsUnit();
       expect(store.route, 'to equal', 'SettingsUnit');

@@ -15,9 +15,9 @@ module.exports.DEFAULT_ROUTE = 'Welcome';
 module.exports.MIN_PASSWORD_LENGTH = 8;
 
 module.exports.UNITS = {
-  sat: { display: 'SAT', denominator: 1 },
-  bit: { display: 'bits', denominator: 100 },
-  btc: { display: 'BTC', denominator: 100000000 },
+  sat: { display: 'SAT', displayLong: 'Satoshi', denominator: 1 },
+  bit: { display: 'bits', displayLong: 'Bits', denominator: 100 },
+  btc: { display: 'BTC', displayLong: 'Bitcoin', denominator: 100000000 },
 };
 module.exports.FIATS = {
   usd: { display: 'US Dollar' },
