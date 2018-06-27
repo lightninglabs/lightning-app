@@ -155,7 +155,7 @@ const bigBtnStyles = StyleSheet.create({
 const SendReceiveButton = ({ goPay, goRequest }) => (
   <View style={bigBtnStyles.wrapper}>
     <GlasButton onPress={goRequest} style={bigBtnStyles.leftBtn}>
-      Receive
+      Request
     </GlasButton>
     <View style={bigBtnStyles.boltWrapper}>
       <Icon image="lightning-bolt-purple" style={bigBtnStyles.bolt} />
