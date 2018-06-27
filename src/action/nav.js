@@ -107,7 +107,7 @@ class NavAction {
   }
 
   goSettingsUnit() {
-    // this._store.route = 'SettingsUnit';
+    this._store.route = 'SettingsUnit';
   }
 
   goSettingsFiat() {
