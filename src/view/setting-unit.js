@@ -10,7 +10,7 @@ import { SettingItem } from '../component/list';
 import { color } from '../component/style';
 
 //
-// Bitcoin Units View
+// Setting Unit View
 //
 
 const styles = StyleSheet.create({
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const BitcoinUnitsView = ({ store, nav, setting }) => {
+const SettingUnitView = ({ store, nav, setting }) => {
   return (
     <Background color={color.blackDark} style={styles.wrapper}>
       <Header separator>
@@ -60,10 +60,10 @@ const BitcoinUnitsView = ({ store, nav, setting }) => {
   );
 };
 
-BitcoinUnitsView.propTypes = {
+SettingUnitView.propTypes = {
   store: PropTypes.object.isRequired,
   setting: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
 };
 
-export default observer(BitcoinUnitsView);
+export default observer(SettingUnitView);
