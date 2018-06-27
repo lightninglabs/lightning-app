@@ -12,6 +12,7 @@ import ChannelAction from './channel';
 import TransactionAction from './transaction';
 import PaymentAction from './payment';
 import InvoiceAction from './invoice';
+import SettingAction from './setting';
 
 const ipcRenderer = window.ipcRenderer; // exposed to sandbox via preload.js
 
@@ -38,6 +39,7 @@ export const invoice = new InvoiceAction(
   Clipboard
 );
 export const payment = new PaymentAction(store, grpc, transaction, nav, notify);
+export const setting = new SettingAction(store);
 
 //
 // Init actions
