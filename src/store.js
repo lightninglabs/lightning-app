@@ -35,7 +35,7 @@ export class Store {
       },
       transactions: [],
       selectedTransaction: null,
-      invoices: null,
+      invoices: [],
       invoice: {
         amount: '',
         note: '',

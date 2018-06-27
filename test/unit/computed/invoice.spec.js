@@ -1,19 +1,11 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ComputedInvoice from '../../../src/computed/invoice';
 
 describe('Computed Invoice Unit Tests', () => {
   let store;
 
   beforeEach(() => {
-    useStrict(false);
-    store = observable({
-      invoice: {
-        address: '',
-        amount: '',
-        fee: '',
-        note: '',
-      },
-    });
+    store = new Store();
   });
 
   describe('ComputedInvoice()', () => {
