@@ -87,6 +87,8 @@ describe('Action Integration Tests', function() {
     sandbox.stub(logger);
     store1 = new Store();
     store2 = new Store();
+    store1.init();
+    store2.init();
 
     btcdArgs = {
       isDev,

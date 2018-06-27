@@ -73,7 +73,9 @@ export class Store {
         },
       },
     });
+  }
 
+  init() {
     ComputedWallet(this);
     ComputedTransaction(this);
     ComputedChannel(this);
@@ -84,7 +86,7 @@ export class Store {
     ComputedSeed(this);
   }
 
-  init(AsyncStorage) {
+  restore(AsyncStorage) {
     this._AsyncStorage = AsyncStorage;
     try {
       this._AsyncStorage.getItem('settings').then(
