@@ -1,24 +1,11 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ComputedSetting from '../../../src/computed/setting';
-import { DEFAULT_UNIT, DEFAULT_FIAT } from '../../../src/config';
 
 describe('Computed Settings Unit Tests', () => {
   let store;
 
   beforeEach(() => {
-    useStrict(false);
-    store = observable({
-      notifications: [],
-      settings: {
-        unit: DEFAULT_UNIT,
-        fiat: DEFAULT_FIAT,
-        displayFiat: false,
-        exchangeRate: {
-          usd: null,
-          eur: null,
-        },
-      },
-    });
+    store = new Store();
   });
 
   describe('ComputedSetting()', () => {
