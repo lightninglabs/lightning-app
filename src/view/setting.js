@@ -1,16 +1,14 @@
 import React from 'react';
-import { ViewPropTypes, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { Button, BackButton } from '../component/button';
-import { ListItem, ListHeader } from '../component/list';
+import { SettingItem, SettingHeader } from '../component/list';
 import { CountBubble } from '../../src/component/notification';
-import Text from '../component/text';
-import Icon from '../component/icon';
-import { color, font } from '../component/style';
+import { color } from '../component/style';
 
 //
 // Settings View
@@ -37,25 +35,28 @@ const SettingView = ({ store, nav }) => {
         <Button disabled onPress={() => {}} />
       </Header>
       <MainContent style={styles.content}>
-        <SettingsListHeader name="GENERAL" />
-        <SettingsListItem
+        <SettingHeader name="GENERAL" />
+        <SettingItem
           name="Notifications"
           onSelect={() => nav.goNotifications()}
+          arrow
         >
           <CountBubble>{store.notificationCountLabel}</CountBubble>
-        </SettingsListItem>
-        <SettingsListItem
+        </SettingItem>
+        <SettingItem
           name="Bitcoin Unit"
           label={store.selectedUnitLabel}
           onSelect={() => nav.goSettingsUnit()}
+          arrow
         />
-        <SettingsListItem
+        <SettingItem
           name="Fiat Currency"
           label={store.selectedFiatLabel}
           onSelect={() => nav.goSettingsFiat()}
+          arrow
         />
-        <SettingsListHeader name="ADVANCED" style={styles.advanced} />
-        <SettingsListItem name="CLI" onSelect={() => nav.goCLI()} />
+        <SettingHeader name="ADVANCED" style={styles.advanced} />
+        <SettingItem name="CLI" onSelect={() => nav.goCLI()} arrow />
       </MainContent>
     </Background>
   );
@@ -64,77 +65,6 @@ const SettingView = ({ store, nav }) => {
 SettingView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
-};
-
-//
-// Settings List Item
-//
-
-const iStyles = StyleSheet.create({
-  item: {
-    height: 60,
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-  name: {
-    flex: 1,
-    color: color.grey,
-    fontSize: font.sizeSub,
-  },
-  lbl: {
-    fontSize: font.sizeS,
-    color: color.greyListLabel,
-    opacity: 0.74,
-  },
-  frwd: {
-    height: 15 * 0.9,
-    width: 9 * 0.9,
-    marginLeft: 20,
-  },
-});
-
-const SettingsListItem = ({ name, onSelect, label, children }) => (
-  <ListItem style={iStyles.item} onSelect={onSelect}>
-    <Text style={iStyles.name}>{name}</Text>
-    {label ? <Text style={iStyles.lbl}>{label}</Text> : null}
-    {children}
-    <Icon image="forward" style={iStyles.frwd} />
-  </ListItem>
-);
-
-SettingsListItem.propTypes = {
-  name: PropTypes.string.isRequired,
-  onSelect: PropTypes.func.isRequired,
-  label: PropTypes.string,
-  children: PropTypes.node,
-};
-
-//
-// Settings List Header
-//
-
-const hStyles = StyleSheet.create({
-  header: {
-    height: 20,
-    paddingLeft: 0,
-    paddingRight: 0,
-  },
-  txt: {
-    fontFamily: 'OpenSans SemiBold',
-    color: color.greyListHeader,
-    fontSize: font.sizeXS,
-  },
-});
-
-const SettingsListHeader = ({ name, style }) => (
-  <ListHeader style={[hStyles.header, style]}>
-    <Text style={[iStyles.i, hStyles.txt]}>{name}</Text>
-  </ListHeader>
-);
-
-SettingsListHeader.propTypes = {
-  name: PropTypes.string.isRequired,
-  style: ViewPropTypes.style,
 };
 
 export default observer(SettingView);
