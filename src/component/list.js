@@ -76,6 +76,7 @@ const itemStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 40,
+    marginTop: 1, // prevent box-shadow blinking when pressing item
     boxShadow: `0 0.5px ${color.greyBorder}`,
   },
 });
