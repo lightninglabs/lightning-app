@@ -39,8 +39,10 @@ const ChannelCreateView = ({ store, nav, channel }) => (
       <Card>
         <BalanceLabel style={styles.balance}>
           <AmountInputField
+            autoFocus={true}
             value={store.channel.amount}
             onChangeText={amount => channel.setAmount({ amount })}
+            onSubmitEditing={() => channel.connectAndOpen()}
           />
           <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
         </BalanceLabel>
@@ -51,6 +53,7 @@ const ChannelCreateView = ({ store, nav, channel }) => (
             onChangeText={pubkeyAtHost =>
               channel.setPubkeyAtHost({ pubkeyAtHost })
             }
+            onSubmitEditing={() => channel.connectAndOpen()}
           />
         </FormStretcher>
         <FormSubText style={styles.subText}>
