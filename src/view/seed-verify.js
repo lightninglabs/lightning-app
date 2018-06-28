@@ -93,22 +93,15 @@ const entryStyles = StyleSheet.create({
   },
 });
 
-const SeedEntry = ({ seedIndex, value, onChangeText, ...props }) => (
+const SeedEntry = ({ seedIndex, ...props }) => (
   <View style={entryStyles.wrapper}>
     <Text style={entryStyles.index}>{seedIndex}.</Text>
-    <InputField
-      style={entryStyles.input}
-      value={value}
-      onChangeText={onChangeText}
-      {...props}
-    />
+    <InputField style={entryStyles.input} {...props} />
   </View>
 );
 
 SeedEntry.propTypes = {
   seedIndex: PropTypes.number,
-  value: PropTypes.string.isRequired,
-  onChangeText: PropTypes.func.isRequired,
 };
 
 export default observer(SeedVerifyView);
