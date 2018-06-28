@@ -44,8 +44,10 @@ const PaymentView = ({ store, nav, payment }) => (
         <FormStretcher>
           <InputField
             placeholder="Payment Request / Bitcoin Address"
+            autoFocus={true}
             value={store.payment.address}
             onChangeText={address => payment.setAddress({ address })}
+            onSubmitEditing={() => payment.checkType()}
           />
           <FormSubText style={styles.subText}>
             Only Lightning Payment Requests or Bitcoin addresses will work at

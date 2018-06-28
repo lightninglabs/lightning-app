@@ -51,6 +51,8 @@ const SeedVerifyView = ({ store, nav, wallet }) => (
             value={store.wallet.seedVerify[i]}
             onChangeText={word => wallet.setSeedVerify({ word, index: i })}
             key={i}
+            autoFocus={i === 0}
+            onSubmitEditing={() => wallet.checkSeed()}
           />
         ))}
       </Card>
@@ -91,21 +93,15 @@ const entryStyles = StyleSheet.create({
   },
 });
 
-const SeedEntry = ({ seedIndex, value, onChangeText }) => (
+const SeedEntry = ({ seedIndex, ...props }) => (
   <View style={entryStyles.wrapper}>
     <Text style={entryStyles.index}>{seedIndex}.</Text>
-    <InputField
-      style={entryStyles.input}
-      value={value}
-      onChangeText={onChangeText}
-    />
+    <InputField style={entryStyles.input} {...props} />
   </View>
 );
 
 SeedEntry.propTypes = {
   seedIndex: PropTypes.number,
-  value: PropTypes.string.isRequired,
-  onChangeText: PropTypes.func.isRequired,
 };
 
 export default observer(SeedVerifyView);

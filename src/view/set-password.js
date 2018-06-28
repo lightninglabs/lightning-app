@@ -53,8 +53,10 @@ const SetPasswordView = ({ store, wallet }) => (
           <InputField
             placeholder="Password"
             secureTextEntry={true}
+            autoFocus={true}
             value={store.wallet.password}
             onChangeText={password => wallet.setPassword({ password })}
+            onSubmitEditing={() => wallet.checkNewPassword()}
           />
           <InputField
             style={styles.confirm}
@@ -62,6 +64,7 @@ const SetPasswordView = ({ store, wallet }) => (
             secureTextEntry={true}
             value={store.wallet.passwordVerify}
             onChangeText={password => wallet.setPasswordVerify({ password })}
+            onSubmitEditing={() => wallet.checkNewPassword()}
           />
         </FormStretcher>
       </Card>

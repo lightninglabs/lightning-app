@@ -39,8 +39,10 @@ const InvoiceView = ({ store, nav, invoice }) => (
       <Card>
         <BalanceLabel style={styles.balance}>
           <AmountInputField
+            autoFocus={true}
             value={store.invoice.amount}
             onChangeText={amount => invoice.setAmount({ amount })}
+            onSubmitEditing={() => invoice.generateUri()}
           />
           <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
         </BalanceLabel>
@@ -49,6 +51,7 @@ const InvoiceView = ({ store, nav, invoice }) => (
             placeholder="Note"
             value={store.invoice.note}
             onChangeText={note => invoice.setNote({ note })}
+            onSubmitEditing={() => invoice.generateUri()}
           />
         </FormStretcher>
         <FormSubText style={styles.subText}>
