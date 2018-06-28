@@ -43,17 +43,19 @@ const copyStyles = StyleSheet.create({
   copyTxt: {
     textAlign: 'center',
     marginTop: 15,
-    maxWidth: 410,
+    maxWidth: 450,
   },
 });
 
 const CopySection = () => (
   <View style={copyStyles.wrapper}>
-    <H1Text style={copyStyles.title}>First, write down your seed</H1Text>
+    <H1Text style={copyStyles.title}>
+      {'First, write down your\nrecovery phrase'}
+    </H1Text>
     <CopyText style={copyStyles.copyTxt}>
-      A seed is a group of words that will help you to recover your wallet if
-      you lose your password or computer. Write it down, and keep it in a safe
-      place.
+      A recovery phrase is a group of words that will help you to recover your
+      wallet if you lose your password or computer. Write it down, and keep it
+      in a safe place.
     </CopyText>
   </View>
 );

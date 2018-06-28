@@ -11,7 +11,7 @@ const ComputedSeed = store => {
       const c0 = formatOrdinal(seedVerifyIndexes[0]);
       const c1 = formatOrdinal(seedVerifyIndexes[1]);
       const c2 = formatOrdinal(seedVerifyIndexes[2]);
-      return `Type the ${c0}, ${c1}, and ${c2} words of your seed.`;
+      return `Type the ${c0}, ${c1}, and ${c2} words of your recovery phrase.`;
     }),
   });
 };
