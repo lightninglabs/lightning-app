@@ -52,8 +52,10 @@ const PayBitcoinView = ({ store, nav, payment }) => (
         <FormStretcher>
           <BalanceLabel style={styles.balance}>
             <AmountInputField
+              autoFocus={true}
               value={store.payment.amount}
               onChangeText={amount => payment.setAmount({ amount })}
+              onSubmitEditing={() => nav.goPayBitcoinConfirm()}
             />
             <BalanceLabelUnit style={styles.unit}>
               {store.unit}
@@ -63,6 +65,7 @@ const PayBitcoinView = ({ store, nav, payment }) => (
             placeholder="Bitcoin Address"
             value={store.payment.address}
             onChangeText={address => payment.setAddress({ address })}
+            onSubmitEditing={() => nav.goPayBitcoinConfirm()}
           />
         </FormStretcher>
         <PillButton
