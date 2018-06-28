@@ -40,7 +40,7 @@ const ChannelDeleteView = ({ nav, channel }) => (
       >
         Delete this channel
       </PillButton>
-      <Button style={styles.cancelBtn} onPress={() => nav.goChannelDetail()}>
+      <Button style={styles.cancelBtn} onPress={() => nav.goBack()}>
         <ButtonText>Cancel</ButtonText>
       </Button>
     </MainContent>

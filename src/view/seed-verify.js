@@ -36,7 +36,7 @@ const styles = StyleSheet.create({
 const SeedVerifyView = ({ store, nav, wallet }) => (
   <Background image="purple-gradient-bg">
     <Header>
-      <BackButton onPress={() => nav.goSeed()} />
+      <BackButton onPress={() => nav.goBack()} />
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent style={styles.content}>

@@ -32,7 +32,7 @@ const ChannelDetailView = ({ store, nav }) => (
       <Modal
         title="Channel Details"
         style={styles.modal}
-        onClose={() => nav.goChannels()}
+        onClose={() => nav.goBack()}
       >
         <DetailField name="ID">{store.selectedChannel.id}</DetailField>
         <DetailField name="Remote Node Public Key">

@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
 const PayBitcoinConfirmView = ({ store, nav, payment }) => (
   <Background image="orange-gradient-bg">
     <Header shadow color={color.orange}>
-      <BackButton onPress={() => nav.goPayBitcoin()} />
+      <BackButton onPress={() => nav.goBack()} />
       <Title title="On-Chain Confirmation">
         <Icon image="bitcoin" style={styles.btcIcon} />
       </Title>

@@ -33,7 +33,7 @@ const ChannelCreateView = ({ store, nav, channel }) => (
     <Header separator>
       <Button disabled onPress={() => {}} />
       <Title title="Create Channel" />
-      <CancelButton onPress={() => nav.goChannels()} />
+      <CancelButton onPress={() => nav.goBack()} />
     </Header>
     <MainContent>
       <Card>

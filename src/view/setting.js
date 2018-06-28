@@ -30,7 +30,7 @@ const SettingView = ({ store, nav }) => {
   return (
     <Background color={color.blackDark}>
       <Header separator>
-        <BackButton onPress={() => nav.goHome()} />
+        <BackButton onPress={() => nav.goBack()} />
         <Title title="Settings" />
         <Button disabled onPress={() => {}} />
       </Header>

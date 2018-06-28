@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 const InvoiceQRView = ({ store, nav, invoice }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={color.purple}>
-      <BackButton onPress={() => nav.goInvoice()} />
+      <BackButton onPress={() => nav.goBack()} />
       <Title title="Payment Request">
         <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
       </Title>

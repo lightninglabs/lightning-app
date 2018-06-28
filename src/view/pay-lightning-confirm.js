@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
 const PayLightningConfirmView = ({ store, nav, payment }) => (
   <Background image="purple-gradient-bg">
     <Header shadow color={color.purple}>
-      <BackButton onPress={() => nav.goPay()} />
+      <BackButton onPress={() => nav.goBack()} />
       <Title title="Lightning Confirmation">
         <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
       </Title>

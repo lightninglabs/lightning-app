@@ -11,7 +11,6 @@ const prefixName = 'lightning';
 module.exports.PREFIX_NAME = prefixName;
 module.exports.PREFIX_URI = `${prefixName}:`;
 
-module.exports.DEFAULT_ROUTE = 'Welcome';
 module.exports.MIN_PASSWORD_LENGTH = 8;
 
 module.exports.UNITS = {

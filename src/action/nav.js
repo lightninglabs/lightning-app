@@ -10,129 +10,121 @@ class NavAction {
   }
 
   goLoader() {
-    this._store.route = 'Loader';
+    this._store.route.push('/loader');
   }
 
   goSeed() {
-    this._store.route = 'Seed';
+    this._store.route.push('/seed');
   }
 
   goSeedVerify() {
-    this._store.route = 'SeedVerify';
+    this._store.route.push('/seed-verify');
   }
 
   goSeedSuccess() {
-    this._store.route = 'SeedSuccess';
+    this._store.route.push('/seed-success');
   }
 
   goSetPassword() {
-    this._store.route = 'SetPassword';
+    this._store.route.push('/set-password');
   }
 
   goPassword() {
-    this._store.route = 'Password';
+    this._store.route.push('/password');
   }
 
   goNewAddress() {
-    this._store.route = 'NewAddress';
+    this._store.route.push('/new-address');
   }
 
   goHome() {
-    this._store.route = 'Home';
+    this._store.route.replace('/home');
   }
 
   goPay() {
-    this._store.route = 'Pay';
+    this._store.route.push('/payment');
   }
 
   goPayLightningConfirm() {
-    this._store.route = 'PayLightningConfirm';
+    this._store.route.push('/pay-lightning-confirm');
   }
 
   goPayLightningDone() {
-    this._store.route = 'PayLightningDone';
+    this._store.route.push('/pay-lightning-done');
   }
 
   goPayBitcoin() {
-    this._store.route = 'PayBitcoin';
+    this._store.route.push('/pay-bitcoin');
   }
 
   goPayBitcoinConfirm() {
-    this._store.route = 'PayBitcoinConfirm';
+    this._store.route.push('/pay-bitcoin-confirm');
   }
 
   goPayBitcoinDone() {
-    this._store.route = 'PayBitcoinDone';
+    this._store.route.push('/pay-bitcoin-done');
   }
 
   goInvoice() {
-    this._store.route = 'Invoice';
+    this._store.route.push('/invoice');
   }
 
   goInvoiceQR() {
     this._store.displayCopied = false;
-    this._store.route = 'InvoiceQR';
+    this._store.route.push('/invoice-qr');
   }
 
   goChannels() {
-    this._store.route = 'Channels';
+    this._store.route.push('/channel');
   }
 
   goChannelDetail() {
-    this._store.route = 'ChannelDetail';
+    this._store.route.push('/channel-detail');
   }
 
   goChannelDelete() {
-    this._store.route = 'ChannelDelete';
+    this._store.route.push('/channel-delete');
   }
 
   goChannelCreate() {
-    this._store.route = 'ChannelCreate';
+    this._store.route.push('/channel-create');
   }
 
   goTransactions() {
-    this._store.route = 'Transactions';
+    this._store.route.push('/transaction');
   }
 
   goTransactionDetail() {
-    this._store.route = 'TransactionDetail';
+    this._store.route.push('/transaction-detail');
   }
 
   goNotifications() {
-    this._store.route = 'Notifications';
+    this._store.route.push('/notification');
   }
 
   goSettings() {
-    this._store.route = 'Settings';
+    this._store.route.push('/setting');
   }
 
   goSettingsUnit() {
-    this._store.route = 'SettingsUnit';
+    this._store.route.push('/setting-unit');
   }
 
   goSettingsFiat() {
-    this._store.route = 'SettingsFiat';
+    this._store.route.push('/setting-fiat');
   }
 
   goCLI() {
-    // this._store.route = 'CLI';
+    // this._store.route.push('/cli');
   }
 
-  goCreateChannel() {
-    this._store.route = 'CreateChannel';
-  }
-
-  goInitializeWallet() {
-    this._store.route = 'InitializeWallet';
-  }
-
-  goVerifyWallet() {
-    this._store.route = 'VerifyWallet';
-  }
-
-  goFundWallet() {
+  goDeposit() {
     this._store.displayCopied = false;
-    this._store.route = 'FundWallet';
+    this._store.route.push('/deposit');
+  }
+
+  goBack() {
+    this._store.route.goBack();
   }
 }
 

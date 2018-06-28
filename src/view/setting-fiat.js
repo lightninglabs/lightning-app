@@ -30,7 +30,7 @@ const SettingFiatView = ({ store, nav, setting }) => {
   return (
     <Background color={color.blackDark} style={styles.wrapper}>
       <Header separator>
-        <BackButton onPress={() => nav.goSettings()} />
+        <BackButton onPress={() => nav.goBack()} />
         <Title title="Fiat Currency" />
         <Button disabled onPress={() => {}} />
       </Header>

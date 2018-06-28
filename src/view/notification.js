@@ -19,7 +19,7 @@ const NotificationView = ({ store, nav }) => {
   return (
     <Background color={color.blackDark}>
       <Header separator>
-        <BackButton onPress={() => nav.goSettings()} />
+        <BackButton onPress={() => nav.goBack()} />
         <Title title="Notifications" />
         <Button disabled onPress={() => {}} />
       </Header>
