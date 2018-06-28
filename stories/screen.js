@@ -17,6 +17,7 @@ import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import Setting from '../src/view/setting';
 import SettingUnit from '../src/view/setting-unit';
+import SettingFiat from '../src/view/setting-fiat';
 import Notification from '../src/view/notification';
 import TransactionDetail from '../src/view/transaction-detail';
 import Channel from '../src/view/channel';
@@ -100,6 +101,9 @@ storiesOf('Screens', module)
   .add('Settings', () => <Setting store={store} nav={nav} />)
   .add('Settings Units', () => (
     <SettingUnit store={store} nav={nav} setting={setting} />
+  ))
+  .add('Settings Fiat', () => (
+    <SettingFiat store={store} nav={nav} setting={setting} />
   ))
   .add('Notifications', () => <Notification store={store} nav={nav} />)
   .add('Transactions', () => (
