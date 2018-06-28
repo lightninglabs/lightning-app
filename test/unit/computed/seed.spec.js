@@ -15,7 +15,7 @@ describe('Computed Seed Unit Tests', () => {
       expect(
         store.seedVerifyCopy,
         'to equal',
-        'Type the 0th, 0th, and 0th words of your seed.'
+        'Type the 0th, 0th, and 0th words of your recovery phrase.'
       );
     });
 
