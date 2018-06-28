@@ -20,7 +20,8 @@ const ipcRenderer = window.ipcRenderer; // exposed to sandbox via preload.js
 // Inject dependencies
 //
 
-store.init(AsyncStorage);
+store.init();
+store.restore(AsyncStorage);
 
 export const log = new LogAction(store, ipcRenderer);
 export const nav = new NavAction(store, ipcRenderer);

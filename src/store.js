@@ -33,32 +33,32 @@ export class Store {
         passwordVerify: '',
         seedVerify: ['', '', ''],
       },
-      transactions: null,
+      transactions: [],
       selectedTransaction: null,
-      invoices: null,
+      invoices: [],
       invoice: {
         amount: '',
         note: '',
         encoded: '',
         uri: '',
       },
-      payments: null,
+      payments: [],
       payment: {
         address: '',
         amount: '',
         fee: '',
         note: '',
       },
-      peers: null,
-      channels: null,
+      peers: [],
+      channels: [],
+      pendingChannels: [],
       selectedChannel: null,
       channel: {
         pubkeyAtHost: '',
         amount: '',
       },
-      pendingChannels: null,
       paymentRequest: null,
-      seedMnemonic: null,
+      seedMnemonic: [],
       notifications: [],
       logs: [],
 
@@ -73,7 +73,9 @@ export class Store {
         },
       },
     });
+  }
 
+  init() {
     ComputedWallet(this);
     ComputedTransaction(this);
     ComputedChannel(this);
@@ -84,7 +86,7 @@ export class Store {
     ComputedSeed(this);
   }
 
-  init(AsyncStorage) {
+  restore(AsyncStorage) {
     this._AsyncStorage = AsyncStorage;
     try {
       this._AsyncStorage.getItem('settings').then(

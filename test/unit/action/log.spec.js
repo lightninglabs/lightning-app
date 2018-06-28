@@ -1,4 +1,4 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import * as log from '../../../src/action/log';
 import LogAction from '../../../src/action/log';
 
@@ -40,8 +40,7 @@ describe('Action Logs Unit Tests', () => {
 
   describe('with constructor', () => {
     beforeEach(() => {
-      useStrict(false);
-      store = observable({ logs: [] });
+      store = new Store();
       new LogAction(store, ipcRenderer);
     });
 

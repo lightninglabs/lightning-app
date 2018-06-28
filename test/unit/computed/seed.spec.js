@@ -1,12 +1,11 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ComputedSeed, { formatOrdinal } from '../../../src/computed/seed';
 
 describe('Computed Seed Unit Tests', () => {
   let store;
 
   beforeEach(() => {
-    useStrict(false);
-    store = observable({ seedMnemonic: [] });
+    store = new Store();
   });
 
   describe('ComputedSeed()', () => {

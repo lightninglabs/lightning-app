@@ -1,54 +1,38 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ComputedChannel from '../../../src/computed/channel';
-import { DEFAULT_UNIT, DEFAULT_FIAT } from '../../../src/config';
 
 describe('Computed Channels Unit Tests', () => {
   let store;
 
   beforeEach(() => {
-    useStrict(false);
-    store = observable({
-      settings: {
-        unit: DEFAULT_UNIT,
-        fiat: DEFAULT_FIAT,
-        displayFiat: false,
-        exchangeRate: {
-          usd: null,
-          eur: null,
-        },
-      },
-      channels: [
-        {
-          remotePubkey: 'some-pub-key',
-          id: '0',
-          capacity: 2005000,
-          localBalance: 1990000,
-          remoteBalance: 10000,
-          channelPoint: 'some-channel-point',
-          active: true,
-          status: 'open',
-        },
-      ],
-      pendingChannels: [
-        {
-          remotePubkey: 'some-pub-key',
-          id: '1',
-          capacity: 1005000,
-          localBalance: 600000,
-          remoteBalance: 400000,
-          channelPoint: 'some-channel-point',
-          status: 'pending-open',
-        },
-        {
-          remotePubkey: 'some-pub-key',
-          id: '2',
-          capacity: 805000,
-          localBalance: 500000,
-          remoteBalance: 300000,
-          channelPoint: 'some-channel-point',
-          status: 'pending-closing',
-        },
-      ],
+    store = new Store();
+    store.channels.push({
+      remotePubkey: 'some-pub-key',
+      id: '0',
+      capacity: 2005000,
+      localBalance: 1990000,
+      remoteBalance: 10000,
+      channelPoint: 'some-channel-point',
+      active: true,
+      status: 'open',
+    });
+    store.pendingChannels.push({
+      remotePubkey: 'some-pub-key',
+      id: '1',
+      capacity: 1005000,
+      localBalance: 600000,
+      remoteBalance: 400000,
+      channelPoint: 'some-channel-point',
+      status: 'pending-open',
+    });
+    store.pendingChannels.push({
+      remotePubkey: 'some-pub-key',
+      id: '2',
+      capacity: 805000,
+      localBalance: 500000,
+      remoteBalance: 300000,
+      channelPoint: 'some-channel-point',
+      status: 'pending-closing',
     });
   });
 

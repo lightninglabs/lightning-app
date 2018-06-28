@@ -1,21 +1,12 @@
+import { Store } from '../../../src/store';
 import SettingAction from '../../../src/action/setting';
-import { observable } from 'mobx';
 
 describe('Action Setting Unit Test', () => {
   let store;
   let setting;
 
   beforeEach(() => {
-    store = observable({
-      settings: {
-        unit: 'btc',
-        fiat: 'usd',
-        displayFiat: false,
-        exchangeRate: {
-          usd: null,
-        },
-      },
-    });
+    store = new Store();
     setting = new SettingAction(store);
   });
 

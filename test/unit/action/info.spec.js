@@ -1,4 +1,4 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import NotificationAction from '../../../src/action/notification';
 import InfoAction from '../../../src/action/info';
@@ -15,8 +15,7 @@ describe('Action Info Unit Tests', () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
-    useStrict(false);
-    store = observable({ lndReady: false });
+    store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     grpc.sendCommand.resolves({});
