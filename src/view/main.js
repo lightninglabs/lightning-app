@@ -27,6 +27,7 @@ import ChannelCreate from './channel-create';
 import Transaction from './transaction';
 import Setting from './setting';
 import SettingUnit from './setting-unit';
+import SettingFiat from './setting-fiat';
 import Notification from './notification';
 import TransactionDetail from './transaction-detail';
 import {
@@ -77,6 +78,9 @@ class MainView extends Component {
         {route === 'Settings' && <Setting store={store} nav={nav} />}
         {route === 'SettingsUnit' && (
           <SettingUnit store={store} nav={nav} setting={setting} />
+        )}
+        {route === 'SettingsFiat' && (
+          <SettingFiat store={store} nav={nav} setting={setting} />
         )}
         {route === 'Notifications' && <Notification store={store} nav={nav} />}
         {route === 'Pay' && (

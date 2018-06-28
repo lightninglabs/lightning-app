@@ -198,7 +198,7 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe.skip('goSettingsFiat()', () => {
+  describe('goSettingsFiat()', () => {
     it('should set correct route', () => {
       nav.goSettingsFiat();
       expect(store.route, 'to equal', 'SettingsFiat');

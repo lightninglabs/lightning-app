@@ -111,7 +111,7 @@ class NavAction {
   }
 
   goSettingsFiat() {
-    // this._store.route = 'SettingsFiat';
+    this._store.route = 'SettingsFiat';
   }
 
   goCLI() {
