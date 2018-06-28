@@ -22,6 +22,7 @@ module.exports.UNITS = {
 module.exports.FIATS = {
   usd: { display: 'US Dollar' },
   eur: { display: 'Euro' },
+  gbp: { display: 'British Pound' },
 };
 module.exports.DEFAULT_UNIT = 'btc';
 module.exports.DEFAULT_FIAT = 'usd';

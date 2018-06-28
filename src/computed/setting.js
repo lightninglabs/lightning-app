@@ -12,6 +12,9 @@ const ComputedSetting = store => {
     satUnitLabel: computed(() => getUnitLabel('sat')),
     bitUnitLabel: computed(() => getUnitLabel('bit')),
     btcUnitLabel: computed(() => getUnitLabel('btc')),
+    usdFiatLabel: computed(() => FIATS['usd'].display),
+    eurFiatLabel: computed(() => FIATS['eur'].display),
+    gbpFiatLabel: computed(() => FIATS['gbp'].display),
   });
 };
 

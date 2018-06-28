@@ -17,9 +17,12 @@ describe('Computed Settings Unit Tests', () => {
       expect(store.satUnitLabel, 'to be ok');
       expect(store.bitUnitLabel, 'to be ok');
       expect(store.btcUnitLabel, 'to be ok');
+      expect(store.usdFiatLabel, 'to be ok');
+      expect(store.eurFiatLabel, 'to be ok');
+      expect(store.gbpFiatLabel, 'to be ok');
     });
 
-    it('should display satoshis denmoinated in BTC', () => {
+    it('should display satoshis denominated in BTC', () => {
       store.settings.unit = 'sat';
       ComputedSetting(store);
       expect(
