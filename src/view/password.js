@@ -44,8 +44,10 @@ const PasswordView = ({ store, wallet }) => (
             style={styles.input}
             placeholder="Password"
             secureTextEntry={true}
+            autoFocus={true}
             value={store.wallet.password}
             onChangeText={password => wallet.setPassword({ password })}
+            onSubmitEditing={() => wallet.checkPassword()}
           />
         </FormStretcher>
       </Card>
