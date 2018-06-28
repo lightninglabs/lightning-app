@@ -24,4 +24,19 @@ describe('Action Setting Unit Test', () => {
       );
     });
   });
+
+  describe('setFiatCurrency()', () => {
+    it('should set a valid fiat currency', () => {
+      setting.setFiatCurrency({ fiat: 'eur' });
+      expect(store.settings.fiat, 'to equal', 'eur');
+    });
+
+    it('should throw error on invalid fiat type', () => {
+      expect(
+        setting.setFiatCurrency.bind(null, { fiat: 'invalid' }),
+        'to throw',
+        /Invalid/
+      );
+    });
+  });
 });
