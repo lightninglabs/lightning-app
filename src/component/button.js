@@ -78,7 +78,7 @@ const glasStyles = StyleSheet.create({
   },
 });
 
-export const GlasButton = ({ onPress, disabled, children, style, _ref }) => (
+export const GlasButton = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
     style={[
       { backgroundColor: disabled ? color.glasDark : color.glas },
@@ -87,8 +87,6 @@ export const GlasButton = ({ onPress, disabled, children, style, _ref }) => (
     ]}
     disabled={disabled}
     onPress={onPress}
-    ref={component => (_ref = component)}
-    onLayout={() => _ref.focus()}
   >
     <Text style={[{ opacity: disabled ? 0.5 : 1 }, glasStyles.text]}>
       {children}
@@ -101,7 +99,6 @@ GlasButton.propTypes = {
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
   style: ViewPropTypes.style,
-  _ref: PropTypes.object,
 };
 
 //
