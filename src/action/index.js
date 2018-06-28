@@ -40,7 +40,7 @@ export const invoice = new InvoiceAction(
   Clipboard
 );
 export const payment = new PaymentAction(store, grpc, transaction, nav, notify);
-export const setting = new SettingAction(store);
+export const setting = new SettingAction(store, wallet);
 
 //
 // Init actions

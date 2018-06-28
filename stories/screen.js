@@ -48,12 +48,13 @@ store.init();
 const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
 const notify = sinon.createStubInstance(NotificationAction);
-const setting = new SettingAction(store);
 const wallet = new WalletAction(store, grpc, nav, notify);
+const setting = new SettingAction(store, wallet);
 sinon.stub(wallet, 'update');
 sinon.stub(wallet, 'checkSeed');
 sinon.stub(wallet, 'checkNewPassword');
 sinon.stub(wallet, 'checkPassword');
+sinon.stub(wallet, 'getExchangeRate');
 const transaction = new TransactionAction(store, grpc, wallet, nav);
 sinon.stub(transaction, 'update');
 const invoice = new InvoiceAction(
@@ -145,7 +146,9 @@ storiesOf('Screens', module)
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
 store.balanceSatoshis = 798765432;
 store.channelBalanceSatoshis = 59876000;
-store.settings.exchangeRate.usd = 0.00014503;
+store.settings.exchangeRate.usd = 0.00016341;
+store.settings.exchangeRate.eur = 0.0001896;
+store.settings.exchangeRate.gbp = 0.00021405;
 store.invoice.amount = '0.45678';
 store.invoice.note = 'For the love of bitcoin';
 store.invoice.encoded =
