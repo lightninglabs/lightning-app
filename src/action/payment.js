@@ -1,5 +1,5 @@
 import { PREFIX_URI } from '../config';
-import { toSatoshis, toAmount, parseSat } from '../helper';
+import { toSatoshis, toAmount, parseSat, isValidUri, nap } from '../helper';
 import * as log from './log';
 
 class PaymentAction {
@@ -9,6 +9,21 @@ class PaymentAction {
     this._transaction = transaction;
     this._nav = nav;
     this._notification = notification;
+  }
+
+  listenForUrl(ipcRenderer) {
+    ipcRenderer.on('open-url', async (event, url) => {
+      log.info('open-url', url);
+      if (!isValidUri(url)) {
+        return;
+      }
+      while (!this._store.lndReady) {
+        this._tOpenUri = await nap(100);
+      }
+      this.init();
+      this.setAddress({ address: url.replace(PREFIX_URI, '') });
+      this.checkType();
+    });
   }
 
   init() {

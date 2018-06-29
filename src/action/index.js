@@ -43,6 +43,8 @@ export const invoice = new InvoiceAction(
 export const payment = new PaymentAction(store, grpc, transaction, nav, notify);
 export const setting = new SettingAction(store, wallet, db);
 
+payment.listenForUrl(ipcRenderer);
+
 //
 // Init actions
 //
