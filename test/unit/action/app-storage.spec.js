@@ -25,6 +25,14 @@ describe('Action App Storage Unit Tests', () => {
   });
 
   describe('restore()', () => {
+    it('should use default if nothing is saved yet', async () => {
+      AsyncStorageStub.getItem.resolves(undefined);
+      await db.restore(AsyncStorageStub);
+      expect(store.settings.unit, 'to equal', 'btc');
+      expect(logger.error, 'was not called');
+      expect(store.loaded, 'to be', true);
+    });
+
     it('should set supported setting', async () => {
       AsyncStorageStub.getItem
         .withArgs('settings')

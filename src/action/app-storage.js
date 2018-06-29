@@ -9,17 +9,17 @@ class AppStorage {
   async restore() {
     try {
       const stateString = await this._AsyncStorage.getItem('settings');
+      if (!stateString) return;
       const state = JSON.parse(stateString);
-      state &&
-        Object.keys(state).forEach(key => {
-          if (typeof this._store.settings[key] !== 'undefined') {
-            this._store.settings[key] = state[key];
-          }
-        });
-      log.info('Loaded initial state');
-      this._store.loaded = true;
+      Object.keys(state).forEach(key => {
+        if (typeof this._store.settings[key] !== 'undefined') {
+          this._store.settings[key] = state[key];
+        }
+      });
     } catch (err) {
       log.error('Store load error', err);
+    } finally {
+      log.info('Loaded initial state');
       this._store.loaded = true;
     }
   }
