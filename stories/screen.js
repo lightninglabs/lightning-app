@@ -44,6 +44,7 @@ import Password from '../src/view/password';
 import NewAddress from '../src/view/new-address';
 
 const store = new Store();
+sinon.stub(store, 'save');
 store.init();
 const nav = sinon.createStubInstance(NavAction);
 const grpc = sinon.createStubInstance(GrpcAction);
