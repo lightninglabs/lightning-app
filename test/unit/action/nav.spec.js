@@ -5,29 +5,17 @@ import NavAction from '../../../src/action/nav';
 describe('Action Nav Unit Tests', () => {
   let store;
   let sandbox;
-  let ipcRenderer;
   let nav;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(log);
-    ipcRenderer = {
-      send: sinon.stub(),
-      on: sinon.stub().yields('some-event', 'some-arg'),
-    };
     store = new Store();
-    nav = new NavAction(store, ipcRenderer);
+    nav = new NavAction(store);
   });
 
   afterEach(() => {
     sandbox.restore();
-  });
-
-  describe('constructor()', () => {
-    it('should listen to open-url event', () => {
-      expect(nav._store, 'to be ok');
-      expect(ipcRenderer.on, 'was called with', 'open-url');
-    });
   });
 
   describe('goLoader()', () => {

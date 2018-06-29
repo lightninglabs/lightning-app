@@ -25,7 +25,7 @@ store.init();
 
 export const db = new AppStorage(store, AsyncStorage);
 export const log = new LogAction(store, ipcRenderer);
-export const nav = new NavAction(store, ipcRenderer);
+export const nav = new NavAction(store);
 export const grpc = new GrpcAction(store, ipcRenderer);
 export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, db, nav, notify);
