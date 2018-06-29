@@ -508,6 +508,41 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
+  describe('isValidUri()', () => {
+    it('should accept bitcoin uri', () => {
+      const uri = 'bitcoin:rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
+      expect(helpers.isValidUri(uri), 'to be', true);
+    });
+
+    it('should accept lightning uri', () => {
+      const uri =
+        'lightning:lntb1500n1pdn2e0app5wlyxzspccpfvqmrtfr8p487xcch4hxtu2u0qzcke6mzpv222w8usdpa2fjkzep6ypxx2ap8wvs8qmrp0ysxzgrvd9nksarwd9hxwgrwv468wmmjdvsxwcqzysmr9jxv06zx53cyqa0sqntehy5tyrqu064xvw00qjep5f9gw57qcqp6qnpqyuprh90aqzfyf9ypq8uth7qte5ecjq0fng3y47mywwkfqq3megny';
+      expect(helpers.isValidUri(uri), 'to be', true);
+    });
+
+    it('should reject bitcoin address', () => {
+      const uri = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
+      expect(helpers.isValidUri(uri), 'to be', false);
+    });
+
+    it('should reject lightning invoice', () => {
+      const uri =
+        'lntb1500n1pdn2e0app5wlyxzspccpfvqmrtfr8p487xcch4hxtu2u0qzcke6mzpv222w8usdpa2fjkzep6ypxx2ap8wvs8qmrp0ysxzgrvd9nksarwd9hxwgrwv468wmmjdvsxwcqzysmr9jxv06zx53cyqa0sqntehy5tyrqu064xvw00qjep5f9gw57qcqp6qnpqyuprh90aqzfyf9ypq8uth7qte5ecjq0fng3y47mywwkfqq3megny';
+      expect(helpers.isValidUri(uri), 'to be', false);
+    });
+
+    it('should reject invalid bitcoin uri', () => {
+      const uri = 'bitcoin:/INVALID/rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
+      expect(helpers.isValidUri(uri), 'to be', false);
+    });
+
+    it('should mitigate xss', () => {
+      const uri =
+        'bitcoin:rfu4i1Mo2NF7T<script>alert("XSS")</script>QsN9bMVLFSojSzcyQCEH5';
+      expect(helpers.isValidUri(uri), 'to be', false);
+    });
+  });
+
   describe('checkHttpStatus()', () => {
     it('should throw error for 500', () => {
       const response = { status: 500, statusText: 'Boom!' };

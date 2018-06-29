@@ -181,6 +181,16 @@ export const reverse = src => {
 };
 
 /**
+ * Basic uri validation before rendering. More thorough matching
+ * is done by lnd. This is just to mitigates XSS.
+ * @param  {string}  str The uri to validate
+ * @return {boolean}     If the uri is valid
+ */
+export const isValidUri = str => {
+  return /^(lightning:|bitcoin:)[a-zA-Z0-9]*$/.test(str);
+};
+
+/**
  * Check if the HTTP status code signals is successful
  * @param  {Object} response The fetch api's response object
  * @return {Object}          The response object if successful
