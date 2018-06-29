@@ -87,6 +87,8 @@ describe('Action Integration Tests', function() {
     sandbox.stub(logger);
     store1 = new Store();
     store2 = new Store();
+    sandbox.stub(store1, 'save');
+    sandbox.stub(store2, 'save');
     store1.init();
     store2.init();
 
