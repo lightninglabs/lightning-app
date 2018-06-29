@@ -332,7 +332,7 @@ describe('Action Wallet Unit Tests', () => {
         .query({ currency: 'usd', value: 1 })
         .reply(500, 'Boom!');
       await wallet.getExchangeRate();
-      expect(store.settings.exchangeRate.usd, 'to be', null);
+      expect(store.settings.exchangeRate.usd, 'to be', undefined);
       expect(logger.error, 'was called once');
       expect(store.save, 'was not called');
     });

@@ -67,10 +67,7 @@ export class Store {
         unit: DEFAULT_UNIT,
         fiat: DEFAULT_FIAT,
         displayFiat: false,
-        exchangeRate: {
-          usd: null,
-          eur: null,
-        },
+        exchangeRate: {},
       },
     });
   }
