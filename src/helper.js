@@ -98,7 +98,7 @@ export const calculateExchangeRate = (satoshis, settings) => {
   ) {
     throw new Error('Invalid input!');
   }
-  const rate = settings.exchangeRate[settings.fiat];
+  const rate = settings.exchangeRate[settings.fiat] || 0;
   const balance = satoshis / rate / UNITS.btc.denominator;
   return formatFiat(balance, settings.fiat);
 };
