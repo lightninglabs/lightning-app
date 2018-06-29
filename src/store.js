@@ -1,4 +1,4 @@
-import { extendObservable, action } from 'mobx';
+import { extendObservable } from 'mobx';
 import ComputedWallet from './computed/wallet';
 import ComputedTransaction from './computed/transaction';
 import ComputedChannel from './computed/channel';
@@ -83,42 +83,42 @@ export class Store {
     ComputedSeed(this);
   }
 
-  restore(AsyncStorage) {
+  async restore(AsyncStorage) {
     this._AsyncStorage = AsyncStorage;
     try {
-      this._AsyncStorage.getItem('settings').then(
-        action(stateString => {
-          const state = JSON.parse(stateString);
-          state &&
-            Object.keys(state).forEach(key => {
-              if (typeof this.settings[key] !== 'undefined') {
-                this.settings[key] = state[key];
-              }
-            });
-          log.info('Loaded initial state');
-          this.loaded = true;
-        })
-      );
+      const stateString = await this._AsyncStorage.getItem('settings');
+      const state = JSON.parse(stateString);
+      state &&
+        Object.keys(state).forEach(key => {
+          if (typeof this.settings[key] !== 'undefined') {
+            this.settings[key] = state[key];
+          }
+        });
+      log.info('Loaded initial state');
+      this.loaded = true;
     } catch (err) {
-      log.info('Store load error', err);
+      log.error('Store load error', err);
       this.loaded = true;
     }
   }
 
-  save() {
+  async save() {
     try {
       const state = JSON.stringify(this.settings);
-      this._AsyncStorage.setItem('settings', state);
+      await this._AsyncStorage.setItem('settings', state);
       log.info('Saved state');
     } catch (error) {
-      log.info('Store Error', error);
+      log.error('Store save error', error);
     }
   }
 
-  clear() {
-    log.info('!!!!!!!!!CLEARING ALL PERSISTENT DATA!!!!!!');
-    Object.keys(this.settings).map(key => (this.settings[key] = null));
-    this.save();
+  async clear() {
+    try {
+      await this._AsyncStorage.clear();
+      log.info('State cleared');
+    } catch (error) {
+      log.error('Store clear error', error);
+    }
   }
 }
 
