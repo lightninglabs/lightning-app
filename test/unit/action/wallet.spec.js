@@ -19,6 +19,7 @@ describe('Action Wallet Unit Tests', () => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store = new Store();
+    sandbox.stub(store, 'save');
     require('../../../src/config').RETRY_DELAY = 1;
     require('../../../src/config').NOTIFICATION_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
@@ -245,6 +246,22 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.unlockWallet({ walletPassword: 'baz' });
       expect(notification.display, 'was called once');
       expect(nav.goHome, 'was not called');
+    });
+  });
+
+  describe('toggleDisplayFiat()', () => {
+    it('shoult not display fiat and save settings', async () => {
+      store.settings.displayFiat = true;
+      await wallet.toggleDisplayFiat();
+      expect(store.settings.displayFiat, 'to be', false);
+      expect(store.save, 'was called once');
+    });
+
+    it('should display fiat and save settings', async () => {
+      store.settings.displayFiat = false;
+      await wallet.toggleDisplayFiat();
+      expect(store.settings.displayFiat, 'to be', true);
+      expect(store.save, 'was called once');
     });
   });
 

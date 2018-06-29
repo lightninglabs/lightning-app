@@ -139,6 +139,7 @@ class WalletAction {
 
   toggleDisplayFiat() {
     this._store.settings.displayFiat = !this._store.settings.displayFiat;
+    this._store.save();
   }
 
   async getBalance() {
