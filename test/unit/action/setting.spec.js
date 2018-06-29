@@ -8,18 +8,12 @@ describe('Action Setting Unit Test', () => {
   let wallet;
   let db;
   let setting;
-  let sandbox;
 
   beforeEach(() => {
-    sandbox = sinon.createSandbox({});
     store = new Store();
     wallet = sinon.createStubInstance(WalletAction);
     db = sinon.createStubInstance(AppStorage);
     setting = new SettingAction(store, wallet, db);
-  });
-
-  afterEach(() => {
-    sandbox.restore();
   });
 
   describe('setBitcoinUnit()', () => {
