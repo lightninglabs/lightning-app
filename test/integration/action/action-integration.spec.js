@@ -1,6 +1,7 @@
 import { rmdir, poll, isPortOpen } from './test-util';
 import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
+import AppStorage from '../../../src/action/app-storage';
 import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
 import NotificationAction from '../../../src/action/notification';
@@ -57,6 +58,8 @@ describe('Action Integration Tests', function() {
 
   let store1;
   let store2;
+  let db1;
+  let db2;
   let sandbox;
   let lndProcess1;
   let lndProcess2;
@@ -87,8 +90,6 @@ describe('Action Integration Tests', function() {
     sandbox.stub(logger);
     store1 = new Store();
     store2 = new Store();
-    sandbox.stub(store1, 'save');
-    sandbox.stub(store2, 'save');
     store1.init();
     store2.init();
 
@@ -135,21 +136,23 @@ describe('Action Integration Tests', function() {
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
+    db1 = sinon.createStubInstance(AppStorage);
     nav1 = sinon.createStubInstance(NavAction);
     notify1 = sinon.createStubInstance(NotificationAction, nav1);
     grpc1 = new GrpcAction(store1, ipcRendererStub1);
     info1 = new InfoAction(store1, grpc1, notify1);
-    wallet1 = new WalletAction(store1, grpc1, nav1, notify1);
+    wallet1 = new WalletAction(store1, grpc1, db1, nav1, notify1);
     channels1 = new ChannelAction(store1, grpc1, nav1, notify1);
     transactions1 = new TransactionAction(store1, grpc1, wallet1, nav1);
     invoice1 = new InvoiceAction(store1, grpc1, transactions1, nav1, notify1);
     payments1 = new PaymentAction(store1, grpc1, transactions1, nav1, notify1);
 
+    db2 = sinon.createStubInstance(AppStorage);
     nav2 = sinon.createStubInstance(NavAction);
     notify2 = sinon.createStubInstance(NotificationAction, nav2);
     grpc2 = new GrpcAction(store2, ipcRendererStub2);
     info2 = new InfoAction(store2, grpc2, notify2);
-    wallet2 = new WalletAction(store2, grpc2, nav2, notify2);
+    wallet2 = new WalletAction(store2, grpc2, db2, nav2, notify2);
     channels2 = new ChannelAction(store2, grpc2, nav2, notify2);
     transactions2 = new TransactionAction(store2, grpc2, wallet2, nav2);
     invoice2 = new InvoiceAction(store2, grpc2, transactions2, nav2, notify2);
