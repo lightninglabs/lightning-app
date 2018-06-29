@@ -65,10 +65,6 @@ describe('Action App Storage Unit Tests', () => {
   });
 
   describe('save()', () => {
-    beforeEach(() => {
-      store._AsyncStorage = AsyncStorageStub;
-    });
-
     it('should save all settings', async () => {
       store.settings = { foo: 'bar' };
       await db.save();
@@ -84,10 +80,6 @@ describe('Action App Storage Unit Tests', () => {
   });
 
   describe('clear()', () => {
-    beforeEach(() => {
-      store._AsyncStorage = AsyncStorageStub;
-    });
-
     it('should clear all settings', async () => {
       await db.clear();
       expect(AsyncStorageStub.clear, 'was called once');
