@@ -11,6 +11,7 @@ class SettingAction {
       throw new Error(`Invalid bitcoin unit: ${unit}`);
     }
     this._store.settings.unit = unit;
+    this._store.save();
   }
 
   setFiatCurrency({ fiat }) {
@@ -19,6 +20,7 @@ class SettingAction {
     }
     this._store.settings.fiat = fiat;
     this._wallet.getExchangeRate();
+    this._store.save();
   }
 }
 
