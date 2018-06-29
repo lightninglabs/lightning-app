@@ -118,8 +118,16 @@ describe('Action Payments Unit Tests', () => {
       expect(nav.goPayLightningConfirm, 'was called once');
     });
 
-    it('should set response to null on error', async () => {
+    it('should notify if not bitcoin address', async () => {
       store.payment.address = 'some-address';
+      payment.decodeInvoice.resolves(false);
+      await payment.checkType();
+      expect(nav.goPayBitcoin, 'was not called');
+      expect(notification.display, 'was called once');
+    });
+
+    it('should navigate to bitcoin for valid address', async () => {
+      store.payment.address = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
       payment.decodeInvoice.resolves(false);
       await payment.checkType();
       expect(nav.goPayBitcoin, 'was called once');
