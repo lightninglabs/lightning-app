@@ -3,9 +3,10 @@ import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY } from '../config';
 import * as log from './log';
 
 class WalletAction {
-  constructor(store, grpc, nav, notification) {
+  constructor(store, grpc, db, nav, notification) {
     this._store = store;
     this._grpc = grpc;
+    this._db = db;
     this._nav = nav;
     this._notification = notification;
   }
@@ -139,7 +140,7 @@ class WalletAction {
 
   toggleDisplayFiat() {
     this._store.settings.displayFiat = !this._store.settings.displayFiat;
-    this._store.save();
+    this._db.save();
   }
 
   async getBalance() {
@@ -182,7 +183,7 @@ class WalletAction {
       const uri = `https://blockchain.info/tobtc?currency=${fiat}&value=1`;
       const response = checkHttpStatus(await fetch(uri));
       this._store.settings.exchangeRate[fiat] = Number(await response.text());
-      this._store.save();
+      this._db.save();
     } catch (err) {
       log.error('Getting exchange rate failed', err);
     }
