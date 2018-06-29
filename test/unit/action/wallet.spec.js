@@ -323,6 +323,7 @@ describe('Action Wallet Unit Tests', () => {
         .reply(200, '0.00011536');
       await wallet.getExchangeRate();
       expect(store.settings.exchangeRate.usd, 'to be', 0.00011536);
+      expect(store.save, 'was called once');
     });
 
     it('should display notification on error', async () => {
@@ -333,6 +334,7 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.getExchangeRate();
       expect(store.settings.exchangeRate.usd, 'to be', null);
       expect(logger.error, 'was called once');
+      expect(store.save, 'was not called');
     });
   });
 });
