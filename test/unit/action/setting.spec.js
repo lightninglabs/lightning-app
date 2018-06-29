@@ -1,19 +1,21 @@
 import { Store } from '../../../src/store';
 import SettingAction from '../../../src/action/setting';
 import WalletAction from '../../../src/action/wallet';
+import AppStorage from '../../../src/action/app-storage';
 
 describe('Action Setting Unit Test', () => {
   let store;
   let wallet;
+  let db;
   let setting;
   let sandbox;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
     store = new Store();
-    sandbox.stub(store, 'save');
     wallet = sinon.createStubInstance(WalletAction);
-    setting = new SettingAction(store, wallet);
+    db = sinon.createStubInstance(AppStorage);
+    setting = new SettingAction(store, wallet, db);
   });
 
   afterEach(() => {
@@ -24,7 +26,7 @@ describe('Action Setting Unit Test', () => {
     it('should set a valid unit and save settings', () => {
       setting.setBitcoinUnit({ unit: 'sat' });
       expect(store.settings.unit, 'to equal', 'sat');
-      expect(store.save, 'was called once');
+      expect(db.save, 'was called once');
     });
 
     it('should throw error on invalid unit type', () => {
@@ -41,7 +43,7 @@ describe('Action Setting Unit Test', () => {
       setting.setFiatCurrency({ fiat: 'eur' });
       expect(store.settings.fiat, 'to equal', 'eur');
       expect(wallet.getExchangeRate, 'was called once');
-      expect(store.save, 'was called once');
+      expect(db.save, 'was called once');
     });
 
     it('should throw error on invalid fiat type', () => {

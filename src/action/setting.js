@@ -1,9 +1,10 @@
 import { UNITS, FIATS } from '../config';
 
 class SettingAction {
-  constructor(store, wallet) {
+  constructor(store, wallet, db) {
     this._store = store;
     this._wallet = wallet;
+    this._db = db;
   }
 
   setBitcoinUnit({ unit }) {
@@ -11,7 +12,7 @@ class SettingAction {
       throw new Error(`Invalid bitcoin unit: ${unit}`);
     }
     this._store.settings.unit = unit;
-    this._store.save();
+    this._db.save();
   }
 
   setFiatCurrency({ fiat }) {
@@ -20,7 +21,7 @@ class SettingAction {
     }
     this._store.settings.fiat = fiat;
     this._wallet.getExchangeRate();
-    this._store.save();
+    this._db.save();
   }
 }
 
