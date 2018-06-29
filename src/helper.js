@@ -186,8 +186,18 @@ export const reverse = src => {
  * @param  {string}  str The uri to validate
  * @return {boolean}     If the uri is valid
  */
-export const isValidUri = str => {
-  return /^(lightning:|bitcoin:)[a-zA-Z0-9]*$/.test(str);
+export const isLnUri = str => {
+  return /^lightning:ln[a-zA-Z0-9]*$/.test(str);
+};
+
+/**
+ * Basic bitcoin address validation. More thorough matching is
+ * done by lnd. This is just to mitigate XSS.
+ * @param  {string}  str The address to validate
+ * @return {boolean}     If the uri is valid
+ */
+export const isAddress = str => {
+  return /^[a-km-zA-HJ-NP-Z0-9]{26,35}$/.test(str);
 };
 
 /**
