@@ -49,8 +49,7 @@ CLIView.propTypes = {
 const iStyles = StyleSheet.create({
   text: {
     textAlign: 'left',
-    lineHeight: 34,
-    fontSize: font.sizeM,
+    fontSize: font.sizeS,
   },
 });
 
