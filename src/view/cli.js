@@ -19,11 +19,6 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
   },
-  list: {
-    flex: 1,
-    justifyContent: 'center',
-    width: 400,
-  },
 });
 
 const CLIView = ({ store, nav }) => (
