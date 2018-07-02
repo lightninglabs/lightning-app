@@ -1,5 +1,6 @@
 import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
+import AppStorage from '../../../src/action/app-storage';
 import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
 import NotificationAction from '../../../src/action/notification';
@@ -11,6 +12,7 @@ describe('Action Wallet Unit Tests', () => {
   let store;
   let sandbox;
   let grpc;
+  let db;
   let wallet;
   let nav;
   let notification;
@@ -22,9 +24,10 @@ describe('Action Wallet Unit Tests', () => {
     require('../../../src/config').RETRY_DELAY = 1;
     require('../../../src/config').NOTIFICATION_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
+    db = sinon.createStubInstance(AppStorage);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    wallet = new WalletAction(store, grpc, nav, notification);
+    wallet = new WalletAction(store, grpc, db, nav, notification);
   });
 
   afterEach(() => {
@@ -248,6 +251,22 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('toggleDisplayFiat()', () => {
+    it('shoult not display fiat and save settings', async () => {
+      store.settings.displayFiat = true;
+      await wallet.toggleDisplayFiat();
+      expect(store.settings.displayFiat, 'to be', false);
+      expect(db.save, 'was called once');
+    });
+
+    it('should display fiat and save settings', async () => {
+      store.settings.displayFiat = false;
+      await wallet.toggleDisplayFiat();
+      expect(store.settings.displayFiat, 'to be', true);
+      expect(db.save, 'was called once');
+    });
+  });
+
   describe('getBalance()', () => {
     it('should get wallet balance', async () => {
       grpc.sendCommand.withArgs('WalletBalance').resolves({
@@ -306,6 +325,7 @@ describe('Action Wallet Unit Tests', () => {
         .reply(200, '0.00011536');
       await wallet.getExchangeRate();
       expect(store.settings.exchangeRate.usd, 'to be', 0.00011536);
+      expect(db.save, 'was called once');
     });
 
     it('should display notification on error', async () => {
@@ -314,8 +334,9 @@ describe('Action Wallet Unit Tests', () => {
         .query({ currency: 'usd', value: 1 })
         .reply(500, 'Boom!');
       await wallet.getExchangeRate();
-      expect(store.settings.exchangeRate.usd, 'to be', null);
+      expect(store.settings.exchangeRate.usd, 'to be', undefined);
       expect(logger.error, 'was called once');
+      expect(db.save, 'was not called');
     });
   });
 });

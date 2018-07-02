@@ -278,11 +278,15 @@ describe('Helpers Unit Tests', () => {
   });
 
   describe('calculateExchangeRate()', () => {
-    const settings = {
-      fiat: 'usd',
-      exchangeRate: { usd: 0.00014503 },
-      displayFiat: true,
-    };
+    let settings;
+
+    beforeEach(() => {
+      settings = {
+        fiat: 'usd',
+        exchangeRate: { usd: 0.00014503 },
+        displayFiat: true,
+      };
+    });
 
     it('should throw error if satoshis is undefined', () => {
       expect(
@@ -335,6 +339,12 @@ describe('Helpers Unit Tests', () => {
     it('should work for a number value', () => {
       const rate = helpers.calculateExchangeRate(100000, settings);
       expect(rate, 'to match', /6{1}[,.]9{1}0{1}/);
+    });
+
+    it('should be infinite for unknown rate', () => {
+      settings.fiat = 'eur';
+      const rate = helpers.calculateExchangeRate(100000, settings);
+      expect(rate, 'to match', /∞/);
     });
   });
 
