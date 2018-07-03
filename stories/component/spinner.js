@@ -7,16 +7,15 @@ import Background from '../../src/component/background';
 
 storiesOf('Spinner', module)
   .addDecorator(story => (
-    <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
+    <Background color={color.blackDark} style={{ justifyContent: 'center' }}>
+      {story()}
+    </Background>
   ))
   .add('SmallSpinner', () => <SmallSpinner />)
   .add('LoadNetworkSpinner', () => (
-    <Background
-      color={color.blackDark}
-      style={{ flexDirection: 'row', width: '100%' }}
-    >
+    <MainContent style={{ flexDirection: 'row' }}>
       <LoadNetworkSpinner percentage={30} msg="Loading network..." />
       <LoadNetworkSpinner percentage={50} msg="Almost done..." />
       <LoadNetworkSpinner percentage={100} msg="Just a few seconds..." />
-    </Background>
+    </MainContent>
   ));
