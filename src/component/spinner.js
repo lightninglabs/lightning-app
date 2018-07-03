@@ -24,7 +24,7 @@ const smallStyles = StyleSheet.create({
 export const SmallSpinner = ({ ...props }) => (
   <ActivityIndicator
     size="small"
-    color={color.purple}
+    color={color.lightPurple}
     style={smallStyles.spinner}
     {...props}
   />
