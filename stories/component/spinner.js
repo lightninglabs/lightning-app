@@ -9,13 +9,13 @@ storiesOf('Spinner', module)
   .addDecorator(story => (
     <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
   ))
-  .add('SmallSpinner', () => <SmallSpinner />);
+  .add('Small Spinner', () => <SmallSpinner />);
 
 storiesOf('Spinner', module)
   .addDecorator(story => (
     <Background color={color.blackDark}>{story()}</Background>
   ))
-  .add('LoadNetworkSpinner', () => (
+  .add('Load Network Spinner', () => (
     <MainContent style={{ alignItems: 'flex-start', flexDirection: 'row' }}>
       <LoadNetworkSpinner percentage={30} msg="Loading network..." />
       <LoadNetworkSpinner percentage={50} msg="Almost done..." />
