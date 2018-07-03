@@ -194,7 +194,10 @@ app.on('quit', () => {
 });
 
 app.setAsDefaultProtocolClient(PREFIX_NAME);
-app.on('open-url', (event, url) => {
+app.on('open-url', async (event, url) => {
+  while (!win) {
+    await new Promise(resolve => setTimeout(resolve, 5000));
+  }
   win && win.webContents.send('open-url', url);
 });
 
