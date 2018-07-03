@@ -33,20 +33,20 @@ export const SmallSpinner = ({ ...props }) => (
 // Load Network Spinner
 //
 
-const sizeM = 121;
-const progressWidthM = 5;
+const sizeM = 80;
+const progressWidthM = 3;
 
 const loadNetworkStyles = StyleSheet.create({
   spinner: {
     margin: 20,
   },
   bolt: {
-    height: 32,
-    width: 16,
+    height: 126 / 4.5,
+    width: 64 / 4.5,
   },
   copy: {
-    fontSize: font.sizeS,
-    marginTop: 10,
+    fontSize: font.sizeXS,
+    marginTop: 5,
     color: color.white,
     textAlign: 'center',
   },
