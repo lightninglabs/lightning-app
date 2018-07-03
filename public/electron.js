@@ -12,6 +12,7 @@ const {
   MACAROONS_ENABLED,
   LND_PORT,
   LND_PEER_PORT,
+  LND_INIT_DELAY,
   BTCD_MINING_ADDRESS,
 } = require('../src/config');
 
@@ -196,7 +197,7 @@ app.on('quit', () => {
 app.setAsDefaultProtocolClient(PREFIX_NAME);
 app.on('open-url', async (event, url) => {
   while (!win) {
-    await new Promise(resolve => setTimeout(resolve, 5000));
+    await new Promise(resolve => setTimeout(resolve, LND_INIT_DELAY));
   }
   win && win.webContents.send('open-url', url);
 });
