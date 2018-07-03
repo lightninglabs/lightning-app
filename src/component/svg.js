@@ -1,3 +1,3 @@
-import SvgJS from 'svgs';
-export default SvgJS;
+import Svg from 'svgs';
+export default Svg;
 export * from 'svgs';
