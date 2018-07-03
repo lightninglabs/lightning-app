@@ -4,6 +4,12 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+/* remove blue border around focused elements */
+
+div:focus {
+  outline: none;
+}
+
 /* Open Sans */
 
 @font-face {
