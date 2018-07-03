@@ -6,12 +6,19 @@ import NotificationAction from '../../src/action/notification';
 import { Store } from '../../src/store';
 
 const store = new Store();
+store.init();
 export const notify = new NotificationAction(store);
 
 storiesOf('Notification', module)
-  .add('Notification Bar', () => (
+  .add('Notification Bar (error)', () => (
     <NotificationBar
-      notification={store.lastNotification}
+      notification={store.notifications[0]}
+      display={store.displayNotification}
+    />
+  ))
+  .add('Notification Bar (waiting)', () => (
+    <NotificationBar
+      notification={store.notifications[1]}
       display={store.displayNotification}
     />
   ))
@@ -27,5 +34,11 @@ store.notifications.push({
   message: 'Oops something went wrong',
   handler: action('handle_error'),
   handlerLbl: 'Handle error',
+  display: true,
+});
+store.notifications.push({
+  type: 'info',
+  message: 'Syncing to chain',
+  waiting: true,
   display: true,
 });

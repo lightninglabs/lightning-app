@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { SmallPillButton } from './button';
 import { Text, H4Text } from './text';
 import Icon from './icon';
-import { color, font } from '../component/style';
+import { SmallSpinner } from './spinner';
+import { color, font } from './style';
 
 //
 // NotificationBar
@@ -47,6 +48,7 @@ export const NotificationBar = ({ notification, display, style }) =>
           onPress={notification.handler}
         />
       ) : null}
+      {notification.waiting ? <SmallSpinner /> : null}
     </View>
   ) : null;
 
