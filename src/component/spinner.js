@@ -6,9 +6,8 @@ import {
   ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { color, font } from './style';
+import { color } from './style';
 import Icon from './icon';
-import Text from './text';
 import Svg, { Path, Circle, Defs, Stop, LinearGradient } from './svg';
 
 //
@@ -31,48 +30,6 @@ export const SmallSpinner = ({ ...props }) => (
 );
 
 //
-// Load Network Spinner
-//
-
-const sizeM = 80;
-const progressWidthM = 3;
-
-const loadNetworkStyles = StyleSheet.create({
-  spinner: {
-    margin: 20,
-  },
-  bolt: {
-    height: 126 / 4.5,
-    width: 64 / 4.5,
-  },
-  copy: {
-    fontSize: font.sizeXS,
-    marginTop: 5,
-    color: color.white,
-    textAlign: 'center',
-  },
-});
-
-export const LoadNetworkSpinner = ({ percentage, msg }) => (
-  <View style={loadNetworkStyles.spinner}>
-    <ResizeableSpinner
-      percentage={percentage}
-      size={sizeM}
-      progressWidth={progressWidthM}
-      gradient="loadNetworkGrad"
-      icon="lightning-bolt"
-      iconStyles={loadNetworkStyles.bolt}
-    />
-    <Text style={loadNetworkStyles.copy}>{msg}</Text>
-  </View>
-);
-
-LoadNetworkSpinner.propTypes = {
-  percentage: PropTypes.number.isRequired,
-  msg: PropTypes.string.isRequired,
-};
-
-//
 // Resizeable Spinner
 //
 
@@ -88,7 +45,7 @@ const resizeableStyles = StyleSheet.create({
   },
 });
 
-const ResizeableSpinner = ({
+export const ResizeableSpinner = ({
   percentage,
   size,
   gradient,
@@ -140,7 +97,7 @@ const Gradients = () => (
       <Stop offset="100%" stopColor={color.purple} />
     </LinearGradient>
     <LinearGradient id="openChannelsGrad" x1="0" y1="0" x2="1" y2="1">
-      <Stop offset="0%" stopColor={color.openChansLightPurple} />
+      <Stop offset="0%" stopColor={color.lightPurple} />
       <Stop offset="50%" stopColor={color.openChansDarkPurple} />
     </LinearGradient>
   </Defs>
