@@ -20,6 +20,7 @@ const smallStyles = StyleSheet.create({
     transform: [{ scale: 1.0 }],
   },
 });
+
 export const SmallSpinner = ({ ...props }) => (
   <ActivityIndicator
     size="small"
@@ -72,7 +73,7 @@ LoadNetworkSpinner.propTypes = {
 };
 
 //
-// ResizeableSpinner
+// Resizeable Spinner
 //
 
 const resizeableStyles = StyleSheet.create({
@@ -129,6 +130,7 @@ ResizeableSpinner.propTypes = {
 //
 // Loading Network Gradient
 //
+
 const Gradients = () => (
   <Defs>
     <LinearGradient id="loadNetworkGrad" x1="0" y1="0" x2="1" y2="1">
@@ -147,6 +149,7 @@ const Gradients = () => (
 //
 // Spinner Progress Path
 //
+
 const SpinnerProgress = ({ width, percentage, color }) => (
   <Path
     d={`M${width / 2} ${width / 2} L${width / 2} 0 ${generateArc(
@@ -166,6 +169,7 @@ SpinnerProgress.propTypes = {
 //
 // Spinner Fill
 //
+
 const SpinnerFill = ({ spinnerWidth, progressWidth, color }) => (
   <Circle
     cx={spinnerWidth / 2}
