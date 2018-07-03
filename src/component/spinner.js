@@ -17,7 +17,7 @@ import Svg, { Path, Circle, Defs, Stop, LinearGradient } from './svg';
 
 const smallStyles = StyleSheet.create({
   spinner: {
-    transform: [{ scale: 1.42 }],
+    transform: [{ scale: 1.0 }],
   },
 });
 export const SmallSpinner = ({ ...props }) => (
