@@ -195,8 +195,6 @@ app.on('quit', () => {
 
 app.setAsDefaultProtocolClient(PREFIX_NAME);
 app.on('open-url', (event, url) => {
-  // event.preventDefault();
-  Logger.info(`open-url# ${url}`);
   win && win.webContents.send('open-url', url);
 });
 

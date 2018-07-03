@@ -1,5 +1,12 @@
 import { PREFIX_URI } from '../config';
-import { toSatoshis, toAmount, parseSat } from '../helper';
+import {
+  toSatoshis,
+  toAmount,
+  parseSat,
+  isLnUri,
+  isAddress,
+  nap,
+} from '../helper';
 import * as log from './log';
 
 class PaymentAction {
@@ -9,6 +16,21 @@ class PaymentAction {
     this._transaction = transaction;
     this._nav = nav;
     this._notification = notification;
+  }
+
+  listenForUrl(ipcRenderer) {
+    ipcRenderer.on('open-url', async (event, url) => {
+      log.info('open-url', url);
+      if (!isLnUri(url)) {
+        return;
+      }
+      while (!this._store.lndReady) {
+        this._tOpenUri = await nap(100);
+      }
+      this.init();
+      this.setAddress({ address: url.replace(PREFIX_URI, '') });
+      this.checkType();
+    });
   }
 
   init() {
@@ -33,8 +55,10 @@ class PaymentAction {
     }
     if (await this.decodeInvoice({ invoice: this._store.payment.address })) {
       this._nav.goPayLightningConfirm();
-    } else {
+    } else if (isAddress(this._store.payment.address)) {
       this._nav.goPayBitcoin();
+    } else {
+      this._notification.display({ msg: 'Invalid invoice or address' });
     }
   }
 

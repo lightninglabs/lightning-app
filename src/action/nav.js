@@ -1,12 +1,6 @@
-import * as log from './log';
-
 class NavAction {
-  constructor(store, ipcRenderer) {
+  constructor(store) {
     this._store = store;
-    ipcRenderer.on('open-url', (event, arg) => {
-      // TODO: Go to route
-      log.info('open-url', arg);
-    });
   }
 
   goLoader() {

@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import PaymentAction from '../../../src/action/payment';
@@ -5,6 +6,7 @@ import TransactionAction from '../../../src/action/transaction';
 import NotificationAction from '../../../src/action/notification';
 import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
+import { nap } from '../../../src/helper';
 
 describe('Action Payments Unit Tests', () => {
   let store;
@@ -28,7 +30,46 @@ describe('Action Payments Unit Tests', () => {
   });
 
   afterEach(() => {
+    clearTimeout(payment.tOpenUri);
     sandbox.restore();
+  });
+
+  describe('listenForUrl()', () => {
+    let ipcRendererStub;
+
+    beforeEach(() => {
+      ipcRendererStub = new EventEmitter();
+      payment.listenForUrl(ipcRendererStub);
+      sandbox.stub(payment, 'init');
+      sandbox.stub(payment, 'checkType');
+    });
+
+    it('should not navigate to payment view for invalid uri', () => {
+      const uri = 'invalid-uri';
+      ipcRendererStub.emit('open-url', 'some-event', uri);
+      expect(payment.init, 'was not called');
+    });
+
+    it('should navigate to payment view for valid uri and lndReady', () => {
+      store.lndReady = true;
+      const uri = 'lightning:lntb100n1pdn2e0app';
+      ipcRendererStub.emit('open-url', 'some-event', uri);
+      expect(payment.init, 'was called once');
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
+
+    it('should wait for lndReady', async () => {
+      store.lndReady = false;
+      const uri = 'lightning:lntb100n1pdn2e0app';
+      ipcRendererStub.emit('open-url', 'some-event', uri);
+      expect(payment.init, 'was not called');
+      store.lndReady = true;
+      await nap(300);
+      expect(payment.init, 'was called once');
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
   });
 
   describe('init()', () => {
@@ -55,6 +96,41 @@ describe('Action Payments Unit Tests', () => {
     it('should set attribute', () => {
       payment.setAmount({ amount: 'some-amount' });
       expect(store.payment.amount, 'to equal', 'some-amount');
+    });
+  });
+
+  describe('checkType()', () => {
+    beforeEach(() => {
+      sandbox.stub(payment, 'decodeInvoice');
+    });
+
+    it('should notify if address is empty', async () => {
+      payment.decodeInvoice.resolves(true);
+      await payment.checkType();
+      expect(notification.display, 'was called once');
+      expect(payment.decodeInvoice, 'was not called');
+    });
+
+    it('should decode successfully', async () => {
+      store.payment.address = 'some-address';
+      payment.decodeInvoice.resolves(true);
+      await payment.checkType();
+      expect(nav.goPayLightningConfirm, 'was called once');
+    });
+
+    it('should notify if not bitcoin address', async () => {
+      store.payment.address = 'some-address';
+      payment.decodeInvoice.resolves(false);
+      await payment.checkType();
+      expect(nav.goPayBitcoin, 'was not called');
+      expect(notification.display, 'was called once');
+    });
+
+    it('should navigate to bitcoin for valid address', async () => {
+      store.payment.address = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
+      payment.decodeInvoice.resolves(false);
+      await payment.checkType();
+      expect(nav.goPayBitcoin, 'was called once');
     });
   });
 
