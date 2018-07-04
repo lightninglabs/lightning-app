@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { Text, H1Text, CopyText } from '../component/text';
@@ -9,6 +9,9 @@ import { DownButton } from '../component/button';
 import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
+  spinner: {
+    marginTop: 40,
+  },
   downBtn: {
     margin: 25,
   },
@@ -20,6 +23,7 @@ const LoaderSyncingView = ({ store }) => (
       <LoadNetworkSpinner
         percentage={store.percentSynced}
         msg={store.loadingMsg}
+        style={styles.spinner}
       />
       <CopySection />
       <DownButton onPress={() => {}} style={styles.downBtn}>
@@ -41,9 +45,6 @@ const size = 80;
 const progressWidth = 3;
 
 const loadNetworkStyles = StyleSheet.create({
-  spinner: {
-    margin: 20,
-  },
   bolt: {
     height: 126 / 4.5,
     width: 64 / 4.5,
@@ -56,8 +57,8 @@ const loadNetworkStyles = StyleSheet.create({
   },
 });
 
-export const LoadNetworkSpinner = ({ percentage, msg }) => (
-  <View style={loadNetworkStyles.spinner}>
+export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
+  <View style={style}>
     <ResizeableSpinner
       percentage={percentage}
       size={size}
@@ -73,6 +74,7 @@ export const LoadNetworkSpinner = ({ percentage, msg }) => (
 LoadNetworkSpinner.propTypes = {
   percentage: PropTypes.number.isRequired,
   msg: PropTypes.string.isRequired,
+  style: ViewPropTypes.style,
 };
 
 //
