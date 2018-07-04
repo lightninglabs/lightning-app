@@ -9,9 +9,6 @@ import { DownButton } from '../component/button';
 import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
-  content: {
-    alignItems: 'center',
-  },
   downBtn: {
     margin: 25,
   },
@@ -19,7 +16,7 @@ const styles = StyleSheet.create({
 
 const LoaderSyncingView = ({ store }) => (
   <Background color={color.blackDark}>
-    <MainContent style={styles.content}>
+    <MainContent>
       <LoadNetworkSpinner
         percentage={store.percentSynced}
         msg={store.loadingMsg}
