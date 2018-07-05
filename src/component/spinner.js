@@ -6,7 +6,8 @@ import {
   ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { color } from './style';
+import Text from '../component/text';
+import { color, font } from './style';
 import Icon from './icon';
 import Svg, { Path, Circle, Defs, Stop, LinearGradient } from './svg';
 
@@ -28,6 +29,46 @@ export const SmallSpinner = ({ ...props }) => (
     {...props}
   />
 );
+
+//
+// Load Network Spinner
+//
+
+const size = 80;
+const progressWidth = 3;
+
+const loadNetworkStyles = StyleSheet.create({
+  bolt: {
+    height: 126 / 4.5,
+    width: 64 / 4.5,
+  },
+  copy: {
+    fontSize: font.sizeXS,
+    marginTop: 5,
+    color: color.white,
+    textAlign: 'center',
+  },
+});
+
+export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
+  <View style={style}>
+    <ResizeableSpinner
+      percentage={percentage}
+      size={size}
+      progressWidth={progressWidth}
+      gradient="loadNetworkGrad"
+      icon="lightning-bolt"
+      iconStyles={loadNetworkStyles.bolt}
+    />
+    <Text style={loadNetworkStyles.copy}>{msg}</Text>
+  </View>
+);
+
+LoadNetworkSpinner.propTypes = {
+  percentage: PropTypes.number.isRequired,
+  msg: PropTypes.string.isRequired,
+  style: ViewPropTypes.style,
+};
 
 //
 // Resizeable Spinner

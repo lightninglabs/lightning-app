@@ -1,8 +1,7 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import MainContent from '../../src/component/main-content';
-import { SmallSpinner } from '../../src/component/spinner';
-import { LoadNetworkSpinner } from '../../src/view/loader-syncing';
+import { SmallSpinner, LoadNetworkSpinner } from '../../src/component/spinner';
 import { color } from '../../src/component/style';
 import Background from '../../src/component/background';
 
@@ -18,8 +17,20 @@ storiesOf('Spinner', module)
   ))
   .add('Load Network Spinner', () => (
     <MainContent style={{ alignItems: 'flex-start', flexDirection: 'row' }}>
-      <LoadNetworkSpinner percentage={30} msg="Loading network..." />
-      <LoadNetworkSpinner percentage={50} msg="Almost done..." />
-      <LoadNetworkSpinner percentage={100} msg="Just a few seconds..." />
+      <LoadNetworkSpinner
+        percentage={30}
+        msg="Loading network..."
+        style={{ margin: 20 }}
+      />
+      <LoadNetworkSpinner
+        percentage={50}
+        msg="Almost done..."
+        style={{ margin: 20 }}
+      />
+      <LoadNetworkSpinner
+        percentage={100}
+        msg="Just a few seconds..."
+        style={{ margin: 20 }}
+      />
     </MainContent>
   ));

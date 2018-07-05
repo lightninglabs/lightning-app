@@ -1,12 +1,12 @@
 import React from 'react';
-import { StyleSheet, View, ViewPropTypes } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
-import { Text, H1Text, CopyText } from '../component/text';
+import { H1Text, CopyText } from '../component/text';
 import MainContent from '../component/main-content';
-import { ResizeableSpinner } from '../component/spinner';
+import { LoadNetworkSpinner } from '../component/spinner';
 import { DownButton } from '../component/button';
-import { color, font } from '../component/style';
+import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   spinner: {
@@ -35,46 +35,6 @@ const LoaderSyncingView = ({ store }) => (
 
 LoaderSyncingView.propTypes = {
   store: PropTypes.object.isRequired,
-};
-
-//
-// Load Network Spinner
-//
-
-const size = 80;
-const progressWidth = 3;
-
-const loadNetworkStyles = StyleSheet.create({
-  bolt: {
-    height: 126 / 4.5,
-    width: 64 / 4.5,
-  },
-  copy: {
-    fontSize: font.sizeXS,
-    marginTop: 5,
-    color: color.white,
-    textAlign: 'center',
-  },
-});
-
-export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
-  <View style={style}>
-    <ResizeableSpinner
-      percentage={percentage}
-      size={size}
-      progressWidth={progressWidth}
-      gradient="loadNetworkGrad"
-      icon="lightning-bolt"
-      iconStyles={loadNetworkStyles.bolt}
-    />
-    <Text style={loadNetworkStyles.copy}>{msg}</Text>
-  </View>
-);
-
-LoadNetworkSpinner.propTypes = {
-  percentage: PropTypes.number.isRequired,
-  msg: PropTypes.string.isRequired,
-  style: ViewPropTypes.style,
 };
 
 //
