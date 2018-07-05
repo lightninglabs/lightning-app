@@ -15,6 +15,9 @@ class LogAction {
     _ipcRenderer = ipcRenderer;
     _ipcRenderer.on('logs', (event, arg) => {
       store.logs.push(arg);
+      if (store.logs.length > 100) {
+        store.logs.splice(0, store.logs.length - 100);
+      }
     });
     _ipcRenderer.send('logs-ready', true);
   }

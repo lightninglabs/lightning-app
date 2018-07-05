@@ -53,9 +53,15 @@ export class List extends Component {
   render() {
     return (
       <ListView
+        ref={component => (this.list = component)}
         dataSource={this.dataSource}
         renderHeader={this.props.renderHeader}
-        renderRow={this.props.renderItem}
+        renderRow={data => {
+          this.props.scrollToEnd
+            ? setTimeout(() => this.list._scrollViewRef.scrollToEnd(), 50)
+            : null;
+          return this.props.renderItem(data);
+        }}
         enableEmptySections={true}
       />
     );
@@ -66,6 +72,7 @@ List.propTypes = {
   data: PropTypes.array.isRequired,
   renderHeader: PropTypes.func,
   renderItem: PropTypes.func.isRequired,
+  scrollToEnd: PropTypes.bool,
 };
 
 //

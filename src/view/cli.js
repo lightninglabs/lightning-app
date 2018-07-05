@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
-import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
+import { List, ListContent } from '../component/list';
 import { Button, BackButton } from '../component/button';
 import { color, font } from '../component/style';
 
@@ -29,9 +30,13 @@ const CLIView = ({ store, nav }) => (
       <Button disabled onPress={() => {}} />
     </Header>
     <Background color={color.cliBackground}>
-      <MainContent style={styles.content}>
-        {store.logs.map((log, i) => <LogItem text={log} key={i} />)}
-      </MainContent>
+      <ListContent>
+        <List
+          data={store.logs.slice()}
+          renderItem={text => <LogItem text={text} />}
+          scrollToEnd={true}
+        />
+      </ListContent>
     </Background>
   </Background>
 );
@@ -54,4 +59,4 @@ LogItem.propTypes = {
   text: PropTypes.string,
 };
 
-export default CLIView;
+export default observer(CLIView);
