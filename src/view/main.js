@@ -10,6 +10,7 @@ import SeedSuccess from './seed-success';
 import SetPassword from './set-password';
 import Password from './password';
 import NewAddress from './new-address';
+import Wait from './wait';
 import Home from './home';
 import Payment from './payment';
 import PayLightningConfirm from './pay-lightning-confirm';
@@ -64,6 +65,7 @@ class MainView extends Component {
         {route === 'NewAddress' && (
           <NewAddress store={store} nav={nav} invoice={invoice} />
         )}
+        {route === 'Wait' && <Wait />}
         {route === 'Home' && (
           <Home
             store={store}
