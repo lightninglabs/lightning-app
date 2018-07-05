@@ -148,7 +148,7 @@ autoUpdater.on('update-downloaded', () => {
     type: 'question',
     buttons: ['Install', 'Later'],
     title: 'Update available',
-    message: 'Restart the app and install the update?',
+    message: 'An update is available. Restart the app and install?',
   };
   dialog.showMessageBox(win, opt, choice => {
     if (choice !== 0) return;
