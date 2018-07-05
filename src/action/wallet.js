@@ -1,3 +1,4 @@
+import { observe } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap } from '../helper';
 import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY } from '../config';
 import * as log from './log';
@@ -132,7 +133,8 @@ class WalletAction {
         wallet_password: toBuffer(walletPassword),
       });
       this._store.walletUnlocked = true;
-      this._nav.goHome();
+      this._nav.goWait();
+      observe(this._store, 'lndReady', () => this._nav.goHome());
     } catch (err) {
       this._notification.display({ type: 'error', msg: 'Invalid password' });
     }
