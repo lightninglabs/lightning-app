@@ -26,17 +26,17 @@ describe('Computed Loader Msg Unit Tests', () => {
       expect(store.loadingMsg, 'to equal', LOADING_COPY_START);
     });
 
-    it('should work for < 0 and > 100 percentages', () => {
+    it('should work for < 0 and > 1 percentages', () => {
       store.percentSynced = -1;
       ComputedLoaderMsg(store);
       expect(store.loadingMsg, 'to equal', LOADING_COPY_START);
-      store.percentSynced = 101;
+      store.percentSynced = 1.01;
       ComputedLoaderMsg(store);
       expect(store.loadingMsg, 'to equal', LOADING_COPY_END);
     });
 
     it('should work for each milestone percentage', () => {
-      store.percentSynced = 10;
+      store.percentSynced = 0.1;
       ComputedLoaderMsg(store);
       expect(store.loadingMsg, 'to equal', LOADING_COPY_START);
       store.percentSynced = LOADING_PERCENT_MID;

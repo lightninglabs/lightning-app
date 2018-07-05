@@ -18,17 +18,17 @@ storiesOf('Spinner', module)
   .add('Load Network Spinner', () => (
     <MainContent style={{ alignItems: 'flex-start', flexDirection: 'row' }}>
       <LoadNetworkSpinner
-        percentage={30}
+        percentage={0.3}
         msg="Loading network..."
         style={{ margin: 20 }}
       />
       <LoadNetworkSpinner
-        percentage={50}
+        percentage={0.5}
         msg="Almost done..."
         style={{ margin: 20 }}
       />
       <LoadNetworkSpinner
-        percentage={100}
+        percentage={1}
         msg="Just a few seconds..."
         style={{ margin: 20 }}
       />

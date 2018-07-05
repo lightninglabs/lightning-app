@@ -185,11 +185,11 @@ SpinnerFill.propTypes = {
 
 const generateArc = (percentage, radius) => {
   if (percentage === 0) {
-    percentage = 1;
-  } else if (percentage === 100) {
-    percentage = 99.999;
+    percentage = 0.001;
+  } else if (percentage === 1) {
+    percentage = 0.999;
   }
-  const a = percentage * 2 * Math.PI / 100; // angle (in radian) depends on percentage
+  const a = percentage * 2 * Math.PI; // angle (in radian) depends on percentage
   const r = radius; // radius of the circle
   var rx = r,
     ry = r,
@@ -198,7 +198,7 @@ const generateArc = (percentage, radius) => {
     sweepFlag = 1,
     x = r + r * Math.sin(a),
     y = r - r * Math.cos(a);
-  if (percentage <= 50) {
+  if (percentage <= 0.5) {
     largeArcFlag = 0;
   } else {
     largeArcFlag = 1;
