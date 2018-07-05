@@ -31,6 +31,10 @@ class NavAction {
     this._store.route = 'NewAddress';
   }
 
+  goWait() {
+    this._store.route = 'Wait';
+  }
+
   goHome() {
     this._store.route = 'Home';
   }
