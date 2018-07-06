@@ -46,6 +46,9 @@ ipcMain.on('log-error', (event, arg) => log.error(...arg));
 let logQueue = [];
 let logsReady = false;
 
+const getArgv = arg =>
+  (process.argv.find(a => a.includes(`--${arg}=`)) || '').split('=')[1];
+
 const sendLog = log => {
   if (win && logsReady) {
     win.webContents.send('logs', log);
@@ -131,6 +134,8 @@ const startLnd = async () => {
     });
     lndProcess = await startLndProcess({
       isDev,
+      rpcUser: getArgv('rpcuser'),
+      rpcPass: getArgv('rpcpass'),
       lndSettingsDir,
       macaroonsEnabled: MACAROONS_ENABLED,
       lndPort: LND_PORT,
