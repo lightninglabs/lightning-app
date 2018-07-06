@@ -203,6 +203,7 @@ describe('Action Payments Unit Tests', () => {
         JSON.stringify({ payment_request: 'some-invoice' }),
         'utf8'
       );
+      expect(nav.goWait, 'was called once');
       expect(nav.goPayLightningDone, 'was called once');
       expect(notification.display, 'was not called');
       expect(transaction.update, 'was called once');
@@ -211,6 +212,7 @@ describe('Action Payments Unit Tests', () => {
     it('should display notification on error', async () => {
       paymentsOnStub.withArgs('data').yields({ payment_error: 'Boom!' });
       await payment.payLightning({ invoice: 'some-payment' });
+      expect(nav.goPayLightningConfirm, 'was called once');
       expect(notification.display, 'was called once');
       expect(transaction.update, 'was called once');
     });
