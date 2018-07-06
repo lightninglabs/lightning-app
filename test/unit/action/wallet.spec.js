@@ -238,6 +238,9 @@ describe('Action Wallet Unit Tests', () => {
       expect(grpc.sendUnlockerCommand, 'was called with', 'UnlockWallet', {
         wallet_password: Buffer.from('baz', 'utf8'),
       });
+      expect(nav.goWait, 'was called once');
+      expect(nav.goHome, 'was not called');
+      store.lndReady = true;
       expect(nav.goHome, 'was called once');
     });
 
@@ -247,7 +250,7 @@ describe('Action Wallet Unit Tests', () => {
         .rejects(new Error('Boom!'));
       await wallet.unlockWallet({ walletPassword: 'baz' });
       expect(notification.display, 'was called once');
-      expect(nav.goHome, 'was not called');
+      expect(nav.goWait, 'was not called');
     });
   });
 

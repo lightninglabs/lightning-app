@@ -67,6 +67,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goWait()', () => {
+    it('should set correct route', () => {
+      nav.goWait();
+      expect(store.route, 'to equal', 'Wait');
+    });
+  });
+
   describe('goHome()', () => {
     it('should set correct route', () => {
       nav.goHome();

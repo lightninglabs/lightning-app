@@ -43,6 +43,7 @@ import SeedVerify from '../src/view/seed-verify';
 import SetPassword from '../src/view/set-password';
 import Password from '../src/view/password';
 import NewAddress from '../src/view/new-address';
+import Wait from '../src/view/wait';
 
 const store = new Store();
 store.init();
@@ -90,6 +91,7 @@ storiesOf('Screens', module)
   .add('New Address', () => (
     <NewAddress store={store} nav={nav} invoice={invoice} />
   ))
+  .add('Wait', () => <Wait />)
   .add('Home', () => (
     <Home
       store={store}

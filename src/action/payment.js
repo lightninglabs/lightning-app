@@ -105,9 +105,11 @@ class PaymentAction {
         });
         stream.on('error', reject);
         stream.write(JSON.stringify({ payment_request: invoice }), 'utf8');
+        this._nav.goWait();
       });
       this._nav.goPayLightningDone();
     } catch (err) {
+      this._nav.goPayLightningConfirm();
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }
     await this._transaction.update();
