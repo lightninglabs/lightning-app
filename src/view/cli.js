@@ -13,30 +13,19 @@ import { color, font } from '../component/style';
 // CLI View
 //
 
-const styles = StyleSheet.create({
-  content: {
-    alignItems: 'flex-start',
-    paddingBottom: 30,
-    paddingLeft: 50,
-    paddingRight: 50,
-  },
-});
-
 const CLIView = ({ store, nav }) => (
-  <Background color={color.blackDark} style={styles.wrapper}>
+  <Background color={color.blackDark}>
     <Header separator>
       <BackButton onPress={() => nav.goSettings()} />
       <Title title="CLI" />
       <Button disabled onPress={() => {}} />
     </Header>
     <Background color={color.cliBackground}>
-      <ListContent>
-        <List
-          data={store.logs.slice()}
-          renderItem={text => <LogItem text={text} />}
-          scrollToEnd={true}
-        />
-      </ListContent>
+      <List
+        data={store.logs.slice()}
+        renderItem={text => <LogItem text={text} />}
+        scrollToEnd={true}
+      />
     </Background>
   </Background>
 );
@@ -50,6 +39,8 @@ const iStyles = StyleSheet.create({
   text: {
     textAlign: 'left',
     fontSize: font.sizeS,
+    paddingLeft: 50,
+    paddingRight: 50,
   },
 });
 
