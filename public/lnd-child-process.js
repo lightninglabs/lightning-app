@@ -62,8 +62,8 @@ module.exports.startLndProcess = async function({
   const args = [
     '--bitcoin.active',
     isDev ? '--bitcoin.simnet' : '--bitcoin.testnet',
-    isDev || rpcUser ? `--btcd.rpcuser=${rpcUser || 'kek'}` : '',
-    isDev || rpcPass ? `--btcd.rpcpass=${rpcPass || 'kek'}` : '',
+    isDev || rpc ? `--btcd.rpcuser=${rpcUser || 'kek'}` : '',
+    isDev || rpc ? `--btcd.rpcpass=${rpcPass || 'kek'}` : '',
     isDev || rpc ? '--bitcoin.node=btcd' : '--bitcoin.node=neutrino',
     isDev || rpc ? '' : `--configfile=${path.join(lndSettingsDir, 'lnd.conf')}`,
     isDev || rpc ? '' : '--neutrino.connect=btcd0.lightning.engineering',
