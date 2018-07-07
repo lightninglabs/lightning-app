@@ -68,8 +68,13 @@ class PaymentAction {
       const request = await this._grpc.sendCommand('decodePayReq', {
         pay_req: invoice.replace(PREFIX_URI, ''),
       });
+      const fee = await this.estimateLightningFee({
+        destination: request.destination,
+        satAmt: request.num_satoshis,
+      });
       payment.amount = toAmount(parseSat(request.num_satoshis), settings.unit);
       payment.note = request.description;
+      payment.fee = toAmount(parseSat(fee), settings.unit);
       return true;
     } catch (err) {
       log.info(`Decoding payment request failed: ${err.message}`);
@@ -113,6 +118,20 @@ class PaymentAction {
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }
     await this._transaction.update();
+  }
+
+  async estimateLightningFee({ destination, satAmt }) {
+    try {
+      const { routes } = await this._grpc.sendCommand('queryRoutes', {
+        pub_key: destination,
+        amt: satAmt,
+        num_routes: 1,
+      });
+      return routes[0].total_fees;
+    } catch (err) {
+      log.info(`Unable to retrieve fee estimate: ${err}`);
+      return 0;
+    }
   }
 }
 

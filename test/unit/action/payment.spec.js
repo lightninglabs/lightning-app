@@ -139,11 +139,16 @@ describe('Action Payments Unit Tests', () => {
       grpc.sendCommand.withArgs('decodePayReq').resolves({
         num_satoshis: '1700',
         description: 'foo',
+        destination: 'bar',
+      });
+      grpc.sendCommand.withArgs('queryRoutes').resolves({
+        routes: [{ total_fees: '100' }],
       });
       const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
       expect(isValid, 'to be', true);
       expect(store.payment.amount, 'to match', /^0[,.]0{4}1{1}7{1}$/);
       expect(store.payment.note, 'to be', 'foo');
+      expect(store.payment.fee, 'to match', /^0[,.]0{5}1{1}$/);
     });
 
     it('should set response to null on error', async () => {

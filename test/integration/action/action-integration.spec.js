@@ -344,10 +344,11 @@ describe('Action Integration Tests', function() {
       expect(isValid, 'to be', false);
     });
 
-    it('should decode invoice and return true', async () => {
+    it('should decode invoice, set fee and return true', async () => {
       const isValid = await payments1.decodeInvoice({
         invoice: store2.invoice.uri,
       });
+      expect(parseInt(store1.payment.fee), 'to be greater than or equal to', 0);
       expect(isValid, 'to be', true);
     });
 
