@@ -14,7 +14,6 @@ export const color = {
   loadNetworkLightPurple: '#A95BDC',
   loadNetworkMedPurple: '#651399',
   loadNetworkMedDarkPurple: '#610F96',
-  openChansLightPurple: '#A540CD',
   openChansDarkPurple: '#6B249C',
   orange: '#F66B1C',
   blackDark: '#252F4A',

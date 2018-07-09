@@ -34,13 +34,10 @@ export const SmallSpinner = ({ ...props }) => (
 // Load Network Spinner
 //
 
-const sizeM = 80;
-const progressWidthM = 3;
+const size = 80;
+const progressWidth = 3;
 
 const loadNetworkStyles = StyleSheet.create({
-  spinner: {
-    margin: 20,
-  },
   bolt: {
     height: 126 / 4.5,
     width: 64 / 4.5,
@@ -53,12 +50,12 @@ const loadNetworkStyles = StyleSheet.create({
   },
 });
 
-export const LoadNetworkSpinner = ({ percentage, msg }) => (
-  <View style={loadNetworkStyles.spinner}>
+export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
+  <View style={style}>
     <ResizeableSpinner
       percentage={percentage}
-      size={sizeM}
-      progressWidth={progressWidthM}
+      size={size}
+      progressWidth={progressWidth}
       gradient="loadNetworkGrad"
       icon="lightning-bolt"
       iconStyles={loadNetworkStyles.bolt}
@@ -70,6 +67,7 @@ export const LoadNetworkSpinner = ({ percentage, msg }) => (
 LoadNetworkSpinner.propTypes = {
   percentage: PropTypes.number.isRequired,
   msg: PropTypes.string.isRequired,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -88,7 +86,7 @@ const resizeableStyles = StyleSheet.create({
   },
 });
 
-const ResizeableSpinner = ({
+export const ResizeableSpinner = ({
   percentage,
   size,
   gradient,
@@ -140,7 +138,7 @@ const Gradients = () => (
       <Stop offset="100%" stopColor={color.purple} />
     </LinearGradient>
     <LinearGradient id="openChannelsGrad" x1="0" y1="0" x2="1" y2="1">
-      <Stop offset="0%" stopColor={color.openChansLightPurple} />
+      <Stop offset="0%" stopColor={color.lightPurple} />
       <Stop offset="50%" stopColor={color.openChansDarkPurple} />
     </LinearGradient>
   </Defs>
@@ -187,11 +185,11 @@ SpinnerFill.propTypes = {
 
 const generateArc = (percentage, radius) => {
   if (percentage === 0) {
-    percentage = 1;
-  } else if (percentage === 100) {
-    percentage = 99.999;
+    percentage = 0.001;
+  } else if (percentage === 1) {
+    percentage = 0.999;
   }
-  const a = percentage * 2 * Math.PI / 100; // angle (in radian) depends on percentage
+  const a = percentage * 2 * Math.PI; // angle (in radian) depends on percentage
   const r = radius; // radius of the circle
   var rx = r,
     ry = r,
@@ -200,7 +198,7 @@ const generateArc = (percentage, radius) => {
     sweepFlag = 1,
     x = r + r * Math.sin(a),
     y = r - r * Math.cos(a);
-  if (percentage <= 50) {
+  if (percentage <= 0.5) {
     largeArcFlag = 0;
   } else {
     largeArcFlag = 1;

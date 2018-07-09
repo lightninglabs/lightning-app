@@ -38,6 +38,7 @@ import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
 import PayBitcoinDone from '../src/view/pay-bitcoin-done';
 import NoRoute from '../src/view/no-route';
 import Loader from '../src/view/loader';
+import LoaderSyncing from '../src/view/loader-syncing';
 import SeedSuccess from '../src/view/seed-success';
 import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
@@ -93,6 +94,7 @@ storiesOf('Screens', module)
     <NewAddress store={store} nav={nav} invoice={invoice} />
   ))
   .add('Wait', () => <Wait />)
+  .add('Loader - Syncing Chain', () => <LoaderSyncing store={store} />)
   .add('Home', () => (
     <Home
       store={store}
@@ -220,6 +222,7 @@ store.pendingChannels = [...Array(6)].map((x, i) => ({
   status: i % 2 === 0 ? 'pending-closing' : 'pending-open',
 }));
 store.selectedChannel = store.computedChannels && store.computedChannels[0];
+store.percentSynced = 0.3;
 store.seedMnemonic = [
   'empower',
   'neglect',

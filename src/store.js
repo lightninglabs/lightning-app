@@ -1,4 +1,5 @@
 import { extendObservable } from 'mobx';
+import ComputedLoaderMsg from './computed/loader-msg';
 import ComputedWallet from './computed/wallet';
 import ComputedTransaction from './computed/transaction';
 import ComputedChannel from './computed/channel';
@@ -17,6 +18,7 @@ export class Store {
       walletUnlocked: false, // Is the wallet unlocked
       lndReady: false, // Is lnd process running
       syncedToChain: false, // Is lnd synced to blockchain
+      percentSynced: 0, // Expects 0-1 range
       route: DEFAULT_ROUTE,
       blockHeight: null,
       balanceSatoshis: 0,
@@ -72,6 +74,7 @@ export class Store {
   }
 
   init() {
+    ComputedLoaderMsg(this);
     ComputedWallet(this);
     ComputedTransaction(this);
     ComputedChannel(this);
