@@ -30,6 +30,7 @@ import Setting from './setting';
 import SettingUnit from './setting-unit';
 import SettingFiat from './setting-fiat';
 import Notification from './notification';
+import CLI from './cli';
 import TransactionDetail from './transaction-detail';
 import {
   nav,
@@ -85,6 +86,7 @@ class MainView extends Component {
           <SettingFiat store={store} nav={nav} setting={setting} />
         )}
         {route === 'Notifications' && <Notification store={store} nav={nav} />}
+        {route === 'CLI' && <CLI store={store} nav={nav} />}
         {route === 'Pay' && (
           <Payment store={store} payment={payment} nav={nav} />
         )}

@@ -1,4 +1,5 @@
 import { Store } from '../../../src/store';
+import { EventEmitter } from 'events';
 import * as log from '../../../src/action/log';
 import LogAction from '../../../src/action/log';
 
@@ -34,6 +35,28 @@ describe('Action Logs Unit Tests', () => {
         expect(console.error, 'was called with', 'foo', err);
         sandbox.restore();
         expect(ipcRenderer.send, 'was not called');
+      });
+    });
+  });
+
+  describe('constructor', () => {
+    let ipcRendererStub;
+
+    beforeEach(() => {
+      store = new Store();
+      ipcRendererStub = new EventEmitter();
+      ipcRendererStub.send = sinon.stub();
+      new LogAction(store, ipcRendererStub);
+    });
+
+    describe('constructor()', () => {
+      it('should keep logs trimmed to 100 and keep the tail of the logs', () => {
+        for (var i = 0; i < 101; i++) {
+          ipcRendererStub.emit('logs', 'some-event', i.toString());
+        }
+        expect(store.logs.length, 'to equal', 100);
+        expect(store.logs[0], 'to equal', '1');
+        expect(store.logs[99], 'to equal', '100');
       });
     });
   });

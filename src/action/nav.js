@@ -113,7 +113,7 @@ class NavAction {
   }
 
   goCLI() {
-    // this._store.route = 'CLI';
+    this._store.route = 'CLI';
   }
 
   goCreateChannel() {

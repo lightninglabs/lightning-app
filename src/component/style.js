@@ -30,6 +30,7 @@ export const color = {
   notifyLight: 'rgba(255,255,255,0.5)',
   seedBorder: 'rgba(151,151,151,0.26)',
   seedBackground: 'rgba(130,129,129,0.09)',
+  cliBackground: '#171D2C',
 };
 
 export const font = {
