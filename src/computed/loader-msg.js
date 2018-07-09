@@ -20,7 +20,7 @@ export const LOADING_PERCENT_END = 0.95;
  * @param  {number} percent The percentage the network is synced.
  * @return {string}         The message corresponding to the percent.
  */
-export const getLoadingMsg = percent => {
+const getLoadingMsg = percent => {
   percent = Number(percent);
   if (isNaN(percent)) {
     percent = 0;
