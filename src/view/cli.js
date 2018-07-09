@@ -21,11 +21,13 @@ const CLIView = ({ store, nav }) => (
       <Button disabled onPress={() => {}} />
     </Header>
     <Background color={color.cliBackground}>
-      <List
-        data={store.logs.slice()}
-        renderItem={text => <LogItem text={text} />}
-        scrollToEnd={true}
-      />
+      <ListContent>
+        <List
+          data={store.logs.slice()}
+          renderItem={text => <LogItem text={text} />}
+          scrollToEnd={true}
+        />
+      </ListContent>
     </Background>
   </Background>
 );
@@ -39,8 +41,6 @@ const iStyles = StyleSheet.create({
   text: {
     textAlign: 'left',
     fontSize: font.sizeS,
-    paddingLeft: 50,
-    paddingRight: 50,
   },
 });
 
