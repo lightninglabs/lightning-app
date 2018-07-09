@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="95px" height="172px" viewBox="0 0 95 172" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>Line Copy</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="23.5552532%" y1="100%" x2="77.9721487%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#A540CD" offset="0%"></stop>
+            <stop stop-color="#6B249C" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Channels" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Channels---Empty-state" transform="translate(-669.000000, -408.000000)" fill="url(#linearGradient-1)">
+            <g id="Group" transform="translate(669.000000, 408.000000)">
+                <path d="M76.6243913,0 L0.310350335,97.7336305 C-0.0295488464,98.1689316 0.0477896366,98.7973555 0.483090672,99.1372547 C0.658877392,99.2745155 0.87550457,99.3490725 1.09853258,99.3490725 L44.0122588,99.3490725 L19.2011851,172 L94.752015,75.819912 C95.0931747,75.3855981 95.0176583,74.7569526 94.5833445,74.4157929 C94.4071752,74.2774094 94.1896417,74.2021877 93.9656202,74.2021877 L47.5358569,74.2021877 L76.6243913,0 Z" id="Line-Copy" transform="translate(47.532075, 86.000000) rotate(-360.000000) translate(-47.532075, -86.000000) "></path>
+            </g>
+        </g>
+    </g>
+</svg>
