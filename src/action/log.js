@@ -1,3 +1,5 @@
+import { MAX_LOG_LENGTH } from '../config';
+
 let _ipcRenderer;
 
 export function info(...args) {
@@ -15,8 +17,8 @@ class LogAction {
     _ipcRenderer = ipcRenderer;
     _ipcRenderer.on('logs', (event, arg) => {
       store.logs.push(arg);
-      if (store.logs.length > 100) {
-        store.logs.splice(0, store.logs.length - 100);
+      if (store.logs.length > MAX_LOG_LENGTH) {
+        store.logs.splice(0, store.logs.length - MAX_LOG_LENGTH);
       }
     });
     _ipcRenderer.send('logs-ready', true);

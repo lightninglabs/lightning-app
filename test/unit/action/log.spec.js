@@ -50,13 +50,13 @@ describe('Action Logs Unit Tests', () => {
     });
 
     describe('constructor()', () => {
-      it('should keep logs trimmed to 100 and keep the tail of the logs', () => {
-        for (var i = 0; i < 101; i++) {
+      it('should keep logs trimmed and keep the tail of the logs', () => {
+        for (var i = 0; i < 31; i++) {
           ipcRendererStub.emit('logs', 'some-event', i.toString());
         }
-        expect(store.logs.length, 'to equal', 100);
+        expect(store.logs.length, 'to equal', 30);
         expect(store.logs[0], 'to equal', '1');
-        expect(store.logs[99], 'to equal', '100');
+        expect(store.logs[29], 'to equal', '30');
       });
     });
   });
