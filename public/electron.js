@@ -32,7 +32,7 @@ const userDataPath = app.getPath('userData');
 const lndSettingsDir = path.join(isDev ? 'data' : userDataPath, 'lnd');
 const btcdSettingsDir = path.join(isDev ? 'data' : userDataPath, 'btcd');
 const lndArgs = process.argv.filter(
-  arg => arg.includes('bitcoin') || arg.includes('btcd')
+  a => a.includes('bitcoin') || a.includes('btcd') || a.includes('neutrino')
 );
 
 // Keep a global reference of the window object, if you don't, the window will
