@@ -49,7 +49,6 @@ To run the packaged version of the app e.g. for macOS run:
 
 Start btcd in a seperate terminal session and wait until it's fully synced (can take over a day)
 ```
-mkdir $HOME/Library/Application\ Support/Btcd && touch $HOME/Library/Application\ Support/Btcd/btcd.conf
 btcd --testnet --txindex --rpcuser=kek --rpcpass=kek
 ```
 
