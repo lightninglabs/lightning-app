@@ -53,7 +53,7 @@ const HomeView = ({
         goSettings={() => nav.goSettings()}
         showChannelAlert={store.showChannelAlert}
       />
-      <QrCodeSeparator goFundWallet={() => nav.goFundWallet()} />
+      <QrCodeSeparator goDeposit={() => nav.goDeposit()} />
       <MainContent style={styles.content}>
         <BalanceDisplay
           balanceLabel={balanceLabel}
@@ -240,10 +240,10 @@ const qrStyles = StyleSheet.create({
   },
 });
 
-const QrCodeSeparator = ({ goFundWallet }) => (
+const QrCodeSeparator = ({ goDeposit }) => (
   <View style={qrStyles.wrapper}>
     <View style={qrStyles.separator} />
-    <QrButton image="qr" onPress={goFundWallet} style={qrStyles.button}>
+    <QrButton image="qr" onPress={goDeposit} style={qrStyles.button}>
       Add coin
     </QrButton>
     <View style={qrStyles.separator} />
@@ -251,7 +251,7 @@ const QrCodeSeparator = ({ goFundWallet }) => (
 );
 
 QrCodeSeparator.propTypes = {
-  goFundWallet: PropTypes.func.isRequired,
+  goDeposit: PropTypes.func.isRequired,
 };
 
 export default observer(HomeView);

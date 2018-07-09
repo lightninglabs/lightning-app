@@ -111,7 +111,7 @@ class MainView extends Component {
         {route === 'InvoiceQR' && (
           <InvoiceQR store={store} invoice={invoice} nav={nav} />
         )}
-        {route === 'FundWallet' && (
+        {route === 'Deposit' && (
           <Deposit store={store} invoice={invoice} nav={nav} />
         )}
         {route === 'Channels' && (

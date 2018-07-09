@@ -132,8 +132,10 @@ describe('Action Nav Unit Tests', () => {
 
   describe('goInvoiceQR()', () => {
     it('should set correct route', () => {
+      store.displayCopied = true;
       nav.goInvoiceQR();
       expect(store.route, 'to equal', 'InvoiceQR');
+      expect(store.displayCopied, 'to be', false);
     });
   });
 
@@ -211,6 +213,15 @@ describe('Action Nav Unit Tests', () => {
     it('should set correct route', () => {
       nav.goCreateChannel();
       expect(store.route, 'to equal', 'CreateChannel');
+    });
+  });
+
+  describe('goDeposit()', () => {
+    it('should set correct route', () => {
+      store.displayCopied = true;
+      nav.goDeposit();
+      expect(store.route, 'to equal', 'Deposit');
+      expect(store.displayCopied, 'to be', false);
     });
   });
 });

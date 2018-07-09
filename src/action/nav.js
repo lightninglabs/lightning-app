@@ -120,9 +120,9 @@ class NavAction {
     this._store.route = 'CreateChannel';
   }
 
-  goFundWallet() {
+  goDeposit() {
     this._store.displayCopied = false;
-    this._store.route = 'FundWallet';
+    this._store.route = 'Deposit';
   }
 }
 
