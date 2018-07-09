@@ -54,7 +54,7 @@ btcd --testnet --txindex --rpcuser=kek --rpcpass=kek
 
 To run the packaged version of the app e.g. for macOS run:
 ```
-./dist/mac/Lightning.app/Contents/MacOS/Lightning --rpcuser=kek --rpcpass=kek
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --btcd.rpcuser=kek --btcd.rpcpass=kek
 ```
 
 

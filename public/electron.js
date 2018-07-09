@@ -31,6 +31,9 @@ console.log(`
 const userDataPath = app.getPath('userData');
 const lndSettingsDir = path.join(isDev ? 'data' : userDataPath, 'lnd');
 const btcdSettingsDir = path.join(isDev ? 'data' : userDataPath, 'btcd');
+const lndArgs = process.argv.filter(
+  arg => arg.includes('bitcoind') || arg.includes('btcd')
+);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -45,9 +48,6 @@ ipcMain.on('log-error', (event, arg) => log.error(...arg));
 
 let logQueue = [];
 let logsReady = false;
-
-const getArgv = arg =>
-  (process.argv.find(a => a.includes(`--${arg}=`)) || '').split('=')[1];
 
 const sendLog = log => {
   if (win && logsReady) {
@@ -134,13 +134,12 @@ const startLnd = async () => {
     });
     lndProcess = await startLndProcess({
       isDev,
-      rpcUser: getArgv('rpcuser'),
-      rpcPass: getArgv('rpcpass'),
       lndSettingsDir,
       macaroonsEnabled: MACAROONS_ENABLED,
       lndPort: LND_PORT,
       lndPeerPort: LND_PEER_PORT,
       logger: Logger,
+      lndArgs,
     });
   } catch (err) {
     Logger.error(`Caught Error When Starting lnd: ${err}`);
