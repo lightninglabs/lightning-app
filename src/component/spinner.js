@@ -6,9 +6,9 @@ import {
   ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import Text from '../component/text';
 import { color, font } from './style';
 import Icon from './icon';
+import Text from './text';
 import Svg, { Path, Circle, Defs, Stop, LinearGradient } from './svg';
 
 //
