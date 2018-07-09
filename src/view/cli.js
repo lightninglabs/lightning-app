@@ -17,7 +17,7 @@ const CLIView = ({ store, nav }) => (
   <Background color={color.blackDark}>
     <Header separator>
       <BackButton onPress={() => nav.goSettings()} />
-      <Title title="CLI" />
+      <Title title="Logs" />
       <Button disabled onPress={() => {}} />
     </Header>
     <Background color={color.cliBackground}>

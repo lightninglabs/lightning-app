@@ -56,7 +56,7 @@ const SettingView = ({ store, nav }) => {
           arrow
         />
         <SettingHeader name="ADVANCED" style={styles.advanced} />
-        <SettingItem name="CLI" onSelect={() => nav.goCLI()} arrow />
+        <SettingItem name="Logs" onSelect={() => nav.goCLI()} arrow />
       </MainContent>
     </Background>
   );
