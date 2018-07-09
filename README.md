@@ -4,12 +4,7 @@
 
 ### Developing Locally
 
-You'll need to build `lnd` and `btcd` locally using the [installation guide](http://dev.lightning.community/guides/installation/). Then start by pulling down the git repo:
-```
-git clone https://github.com/lightninglabs/lightning-app.git
-```
-
-Then go inside the project folder and run the following commands:
+You'll need to build `lnd` and `btcd` locally using the [installation guide](http://dev.lightning.community/guides/installation/). Then start by cloning this git repo and go inside the project folder to run the following commands:
 ```
 npm install
 
