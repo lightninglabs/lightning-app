@@ -31,7 +31,7 @@ cp $GOPATH/bin/lnd ./assets/bin/darwin
 npm run electron-pack
 ```
 
-The packaged app will then be available in the lightning-app/dist directory. The packaged version of the app will run on Bitcoin testnet. To debug a packaged app, go to localhost:9997 in your browser.
+The packaged app will then be available in the `dist` directory. The packaged version of the app will run on Bitcoin testnet.
 
 ### Starting the Packaged App (light client)
 
