@@ -47,6 +47,8 @@ function startBlockingProcess(name, args, logger) {
 
 module.exports.startLndProcess = async function({
   isDev,
+  rpcUser,
+  rpcPass,
   macaroonsEnabled,
   lndSettingsDir,
   lndPort,
@@ -55,16 +57,17 @@ module.exports.startLndProcess = async function({
   lndRestPort,
 }) {
   if (!lndSettingsDir) throw new Error('lndSettingsDir not set!');
+  const rpc = !!rpcUser;
   const processName = 'lnd';
   const args = [
     '--bitcoin.active',
     isDev ? '--bitcoin.simnet' : '--bitcoin.testnet',
-    isDev ? '--btcd.rpcuser=kek' : '',
-    isDev ? '--btcd.rpcpass=kek' : '',
-    isDev ? '--bitcoin.node=btcd' : '--bitcoin.node=neutrino',
-    isDev ? '' : `--configfile=${path.join(lndSettingsDir, 'lnd.conf')}`,
-    isDev ? '' : '--neutrino.connect=btcd0.lightning.engineering',
-    isDev ? '' : '--neutrino.connect=127.0.0.1:18333',
+    isDev || rpc ? `--btcd.rpcuser=${rpcUser || 'kek'}` : '',
+    isDev || rpc ? `--btcd.rpcpass=${rpcPass || 'kek'}` : '',
+    isDev || rpc ? '--bitcoin.node=btcd' : '--bitcoin.node=neutrino',
+    isDev || rpc ? '' : `--configfile=${path.join(lndSettingsDir, 'lnd.conf')}`,
+    isDev || rpc ? '' : '--neutrino.connect=btcd0.lightning.engineering',
+    isDev || rpc ? '' : '--neutrino.connect=127.0.0.1:18333',
     isDev ? '' : '--autopilot.active',
 
     macaroonsEnabled ? '' : '--no-macaroons',

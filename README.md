@@ -23,7 +23,7 @@ To build the UI style guide
 npm run storybook
 ```
 
-To start start the app:
+To start start the app in development mode (simnet):
 ```
 npm run electron-dev
 ```
@@ -32,12 +32,33 @@ Running in development mode can allow you to run in full node mode instead of th
 
 ### Building the Packaged App
 
-To build the packaged version of the app for your current platform, run:
+To build the packaged version of the app e.g. for macOS run:
 ```
+cp $GOPATH/bin/lnd ./assets/bin/darwin
 npm run electron-pack
 ```
 
 The packaged app will then be available in the lightning-app/dist directory. The packaged version of the app will run on Bitcoin testnet. To debug a packaged app, go to localhost:9997 in your browser.
+
+### Starting the Packaged App (light client)
+
+To run the packaged version of the app e.g. for macOS run:
+```
+./dist/mac/Lightning.app/Contents/MacOS/Lightning
+```
+
+### Starting the Packaged App (full node)
+
+Start btcd in a seperate terminal session and wait until it's fully synced (can take over a day)
+```
+mkdir $HOME/Library/Application\ Support/Btcd && touch $HOME/Library/Application\ Support/Btcd/btcd.conf
+btcd --testnet --txindex --rpcuser=kek --rpcpass=kek
+```
+
+To run the packaged version of the app e.g. for macOS run:
+```
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --rpcuser=kek --rpcpass=kek
+```
 
 
 ### Logs
