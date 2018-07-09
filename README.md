@@ -26,7 +26,7 @@ To start start the app in development mode (simnet):
 npm run electron-dev
 ```
 
-Running in development mode can allow you to run in full node mode instead of the default neutrino mode, and will also allow you to run in simnet node for testing. The app will use it's own lnd config/data dir and does not share state with other lnd installations on your system.
+Running in development mode can allow you to run in full node mode instead of the default neutrino mode, and will also allow you to run in simnet node for testing. The app will use it's own lnd `data/lnd` dir and does not share state with other lnd installations on your system.
 
 ### Building the Packaged App
 
@@ -59,9 +59,9 @@ To run the packaged version of the app e.g. for macOS run:
 ```
 
 
-### Logs
-Logs are written to the following locations:
+### Lnd data and logs
+Lnd data and logs are written to the following locations in production:
 
-* **Linux:** `~/.config/Lightning/log.log`
-* **OSX:** `~/Library/Logs/Lightning/log.log`
-* **Windows:** `%USERPROFILE%\AppData\Roaming\Lightning\log.log`
+* **Linux:** `~/.config/lightning-app/lnd`
+* **OSX:** `~/Library/Application Support/lightning-app/lnd`
+* **Windows:** `%USERPROFILE%\AppData\Roaming\lightning-app\lnd`
