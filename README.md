@@ -11,8 +11,6 @@ git clone https://github.com/lightninglabs/lightning-app.git
 
 Then go inside the project folder and run the following commands:
 ```
-cd lightning-app
-
 npm install
 
 npm test
