@@ -213,18 +213,4 @@ describe('Action Nav Unit Tests', () => {
       expect(store.route, 'to equal', 'CreateChannel');
     });
   });
-
-  describe('goInitializeWallet()', () => {
-    it('should set correct route', () => {
-      nav.goInitializeWallet();
-      expect(store.route, 'to equal', 'InitializeWallet');
-    });
-  });
-
-  describe('goVerifyWallet()', () => {
-    it('should set correct route', () => {
-      nav.goVerifyWallet();
-      expect(store.route, 'to equal', 'VerifyWallet');
-    });
-  });
 });
