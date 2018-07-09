@@ -17,7 +17,7 @@ async function startChildProcess(name, args, logger) {
     logger.info(`Using ${name} in path ${processName}`);
     const childProcess = cp.spawn(processName, args);
     childProcess.stdout.on('data', data => {
-      logger.info(`${processName}: ${data}`);
+      logger.info(data.toString());
       resolve(childProcess);
     });
     childProcess.stderr.on('data', data => {
@@ -34,7 +34,7 @@ function startBlockingProcess(name, args, logger) {
     logger.info(`Using ${name} in path ${processName}`);
     const childProcess = cp.spawn(processName, args);
     childProcess.stdout.on('data', data => {
-      logger.info(`${processName}: ${data}`);
+      logger.info(data.toString());
     });
     childProcess.stderr.on('data', data => {
       logger.error(`${processName} Error: ${data}`);
