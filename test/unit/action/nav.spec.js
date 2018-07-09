@@ -200,7 +200,7 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe.skip('goCLI()', () => {
+  describe('goCLI()', () => {
     it('should set correct route', () => {
       nav.goCLI();
       expect(store.route, 'to equal', 'CLI');
