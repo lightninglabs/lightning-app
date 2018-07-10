@@ -73,3 +73,9 @@ observe(store, 'lndReady', () => {
   transaction.subscribeTransactions();
   transaction.subscribeInvoices();
 });
+
+observe(store, 'syncedToChain', () => {
+  if (store.route == 'LoaderSyncing') {
+    nav.goHome();
+  }
+});

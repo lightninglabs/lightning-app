@@ -31,6 +31,10 @@ class NavAction {
     this._store.route = 'NewAddress';
   }
 
+  goLoaderSyncing() {
+    this._store.route = 'LoaderSyncing';
+  }
+
   goWait() {
     this._store.route = 'Wait';
   }

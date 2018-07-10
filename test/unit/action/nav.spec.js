@@ -67,6 +67,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goLoaderSyncing()', () => {
+    it('should set correct route', () => {
+      nav.goLoaderSyncing();
+      expect(store.route, 'to equal', 'LoaderSyncing');
+    });
+  });
+
   describe('goWait()', () => {
     it('should set correct route', () => {
       nav.goWait();
