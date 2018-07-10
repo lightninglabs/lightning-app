@@ -1,6 +1,11 @@
-[![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app) [![Greenkeeper badge](https://badges.greenkeeper.io/lightninglabs/lightning-app.svg)](https://greenkeeper.io/)
+Lightning [![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app) [![Greenkeeper badge](https://badges.greenkeeper.io/lightninglabs/lightning-app.svg)](https://greenkeeper.io/)
+==========
 
-**N.B. The app is under active development and the code has not yet been audited. It's currently configure to run on testnet. **
+An easy-to-use cross platform lightning wallet
+
+![Screenshot](https://github.com/lightninglabs/lightning-app/releases/download/v0.2.0-prealpha.15/home-screen.png)
+
+**N.B. The app is under active development and the code has not yet been audited. It's currently configure to run on testnet.**
 
 ### Getting Started
 
