@@ -60,7 +60,7 @@ class LogOutput extends Component {
 
   get printLogs() {
     setTimeout(() => this._ref.current.scrollToEnd(), 50);
-    return this.props.logs.join('\n');
+    return this.props.logs.map(l => l.replace(/\s+$/, '')).join('\n');
   }
 
   render() {
