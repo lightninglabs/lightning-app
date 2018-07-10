@@ -94,6 +94,7 @@ describe('Action Logs Unit Tests', () => {
         log.error('foo', err);
         expect(console.error, 'was called with', 'foo', err);
         sandbox.restore();
+        expect(store.logs.length, 'to equal', 3);
         expect(ipcRenderer.send, 'was called with', 'log-error', ['foo', err]);
       });
     });
