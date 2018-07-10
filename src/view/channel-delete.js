@@ -30,7 +30,7 @@ const ChannelDeleteView = ({ nav, channel }) => (
       <FormStretcher>
         <H1Text>Are you sure?</H1Text>
         <CopyText style={styles.copyTxt}>
-          If you delete this channel, all sending and receiving of funds will be
+          If you close this channel, all sending and receiving of funds will be
           suspeneded.
         </CopyText>
       </FormStretcher>
@@ -38,7 +38,7 @@ const ChannelDeleteView = ({ nav, channel }) => (
         style={styles.deleteBtn}
         onPress={() => channel.closeSelectedChannel()}
       >
-        Delete this channel
+        Close this channel
       </PillButton>
       <Button style={styles.cancelBtn} onPress={() => nav.goChannelDetail()}>
         <ButtonText>Cancel</ButtonText>

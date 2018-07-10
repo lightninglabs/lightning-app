@@ -48,7 +48,7 @@ const ChannelDetailView = ({ store, nav }) => (
           {store.selectedChannel.localBalanceLabel} {store.unitLabel}
         </DetailField>
         <Button style={styles.deleteBtn} onPress={() => nav.goChannelDelete()}>
-          <ButtonText style={styles.deleteBtnText}>DELETE CHANNEL</ButtonText>
+          <ButtonText style={styles.deleteBtnText}>CLOSE CHANNEL</ButtonText>
         </Button>
       </Modal>
     </MainContent>
