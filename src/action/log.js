@@ -10,6 +10,7 @@ export function info(...args) {
 
 export function error(...args) {
   console.error(...args);
+  pushLogs(''); // newline
   pushLogs(`ERROR: ${args[0]}`);
   for (let i = 1; i < args.length; i++) {
     pushLogs(JSON.stringify(args[i], null, '    '));
