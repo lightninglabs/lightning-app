@@ -14,6 +14,7 @@ export function error(...args) {
   for (let i = 1; i < args.length; i++) {
     pushLogs(JSON.stringify(args[i], null, '    '));
   }
+  pushLogs(''); // newline
   _ipcRenderer && _ipcRenderer.send('log-error', args);
 }
 
