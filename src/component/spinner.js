@@ -34,9 +34,6 @@ export const SmallSpinner = ({ ...props }) => (
 // Load Network Spinner
 //
 
-const size = 80;
-const progressWidth = 3;
-
 const loadNetworkStyles = StyleSheet.create({
   bolt: {
     height: 126 / 4.5,
@@ -54,12 +51,12 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
   <View style={style}>
     <ResizeableSpinner
       percentage={percentage}
-      size={size}
-      progressWidth={progressWidth}
+      size={80}
+      progressWidth={3}
       gradient="loadNetworkGrad"
-      icon="lightning-bolt"
-      iconStyles={loadNetworkStyles.bolt}
-    />
+    >
+      <Icon image="lightning-bolt" style={loadNetworkStyles.bolt} />
+    </ResizeableSpinner>
     <Text style={loadNetworkStyles.copy}>{msg}</Text>
   </View>
 );
@@ -91,8 +88,7 @@ export const ResizeableSpinner = ({
   size,
   gradient,
   progressWidth,
-  icon,
-  iconStyles,
+  children,
 }) => (
   <View style={{ width: size, height: size }}>
     <Svg width={size} height={size}>
@@ -102,17 +98,13 @@ export const ResizeableSpinner = ({
         percentage={percentage}
         color={`url(#${gradient})`}
       />
-      {
-        <SpinnerFill
-          spinnerWidth={size}
-          progressWidth={progressWidth}
-          color={color.blackDark}
-        />
-      }
+      <SpinnerFill
+        spinnerWidth={size}
+        progressWidth={progressWidth}
+        color={color.blackDark}
+      />
     </Svg>
-    <View style={resizeableStyles.iconWrapper}>
-      <Icon image={icon} style={iconStyles} />
-    </View>
+    <View style={resizeableStyles.iconWrapper}>{children}</View>
   </View>
 );
 
@@ -121,8 +113,7 @@ ResizeableSpinner.propTypes = {
   size: PropTypes.number.isRequired,
   progressWidth: PropTypes.number.isRequired,
   gradient: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-  iconStyles: ViewPropTypes.style,
+  children: PropTypes.node,
 };
 
 //
@@ -187,7 +178,7 @@ const generateArc = (percentage, radius) => {
   if (percentage === 0) {
     percentage = 0.001;
   } else if (percentage === 1) {
-    percentage = 0.999;
+    percentage = 0.9999;
   }
   const a = percentage * 2 * Math.PI; // angle (in radian) depends on percentage
   const r = radius; // radius of the circle
