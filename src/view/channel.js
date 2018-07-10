@@ -29,7 +29,7 @@ const ChannelView = ({ store, nav, channel }) => {
       {channels.length ? (
         <ChannelList store={store} channel={channel} />
       ) : (
-        <NoChannels />
+        <NoChannel />
       )}
     </Background>
   );
@@ -275,7 +275,7 @@ const ChannelListHeader = () => (
 );
 
 //
-// No Channels
+// No Channel
 //
 
 const noStyles = StyleSheet.create({
@@ -294,7 +294,7 @@ const noStyles = StyleSheet.create({
   },
 });
 
-const NoChannels = () => (
+const NoChannel = () => (
   <MainContent style={noStyles.content}>
     <ResizeableSpinner
       percentage={1}
