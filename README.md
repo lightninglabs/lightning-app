@@ -1,4 +1,4 @@
-Lightning [![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app) [![Greenkeeper badge](https://badges.greenkeeper.io/lightninglabs/lightning-app.svg)](https://greenkeeper.io/)
+Lightning [![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app)
 ==========
 
 An easy-to-use cross platform lightning wallet
