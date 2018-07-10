@@ -1,11 +1,10 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
+import React, { Component } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
-import { List, ListContent } from '../component/list';
 import { Button, BackButton } from '../component/button';
 import { color, font } from '../component/style';
 
@@ -13,22 +12,20 @@ import { color, font } from '../component/style';
 // CLI View
 //
 
+const styles = StyleSheet.create({
+  header: {
+    marginBottom: 1, // display separator above output background color
+  },
+});
+
 const CLIView = ({ store, nav }) => (
   <Background color={color.blackDark}>
-    <Header separator>
+    <Header separator style={styles.header}>
       <BackButton onPress={() => nav.goSettings()} />
       <Title title="Logs" />
       <Button disabled onPress={() => {}} />
     </Header>
-    <Background color={color.cliBackground}>
-      <ListContent>
-        <List
-          data={store.logs.slice()}
-          renderItem={text => <LogItem text={text} />}
-          scrollToEnd={true}
-        />
-      </ListContent>
-    </Background>
+    <LogOutput logs={store.logs.slice()} />
   </Background>
 );
 
@@ -37,17 +34,46 @@ CLIView.propTypes = {
   nav: PropTypes.object.isRequired,
 };
 
-const iStyles = StyleSheet.create({
+//
+// Log Output
+//
+
+const logStyles = StyleSheet.create({
+  content: {
+    flexGrow: 1,
+    backgroundColor: color.cliBackground,
+    paddingTop: 25,
+    paddingBottom: 25,
+    paddingLeft: 50,
+    paddingRight: 50,
+  },
   text: {
-    textAlign: 'left',
     fontSize: font.sizeS,
   },
 });
 
-const LogItem = ({ text }) => <Text style={iStyles.text}>{text}</Text>;
+class LogOutput extends Component {
+  constructor(props) {
+    super(props);
+    this._ref = React.createRef();
+  }
 
-LogItem.propTypes = {
-  text: PropTypes.string,
+  get printLogs() {
+    setTimeout(() => this._ref.current.scrollToEnd(), 50);
+    return this.props.logs.map(l => l.replace(/\s+$/, '')).join('\n');
+  }
+
+  render() {
+    return (
+      <ScrollView ref={this._ref} contentContainerStyle={logStyles.content}>
+        <Text style={logStyles.text}>{this.printLogs}</Text>
+      </ScrollView>
+    );
+  }
+}
+
+LogOutput.propTypes = {
+  logs: PropTypes.array.isRequired,
 };
 
 export default observer(CLIView);
