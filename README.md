@@ -1,6 +1,16 @@
 [![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app) [![Greenkeeper badge](https://badges.greenkeeper.io/lightninglabs/lightning-app.svg)](https://greenkeeper.io/)
 
-**N.B. The app is under development and the code has not yet been audited.**
+**N.B. The app is under active development and the code has not yet been audited. It's currently configure to run on testnet. **
+
+### Getting Started
+
+The app comes for two threat models:
+
+1. *Pocket Money:* prebuilt and signed [releases](https://github.com/lightninglabs/lightning-app/releases) with auto update (recommended for most users)
+
+2. *Tin Foil Hat:* if you'd rather build it yourself and do without auto updates, see the instructions below ...
+
+After installing the app, head on over to the [testnet faucet](https://testnet.coinfaucet.eu/en/) to send some test BTC to your wallet.
 
 ### Developing Locally
 
