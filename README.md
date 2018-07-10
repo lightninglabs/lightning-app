@@ -3,7 +3,7 @@ Lightning [![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg
 
 An easy-to-use cross platform lightning wallet
 
-![Screenshot](https://github.com/lightninglabs/lightning-app/releases/download/v0.2.0-prealpha.15/home-screen.png)
+![Screenshot](https://github.com/lightninglabs/lightning-app/blob/5f2620d1e99ed1372985fec2063066236e4c16d9/assets/screenshot.png)
 
 **N.B. The app is under active development and the code has not yet been audited. It's currently configure to run on testnet.**
 
