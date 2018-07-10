@@ -50,6 +50,15 @@ describe('Action Info Unit Tests', () => {
       expect(grpc.sendCommand.callCount, 'to equal', 1);
     });
 
+    it('should set percentSynced', async () => {
+      const testTimestamp = new Date().getTime();
+      grpc.sendCommand.withArgs('getInfo').resolves({
+        best_header_timestamp: testTimestamp / 1000,
+      });
+      await info.getInfo();
+      expect(store.percentSynced, 'to be within', 0.98, 1);
+    });
+
     it('should retry if chain is not synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         synced_to_chain: false,

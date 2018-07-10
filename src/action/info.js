@@ -17,6 +17,7 @@ class InfoAction {
       if (!response.synced_to_chain) {
         this._notification.display({ msg: 'Syncing to chain', wait: true });
         log.info(`Syncing to chain ... block height: ${response.block_height}`);
+        this._store.percentSynced = calcPercentSynced(response);
         clearTimeout(this.t3);
         this.t3 = setTimeout(() => this.getInfo(), RETRY_DELAY);
       }
@@ -25,5 +26,12 @@ class InfoAction {
     }
   }
 }
+
+const calcPercentSynced = response => {
+  const bestHeaderTimestamp = response.best_header_timestamp;
+  const currTimestamp = new Date().getTime() / 1000;
+  const percentSynced = bestHeaderTimestamp * 1.0 / currTimestamp;
+  return percentSynced;
+};
 
 export default InfoAction;
