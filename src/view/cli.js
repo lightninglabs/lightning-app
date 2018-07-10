@@ -48,7 +48,6 @@ const logStyles = StyleSheet.create({
     paddingRight: 50,
   },
   text: {
-    textAlign: 'left',
     fontSize: font.sizeS,
   },
 });
