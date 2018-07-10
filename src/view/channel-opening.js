@@ -14,9 +14,6 @@ import { color } from '../component/style';
 // Channel View
 //
 
-const size = 300;
-const progressWidth = 15;
-
 const styles = StyleSheet.create({
   content: {
     justifyContent: 'center',
@@ -25,8 +22,8 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   bolt: {
-    height: 160,
-    width: 80,
+    height: 172 * 0.6,
+    width: 95 * 0.6,
   },
 });
 
@@ -39,9 +36,9 @@ const ChannelOpeningView = ({ channel, nav }) => (
     <MainContent style={styles.content}>
       <View style={styles.spinnerWrapper}>
         <ResizeableSpinner
-          percentage={1}
-          size={size}
-          progressWidth={progressWidth}
+          percentage={0.65}
+          size={190}
+          progressWidth={6}
           gradient="openChannelsGrad"
         >
           <Icon image="lightning-bolt-gradient" style={styles.bolt} />
@@ -108,13 +105,10 @@ const copyStyles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    textAlign: 'center',
-    marginTop: 60,
+    marginTop: 25,
   },
   copyTxt: {
     textAlign: 'center',
-    marginTop: 10,
-    maxWidth: 450,
     marginBottom: 20,
   },
 });
@@ -124,7 +118,7 @@ const CopySection = () => (
     <H1Text style={copyStyles.title}>Opening Channels</H1Text>
     <CopyText style={copyStyles.copyTxt}>
       {
-        'The autopilot feature will open channels for you, but you can add your own at any time.'
+        'The autopilot feature will open channels for you, but\nyou can add your own at any time.'
       }
     </CopyText>
   </View>
