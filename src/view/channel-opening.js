@@ -43,9 +43,9 @@ const ChannelOpeningView = ({ channel, nav }) => (
           size={size}
           progressWidth={progressWidth}
           gradient="openChannelsGrad"
-          icon="lightning-bolt-gradient"
-          iconStyles={styles.bolt}
-        />
+        >
+          <Icon image="lightning-bolt-gradient" style={styles.bolt} />
+        </ResizeableSpinner>
       </View>
       <CopySection />
     </MainContent>

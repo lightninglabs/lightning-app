@@ -57,9 +57,9 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
       size={size}
       progressWidth={progressWidth}
       gradient="loadNetworkGrad"
-      icon="lightning-bolt"
-      iconStyles={loadNetworkStyles.bolt}
-    />
+    >
+      <Icon image="lightning-bolt" style={loadNetworkStyles.bolt} />
+    </ResizeableSpinner>
     <Text style={loadNetworkStyles.copy}>{msg}</Text>
   </View>
 );
@@ -91,8 +91,7 @@ export const ResizeableSpinner = ({
   size,
   gradient,
   progressWidth,
-  icon,
-  iconStyles,
+  children,
 }) => (
   <View style={{ width: size, height: size }}>
     <Svg width={size} height={size}>
@@ -110,9 +109,7 @@ export const ResizeableSpinner = ({
         />
       }
     </Svg>
-    <View style={resizeableStyles.iconWrapper}>
-      <Icon image={icon} style={iconStyles} />
-    </View>
+    <View style={resizeableStyles.iconWrapper}>{children}</View>
   </View>
 );
 
@@ -121,8 +118,7 @@ ResizeableSpinner.propTypes = {
   size: PropTypes.number.isRequired,
   progressWidth: PropTypes.number.isRequired,
   gradient: PropTypes.string.isRequired,
-  icon: PropTypes.string.isRequired,
-  iconStyles: ViewPropTypes.style,
+  children: PropTypes.node,
 };
 
 //
