@@ -34,9 +34,6 @@ export const SmallSpinner = ({ ...props }) => (
 // Load Network Spinner
 //
 
-const size = 80;
-const progressWidth = 3;
-
 const loadNetworkStyles = StyleSheet.create({
   bolt: {
     height: 126 / 4.5,
@@ -54,8 +51,8 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
   <View style={style}>
     <ResizeableSpinner
       percentage={percentage}
-      size={size}
-      progressWidth={progressWidth}
+      size={80}
+      progressWidth={3}
       gradient="loadNetworkGrad"
     >
       <Icon image="lightning-bolt" style={loadNetworkStyles.bolt} />
@@ -101,13 +98,11 @@ export const ResizeableSpinner = ({
         percentage={percentage}
         color={`url(#${gradient})`}
       />
-      {
-        <SpinnerFill
-          spinnerWidth={size}
-          progressWidth={progressWidth}
-          color={color.blackDark}
-        />
-      }
+      <SpinnerFill
+        spinnerWidth={size}
+        progressWidth={progressWidth}
+        color={color.blackDark}
+      />
     </Svg>
     <View style={resizeableStyles.iconWrapper}>{children}</View>
   </View>
