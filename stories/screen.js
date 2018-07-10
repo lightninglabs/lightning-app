@@ -26,7 +26,6 @@ import Channel from '../src/view/channel';
 import ChannelDetail from '../src/view/channel-detail';
 import ChannelDelete from '../src/view/channel-delete';
 import ChannelCreate from '../src/view/channel-create';
-import ChannelOpening from '../src/view/channel-opening';
 import Home from '../src/view/home';
 import Deposit from '../src/view/deposit';
 import Invoice from '../src/view/invoice';
@@ -123,15 +122,15 @@ storiesOf('Screens', module)
     <TransactionDetail store={store} nav={nav} />
   ))
   .add('Channels', () => <Channel store={store} channel={channel} nav={nav} />)
+  .add('Channels (Opening)', () => (
+    <Channel store={{ computedChannels: [] }} channel={channel} nav={nav} />
+  ))
   .add('Channel Details', () => <ChannelDetail store={store} nav={nav} />)
   .add('Channel Delete', () => (
     <ChannelDelete store={store} channel={channel} nav={nav} />
   ))
   .add('Channel Create', () => (
     <ChannelCreate store={store} channel={channel} nav={nav} />
-  ))
-  .add('Channel Opening', () => (
-    <ChannelOpening store={store} channel={channel} nav={nav} />
   ))
   .add('Deposit', () => <Deposit store={store} invoice={invoice} nav={nav} />)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)

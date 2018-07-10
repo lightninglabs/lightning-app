@@ -7,6 +7,9 @@ import { Header, Title } from '../component/header';
 import { SmallButton, BackButton } from '../component/button';
 import { ListContent, List, ListItem, ListHeader } from '../component/list';
 import { Alert } from '../component/notification';
+import MainContent from '../component/main-content';
+import { ResizeableSpinner } from '../component/spinner';
+import { H1Text, CopyText } from '../component/text';
 import Text from '../component/text';
 import Icon from '../component/icon';
 import { color, font } from '../component/style';
@@ -16,37 +19,18 @@ import { color, font } from '../component/style';
 //
 
 const ChannelView = ({ store, nav, channel }) => {
-  const {
-    computedChannels: channels,
-    channelBalanceOpenLabel,
-    channelBalancePendingLabel,
-    channelBalanceClosingLabel,
-    unitLabel,
-  } = store;
+  const { computedChannels: channels } = store;
   return (
     <Background color={color.blackDark}>
       <ChannelHeader
         goChannelCreate={() => channel.initCreate()}
         goHome={() => nav.goHome()}
       />
-      <ChannelSummary
-        channelBalanceOpenLabel={channelBalanceOpenLabel}
-        channelBalancePendingLabel={channelBalancePendingLabel}
-        channelBalanceClosingLabel={channelBalanceClosingLabel}
-        unitLabel={unitLabel}
-      />
-      <ListContent>
-        <List
-          data={channels}
-          renderHeader={() => <ChannelListHeader />}
-          renderItem={item => (
-            <ChannelListItem
-              ch={item}
-              onSelect={() => channel.select({ item })}
-            />
-          )}
-        />
-      </ListContent>
+      {channels.length ? (
+        <ChannelList store={store} channel={channel} />
+      ) : (
+        <NoChannels />
+      )}
     </Background>
   );
 };
@@ -99,7 +83,54 @@ ChannelHeader.propTypes = {
 };
 
 //
-// ChannelSummary
+// Channel List
+//
+
+const listStyles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+});
+
+const ChannelList = ({ store, channel }) => {
+  const {
+    computedChannels: channels,
+    channelBalanceOpenLabel,
+    channelBalancePendingLabel,
+    channelBalanceClosingLabel,
+    unitLabel,
+  } = store;
+  return (
+    <View style={listStyles.wrapper}>
+      <ChannelSummary
+        channelBalanceOpenLabel={channelBalanceOpenLabel}
+        channelBalancePendingLabel={channelBalancePendingLabel}
+        channelBalanceClosingLabel={channelBalanceClosingLabel}
+        unitLabel={unitLabel}
+      />
+      <ListContent>
+        <List
+          data={channels}
+          renderHeader={() => <ChannelListHeader />}
+          renderItem={item => (
+            <ChannelListItem
+              ch={item}
+              onSelect={() => channel.select({ item })}
+            />
+          )}
+        />
+      </ListContent>
+    </View>
+  );
+};
+
+ChannelList.propTypes = {
+  store: PropTypes.object.isRequired,
+  channel: PropTypes.object.isRequired,
+};
+
+//
+// Channel Summary
 //
 
 const summaryStyles = StyleSheet.create({
@@ -241,6 +272,45 @@ const ChannelListHeader = () => (
     <Text style={[iStyles.m, hStyles.txt]}>CAN SEND</Text>
     <Text style={[iStyles.s, hStyles.txt]}>CAN RECEIVE</Text>
   </ListHeader>
+);
+
+//
+// No Channels
+//
+
+const noStyles = StyleSheet.create({
+  content: {
+    justifyContent: 'center',
+  },
+  bolt: {
+    height: 172 * 0.6,
+    width: 95 * 0.6,
+  },
+  title: {
+    marginTop: 40,
+  },
+  copyTxt: {
+    textAlign: 'center',
+  },
+});
+
+const NoChannels = () => (
+  <MainContent style={noStyles.content}>
+    <ResizeableSpinner
+      percentage={1}
+      size={190}
+      progressWidth={6}
+      gradient="openChannelsGrad"
+    >
+      <Icon image="lightning-bolt-gradient" style={noStyles.bolt} />
+    </ResizeableSpinner>
+    <H1Text style={noStyles.title}>Opening Channels</H1Text>
+    <CopyText style={noStyles.copyTxt}>
+      {
+        'The autopilot feature will open channels for you, but\nyou can add your own at any time.'
+      }
+    </CopyText>
+  </MainContent>
 );
 
 export default observer(ChannelView);
