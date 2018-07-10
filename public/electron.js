@@ -220,6 +220,9 @@ function initApplicationMenu() {
         { role: 'cut' },
         { role: 'copy' },
         { role: 'paste' },
+        { role: 'pasteandmatchstyle' },
+        { role: 'delete' },
+        { role: 'selectall' },
       ],
     },
   ];
