@@ -12,9 +12,15 @@ import { color, font } from '../component/style';
 // CLI View
 //
 
+const styles = StyleSheet.create({
+  header: {
+    marginBottom: 1, // display separator above output background color
+  },
+});
+
 const CLIView = ({ store, nav }) => (
   <Background color={color.blackDark}>
-    <Header separator>
+    <Header separator style={styles.header}>
       <BackButton onPress={() => nav.goSettings()} />
       <Title title="Logs" />
       <Button disabled onPress={() => {}} />
