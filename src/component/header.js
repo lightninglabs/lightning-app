@@ -21,6 +21,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     boxShadow: `0 0.25px ${color.white}`,
+    zIndex: 1,
   },
   centerTitle: {
     justifyContent: 'center',
