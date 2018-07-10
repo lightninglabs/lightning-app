@@ -21,8 +21,6 @@ const styles = StyleSheet.create({
   },
   separator: {
     boxShadow: `0 0.25px ${color.white}`,
-    marginBottom: 1, // prevent box-shadow blinking when pressing settings buttons
-    zIndex: 1,
   },
   centerTitle: {
     justifyContent: 'center',
