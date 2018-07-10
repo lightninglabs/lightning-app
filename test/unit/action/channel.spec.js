@@ -173,6 +173,7 @@ describe('Action Channels Unit Tests', () => {
         pubkey,
         amount: 100000,
       });
+      expect(nav.goChannels, 'was called once');
     });
 
     it('should display notification on invalid pubkeyAtHost', async () => {
@@ -191,7 +192,7 @@ describe('Action Channels Unit Tests', () => {
       expect(channel.openChannel, 'was called once');
     });
 
-    it('should display notification twice if both fail', async () => {
+    it('should display notification if both fail', async () => {
       grpc.sendCommand.withArgs('connectPeer').rejects(new Error('Boom!'));
       channel.openChannel.rejects(new Error('Boom!'));
       channel.setPubkeyAtHost({ pubkeyAtHost: `${pubkey}@${host}` });
@@ -199,6 +200,7 @@ describe('Action Channels Unit Tests', () => {
       await channel.connectAndOpen();
       expect(logger.info, 'was called once');
       expect(notification.display, 'was called once');
+      expect(nav.goChannelCreate, 'was called once');
     });
   });
 
@@ -235,14 +237,17 @@ describe('Action Channels Unit Tests', () => {
       expect(channel.update, 'was called once');
     });
 
-    it('should display notification in case of error event', async () => {
+    it('should throw error', async () => {
       const onStub = sinon.stub();
       onStub.withArgs('error').yields(new Error('Boom!'));
       grpc.sendStreamCommand.withArgs('openChannel').returns({
         on: onStub,
       });
-      await channel.openChannel({ pubkey, amount: 100000 });
-      expect(notification.display, 'was called once');
+      await expect(
+        channel.openChannel({ pubkey, amount: 100000 }),
+        'to be rejected with error satisfying',
+        /Boom/
+      );
     });
   });
 

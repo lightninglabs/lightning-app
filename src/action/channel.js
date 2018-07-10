@@ -143,6 +143,7 @@ class ChannelAction {
       await this.connectToPeer({ host, pubkey });
       await this.openChannel({ pubkey, amount });
     } catch (err) {
+      this._nav.goChannelCreate();
       this._notification.display({ msg: 'Creating channel failed!', err });
     }
   }
@@ -162,13 +163,10 @@ class ChannelAction {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
     });
-    await new Promise(resolve => {
+    await new Promise((resolve, reject) => {
       stream.on('data', () => this.update());
       stream.on('end', resolve);
-      stream.on('error', err => {
-        this._notification.display({ msg: 'Opening channel failed!', err });
-        resolve();
-      });
+      stream.on('error', reject);
       stream.on('status', status => log.info(`Opening channel: ${status}`));
     });
   }
