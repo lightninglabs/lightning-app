@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # versions
-GO_TAG=1.10.2
+GO_TAG=1.10.3
 
 # create empty btcd.conf for btcctl
 if [ "$(uname)" == "Darwin" ]; then
