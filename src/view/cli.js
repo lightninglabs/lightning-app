@@ -55,7 +55,21 @@ const logStyles = StyleSheet.create({
 class LogOutput extends Component {
   constructor(props) {
     super(props);
+    this._refresh = true;
     this._ref = React.createRef();
+  }
+
+  shouldComponentUpdate() {
+    const current = this._refresh;
+    this._refresh = false;
+    setTimeout(() => {
+      this._refresh = true;
+    }, 100);
+    if (!current) {
+      clearTimeout(this._tLast);
+      this._tLast = setTimeout(() => this.forceUpdate(), 500);
+    }
+    return current;
   }
 
   get printLogs() {
