@@ -39,6 +39,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe.skip('goRestoreWallet()', () => {
+    it('should set correct route', () => {
+      nav.goRestoreWallet();
+      expect(store.route, 'to equal', 'RestoreWallet');
+    });
+  });
+
   describe('goSeedSuccess()', () => {
     it('should set correct route', () => {
       nav.goSeedSuccess();
