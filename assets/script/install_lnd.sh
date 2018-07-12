@@ -2,6 +2,8 @@
 
 # versions
 GO_TAG=1.10.3
+LND_TAG=a43d02f8f049a82304a3c994bb1e326a3a8e1572
+BTCD_TAG=fdfc19097e7ac6b57035062056f5b7b4638b8898
 
 # create empty btcd.conf for btcctl
 if [ "$(uname)" == "Darwin" ]; then
@@ -31,11 +33,13 @@ go get -u github.com/Masterminds/glide
 # install lnd
 git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
 cd $GOPATH/src/github.com/lightningnetwork/lnd
+git checkout $LND_TAG
 make && make install
 
 # install btcd
 git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd
 cd $GOPATH/src/github.com/btcsuite/btcd
+git checkout $BTCD_TAG
 glide install
 go install . ./cmd/...
 
