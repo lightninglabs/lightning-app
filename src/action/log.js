@@ -21,10 +21,10 @@ export function error(...args) {
 
 function pushLogs(message) {
   if (!_store) return;
-  const { logs } = _store;
-  logs.push(message);
-  if (logs.length > MAX_LOG_LENGTH) {
-    logs.splice(0, logs.length - MAX_LOG_LENGTH);
+  _store.logs += '\n' + message.replace(/\s+$/, '');
+  const len = _store.logs.length;
+  if (len > MAX_LOG_LENGTH) {
+    _store.logs = _store.logs.substring(len - MAX_LOG_LENGTH, len);
   }
 }
 

@@ -51,12 +51,12 @@ describe('Action Logs Unit Tests', () => {
 
     describe('constructor()', () => {
       it('should keep logs trimmed and keep the tail of the logs', () => {
-        for (var i = 0; i < 101; i++) {
+        for (var i = 0; i < 10001; i++) {
           ipcRendererStub.emit('logs', 'some-event', i.toString());
         }
-        expect(store.logs.length, 'to equal', 100);
-        expect(store.logs[0], 'to equal', '1');
-        expect(store.logs[99], 'to equal', '100');
+        const len = store.logs.length;
+        expect(store.logs.substring(len - 5, len), 'to equal', '10000');
+        expect(store.logs.length, 'to equal', 10000);
       });
     });
   });
@@ -69,7 +69,7 @@ describe('Action Logs Unit Tests', () => {
 
     describe('constructor()', () => {
       it('should append log on ipcRenderer logs event', () => {
-        expect(store.logs[0], 'to equal', 'some-arg');
+        expect(store.logs, 'to equal', '\nsome-arg');
       });
     });
 
@@ -94,7 +94,7 @@ describe('Action Logs Unit Tests', () => {
         log.error('foo', err);
         expect(console.error, 'was called with', 'foo', err);
         sandbox.restore();
-        expect(store.logs.length, 'to equal', 5);
+        expect(store.logs.length, 'to equal', 25);
         expect(ipcRenderer.send, 'was called with', 'log-error', ['foo', err]);
       });
     });

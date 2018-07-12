@@ -25,7 +25,7 @@ const CLIView = ({ store, nav }) => (
       <Title title="Logs" />
       <Button disabled onPress={() => {}} />
     </Header>
-    <LogOutput logs={store.logs.slice()} />
+    <LogOutput logs={store.logs} />
   </Background>
 );
 
@@ -55,12 +55,26 @@ const logStyles = StyleSheet.create({
 class LogOutput extends Component {
   constructor(props) {
     super(props);
+    this._refresh = true;
     this._ref = React.createRef();
+  }
+
+  shouldComponentUpdate() {
+    const current = this._refresh;
+    this._refresh = false;
+    setTimeout(() => {
+      this._refresh = true;
+    }, 100);
+    if (!current) {
+      clearTimeout(this._tLast);
+      this._tLast = setTimeout(() => this.forceUpdate(), 500);
+    }
+    return current;
   }
 
   get printLogs() {
     setTimeout(() => this._ref.current.scrollToEnd(), 50);
-    return this.props.logs.map(l => l.replace(/\s+$/, '')).join('\n');
+    return this.props.logs;
   }
 
   render() {
@@ -73,7 +87,7 @@ class LogOutput extends Component {
 }
 
 LogOutput.propTypes = {
-  logs: PropTypes.array.isRequired,
+  logs: PropTypes.string.isRequired,
 };
 
 export default observer(CLIView);
