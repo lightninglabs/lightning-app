@@ -54,6 +54,8 @@ describe('Action Logs Unit Tests', () => {
         for (var i = 0; i < 10001; i++) {
           ipcRendererStub.emit('logs', 'some-event', i.toString());
         }
+        const len = store.logs.length;
+        expect(store.logs.substring(len - 5, len), 'to equal', '10000');
         expect(store.logs.length, 'to equal', 10000);
       });
     });
