@@ -29,7 +29,7 @@ export const nav = new NavAction(store);
 export const grpc = new GrpcAction(store, ipcRenderer);
 export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, db, nav, notify);
-export const info = new InfoAction(store, grpc, notify);
+export const info = new InfoAction(store, grpc, nav, notify);
 export const channel = new ChannelAction(store, grpc, nav, notify);
 export const transaction = new TransactionAction(store, grpc, wallet, nav);
 export const invoice = new InvoiceAction(
@@ -72,10 +72,4 @@ observe(store, 'lndReady', () => {
   transaction.update();
   transaction.subscribeTransactions();
   transaction.subscribeInvoices();
-});
-
-observe(store, 'syncedToChain', () => {
-  if (store.route == 'LoaderSyncing') {
-    nav.goHome();
-  }
 });
