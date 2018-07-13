@@ -41,6 +41,7 @@ import {
   channel,
   transaction,
   setting,
+  info,
 } from '../action';
 import store from '../store';
 
@@ -65,7 +66,7 @@ class MainView extends Component {
         )}
         {route === 'Password' && <Password store={store} wallet={wallet} />}
         {route === 'NewAddress' && (
-          <NewAddress store={store} nav={nav} invoice={invoice} />
+          <NewAddress store={store} invoice={invoice} info={info} />
         )}
         {route === 'LoaderSyncing' && <LoaderSyncing store={store} />}
         {route === 'Wait' && <Wait />}

@@ -6,6 +6,7 @@ import sinon from 'sinon';
 import { Store } from '../src/store';
 import NavAction from '../src/action/nav';
 import GrpcAction from '../src/action/grpc';
+import InfoAction from '../src/action/info';
 import AppStorage from '../src/action/app-storage';
 import NotificationAction from '../src/action/notification';
 import SettingAction from '../src/action/setting';
@@ -52,6 +53,7 @@ store.init();
 const nav = sinon.createStubInstance(NavAction);
 const db = sinon.createStubInstance(AppStorage);
 const grpc = sinon.createStubInstance(GrpcAction);
+const info = sinon.createStubInstance(InfoAction);
 const notify = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, db, nav, notify);
 const setting = new SettingAction(store, wallet, db);
@@ -91,7 +93,7 @@ storiesOf('Screens', module)
   .add('Set Password', () => <SetPassword store={store} wallet={wallet} />)
   .add('Password', () => <Password store={store} wallet={wallet} />)
   .add('New Address', () => (
-    <NewAddress store={store} nav={nav} invoice={invoice} />
+    <NewAddress store={store} nav={nav} invoice={invoice} info={info} />
   ))
   .add('Wait', () => <Wait />)
   .add('Loader - Syncing Chain', () => <LoaderSyncing store={store} />)
