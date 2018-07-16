@@ -8,7 +8,6 @@ class InfoAction {
     this._nav = nav;
     this._grpc = grpc;
     this._notification = notification;
-    this.firstTime = true;
   }
 
   async getInfo() {
@@ -17,9 +16,8 @@ class InfoAction {
       this._store.pubKey = response.identity_pubkey;
       this._store.syncedToChain = response.synced_to_chain;
       this._store.blockHeight = response.block_height;
-      if (this.firstTime) {
+      if (this.startingSyncTimestamp === undefined) {
         this.startingSyncTimestamp = response.best_header_timestamp || 0;
-        this.firstTime = false;
       }
       if (!response.synced_to_chain) {
         this._notification.display({ msg: 'Syncing to chain', wait: true });
@@ -33,7 +31,7 @@ class InfoAction {
     }
   }
 
-  finishOnboarding() {
+  initLoaderSyncing() {
     if (this._store.syncedToChain) {
       this._nav.goHome();
     } else {
@@ -48,7 +46,7 @@ class InfoAction {
     const progressSoFar = bestHeaderTimestamp
       ? bestHeaderTimestamp - this.startingSyncTimestamp
       : 0;
-    const totalProgress = currTimestamp - this.startingSyncTimestamp;
+    const totalProgress = currTimestamp - this.startingSyncTimestamp || 0.001;
     const percentSynced = progressSoFar * 1.0 / totalProgress;
     return percentSynced;
   }
