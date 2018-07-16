@@ -79,13 +79,13 @@ describe('Action Info Unit Tests', () => {
     });
   });
 
-  describe('finishOnboarding()', () => {
+  describe('initLoaderSyncing()', () => {
     it('should navigate straight to home if synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         synced_to_chain: 'true',
       });
       await info.getInfo();
-      info.finishOnboarding();
+      info.initLoaderSyncing();
       expect(nav.goHome, 'was called once');
     });
 
@@ -94,7 +94,7 @@ describe('Action Info Unit Tests', () => {
         synced_to_chain: false,
       });
       await info.getInfo();
-      info.finishOnboarding();
+      info.initLoaderSyncing();
       expect(nav.goLoaderSyncing, 'was called once');
       grpc.sendCommand.withArgs('getInfo').resolves({
         synced_to_chain: true,

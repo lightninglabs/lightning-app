@@ -52,7 +52,7 @@ const NewAddressView = ({ store, invoice, info }) => (
         >
           {store.walletAddress}
         </CopyButton>
-        <GlasButton onPress={() => info.finishOnboarding()}>Done</GlasButton>
+        <GlasButton onPress={() => info.initLoaderSyncing()}>Done</GlasButton>
       </View>
       <CopiedNotification
         display={store.displayCopied}
