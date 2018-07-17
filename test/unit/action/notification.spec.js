@@ -84,6 +84,15 @@ describe('Action Notification Unit Tests', () => {
       store.notifications[0].handler();
       expect(nav.goCLI, 'was called once');
     });
+
+    it('avoid redundant notifications but update date', async () => {
+      notification.display({ msg: 'hello' });
+      const date = store.notifications[0].date;
+      await nap(10);
+      notification.display({ msg: 'hello' });
+      expect(store.notifications.length, 'to equal', 1);
+      expect(store.notifications[0].date, 'not to equal', date);
+    });
   });
 
   describe('close()', () => {
