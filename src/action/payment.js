@@ -1,4 +1,4 @@
-import { PREFIX_URI } from '../config';
+import { PREFIX_URI, WAIT_DELAY } from '../config';
 import {
   toSatoshis,
   toAmount,
@@ -64,6 +64,7 @@ class PaymentAction {
 
   async decodeInvoice({ invoice }) {
     try {
+      const timer = setTimeout(() => this._nav.goWait(), WAIT_DELAY);
       const { payment, settings } = this._store;
       const request = await this._grpc.sendCommand('decodePayReq', {
         pay_req: invoice.replace(PREFIX_URI, ''),
@@ -75,9 +76,11 @@ class PaymentAction {
       payment.amount = toAmount(parseSat(request.num_satoshis), settings.unit);
       payment.note = request.description;
       payment.fee = toAmount(parseSat(fee), settings.unit);
+      clearTimeout(timer);
       return true;
     } catch (err) {
       log.info(`Decoding payment request failed: ${err.message}`);
+      this._nav.goPay();
       return false;
     }
   }
