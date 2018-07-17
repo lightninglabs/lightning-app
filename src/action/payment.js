@@ -129,7 +129,7 @@ class PaymentAction {
       });
       return routes[0].total_fees;
     } catch (err) {
-      log.info(`Unable to retrieve fee estimate: ${err}`);
+      log.info(`Unable to retrieve fee estimate: ${JSON.stringify(err)}`);
       return 0;
     }
   }
