@@ -66,7 +66,9 @@ const InvoiceQRView = ({ store, nav, invoice }) => (
           <BalanceLabelNumeral style={styles.numeral}>
             {store.invoiceAmountLabel}
           </BalanceLabelNumeral>
-          <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
+          <BalanceLabelUnit style={styles.unit}>
+            {store.unitLabel}
+          </BalanceLabelUnit>
         </BalanceLabel>
         <NamedField name="Note">{store.invoice.note}</NamedField>
         <QRCode style={styles.qrcode}>{store.invoice.uri}</QRCode>
