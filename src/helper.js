@@ -82,7 +82,11 @@ export const toAmount = (satoshis, unit) => {
   if (!Number.isInteger(satoshis) || !UNITS[unit]) {
     throw new Error('Invalid input!');
   }
-  return (satoshis / UNITS[unit].denominator).toString();
+  const num = satoshis / UNITS[unit].denominator;
+  return num.toLocaleString('en-US', {
+    useGrouping: false,
+    maximumFractionDigits: 8,
+  });
 };
 
 /**
