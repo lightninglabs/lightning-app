@@ -93,7 +93,7 @@ storiesOf('Screens', module)
   .add('Set Password', () => <SetPassword store={store} wallet={wallet} />)
   .add('Password', () => <Password store={store} wallet={wallet} />)
   .add('New Address', () => (
-    <NewAddress store={store} nav={nav} invoice={invoice} info={info} />
+    <NewAddress store={store} invoice={invoice} info={info} />
   ))
   .add('Loader - Syncing Chain', () => <LoaderSyncing store={store} />)
   .add('Wait', () => <Wait />)
