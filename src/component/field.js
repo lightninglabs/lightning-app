@@ -74,10 +74,10 @@ const namedStyles = StyleSheet.create({
   text: {
     flex: 1,
     textAlign: 'right',
-    fontFamily: 'OpenSans Light',
     fontSize: font.sizeM,
     lineHeight: font.lineHeightM + 2 * 12,
     color: color.blackText,
+    opacity: 0.5,
   },
 });
 
