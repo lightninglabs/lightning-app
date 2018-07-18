@@ -275,6 +275,26 @@ describe('Helpers Unit Tests', () => {
       const num = helpers.toAmount(0, 'btc');
       expect(num, 'to equal', '0');
     });
+
+    it('should work for 1', () => {
+      const num = helpers.toAmount(1, 'btc');
+      expect(num, 'to equal', '0.00000001');
+    });
+
+    it('should work for 10', () => {
+      const num = helpers.toAmount(10, 'btc');
+      expect(num, 'to equal', '0.0000001');
+    });
+
+    it('should work for 100', () => {
+      const num = helpers.toAmount(100, 'btc');
+      expect(num, 'to equal', '0.000001');
+    });
+
+    it('should work for 1000', () => {
+      const num = helpers.toAmount(1000, 'btc');
+      expect(num, 'to equal', '0.00001');
+    });
   });
 
   describe('calculateExchangeRate()', () => {
