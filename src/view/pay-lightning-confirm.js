@@ -9,7 +9,7 @@ import { Header, Title } from '../component/header';
 import { CancelButton, BackButton, PillButton } from '../component/button';
 import Card from '../component/card';
 import Icon from '../component/icon';
-import { FormStretcher, FormText } from '../component/form';
+import { FormStretcher } from '../component/form';
 import {
   BalanceLabel,
   BalanceLabelNumeral,
@@ -54,9 +54,6 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
     </Header>
     <MainContent>
       <Card>
-        <FormText style={styles.description}>
-          You are about to send a Bitcoin payment over the Lightning Network.
-        </FormText>
         <FormStretcher>
           <BalanceLabel style={styles.balance}>
             <BalanceLabelNumeral style={styles.numeral}>
