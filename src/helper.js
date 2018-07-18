@@ -127,6 +127,18 @@ export const toAmountLabel = (satoshis, settings) => {
 };
 
 /**
+ * Convert a string formatted BTC amount either to fiat or the selected BTC unit.
+ * The output should be used throughout the UI for value labels.
+ * @param  {string} amount The amount e.g. '0.0001'
+ * @param  {Object} settings Contains the current exchange rate
+ * @return {string}          The corresponding value label
+ */
+export const toLabel = (amount, settings) => {
+  const satoshis = toSatoshis(amount, settings.unit);
+  return toAmountLabel(satoshis, settings);
+};
+
+/**
  * Split '-' separated words and convert to uppercase
  * @param  {string} value     The input string
  * @param  {string} separator The separator to be used
