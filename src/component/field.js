@@ -69,7 +69,7 @@ const namedStyles = StyleSheet.create({
     color: color.blackText,
     fontSize: font.sizeM,
     lineHeight: font.lineHeightM + 2 * 12,
-    marginRight: 10,
+    marginRight: 15,
   },
   text: {
     flex: 1,
@@ -84,7 +84,9 @@ const namedStyles = StyleSheet.create({
 export const NamedField = ({ name, children, style }) => (
   <View style={[namedStyles.content, style]}>
     <Text style={namedStyles.name}>{name}</Text>
-    <Text style={namedStyles.text}>{children}</Text>
+    <Text style={namedStyles.text} numberOfLines={1}>
+      {children}
+    </Text>
   </View>
 );
 
