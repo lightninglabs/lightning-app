@@ -450,6 +450,66 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
+  describe('toLabel()', () => {
+    let settings;
+
+    beforeEach(() => {
+      settings = {
+        unit: 'btc',
+        fiat: 'usd',
+        exchangeRate: { usd: 0.00014503 },
+        displayFiat: true,
+      };
+    });
+
+    it('should throw error if amount is undefined', () => {
+      expect(
+        helpers.toLabel.bind(null, undefined, settings),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should throw error if amount is null', () => {
+      expect(helpers.toLabel.bind(null, null, settings), 'to throw', /Missing/);
+    });
+
+    it('should throw error if amount is number', () => {
+      expect(helpers.toLabel.bind(null, 0.1, settings), 'to throw', /Missing/);
+    });
+
+    it('should throw error if amount is separated with a comma', () => {
+      expect(
+        helpers.toLabel.bind(null, '0,1', settings),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should throw error if unit is undefined', () => {
+      expect(
+        helpers.toLabel.bind(null, '100', undefined),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should be 0 for empty amount', () => {
+      const num = helpers.toLabel('', settings);
+      expect(num, 'to match', /0{1}[,.]0{2}/);
+    });
+
+    it('should work for string input', () => {
+      const num = helpers.toLabel('0.10', settings);
+      expect(num, 'to match', /689[,.]51/);
+    });
+    it('should format a number value', () => {
+      settings.displayFiat = false;
+      const lbl = helpers.toLabel('0.10', settings);
+      expect(lbl, 'to match', /0[,.]1/);
+    });
+  });
+
   describe('toCaps()', () => {
     it('should work for undefined', () => {
       const caps = helpers.toCaps(undefined);

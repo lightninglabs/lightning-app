@@ -134,6 +134,9 @@ export const toAmountLabel = (satoshis, settings) => {
  * @return {string}          The corresponding value label
  */
 export const toLabel = (amount, settings) => {
+  if (!settings) {
+    throw new Error('Missing args!');
+  }
   const satoshis = toSatoshis(amount, settings.unit);
   return toAmountLabel(satoshis, settings);
 };
