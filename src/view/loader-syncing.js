@@ -5,11 +5,11 @@ import Background from '../component/background';
 import { H1Text, CopyText } from '../component/text';
 import MainContent from '../component/main-content';
 import { LoadNetworkSpinner } from '../component/spinner';
-import { DownButton } from '../component/button';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   spinner: {
+    position: 'absolute',
     marginTop: 40,
   },
   downBtn: {
@@ -26,9 +26,6 @@ const LoaderSyncingView = ({ store }) => (
         style={styles.spinner}
       />
       <CopySection />
-      <DownButton onPress={() => {}} style={styles.downBtn}>
-        Learn More
-      </DownButton>
     </MainContent>
   </Background>
 );
@@ -48,8 +45,7 @@ const copyStyles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    textAlign: 'center',
-    marginTop: 30,
+    marginTop: 40,
   },
   copyTxt: {
     textAlign: 'center',
@@ -63,9 +59,7 @@ const CopySection = () => (
   <View style={copyStyles.wrapper}>
     <H1Text style={copyStyles.title}>Almost there</H1Text>
     <CopyText style={copyStyles.copyTxt}>
-      {
-        "Why not learn more about what we're doing at Lightning Labs? Or grab a coffee. This could take about 30 minutes."
-      }
+      Why not grab a coffee. This could take a few minutes.
     </CopyText>
   </View>
 );
