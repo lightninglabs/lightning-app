@@ -10,6 +10,7 @@ import SeedSuccess from './seed-success';
 import SetPassword from './set-password';
 import Password from './password';
 import NewAddress from './new-address';
+import LoaderSyncing from './loader-syncing';
 import Wait from './wait';
 import Home from './home';
 import Payment from './payment';
@@ -40,6 +41,7 @@ import {
   channel,
   transaction,
   setting,
+  info,
 } from '../action';
 import store from '../store';
 
@@ -64,8 +66,9 @@ class MainView extends Component {
         )}
         {route === 'Password' && <Password store={store} wallet={wallet} />}
         {route === 'NewAddress' && (
-          <NewAddress store={store} nav={nav} invoice={invoice} />
+          <NewAddress store={store} invoice={invoice} info={info} />
         )}
+        {route === 'LoaderSyncing' && <LoaderSyncing store={store} />}
         {route === 'Wait' && <Wait />}
         {route === 'Home' && (
           <Home

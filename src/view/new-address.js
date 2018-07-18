@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const NewAddressView = ({ store, nav, invoice }) => (
+const NewAddressView = ({ store, invoice, info }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <View style={styles.qrWrapper}>
       <QRCode size={130}>{store.walletAddressUri}</QRCode>
@@ -52,7 +52,7 @@ const NewAddressView = ({ store, nav, invoice }) => (
         >
           {store.walletAddress}
         </CopyButton>
-        <GlasButton onPress={() => nav.goHome()}>Done</GlasButton>
+        <GlasButton onPress={() => info.initLoaderSyncing()}>Done</GlasButton>
       </View>
       <CopiedNotification
         display={store.displayCopied}
@@ -65,8 +65,8 @@ const NewAddressView = ({ store, nav, invoice }) => (
 
 NewAddressView.propTypes = {
   store: PropTypes.object.isRequired,
-  nav: PropTypes.object.isRequired,
   invoice: PropTypes.object.isRequired,
+  info: PropTypes.object.isRequired,
 };
 
 //
