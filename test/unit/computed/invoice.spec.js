@@ -14,10 +14,18 @@ describe('Computed Invoice Unit Tests', () => {
       expect(store.invoiceAmountLabel, 'to equal', '0');
     });
 
-    it('should format amount', () => {
+    it('should format btc amount', () => {
       store.invoice.amount = '0.1001';
       ComputedInvoice(store);
       expect(store.invoiceAmountLabel, 'to match', /^0[,.]1{1}0{2}1{1}$/);
+    });
+
+    it('should format fiat amount', () => {
+      store.settings.displayFiat = true;
+      store.settings.exchangeRate.usd = 0.00014503;
+      store.invoice.amount = '0.1001';
+      ComputedInvoice(store);
+      expect(store.invoiceAmountLabel, 'to match', /690[,.]20/);
     });
   });
 });
