@@ -11,7 +11,7 @@ const ComputedPayment = store => {
       const { payment, settings } = store;
       const satAmount = toSatoshis(payment.amount, settings.unit);
       const satFee = toSatoshis(payment.fee, settings.unit);
-      return toAmountLabel(satAmount + satFee, store.settings);
+      return toAmountLabel(satAmount + satFee, settings);
     }),
   });
 };
