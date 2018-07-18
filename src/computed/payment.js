@@ -1,13 +1,23 @@
 import { computed, extendObservable } from 'mobx';
-import { formatNumber } from '../helper';
+import { toSatoshis, toAmountLabel } from '../helper';
 
 const ComputedPayment = store => {
   extendObservable(store, {
-    paymentAmountLabel: computed(() => formatNumber(store.payment.amount)),
-    paymentFeeLabel: computed(() => formatNumber(store.payment.fee)),
+    paymentAmountLabel: computed(() => {
+      const { payment, settings } = store;
+      const satoshis = toSatoshis(payment.amount, settings.unit);
+      return toAmountLabel(satoshis, store.settings);
+    }),
+    paymentFeeLabel: computed(() => {
+      const { payment, settings } = store;
+      const satoshis = toSatoshis(payment.fee, settings.unit);
+      return toAmountLabel(satoshis, store.settings);
+    }),
     paymentTotalLabel: computed(() => {
-      const { payment } = store;
-      return formatNumber(Number(payment.amount) + Number(payment.fee));
+      const { payment, settings } = store;
+      const satAmount = toSatoshis(payment.amount, settings.unit);
+      const satFee = toSatoshis(payment.fee, settings.unit);
+      return toAmountLabel(satAmount + satFee, store.settings);
     }),
   });
 };

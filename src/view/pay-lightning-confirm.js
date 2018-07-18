@@ -59,14 +59,14 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
               {store.paymentAmountLabel}
             </BalanceLabelNumeral>
             <BalanceLabelUnit style={styles.unit}>
-              {store.unit}
+              {store.unitLabel}
             </BalanceLabelUnit>
           </BalanceLabel>
           <NamedField name="Fee">
-            {store.paymentFeeLabel} {store.unit}
+            {store.paymentFeeLabel} {store.unitLabel}
           </NamedField>
           <NamedField name="Total" style={styles.totalLbl}>
-            {store.paymentTotalLabel} {store.unit}
+            {store.paymentTotalLabel} {store.unitLabel}
           </NamedField>
         </FormStretcher>
         <PillButton
