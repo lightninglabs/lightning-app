@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
   totalLbl: {
     marginTop: 5,
   },
+  note: {
+    marginTop: 5,
+    borderBottomWidth: 0,
+  },
   confirmBtn: {
     marginTop: 20,
   },
@@ -68,6 +72,11 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
           <NamedField name="Total" style={styles.totalLbl}>
             {store.paymentTotalLabel} {store.unit}
           </NamedField>
+          {store.payment.note ? (
+            <NamedField name="Note" style={styles.note}>
+              {store.payment.note}
+            </NamedField>
+          ) : null}
         </FormStretcher>
         <PillButton
           style={styles.confirmBtn}
