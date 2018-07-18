@@ -95,8 +95,8 @@ storiesOf('Screens', module)
   .add('New Address', () => (
     <NewAddress store={store} nav={nav} invoice={invoice} info={info} />
   ))
-  .add('Wait', () => <Wait />)
   .add('Loader - Syncing Chain', () => <LoaderSyncing store={store} />)
+  .add('Wait', () => <Wait />)
   .add('Home', () => (
     <Home
       store={store}
