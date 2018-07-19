@@ -48,7 +48,7 @@
     "ajv": "^6.5.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
-    "babel-plugin-react-native-web": "^0.6.0",
+    "babel-plugin-react-native-web": "^0.8.8",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-react-native": "^4.0.0",
