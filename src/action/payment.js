@@ -46,6 +46,9 @@ class PaymentAction {
   }
 
   setAmount({ amount }) {
+    if (amount < 0) {
+      amount = 0;
+    }
     this._store.payment.amount = amount;
   }
 

@@ -7,15 +7,22 @@ import MainContent from '../component/main-content';
 import { InputField, AmountInputField } from '../component/field';
 import { Header, Title } from '../component/header';
 import { CancelButton, PillButton, Button } from '../component/button';
-import { BalanceLabel, BalanceLabelUnit } from '../component/label';
+import {
+  BalanceLabel,
+  BalanceLabelNumeral,
+  BalanceLabelUnit,
+} from '../component/label';
 import Card from '../component/card';
 import Icon from '../component/icon';
 import { FormStretcher, FormSubText } from '../component/form';
-import { color } from '../component/style';
+import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
   balance: {
     marginTop: 40,
+  },
+  fiatUnit: {
+    color: color.blackDark,
   },
   unit: {
     color: color.blackText,
@@ -38,13 +45,24 @@ const InvoiceView = ({ store, nav, invoice }) => (
     <MainContent>
       <Card>
         <BalanceLabel style={styles.balance}>
+          <BalanceLabelNumeral
+            style={[
+              styles.fiatUnit,
+              { fontSize: store.settings.displayFiat ? font.sizeXXXL : 0 },
+            ]}
+          >
+            $
+          </BalanceLabelNumeral>
           <AmountInputField
+            fiat={store.settings.displayFiat}
             autoFocus={true}
             value={store.invoice.amount}
             onChangeText={amount => invoice.setAmount({ amount })}
             onSubmitEditing={() => invoice.generateUri()}
           />
-          <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
+          <BalanceLabelUnit style={styles.unit}>
+            {store.unitLabel}
+          </BalanceLabelUnit>
         </BalanceLabel>
         <FormStretcher>
           <InputField
