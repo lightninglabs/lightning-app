@@ -200,6 +200,7 @@ store.payments = [...Array(10)].map(() => ({
   status: 'complete',
   date: new Date(),
 }));
+store.payment.note = '#craefulgang';
 store.selectedTransaction = (store.computedTransactions || []).find(
   tx => tx.type === 'bitcoin'
 );
