@@ -9,7 +9,7 @@ import { Header, Title } from '../component/header';
 import { CancelButton, BackButton, PillButton } from '../component/button';
 import Card from '../component/card';
 import Icon from '../component/icon';
-import { FormStretcher, FormText } from '../component/form';
+import { FormStretcher } from '../component/form';
 import {
   BalanceLabel,
   BalanceLabelNumeral,
@@ -34,6 +34,10 @@ const styles = StyleSheet.create({
   totalLbl: {
     marginTop: 5,
   },
+  note: {
+    marginTop: 5,
+    borderBottomWidth: 0,
+  },
   confirmBtn: {
     marginTop: 20,
   },
@@ -50,9 +54,6 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
     </Header>
     <MainContent>
       <Card>
-        <FormText style={styles.description}>
-          You are about to send a Bitcoin payment over the Lightning Network.
-        </FormText>
         <FormStretcher>
           <BalanceLabel style={styles.balance}>
             <BalanceLabelNumeral style={styles.numeral}>
@@ -68,6 +69,11 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
           <NamedField name="Total" style={styles.totalLbl}>
             {store.paymentTotalLabel} {store.unitLabel}
           </NamedField>
+          {store.payment.note ? (
+            <NamedField name="Note" style={styles.note}>
+              {store.payment.note}
+            </NamedField>
+          ) : null}
         </FormStretcher>
         <PillButton
           style={styles.confirmBtn}
