@@ -73,6 +73,23 @@ export const toSatoshis = (amount, unit) => {
 };
 
 /**
+ * Convert a string formatted fiat amount to satoshis
+ * @param  {string} amount The amount e.g. '9.45'
+ * @return {number}        The satoshis as an integer
+ */
+export const fiatToSatoshis = (amount, settings) => {
+  if (
+    typeof amount !== 'string' ||
+    !/^[0-9]*[.]?[0-9]*$/.test(amount) ||
+    !settings.exchangeRate[settings.fiat]
+  ) {
+    throw new Error('Missing args!');
+  }
+  const rate = settings.exchangeRate[settings.fiat];
+  return Math.round(Number(amount) * rate * UNITS.btc.denominator);
+};
+
+/**
  * Convert satoshis to a BTC values than can set as a text input value
  * @param  {number} satoshis The value as a string or number
  * @param  {string} unit     The BTC unit e.g. 'btc' or 'bit'

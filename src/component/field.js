@@ -17,10 +17,10 @@ const amountStyles = StyleSheet.create({
   },
 });
 
-export const AmountInputField = ({ fiat, style, ...props }) => (
+export const AmountInputField = ({ style, ...props }) => (
   <HorizontalExpandingTextInput
-    style={[amountStyles.input, { textAlign: fiat ? 'left' : 'right' }, style]}
-    charWidth={40}
+    style={[amountStyles.input, style]}
+    charWidth={46}
     keyboardType="numeric"
     placeholder="0"
     placeholderTextColor={color.blackText}
@@ -30,7 +30,6 @@ export const AmountInputField = ({ fiat, style, ...props }) => (
 
 AmountInputField.propTypes = {
   style: TextPropTypes.style,
-  fiat: PropTypes.bool,
 };
 
 //

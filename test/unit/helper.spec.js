@@ -207,6 +207,68 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
+  describe('fiatToSatoshis()', () => {
+    let settings;
+
+    beforeEach(() => {
+      settings = {
+        fiat: 'usd',
+        exchangeRate: { usd: 0.00014503 },
+      };
+    });
+
+    it('should throw error if amount is undefined', () => {
+      expect(
+        helpers.fiatToSatoshis.bind(null, undefined, settings),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should throw error if amount is null', () => {
+      expect(
+        helpers.fiatToSatoshis.bind(null, null, settings),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should throw error if amount is number', () => {
+      expect(
+        helpers.fiatToSatoshis.bind(null, 0.1, settings),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should throw error if amount is separated with a comma', () => {
+      expect(
+        helpers.fiatToSatoshis.bind(null, '0,1', settings),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should throw error if settings is exchange rate is undefined', () => {
+      settings.fiat = undefined;
+      expect(
+        helpers.fiatToSatoshis.bind(null, '100', settings),
+        'to throw',
+        /Missing/
+      );
+    });
+
+    it('should be 0 for empty amount', () => {
+      const num = helpers.fiatToSatoshis('', settings);
+      expect(num, 'to equal', 0);
+    });
+
+    it('should work for string input', () => {
+      const num = helpers.fiatToSatoshis('10.00', settings);
+      expect(num, 'to equal', 145030);
+    });
+  });
+
   describe('toAmount()', () => {
     it('should throw error if satoshis is undefined', () => {
       expect(

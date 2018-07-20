@@ -15,6 +15,7 @@ import {
   BalanceLabelNumeral,
   BalanceLabelUnit,
 } from '../component/label';
+import { fiatToSatoshis, toAmount } from '../helper';
 import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
@@ -67,10 +68,10 @@ const PayBitcoinView = ({ store, nav, payment }) => (
               $
             </BalanceLabelNumeral>
             <AmountInputField
-              fiat={store.settings.displayFiat}
               autoFocus={true}
-              value={store.payment.amount}
-              onChangeText={amount => payment.setAmount({ amount })}
+              onChangeText={amount =>
+                setAmount(amount, payment, store.settings)
+              }
               onSubmitEditing={() => nav.goPayBitcoinConfirm()}
             />
             <BalanceLabelUnit style={styles.unit}>
@@ -99,6 +100,12 @@ PayBitcoinView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
+};
+
+const setAmount = (fiatAmount, payment, settings) => {
+  const satoshis = fiatToSatoshis(fiatAmount, settings);
+  const amount = toAmount(satoshis, settings.unit);
+  payment.setAmount({ amount });
 };
 
 export default observer(PayBitcoinView);
