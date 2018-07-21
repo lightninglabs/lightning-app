@@ -48,4 +48,20 @@ describe('Action Setting Unit Test', () => {
       );
     });
   });
+
+  describe('setLocale()', () => {
+    it('should set a valid locale and save settings', () => {
+      setting.setLocale({ locale: 'no' });
+      expect(store.settings.locale, 'to equal', 'no');
+      expect(db.save, 'was called once');
+    });
+
+    it('should throw error on invalid locale type', () => {
+      expect(
+        setting.setLocale.bind(null, { locale: 'invalid' }),
+        'to throw',
+        /Invalid/
+      );
+    });
+  });
 });

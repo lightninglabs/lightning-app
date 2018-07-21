@@ -1,4 +1,4 @@
-import { UNITS, FIATS } from '../config';
+import { LOCALES, UNITS, FIATS } from '../config';
 
 class SettingAction {
   constructor(store, wallet, db) {
@@ -21,6 +21,14 @@ class SettingAction {
     }
     this._store.settings.fiat = fiat;
     this._wallet.getExchangeRate();
+    this._db.save();
+  }
+
+  setLocale({ locale }) {
+    if (!LOCALES[locale]) {
+      throw new Error(`Invalid locale: ${locale}`);
+    }
+    this._store.settings.locale = locale;
     this._db.save();
   }
 }

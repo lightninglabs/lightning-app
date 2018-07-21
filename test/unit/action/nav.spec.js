@@ -202,6 +202,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goSettingsLocale()', () => {
+    it('should set correct route', () => {
+      nav.goSettingsLocale();
+      expect(store.route, 'to equal', 'SettingsLocale');
+    });
+  });
+
   describe('goSettingsFiat()', () => {
     it('should set correct route', () => {
       nav.goSettingsFiat();

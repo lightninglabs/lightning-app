@@ -20,6 +20,9 @@ describe('Computed Settings Unit Tests', () => {
       expect(store.usdFiatLabel, 'to be ok');
       expect(store.eurFiatLabel, 'to be ok');
       expect(store.gbpFiatLabel, 'to be ok');
+      expect(store.enLocaleLabel, 'to be ok');
+      expect(store.deLocaleLabel, 'to be ok');
+      expect(store.noLocaleLabel, 'to be ok');
     });
 
     it('should display satoshis denominated in BTC', () => {

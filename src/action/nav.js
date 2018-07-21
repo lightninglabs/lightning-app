@@ -116,6 +116,10 @@ class NavAction {
     this._store.route = 'SettingsFiat';
   }
 
+  goSettingsLocale() {
+    this._store.route = 'SettingsLocale';
+  }
+
   goCLI() {
     this._store.route = 'CLI';
   }
