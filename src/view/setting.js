@@ -55,6 +55,12 @@ const SettingView = ({ store, nav }) => {
           onSelect={() => nav.goSettingsFiat()}
           arrow
         />
+        <SettingItem
+          name="Locale"
+          label={store.selectedLocaleLabel}
+          onSelect={() => nav.goSettingsLocale()}
+          arrow
+        />
         <SettingHeader name="ADVANCED" style={styles.advanced} />
         <SettingItem name="Logs" onSelect={() => nav.goCLI()} arrow />
       </MainContent>

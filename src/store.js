@@ -8,7 +8,12 @@ import ComputedPayment from './computed/payment';
 import ComputedNotification from './computed/notification';
 import ComputedSetting from './computed/setting';
 import ComputedSeed from './computed/seed';
-import { DEFAULT_ROUTE, DEFAULT_UNIT, DEFAULT_FIAT } from './config';
+import {
+  DEFAULT_ROUTE,
+  DEFAULT_UNIT,
+  DEFAULT_FIAT,
+  DEFAULT_LOCALE,
+} from './config';
 
 export class Store {
   constructor() {
@@ -67,6 +72,7 @@ export class Store {
       settings: {
         unit: DEFAULT_UNIT,
         fiat: DEFAULT_FIAT,
+        locale: DEFAULT_LOCALE,
         displayFiat: false,
         exchangeRate: {},
       },

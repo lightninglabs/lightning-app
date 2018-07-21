@@ -25,5 +25,11 @@ module.exports.FIATS = {
   eur: { display: 'Euro' },
   gbp: { display: 'British Pound' },
 };
+module.exports.LOCALES = {
+  de: { display: 'Deutsch' },
+  no: { display: 'Norsk' },
+  en: { display: 'English' },
+};
 module.exports.DEFAULT_UNIT = 'btc';
 module.exports.DEFAULT_FIAT = 'usd';
+module.exports.DEFAULT_LOCALE = 'en';
