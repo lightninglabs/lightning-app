@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, ViewPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { Button } from '../../src/component/button';
+import { Button } from './button';
 import { H4Text } from './text';
 import Icon from './icon';
+import Escapable from './escapable';
 import { color } from './style';
 
 const styles = StyleSheet.create({
@@ -34,15 +35,20 @@ const styles = StyleSheet.create({
   },
 });
 
-const Modal = ({ title = '', onClose, children, style }) => (
-  <View style={[styles.modal, style]}>
-    <H4Text style={styles.title}>{title.toUpperCase()}</H4Text>
-    <Button style={styles.cancelBtn} onPress={onClose}>
-      <Icon image="cancel-grey" style={styles.cancelIcon} />
-    </Button>
-    {children}
-  </View>
-);
+class Modal extends Escapable {
+  render() {
+    const { title = '', style, onClose, children } = this.props;
+    return (
+      <View style={[styles.modal, style]}>
+        <H4Text style={styles.title}>{title.toUpperCase()}</H4Text>
+        <Button style={styles.cancelBtn} onPress={onClose}>
+          <Icon image="cancel-grey" style={styles.cancelIcon} />
+        </Button>
+        {children}
+      </View>
+    );
+  }
+}
 
 Modal.propTypes = {
   title: PropTypes.string.isRequired,
