@@ -6,9 +6,6 @@ const ComputedSetting = store => {
   extendObservable(store, {
     selectedUnitLabel: computed(() => getUnitLabel(store.settings.unit)),
     selectedFiatLabel: computed(() => FIATS[store.settings.fiat].display),
-    notificationCountLabel: computed(() =>
-      formatNumber(store.notifications.length)
-    ),
     satUnitLabel: computed(() => getUnitLabel('sat')),
     bitUnitLabel: computed(() => getUnitLabel('bit')),
     btcUnitLabel: computed(() => getUnitLabel('btc')),

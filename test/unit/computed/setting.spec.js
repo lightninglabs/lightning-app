@@ -13,7 +13,6 @@ describe('Computed Settings Unit Tests', () => {
       ComputedSetting(store);
       expect(store.selectedUnitLabel, 'to equal', 'Bitcoin');
       expect(store.selectedFiatLabel, 'to equal', 'US Dollar');
-      expect(store.notificationCountLabel, 'to equal', '0');
       expect(store.satUnitLabel, 'to be ok');
       expect(store.bitUnitLabel, 'to be ok');
       expect(store.btcUnitLabel, 'to be ok');
@@ -30,12 +29,6 @@ describe('Computed Settings Unit Tests', () => {
         'to match',
         /Satoshi {3}\(0[,.]00000001 BTC\)/
       );
-    });
-
-    it('should display notification count as a string', () => {
-      store.notifications.push({ type: 'error' });
-      ComputedSetting(store);
-      expect(store.notificationCountLabel, 'to equal', '1');
     });
   });
 });

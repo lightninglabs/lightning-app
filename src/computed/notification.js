@@ -1,5 +1,5 @@
 import { computed, extendObservable } from 'mobx';
-import { toCaps } from '../helper';
+import { toCaps, formatNumber } from '../helper';
 
 const ComputedNotification = store => {
   extendObservable(store, {
@@ -13,7 +13,13 @@ const ComputedNotification = store => {
     }),
     computedNotifications: computed(() => {
       const { notifications } = store;
-      const all = notifications ? notifications.slice() : [];
+      const all = [];
+      notifications.forEach(n => {
+        if (n.waiting && all.find(a => a.waiting)) {
+          return;
+        }
+        all.push(n);
+      });
       all.sort((a, b) => b.date.getTime() - a.date.getTime());
       all.forEach(n => {
         n.typeLabel = toCaps(n.type);
@@ -22,6 +28,9 @@ const ComputedNotification = store => {
       });
       return all;
     }),
+    notificationCountLabel: computed(() =>
+      formatNumber(store.computedNotifications.length)
+    ),
   });
 };
 
