@@ -1,4 +1,4 @@
-import { PREFIX_URI, WAIT_DELAY } from '../config';
+import { PREFIX_URI } from '../config';
 import {
   toSatoshis,
   toAmount,
@@ -64,23 +64,20 @@ class PaymentAction {
 
   async decodeInvoice({ invoice }) {
     try {
-      const timer = setTimeout(() => this._nav.goWait(), WAIT_DELAY);
       const { payment, settings } = this._store;
       const request = await this._grpc.sendCommand('decodePayReq', {
         pay_req: invoice.replace(PREFIX_URI, ''),
       });
-      const fee = await this.estimateLightningFee({
+      payment.amount = toAmount(parseSat(request.num_satoshis), settings.unit);
+      payment.note = request.description;
+      // asynchronously estimate fee to not block the UI
+      this.estimateLightningFee({
         destination: request.destination,
         satAmt: request.num_satoshis,
       });
-      payment.amount = toAmount(parseSat(request.num_satoshis), settings.unit);
-      payment.note = request.description;
-      payment.fee = toAmount(parseSat(fee), settings.unit);
-      clearTimeout(timer);
       return true;
     } catch (err) {
       log.info(`Decoding payment request failed: ${err.message}`);
-      this._nav.goPay();
       return false;
     }
   }
@@ -125,15 +122,15 @@ class PaymentAction {
 
   async estimateLightningFee({ destination, satAmt }) {
     try {
+      const { payment, settings } = this._store;
       const { routes } = await this._grpc.sendCommand('queryRoutes', {
         pub_key: destination,
         amt: satAmt,
         num_routes: 1,
       });
-      return routes[0].total_fees;
+      payment.fee = toAmount(parseSat(routes[0].total_fees), settings.unit);
     } catch (err) {
-      log.info(`Unable to retrieve fee estimate: ${JSON.stringify(err)}`);
-      return 0;
+      log.error(`Estimating lightning fee failed!`, err);
     }
   }
 }
