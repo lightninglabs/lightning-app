@@ -141,9 +141,15 @@ describe('Action Payments Unit Tests', () => {
         description: 'foo',
         destination: 'bar',
       });
-      grpc.sendCommand.withArgs('queryRoutes').resolves({
-        routes: [{ total_fees: '100' }],
-      });
+      grpc.sendCommand
+        .withArgs('queryRoutes', {
+          pub_key: 'bar',
+          amt: '1700',
+          num_routes: 1,
+        })
+        .resolves({
+          routes: [{ total_fees: '100' }],
+        });
       const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
       expect(isValid, 'to be', true);
       expect(store.payment.amount, 'to match', /^0[,.]0{4}1{1}7{1}$/);
