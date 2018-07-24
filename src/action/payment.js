@@ -70,8 +70,7 @@ class PaymentAction {
       });
       payment.amount = toAmount(parseSat(request.num_satoshis), settings.unit);
       payment.note = request.description;
-      // asynchronously estimate fee to not block the UI
-      this.estimateLightningFee({
+      await this.estimateLightningFee({
         destination: request.destination,
         satAmt: request.num_satoshis,
       });

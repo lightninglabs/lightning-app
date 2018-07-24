@@ -349,7 +349,6 @@ describe('Action Integration Tests', function() {
         invoice: store2.invoice.uri,
       });
       expect(isValid, 'to be', true);
-      while (!store1.payment.fee) await nap(100);
       expect(
         parseFloat(store1.payment.fee),
         'to be greater than or equal to',
