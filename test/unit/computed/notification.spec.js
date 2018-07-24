@@ -23,10 +23,30 @@ describe('Computed Notification Unit Tests', () => {
         date: new Date(1528703821406),
         display: true,
       });
+      store.notifications.push({
+        type: 'info',
+        message: 'Syncing to chain',
+        date: new Date(1528703821407),
+        display: true,
+        waiting: true,
+      });
+      store.notifications.push({
+        type: 'info',
+        message: 'Syncing to chain',
+        date: new Date(1528703821408),
+        display: true,
+        waiting: true,
+      });
       ComputedNotification(store);
-      expect(store.lastNotification.type, 'to equal', 'error');
+      expect(store.lastNotification.type, 'to equal', 'info');
       expect(store.displayNotification, 'to equal', true);
       expect(store.computedNotifications, 'to satisfy', [
+        {
+          typeLabel: 'Info',
+          message: 'Syncing to chain',
+          dateLabel: new Date(1528703821407).toLocaleDateString(),
+          dateTimeLabel: new Date(1528703821407).toLocaleString(),
+        },
         {
           typeLabel: 'Error',
           message: 'Oops something went wrong',
