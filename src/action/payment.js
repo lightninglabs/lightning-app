@@ -70,10 +70,28 @@ class PaymentAction {
       });
       payment.amount = toAmount(parseSat(request.num_satoshis), settings.unit);
       payment.note = request.description;
+      await this.estimateLightningFee({
+        destination: request.destination,
+        satAmt: request.num_satoshis,
+      });
       return true;
     } catch (err) {
       log.info(`Decoding payment request failed: ${err.message}`);
       return false;
+    }
+  }
+
+  async estimateLightningFee({ destination, satAmt }) {
+    try {
+      const { payment, settings } = this._store;
+      const { routes } = await this._grpc.sendCommand('queryRoutes', {
+        pub_key: destination,
+        amt: satAmt,
+        num_routes: 1,
+      });
+      payment.fee = toAmount(parseSat(routes[0].total_fees), settings.unit);
+    } catch (err) {
+      log.error(`Estimating lightning fee failed!`, err);
     }
   }
 

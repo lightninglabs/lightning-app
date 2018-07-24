@@ -139,20 +139,47 @@ describe('Action Payments Unit Tests', () => {
       grpc.sendCommand.withArgs('decodePayReq').resolves({
         num_satoshis: '1700',
         description: 'foo',
+        destination: 'bar',
       });
+      grpc.sendCommand
+        .withArgs('queryRoutes', {
+          pub_key: 'bar',
+          amt: '1700',
+          num_routes: 1,
+        })
+        .resolves({
+          routes: [{ total_fees: '100' }],
+        });
       const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
       expect(isValid, 'to be', true);
       expect(store.payment.amount, 'to match', /^0[,.]0{4}1{1}7{1}$/);
       expect(store.payment.note, 'to be', 'foo');
+      expect(store.payment.fee, 'to match', /^0[,.]0{5}1{1}$/);
     });
 
-    it('should set response to null on error', async () => {
+    it('should set nothing on decode error', async () => {
       grpc.sendCommand.withArgs('decodePayReq').rejects(new Error('Boom!'));
       const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
       expect(isValid, 'to be', false);
       expect(store.payment.amount, 'to be', '');
       expect(store.payment.note, 'to be', '');
+      expect(store.payment.fee, 'to be', '');
       expect(logger.info, 'was called once');
+    });
+
+    it('should set no fee on query route error', async () => {
+      grpc.sendCommand.withArgs('decodePayReq').resolves({
+        num_satoshis: '1700',
+        description: 'foo',
+        destination: 'bar',
+      });
+      grpc.sendCommand.withArgs('queryRoutes').rejects(new Error('Boom!'));
+      const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
+      expect(isValid, 'to be', true);
+      expect(store.payment.amount, 'to match', /^0[,.]0{4}1{1}7{1}$/);
+      expect(store.payment.note, 'to be', 'foo');
+      expect(store.payment.fee, 'to be', '');
+      expect(logger.error, 'was called once');
     });
   });
 
