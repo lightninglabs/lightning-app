@@ -1,5 +1,5 @@
 import { computed, extendObservable } from 'mobx';
-import { toCaps } from '../helper';
+import { toCaps, formatNumber } from '../helper';
 
 const ComputedNotification = store => {
   extendObservable(store, {
@@ -28,6 +28,9 @@ const ComputedNotification = store => {
       });
       return all;
     }),
+    notificationCountLabel: computed(() =>
+      formatNumber(store.computedNotifications.length)
+    ),
   });
 };
 

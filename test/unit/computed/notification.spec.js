@@ -14,6 +14,7 @@ describe('Computed Notification Unit Tests', () => {
       expect(store.lastNotification, 'to equal', null);
       expect(store.displayNotification, 'to equal', false);
       expect(store.computedNotifications, 'to equal', []);
+      expect(store.notificationCountLabel, 'to equal', '0');
     });
 
     it('should set notification attributes', () => {
@@ -54,6 +55,7 @@ describe('Computed Notification Unit Tests', () => {
           dateTimeLabel: new Date(1528703821406).toLocaleString(),
         },
       ]);
+      expect(store.notificationCountLabel, 'to equal', '2');
     });
   });
 });
