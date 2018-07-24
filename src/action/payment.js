@@ -81,6 +81,20 @@ class PaymentAction {
     }
   }
 
+  async estimateLightningFee({ destination, satAmt }) {
+    try {
+      const { payment, settings } = this._store;
+      const { routes } = await this._grpc.sendCommand('queryRoutes', {
+        pub_key: destination,
+        amt: satAmt,
+        num_routes: 1,
+      });
+      payment.fee = toAmount(parseSat(routes[0].total_fees), settings.unit);
+    } catch (err) {
+      log.error(`Estimating lightning fee failed!`, err);
+    }
+  }
+
   async payBitcoin() {
     try {
       const { payment, settings } = this._store;
@@ -117,20 +131,6 @@ class PaymentAction {
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }
     await this._transaction.update();
-  }
-
-  async estimateLightningFee({ destination, satAmt }) {
-    try {
-      const { payment, settings } = this._store;
-      const { routes } = await this._grpc.sendCommand('queryRoutes', {
-        pub_key: destination,
-        amt: satAmt,
-        num_routes: 1,
-      });
-      payment.fee = toAmount(parseSat(routes[0].total_fees), settings.unit);
-    } catch (err) {
-      log.error(`Estimating lightning fee failed!`, err);
-    }
   }
 }
 
