@@ -2,15 +2,20 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 
 class Escapable extends Component {
+  constructor(props) {
+    super(props);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+  }
+
   componentDidMount() {
-    if (document) {
-      document.addEventListener('keydown', e => this.handleKeyDown(e));
+    if (typeof document !== 'undefined') {
+      document.addEventListener('keydown', this.handleKeyDown);
     }
   }
 
   componentWillUnmount() {
-    if (document) {
-      document.removeEventListener('keydown', e => this.handleKeyDown(e));
+    if (typeof document !== 'undefined') {
+      document.removeEventListener('keydown', this.handleKeyDown);
     }
   }
 
