@@ -359,6 +359,109 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
+  describe('toFiatAmount()', () => {
+    let settings;
+
+    beforeEach(() => {
+      settings = {
+        fiat: 'usd',
+        exchangeRate: { usd: 0.00014503 },
+      };
+    });
+
+    it('should throw error if satoshis is undefined', () => {
+      expect(
+        helpers.toFiatAmount.bind(null, undefined, settings),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error if satoshis is null', () => {
+      expect(
+        helpers.toFiatAmount.bind(null, null, settings),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error if satoshis is not a number', () => {
+      expect(
+        helpers.toFiatAmount.bind(null, 'not-a-number', settings),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error for string number', () => {
+      expect(
+        helpers.toFiatAmount.bind(null, '100', settings),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error if unit is invalid', () => {
+      settings.fiat = 'invalid-fiat';
+      expect(
+        helpers.toFiatAmount.bind(null, 100, settings),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error if unit is undefined', () => {
+      expect(
+        helpers.toFiatAmount.bind(null, 100, undefined),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should throw error for non-integer numbers', () => {
+      expect(
+        helpers.toFiatAmount.bind(null, 100000000.9, settings),
+        'to throw',
+        /Invalid/
+      );
+    });
+
+    it('should work for number input', () => {
+      const num = helpers.toFiatAmount(100000, settings);
+      expect(num, 'to equal', '6.90');
+    });
+
+    it('should use period for decimals values', () => {
+      const num = helpers.toFiatAmount(100000000, settings);
+      expect(num, 'to equal', '6895.13');
+    });
+
+    it('should work for 0', () => {
+      const num = helpers.toFiatAmount(0, settings);
+      expect(num, 'to equal', '0.00');
+    });
+
+    it('should work for 1', () => {
+      const num = helpers.toFiatAmount(1, settings);
+      expect(num, 'to equal', '0.00');
+    });
+
+    it('should work for 10', () => {
+      const num = helpers.toFiatAmount(10, settings);
+      expect(num, 'to equal', '0.00');
+    });
+
+    it('should work for 100', () => {
+      const num = helpers.toFiatAmount(100, settings);
+      expect(num, 'to equal', '0.01');
+    });
+
+    it('should work for 1000', () => {
+      const num = helpers.toFiatAmount(1000, settings);
+      expect(num, 'to equal', '0.07');
+    });
+  });
+
   describe('calculateExchangeRate()', () => {
     let settings;
 

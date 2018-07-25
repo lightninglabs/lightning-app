@@ -23,9 +23,9 @@ describe('Computed Invoice Unit Tests', () => {
     it('should format fiat amount', () => {
       store.settings.displayFiat = true;
       store.settings.exchangeRate.usd = 0.00014503;
-      store.invoice.amount = '0.1001';
+      store.invoice.amount = '1.10';
       ComputedInvoice(store);
-      expect(store.invoiceAmountLabel, 'to match', /690[,.]20/);
+      expect(store.invoiceAmountLabel, 'to match', /1[,.]10/);
     });
   });
 });

@@ -1,6 +1,7 @@
 import { PREFIX_URI } from '../config';
 import {
   toSatoshis,
+  toFiatAmount,
   toAmount,
   parseSat,
   isLnUri,
@@ -68,7 +69,9 @@ class PaymentAction {
       const request = await this._grpc.sendCommand('decodePayReq', {
         pay_req: invoice.replace(PREFIX_URI, ''),
       });
-      payment.amount = toAmount(parseSat(request.num_satoshis), settings.unit);
+      payment.amount = settings.displayFiat
+        ? toFiatAmount(parseSat(request.num_satoshis), settings)
+        : toAmount(parseSat(request.num_satoshis), settings.unit);
       payment.note = request.description;
       await this.estimateLightningFee({
         destination: request.destination,

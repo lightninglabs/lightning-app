@@ -1,16 +1,28 @@
 import { computed, extendObservable } from 'mobx';
-import { toSatoshis, toAmountLabel, toLabel } from '../helper';
+import { fiatToSatoshis, toSatoshis, toAmountLabel, toLabel } from '../helper';
 
 const ComputedPayment = store => {
   extendObservable(store, {
-    paymentAmountLabel: computed(() =>
-      toLabel(store.payment.amount, store.settings)
-    ),
-    paymentFeeLabel: computed(() => toLabel(store.payment.fee, store.settings)),
+    paymentAmountLabel: computed(() => {
+      const { payment, settings } = store;
+      return settings.displayFiat
+        ? toAmountLabel(fiatToSatoshis(payment.amount, settings), settings)
+        : toLabel(store.payment.amount, store.settings);
+    }),
+    paymentFeeLabel: computed(() => {
+      const { payment, settings } = store;
+      return settings.displayFiat
+        ? toAmountLabel(fiatToSatoshis(payment.fee, settings), settings)
+        : toLabel(store.payment.fee, store.settings);
+    }),
     paymentTotalLabel: computed(() => {
       const { payment, settings } = store;
-      const satAmount = toSatoshis(payment.amount, settings.unit);
-      const satFee = toSatoshis(payment.fee, settings.unit);
+      const satAmount = settings.displayFiat
+        ? fiatToSatoshis(payment.amount, settings)
+        : toSatoshis(payment.amount, settings.unit);
+      const satFee = settings.displayFiat
+        ? fiatToSatoshis(payment.fee, settings)
+        : toSatoshis(payment.fee, settings.unit);
       return toAmountLabel(satAmount + satFee, settings);
     }),
   });

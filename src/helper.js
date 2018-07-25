@@ -80,6 +80,7 @@ export const toSatoshis = (amount, unit) => {
 export const fiatToSatoshis = (amount, settings) => {
   if (
     typeof amount !== 'string' ||
+    typeof settings !== 'object' ||
     !/^[0-9]*[.]?[0-9]*$/.test(amount) ||
     !settings.exchangeRate[settings.fiat]
   ) {
@@ -104,6 +105,25 @@ export const toAmount = (satoshis, unit) => {
     useGrouping: false,
     maximumFractionDigits: 8,
   });
+};
+
+/**
+ * Convert satoshis to a formatted fiat amount.
+ * @param  {number} satoshis The value as a string or number
+ * @param  {string} fiat     The fiat unit e.g. 'usd' or 'gbp'
+ * @return {string}          The amount formatted as '10.45'
+ */
+export const toFiatAmount = (satoshis, settings) => {
+  if (
+    typeof settings !== 'object' ||
+    !Number.isInteger(satoshis) ||
+    !settings.exchangeRate[settings.fiat]
+  ) {
+    throw new Error('Invalid input!');
+  }
+  const rate = settings.exchangeRate[settings.fiat];
+  const amount = satoshis / UNITS.btc.denominator / rate;
+  return amount.toFixed(2);
 };
 
 /**

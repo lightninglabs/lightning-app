@@ -15,8 +15,8 @@ import {
 import Card from '../component/card';
 import Icon from '../component/icon';
 import { FormStretcher, FormSubText } from '../component/form';
-import { fiatToSatoshis, toAmount } from '../helper';
 import { color, font } from '../component/style';
+import { FIATS } from '../config';
 
 const styles = StyleSheet.create({
   balance: {
@@ -52,11 +52,12 @@ const InvoiceView = ({ store, nav, invoice }) => (
               { fontSize: store.settings.displayFiat ? font.sizeXXXL : 0 },
             ]}
           >
-            $
+            {FIATS[store.settings.fiat].display}
           </BalanceLabelNumeral>
           <AmountInputField
             autoFocus={true}
-            onChangeText={amount => setAmount(amount, invoice, store.settings)}
+            value={store.invoice.amount}
+            onChangeText={amount => invoice.setAmount({ amount })}
             onSubmitEditing={() => invoice.generateUri()}
           />
           <BalanceLabelUnit style={styles.unit}>
@@ -87,9 +88,4 @@ InvoiceView.propTypes = {
   invoice: PropTypes.object.isRequired,
 };
 
-const setAmount = (fiatAmount, invoice, settings) => {
-  const satoshis = fiatToSatoshis(fiatAmount, settings);
-  const amount = toAmount(satoshis, settings.unit);
-  invoice.setAmount({ amount });
-};
 export default observer(InvoiceView);
