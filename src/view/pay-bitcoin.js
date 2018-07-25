@@ -10,13 +10,8 @@ import { CancelButton, BackButton, PillButton } from '../component/button';
 import Card from '../component/card';
 import Icon from '../component/icon';
 import { FormStretcher, FormText } from '../component/form';
-import {
-  BalanceLabel,
-  BalanceLabelNumeral,
-  BalanceLabelUnit,
-} from '../component/label';
-import { color, font } from '../component/style';
-import { FIATS } from '../config';
+import { BalanceLabel, BalanceLabelUnit } from '../component/label';
+import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   description: {
@@ -59,14 +54,6 @@ const PayBitcoinView = ({ store, nav, payment }) => (
         </FormText>
         <FormStretcher>
           <BalanceLabel style={styles.balance}>
-            <BalanceLabelNumeral
-              style={[
-                styles.fiatUnit,
-                { fontSize: store.settings.displayFiat ? font.sizeXXXL : 0 },
-              ]}
-            >
-              {FIATS[store.settings.fiat].display}
-            </BalanceLabelNumeral>
             <AmountInputField
               autoFocus={true}
               value={store.payment.amount}
@@ -74,7 +61,7 @@ const PayBitcoinView = ({ store, nav, payment }) => (
               onSubmitEditing={() => nav.goPayBitcoinConfirm()}
             />
             <BalanceLabelUnit style={styles.unit}>
-              {store.unitLabel}
+              {store.unitFiatLabel}
             </BalanceLabelUnit>
           </BalanceLabel>
           <InputField
