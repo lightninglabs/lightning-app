@@ -13,13 +13,13 @@ const ComputedWallet = store => {
     channelBalanceLabel: computed(() =>
       toAmountLabel(store.channelBalanceSatoshis, store.settings)
     ),
-    unitLabel: computed(() => {
-      const { settings } = store;
-      return !settings.displayFiat ? UNITS[settings.unit].display : null;
-    }),
     unitFiatLabel: computed(() => {
       const { displayFiat, unit, fiat } = store.settings;
       return displayFiat ? FIATS[fiat].display : UNITS[unit].display;
+    }),
+    unitLabel: computed(() => {
+      const { settings } = store;
+      return !settings.displayFiat ? UNITS[settings.unit].display : null;
     }),
     unit: computed(() => UNITS[store.settings.unit].display),
   });

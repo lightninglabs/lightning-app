@@ -14,7 +14,9 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.walletAddressUri, 'to equal', '');
       expect(store.balanceLabel, 'to equal', '0');
       expect(store.channelBalanceLabel, 'to equal', '0');
+      expect(store.unitFiatLabel, 'to equal', 'BTC');
       expect(store.unitLabel, 'to equal', 'BTC');
+      expect(store.unit, 'to equal', 'BTC');
     });
 
     it('should generate valid wallet address uri', () => {
@@ -35,6 +37,7 @@ describe('Computed Wallet Unit Tests', () => {
       ComputedWallet(store);
       expect(store.balanceLabel, 'to match', /6[,.]895[,.]13/);
       expect(store.channelBalanceLabel, 'to match', /0[,.]69/);
+      expect(store.unitFiatLabel, 'to equal', '$');
       expect(store.unitLabel, 'to equal', null);
     });
 
@@ -50,6 +53,7 @@ describe('Computed Wallet Unit Tests', () => {
         /^1{1}[,.]0{3}[,.]0{3}[,.]0{1}1{1}$/
       );
       expect(store.channelBalanceLabel, 'to equal', '100');
+      expect(store.unitFiatLabel, 'to equal', 'bits');
       expect(store.unitLabel, 'to equal', 'bits');
     });
   });
