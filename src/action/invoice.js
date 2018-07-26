@@ -1,5 +1,5 @@
 import { PREFIX_URI } from '../config';
-import { fiatToSatoshis, toSatoshis } from '../helper';
+import { toSatoshis } from '../helper';
 
 class InvoiceAction {
   constructor(store, grpc, transaction, nav, notification, clipboard) {
@@ -30,9 +30,7 @@ class InvoiceAction {
   async generateUri() {
     try {
       const { invoice, settings } = this._store;
-      const amount = settings.displayFiat
-        ? fiatToSatoshis(invoice.amount, settings)
-        : toSatoshis(invoice.amount, settings.unit);
+      const amount = toSatoshis(invoice.amount, settings);
       const response = await this._grpc.sendCommand('addInvoice', {
         value: amount,
         memo: invoice.note,
