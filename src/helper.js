@@ -57,9 +57,9 @@ export const parseSat = satoshis => {
 
 /**
  * Convert a string formatted btc/fiat amount to satoshis
- * @param  {string} amount The amount e.g. '0.0001'
+ * @param  {string} amount   The amount e.g. '0.0001'
  * @param  {Object} settings Contains the current exchange rate
- * @return {number}        The satoshis as an integer
+ * @return {number}          The satoshis as an integer
  */
 export const toSatoshis = (amount, settings) => {
   if (
@@ -140,7 +140,7 @@ export const toAmountLabel = (satoshis, settings) => {
 /**
  * Convert a string formatted btc/fiat amount either to fiat or the selected BTC unit.
  * The output should be used throughout the UI for value labels.
- * @param  {string} amount The amount e.g. '0.0001'
+ * @param  {string} amount   The amount e.g. '0.0001'
  * @param  {Object} settings Contains the current exchange rate
  * @return {string}          The corresponding value label
  */
