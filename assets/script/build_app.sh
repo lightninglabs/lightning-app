@@ -11,7 +11,7 @@ else
   # build binaries for windows
   cd assets/bin/win32
   env GOOS="windows" GOARCH="386" go build -v github.com/lightningnetwork/lnd
-  env GOOS="windows" GOARCH="386" go build -v github.com/btcsuite/btcd
+  env GOOS="windows" GOARCH="386" go build -v github.com/roasbeef/btcd
 
   # build the packages using electron-builder on docker
   cd $TRAVIS_BUILD_DIR
