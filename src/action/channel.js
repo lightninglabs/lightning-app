@@ -62,6 +62,7 @@ class ChannelAction {
         channelPoint: channel.channel_point,
         active: channel.active,
         status: 'open',
+        private: channel.private,
       }));
     } catch (err) {
       log.error('Listing channels failed', err);
@@ -162,6 +163,7 @@ class ChannelAction {
     const stream = this._grpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
+      private: true,
     });
     await new Promise((resolve, reject) => {
       stream.on('data', () => this.update());
