@@ -30,9 +30,8 @@ class InvoiceAction {
   async generateUri() {
     try {
       const { invoice, settings } = this._store;
-      const amount = toSatoshis(invoice.amount, settings);
       const response = await this._grpc.sendCommand('addInvoice', {
-        value: amount,
+        value: toSatoshis(invoice.amount, settings),
         memo: invoice.note,
       });
       invoice.encoded = response.payment_request;
