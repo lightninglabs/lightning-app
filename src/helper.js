@@ -115,8 +115,7 @@ export const calculateExchangeRate = (satoshis, settings) => {
     throw new Error('Invalid input!');
   }
   const rate = settings.exchangeRate[settings.fiat] || 0;
-  const balance = satoshis / rate / UNITS.btc.denominator;
-  return formatFiat(balance, settings.fiat);
+  return satoshis / rate / UNITS.btc.denominator;
 };
 
 /**
@@ -134,22 +133,19 @@ export const toAmountLabel = (satoshis, settings) => {
     throw new Error('Invalid input!');
   }
   return settings.displayFiat
-    ? calculateExchangeRate(satoshis, settings)
-    : formatNumber(toAmount(satoshis, settings.unit));
+    ? formatFiat(calculateExchangeRate(satoshis, settings), settings.fiat)
+    : formatNumber(toAmount(satoshis, settings));
 };
 
 /**
- * Convert a string formatted BTC amount either to fiat or the selected BTC unit.
+ * Convert a string formatted btc/fiat amount either to fiat or the selected BTC unit.
  * The output should be used throughout the UI for value labels.
  * @param  {string} amount The amount e.g. '0.0001'
  * @param  {Object} settings Contains the current exchange rate
  * @return {string}          The corresponding value label
  */
 export const toLabel = (amount, settings) => {
-  if (!settings) {
-    throw new Error('Missing args!');
-  }
-  const satoshis = toSatoshis(amount, settings.unit);
+  const satoshis = toSatoshis(amount, settings);
   return toAmountLabel(satoshis, settings);
 };
 
