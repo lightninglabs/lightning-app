@@ -81,37 +81,24 @@ export const toSatoshis = (amount, settings) => {
 /**
  * Convert satoshis to a BTC values than can set as a text input value
  * @param  {number} satoshis The value as a string or number
- * @param  {string} unit     The BTC unit e.g. 'btc' or 'bit'
+ * @param  {Object} settings Contains the current exchange rate
  * @return {string}          The amount formatted as '0.0001'
  */
-export const toAmount = (satoshis, unit) => {
-  if (!Number.isInteger(satoshis) || !UNITS[unit]) {
+export const toAmount = (satoshis, settings) => {
+  if (
+    !Number.isInteger(satoshis) ||
+    !settings ||
+    typeof settings.displayFiat !== 'boolean'
+  ) {
     throw new Error('Invalid input!');
   }
-  const num = satoshis / UNITS[unit].denominator;
+  const num = settings.displayFiat
+    ? calculateExchangeRate(satoshis, settings)
+    : satoshis / UNITS[settings.unit].denominator;
   return num.toLocaleString('en-US', {
     useGrouping: false,
     maximumFractionDigits: 8,
   });
-};
-
-/**
- * Convert satoshis to a formatted fiat amount.
- * @param  {number} satoshis The value as a string or number
- * @param  {string} fiat     The fiat unit e.g. 'usd' or 'gbp'
- * @return {string}          The amount formatted as '10.45'
- */
-export const toFiatAmount = (satoshis, settings) => {
-  if (
-    typeof settings !== 'object' ||
-    !Number.isInteger(satoshis) ||
-    !settings.exchangeRate[settings.fiat]
-  ) {
-    throw new Error('Invalid input!');
-  }
-  const rate = settings.exchangeRate[settings.fiat];
-  const amount = satoshis / UNITS.btc.denominator / rate;
-  return amount.toFixed(2);
 };
 
 /**
