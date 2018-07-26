@@ -9,8 +9,8 @@ const ComputedPayment = store => {
     paymentFeeLabel: computed(() => toLabel(store.payment.fee, store.settings)),
     paymentTotalLabel: computed(() => {
       const { payment, settings } = store;
-      const satAmount = toSatoshis(payment.amount, settings.unit);
-      const satFee = toSatoshis(payment.fee, settings.unit);
+      const satAmount = toSatoshis(payment.amount, settings);
+      const satFee = toSatoshis(payment.fee, settings);
       return toAmountLabel(satAmount + satFee, settings);
     }),
   });

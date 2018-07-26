@@ -28,12 +28,12 @@ describe('Computed Payment Unit Tests', () => {
     it('should calculate fiat total', () => {
       store.settings.displayFiat = true;
       store.settings.exchangeRate.usd = 0.00014503;
-      store.payment.fee = '0.0001';
-      store.payment.amount = '0.1';
+      store.payment.fee = '0.10';
+      store.payment.amount = '1.00';
       ComputedPayment(store);
-      expect(store.paymentAmountLabel, 'to match', /689[,.]51/);
-      expect(store.paymentFeeLabel, 'to match', /0[,.]69/);
-      expect(store.paymentTotalLabel, 'to match', /690[,.]20/);
+      expect(store.paymentAmountLabel, 'to match', /1[,.]00/);
+      expect(store.paymentFeeLabel, 'to match', /0[,.]10/);
+      expect(store.paymentTotalLabel, 'to match', /1[,.]10/);
     });
 
     it('should ignore fee if blank', () => {

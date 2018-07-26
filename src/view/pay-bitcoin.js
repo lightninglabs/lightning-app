@@ -58,7 +58,7 @@ const PayBitcoinView = ({ store, nav, payment }) => (
               onSubmitEditing={() => nav.goPayBitcoinConfirm()}
             />
             <BalanceLabelUnit style={styles.unit}>
-              {store.unit}
+              {store.unitFiatLabel}
             </BalanceLabelUnit>
           </BalanceLabel>
           <InputField

@@ -44,7 +44,9 @@ const ChannelCreateView = ({ store, nav, channel }) => (
             onChangeText={amount => channel.setAmount({ amount })}
             onSubmitEditing={() => channel.connectAndOpen()}
           />
-          <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
+          <BalanceLabelUnit style={styles.unit}>
+            {store.unitFiatLabel}
+          </BalanceLabelUnit>
         </BalanceLabel>
         <FormStretcher>
           <InputField

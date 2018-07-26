@@ -5,13 +5,13 @@ import { UNITS, FIATS } from '../config';
 const ComputedSetting = store => {
   extendObservable(store, {
     selectedUnitLabel: computed(() => getUnitLabel(store.settings.unit)),
-    selectedFiatLabel: computed(() => FIATS[store.settings.fiat].display),
+    selectedFiatLabel: computed(() => FIATS[store.settings.fiat].displayLong),
     satUnitLabel: computed(() => getUnitLabel('sat')),
     bitUnitLabel: computed(() => getUnitLabel('bit')),
     btcUnitLabel: computed(() => getUnitLabel('btc')),
-    usdFiatLabel: computed(() => FIATS['usd'].display),
-    eurFiatLabel: computed(() => FIATS['eur'].display),
-    gbpFiatLabel: computed(() => FIATS['gbp'].display),
+    usdFiatLabel: computed(() => FIATS['usd'].displayLong),
+    eurFiatLabel: computed(() => FIATS['eur'].displayLong),
+    gbpFiatLabel: computed(() => FIATS['gbp'].displayLong),
   });
 };
 

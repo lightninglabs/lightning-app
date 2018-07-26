@@ -68,7 +68,7 @@ class PaymentAction {
       const request = await this._grpc.sendCommand('decodePayReq', {
         pay_req: invoice.replace(PREFIX_URI, ''),
       });
-      payment.amount = toAmount(parseSat(request.num_satoshis), settings.unit);
+      payment.amount = toAmount(parseSat(request.num_satoshis), settings);
       payment.note = request.description;
       await this.estimateLightningFee({
         destination: request.destination,
@@ -89,7 +89,7 @@ class PaymentAction {
         amt: satAmt,
         num_routes: 1,
       });
-      payment.fee = toAmount(parseSat(routes[0].total_fees), settings.unit);
+      payment.fee = toAmount(parseSat(routes[0].total_fees), settings);
     } catch (err) {
       log.error(`Estimating lightning fee failed!`, err);
     }
@@ -100,7 +100,7 @@ class PaymentAction {
       const { payment, settings } = this._store;
       await this._grpc.sendCommand('sendCoins', {
         addr: payment.address,
-        amount: toSatoshis(payment.amount, settings.unit),
+        amount: toSatoshis(payment.amount, settings),
       });
       this._nav.goPayBitcoinDone();
     } catch (err) {

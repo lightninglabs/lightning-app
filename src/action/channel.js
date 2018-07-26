@@ -133,7 +133,7 @@ class ChannelAction {
   async connectAndOpen() {
     try {
       const { channel, settings } = this._store;
-      const amount = toSatoshis(channel.amount, settings.unit);
+      const amount = toSatoshis(channel.amount, settings);
       if (!channel.pubkeyAtHost.includes('@')) {
         return this._notification.display({ msg: 'Please enter pubkey@host' });
       }

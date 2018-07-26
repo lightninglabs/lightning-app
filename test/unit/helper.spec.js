@@ -154,82 +154,143 @@ describe('Helpers Unit Tests', () => {
   });
 
   describe('toSatoshis()', () => {
+    let settings;
+
+    beforeEach(() => {
+      settings = {
+        displayFiat: false,
+        unit: 'btc',
+        fiat: 'usd',
+        exchangeRate: { usd: 0.00014503 },
+      };
+    });
+
     it('should throw error if amount is undefined', () => {
       expect(
-        helpers.toSatoshis.bind(null, undefined, 'btc'),
+        helpers.toSatoshis.bind(null, undefined, settings),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
     it('should throw error if amount is null', () => {
-      expect(helpers.toSatoshis.bind(null, null, 'btc'), 'to throw', /Missing/);
+      expect(
+        helpers.toSatoshis.bind(null, null, settings),
+        'to throw',
+        /Invalid/
+      );
     });
 
     it('should throw error if amount is number', () => {
-      expect(helpers.toSatoshis.bind(null, 0.1, 'btc'), 'to throw', /Missing/);
+      expect(
+        helpers.toSatoshis.bind(null, 0.1, settings),
+        'to throw',
+        /Invalid/
+      );
     });
 
     it('should throw error if amount is separated with a comma', () => {
       expect(
-        helpers.toSatoshis.bind(null, '0,1', 'btc'),
+        helpers.toSatoshis.bind(null, '0,1', settings),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
-    it('should throw error if unit is undefined', () => {
+    it('should throw error if settings is undefined', () => {
       expect(
         helpers.toSatoshis.bind(null, '100', undefined),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
+    it('should throw error for wrong settings', () => {
+      expect(helpers.toSatoshis.bind(null, '100', {}), 'to throw', /Invalid/);
+    });
+
     it('should be 0 for empty amount', () => {
-      const num = helpers.toSatoshis('', 'btc');
+      const num = helpers.toSatoshis('', settings);
       expect(num, 'to equal', 0);
     });
 
-    it('should work for string input', () => {
-      const num = helpers.toSatoshis('0.10', 'btc');
+    it('should work for string amount', () => {
+      const num = helpers.toSatoshis('0.10', settings);
       expect(num, 'to equal', 10000000);
     });
 
     it('should have use ony 8 decimal values', () => {
-      const num = helpers.toSatoshis('0.000000014', 'btc');
+      const num = helpers.toSatoshis('0.000000014', settings);
       expect(num, 'to equal', 1);
     });
 
     it('should round up to two satoshis', () => {
-      const num = helpers.toSatoshis('0.000000019', 'btc');
+      const num = helpers.toSatoshis('0.000000019', settings);
       expect(num, 'to equal', 2);
+    });
+
+    it('should be 0 is exchange rate is not set (fiat)', () => {
+      settings.displayFiat = true;
+      settings.fiat = 'invalid';
+      const num = helpers.toSatoshis('100', settings);
+      expect(num, 'to equal', 0);
+    });
+
+    it('should be 0 for empty amount (fiat)', () => {
+      settings.displayFiat = true;
+      const num = helpers.toSatoshis('', settings);
+      expect(num, 'to equal', 0);
+    });
+
+    it('should work for string amount (fiat)', () => {
+      settings.displayFiat = true;
+      const num = helpers.toSatoshis('10.00', settings);
+      expect(num, 'to equal', 145030);
     });
   });
 
   describe('toAmount()', () => {
+    let settings;
+
+    beforeEach(() => {
+      settings = {
+        displayFiat: false,
+        unit: 'btc',
+        fiat: 'usd',
+        exchangeRate: { usd: 0.00014503 },
+      };
+    });
+
     it('should throw error if satoshis is undefined', () => {
       expect(
-        helpers.toAmount.bind(null, undefined, 'btc'),
+        helpers.toAmount.bind(null, undefined, settings),
         'to throw',
         /Invalid/
       );
     });
 
     it('should throw error if satoshis is null', () => {
-      expect(helpers.toAmount.bind(null, null, 'btc'), 'to throw', /Invalid/);
+      expect(
+        helpers.toAmount.bind(null, null, settings),
+        'to throw',
+        /Invalid/
+      );
     });
 
     it('should throw error if satoshis is not a number', () => {
       expect(
-        helpers.toAmount.bind(null, 'not-a-number', 'btc'),
+        helpers.toAmount.bind(null, 'not-a-number', settings),
         'to throw',
         /Invalid/
       );
     });
 
     it('should throw error for string number', () => {
-      expect(helpers.toAmount.bind(null, '100', 'btc'), 'to throw', /Invalid/);
+      expect(
+        helpers.toAmount.bind(null, '100', settings),
+        'to throw',
+        /Invalid/
+      );
     });
 
     it('should throw error if unit is invalid', () => {
@@ -240,7 +301,7 @@ describe('Helpers Unit Tests', () => {
       );
     });
 
-    it('should throw error if unit is undefined', () => {
+    it('should throw error if settings is undefined', () => {
       expect(
         helpers.toAmount.bind(null, 100, undefined),
         'to throw',
@@ -248,52 +309,93 @@ describe('Helpers Unit Tests', () => {
       );
     });
 
+    it('should throw error if settings is invalid', () => {
+      expect(helpers.toAmount.bind(null, 100, {}), 'to throw', /Invalid/);
+    });
+
     it('should throw error for non-integer numbers', () => {
       expect(
-        helpers.toAmount.bind(null, 100000000.9, 'btc'),
+        helpers.toAmount.bind(null, 100000000.9, settings),
         'to throw',
         /Invalid/
       );
     });
 
     it('should work for number input', () => {
-      const num = helpers.toAmount(100000000, 'btc');
+      const num = helpers.toAmount(100000000, settings);
       expect(num, 'to equal', '1');
     });
 
     it('should not format number input', () => {
-      const num = helpers.toAmount(100000000000, 'btc');
+      const num = helpers.toAmount(100000000000, settings);
       expect(num, 'to equal', '1000');
     });
 
     it('should use period for decimals values', () => {
-      const num = helpers.toAmount(10000000, 'btc');
+      const num = helpers.toAmount(10000000, settings);
       expect(num, 'to equal', '0.1');
     });
 
     it('should work for 0', () => {
-      const num = helpers.toAmount(0, 'btc');
+      const num = helpers.toAmount(0, settings);
       expect(num, 'to equal', '0');
     });
 
     it('should work for 1', () => {
-      const num = helpers.toAmount(1, 'btc');
+      const num = helpers.toAmount(1, settings);
       expect(num, 'to equal', '0.00000001');
     });
 
     it('should work for 10', () => {
-      const num = helpers.toAmount(10, 'btc');
+      const num = helpers.toAmount(10, settings);
       expect(num, 'to equal', '0.0000001');
     });
 
     it('should work for 100', () => {
-      const num = helpers.toAmount(100, 'btc');
+      const num = helpers.toAmount(100, settings);
       expect(num, 'to equal', '0.000001');
     });
 
     it('should work for 1000', () => {
-      const num = helpers.toAmount(1000, 'btc');
+      const num = helpers.toAmount(1000, settings);
       expect(num, 'to equal', '0.00001');
+    });
+
+    it('should be infinity if exchange rate is not set (fiat)', () => {
+      settings.displayFiat = true;
+      settings.fiat = 'invalid-fiat';
+      const rate = helpers.toAmount(100, settings);
+      expect(rate, 'to match', /∞/);
+    });
+
+    it('should work for number input (fiat)', () => {
+      settings.displayFiat = true;
+      const num = helpers.toAmount(100000, settings);
+      expect(num, 'to equal', '6.89512515');
+    });
+
+    it('should use period for decimals values (fiat)', () => {
+      settings.displayFiat = true;
+      const num = helpers.toAmount(100000000, settings);
+      expect(num, 'to equal', '6895.12514652');
+    });
+
+    it('should work for 0 (fiat)', () => {
+      settings.displayFiat = true;
+      const num = helpers.toAmount(0, settings);
+      expect(num, 'to equal', '0');
+    });
+
+    it('should work for 1 (fiat)', () => {
+      settings.displayFiat = true;
+      const num = helpers.toAmount(1, settings);
+      expect(num, 'to equal', '0.00006895');
+    });
+
+    it('should work for 1000 (fiat)', () => {
+      settings.displayFiat = true;
+      const num = helpers.toAmount(1000, settings);
+      expect(num, 'to equal', '0.06895125');
     });
   });
 
@@ -358,13 +460,13 @@ describe('Helpers Unit Tests', () => {
 
     it('should work for a number value', () => {
       const rate = helpers.calculateExchangeRate(100000, settings);
-      expect(rate, 'to match', /6{1}[,.]9{1}0{1}/);
+      expect(rate, 'to equal', 6.8951251465214085);
     });
 
     it('should be infinite for unknown rate', () => {
       settings.fiat = 'eur';
       const rate = helpers.calculateExchangeRate(100000, settings);
-      expect(rate, 'to match', /∞/);
+      expect(rate, 'to equal', Infinity);
     });
   });
 
@@ -466,23 +568,23 @@ describe('Helpers Unit Tests', () => {
       expect(
         helpers.toLabel.bind(null, undefined, settings),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
     it('should throw error if amount is null', () => {
-      expect(helpers.toLabel.bind(null, null, settings), 'to throw', /Missing/);
+      expect(helpers.toLabel.bind(null, null, settings), 'to throw', /Invalid/);
     });
 
     it('should throw error if amount is number', () => {
-      expect(helpers.toLabel.bind(null, 0.1, settings), 'to throw', /Missing/);
+      expect(helpers.toLabel.bind(null, 0.1, settings), 'to throw', /Invalid/);
     });
 
     it('should throw error if amount is separated with a comma', () => {
       expect(
         helpers.toLabel.bind(null, '0,1', settings),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
@@ -490,7 +592,7 @@ describe('Helpers Unit Tests', () => {
       expect(
         helpers.toLabel.bind(null, '100', undefined),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
@@ -499,14 +601,14 @@ describe('Helpers Unit Tests', () => {
       expect(num, 'to match', /0{1}[,.]0{2}/);
     });
 
-    it('should work for string input', () => {
+    it('should work for fiat amount', () => {
       const num = helpers.toLabel('0.10', settings);
-      expect(num, 'to match', /689[,.]51/);
+      expect(num, 'to match', /0[,.]10/);
     });
-    it('should format a number value', () => {
+    it('should work for btc amount', () => {
       settings.displayFiat = false;
       const lbl = helpers.toLabel('0.10', settings);
-      expect(lbl, 'to match', /0[,.]1/);
+      expect(lbl, 'to match', /^0[,.]1$/);
     });
   });
 

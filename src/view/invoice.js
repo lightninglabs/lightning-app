@@ -44,7 +44,9 @@ const InvoiceView = ({ store, nav, invoice }) => (
             onChangeText={amount => invoice.setAmount({ amount })}
             onSubmitEditing={() => invoice.generateUri()}
           />
-          <BalanceLabelUnit style={styles.unit}>{store.unit}</BalanceLabelUnit>
+          <BalanceLabelUnit style={styles.unit}>
+            {store.unitFiatLabel}
+          </BalanceLabelUnit>
         </BalanceLabel>
         <FormStretcher>
           <InputField
