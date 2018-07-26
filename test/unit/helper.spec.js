@@ -154,64 +154,12 @@ describe('Helpers Unit Tests', () => {
   });
 
   describe('toSatoshis()', () => {
-    it('should throw error if amount is undefined', () => {
-      expect(
-        helpers.toSatoshis.bind(null, undefined, 'btc'),
-        'to throw',
-        /Missing/
-      );
-    });
-
-    it('should throw error if amount is null', () => {
-      expect(helpers.toSatoshis.bind(null, null, 'btc'), 'to throw', /Missing/);
-    });
-
-    it('should throw error if amount is number', () => {
-      expect(helpers.toSatoshis.bind(null, 0.1, 'btc'), 'to throw', /Missing/);
-    });
-
-    it('should throw error if amount is separated with a comma', () => {
-      expect(
-        helpers.toSatoshis.bind(null, '0,1', 'btc'),
-        'to throw',
-        /Missing/
-      );
-    });
-
-    it('should throw error if unit is undefined', () => {
-      expect(
-        helpers.toSatoshis.bind(null, '100', undefined),
-        'to throw',
-        /Missing/
-      );
-    });
-
-    it('should be 0 for empty amount', () => {
-      const num = helpers.toSatoshis('', 'btc');
-      expect(num, 'to equal', 0);
-    });
-
-    it('should work for string input', () => {
-      const num = helpers.toSatoshis('0.10', 'btc');
-      expect(num, 'to equal', 10000000);
-    });
-
-    it('should have use ony 8 decimal values', () => {
-      const num = helpers.toSatoshis('0.000000014', 'btc');
-      expect(num, 'to equal', 1);
-    });
-
-    it('should round up to two satoshis', () => {
-      const num = helpers.toSatoshis('0.000000019', 'btc');
-      expect(num, 'to equal', 2);
-    });
-  });
-
-  describe('fiatToSatoshis()', () => {
     let settings;
 
     beforeEach(() => {
       settings = {
+        displayFiat: false,
+        unit: 'btc',
         fiat: 'usd',
         exchangeRate: { usd: 0.00014503 },
       };
@@ -219,52 +167,84 @@ describe('Helpers Unit Tests', () => {
 
     it('should throw error if amount is undefined', () => {
       expect(
-        helpers.fiatToSatoshis.bind(null, undefined, settings),
+        helpers.toSatoshis.bind(null, undefined, settings),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
     it('should throw error if amount is null', () => {
       expect(
-        helpers.fiatToSatoshis.bind(null, null, settings),
+        helpers.toSatoshis.bind(null, null, settings),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
     it('should throw error if amount is number', () => {
       expect(
-        helpers.fiatToSatoshis.bind(null, 0.1, settings),
+        helpers.toSatoshis.bind(null, 0.1, settings),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
     it('should throw error if amount is separated with a comma', () => {
       expect(
-        helpers.fiatToSatoshis.bind(null, '0,1', settings),
+        helpers.toSatoshis.bind(null, '0,1', settings),
         'to throw',
-        /Missing/
+        /Invalid/
       );
     });
 
-    it('should throw error if settings is exchange rate is undefined', () => {
-      settings.fiat = undefined;
+    it('should throw error if settings is undefined', () => {
       expect(
-        helpers.fiatToSatoshis.bind(null, '100', settings),
+        helpers.toSatoshis.bind(null, '100', undefined),
         'to throw',
-        /Missing/
+        /Invalid/
       );
+    });
+
+    it('should throw error for wrong settings', () => {
+      expect(helpers.toSatoshis.bind(null, '100', {}), 'to throw', /Invalid/);
     });
 
     it('should be 0 for empty amount', () => {
-      const num = helpers.fiatToSatoshis('', settings);
+      const num = helpers.toSatoshis('', settings);
       expect(num, 'to equal', 0);
     });
 
-    it('should work for string input', () => {
-      const num = helpers.fiatToSatoshis('10.00', settings);
+    it('should work for string amount', () => {
+      const num = helpers.toSatoshis('0.10', settings);
+      expect(num, 'to equal', 10000000);
+    });
+
+    it('should have use ony 8 decimal values', () => {
+      const num = helpers.toSatoshis('0.000000014', settings);
+      expect(num, 'to equal', 1);
+    });
+
+    it('should round up to two satoshis', () => {
+      const num = helpers.toSatoshis('0.000000019', settings);
+      expect(num, 'to equal', 2);
+    });
+
+    it('should be 0 is exchange rate is not set (fiat)', () => {
+      settings.displayFiat = true;
+      settings.fiat = 'invalid';
+      const num = helpers.toSatoshis('100', settings);
+      expect(num, 'to equal', 0);
+    });
+
+    it('should be 0 for empty amount (fiat)', () => {
+      settings.displayFiat = true;
+      const num = helpers.toSatoshis('', settings);
+      expect(num, 'to equal', 0);
+    });
+
+    it('should work for string amount (fiat)', () => {
+      settings.displayFiat = true;
+      const num = helpers.toSatoshis('10.00', settings);
       expect(num, 'to equal', 145030);
     });
   });

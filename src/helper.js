@@ -56,38 +56,26 @@ export const parseSat = satoshis => {
 };
 
 /**
- * Convert a string formatted BTC amount to satoshis
+ * Convert a string formatted btc/fiat amount to satoshis
  * @param  {string} amount The amount e.g. '0.0001'
- * @param  {string} unit   The BTC unit e.g. 'btc' or 'bit'
+ * @param  {Object} settings Contains the current exchange rate
  * @return {number}        The satoshis as an integer
  */
-export const toSatoshis = (amount, unit) => {
+export const toSatoshis = (amount, settings) => {
   if (
     typeof amount !== 'string' ||
     !/^[0-9]*[.]?[0-9]*$/.test(amount) ||
-    !UNITS[unit]
+    !settings ||
+    typeof settings.displayFiat !== 'boolean'
   ) {
-    throw new Error('Missing args!');
+    throw new Error('Invalid input!');
   }
-  return Math.round(Number(amount) * UNITS[unit].denominator);
-};
-
-/**
- * Convert a string formatted fiat amount to satoshis
- * @param  {string} amount The amount e.g. '9.45'
- * @return {number}        The satoshis as an integer
- */
-export const fiatToSatoshis = (amount, settings) => {
-  if (
-    typeof amount !== 'string' ||
-    typeof settings !== 'object' ||
-    !/^[0-9]*[.]?[0-9]*$/.test(amount) ||
-    !settings.exchangeRate[settings.fiat]
-  ) {
-    throw new Error('Missing args!');
+  if (settings.displayFiat) {
+    const rate = settings.exchangeRate[settings.fiat] || 0;
+    return Math.round(Number(amount) * rate * UNITS.btc.denominator);
+  } else {
+    return Math.round(Number(amount) * UNITS[settings.unit].denominator);
   }
-  const rate = settings.exchangeRate[settings.fiat];
-  return Math.round(Number(amount) * rate * UNITS.btc.denominator);
 };
 
 /**
