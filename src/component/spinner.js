@@ -1,5 +1,10 @@
-import React from 'react';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import React, { Component } from 'react';
+import {
+  ActivityIndicator,
+  StyleSheet,
+  View,
+  ViewPropTypes,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { color, font } from './style';
 import LightningBoltIcon from '../asset/icon/lightning-bolt';
@@ -43,7 +48,7 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
     <ResizeableSpinner
       percentage={percentage}
       size={80}
-      progressWidth={3}
+      progressWidth={4}
       gradient="loadNetworkGrad"
     >
       <LightningBoltIcon height={28} width={14.2222} />
@@ -56,6 +61,43 @@ LoadNetworkSpinner.propTypes = {
   percentage: PropTypes.number.isRequired,
   msg: PropTypes.string.isRequired,
   style: View.propTypes.style,
+};
+
+//
+// ContinuousLoadNetworkSpinner
+//
+
+export class ContinuousLoadNetworkSpinner extends Component {
+  constructor(props) {
+    super(props);
+    this.increasePercentage = this.increasePercentage.bind(this);
+    const intervalId = setInterval(this.increasePercentage, 10);
+    this.state = {
+      percentage: 0,
+      intervalId,
+    };
+  }
+  render() {
+    const { msg, style } = this.props;
+    const { percentage } = this.state;
+    return (
+      <LoadNetworkSpinner msg={msg} percentage={percentage} style={style} />
+    );
+  }
+  increasePercentage() {
+    const { percentage } = this.state;
+    this.setState({
+      percentage: (percentage + 0.01) % 1,
+    });
+  }
+  componentWillUnmount() {
+    clearInterval(this.state.intervalId);
+  }
+}
+
+ContinuousLoadNetworkSpinner.propTypes = {
+  msg: PropTypes.string.isRequired,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -132,10 +174,13 @@ const Gradients = () => (
 
 const SpinnerProgress = ({ width, percentage, color }) => (
   <Path
-    d={`M${width / 2} ${width / 2} L${width / 2} 0 ${generateArc(
-      percentage,
-      width / 2
-    )} Z`}
+    d={generateArc(
+      width / 2,
+      width / 2,
+      width / 2,
+      percentage * 360,
+      ((percentage + 0.4) % 1) * 360
+    )}
     fill={color}
   />
 );
@@ -165,26 +210,24 @@ SpinnerFill.propTypes = {
   color: PropTypes.string.isRequired,
 };
 
-const generateArc = (percentage, radius) => {
-  if (percentage === 0) {
-    percentage = 0.001;
-  } else if (percentage === 1) {
-    percentage = 0.9999;
-  }
-  const a = percentage * 2 * Math.PI; // angle (in radian) depends on percentage
-  const r = radius; // radius of the circle
-  var rx = r,
-    ry = r,
-    xAxisRotation = 0,
-    largeArcFlag = 1,
-    sweepFlag = 1,
-    x = r + r * Math.sin(a),
-    y = r - r * Math.cos(a);
-  if (percentage <= 0.5) {
-    largeArcFlag = 0;
-  } else {
-    largeArcFlag = 1;
-  }
+const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
+  const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
 
-  return `A${rx} ${ry} ${xAxisRotation} ${largeArcFlag} ${sweepFlag} ${x} ${y}`;
+  return {
+    x: centerX + radius * Math.cos(angleInRadians),
+    y: centerY + radius * Math.sin(angleInRadians),
+  };
+};
+
+const generateArc = (x, y, radius, startAngle, endAngle) => {
+  const start = polarToCartesian(x, y, radius, endAngle);
+  const end = polarToCartesian(x, y, radius, startAngle);
+
+  const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+
+  return [
+    `M ${start.x} ${start.y}`,
+    `A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`,
+    'Z',
+  ].join(' ');
 };
