@@ -61,8 +61,8 @@ class ChannelAction {
         remoteBalance: parseSat(channel.remote_balance),
         channelPoint: channel.channel_point,
         active: channel.active,
-        status: 'open',
         private: channel.private,
+        status: 'open',
       }));
     } catch (err) {
       log.error('Listing channels failed', err);
