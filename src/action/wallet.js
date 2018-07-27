@@ -158,8 +158,9 @@ class WalletAction {
 
   async getChannelBalance() {
     try {
-      const response = await this._grpc.sendCommand('ChannelBalance');
-      this._store.channelBalanceSatoshis = parseSat(response.balance);
+      const r = await this._grpc.sendCommand('ChannelBalance');
+      this._store.channelBalanceSatoshis = parseSat(r.balance);
+      this._store.pendingBalanceSatoshis = parseSat(r.pending_open_balance);
     } catch (err) {
       log.error('Getting channel balance failed', err);
     }
