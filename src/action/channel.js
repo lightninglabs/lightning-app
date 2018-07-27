@@ -61,6 +61,7 @@ class ChannelAction {
         remoteBalance: parseSat(channel.remote_balance),
         channelPoint: channel.channel_point,
         active: channel.active,
+        private: channel.private,
         status: 'open',
       }));
     } catch (err) {
@@ -162,6 +163,7 @@ class ChannelAction {
     const stream = this._grpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
       local_funding_amount: amount,
+      private: true,
     });
     await new Promise((resolve, reject) => {
       stream.on('data', () => this.update());

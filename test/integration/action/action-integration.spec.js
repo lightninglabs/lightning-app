@@ -400,6 +400,7 @@ describe('Action Integration Tests', function() {
       while (!store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
       expect(store1.computedChannels[0].status, 'to be', 'open');
+      expect(store1.computedChannels[0].private, 'to be', true);
     });
 
     it('should list waiting-close after force closing', async () => {
