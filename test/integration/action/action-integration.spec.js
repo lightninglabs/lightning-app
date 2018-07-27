@@ -273,6 +273,8 @@ describe('Action Integration Tests', function() {
       expect(store2.balanceSatoshis, 'to be positive');
       expect(store1.channelBalanceSatoshis, 'to be', 0);
       expect(store2.channelBalanceSatoshis, 'to be', 0);
+      expect(store1.pendingBalanceSatoshis, 'to be', 0);
+      expect(store2.pendingBalanceSatoshis, 'to be', 0);
     });
   });
 
@@ -305,6 +307,14 @@ describe('Action Integration Tests', function() {
       expect(store1.computedChannels[0].status, 'to be', 'pending-open');
     });
 
+    it('should have enough satoshis in channel balance', async () => {
+      await updateBalances();
+      expect(store1.pendingBalanceSatoshis, 'to be positive');
+      expect(store2.pendingBalanceSatoshis, 'to be', 0);
+      expect(store1.channelBalanceSatoshis, 'to be', 0);
+      expect(store2.channelBalanceSatoshis, 'to be', 0);
+    });
+
     it('should list open channel after mining 6 blocks', async () => {
       await mineAndSync({ blocks: 6 });
       while (store1.pendingChannels.length) await nap(100);
@@ -315,6 +325,8 @@ describe('Action Integration Tests', function() {
 
     it('should have enough satoshis in channel balance', async () => {
       await updateBalances();
+      expect(store1.pendingBalanceSatoshis, 'to be', 0);
+      expect(store2.pendingBalanceSatoshis, 'to be', 0);
       expect(store1.channelBalanceSatoshis, 'to be positive');
       expect(store2.channelBalanceSatoshis, 'to be', 0);
     });
