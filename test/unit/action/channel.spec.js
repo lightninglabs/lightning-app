@@ -265,16 +265,6 @@ describe('Action Channels Unit Tests', () => {
       expect(nav.goChannels, 'was called once');
       expect(channel.closeChannel, 'was called with', {
         channelPoint: 'some-channel-point',
-        force: false,
-      });
-    });
-
-    it('should force close pending-closing channel', async () => {
-      store.selectedChannel.status = 'pending-closing';
-      await channel.closeSelectedChannel();
-      expect(channel.closeChannel, 'was called with', {
-        channelPoint: 'some-channel-point',
-        force: true,
       });
     });
 

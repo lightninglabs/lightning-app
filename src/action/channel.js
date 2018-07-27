@@ -175,10 +175,7 @@ class ChannelAction {
     try {
       const { selectedChannel } = this._store;
       this._nav.goChannels();
-      await this.closeChannel({
-        channelPoint: selectedChannel.channelPoint,
-        force: !selectedChannel.status.includes('open'), // force close already closing
-      });
+      await this.closeChannel({ channelPoint: selectedChannel.channelPoint });
     } catch (err) {
       this._notification.display({ msg: 'Closing channel failed!', err });
     }
