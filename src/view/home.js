@@ -45,7 +45,7 @@ const HomeView = ({
   transaction,
   nav,
 }) => {
-  const { balanceLabel, channelBalanceLabel, unitLabel } = store;
+  const { depositLabel, channelBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
       <HomeHeader
@@ -56,7 +56,7 @@ const HomeView = ({
       <QrCodeSeparator goDeposit={() => nav.goDeposit()} />
       <MainContent style={styles.content}>
         <BalanceDisplay
-          balanceLabel={balanceLabel}
+          depositLabel={depositLabel}
           channelBalanceLabel={channelBalanceLabel}
           unitLabel={unitLabel}
           toggleDisplayFiat={() => wallet.toggleDisplayFiat()}
@@ -99,7 +99,7 @@ const balanceStyles = StyleSheet.create({
 });
 
 const BalanceDisplay = ({
-  balanceLabel,
+  depositLabel,
   channelBalanceLabel,
   unitLabel,
   toggleDisplayFiat,
@@ -111,13 +111,13 @@ const BalanceDisplay = ({
         <BalanceLabelUnit>{unitLabel}</BalanceLabelUnit>
       </BalanceLabel>
       <H4Text style={balanceStyles.smallLabel}>Pending Deposit</H4Text>
-      <SmallBalanceLabel unit={unitLabel}>{balanceLabel}</SmallBalanceLabel>
+      <SmallBalanceLabel unit={unitLabel}>{depositLabel}</SmallBalanceLabel>
     </Button>
   </View>
 );
 
 BalanceDisplay.propTypes = {
-  balanceLabel: PropTypes.string.isRequired,
+  depositLabel: PropTypes.string.isRequired,
   channelBalanceLabel: PropTypes.string.isRequired,
   unitLabel: PropTypes.string,
   toggleDisplayFiat: PropTypes.func.isRequired,
