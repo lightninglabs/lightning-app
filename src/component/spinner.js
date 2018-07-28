@@ -43,9 +43,10 @@ const loadNetworkStyles = StyleSheet.create({
   },
 });
 
-export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
+export const LoadNetworkSpinner = ({ continuous, percentage, msg, style }) => (
   <View style={style}>
     <ResizeableSpinner
+      continuous={continuous}
       percentage={percentage}
       size={80}
       progressWidth={4}
@@ -58,6 +59,7 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
 );
 
 LoadNetworkSpinner.propTypes = {
+  continuous: PropTypes.bool,
   percentage: PropTypes.number.isRequired,
   msg: PropTypes.string.isRequired,
   style: View.propTypes.style,
@@ -81,7 +83,12 @@ export class ContinuousLoadNetworkSpinner extends Component {
     const { msg, style } = this.props;
     const { percentage } = this.state;
     return (
-      <LoadNetworkSpinner msg={msg} percentage={percentage} style={style} />
+      <LoadNetworkSpinner
+        msg={msg}
+        percentage={percentage}
+        style={style}
+        continuous={true}
+      />
     );
   }
   increasePercentage() {
@@ -117,6 +124,7 @@ const resizeableStyles = StyleSheet.create({
 });
 
 export const ResizeableSpinner = ({
+  continuous,
   percentage,
   size,
   gradient,
@@ -127,6 +135,7 @@ export const ResizeableSpinner = ({
     <Svg width={size} height={size}>
       <Gradients />
       <SpinnerProgress
+        continuous={continuous}
         width={size}
         percentage={percentage}
         color={`url(#${gradient})`}
@@ -142,6 +151,7 @@ export const ResizeableSpinner = ({
 );
 
 ResizeableSpinner.propTypes = {
+  continuous: PropTypes.bool,
   percentage: PropTypes.number.isRequired,
   size: PropTypes.number.isRequired,
   progressWidth: PropTypes.number.isRequired,
@@ -172,20 +182,21 @@ const Gradients = () => (
 // Spinner Progress Path
 //
 
-const SpinnerProgress = ({ width, percentage, color }) => (
+const SpinnerProgress = ({ continuous, width, percentage, color }) => (
   <Path
     d={generateArc(
       width / 2,
       width / 2,
       width / 2,
-      percentage * 360,
-      ((percentage + 0.4) % 1) * 360
+      continuous ? percentage * 360 : 0,
+      continuous ? ((percentage + 0.4) % 1) * 360 : percentage * 360
     )}
     fill={color}
   />
 );
 
 SpinnerProgress.propTypes = {
+  continuous: PropTypes.bool,
   width: PropTypes.number.isRequired,
   percentage: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
@@ -226,7 +237,8 @@ const generateArc = (x, y, radius, startAngle, endAngle) => {
   const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
 
   return [
-    `M ${start.x} ${start.y}`,
+    `M ${x} ${y}`,
+    `L ${start.x} ${start.y}`,
     `A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`,
     'Z',
   ].join(' ');
