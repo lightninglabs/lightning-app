@@ -12,10 +12,10 @@ describe('Computed Wallet Unit Tests', () => {
     it('should work with initial store', () => {
       ComputedWallet(store);
       expect(store.walletAddressUri, 'to equal', '');
-      expect(store.depositLabel, 'to equal', '0');
-      expect(store.channelBalanceLabel, 'to equal', '0');
-      expect(store.unitFiatLabel, 'to equal', 'BTC');
-      expect(store.unitLabel, 'to equal', 'BTC');
+      expect(store.depositLabel, 'to match', /0[,.]00/);
+      expect(store.channelBalanceLabel, 'to match', /0[,.]00/);
+      expect(store.unitFiatLabel, 'to equal', '$');
+      expect(store.unitLabel, 'to equal', null);
     });
 
     it('should generate valid wallet address uri', () => {

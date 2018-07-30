@@ -9,9 +9,9 @@ describe('Store Unit Tests', () => {
 
   describe('init()', () => {
     it('should set computed vales', () => {
-      expect(store.unitLabel, 'to be', undefined);
+      expect(store.unitFiatLabel, 'to be', undefined);
       store.init();
-      expect(store.unitLabel, 'to equal', 'BTC');
+      expect(store.unitFiatLabel, 'to equal', '$');
     });
   });
 });
