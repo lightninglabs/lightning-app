@@ -7,9 +7,10 @@ const ComputedWallet = store => {
     walletAddressUri: computed(
       () => (store.walletAddress ? `bitcoin:${store.walletAddress}` : '')
     ),
-    balanceLabel: computed(() =>
-      toAmountLabel(store.balanceSatoshis, store.settings)
-    ),
+    depositLabel: computed(() => {
+      const { balanceSatoshis, pendingBalanceSatoshis, settings } = store;
+      return toAmountLabel(balanceSatoshis + pendingBalanceSatoshis, settings);
+    }),
     channelBalanceLabel: computed(() =>
       toAmountLabel(store.channelBalanceSatoshis, store.settings)
     ),

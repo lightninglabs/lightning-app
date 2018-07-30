@@ -292,9 +292,13 @@ describe('Action Wallet Unit Tests', () => {
 
   describe('getChannelBalance()', () => {
     it('should get channel balance', async () => {
-      grpc.sendCommand.withArgs('ChannelBalance').resolves({ balance: '1' });
+      grpc.sendCommand.withArgs('ChannelBalance').resolves({
+        balance: '1',
+        pending_open_balance: '2',
+      });
       await wallet.getChannelBalance();
       expect(store.channelBalanceSatoshis, 'to equal', 1);
+      expect(store.pendingBalanceSatoshis, 'to equal', 2);
     });
 
     it('should log error on failure', async () => {

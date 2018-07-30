@@ -24,6 +24,7 @@ export class Store {
       balanceSatoshis: 0,
       confirmedBalanceSatoshis: 0,
       unconfirmedBalanceSatoshis: 0,
+      pendingBalanceSatoshis: 0,
       channelBalanceSatoshis: 0,
       pubKey: null,
       walletAddress: null,
