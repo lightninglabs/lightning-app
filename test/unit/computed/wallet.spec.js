@@ -42,6 +42,7 @@ describe('Computed Wallet Unit Tests', () => {
     });
 
     it('should display channel balance in sat', () => {
+      store.settings.displayFiat = false;
       store.settings.exchangeRate.usd = 0.00014503;
       store.balanceSatoshis = 50000001;
       store.pendingBalanceSatoshis = 50000000;

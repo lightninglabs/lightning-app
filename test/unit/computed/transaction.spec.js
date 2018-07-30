@@ -42,6 +42,7 @@ describe('Computed Transactions Unit Tests', () => {
     });
 
     it('should aggregate transactions, payments, and invoices', () => {
+      store.settings.displayFiat = false;
       ComputedTransaction(store);
       expect(store.computedTransactions.length, 'to equal', 3);
       const tx = store.computedTransactions.find(t => t.id === '0');
