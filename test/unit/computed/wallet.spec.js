@@ -16,7 +16,6 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.channelBalanceLabel, 'to equal', '0');
       expect(store.unitFiatLabel, 'to equal', 'BTC');
       expect(store.unitLabel, 'to equal', 'BTC');
-      expect(store.unit, 'to equal', 'BTC');
     });
 
     it('should generate valid wallet address uri', () => {

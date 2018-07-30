@@ -22,7 +22,6 @@ const ComputedWallet = store => {
       const { settings } = store;
       return !settings.displayFiat ? UNITS[settings.unit].display : null;
     }),
-    unit: computed(() => UNITS[store.settings.unit].display),
   });
 };
 
