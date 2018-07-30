@@ -307,7 +307,7 @@ describe('Action Integration Tests', function() {
       expect(store1.computedChannels[0].status, 'to be', 'pending-open');
     });
 
-    it('should have enough satoshis in channel balance', async () => {
+    it('should have enough satoshis in pending balance', async () => {
       await updateBalances();
       expect(store1.pendingBalanceSatoshis, 'to be positive');
       expect(store2.pendingBalanceSatoshis, 'to be', 0);
