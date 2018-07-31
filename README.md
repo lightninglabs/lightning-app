@@ -17,6 +17,10 @@ The app comes for two threat models:
 
 After installing the app, head on over to the [testnet faucet](https://testnet.coinfaucet.eu/en/) to send some test BTC to your wallet.
 
+### Contributing
+
+See the `ToDo (next release)` column on our [project board](https://github.com/lightninglabs/lightning-app/projects/1?fullscreen=true). Issues that are easy to pick up for outside contributors are labeled `help wanted`.
+
 ### Developing Locally
 
 You'll need to build `lnd` and `btcd` locally using the [installation guide](http://dev.lightning.community/guides/installation/). Then start by cloning this git repo and go inside the project folder to run the following commands:
