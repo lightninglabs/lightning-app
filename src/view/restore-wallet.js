@@ -12,7 +12,7 @@ import { Header } from '../component/header';
 import Card from '../component/card';
 
 //
-// Seed Verify View
+// Restore Wallet View
 //
 
 const styles = StyleSheet.create({
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SeedVerifyView = ({ store, nav, wallet }) => (
+const RestoreWalletView = ({ store, nav, wallet }) => (
   <Background image="purple-gradient-bg">
     <Header>
       <BackButton onPress={() => nav.goSeed()} />
@@ -40,7 +40,7 @@ const SeedVerifyView = ({ store, nav, wallet }) => (
     </Header>
     <MainContent style={styles.content}>
       <View>
-        <H1Text style={styles.title}>{"Let's double check"}</H1Text>
+        <H1Text style={styles.title}>Restore your wallet</H1Text>
       </View>
       <Card style={styles.card}>
         <FormSubText>{store.seedVerifyCopy}</FormSubText>
@@ -60,10 +60,10 @@ const SeedVerifyView = ({ store, nav, wallet }) => (
   </Background>
 );
 
-SeedVerifyView.propTypes = {
+RestoreWalletView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
 };
 
-export default observer(SeedVerifyView);
+export default observer(RestoreWalletView);

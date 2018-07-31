@@ -15,6 +15,10 @@ class NavAction {
     this._store.route = 'SeedVerify';
   }
 
+  goRestoreWallet() {
+    // this._store.route = 'RestoreWallet';
+  }
+
   goSeedSuccess() {
     this._store.route = 'SeedSuccess';
   }
