@@ -21,6 +21,7 @@ describe('Action Payments Unit Tests', () => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store = new Store();
+    store.settings.displayFiat = false;
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);

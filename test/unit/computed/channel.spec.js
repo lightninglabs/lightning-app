@@ -6,6 +6,7 @@ describe('Computed Channels Unit Tests', () => {
 
   beforeEach(() => {
     store = new Store();
+    store.settings.displayFiat = false;
     store.channels.push({
       remotePubkey: 'some-pub-key',
       id: '0',

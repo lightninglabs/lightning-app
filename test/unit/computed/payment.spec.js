@@ -6,6 +6,7 @@ describe('Computed Payment Unit Tests', () => {
 
   beforeEach(() => {
     store = new Store();
+    store.settings.displayFiat = false;
   });
 
   describe('ComputedPayment()', () => {

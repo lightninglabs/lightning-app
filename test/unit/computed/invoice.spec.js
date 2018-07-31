@@ -6,6 +6,7 @@ describe('Computed Invoice Unit Tests', () => {
 
   beforeEach(() => {
     store = new Store();
+    store.settings.displayFiat = false;
   });
 
   describe('ComputedInvoice()', () => {

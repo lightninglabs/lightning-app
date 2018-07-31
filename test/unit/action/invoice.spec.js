@@ -16,6 +16,7 @@ describe('Action Invoice Unit Tests', () => {
 
   beforeEach(() => {
     store = new Store();
+    store.settings.displayFiat = false;
     require('../../../src/config').RETRY_DELAY = 1;
     nav = sinon.createStubInstance(NavAction);
     grpc = sinon.createStubInstance(GrpcAction);
