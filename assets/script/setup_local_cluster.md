@@ -4,6 +4,8 @@
 npm run electron-dev
 ```
 
+After initiating the wallet and setting your password close the app again.
+
 ## Start nodes via cli
 
 ```
@@ -23,7 +25,7 @@ lncli --rpcserver=localhost:10009 --tlscertpath=data/lnd/tls.cert newaddress np2
 
 lncli --rpcserver=localhost:10002 --tlscertpath=data/lnd2/tls.cert newaddress np2wkh
 
-btcd --txindex --simnet --rpcuser=kek --rpcpass=kek --datadir=data/btcd/data --logdir=data/btcd/logs --miningaddr=rmPBKAoA9MiB4WuR21wied5aA9jdqpKAS6
+btcd --txindex --simnet --rpcuser=kek --rpcpass=kek --datadir=data/btcd/data --logdir=data/btcd/logs --miningaddr=NEW_ADDRESS
 
 btcctl --simnet --rpcuser=kek --rpcpass=kek generate 400
 ```
