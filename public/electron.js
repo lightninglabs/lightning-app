@@ -159,6 +159,7 @@ autoUpdater.on('update-downloaded', () => {
 });
 
 function initAutoUpdate() {
+  if (isDev) return;
   autoUpdater.checkForUpdates();
   const oneHour = 60 * 60 * 1000;
   setInterval(() => autoUpdater.checkForUpdates(), oneHour);
