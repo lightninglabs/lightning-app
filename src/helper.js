@@ -1,3 +1,7 @@
+/**
+ * @fileOverview helper and utility functions that can be reused go here.
+ */
+
 import { UNITS, LND_INIT_DELAY } from './config';
 
 /**
