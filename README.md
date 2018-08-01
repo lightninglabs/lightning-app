@@ -40,7 +40,7 @@ To start start the app in development mode (simnet):
 npm run electron-dev
 ```
 
-Running in development mode can allow you to run in full node mode instead of the default neutrino mode, and will also allow you to run in simnet node for testing. The app will use it's own lnd `data/lnd` dir and does not share state with other lnd installations on your system.
+Running in development mode can allow you to run in full node mode instead of the default neutrino mode, and will also allow you to run in simnet node for testing. The app will use it's own lnd `data/lnd` dir and does not share state with other lnd installations on your system. See [setup local cluster](https://github.com/lightninglabs/lightning-app/blob/master/assets/script/setup_local_cluster.md) on how to set up your simnet cluster for development.
 
 ### Building the Packaged App
 
