@@ -36,6 +36,7 @@ const lndArgs = process.argv.filter(a => /(bitcoin)|(btcd)|(neutrino)/.test(a));
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
+let locale;
 let lndProcess;
 let btcdProcess;
 
@@ -43,6 +44,7 @@ log.transports.console.level = 'info';
 log.transports.file.level = 'info';
 ipcMain.on('log', (event, arg) => log.info(...arg));
 ipcMain.on('log-error', (event, arg) => log.error(...arg));
+ipcMain.on('get-locale', event => (event.returnValue = locale));
 
 let logQueue = [];
 let logsReady = false;
@@ -169,6 +171,7 @@ function initAutoUpdate() {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', () => {
+  locale = app.getLocale();
   initAutoUpdate();
   createWindow();
   initApplicationMenu();

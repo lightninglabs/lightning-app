@@ -4,9 +4,11 @@
  */
 
 import { UNITS, FIATS } from '../config';
+import LocaleCurrency from 'locale-currency';
 
 class SettingAction {
-  constructor(store, wallet, db) {
+  constructor(store, wallet, db, ipcRenderer) {
+    this._ipcRenderer = ipcRenderer;
     this._store = store;
     this._wallet = wallet;
     this._db = db;
@@ -37,6 +39,11 @@ class SettingAction {
     this._store.settings.fiat = fiat;
     this._wallet.getExchangeRate();
     this._db.save();
+  }
+  getLocale() {
+    const locale = this._ipcRenderer.sendSync('get-locale');
+    const fiat = LocaleCurrency.getCurrency(locale).toLowerCase();
+    this.setFiatCurrency({ fiat });
   }
 }
 
