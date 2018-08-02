@@ -69,11 +69,7 @@ module.exports.startLndProcess = async function({
     useNeutrino ? '--neutrino.connect=127.0.0.1:18333' : '',
 
     macaroonsEnabled ? '' : '--no-macaroons',
-    `--configfile=${path.join(lndSettingsDir, 'lnd.conf')}`,
-    `--datadir=${path.join(lndSettingsDir, 'data')}`,
-    `--logdir=${path.join(lndSettingsDir, 'logs')}`,
-    `--tlscertpath=${path.join(lndSettingsDir, 'tls.cert')}`,
-    `--tlskeypath=${path.join(lndSettingsDir, 'tls.key')}`,
+    `--lnddir=${lndSettingsDir}`,
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
