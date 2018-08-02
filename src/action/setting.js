@@ -5,10 +5,10 @@
 
 import { UNITS, FIATS } from '../config';
 import LocaleCurrency from 'locale-currency';
+import { DEFAULT_FIAT } from '../config';
 
 class SettingAction {
-  constructor(store, wallet, db, ipcRenderer) {
-    this._ipcRenderer = ipcRenderer;
+  constructor(store, wallet, db) {
     this._store = store;
     this._wallet = wallet;
     this._db = db;
@@ -33,15 +33,16 @@ class SettingAction {
    * @param {string} options.fiat The fiat currency e.g. `usd`
    */
   setFiatCurrency({ fiat }) {
+    let fiatSetting = fiat;
     if (!FIATS[fiat]) {
-      throw new Error(`Invalid fiat currency: ${fiat}`);
+      fiatSetting = DEFAULT_FIAT;
+      // throw new Error(`Invalid fiat currency: ${fiat}`);
     }
-    this._store.settings.fiat = fiat;
+    this._store.settings.fiat = fiatSetting;
     this._wallet.getExchangeRate();
     this._db.save();
   }
-  getLocale() {
-    const locale = this._ipcRenderer.sendSync('get-locale');
+  setFiatByLocale({ locale }) {
     const fiat = LocaleCurrency.getCurrency(locale).toLowerCase();
     this.setFiatCurrency({ fiat });
   }

@@ -13,6 +13,11 @@ class GrpcAction {
     this._ipcRenderer = ipcRenderer;
   }
 
+  async getLocale() {
+    let response = await this._sendIpc('get-locale', 'locale');
+    return response.locale;
+  }
+
   //
   // WalletUnlocker grpc client
   //

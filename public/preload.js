@@ -6,7 +6,7 @@ const _ipcRenderer = require('electron').ipcRenderer;
 
 const filter = event => {
   if (
-    !/^(lnd)|(unlock)|(log)|(get-locale)|(open-url)[a-zA-Z_-]{0,20}$/.test(
+    !/^(lnd)|(unlock)|(log)|(get-locale)|(locale)|(open-url)[a-zA-Z_-]{0,20}$/.test(
       event
     )
   ) {
@@ -18,9 +18,6 @@ const filter = event => {
 window.ipcRenderer = {
   send: (event, data) => {
     _ipcRenderer.send(filter(event), data);
-  },
-  sendSync: event => {
-    return _ipcRenderer.sendSync(filter(event));
   },
   on: (event, callback) => {
     _ipcRenderer.on(filter(event), callback);

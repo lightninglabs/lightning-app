@@ -11,6 +11,7 @@ import ChannelAction from '../../../src/action/channel';
 import TransactionAction from '../../../src/action/transaction';
 import PaymentAction from '../../../src/action/payment';
 import InvoiceAction from '../../../src/action/invoice';
+import SettingAction from '../../../src/action/setting';
 import { nap } from '../../../src/helper';
 import { EventEmitter } from 'events';
 
@@ -73,6 +74,7 @@ describe('Action Integration Tests', function() {
   let transactions1;
   let payments1;
   let invoice1;
+  let settings1;
   let nav2;
   let notify2;
   let grpc2;
@@ -82,6 +84,7 @@ describe('Action Integration Tests', function() {
   let transactions2;
   let payments2;
   let invoice2;
+  let settings2;
   let btcdArgs;
 
   before(async () => {
@@ -129,12 +132,14 @@ describe('Action Integration Tests', function() {
       ipcMain: ipcMainStub1,
       lndPort: LND_PORT_1,
       lndSettingsDir: LND_SETTINGS_DIR_1,
+      locale: 'gb',
       macaroonsEnabled: MACAROONS_ENABLED,
     });
     await grcpClient.init({
       ipcMain: ipcMainStub2,
       lndPort: LND_PORT_2,
       lndSettingsDir: LND_SETTINGS_DIR_2,
+      locale: 'sn-ZW', // "Shona (Zimbabwe)"
       macaroonsEnabled: MACAROONS_ENABLED,
     });
 
@@ -148,6 +153,7 @@ describe('Action Integration Tests', function() {
     transactions1 = new TransactionAction(store1, grpc1, wallet1, nav1);
     invoice1 = new InvoiceAction(store1, grpc1, transactions1, nav1, notify1);
     payments1 = new PaymentAction(store1, grpc1, transactions1, nav1, notify1);
+    settings1 = new SettingAction(store1, wallet1, db1, ipcRendererStub1);
 
     db2 = sinon.createStubInstance(AppStorage);
     nav2 = sinon.createStubInstance(NavAction);
@@ -159,6 +165,7 @@ describe('Action Integration Tests', function() {
     transactions2 = new TransactionAction(store2, grpc2, wallet2, nav2);
     invoice2 = new InvoiceAction(store2, grpc2, transactions2, nav2, notify2);
     payments2 = new PaymentAction(store2, grpc2, transactions2, nav2, notify2);
+    settings2 = new SettingAction(store2, wallet2, db2, ipcRendererStub2);
   });
 
   after(async () => {
@@ -200,6 +207,20 @@ describe('Action Integration Tests', function() {
       await nap(NAP_TIME);
       await grpc1.closeUnlocker();
       await grpc2.closeUnlocker();
+    });
+  });
+
+  describe('Setting actions', () => {
+    it('should get the locale', async () => {
+      const locale = await grpc1.getLocale();
+      settings1.setFiatByLocale({ locale });
+      expect(store1.settings.fiat, 'to be', 'gbp');
+    });
+
+    it('should use usd if the locale is unsupported', async () => {
+      const locale = await grpc2.getLocale(); // "Shona (Zimbabwe) - sn-ZW"
+      settings2.setFiatByLocale({ locale });
+      expect(store2.settings.fiat, 'to be', 'usd');
     });
   });
 
