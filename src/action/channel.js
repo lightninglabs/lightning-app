@@ -211,6 +211,13 @@ class ChannelAction {
     }
   }
 
+  /**
+   * Connect to peer and fail gracefully by catching exceptions and
+   * logging their output.
+   * @param  {string} options.host   The hostname of the peer
+   * @param  {string} options.pubkey The public key of the peer
+   * @return {Promise<undefined>}
+   */
   async connectToPeer({ host, pubkey }) {
     try {
       await this._grpc.sendCommand('connectPeer', {
@@ -221,6 +228,13 @@ class ChannelAction {
     }
   }
 
+  /**
+   * Open a channel to a peer without advertising it and update channel
+   * state on data event from the streaming grpc api.
+   * @param  {string} options.pubkey The public key of the peer
+   * @param  {number} options.amount The amount in satoshis to fund the channel
+   * @return {Promise<undefined>}
+   */
   async openChannel({ pubkey, amount }) {
     const stream = this._grpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
@@ -235,6 +249,12 @@ class ChannelAction {
     });
   }
 
+  /**
+   * Close the selected channel by attempting a cooperative close.
+   * This action can be called from a view event handler as does all
+   * the necessary error handling and notification display.
+   * @return {Promise<undefined>}
+   */
   async closeSelectedChannel() {
     try {
       const { selectedChannel } = this._store;
@@ -245,6 +265,14 @@ class ChannelAction {
     }
   }
 
+  /**
+   * Close a channel using the grpc streaming api and update the state
+   * on data events. Once the channel close is complete the channel will
+   * be removed from the channels array in the store.
+   * @param  {string}  options.channelPoint The channel identifier
+   * @param  {Boolean} options.force        Force or cooperative close
+   * @return {Promise<undefined>}
+   */
   async closeChannel({ channelPoint, force = false }) {
     const stream = this._grpc.sendStreamCommand('closeChannel', {
       channel_point: this._parseChannelPoint(channelPoint),
