@@ -1,13 +1,36 @@
+/**
+ * @fileOverview actions for logging to the cli. This module can be regarded as a
+ * global singleton and can be imported directly as an ES6 module at the top of
+ * other actions for easier use as it stores instances of dependencies in closure
+ * variables.
+ */
+
 import { MAX_LOG_LENGTH } from '../config';
 
 let _store;
 let _ipcRenderer;
 
+/**
+ * Log an info event e.g. when something relevant but non-critical happens.
+ * The data is also sent to the electron main process via IPC to be logged
+ * to standard output.
+ * @param  {...string|Object} args An info message or object to be logged
+ * @return {undefined}
+ */
 export function info(...args) {
   console.log(...args);
   _ipcRenderer && _ipcRenderer.send('log', args);
 }
 
+/**
+ * Log an error event e.g. when something does not work as planned. Apart
+ * from logging the error on the console this also appends the error to the
+ * logs which are displayed to the user in the Logs/CLI view.
+ * The data is also sent to the electron main process via IPC to be logged
+ * to standard output.
+ * @param  {...string|Object} args An error message of Error object
+ * @return {undefined}
+ */
 export function error(...args) {
   console.error(...args);
   pushLogs(''); // newline
