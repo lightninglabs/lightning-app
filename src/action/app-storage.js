@@ -1,6 +1,6 @@
 /**
  * @fileOverview repesents the local storage database on a user's device
- *  which can be used to persist user settings on disk.
+ * which can be used to persist user settings on disk.
  */
 
 import * as log from './log';
@@ -13,8 +13,8 @@ class AppStorage {
 
   /**
    * Read the user settings from disk and set them accordingly in the
-   *   application state. After the state has bee read to the global
-   *   `store` instance `store.loaded` is set to true.
+   * application state. After the state has bee read to the global
+   * `store` instance `store.loaded` is set to true.
    * @return {Promise<undefined>}
    */
   async restore() {
@@ -37,7 +37,7 @@ class AppStorage {
 
   /**
    * Persist the user settings to disk so that they may be read the
-   *   next time the application is opened by the user.
+   * next time the application is opened by the user.
    * @return {Promise<undefined>}
    */
   async save() {
@@ -52,7 +52,7 @@ class AppStorage {
 
   /**
    * Delete all of the data in local storage completely. Should be used
-   *   carefully e.g. when the user wants to wipe the data on disk.
+   * carefully e.g. when the user wants to wipe the data on disk.
    * @return {Promise<undefined>}
    */
   async clear() {

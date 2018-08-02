@@ -1,6 +1,6 @@
 /**
  * @fileOverview actions to set channel state within the app and to
- *   call the corresponding GRPC apis for channel management.
+ * call the corresponding GRPC apis for channel management.
  */
 
 import { toSatoshis, parseSat } from '../helper';
@@ -20,7 +20,7 @@ class ChannelAction {
 
   /**
    * Initiate the create channel view by resetting input values
-   *   and then navigating to the view.
+   * and then navigating to the view.
    * @return {undefined}
    */
   initCreate() {
@@ -31,7 +31,7 @@ class ChannelAction {
 
   /**
    * Set the amount input for the create channel view. This amount
-   *   is either in btc or fiat depending on user settings.
+   * is either in btc or fiat depending on user settings.
    * @param {string} options.amount The string formatted number
    */
   setAmount({ amount }) {
@@ -40,7 +40,7 @@ class ChannelAction {
 
   /**
    * Set the channel public key and hostname in a single variable
-   *   which can be parsed before calling the create channel grpc api.
+   * which can be parsed before calling the create channel grpc api.
    * @param {string} options.pubkeyAtHost The combined public key and host
    */
   setPubkeyAtHost({ pubkeyAtHost }) {
@@ -53,7 +53,7 @@ class ChannelAction {
 
   /**
    * Initiate the channel list view by navigating to the view and updating
-   *   the app's channel state by calling all necessary grpc apis.
+   * the app's channel state by calling all necessary grpc apis.
    * @return {undefined}
    */
   init() {
@@ -63,7 +63,7 @@ class ChannelAction {
 
   /**
    * Select a channel item from the channel list view and then navigate
-   *   to the detail view to list channel parameters.
+   * to the detail view to list channel parameters.
    * @param  {Object} options.item The selected channel object
    * @return {undefined}
    */
@@ -75,7 +75,7 @@ class ChannelAction {
 
   /**
    * Update the peers, channels, and pending channels in the app state
-   *   by querying all required grpc apis.
+   * by querying all required grpc apis.
    * @return {Promise<undefined>}
    */
   async update() {
@@ -92,7 +92,7 @@ class ChannelAction {
 
   /**
    * List the open channels by calling the respective grpc api and updating
-   *   the channels array in the global store.
+   * the channels array in the global store.
    * @return {Promise<undefined>}
    */
   async getChannels() {
@@ -116,7 +116,7 @@ class ChannelAction {
 
   /**
    * List the pending channels by calling the respective grpc api and updating
-   *   the pendingChannels array in the global store.
+   * the pendingChannels array in the global store.
    * @return {Promise<undefined>}
    */
   async getPendingChannels() {
@@ -164,7 +164,7 @@ class ChannelAction {
 
   /**
    * List the peers by calling the respective grpc api and updating
-   *   the peers array in the global store.
+   * the peers array in the global store.
    * @return {Promise<undefined>}
    */
   async getPeers() {
@@ -187,10 +187,10 @@ class ChannelAction {
   }
 
   /**
-   * Attempty to connect to a peer and open a channel in a single call.
-   *   If a connection already exists, just a channel will be opened.
-   *   This action can be called from a view event handler as does all
-   *   the necessary error handling and notification display.
+   * Attempt to connect to a peer and open a channel in a single call.
+   * If a connection already exists, just a channel will be opened.
+   * This action can be called from a view event handler as does all
+   * the necessary error handling and notification display.
    * @return {Promise<undefined>}
    */
   async connectAndOpen() {
