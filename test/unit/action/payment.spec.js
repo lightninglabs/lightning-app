@@ -145,7 +145,7 @@ describe('Action Payments Unit Tests', () => {
       grpc.sendCommand
         .withArgs('queryRoutes', {
           pub_key: 'bar',
-          amt: '1700',
+          amt: 1700,
           num_routes: 1,
         })
         .resolves({

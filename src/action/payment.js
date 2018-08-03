@@ -72,7 +72,7 @@ class PaymentAction {
       payment.note = request.description;
       await this.estimateLightningFee({
         destination: request.destination,
-        satAmt: request.num_satoshis,
+        satAmt: parseSat(request.num_satoshis),
       });
       return true;
     } catch (err) {
