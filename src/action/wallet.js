@@ -1,3 +1,8 @@
+/**
+ * @fileOverview actions to set wallet state within the app and to
+ * call the corresponding GRPC apis for updating wallet balances.
+ */
+
 import { observe } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap } from '../helper';
 import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY } from '../config';
@@ -16,11 +21,22 @@ class WalletAction {
   // Verify Seed actions
   //
 
+  /**
+   * Initialize the seed verify view by resetting input values
+   * and then navigating to the view.
+   * @return {undefined}
+   */
   initSeedVerify() {
     this._store.wallet.seedVerify = ['', '', ''];
     this._nav.goSeedVerify();
   }
 
+  /**
+   * Set the verify seed input by validation the seed word and
+   * seed index.
+   * @param {string} options.word  The seed word
+   * @param {number} options.index The seed index
+   */
   setSeedVerify({ word, index }) {
     this._store.wallet.seedVerify[index] = word;
   }
@@ -29,21 +45,39 @@ class WalletAction {
   // Wallet Password actions
   //
 
+  /**
+   * Initialize the set password view by resetting input values
+   * and then navigating to the view.
+   * @return {undefined}
+   */
   initSetPassword() {
     this._store.wallet.password = '';
     this._store.wallet.passwordVerify = '';
     this._nav.goSetPassword();
   }
 
+  /**
+   * Initialize the password view by resetting input values
+   * and then navigating to the view.
+   * @return {undefined}
+   */
   initPassword() {
     this._store.wallet.password = '';
     this._nav.goPassword();
   }
 
+  /**
+   * Set the password input for the password view.
+   * @param {string} options.password The wallet password
+   */
   setPassword({ password }) {
     this._store.wallet.password = password;
   }
 
+  /**
+   * Set the verify password input for the password view.
+   * @param {string} options.password The wallet password a second time
+   */
   setPasswordVerify({ password }) {
     this._store.wallet.passwordVerify = password;
   }
@@ -52,6 +86,12 @@ class WalletAction {
   // Wallet actions
   //
 
+  /**
+   * Initialize the wallet by trying to generate a new seed. If seed
+   * generation in lnd fails, the app assumes a wallet already exists
+   * and wallet unlock via password input will be initiated.
+   * @return {Promise<undefined>}
+   */
   async init() {
     try {
       await this.generateSeed();
@@ -63,6 +103,11 @@ class WalletAction {
     }
   }
 
+  /**
+   * Update the wallet on-chain balance, channel balance, wallet address
+   * and fiat/btc exchange rate.
+   * @return {Promise<undefined>}
+   */
   async update() {
     await Promise.all([
       this.getBalance(),
@@ -72,11 +117,22 @@ class WalletAction {
     ]);
   }
 
+  /**
+   * Generate a new wallet seed. This needs to be done the first time the
+   * app is started.
+   * @return {Promise<undefined>}
+   */
   async generateSeed() {
     const response = await this._grpc.sendUnlockerCommand('GenSeed');
     this._store.seedMnemonic = response.cipher_seed_mnemonic;
   }
 
+  /**
+   * Verify that the user has written down the generated seed correctly by
+   * checking three random seed words. If the match continue to setting the
+   * wallet password.
+   * @return {undefined}
+   */
   async checkSeed() {
     const {
       wallet: { seedVerify },
@@ -93,6 +149,12 @@ class WalletAction {
     this.initSetPassword();
   }
 
+  /**
+   * Check the wallet password that was chosen by the user has the correct
+   * length and that it was also entered correctly twice to make sure that
+   * there was no typo.
+   * @return {Promise<undefined>}
+   */
   async checkNewPassword() {
     const { password, passwordVerify } = this._store.wallet;
     if (!password || password.length < MIN_PASSWORD_LENGTH) {
@@ -109,6 +171,14 @@ class WalletAction {
     });
   }
 
+  /**
+   * Initiate the lnd wallet using the generated seed and password. If this
+   * is success set `walletUnlocked` to true and navigate to the seed success
+   * screen.
+   * @param  {string} options.walletPassword The user chosen password
+   * @param  {Array}  options.seedMnemonic   The seed words to generate the wallet
+   * @return {Promise<undefined>}
+   */
   async initWallet({ walletPassword, seedMnemonic }) {
     try {
       await this._grpc.sendUnlockerCommand('InitWallet', {
@@ -122,11 +192,20 @@ class WalletAction {
     }
   }
 
+  /**
+   * Check the password input by the user by attempting to unlock the wallet.
+   * @return {Promise<undefined>}
+   */
   async checkPassword() {
     const { password } = this._store.wallet;
     await this.unlockWallet({ walletPassword: password });
   }
 
+  /**
+   * Unlock the wallet by calling the grpc api with the user chosen password.
+   * @param  {string} options.walletPassword The password used to encrypt the wallet
+   * @return {Promise<undefined>}
+   */
   async unlockWallet({ walletPassword }) {
     try {
       await this._grpc.sendUnlockerCommand('UnlockWallet', {
@@ -140,11 +219,21 @@ class WalletAction {
     }
   }
 
+  /**
+   * Toggle if fiat or btc should be use as the primary amount display in the
+   * application. Aftwards save the user's current preference on disk.
+   * @return {undefined}
+   */
   toggleDisplayFiat() {
     this._store.settings.displayFiat = !this._store.settings.displayFiat;
     this._db.save();
   }
 
+  /**
+   * Fetch the on-chain wallet balances using the lnd grpc api and set the
+   * corresponding values on the global store.
+   * @return {Promise<undefined>}
+   */
   async getBalance() {
     try {
       const r = await this._grpc.sendCommand('WalletBalance');
@@ -156,6 +245,11 @@ class WalletAction {
     }
   }
 
+  /**
+   * Fetch the lightning channel balances using the lnd grpc api and set the
+   * corresponding values on the global store.
+   * @return {Promise<undefined>}
+   */
   async getChannelBalance() {
     try {
       const r = await this._grpc.sendCommand('ChannelBalance');
@@ -166,6 +260,11 @@ class WalletAction {
     }
   }
 
+  /**
+   * Fetch a new on-chain bitcoin address which can be used to fund the wallet
+   * or receive an on-chain transaction from another user.
+   * @return {Promise<undefined>}
+   */
   async getNewAddress() {
     // - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
     // - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
@@ -180,6 +279,12 @@ class WalletAction {
     }
   }
 
+  /**
+   * Fetch a current btc/fiat exchange rate based on the currently selected
+   * fiat currency and persist the value on disk for the next time the app
+   * starts up.
+   * @return {Promise<undefined>}
+   */
   async getExchangeRate() {
     try {
       const fiat = this._store.settings.fiat;
