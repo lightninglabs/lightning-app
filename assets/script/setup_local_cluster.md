@@ -13,6 +13,10 @@ btcd --txindex --simnet --rpcuser=kek --rpcpass=kek --datadir=data/btcd/data --l
 
 lnd --rpclisten=localhost:10009 --listen=localhost:10019 --restlisten=localhost:8009 --lnddir=data/lnd --debuglevel=info --bitcoin.simnet --bitcoin.active --bitcoin.node=btcd --btcd.rpcuser=kek --btcd.rpcpass=kek --no-macaroons
 
+# if this is your first time, create the wallet
+lncli --rpcserver=localhost:10009 --no-macaroons --lnddir=data/lnd create
+
+# otherwise unlock the wallet
 lncli --rpcserver=localhost:10009 --no-macaroons --lnddir=data/lnd unlock
 
 lnd --rpclisten=localhost:10002 --listen=localhost:10012 --restlisten=localhost:8002 --lnddir=data/lnd2 --debuglevel=info --bitcoin.simnet --bitcoin.active --bitcoin.node=btcd --btcd.rpcuser=kek --btcd.rpcpass=kek --no-macaroons --noencryptwallet
@@ -40,6 +44,8 @@ lncli --rpcserver=localhost:10002 --no-macaroons --lnddir=data/lnd2 getinfo
 lncli --rpcserver=localhost:10009 --no-macaroons --lnddir=data/lnd connect PUB_KEY@localhost:10012
 
 lncli --rpcserver=localhost:10009 --no-macaroons --lnddir=data/lnd openchannel --node_key=PUB_KEY --local_amt=16000000
+
+btcctl --simnet --rpcuser=kek --rpcpass=kek generate 6
 
 lncli --rpcserver=localhost:10009 --no-macaroons --lnddir=data/lnd listchannels
 
