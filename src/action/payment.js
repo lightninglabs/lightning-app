@@ -111,6 +111,7 @@ class PaymentAction {
 
   async payLightning() {
     try {
+      this._nav.goWait();
       const invoice = this._store.payment.address.replace(PREFIX_URI, '');
       const stream = this._grpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {
@@ -123,7 +124,6 @@ class PaymentAction {
         });
         stream.on('error', reject);
         stream.write(JSON.stringify({ payment_request: invoice }), 'utf8');
-        this._nav.goWait();
       });
       this._nav.goPayLightningDone();
     } catch (err) {
