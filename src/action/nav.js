@@ -1,3 +1,9 @@
+/**
+ * @fileOverview actions for wrap navigation between views behing a platform
+ * independant api. These action should be pretty dumb and only change the
+ * route to be rendered in the user interface.
+ */
+
 class NavAction {
   constructor(store) {
     this._store = store;

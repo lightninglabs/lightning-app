@@ -1,3 +1,8 @@
+/**
+ * @fileOverview actions to set channel state within the app and to
+ * call the corresponding GRPC apis for channel management.
+ */
+
 import { toSatoshis, parseSat } from '../helper';
 import * as log from './log';
 
@@ -13,16 +18,31 @@ class ChannelAction {
   // Create channel actions
   //
 
+  /**
+   * Initiate the create channel view by resetting input values
+   * and then navigating to the view.
+   * @return {undefined}
+   */
   initCreate() {
     this._store.channel.pubkeyAtHost = '';
     this._store.channel.amount = '';
     this._nav.goChannelCreate();
   }
 
+  /**
+   * Set the amount input for the create channel view. This amount
+   * is either in btc or fiat depending on user settings.
+   * @param {string} options.amount The string formatted number
+   */
   setAmount({ amount }) {
     this._store.channel.amount = amount;
   }
 
+  /**
+   * Set the channel public key and hostname in a single variable
+   * which can be parsed before calling the create channel grpc api.
+   * @param {string} options.pubkeyAtHost The combined public key and host
+   */
   setPubkeyAtHost({ pubkeyAtHost }) {
     this._store.channel.pubkeyAtHost = pubkeyAtHost;
   }
@@ -31,17 +51,33 @@ class ChannelAction {
   // Channel list actions
   //
 
+  /**
+   * Initiate the channel list view by navigating to the view and updating
+   * the app's channel state by calling all necessary grpc apis.
+   * @return {undefined}
+   */
   init() {
     this._nav.goChannels();
     this.update();
   }
 
+  /**
+   * Select a channel item from the channel list view and then navigate
+   * to the detail view to list channel parameters.
+   * @param  {Object} options.item The selected channel object
+   * @return {undefined}
+   */
   select({ item }) {
     this._store.selectedChannel = item;
     this._nav.goChannelDetail();
     this.update();
   }
 
+  /**
+   * Update the peers, channels, and pending channels in the app state
+   * by querying all required grpc apis.
+   * @return {Promise<undefined>}
+   */
   async update() {
     await Promise.all([
       this.getPeers(),
@@ -50,6 +86,15 @@ class ChannelAction {
     ]);
   }
 
+  //
+  // Generic channel actions
+  //
+
+  /**
+   * List the open channels by calling the respective grpc api and updating
+   * the channels array in the global store.
+   * @return {Promise<undefined>}
+   */
   async getChannels() {
     try {
       const { channels } = await this._grpc.sendCommand('listChannels');
@@ -69,6 +114,11 @@ class ChannelAction {
     }
   }
 
+  /**
+   * List the pending channels by calling the respective grpc api and updating
+   * the pendingChannels array in the global store.
+   * @return {Promise<undefined>}
+   */
   async getPendingChannels() {
     try {
       const response = await this._grpc.sendCommand('pendingChannels');
@@ -112,6 +162,11 @@ class ChannelAction {
     }
   }
 
+  /**
+   * List the peers by calling the respective grpc api and updating
+   * the peers array in the global store.
+   * @return {Promise<undefined>}
+   */
   async getPeers() {
     try {
       const { peers } = await this._grpc.sendCommand('listPeers');
@@ -131,6 +186,13 @@ class ChannelAction {
     }
   }
 
+  /**
+   * Attempt to connect to a peer and open a channel in a single call.
+   * If a connection already exists, just a channel will be opened.
+   * This action can be called from a view event handler as does all
+   * the necessary error handling and notification display.
+   * @return {Promise<undefined>}
+   */
   async connectAndOpen() {
     try {
       const { channel, settings } = this._store;
@@ -149,6 +211,13 @@ class ChannelAction {
     }
   }
 
+  /**
+   * Connect to peer and fail gracefully by catching exceptions and
+   * logging their output.
+   * @param  {string} options.host   The hostname of the peer
+   * @param  {string} options.pubkey The public key of the peer
+   * @return {Promise<undefined>}
+   */
   async connectToPeer({ host, pubkey }) {
     try {
       await this._grpc.sendCommand('connectPeer', {
@@ -159,6 +228,13 @@ class ChannelAction {
     }
   }
 
+  /**
+   * Open a channel to a peer without advertising it and update channel
+   * state on data event from the streaming grpc api.
+   * @param  {string} options.pubkey The public key of the peer
+   * @param  {number} options.amount The amount in satoshis to fund the channel
+   * @return {Promise<undefined>}
+   */
   async openChannel({ pubkey, amount }) {
     const stream = this._grpc.sendStreamCommand('openChannel', {
       node_pubkey: new Buffer(pubkey, 'hex'),
@@ -173,6 +249,12 @@ class ChannelAction {
     });
   }
 
+  /**
+   * Close the selected channel by attempting a cooperative close.
+   * This action can be called from a view event handler as does all
+   * the necessary error handling and notification display.
+   * @return {Promise<undefined>}
+   */
   async closeSelectedChannel() {
     try {
       const { selectedChannel } = this._store;
@@ -183,6 +265,14 @@ class ChannelAction {
     }
   }
 
+  /**
+   * Close a channel using the grpc streaming api and update the state
+   * on data events. Once the channel close is complete the channel will
+   * be removed from the channels array in the store.
+   * @param  {string}  options.channelPoint The channel identifier
+   * @param  {Boolean} options.force        Force or cooperative close
+   * @return {Promise<undefined>}
+   */
   async closeChannel({ channelPoint, force = false }) {
     const stream = this._grpc.sendStreamCommand('closeChannel', {
       channel_point: this._parseChannelPoint(channelPoint),

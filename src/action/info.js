@@ -1,3 +1,9 @@
+/**
+ * @fileOverview the info actions are used to fetch general details about the
+ * state of the lnd such as the public key as well as synchronization state and
+ * the current block height.
+ */
+
 import { RETRY_DELAY } from '../config';
 import { observe } from 'mobx';
 import * as log from './log';
@@ -10,6 +16,12 @@ class InfoAction {
     this._notification = notification;
   }
 
+  /**
+   * Fetches the current details of the lnd node and sets the corresponding
+   * store parameters. This api is polled at the beginning of app initialization
+   * until lnd has finished syncing the chain to the connected bitcoin full node.
+   * @return {Promise<undefined>}
+   */
   async getInfo() {
     try {
       const response = await this._grpc.sendCommand('getInfo');
@@ -31,6 +43,13 @@ class InfoAction {
     }
   }
 
+  /**
+   * A navigation helper called during the app onboarding process. The loader
+   * screen indicating the syncing progress in displayed until syncing has
+   * completed `syncedToChain` is set to true. After that the user is taken
+   * to the home screen.
+   * @return {undefined}
+   */
   initLoaderSyncing() {
     if (this._store.syncedToChain) {
       this._nav.goHome();
@@ -40,6 +59,12 @@ class InfoAction {
     }
   }
 
+  /**
+   * An internal helper function to approximate the current progress while
+   * syncing Neutrino to the full node.
+   * @param  {Object} response The getInfo's grpc api response
+   * @return {number}          The percrentage a number between 0 and 1
+   */
   calcPercentSynced(response) {
     const bestHeaderTimestamp = response.best_header_timestamp;
     const currTimestamp = new Date().getTime() / 1000;

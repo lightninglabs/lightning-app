@@ -1,3 +1,8 @@
+/**
+ * @fileOverview actions to set payment state within the app and to
+ * call the corresponding GRPC apis for payment management.
+ */
+
 import { PREFIX_URI } from '../config';
 import {
   toSatoshis,
@@ -18,6 +23,12 @@ class PaymentAction {
     this._notification = notification;
   }
 
+  /**
+   * Set the listener for IPC from the main electron process to
+   * handle incoming URIs containing lightning invoices.
+   * @param  {Object} ipcRenderer Electron's IPC api for the rendering process
+   * @return {undefined}
+   */
   listenForUrl(ipcRenderer) {
     ipcRenderer.on('open-url', async (event, url) => {
       log.info('open-url', url);
@@ -33,6 +44,11 @@ class PaymentAction {
     });
   }
 
+  /**
+   * Initialize the payment view by resetting input values
+   * and then navigating to the view.
+   * @return {undefined}
+   */
   init() {
     this._store.payment.address = '';
     this._store.payment.amount = '';
@@ -41,14 +57,32 @@ class PaymentAction {
     this._nav.goPay();
   }
 
+  /**
+   * Set the address input for the payment view. This can either be
+   * an on-chain bitcoin addres or an encoded lightning invoice.
+   * @param {string} options.address The payment address
+   */
   setAddress({ address }) {
     this._store.payment.address = address;
   }
 
+  /**
+   * Set the amount input for the payment view. This amount
+   * is either in btc or fiat depending on user settings.
+   * @param {string} options.amount The string formatted number
+   */
   setAmount({ amount }) {
     this._store.payment.amount = amount;
   }
 
+  /**
+   * Check if the address input provided by the user is either an on-chain
+   * bitcoin address or a lightning invoice. Depending on which type it is
+   * the app will navigate to the corresponding payment view.
+   * This action can be called from a view event handler as does all
+   * the necessary error handling and notification display.
+   * @return {Promise<undefined>}
+   */
   async checkType() {
     if (!this._store.payment.address) {
       return this._notification.display({ msg: 'Enter an invoice or address' });
@@ -62,6 +96,13 @@ class PaymentAction {
     }
   }
 
+  /**
+   * Attempt to decode a lightning invoice using the lnd grpc api. If it is
+   * an invoice the amount and note store values will be set and the lightning
+   * transaction fee will also be estimated.
+   * @param  {string} options.invoice The input to be validated
+   * @return {Promise<boolean>}       If the input is a valid invoice
+   */
   async decodeInvoice({ invoice }) {
     try {
       const { payment, settings } = this._store;
@@ -81,6 +122,13 @@ class PaymentAction {
     }
   }
 
+  /**
+   * Estimate the lightning transaction fee using the queryRoutes grpc api
+   * after which the fee is set in the store.
+   * @param  {string} options.destination The lnd node that is to be payed
+   * @param  {number} options.satAmt      The amount to be payed in satoshis
+   * @return {Promise<undefined>}
+   */
   async estimateLightningFee({ destination, satAmt }) {
     try {
       const { payment, settings } = this._store;
@@ -95,6 +143,13 @@ class PaymentAction {
     }
   }
 
+  /**
+   * Send the specified amount as an on-chain transaction to the provided
+   * bitcoin address and display a payment confirmation screen.
+   * This action can be called from a view event handler as does all
+   * the necessary error handling and notification display.
+   * @return {Promise<undefined>}
+   */
   async payBitcoin() {
     try {
       const { payment, settings } = this._store;
@@ -109,6 +164,13 @@ class PaymentAction {
     await this._transaction.update();
   }
 
+  /**
+   * Send the amount specified in the invoice as a lightning transaction and
+   * display the wait screen while the payment confirms.
+   * This action can be called from a view event handler as does all
+   * the necessary error handling and notification display.
+   * @return {Promise<undefined>}
+   */
   async payLightning() {
     try {
       this._nav.goWait();

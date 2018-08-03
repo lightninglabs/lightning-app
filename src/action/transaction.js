@@ -1,3 +1,8 @@
+/**
+ * @fileOverview actions to set transactions state within the app and to
+ * call the corresponding GRPC apis for listing transactions.
+ */
+
 import * as log from './log';
 import { parseDate, parseSat, toHex, toHash } from '../helper';
 
@@ -9,17 +14,33 @@ class TransactionAction {
     this._nav = nav;
   }
 
+  /**
+   * Initiate the transaction list view by navigating to the view and updating
+   * the app's transaction state by calling all necessary grpc apis.
+   * @return {undefined}
+   */
   init() {
     this._nav.goTransactions();
     this.update();
   }
 
+  /**
+   * Select a transaction item from the transaction list view and then navigate
+   * to the detail view to list transaction parameters.
+   * @param  {Object} options.item The selected transaction object
+   * @return {undefined}
+   */
   select({ item }) {
     this._store.selectedTransaction = item;
     this._nav.goTransactionDetail();
     this.update();
   }
 
+  /**
+   * Update the on-chain transactions, invoice, lighting payments, and wallet
+   * balances in the app state by querying all required grpc apis.
+   * @return {Promise<undefined>}
+   */
   async update() {
     await Promise.all([
       this.getTransactions(),
@@ -30,6 +51,11 @@ class TransactionAction {
     ]);
   }
 
+  /**
+   * List the on-chain transactions by calling the respective grpc api and updating
+   * the transactions array in the global store.
+   * @return {Promise<undefined>}
+   */
   async getTransactions() {
     try {
       const { transactions } = await this._grpc.sendCommand('getTransactions');
@@ -48,6 +74,11 @@ class TransactionAction {
     }
   }
 
+  /**
+   * List the lightning invoices by calling the respective grpc api and updating
+   * the invoices array in the global store.
+   * @return {Promise<undefined>}
+   */
   async getInvoices() {
     try {
       const { invoices } = await this._grpc.sendCommand('listInvoices');
@@ -65,6 +96,11 @@ class TransactionAction {
     }
   }
 
+  /**
+   * List the lightning payments by calling the respective grpc api and updating
+   * the payments array in the global store.
+   * @return {Promise<undefined>}
+   */
   async getPayments() {
     try {
       const { payments } = await this._grpc.sendCommand('listPayments');
@@ -82,6 +118,10 @@ class TransactionAction {
     }
   }
 
+  /**
+   * Subscribe to incoming on-chain transactions using the grpc streaming api.
+   * @return {Promise<undefined>}
+   */
   async subscribeTransactions() {
     const stream = this._grpc.sendStreamCommand('subscribeTransactions');
     await new Promise((resolve, reject) => {
@@ -92,6 +132,10 @@ class TransactionAction {
     });
   }
 
+  /**
+   * Subscribe to incoming invoice payments using the grpc streaming api.
+   * @return {Promise<undefined>}
+   */
   async subscribeInvoices() {
     const stream = this._grpc.sendStreamCommand('subscribeInvoices');
     await new Promise((resolve, reject) => {
