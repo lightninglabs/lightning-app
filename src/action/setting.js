@@ -33,12 +33,7 @@ class SettingAction {
    * @param {string} options.fiat The fiat currency e.g. `usd`
    */
   setFiatCurrency({ fiat }) {
-    let fiatSetting = fiat;
-    if (!FIATS[fiat]) {
-      fiatSetting = DEFAULT_FIAT;
-      // throw new Error(`Invalid fiat currency: ${fiat}`);
-    }
-    this._store.settings.fiat = fiatSetting;
+    this._store.settings.fiat = FIATS[fiat] ? fiat : DEFAULT_FIAT;
     this._wallet.getExchangeRate();
     this._db.save();
   }

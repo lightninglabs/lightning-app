@@ -210,16 +210,15 @@ describe('Action Integration Tests', function() {
     });
   });
 
-  describe('Setting actions', () => {
+  describe('Grpc and Settings actions', () => {
     it('should get the locale', async () => {
-      const locale = await grpc1.getLocale();
-      settings1.setFiatByLocale({ locale });
+      const locale1 = await grpc1.getLocale();
+      expect(locale1, 'to be', 'gb');
+      settings1.setFiatByLocale({ locale: locale1 });
       expect(store1.settings.fiat, 'to be', 'gbp');
-    });
 
-    it('should use usd if the locale is unsupported', async () => {
-      const locale = await grpc2.getLocale(); // "Shona (Zimbabwe) - sn-ZW"
-      settings2.setFiatByLocale({ locale });
+      const locale2 = await grpc2.getLocale(); // "Shona (Zimbabwe) - sn-ZW"
+      settings2.setFiatByLocale({ locale: locale2 });
       expect(store2.settings.fiat, 'to be', 'usd');
     });
   });

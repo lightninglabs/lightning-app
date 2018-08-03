@@ -2,6 +2,7 @@ import { Store } from '../../../src/store';
 import SettingAction from '../../../src/action/setting';
 import WalletAction from '../../../src/action/wallet';
 import AppStorage from '../../../src/action/app-storage';
+import { DEFAULT_FIAT } from '../../../src/config';
 
 describe('Action Setting Unit Test', () => {
   let store;
@@ -40,12 +41,9 @@ describe('Action Setting Unit Test', () => {
       expect(db.save, 'was called once');
     });
 
-    it('should throw error on invalid fiat type', () => {
-      expect(
-        setting.setFiatCurrency.bind(null, { fiat: 'invalid' }),
-        'to throw',
-        /Invalid/
-      );
+    it('should use default fiat type when locale is unsupported', () => {
+      setting.setFiatCurrency({ fiat: 'sn-ZW' });
+      expect(store.settings.fiat, 'to equal', DEFAULT_FIAT);
     });
   });
 });
