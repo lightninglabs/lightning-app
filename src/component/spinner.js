@@ -73,11 +73,12 @@ export class ContinuousLoadNetworkSpinner extends Component {
   constructor(props) {
     super(props);
     this.increasePercentage = this.increasePercentage.bind(this);
-    const intervalId = setInterval(this.increasePercentage, 10);
     this.state = {
       percentage: 0,
-      intervalId,
     };
+  }
+  componentDidMount() {
+    this.intervalId = setInterval(this.increasePercentage, 10);
   }
   render() {
     const { msg, style } = this.props;
@@ -98,7 +99,7 @@ export class ContinuousLoadNetworkSpinner extends Component {
     });
   }
   componentWillUnmount() {
-    clearInterval(this.state.intervalId);
+    clearInterval(this.intervalId);
   }
 }
 
