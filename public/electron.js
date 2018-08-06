@@ -44,6 +44,9 @@ log.transports.console.level = 'info';
 log.transports.file.level = 'info';
 ipcMain.on('log', (event, arg) => log.info(...arg));
 ipcMain.on('log-error', (event, arg) => log.error(...arg));
+ipcMain.on('get-locale', event => {
+  event.sender.send('locale', { response: { locale } });
+});
 
 let logQueue = [];
 let logsReady = false;
@@ -119,7 +122,6 @@ function createWindow() {
     ipcMain,
     lndSettingsDir,
     lndPort: LND_PORT,
-    locale,
     macaroonsEnabled: MACAROONS_ENABLED,
   });
 }

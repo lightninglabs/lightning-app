@@ -13,11 +13,6 @@ class GrpcAction {
     this._ipcRenderer = ipcRenderer;
   }
 
-  async getLocale() {
-    let response = await this._sendIpc('get-locale', 'locale');
-    return response.locale;
-  }
-
   //
   // WalletUnlocker grpc client
   //
@@ -87,6 +82,17 @@ class GrpcAction {
    */
   sendCommand(method, body) {
     return this._sendIpc('lndRequest', 'lndResponse', method, body);
+  }
+
+  /**
+   * Wrapper function to execute a call to the main process
+   * in order to retrieve the user's locale.
+   * @param  {string} method The lnd GRPC api to call
+   * @param  {Object} body   The payload passed to the api
+   * @return {Promise<Object>}
+   */
+  sendLocaleRequest() {
+    return this._sendIpc('get-locale', 'locale');
   }
 
   /**

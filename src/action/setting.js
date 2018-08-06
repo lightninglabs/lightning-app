@@ -8,7 +8,8 @@ import LocaleCurrency from 'locale-currency';
 import { DEFAULT_FIAT } from '../config';
 
 class SettingAction {
-  constructor(store, wallet, db) {
+  constructor(store, grpc, wallet, db) {
+    this._grpc = grpc;
     this._store = store;
     this._wallet = wallet;
     this._db = db;
@@ -37,8 +38,10 @@ class SettingAction {
     this._wallet.getExchangeRate();
     this._db.save();
   }
-  setFiatByLocale({ locale }) {
-    const fiat = LocaleCurrency.getCurrency(locale).toLowerCase();
+
+  async getLocale() {
+    let response = await this._grpc.sendLocaleRequest();
+    const fiat = LocaleCurrency.getCurrency(response.locale).toLowerCase();
     this.setFiatCurrency({ fiat });
   }
 }

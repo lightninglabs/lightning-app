@@ -47,7 +47,7 @@ export const invoice = new InvoiceAction(
   Clipboard
 );
 export const payment = new PaymentAction(store, grpc, transaction, nav, notify);
-export const setting = new SettingAction(store, wallet, db);
+export const setting = new SettingAction(store, grpc, wallet, db);
 
 payment.listenForUrl(ipcRenderer); // enable incoming url handler
 
@@ -86,7 +86,7 @@ observe(store, 'walletUnlocked', async () => {
  * to and from lnd can be done. The display the current state of the
  * lnd node all balances, channels and transactions are fetched.
  */
-observe(store, 'lndReady', () => {
+observe(store, 'lndReady', async () => {
   await setting.getLocale();
   info.getInfo();
   wallet.update();

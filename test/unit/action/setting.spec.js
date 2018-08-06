@@ -1,20 +1,23 @@
 import { Store } from '../../../src/store';
+import GrpcAction from '../../../src/action/grpc';
 import SettingAction from '../../../src/action/setting';
 import WalletAction from '../../../src/action/wallet';
 import AppStorage from '../../../src/action/app-storage';
 import { DEFAULT_FIAT } from '../../../src/config';
 
 describe('Action Setting Unit Test', () => {
+  let grpc;
   let store;
   let wallet;
   let db;
   let setting;
 
   beforeEach(() => {
+    grpc = sinon.createStubInstance(GrpcAction);
     store = new Store();
     wallet = sinon.createStubInstance(WalletAction);
     db = sinon.createStubInstance(AppStorage);
-    setting = new SettingAction(store, wallet, db);
+    setting = new SettingAction(store, grpc, wallet, db);
   });
 
   describe('setBitcoinUnit()', () => {

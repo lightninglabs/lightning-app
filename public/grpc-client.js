@@ -44,7 +44,6 @@ module.exports.init = async function({
   ipcMain,
   lndPort,
   lndSettingsDir,
-  locale,
   macaroonsEnabled,
 }) {
   let credentials;
@@ -53,10 +52,6 @@ module.exports.init = async function({
   let lnrpc;
   let unlocker;
   let lnd;
-
-  ipcMain.on('get-locale', event => {
-    event.sender.send('locale', { response: { locale } });
-  });
 
   ipcMain.on('unlockInit', async event => {
     credentials = await getCredentials(lndSettingsDir);
