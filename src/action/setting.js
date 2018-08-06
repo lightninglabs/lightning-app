@@ -4,9 +4,12 @@
  */
 
 import { UNITS, FIATS } from '../config';
+import LocaleCurrency from 'locale-currency';
+import { DEFAULT_FIAT } from '../config';
 
 class SettingAction {
-  constructor(store, wallet, db) {
+  constructor(store, grpc, wallet, db) {
+    this._grpc = grpc;
     this._store = store;
     this._wallet = wallet;
     this._db = db;
@@ -31,12 +34,15 @@ class SettingAction {
    * @param {string} options.fiat The fiat currency e.g. `usd`
    */
   setFiatCurrency({ fiat }) {
-    if (!FIATS[fiat]) {
-      throw new Error(`Invalid fiat currency: ${fiat}`);
-    }
-    this._store.settings.fiat = fiat;
+    this._store.settings.fiat = FIATS[fiat] ? fiat : DEFAULT_FIAT;
     this._wallet.getExchangeRate();
     this._db.save();
+  }
+
+  async getLocale() {
+    let response = await this._grpc.sendLocaleRequest();
+    const fiat = LocaleCurrency.getCurrency(response.locale).toLowerCase();
+    this.setFiatCurrency({ fiat });
   }
 }
 
