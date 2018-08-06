@@ -49,7 +49,7 @@ export const LoadNetworkSpinner = ({ continuous, percentage, msg, style }) => (
       continuous={continuous}
       percentage={percentage}
       size={80}
-      progressWidth={4}
+      progressWidth={3}
       gradient="loadNetworkGrad"
     >
       <LightningBoltIcon height={28} width={14.2222} />
@@ -190,7 +190,7 @@ const SpinnerProgress = ({ continuous, width, percentage, color }) => (
       width / 2,
       width / 2,
       continuous ? percentage * 360 : 0,
-      continuous ? ((percentage + 0.4) % 1) * 360 : percentage * 360
+      continuous ? (percentage + 0.4) * 360 : percentage * 360
     )}
     fill={color}
   />
