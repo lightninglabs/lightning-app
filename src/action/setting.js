@@ -42,6 +42,11 @@ class SettingAction {
     this._db.save();
   }
 
+  /**
+   * Detect the user's local fiat currency based on their OS locale.
+   * If the currency is not supported use the default currency `usd`.
+   * @return {Promise<undefined>}
+   */
   async detectLocalCurrency() {
     try {
       let locale = await this._ipc.send('locale-get', 'locale');

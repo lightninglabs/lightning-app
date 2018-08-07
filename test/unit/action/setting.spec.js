@@ -61,7 +61,7 @@ describe('Action Setting Unit Test', () => {
   });
 
   describe('detectLocalCurrency()', () => {
-    it('should set a valid fiat currency and save settings', async () => {
+    it('should detect Euro for Germany and save settings', async () => {
       ipc.send.resolves('de');
       await setting.detectLocalCurrency();
       expect(store.settings.fiat, 'to equal', 'eur');
@@ -69,10 +69,18 @@ describe('Action Setting Unit Test', () => {
       expect(db.save, 'was called once');
     });
 
-    it('should throw error on invalid fiat type', async () => {
+    it('should log error', async () => {
       ipc.send.rejects(new Error('Boom!'));
       await setting.detectLocalCurrency();
-      expect(logger.error, 'was called with', /Detecting/);
+      expect(logger.error, 'was called with', /Detecting/, /Boom/);
+    });
+
+    it('should fall back to USD for unsupported fiat', async () => {
+      ipc.send.resolves('jp');
+      await setting.detectLocalCurrency();
+      expect(store.settings.fiat, 'to equal', 'usd');
+      expect(logger.error, 'was called with', /Detecting/, /Invalid fiat/);
+      expect(db.save, 'was not called');
     });
   });
 });
