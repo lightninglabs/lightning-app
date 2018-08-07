@@ -5,7 +5,7 @@
 
 import { observe } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap } from '../helper';
-import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY } from '../config';
+import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY, RATE_DELAY } from '../config';
 import * as log from './log';
 
 class WalletAction {
@@ -285,10 +285,9 @@ class WalletAction {
    * @return {Promise<undefined>}
    */
   async pollExchangeRate() {
-    // Poll every 15 minutes, starting now.
     await this.getExchangeRate();
-    let interval = 15 * 60 * 1000;
-    setInterval(() => this.getExchangeRate(), interval);
+    clearTimeout(this.tPollRate);
+    this.tPollRate = setTimeout(() => this.pollExchangeRate(), RATE_DELAY);
   }
 
   /**
