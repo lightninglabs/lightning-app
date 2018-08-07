@@ -93,7 +93,7 @@ observe(store, 'walletUnlocked', async () => {
  * to and from lnd can be done. The display the current state of the
  * lnd node all balances, channels and transactions are fetched.
  */
-observe(store, 'lndReady', async () => {
+observe(store, 'lndReady', () => {
   info.getInfo();
   wallet.update();
   channel.update();
