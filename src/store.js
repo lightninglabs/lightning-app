@@ -29,7 +29,6 @@ export class Store {
       pubKey: null,
       walletAddress: null,
       displayCopied: false,
-      ipAddress: null,
       wallet: {
         password: '',
         passwordVerify: '',
