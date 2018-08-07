@@ -5,6 +5,7 @@ import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
 import NotificationAction from '../../../src/action/notification';
 import * as logger from '../../../src/action/log';
+import { nap } from '../../../src/helper';
 import nock from 'nock';
 import 'isomorphic-fetch';
 
@@ -23,6 +24,7 @@ describe('Action Wallet Unit Tests', () => {
     store = new Store();
     require('../../../src/config').RETRY_DELAY = 1;
     require('../../../src/config').NOTIFICATION_DELAY = 1;
+    require('../../../src/config').RATE_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     db = sinon.createStubInstance(AppStorage);
     notification = sinon.createStubInstance(NotificationAction);
@@ -31,6 +33,7 @@ describe('Action Wallet Unit Tests', () => {
   });
 
   afterEach(() => {
+    clearTimeout(wallet.tPollRate);
     sandbox.restore();
   });
 
@@ -106,10 +109,10 @@ describe('Action Wallet Unit Tests', () => {
 
   describe('update()', () => {
     it('should refresh balances, exchange rate and address', async () => {
-      sandbox.stub(wallet, 'getExchangeRate');
+      sandbox.stub(wallet, 'pollExchangeRate');
       await wallet.update();
       expect(grpc.sendCommand, 'was called thrice');
-      expect(wallet.getExchangeRate, 'was called once');
+      expect(wallet.pollExchangeRate, 'was called once');
     });
   });
 
@@ -321,6 +324,15 @@ describe('Action Wallet Unit Tests', () => {
       grpc.sendCommand.rejects();
       await wallet.getNewAddress();
       expect(logger.error, 'was called once');
+    });
+  });
+
+  describe('pollExchangeRate()', () => {
+    it('should call getExchangeRate', async () => {
+      sandbox.stub(wallet, 'getExchangeRate');
+      await wallet.pollExchangeRate();
+      await nap(30);
+      expect(wallet.getExchangeRate.callCount, 'to be greater than', 1);
     });
   });
 

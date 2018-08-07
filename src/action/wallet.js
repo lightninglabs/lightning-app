@@ -5,7 +5,7 @@
 
 import { observe } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap } from '../helper';
-import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY } from '../config';
+import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY, RATE_DELAY } from '../config';
 import * as log from './log';
 
 class WalletAction {
@@ -113,7 +113,7 @@ class WalletAction {
       this.getBalance(),
       this.getChannelBalance(),
       this.getNewAddress(),
-      this.getExchangeRate(),
+      this.pollExchangeRate(),
     ]);
   }
 
@@ -277,6 +277,17 @@ class WalletAction {
     } catch (err) {
       log.error('Getting new wallet address failed', err);
     }
+  }
+
+  /**
+   * Poll for the current btc/fiat exchange rate based on the currently selected
+   * fiat currency every 15 minutes.
+   * @return {Promise<undefined>}
+   */
+  async pollExchangeRate() {
+    await this.getExchangeRate();
+    clearTimeout(this.tPollRate);
+    this.tPollRate = setTimeout(() => this.pollExchangeRate(), RATE_DELAY);
   }
 
   /**
