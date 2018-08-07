@@ -113,7 +113,7 @@ class WalletAction {
       this.getBalance(),
       this.getChannelBalance(),
       this.getNewAddress(),
-      this.getExchangeRate(),
+      this.pollExchangeRate(),
     ]);
   }
 
@@ -277,6 +277,18 @@ class WalletAction {
     } catch (err) {
       log.error('Getting new wallet address failed', err);
     }
+  }
+
+  /**
+   * Poll for the current btc/fiat exchange rate based on the currently selected
+   * fiat currency every 15 minutes.
+   * @return {Promise<undefined>}
+   */
+  async pollExchangeRate() {
+    // Poll every 15 minutes, starting now.
+    await this.getExchangeRate();
+    let interval = 15 * 60 * 1000;
+    setInterval(() => this.getExchangeRate(), interval);
   }
 
   /**

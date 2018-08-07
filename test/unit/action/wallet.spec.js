@@ -106,10 +106,10 @@ describe('Action Wallet Unit Tests', () => {
 
   describe('update()', () => {
     it('should refresh balances, exchange rate and address', async () => {
-      sandbox.stub(wallet, 'getExchangeRate');
+      sandbox.stub(wallet, 'pollExchangeRate');
       await wallet.update();
       expect(grpc.sendCommand, 'was called thrice');
-      expect(wallet.getExchangeRate, 'was called once');
+      expect(wallet.pollExchangeRate, 'was called once');
     });
   });
 
@@ -321,6 +321,14 @@ describe('Action Wallet Unit Tests', () => {
       grpc.sendCommand.rejects();
       await wallet.getNewAddress();
       expect(logger.error, 'was called once');
+    });
+  });
+
+  describe('pollExchangeRate()', () => {
+    it('should call getExchangeRate', async () => {
+      sandbox.stub(wallet, 'getExchangeRate');
+      await wallet.pollExchangeRate();
+      expect(wallet.getExchangeRate, 'was called once');
     });
   });
 
