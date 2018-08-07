@@ -1,5 +1,6 @@
 import { rmdir, poll, isPortOpen } from './test-util';
 import { Store } from '../../../src/store';
+import IpcAction from '../../../src/action/ipc';
 import GrpcAction from '../../../src/action/grpc';
 import AppStorage from '../../../src/action/app-storage';
 import NavAction from '../../../src/action/nav';
@@ -40,8 +41,11 @@ const MACAROONS_ENABLED = false;
 const NAP_TIME = process.env.NAP_TIME || 5000;
 const walletPassword = 'bitconeeeeeect';
 
-const wireUpIpc = (s1, s2) =>
-  (s1.send = (msg, ...args) => s2.emit(msg, { sender: s2 }, ...args));
+const wireUpIpc = (s1, s2) => {
+  s1.send = (msg, ...args) => {
+    setTimeout(() => s2.emit(msg, { sender: s2 }, ...args), 1);
+  };
+};
 
 const ipcMainStub1 = new EventEmitter();
 const ipcRendererStub1 = new EventEmitter();
@@ -66,6 +70,7 @@ describe('Action Integration Tests', function() {
   let btcdProcess;
   let nav1;
   let notify1;
+  let ipc1;
   let grpc1;
   let info1;
   let wallet1;
@@ -75,6 +80,7 @@ describe('Action Integration Tests', function() {
   let invoice1;
   let nav2;
   let notify2;
+  let ipc2;
   let grpc2;
   let info2;
   let wallet2;
@@ -141,7 +147,8 @@ describe('Action Integration Tests', function() {
     db1 = sinon.createStubInstance(AppStorage);
     nav1 = sinon.createStubInstance(NavAction);
     notify1 = sinon.createStubInstance(NotificationAction, nav1);
-    grpc1 = new GrpcAction(store1, ipcRendererStub1);
+    ipc1 = new IpcAction(ipcRendererStub1);
+    grpc1 = new GrpcAction(store1, ipc1);
     info1 = new InfoAction(store1, grpc1, nav1, notify1);
     wallet1 = new WalletAction(store1, grpc1, db1, nav1, notify1);
     channels1 = new ChannelAction(store1, grpc1, nav1, notify1);
@@ -152,7 +159,8 @@ describe('Action Integration Tests', function() {
     db2 = sinon.createStubInstance(AppStorage);
     nav2 = sinon.createStubInstance(NavAction);
     notify2 = sinon.createStubInstance(NotificationAction, nav2);
-    grpc2 = new GrpcAction(store2, ipcRendererStub2);
+    ipc2 = new IpcAction(ipcRendererStub2);
+    grpc2 = new GrpcAction(store2, ipc2);
     info2 = new InfoAction(store2, grpc2, nav2, notify2);
     wallet2 = new WalletAction(store2, grpc2, db2, nav2, notify2);
     channels2 = new ChannelAction(store2, grpc2, nav2, notify2);
