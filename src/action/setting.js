@@ -4,7 +4,7 @@
  */
 
 import { UNITS, FIATS } from '../config';
-import LocaleCurrency from 'locale-currency';
+import localeCurrency from 'locale-currency';
 import * as log from './log';
 
 class SettingAction {
@@ -45,7 +45,7 @@ class SettingAction {
   async detectLocalCurrency() {
     try {
       let locale = await this._ipc.send('get-locale', 'locale');
-      const fiat = LocaleCurrency.getCurrency(locale).toLowerCase();
+      const fiat = localeCurrency.getCurrency(locale).toLowerCase();
       this.setFiatCurrency({ fiat });
     } catch (err) {
       log.error('Detecting local currency failed', err);
