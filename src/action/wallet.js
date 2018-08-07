@@ -95,6 +95,7 @@ class WalletAction {
   async init() {
     try {
       await this.generateSeed();
+      this._store.firstStart = true;
       this._nav.goLoader();
       await nap(NOTIFICATION_DELAY);
       this._nav.goSeed();

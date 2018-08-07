@@ -15,6 +15,7 @@ export class Store {
     extendObservable(this, {
       loaded: false, // Is persistent data loaded
       unlockerReady: false, // Is wallet unlocker running
+      firstStart: false, // Is the first time the app was started
       walletUnlocked: false, // Is the wallet unlocked
       lndReady: false, // Is lnd process running
       syncedToChain: false, // Is lnd synced to blockchain
