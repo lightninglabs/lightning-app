@@ -72,7 +72,8 @@ observe(store, 'unlockerReady', async () => {
 });
 
 /**
- * Triggered the first time the app was started
+ * Triggered the first time the app was started e.g. to set the
+ * local fiat currency only once.
  */
 observe(store, 'firstStart', async () => {
   await setting.detectLocalCurrency();
