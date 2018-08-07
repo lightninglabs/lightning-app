@@ -85,17 +85,6 @@ class GrpcAction {
   }
 
   /**
-   * Wrapper function to execute a call to the main process
-   * in order to retrieve the user's locale.
-   * @param  {string} method The lnd GRPC api to call
-   * @param  {Object} body   The payload passed to the api
-   * @return {Promise<Object>}
-   */
-  sendLocaleRequest() {
-    return this._sendIpc('get-locale', 'locale');
-  }
-
-  /**
    * Wrapper function to execute GRPC streaming api calls to lnd. This function
    * proxies data to and from lnd using a duplex stream which is returned.
    * @param  {string} method The lnd GRPC api to call
