@@ -1,9 +1,11 @@
 import { Store } from '../../../src/store';
+import IpcAction from '../../../src/action/ipc';
 import GrpcAction from '../../../src/action/grpc';
 import * as logger from '../../../src/action/log';
 
 describe('Action GRPC Unit Tests', () => {
   let store;
+  let ipc;
   let grpc;
   let sandbox;
   let ipcRendererStub;
@@ -17,7 +19,8 @@ describe('Action GRPC Unit Tests', () => {
       once: sandbox.stub(),
       send: sandbox.stub(),
     };
-    grpc = new GrpcAction(store, ipcRendererStub);
+    ipc = new IpcAction(ipcRendererStub);
+    grpc = new GrpcAction(store, ipc);
   });
 
   afterEach(() => {

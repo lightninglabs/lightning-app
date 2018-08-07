@@ -1,6 +1,6 @@
 /**
  * @fileOverview a low level action to proxy GRPC api calls to and from lnd
- * over electron's IPC renderer api. This module should not be invokes directly
+ * over an IPC api. This module should not be invokes directly
  * from the UI but rather used within other higher level actions.
  */
 
@@ -8,9 +8,9 @@ import { Duplex } from 'stream';
 import * as log from './log';
 
 class GrpcAction {
-  constructor(store, ipcRenderer) {
+  constructor(store, ipc) {
     this._store = store;
-    this._ipcRenderer = ipcRenderer;
+    this._ipc = ipc;
   }
 
   //
@@ -107,14 +107,14 @@ class GrpcAction {
     const stream = new Duplex({
       write(data) {
         data = JSON.parse(data.toString('utf8'));
-        self._ipcRenderer.send('lndStreamWrite', { method, data });
+        self._ipc.send('lndStreamWrite', null, { method, data });
       },
       read() {},
     });
-    this._ipcRenderer.on(`lndStreamEvent_${method}`, (e, arg) => {
+    this._ipc.listen(`lndStreamEvent_${method}`, (e, arg) => {
       stream.emit(arg.event, arg.data || arg.err);
     });
-    this._ipcRenderer.send('lndStreamRequest', { method, body });
+    this._ipc.send('lndStreamRequest', null, { method, body });
     return stream;
   }
 
@@ -123,17 +123,8 @@ class GrpcAction {
   //
 
   _sendIpc(event, listen, method, body) {
-    return new Promise((resolve, reject) => {
-      listen = method ? `${listen}_${method}` : listen;
-      this._ipcRenderer.once(listen, (e, arg) => {
-        if (arg.err) {
-          reject(arg.err);
-        } else {
-          resolve(arg.response);
-        }
-      });
-      this._ipcRenderer.send(event, { method, body });
-    });
+    listen = method ? `${listen}_${method}` : listen;
+    return this._ipc.send(event, listen, { method, body });
   }
 }
 
