@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 import { Store } from '../../../src/store';
+import IpcAction from '../../../src/action/ipc';
 import GrpcAction from '../../../src/action/grpc';
 import PaymentAction from '../../../src/action/payment';
 import TransactionAction from '../../../src/action/transaction';
@@ -36,11 +37,13 @@ describe('Action Payments Unit Tests', () => {
   });
 
   describe('listenForUrl()', () => {
+    let ipc;
     let ipcRendererStub;
 
     beforeEach(() => {
       ipcRendererStub = new EventEmitter();
-      payment.listenForUrl(ipcRendererStub);
+      ipc = new IpcAction(ipcRendererStub);
+      payment.listenForUrl(ipc);
       sandbox.stub(payment, 'init');
       sandbox.stub(payment, 'checkType');
     });
