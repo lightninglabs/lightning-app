@@ -44,7 +44,7 @@ class SettingAction {
 
   async detectLocalCurrency() {
     try {
-      let locale = await this._ipc.send('get-locale', 'locale');
+      let locale = await this._ipc.send('locale-get', 'locale');
       const fiat = localeCurrency.getCurrency(locale).toLowerCase();
       this.setFiatCurrency({ fiat });
     } catch (err) {
