@@ -5,14 +5,14 @@
 
 import { UNITS, FIATS } from '../config';
 import LocaleCurrency from 'locale-currency';
-import { DEFAULT_FIAT } from '../config';
+import * as log from './log';
 
 class SettingAction {
-  constructor(store, grpc, wallet, db) {
-    this._grpc = grpc;
+  constructor(store, wallet, db, ipc) {
     this._store = store;
     this._wallet = wallet;
     this._db = db;
+    this._ipc = ipc;
   }
 
   /**
@@ -34,15 +34,22 @@ class SettingAction {
    * @param {string} options.fiat The fiat currency e.g. `usd`
    */
   setFiatCurrency({ fiat }) {
-    this._store.settings.fiat = FIATS[fiat] ? fiat : DEFAULT_FIAT;
+    if (!FIATS[fiat]) {
+      throw new Error(`Invalid fiat currency: ${fiat}`);
+    }
+    this._store.settings.fiat = fiat;
     this._wallet.getExchangeRate();
     this._db.save();
   }
 
-  async getLocale() {
-    let response = await this._grpc.sendLocaleRequest();
-    const fiat = LocaleCurrency.getCurrency(response.locale).toLowerCase();
-    this.setFiatCurrency({ fiat });
+  async detectLocalCurrency() {
+    try {
+      let locale = await this._ipc.send('get-locale', 'locale');
+      const fiat = LocaleCurrency.getCurrency(locale).toLowerCase();
+      this.setFiatCurrency({ fiat });
+    } catch (err) {
+      log.error('Detecting local currency failed', err);
+    }
   }
 }
 
