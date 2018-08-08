@@ -41,6 +41,8 @@ lncli --rpcserver=localhost:10009 --no-macaroons --lnddir=data/lnd connect PUB_K
 
 lncli --rpcserver=localhost:10009 --no-macaroons --lnddir=data/lnd openchannel --node_key=PUB_KEY --local_amt=16000000
 
+btcctl --simnet --rpcuser=kek --rpcpass=kek generate 6
+
 lncli --rpcserver=localhost:10009 --no-macaroons --lnddir=data/lnd listchannels
 
 lncli --rpcserver=localhost:10002 --no-macaroons --lnddir=data/lnd2 addinvoice --amt=10000
