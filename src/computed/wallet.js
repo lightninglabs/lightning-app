@@ -1,3 +1,7 @@
+/**
+ * @fileOverview computed values that are used in wallet UI components.
+ */
+
 import { computed, extendObservable } from 'mobx';
 import { toAmountLabel } from '../helper';
 import { UNITS, FIATS } from '../config';

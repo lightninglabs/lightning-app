@@ -1,3 +1,7 @@
+/**
+ * @fileOverview computed values that are used in channel UI components.
+ */
+
 import { computed, extendObservable } from 'mobx';
 import { toAmountLabel, toCaps } from '../helper';
 

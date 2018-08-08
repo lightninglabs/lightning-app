@@ -1,3 +1,9 @@
+/**
+ * @fileOverview the global application store used by mobx for
+ * state management. These values are either rendered directly
+ * in react components or used as a basis for computed values.
+ */
+
 import { extendObservable } from 'mobx';
 import ComputedLoaderMsg from './computed/loader-msg';
 import ComputedWallet from './computed/wallet';

@@ -1,3 +1,7 @@
+/**
+ * @fileOverview computed values that are used in loader UI components.
+ */
+
 import { computed, extendObservable } from 'mobx';
 
 const ComputedLoaderMsg = store => {

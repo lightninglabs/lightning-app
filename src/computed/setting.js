@@ -1,3 +1,7 @@
+/**
+ * @fileOverview computed values that are used in settings UI components.
+ */
+
 import { computed, extendObservable } from 'mobx';
 import { formatNumber } from '../helper';
 import { UNITS, FIATS } from '../config';

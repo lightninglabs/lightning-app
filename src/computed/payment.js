@@ -1,3 +1,7 @@
+/**
+ * @fileOverview computed values that are used in payment UI components.
+ */
+
 import { computed, extendObservable } from 'mobx';
 import { toSatoshis, toAmountLabel, toLabel } from '../helper';
 

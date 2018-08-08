@@ -1,3 +1,7 @@
+/**
+ * @fileOverview computed values that are used in notification UI components.
+ */
+
 import { computed, extendObservable } from 'mobx';
 import { toCaps, formatNumber } from '../helper';
 
