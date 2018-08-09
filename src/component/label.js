@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewPropTypes, TextPropTypes, StyleSheet } from 'react-native';
+import { View, Text as RNText, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { font } from './style';
@@ -31,7 +31,7 @@ export const BalanceLabel = ({ children, style }) => (
 
 BalanceLabel.propTypes = {
   children: PropTypes.node.isRequired,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 export const BalanceLabelNumeral = ({ children, style }) => (
@@ -40,7 +40,7 @@ export const BalanceLabelNumeral = ({ children, style }) => (
 
 BalanceLabelNumeral.propTypes = {
   children: PropTypes.string.isRequired,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 export const BalanceLabelUnit = ({ children, style }) =>
@@ -48,7 +48,7 @@ export const BalanceLabelUnit = ({ children, style }) =>
 
 BalanceLabelUnit.propTypes = {
   children: PropTypes.string,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
@@ -82,5 +82,5 @@ export const SmallBalanceLabel = ({ children, unit, style }) => (
 SmallBalanceLabel.propTypes = {
   children: PropTypes.string.isRequired,
   unit: PropTypes.string,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };

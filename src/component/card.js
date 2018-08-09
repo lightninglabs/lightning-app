@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewPropTypes, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { color } from './style';
 
@@ -22,7 +22,7 @@ const Card = ({ children, style }) => (
 
 Card.propTypes = {
   children: PropTypes.node,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 export default Card;

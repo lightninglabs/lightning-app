@@ -1,11 +1,5 @@
 import React, { Component, PureComponent } from 'react';
-import {
-  View,
-  ListView,
-  TouchableOpacity,
-  ViewPropTypes,
-  StyleSheet,
-} from 'react-native';
+import { View, ListView, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import Icon from './icon';
@@ -31,7 +25,7 @@ export const ListContent = ({ children, style }) => (
 
 ListContent.propTypes = {
   children: PropTypes.node,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 //
@@ -100,7 +94,7 @@ export class ListItem extends PureComponent {
 ListItem.propTypes = {
   onSelect: PropTypes.func,
   children: PropTypes.node,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 //
@@ -119,7 +113,7 @@ export const ListHeader = ({ style, children }) => (
 
 ListHeader.propTypes = {
   children: PropTypes.node,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 //
@@ -187,5 +181,5 @@ export const SettingHeader = ({ name, style }) => (
 
 SettingHeader.propTypes = {
   name: PropTypes.string.isRequired,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewPropTypes, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { color } from './style';
@@ -43,7 +43,7 @@ export const Header = ({ style, children, color, shadow, separator }) => (
 );
 
 Header.propTypes = {
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
   children: PropTypes.node,
   color: PropTypes.string,
   shadow: PropTypes.bool,
@@ -86,7 +86,7 @@ export const Title = ({ title = '', style, children }) => (
 
 Title.propTypes = {
   title: PropTypes.string,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
   children: PropTypes.node,
 };
 
