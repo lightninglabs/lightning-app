@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextPropTypes, ViewPropTypes, StyleSheet } from 'react-native';
+import { View, Text as RNText, ViewPropTypes, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { color, font } from './style';
@@ -46,7 +46,7 @@ export const FormText = ({ children, style }) => (
 
 FormText.propTypes = {
   children: PropTypes.string,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
@@ -68,5 +68,5 @@ export const FormSubText = ({ children, style }) => (
 
 FormSubText.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as RNText, TextPropTypes, StyleSheet } from 'react-native';
+import { Text as RNText, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { color, font } from './style';
 import './font';
@@ -26,7 +26,7 @@ export const Text = ({ children, style, ...props }) => (
 
 Text.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
@@ -47,7 +47,7 @@ export const CopyText = ({ children, style }) => (
 
 CopyText.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
@@ -68,7 +68,7 @@ export const CopyOnboardText = ({ children = '', style }) => (
 
 CopyOnboardText.propTypes = {
   children: PropTypes.string.isRequired,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
@@ -89,7 +89,7 @@ export const H1Text = ({ children = '', style }) => (
 
 H1Text.propTypes = {
   children: PropTypes.string.isRequired,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
@@ -110,7 +110,7 @@ export const H3Text = ({ children = '', style }) => (
 
 H3Text.propTypes = {
   children: PropTypes.string.isRequired,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
@@ -131,7 +131,7 @@ export const H4Text = ({ children, style }) => (
 
 H4Text.propTypes = {
   children: PropTypes.string.isRequired,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 export default Text;

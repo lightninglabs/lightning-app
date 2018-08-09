@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextPropTypes, ViewPropTypes, StyleSheet, View } from 'react-native';
+import { Text as RNText, ViewPropTypes, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { TextInput, HorizontalExpandingTextInput } from './input';
@@ -29,7 +29,7 @@ export const AmountInputField = ({ style, ...props }) => (
 );
 
 AmountInputField.propTypes = {
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
@@ -50,7 +50,7 @@ export const InputField = ({ style, ...props }) => (
 
 InputField.propTypes = {
   children: PropTypes.string,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //

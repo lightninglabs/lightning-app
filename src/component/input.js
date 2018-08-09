@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   TextInput as RNTextInput,
-  TextPropTypes,
+  Text as RNText,
   StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -33,7 +33,7 @@ export const TextInput = ({ style, ...props }) => (
 );
 
 TextInput.propTypes = {
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
@@ -73,7 +73,7 @@ HorizontalExpandingTextInput.propTypes = {
   value: PropTypes.string,
   charWidth: PropTypes.number.isRequired,
   onChangeText: PropTypes.func,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 export default TextInput;

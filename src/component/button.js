@@ -3,7 +3,7 @@ import {
   View,
   TouchableOpacity,
   ViewPropTypes,
-  TextPropTypes,
+  Text as RNText,
   StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
@@ -58,7 +58,7 @@ export const ButtonText = ({ children, style }) => (
 
 ButtonText.propTypes = {
   children: PropTypes.string.isRequired,
-  style: TextPropTypes.style,
+  style: RNText.propTypes.style,
 };
 
 //
