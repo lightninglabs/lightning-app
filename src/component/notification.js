@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, StyleSheet, ViewPropTypes, View } from 'react-native';
+import { Animated, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { SmallPillButton } from './button';
 import { Text, H4Text } from './text';
@@ -193,5 +193,5 @@ class FadeInView extends Component {
 FadeInView.propTypes = {
   display: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, ViewPropTypes, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
@@ -17,7 +17,7 @@ const MainContent = ({ children, style }) => (
 
 MainContent.propTypes = {
   children: PropTypes.node,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 export default MainContent;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewPropTypes, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 
 const styles = StyleSheet.create({
@@ -15,7 +15,7 @@ const Container = ({ children, style }) => (
 
 Container.propTypes = {
   children: PropTypes.node,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 export default Container;

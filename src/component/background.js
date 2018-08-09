@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground, ViewPropTypes } from 'react-native';
+import { View, StyleSheet, ImageBackground } from 'react-native';
 import PropTypes from 'prop-types';
 
 //
@@ -30,7 +30,7 @@ Background.propTypes = {
   image: PropTypes.string,
   color: PropTypes.string,
   children: PropTypes.node,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 //
@@ -66,7 +66,7 @@ SplitBackground.propTypes = {
   color: PropTypes.string,
   bottom: PropTypes.string,
   children: PropTypes.node,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 export default Background;

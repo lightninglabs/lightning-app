@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewPropTypes, Text as RNText, StyleSheet } from 'react-native';
+import { View, Text as RNText, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { font } from './style';
@@ -31,7 +31,7 @@ export const BalanceLabel = ({ children, style }) => (
 
 BalanceLabel.propTypes = {
   children: PropTypes.node.isRequired,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 export const BalanceLabelNumeral = ({ children, style }) => (

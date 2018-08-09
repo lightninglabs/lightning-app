@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, ViewPropTypes } from 'react-native';
+import { Image, View } from 'react-native';
 import PropTypes from 'prop-types';
 
 const Icon = ({ image, style }) => (
@@ -8,7 +8,7 @@ const Icon = ({ image, style }) => (
 
 Icon.propTypes = {
   image: PropTypes.string.isRequired,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 export default Icon;

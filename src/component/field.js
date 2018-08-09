@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as RNText, ViewPropTypes, StyleSheet, View } from 'react-native';
+import { Text as RNText, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { TextInput, HorizontalExpandingTextInput } from './input';
@@ -93,7 +93,7 @@ export const NamedField = ({ name, children, style }) => (
 NamedField.propTypes = {
   name: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 //
@@ -130,5 +130,5 @@ export const DetailField = ({ name, children, style }) => (
 DetailField.propTypes = {
   name: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text as RNText, ViewPropTypes, StyleSheet } from 'react-native';
+import { View, Text as RNText, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { color, font } from './style';
@@ -25,7 +25,7 @@ export const FormStretcher = ({ children, style }) => (
 
 FormStretcher.propTypes = {
   children: PropTypes.node,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 //

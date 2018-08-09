@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  StyleSheet,
-  View,
-  ViewPropTypes,
-} from 'react-native';
+import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { color, font } from './style';
 import Icon from './icon';
@@ -64,7 +59,7 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
 LoadNetworkSpinner.propTypes = {
   percentage: PropTypes.number.isRequired,
   msg: PropTypes.string.isRequired,
-  style: ViewPropTypes.style,
+  style: View.propTypes.style,
 };
 
 //
