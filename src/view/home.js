@@ -233,7 +233,8 @@ const qrStyles = StyleSheet.create({
   separator: {
     flex: 1,
     height: 1,
-    boxShadow: `0 0.25px ${color.white}`,
+    shadowOffset: { width: 0, height: 0.25 },
+    shadowColor: color.white,
   },
   button: {
     top: -19,

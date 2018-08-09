@@ -74,7 +74,8 @@ const itemStyles = StyleSheet.create({
     alignItems: 'center',
     height: 40,
     marginTop: 1, // prevent box-shadow blinking when pressing item
-    boxShadow: `0 0.5px ${color.greyBorder}`,
+    shadowOffset: { width: 0, height: 0.5 },
+    shadowColor: color.greyBorder,
   },
 });
 
@@ -103,7 +104,7 @@ ListItem.propTypes = {
 
 const headStyles = StyleSheet.create({
   head: {
-    boxShadow: '0',
+    shadowOffset: { width: 0, height: 0 },
   },
 });
 

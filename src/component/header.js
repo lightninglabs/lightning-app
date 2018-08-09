@@ -16,11 +16,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   shadow: {
-    boxShadow: '0 2px 4px 0 rgba(0,0,0,0.3)',
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    shadowColor: color.black,
+    shadowOpacity: 0.3,
     zIndex: 1,
   },
   separator: {
-    boxShadow: `0 0.25px ${color.white}`,
+    shadowOffset: { width: 0, height: 0.25 },
+    shadowColor: color.white,
   },
   centerTitle: {
     justifyContent: 'center',
