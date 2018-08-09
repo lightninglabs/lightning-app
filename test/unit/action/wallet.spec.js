@@ -95,6 +95,7 @@ describe('Action Wallet Unit Tests', () => {
         cipher_seed_mnemonic: 'foo bar',
       });
       await wallet.init();
+      expect(store.firstStart, 'to be', true);
       expect(store.seedMnemonic, 'to equal', 'foo bar');
       expect(nav.goLoader, 'was called once');
       expect(nav.goSeed, 'was called once');
@@ -103,6 +104,7 @@ describe('Action Wallet Unit Tests', () => {
     it('should navigate to password unlock if wallet already exists', async () => {
       grpc.sendUnlockerCommand.withArgs('GenSeed').rejects(new Error('Boom!'));
       await wallet.init();
+      expect(store.firstStart, 'to be', false);
       expect(nav.goPassword, 'was called once');
     });
   });

@@ -9,6 +9,7 @@ import { AsyncStorage, Clipboard } from 'react-native';
 import { nap } from '../helper';
 import store from '../store';
 import AppStorage from './app-storage';
+import IpcAction from './ipc';
 import GrpcAction from './grpc';
 import NavAction from './nav';
 import WalletAction from './wallet';
@@ -21,18 +22,17 @@ import PaymentAction from './payment';
 import InvoiceAction from './invoice';
 import SettingAction from './setting';
 
-const ipcRenderer = window.ipcRenderer; // exposed to sandbox via preload.js
-
 //
 // Inject dependencies
 //
 
 store.init(); // initialize computed values
 
+export const ipc = new IpcAction(window.ipcRenderer);
 export const db = new AppStorage(store, AsyncStorage);
-export const log = new LogAction(store, ipcRenderer);
+export const log = new LogAction(store, ipc);
 export const nav = new NavAction(store);
-export const grpc = new GrpcAction(store, ipcRenderer);
+export const grpc = new GrpcAction(store, ipc);
 export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, db, nav, notify);
 export const info = new InfoAction(store, grpc, nav, notify);
@@ -47,9 +47,9 @@ export const invoice = new InvoiceAction(
   Clipboard
 );
 export const payment = new PaymentAction(store, grpc, transaction, nav, notify);
-export const setting = new SettingAction(store, wallet, db);
+export const setting = new SettingAction(store, wallet, db, ipc);
 
-payment.listenForUrl(ipcRenderer); // enable incoming url handler
+payment.listenForUrl(ipc); // enable incoming url handler
 
 //
 // Init actions
@@ -69,6 +69,14 @@ observe(store, 'loaded', async () => {
  */
 observe(store, 'unlockerReady', async () => {
   await wallet.init();
+});
+
+/**
+ * Triggered the first time the app was started e.g. to set the
+ * local fiat currency only once.
+ */
+observe(store, 'firstStart', async () => {
+  await setting.detectLocalCurrency();
 });
 
 /**

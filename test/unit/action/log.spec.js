@@ -1,11 +1,13 @@
 import { Store } from '../../../src/store';
 import { EventEmitter } from 'events';
 import * as log from '../../../src/action/log';
+import IpcAction from '../../../src/action/ipc';
 import LogAction from '../../../src/action/log';
 
 describe('Action Logs Unit Tests', () => {
   let store;
   let sandbox;
+  let ipc;
   let ipcRenderer;
 
   beforeEach(() => {
@@ -46,7 +48,8 @@ describe('Action Logs Unit Tests', () => {
       store = new Store();
       ipcRendererStub = new EventEmitter();
       ipcRendererStub.send = sinon.stub();
-      new LogAction(store, ipcRendererStub);
+      ipc = new IpcAction(ipcRendererStub);
+      new LogAction(store, ipc);
     });
 
     describe('constructor()', () => {
@@ -64,7 +67,8 @@ describe('Action Logs Unit Tests', () => {
   describe('with constructor', () => {
     beforeEach(() => {
       store = new Store();
-      new LogAction(store, ipcRenderer);
+      ipc = new IpcAction(ipcRenderer);
+      new LogAction(store, ipc);
     });
 
     describe('constructor()', () => {

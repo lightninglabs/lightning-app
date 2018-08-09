@@ -29,8 +29,8 @@ class PaymentAction {
    * @param  {Object} ipcRenderer Electron's IPC api for the rendering process
    * @return {undefined}
    */
-  listenForUrl(ipcRenderer) {
-    ipcRenderer.on('open-url', async (event, url) => {
+  listenForUrl(ipc) {
+    ipc.listen('open-url', async (event, url) => {
       log.info('open-url', url);
       if (!isLnUri(url)) {
         return;

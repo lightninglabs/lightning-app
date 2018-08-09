@@ -4,12 +4,15 @@
  */
 
 import { UNITS, FIATS } from '../config';
+import localeCurrency from 'locale-currency';
+import * as log from './log';
 
 class SettingAction {
-  constructor(store, wallet, db) {
+  constructor(store, wallet, db, ipc) {
     this._store = store;
     this._wallet = wallet;
     this._db = db;
+    this._ipc = ipc;
   }
 
   /**
@@ -37,6 +40,21 @@ class SettingAction {
     this._store.settings.fiat = fiat;
     this._wallet.getExchangeRate();
     this._db.save();
+  }
+
+  /**
+   * Detect the user's local fiat currency based on their OS locale.
+   * If the currency is not supported use the default currency `usd`.
+   * @return {Promise<undefined>}
+   */
+  async detectLocalCurrency() {
+    try {
+      let locale = await this._ipc.send('locale-get', 'locale');
+      const fiat = localeCurrency.getCurrency(locale).toLowerCase();
+      this.setFiatCurrency({ fiat });
+    } catch (err) {
+      log.error('Detecting local currency failed', err);
+    }
   }
 }
 
