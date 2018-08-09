@@ -1,7 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import MainContent from '../../src/component/main-content';
-import { SmallSpinner, LoadNetworkSpinner } from '../../src/component/spinner';
+import {
+  SmallSpinner,
+  LoadNetworkSpinner,
+  WaitSpinner,
+} from '../../src/component/spinner';
 import { color } from '../../src/component/style';
 import Background from '../../src/component/background';
 
@@ -32,5 +36,10 @@ storiesOf('Spinner', module)
         msg="Just a few seconds..."
         style={{ margin: 20 }}
       />
+    </MainContent>
+  ))
+  .add('Wait Spinner', () => (
+    <MainContent style={{ justifyContent: 'center' }}>
+      <WaitSpinner msg="Loading network" />
     </MainContent>
   ));

@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
   ActivityIndicator,
+  Animated,
+  Easing,
   StyleSheet,
   View,
   ViewPropTypes,
@@ -29,6 +31,73 @@ export const SmallSpinner = ({ ...props }) => (
     {...props}
   />
 );
+
+//
+// Wait Spinner
+//
+
+const waitStyles = StyleSheet.create({
+  bolt: {
+    height: 126 / 4.5,
+    width: 64 / 4.5,
+  },
+  copy: {
+    fontSize: font.sizeXS,
+    marginTop: 5,
+    color: color.white,
+    textAlign: 'center',
+  },
+});
+
+export class WaitSpinner extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loopAnim: new Animated.Value(0),
+    };
+  }
+
+  render() {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(this.state.loopAnim, {
+          toValue: 1,
+          duration: 1075,
+          easing: Easing.linear,
+        }),
+      ])
+    ).start();
+    const spin = this.state.loopAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['0deg', '360deg'],
+    });
+    const reverseSpin = this.state.loopAnim.interpolate({
+      inputRange: [0, 1],
+      outputRange: ['360deg', '0deg'],
+    });
+    return (
+      <View>
+        <Animated.View style={{ transform: [{ rotate: spin }] }}>
+          <ResizeableSpinner
+            percentage={0.5}
+            size={80}
+            progressWidth={3}
+            gradient="loadNetworkGrad"
+          >
+            <Animated.View style={{ transform: [{ rotate: reverseSpin }] }}>
+              <Icon image="lightning-bolt" style={waitStyles.bolt} />
+            </Animated.View>
+          </ResizeableSpinner>
+        </Animated.View>
+        <Text style={waitStyles.copy}>{this.props.msg}</Text>
+      </View>
+    );
+  }
+}
+
+WaitSpinner.propTypes = {
+  msg: PropTypes.string,
+};
 
 //
 // Load Network Spinner
