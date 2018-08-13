@@ -98,7 +98,5 @@ observe(store, 'lndReady', () => {
   info.getInfo();
   wallet.update();
   channel.update();
-  transaction.update();
-  transaction.subscribeTransactions();
-  transaction.subscribeInvoices();
+  transaction.pollUpdate();
 });
