@@ -2,7 +2,13 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import Background from '../../src/component/background';
 import MainContent from '../../src/component/main-content';
-import Icon from '../../src/component/icon';
+import BackIcon from '../../src/asset/icon/back';
+import PlusIcon from '../../src/asset/icon/plus';
+import CancelIcon from '../../src/asset/icon/cancel';
+import ArrowDownIcon from '../../src/asset/icon/arrow-down';
+import LightningBoltIcon from '../../src/asset/icon/lightning-bolt';
+import QrIcon from '../../src/asset/icon/qr';
+import SettingsIcon from '../../src/asset/icon/settings';
 
 storiesOf('Icons', module)
   .addDecorator(story => (
@@ -10,18 +16,10 @@ storiesOf('Icons', module)
       <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
     </Background>
   ))
-  .add('Back', () => <Icon image="back" style={{ height: 20, width: 12 }} />)
-  .add('Plus', () => <Icon image="plus" style={{ height: 21, width: 21 }} />)
-  .add('Cancel', () => (
-    <Icon image="cancel" style={{ height: 21, width: 21 }} />
-  ))
-  .add('Arrow Down', () => (
-    <Icon image="arrow-down" style={{ height: 9, width: 23 }} />
-  ))
-  .add('Lightning Bolt', () => (
-    <Icon image="lightning-bolt" style={{ height: 126, width: 64 }} />
-  ))
-  .add('QR Code', () => <Icon image="qr" style={{ height: 39, width: 40 }} />)
-  .add('Settings', () => (
-    <Icon image="settings" style={{ height: 21, width: 20 }} />
-  ));
+  .add('Back', () => <BackIcon height={20} width={12} />)
+  .add('Plus', () => <PlusIcon height={21} width={21} />)
+  .add('Cancel', () => <CancelIcon height={21} width={21} />)
+  .add('Arrow Down', () => <ArrowDownIcon height={9} width={23} />)
+  .add('Lightning Bolt', () => <LightningBoltIcon height={126} width={64} />)
+  .add('QR Code', () => <QrIcon height={39} width={40} />)
+  .add('Settings', () => <SettingsIcon height={21} width={20} />);
