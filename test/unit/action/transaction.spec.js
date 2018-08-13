@@ -4,6 +4,7 @@ import TransactionAction from '../../../src/action/transaction';
 import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
+import { nap } from '../../../src/helper';
 
 describe('Action Transactions Unit Tests', () => {
   let store;
@@ -25,24 +26,21 @@ describe('Action Transactions Unit Tests', () => {
   });
 
   afterEach(() => {
+    clearTimeout(transaction.tPollUpdate);
     sandbox.restore();
   });
 
   describe('init()', () => {
     it('should refresh and navigate to list', () => {
-      sandbox.stub(transaction, 'update');
       transaction.init();
-      expect(transaction.update, 'was called once');
       expect(nav.goTransactions, 'was called once');
     });
   });
 
   describe('select()', () => {
     it('should set selectedTransaction', () => {
-      sandbox.stub(transaction, 'update');
       transaction.select({ item: 'some-transaction' });
       expect(store.selectedTransaction, 'to equal', 'some-transaction');
-      expect(transaction.update, 'was called once');
       expect(nav.goTransactionDetail, 'was called once');
     });
   });
@@ -53,6 +51,24 @@ describe('Action Transactions Unit Tests', () => {
       expect(grpc.sendCommand, 'was called thrice');
       expect(wallet.getBalance, 'was called once');
       expect(wallet.getChannelBalance, 'was called once');
+    });
+  });
+
+  describe('pollUpdate()', () => {
+    it('should poll update api several times', async () => {
+      sandbox.stub(transaction, 'update');
+      await transaction.pollUpdate();
+      await nap(30);
+      expect(transaction.update.callCount, 'to be greater than', 1);
+      expect(logger.error, 'was not called');
+    });
+
+    it('should handle error in update', async () => {
+      sandbox.stub(transaction, 'update').rejects(new Error('Boom!'));
+      await transaction.pollUpdate();
+      await nap(30);
+      expect(transaction.update.callCount, 'to be greater than', 1);
+      expect(logger.error.callCount, 'to be greater than', 1);
     });
   });
 
