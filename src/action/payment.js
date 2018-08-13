@@ -15,10 +15,9 @@ import {
 import * as log from './log';
 
 class PaymentAction {
-  constructor(store, grpc, transaction, nav, notification) {
+  constructor(store, grpc, nav, notification) {
     this._store = store;
     this._grpc = grpc;
-    this._transaction = transaction;
     this._nav = nav;
     this._notification = notification;
   }
@@ -161,7 +160,6 @@ class PaymentAction {
     } catch (err) {
       this._notification.display({ msg: 'Sending transaction failed!', err });
     }
-    await this._transaction.update();
   }
 
   /**
@@ -192,7 +190,6 @@ class PaymentAction {
       this._nav.goPayLightningConfirm();
       this._notification.display({ msg: 'Lightning payment failed!', err });
     }
-    await this._transaction.update();
   }
 }
 
