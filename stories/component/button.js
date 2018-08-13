@@ -16,7 +16,8 @@ import {
   QrButton,
   DownButton,
 } from '../../src/component/button';
-import Icon from '../../src/component/icon';
+import CancelIcon from '../../src/asset/icon/cancel';
+import CopyPurpleIcon from '../../src/asset/icon/copy-purple';
 import { color } from '../../src/component/style';
 
 storiesOf('Button', module)
@@ -68,7 +69,10 @@ storiesOf('Button', module)
     </PillButton>
   ))
   .add('Copy Button', () => (
-    <CopyButton icon="copy-purple" onPress={action('clicked')}>
+    <CopyButton
+      icon={<CopyPurpleIcon height={17.5} width={14} />}
+      onPress={action('clicked')}
+    >
       Copy Button
     </CopyButton>
   ));
@@ -84,7 +88,7 @@ storiesOf('Button', module)
   ))
   .add('Small Icon', () => (
     <SmallButton border text="Small Icon" onPress={action('clicked')}>
-      <Icon image="cancel" style={{ height: 12, width: 12 }} />
+      <CancelIcon height={12} width={12} />
     </SmallButton>
   ))
   .add('Small Alert', () => (
@@ -110,12 +114,12 @@ storiesOf('Button', module)
   ))
   .add('Icon Button', () => (
     <Button onPress={action('clicked')}>
-      <Icon image="cancel" style={{ height: 14, width: 14 }} />
+      <CancelIcon height={14} width={14} />
     </Button>
   ))
   .add('Icon Disabled', () => (
     <Button disabled onPress={action('clicked')}>
-      <Icon image="cancel" style={{ height: 14, width: 14 }} />
+      <CancelIcon height={14} width={14} />
     </Button>
   ))
   .add('Back Button', () => <BackButton onPress={action('clicked')} />)
