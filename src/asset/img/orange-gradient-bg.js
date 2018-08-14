@@ -1,7 +1,7 @@
 import React from 'react';
 import Svg, { Defs, LinearGradient, Stop, Path } from '../../component/svg';
 const OrangeGradientBg = props => (
-  <Svg width={1440} height={983} {...props}>
+  <Svg width={'100%'} height={'100%'} {...props}>
     <Defs>
       <LinearGradient
         x1="-19.991%"

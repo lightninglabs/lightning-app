@@ -11,8 +11,8 @@ import Svg, {
 // SVGR has dropped some elements not supported by react-native-svg: mask
 const TexturedBg = props => (
   <Svg
-    width={1440}
-    height={985}
+    width={'100%'}
+    height={'100%'}
     xmlnsXlink="http://www.w3.org/1999/xlink"
     {...props}
   >
