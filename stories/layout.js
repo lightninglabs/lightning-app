@@ -13,7 +13,7 @@ import {
 import { BalanceLabel, BalanceLabelNumeral } from '../src/component/label';
 import Card from '../src/component/card';
 import Text from '../src/component/text';
-import Icon from '../src/component/icon';
+import LightningBoltIcon from '../src/asset/icon/lightning-bolt';
 import { color } from '../src/component/style';
 
 storiesOf('Layout', module)
@@ -35,7 +35,7 @@ storiesOf('Layout', module)
       <Header shadow color={color.purple}>
         <BackButton onPress={action('back')} />
         <Title title="Lightning Payment">
-          <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
+          <LightningBoltIcon height={12} width={6.1} />
         </Title>
         <CancelButton onPress={action('cancel')} />
       </Header>

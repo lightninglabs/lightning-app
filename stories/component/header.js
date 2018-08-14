@@ -4,7 +4,7 @@ import { action } from '@storybook/addon-actions';
 import Background from '../../src/component/background';
 import { Header, Title } from '../../src/component/header';
 import { Button, BackButton, CancelButton } from '../../src/component/button';
-import Icon from '../../src/component/icon';
+import BitcoinIcon from '../../src/asset/icon/bitcoin';
 import { color } from '../../src/component/style';
 
 storiesOf('Header', module)
@@ -20,7 +20,7 @@ storiesOf('Header', module)
       <Header shadow color={color.orange}>
         <BackButton onPress={action('back')} />
         <Title title="Orange with Icons">
-          <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
+          <BitcoinIcon height={13.6} width={10.8} />
         </Title>
         <CancelButton onPress={action('cancel')} />
       </Header>
