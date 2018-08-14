@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -8,16 +8,14 @@ import { H1Text } from '../component/text';
 import { Circle } from '../component/loader';
 import { Button, ButtonText, PillButton } from '../component/button';
 import { FormStretcher } from '../component/form';
-import Icon from '../component/icon';
+import BitcoinIcon from '../asset/icon/bitcoin';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   circle: {
     marginTop: 30,
   },
-  btcIcon: {
-    height: 170 * 0.65,
-    width: 135 * 0.65,
+  iconWrapper: {
     marginRight: 5,
   },
   doneBtn: {
@@ -37,7 +35,9 @@ const PayBitcoinDoneView = ({ nav, payment }) => (
       <FormStretcher>
         <H1Text>Payment processing…</H1Text>
         <Circle style={styles.circle}>
-          <Icon image="bitcoin" style={styles.btcIcon} />
+          <View style={styles.iconWrapper}>
+            <BitcoinIcon height={170 * 0.65} width={135 * 0.65} />
+          </View>
         </Circle>
       </FormStretcher>
       <PillButton onPress={() => nav.goHome()} style={styles.doneBtn}>
