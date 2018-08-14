@@ -7,14 +7,12 @@ import MainContent from '../component/main-content';
 import { H1Text, CopyText } from '../component/text';
 import { FormStretcher } from '../component/form';
 import { Button, ButtonText, PillButton } from '../component/button';
-import Icon from '../component/icon';
+import LightningErrorIcon from '../../src/asset/icon/lightning-error';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
-  icon: {
-    height: 115 * 0.8,
-    width: 60 * 0.8,
-    marginBottom: 25,
+  h1Txt: {
+    marginTop: 25,
   },
   copyTxt: {
     marginTop: 10,
@@ -34,8 +32,8 @@ const NoRouteView = ({ channel, payment }) => (
   <Background color={color.blackDark}>
     <MainContent>
       <FormStretcher>
-        <Icon image="lightning-error" style={styles.icon} />
-        <H1Text>No route found</H1Text>
+        <LightningErrorIcon height={115 * 0.8} width={60 * 0.8} />
+        <H1Text style={styles.h1Txt}>No route found</H1Text>
         <CopyText style={styles.copyTxt}>
           {"You'll need to manually create a channel"}
         </CopyText>
