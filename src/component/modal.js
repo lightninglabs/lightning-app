@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from './button';
 import { H4Text } from './text';
-import Icon from './icon';
+import CancelGreyIcon from '../asset/icon/cancel-grey';
 import Escapable from './escapable';
 import { color } from './style';
 
@@ -29,10 +29,6 @@ const styles = StyleSheet.create({
     minWidth: 52,
     minHeight: 52,
   },
-  cancelIcon: {
-    height: 12,
-    width: 12,
-  },
 });
 
 class Modal extends Escapable {
@@ -42,7 +38,7 @@ class Modal extends Escapable {
       <View style={[styles.modal, style]}>
         <H4Text style={styles.title}>{title.toUpperCase()}</H4Text>
         <Button style={styles.cancelBtn} onPress={onClose}>
-          <Icon image="cancel-grey" style={styles.cancelIcon} />
+          <CancelGreyIcon height={12} width={12} />
         </Button>
         {children}
       </View>
