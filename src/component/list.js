@@ -2,7 +2,7 @@ import React, { Component, PureComponent } from 'react';
 import { View, ListView, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
-import Icon from './icon';
+import ForwardIcon from '../asset/icon/forward';
 import { color, font } from './style';
 
 //
@@ -135,9 +135,7 @@ const iStyles = StyleSheet.create({
     color: color.greyListLabel,
     opacity: 0.74,
   },
-  frwd: {
-    height: 15 * 0.9,
-    width: 9 * 0.9,
+  iconWrapper: {
     marginLeft: 20,
   },
 });
@@ -147,7 +145,11 @@ export const SettingItem = ({ name, onSelect, label, arrow, children }) => (
     <Text style={iStyles.name}>{name}</Text>
     {label ? <Text style={iStyles.lbl}>{label}</Text> : null}
     {children}
-    {arrow ? <Icon image="forward" style={iStyles.frwd} /> : null}
+    {arrow ? (
+      <View style={iStyles.iconWrapper}>
+        <ForwardIcon height={13.5} width={8.1} />
+      </View>
+    ) : null}
   </ListItem>
 );
 
