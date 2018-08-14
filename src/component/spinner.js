@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { color, font } from './style';
-import Icon from './icon';
+import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import Text from './text';
 import Svg, { Path, Circle, Defs, Stop, LinearGradient } from './svg';
 
@@ -30,10 +30,6 @@ export const SmallSpinner = ({ ...props }) => (
 //
 
 const loadNetworkStyles = StyleSheet.create({
-  bolt: {
-    height: 126 / 4.5,
-    width: 64 / 4.5,
-  },
   copy: {
     fontSize: font.sizeXS,
     marginTop: 5,
@@ -50,7 +46,7 @@ export const LoadNetworkSpinner = ({ percentage, msg, style }) => (
       progressWidth={3}
       gradient="loadNetworkGrad"
     >
-      <Icon image="lightning-bolt" style={loadNetworkStyles.bolt} />
+      <LightningBoltIcon height={28} width={14.2222} />
     </ResizeableSpinner>
     <Text style={loadNetworkStyles.copy}>{msg}</Text>
   </View>
