@@ -8,7 +8,7 @@ import { NamedField } from '../component/field';
 import { Header, Title } from '../component/header';
 import { CancelButton, BackButton, PillButton } from '../component/button';
 import Card from '../component/card';
-import Icon from '../component/icon';
+import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import { FormStretcher } from '../component/form';
 import {
   BalanceLabel,
@@ -48,7 +48,7 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
     <Header shadow color={color.purple}>
       <BackButton onPress={() => nav.goPay()} />
       <Title title="Lightning Confirmation">
-        <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
+        <LightningBoltIcon height={12} width={6.1} />
       </Title>
       <CancelButton onPress={() => nav.goHome()} />
     </Header>
