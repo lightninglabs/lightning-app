@@ -21,6 +21,7 @@ import Card from '../component/card';
 import Icon from '../component/icon';
 import QRCode from '../component/qrcode';
 import { CopiedNotification } from '../component/notification';
+import CopyPurpleIcon from '../../src/asset/icon/copy-purple';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
@@ -74,7 +75,7 @@ const InvoiceQRView = ({ store, nav, invoice }) => (
         <QRCode style={styles.qrcode}>{store.invoice.uri}</QRCode>
         <CopyButton
           onPress={() => invoice.toClipboard({ text: store.invoice.encoded })}
-          icon="copy-purple"
+          icon={<CopyPurpleIcon height={17.5} width={14} />}
           style={styles.copyBtn}
         >
           {store.invoice.encoded}

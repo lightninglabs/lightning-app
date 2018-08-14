@@ -8,6 +8,7 @@ import MainContent from '../component/main-content';
 import { H1Text } from '../component/text';
 import { CopyButton, GlasButton } from '../component/button';
 import { CopiedNotification } from '../component/notification';
+import CopyDarkIcon from '../../src/asset/icon/copy-dark';
 import QRCode from '../component/qrcode';
 import { color } from '../component/style';
 
@@ -47,7 +48,7 @@ const NewAddressView = ({ store, invoice, info }) => (
       <View style={styles.buttons}>
         <CopyButton
           onPress={() => invoice.toClipboard({ text: store.walletAddress })}
-          icon="copy-dark"
+          icon={<CopyDarkIcon height={17.5} width={14} />}
           style={styles.copyBtn}
         >
           {store.walletAddress}
