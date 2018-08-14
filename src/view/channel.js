@@ -11,7 +11,8 @@ import MainContent from '../component/main-content';
 import { ResizeableSpinner } from '../component/spinner';
 import { H1Text, CopyText } from '../component/text';
 import Text from '../component/text';
-import Icon from '../component/icon';
+import PlusIcon from '../../src/asset/icon/plus';
+import LightningBoltGradientIcon from '../../src/asset/icon/lightning-bolt-gradient';
 import { color, font } from '../component/style';
 
 //
@@ -57,10 +58,6 @@ const headerStyles = StyleSheet.create({
     justifyContent: 'flex-end',
     paddingRight: 24,
   },
-  plusIcon: {
-    height: 12,
-    width: 12,
-  },
 });
 
 const ChannelHeader = ({ goChannelCreate, goHome }) => (
@@ -71,7 +68,7 @@ const ChannelHeader = ({ goChannelCreate, goHome }) => (
     <Title title="Channels" />
     <View style={headerStyles.btnWrapperRight}>
       <SmallButton border text="Add" onPress={goChannelCreate}>
-        <Icon image="plus" style={headerStyles.plusIcon} />
+        <PlusIcon height={12} width={12} />
       </SmallButton>
     </View>
   </Header>
@@ -282,10 +279,6 @@ const noStyles = StyleSheet.create({
   content: {
     justifyContent: 'center',
   },
-  bolt: {
-    height: 172 * 0.6,
-    width: 95 * 0.6,
-  },
   title: {
     marginTop: 40,
   },
@@ -302,7 +295,7 @@ const NoChannel = () => (
       progressWidth={6}
       gradient="openChannelsGrad"
     >
-      <Icon image="lightning-bolt-gradient" style={noStyles.bolt} />
+      <LightningBoltGradientIcon height={172 * 0.6} width={95 * 0.6} />
     </ResizeableSpinner>
     <H1Text style={noStyles.title}>Opening Channels</H1Text>
     <CopyText style={noStyles.copyTxt}>
