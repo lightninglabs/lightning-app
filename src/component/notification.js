@@ -3,7 +3,7 @@ import { Animated, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { SmallPillButton } from './button';
 import { Text, H4Text } from './text';
-import Icon from './icon';
+import ToastCheckmarkIcon from '../asset/icon/toast-checkmark';
 import { SmallSpinner } from './spinner';
 import { color, font } from './style';
 
@@ -133,10 +133,8 @@ const copiedStyles = StyleSheet.create({
     height: 65,
     borderRadius: 10,
   },
-  checkIcon: {
-    height: 27 * 0.65,
-    width: 26 * 0.65,
-    marginBottom: 7,
+  text: {
+    marginTop: 7,
   },
 });
 
@@ -144,8 +142,8 @@ export const CopiedNotification = ({ display, color, style }) => (
   <View style={[copiedStyles.wrapper, style]}>
     <FadeInView display={display}>
       <View style={[copiedStyles.box, { backgroundColor: color }]}>
-        <Icon image="toast-checkmark" style={copiedStyles.checkIcon} />
-        <H4Text>Copied to clipboard</H4Text>
+        <ToastCheckmarkIcon height={17.55} width={16.9} />
+        <H4Text style={copiedStyles.text}>Copied to clipboard</H4Text>
       </View>
     </FadeInView>
   </View>
