@@ -50,20 +50,13 @@ const splitStyles = StyleSheet.create({
   bottom: {
     flex: 1,
   },
-  content: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
 });
 
 export const SplitBackground = ({ image, color, bottom, children, style }) => (
   <Background image={image} color={color} style={style}>
     <View style={splitStyles.top} />
     <View style={[splitStyles.bottom, { backgroundColor: bottom }]} />
-    <View style={splitStyles.content}>{children}</View>
+    <View style={StyleSheet.absoluteFill}>{children}</View>
   </Background>
 );
 
