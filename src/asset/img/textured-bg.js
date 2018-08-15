@@ -35,7 +35,7 @@ const TexturedBg = props => (
     </Defs>
     <G fill="none" fillRule="evenodd">
       <G>
-        <Use fill="#D8D8D8" xlinkHref="#a" />
+        <Use fill="#D8D8D8" href="#a" xlinkHref="#a" />
         <G mask="url(#b)" fill="url(#c)">
           <Path d="M-675.395-335.927H84.662v1685.56z" />
           <Path d="M-515.602-335.927h760.056v1685.56z" />
