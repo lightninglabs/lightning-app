@@ -12,8 +12,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export const Background = ({ image, color, children, style }) =>
-  image ? (
+export const Background = ({ image, color, node, children, style }) =>
+  node ? (
+    <View style={[styles.background, style]}>
+      {node}
+      <View style={StyleSheet.absoluteFill}>{children}</View>
+    </View>
+  ) : image ? (
     <ImageBackground
       source={require(`../asset/img/${image}.svg`)}
       style={[styles.background, style]}
@@ -29,6 +34,7 @@ export const Background = ({ image, color, children, style }) =>
 Background.propTypes = {
   image: PropTypes.string,
   color: PropTypes.string,
+  node: PropTypes.node,
   children: PropTypes.node,
   style: View.propTypes.style,
 };
