@@ -221,6 +221,24 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('initInitialDeposit()', () => {
+    it('should navigate to new address screen if address is non-null', () => {
+      store.walletAddress = 'non-null-addr';
+      wallet.initInitialDeposit();
+      expect(nav.goNewAddress, 'was called once');
+      expect(nav.goWait, 'was not called');
+    });
+
+    it('should stay on wait screen until address is non-null', async () => {
+      store.walletAddress = null;
+      wallet.initInitialDeposit();
+      expect(nav.goNewAddress, 'was not called');
+      store.walletAddress = 'non-null-addr';
+      expect(nav.goWait, 'was called once');
+      expect(nav.goNewAddress, 'was called once');
+    });
+  });
+
   describe('checkPassword()', () => {
     beforeEach(() => {
       sandbox.stub(wallet, 'unlockWallet');

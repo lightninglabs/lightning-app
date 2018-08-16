@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for updating wallet balances.
  */
 
-import { observe } from 'mobx';
+import { observe, when } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap } from '../helper';
 import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY, RATE_DELAY } from '../config';
 import * as log from './log';
@@ -258,6 +258,26 @@ class WalletAction {
       this._store.pendingBalanceSatoshis = parseSat(r.pending_open_balance);
     } catch (err) {
       log.error('Getting channel balance failed', err);
+    }
+  }
+
+  /**
+   * Ensure that the wallet address is non-null before navigating to the
+   * NewAddress view during onboarding.
+   * This is necessary because the wallet address may be null if neutrino
+   * has not started syncing by the time the user finishes verifying
+   * their seed.
+   * @return {undefined}
+   */
+  initInitialDeposit() {
+    if (this._store.walletAddress) {
+      this._nav.goNewAddress();
+    } else {
+      this._nav.goWait();
+      when(
+        () => typeof this._store.walletAddress === 'string',
+        () => this._nav.goNewAddress()
+      );
     }
   }
 

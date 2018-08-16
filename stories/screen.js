@@ -95,7 +95,7 @@ storiesOf('Screens', module)
   .add('Restore Wallet', () => (
     <RestoreWallet store={store} nav={nav} wallet={wallet} />
   ))
-  .add('Seed Success', () => <SeedSuccess nav={nav} />)
+  .add('Seed Success', () => <SeedSuccess wallet={wallet} />)
   .add('Set Password', () => <SetPassword store={store} wallet={wallet} />)
   .add('Password', () => <Password store={store} wallet={wallet} />)
   .add('New Address', () => (
