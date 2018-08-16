@@ -1,2 +1,2 @@
-import BGM from './background-image-mobile';
-export default BGM;
+import BIM from './background-image-mobile';
+export default BIM;
