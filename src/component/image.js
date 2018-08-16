@@ -35,7 +35,7 @@ ImageBackground.propTypes = {
 
 export const SvgBackground = ({ svg, children, style }) => (
   <View style={style}>
-    <View style={StyleSheet.absoluteFill}>{svg}</View>
+    {svg}
     <View style={StyleSheet.absoluteFill}>{children}</View>
   </View>
 );
