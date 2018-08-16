@@ -10,6 +10,10 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
+  image: {
+    height: '100%',
+    width: '100%',
+  },
 });
 
 export const Background = ({ image, color, node, children, style }) =>
@@ -20,8 +24,8 @@ export const Background = ({ image, color, node, children, style }) =>
     </View>
   ) : image ? (
     <ImageBackground
-      source={require(`../asset/img/${image}.svg`)}
-      style={[styles.background, style]}
+      source={image}
+      style={[styles.background, styles.image, style]}
     >
       {children}
     </ImageBackground>
@@ -32,7 +36,7 @@ export const Background = ({ image, color, node, children, style }) =>
   );
 
 Background.propTypes = {
-  image: PropTypes.string,
+  image: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   color: PropTypes.string,
   node: PropTypes.node,
   children: PropTypes.node,
