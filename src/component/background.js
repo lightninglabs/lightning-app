@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import BackgroundImage from './background-image';
 
 //
 // Background
@@ -10,25 +11,13 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
-  image: {
-    height: '100%',
-    width: '100%',
-  },
 });
 
-export const Background = ({ image, color, node, children, style }) =>
-  node ? (
-    <View style={[styles.background, style]}>
-      {node}
-      <View style={StyleSheet.absoluteFill}>{children}</View>
-    </View>
-  ) : image ? (
-    <ImageBackground
-      source={image}
-      style={[styles.background, styles.image, style]}
-    >
+export const Background = ({ image, color, children, style }) =>
+  image ? (
+    <BackgroundImage image={image} style={[styles.background, style]}>
       {children}
-    </ImageBackground>
+    </BackgroundImage>
   ) : (
     <View style={[{ backgroundColor: color }, styles.background, style]}>
       {children}
@@ -38,7 +27,6 @@ export const Background = ({ image, color, node, children, style }) =>
 Background.propTypes = {
   image: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   color: PropTypes.string,
-  node: PropTypes.node,
   children: PropTypes.node,
   style: View.propTypes.style,
 };
