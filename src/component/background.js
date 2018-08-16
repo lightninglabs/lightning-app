@@ -25,7 +25,7 @@ export const Background = ({ image, color, children, style }) =>
   );
 
 Background.propTypes = {
-  image: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  image: PropTypes.string,
   color: PropTypes.string,
   children: PropTypes.node,
   style: View.propTypes.style,
