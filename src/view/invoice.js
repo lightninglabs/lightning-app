@@ -9,7 +9,7 @@ import { Header, Title } from '../component/header';
 import { CancelButton, PillButton, Button } from '../component/button';
 import { BalanceLabel, BalanceLabelUnit } from '../component/label';
 import Card from '../component/card';
-import Icon from '../component/icon';
+import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import { FormStretcher, FormSubText } from '../component/form';
 import { color } from '../component/style';
 
@@ -31,7 +31,7 @@ const InvoiceView = ({ store, nav, invoice }) => (
     <Header shadow color={color.purple}>
       <Button disabled onPress={() => {}} />
       <Title title="Payment Request">
-        <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
+        <LightningBoltIcon height={12} width={6.1} />
       </Title>
       <CancelButton onPress={() => nav.goHome()} />
     </Header>

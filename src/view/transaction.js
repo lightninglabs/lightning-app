@@ -8,7 +8,8 @@ import { Button, BackButton } from '../component/button';
 import { ListContent, List, ListItem, ListHeader } from '../component/list';
 import { Alert } from '../component/notification';
 import Text from '../component/text';
-import Icon from '../component/icon';
+import BitcoinIcon from '../../src/asset/icon/bitcoin';
+import LightningBoltIcon from '../../src/asset/icon/lightning-bolt';
 import { color, font } from '../component/style';
 
 //
@@ -62,14 +63,6 @@ const iStyles = StyleSheet.create({
     color: color.white,
     fontSize: font.sizeS,
   },
-  bolt: {
-    height: 126 * 0.14,
-    width: 64 * 0.14,
-  },
-  btc: {
-    height: 170 * 0.08,
-    width: 135 * 0.08,
-  },
   alert: {
     marginRight: 6,
   },
@@ -96,9 +89,9 @@ const TransactionListItem = ({ tx, onSelect }) => (
   <ListItem style={iStyles.item} onSelect={onSelect}>
     <View style={iStyles.i}>
       {tx.type === 'lightning' ? (
-        <Icon image="lightning-bolt" style={iStyles.bolt} />
+        <LightningBoltIcon height={126 * 0.14} width={64 * 0.14} />
       ) : (
-        <Icon image="bitcoin" style={iStyles.btc} />
+        <BitcoinIcon height={170 * 0.08} width={135 * 0.08} />
       )}
     </View>
     <View style={[iStyles.m, iStyles.group]}>

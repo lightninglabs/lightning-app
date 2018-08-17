@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import MainContent from '../component/main-content';
 import Background from '../component/background';
-import Icon from '../component/icon';
+import ShieldIcon from '../asset/icon/shield';
 import { H1Text, CopyText } from '../component/text';
 import { GlasButton } from '../component/button';
 
@@ -14,15 +14,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
   },
-  icon: {
-    height: 281 * 0.75,
-    width: 218 * 0.75,
-    marginBottom: 50,
-  },
   title: {
-    marginBottom: 10,
+    marginTop: 50,
   },
   copy: {
+    marginTop: 10,
     textAlign: 'center',
     maxWidth: 330,
   },
@@ -32,7 +28,7 @@ const SeedSuccessView = ({ nav }) => (
   <Background image="purple-gradient-bg">
     <MainContent>
       <View style={styles.wrapper}>
-        <Icon image="shield" style={styles.icon} />
+        <ShieldIcon height={281 * 0.75} width={218 * 0.75} />
         <H1Text style={styles.title}>Good job you!</H1Text>
         <CopyText style={styles.copy}>
           {

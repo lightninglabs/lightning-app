@@ -4,10 +4,11 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
-import Icon from '../component/icon';
 import { Header, Title } from '../component/header';
 import { color } from '../component/style';
 import { H4Text } from '../component/text';
+import SettingsIcon from '../asset/icon/settings';
+import LightningBoltPurpleIcon from '../asset/icon/lightning-bolt-purple';
 import {
   BalanceLabel,
   BalanceLabelNumeral,
@@ -146,10 +147,6 @@ const bigBtnStyles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: color.glas,
   },
-  bolt: {
-    height: 126 * 0.4,
-    width: 64 * 0.4,
-  },
 });
 
 const SendReceiveButton = ({ goPay, goRequest }) => (
@@ -158,7 +155,7 @@ const SendReceiveButton = ({ goPay, goRequest }) => (
       Request
     </GlasButton>
     <View style={bigBtnStyles.boltWrapper}>
-      <Icon image="lightning-bolt-purple" style={bigBtnStyles.bolt} />
+      <LightningBoltPurpleIcon height={126 * 0.4} width={64 * 0.4} />
     </View>
     <GlasButton onPress={goPay} style={bigBtnStyles.rightBtn}>
       Pay
@@ -187,10 +184,6 @@ const headerStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  settingsIcon: {
-    height: 14.7,
-    width: 14,
-  },
 });
 
 const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
@@ -206,7 +199,7 @@ const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
     <Title title="Wallet" />
     <View style={headerStyles.btnWrapperRight}>
       <SmallButton text="Settings" onPress={goSettings}>
-        <Icon image="settings" style={headerStyles.settingsIcon} />
+        <SettingsIcon height={21 * 0.7} width={20 * 0.7} />
       </SmallButton>
     </View>
   </Header>

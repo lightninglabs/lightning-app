@@ -8,7 +8,7 @@ import { InputField } from '../component/field';
 import { Header, Title } from '../component/header';
 import { CancelButton, PillButton, Button } from '../component/button';
 import Card from '../component/card';
-import Icon from '../component/icon';
+import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import { FormStretcher, FormText, FormSubText } from '../component/form';
 import { color } from '../component/style';
 
@@ -31,7 +31,7 @@ const PaymentView = ({ store, nav, payment }) => (
     <Header shadow color={color.purple}>
       <Button disabled onPress={() => {}} />
       <Title title="Lightning Payment">
-        <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
+        <LightningBoltIcon height={12} width={6.1} />
       </Title>
       <CancelButton onPress={() => nav.goHome()} />
     </Header>

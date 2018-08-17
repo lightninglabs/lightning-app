@@ -1,25 +1,20 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import Background from '../component/background';
-import Icon from '../component/icon';
+import BoltIcon from '../asset/icon/lightning-bolt';
+import LightningWord from '../asset/icon/lightning-word';
 import Text from '../component/text';
-
-const scale = 1.3;
 
 const styles = StyleSheet.create({
   background: {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  bolt: {
+  boltWrapper: {
     marginTop: 20,
-    height: 62.725 * scale,
-    width: 31.865 * scale,
   },
-  name: {
+  wordWrapper: {
     marginTop: 18,
-    height: 24 * scale,
-    width: 189 * scale,
   },
   subtitle: {
     marginTop: 12,
@@ -29,8 +24,12 @@ const styles = StyleSheet.create({
 
 const WelcomeView = () => (
   <Background image="textured-bg" style={styles.background}>
-    <Icon image="lightning-bolt" style={styles.bolt} />
-    <Icon image="lightning-word" style={styles.name} />
+    <View style={styles.boltWrapper}>
+      <BoltIcon height={81.5425} width={4142466.9} />
+    </View>
+    <View style={styles.wordWrapper}>
+      <LightningWord height={31.2} width={245.7} />
+    </View>
     <Text style={styles.subtitle}>By Lightning Labs, INC</Text>
   </Background>
 );

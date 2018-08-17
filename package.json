@@ -23,7 +23,8 @@
     "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\" public/electron.js",
     "postinstall": "electron-builder install-app-deps",
     "storybook": "start-storybook -p 9009 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "build-icon": "svgr --native --icon --filename-case kebab -d src/asset/icon src/asset/icon"
   },
   "dependencies": {
     "electron-is-dev": "^0.3.0",
@@ -46,6 +47,7 @@
     "@storybook/addon-links": "^3.3.15",
     "@storybook/addons": "^3.3.15",
     "@storybook/react": "^3.3.15",
+    "@svgr/cli": "^2.1.1",
     "ajv": "^6.5.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",

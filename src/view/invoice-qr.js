@@ -18,9 +18,10 @@ import {
   BalanceLabelUnit,
 } from '../component/label';
 import Card from '../component/card';
-import Icon from '../component/icon';
 import QRCode from '../component/qrcode';
 import { CopiedNotification } from '../component/notification';
+import CopyPurpleIcon from '../asset/icon/copy-purple';
+import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
@@ -56,7 +57,7 @@ const InvoiceQRView = ({ store, nav, invoice }) => (
     <Header shadow color={color.purple}>
       <BackButton onPress={() => nav.goInvoice()} />
       <Title title="Payment Request">
-        <Icon image="lightning-bolt" style={{ height: 12, width: 6.1 }} />
+        <LightningBoltIcon height={12} width={6.1} />
       </Title>
       <Button disabled onPress={() => {}} />
     </Header>
@@ -74,7 +75,7 @@ const InvoiceQRView = ({ store, nav, invoice }) => (
         <QRCode style={styles.qrcode}>{store.invoice.uri}</QRCode>
         <CopyButton
           onPress={() => invoice.toClipboard({ text: store.invoice.encoded })}
-          icon="copy-purple"
+          icon={<CopyPurpleIcon height={17.5} width={14} />}
           style={styles.copyBtn}
         >
           {store.invoice.encoded}

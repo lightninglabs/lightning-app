@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -8,16 +8,14 @@ import { H1Text } from '../component/text';
 import { Circle } from '../component/loader';
 import { Button, ButtonText, PillButton } from '../component/button';
 import { FormStretcher } from '../component/form';
-import Icon from '../component/icon';
+import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   circle: {
     marginTop: 30,
   },
-  boltIcon: {
-    height: 126 * 0.9,
-    width: 64 * 0.9,
+  iconWrapper: {
     marginRight: 5,
   },
   doneBtn: {
@@ -37,7 +35,9 @@ const PayLightningDoneView = ({ nav, payment }) => (
       <FormStretcher>
         <H1Text>Payment Sent!</H1Text>
         <Circle style={styles.circle}>
-          <Icon image="lightning-bolt" style={styles.boltIcon} />
+          <View style={styles.iconWrapper}>
+            <LightningBoltIcon height={126 * 0.9} width={64 * 0.9} />
+          </View>
         </Circle>
       </FormStretcher>
       <PillButton onPress={() => nav.goHome()} style={styles.doneBtn}>

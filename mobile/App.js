@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import FontLoader from './component/font-loader';
 import { Header, Title } from '../src/component/header';
+import { CancelButton, BackButton } from '../src/component/button';
 import { color } from '../src/component/style';
 
 export default class App extends React.Component {
@@ -27,7 +28,9 @@ const styles = StyleSheet.create({
 const TestView = () => (
   <View style={styles.container}>
     <Header shadow color={color.orange}>
+      <BackButton onPress={() => {}} />
       <Title title="On-Chain Payment" />
+      <CancelButton onPress={() => {}} />
     </Header>
   </View>
 );

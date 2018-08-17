@@ -8,7 +8,7 @@ import { NamedField } from '../component/field';
 import { Header, Title } from '../component/header';
 import { CancelButton, BackButton, PillButton } from '../component/button';
 import Card from '../component/card';
-import Icon from '../component/icon';
+import BitcoinIcon from '../asset/icon/bitcoin';
 import { FormStretcher, FormText } from '../component/form';
 import {
   BalanceLabel,
@@ -49,7 +49,7 @@ const PayBitcoinConfirmView = ({ store, nav, payment }) => (
     <Header shadow color={color.orange}>
       <BackButton onPress={() => nav.goPayBitcoin()} />
       <Title title="On-Chain Confirmation">
-        <Icon image="bitcoin" style={styles.btcIcon} />
+        <BitcoinIcon height={13.6} width={10.8} />
       </Title>
       <CancelButton onPress={() => nav.goHome()} />
     </Header>

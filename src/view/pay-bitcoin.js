@@ -8,7 +8,7 @@ import { InputField, AmountInputField } from '../component/field';
 import { Header, Title } from '../component/header';
 import { CancelButton, BackButton, PillButton } from '../component/button';
 import Card from '../component/card';
-import Icon from '../component/icon';
+import BitcoinIcon from '../asset/icon/bitcoin';
 import { FormStretcher, FormText } from '../component/form';
 import { BalanceLabel, BalanceLabelUnit } from '../component/label';
 import { color } from '../component/style';
@@ -24,10 +24,6 @@ const styles = StyleSheet.create({
   unit: {
     color: color.blackText,
   },
-  btcIcon: {
-    height: 170 * 0.08,
-    width: 135 * 0.08,
-  },
   nextBtn: {
     marginTop: 20,
     backgroundColor: color.orange,
@@ -39,7 +35,7 @@ const PayBitcoinView = ({ store, nav, payment }) => (
     <Header shadow color={color.orange}>
       <BackButton onPress={() => nav.goPay()} />
       <Title title="On-Chain Payment">
-        <Icon image="bitcoin" style={styles.btcIcon} />
+        <BitcoinIcon height={13.6} width={10.8} />
       </Title>
       <CancelButton onPress={() => nav.goHome()} />
     </Header>

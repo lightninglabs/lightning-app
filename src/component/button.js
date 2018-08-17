@@ -7,7 +7,10 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
-import Icon from './icon';
+import BackIcon from '../asset/icon/back';
+import CancelIcon from '../asset/icon/cancel';
+import QrIcon from '../asset/icon/qr';
+import ArrowDownIcon from '../asset/icon/arrow-down';
 import { color, font } from './style';
 
 //
@@ -261,16 +264,9 @@ SmallPillButton.propTypes = {
 // Back Button
 //
 
-const backStyles = StyleSheet.create({
-  icon: {
-    height: 14,
-    width: 8.4,
-  },
-});
-
 export const BackButton = ({ onPress, disabled, style }) => (
   <Button onPress={onPress} disabled={disabled} style={style}>
-    <Icon image="back" style={backStyles.icon} />
+    <BackIcon height={14} width={8.4} />
   </Button>
 );
 
@@ -284,16 +280,9 @@ BackButton.propTypes = {
 // Cancel Button
 //
 
-const cancelStyles = StyleSheet.create({
-  icon: {
-    height: 14,
-    width: 14,
-  },
-});
-
 export const CancelButton = ({ onPress, disabled, style }) => (
   <Button onPress={onPress} disabled={disabled} style={style}>
-    <Icon image="cancel" style={cancelStyles.icon} />
+    <CancelIcon height={14} width={14} />
   </Button>
 );
 
@@ -315,10 +304,6 @@ const qrStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  icon: {
-    height: 24.375,
-    width: 25,
-  },
   text: {
     fontSize: font.sizeXS,
   },
@@ -330,7 +315,7 @@ export const QrButton = ({ onPress, disabled, style, children }) => (
     disabled={disabled}
     onPress={onPress}
   >
-    <Icon image="qr" style={qrStyles.icon} />
+    <QrIcon height={24.375} width={25} />
     <Text style={qrStyles.text}>{children}</Text>
   </TouchableOpacity>
 );
@@ -351,16 +336,12 @@ const downStyles = StyleSheet.create({
     fontFamily: 'OpenSans SemiBold',
     fontSize: font.sizeS,
   },
-  icon: {
-    height: 7.2,
-    width: 18.4,
-  },
 });
 
 export const DownButton = ({ onPress, disabled, style, children }) => (
   <Button onPress={onPress} disabled={disabled} style={style}>
     <Text style={downStyles.text}>{children}</Text>
-    <Icon image="arrow-down" style={downStyles.icon} />
+    <ArrowDownIcon height={7.2} width={18.4} />
   </Button>
 );
 
@@ -395,9 +376,7 @@ const copyStyles = StyleSheet.create({
   text: {
     fontFamily: 'OpenSans Light',
   },
-  icon: {
-    height: 25 * 0.7,
-    width: 20 * 0.7,
+  iconWrapper: {
     marginLeft: 5,
     marginBottom: 7,
   },
@@ -410,13 +389,13 @@ export const CopyButton = ({ onPress, icon, children, style }) => (
         {children}
       </Text>
     </View>
-    <Icon image={icon} style={copyStyles.icon} />
+    <View style={copyStyles.iconWrapper}>{icon}</View>
   </TouchableOpacity>
 );
 
 CopyButton.propTypes = {
   onPress: PropTypes.func,
-  icon: PropTypes.string,
+  icon: PropTypes.node,
   children: PropTypes.string,
   style: View.propTypes.style,
 };
