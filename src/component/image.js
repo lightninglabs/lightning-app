@@ -33,10 +33,16 @@ ImageBackground.propTypes = {
 // Svg Background
 //
 
+const svgStyles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+  },
+});
+
 export const SvgBackground = ({ svg, children, style }) => (
-  <View style={style}>
+  <View style={svgStyles.wrapper}>
     {svg}
-    <View style={StyleSheet.absoluteFill}>{children}</View>
+    <View style={[StyleSheet.absoluteFill, style]}>{children}</View>
   </View>
 );
 

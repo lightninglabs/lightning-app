@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 
 export const Background = ({ image, color, children, style }) =>
   image ? (
-    <BackgroundImage image={image} style={[styles.background, style]}>
+    <BackgroundImage image={image} style={style}>
       {children}
     </BackgroundImage>
   ) : (
