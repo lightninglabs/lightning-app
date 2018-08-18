@@ -65,6 +65,7 @@ module.exports.startLndProcess = async function({
     isDev ? '--btcd.rpcpass=kek' : '',
     isDev ? '' : '--autopilot.active',
     isDev ? '' : '--autopilot.private',
+    isDev ? '' : '--autopilot.minconfs=0',
     useNeutrino ? '--bitcoin.node=neutrino' : '',
     useNeutrino ? '--neutrino.connect=btcd0.lightning.engineering' : '',
     useNeutrino ? '--neutrino.connect=127.0.0.1:18333' : '',
