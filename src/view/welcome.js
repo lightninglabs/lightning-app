@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 const WelcomeView = () => (
   <Background image="textured-bg" style={styles.background}>
     <View style={styles.boltWrapper}>
-      <BoltIcon height={81.5425} width={4142466.9} />
+      <BoltIcon height={64 * 1.3} width={126 * 1.3} />
     </View>
     <View style={styles.wordWrapper}>
       <LightningWord height={31.2} width={245.7} />
