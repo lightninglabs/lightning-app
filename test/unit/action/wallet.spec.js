@@ -224,6 +224,33 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('resetPassword()', () => {
+    it('should change password', async () => {
+      grpc.sendUnlockerCommand.withArgs('ChangePassword').resolves();
+      await wallet.resetPassword({
+        currentPassword: 'currentPass',
+        newPassword: 'newPass',
+      });
+      expect(grpc.sendUnlockerCommand, 'was called with', 'ChangePassword', {
+        current_password: Buffer.from('currentPass', 'utf8'),
+        new_password: Buffer.from('newPass', 'utf8'),
+      });
+      expect(nav.goResetPasswordSaved, 'was called once');
+    });
+
+    it('should display error notification on failure', async () => {
+      grpc.sendUnlockerCommand
+        .withArgs('ChangePassword')
+        .rejects(new Error('Boom!'));
+      await wallet.resetPassword({
+        currentPassword: 'currentPass',
+        newPassword: 'newPass',
+      });
+      expect(notification.display, 'was called once');
+      expect(nav.goResetPasswordSaved, 'was not called');
+    });
+  });
+
   describe('checkPassword()', () => {
     beforeEach(() => {
       sandbox.stub(wallet, 'unlockWallet');

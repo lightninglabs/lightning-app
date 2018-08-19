@@ -40,6 +40,7 @@ const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const MACAROONS_ENABLED = false;
 const NAP_TIME = process.env.NAP_TIME || 5000;
 const walletPassword = 'bitconeeeeeect';
+const newWalletPassword = 'wassupwassup';
 
 const wireUpIpc = (s1, s2) => {
   s1.send = (msg, ...args) => {
@@ -222,6 +223,30 @@ describe('Action Integration Tests', function() {
       expect(store1.lndReady, 'to be true');
       await grpc2.initLnd();
       expect(store2.lndReady, 'to be true');
+    });
+
+    it('should reset password', async () => {
+      lndProcess1.kill();
+      lndProcess2.kill();
+      await startLnd();
+      ipcMainStub1.on('restart-lnd-process', async event => {
+        event.sender.send('lnd-restart-error', { restartError: undefined });
+      });
+      store1.walletUnlocked = false;
+      await wallet1.resetPassword({
+        currentPassword: walletPassword,
+        newPassword: newWalletPassword,
+      });
+      expect(store1.walletUnlocked, 'to be true');
+      store2.walletUnlocked = false;
+      ipcMainStub2.on('restart-lnd-process', event => {
+        event.sender.send('lnd-restart-error', { restartError: undefined });
+      });
+      await wallet2.resetPassword({
+        currentPassword: walletPassword,
+        newPassword: newWalletPassword,
+      });
+      expect(store2.walletUnlocked, 'to be true');
     });
 
     it('should unlock wallet with reset password', async () => {

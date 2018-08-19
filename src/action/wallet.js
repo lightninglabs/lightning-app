@@ -195,6 +195,40 @@ class WalletAction {
   }
 
   /**
+   * Update the current wallet password of the user.
+   * @param  {string} options.currentPassword The current password of the user.
+   * @param  {string} options.newPassword     The new password of the user.
+   * @return {Promise<undefined>}
+   */
+  async resetPassword({ currentPassword, newPassword }) {
+    try {
+      await this._grpc.closeLnd();
+      let restartError = await this._ipc.send(
+        'restart-lnd-process',
+        'lnd-restart-error'
+      );
+      if (restartError) {
+        return this._notification.display({
+          msg: 'Failed to restart lnd',
+          restartError,
+        });
+      }
+      this._store.walletUnlocked = false;
+      this._store.lndReady = false;
+      await this._grpc.initUnlocker();
+      await this._grpc.sendUnlockerCommand('ChangePassword', {
+        current_password: toBuffer(currentPassword),
+        new_password: toBuffer(newPassword),
+      });
+      this._store.walletUnlocked = true;
+      this._nav.goResetPasswordSaved();
+    } catch (err) {
+      this._notification.display({ msg: 'Password change failed', err });
+      this._nav.goResetPasswordCurrent();
+    }
+  }
+
+  /**
    * Check the password input by the user by attempting to unlock the wallet.
    * @return {Promise<undefined>}
    */
