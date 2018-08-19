@@ -128,7 +128,9 @@ class TransactionAction {
       stream.on('data', () => this.update());
       stream.on('end', resolve);
       stream.on('error', reject);
-      stream.on('status', status => log.info(`Transactions update: ${status}`));
+      stream.on('status', status =>
+        log.info(`Transactions update: ${JSON.stringify(status)}`)
+      );
     });
   }
 
@@ -142,7 +144,9 @@ class TransactionAction {
       stream.on('data', () => this.update());
       stream.on('end', resolve);
       stream.on('error', reject);
-      stream.on('status', status => log.info(`Invoices update: ${status}`));
+      stream.on('status', status =>
+        log.info(`Invoices update: ${JSON.stringify(status)}`)
+      );
     });
   }
 }
