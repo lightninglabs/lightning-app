@@ -85,6 +85,13 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('setNewPassword()', () => {
+    it('should clear attributes', () => {
+      wallet.setNewPassword({ password: 'bar' });
+      expect(store.wallet.newPassword, 'to equal', 'bar');
+    });
+  });
+
   describe('setPasswordVerify()', () => {
     it('should clear attributes', () => {
       wallet.setPasswordVerify({ password: 'foo' });

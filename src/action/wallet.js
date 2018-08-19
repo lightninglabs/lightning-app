@@ -76,6 +76,14 @@ class WalletAction {
   }
 
   /**
+   * Set the new password input for the reset password: new password view.
+   * @param {string} options.password The wallet password
+   */
+  setNewPassword({ password }) {
+    this._store.wallet.newPassword = password;
+  }
+
+  /**
    * Set the verify password input for the password view.
    * @param {string} options.password The wallet password a second time
    */
