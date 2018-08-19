@@ -55,6 +55,11 @@ const SettingView = ({ store, nav, wallet }) => {
           onSelect={() => nav.goSettingsFiat()}
           arrow
         />
+        <SettingItem
+          name="Reset Password"
+          onSelect={() => wallet.initResetPassword()}
+          arrow
+        />
         <SettingHeader name="ADVANCED" style={styles.advanced} />
         <SettingItem name="Logs" onSelect={() => nav.goCLI()} arrow />
       </MainContent>
