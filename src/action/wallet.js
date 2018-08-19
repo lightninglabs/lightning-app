@@ -68,6 +68,18 @@ class WalletAction {
   }
 
   /**
+   * Initialize the reset password user flow by resetting input values
+   * and then navigating to the initial view.
+   * @return {undefined}
+   */
+  initResetPassword() {
+    this._store.wallet.password = '';
+    this._store.wallet.passwordVerify = '';
+    this._store.wallet.newPassword = '';
+    this._nav.goResetPasswordCurrent();
+  }
+
+  /**
    * Set the password input for the password view.
    * @param {string} options.password The wallet password
    */

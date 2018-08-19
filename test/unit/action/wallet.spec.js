@@ -78,6 +78,19 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('initResetPassword()', () => {
+    it('should clear attributes and navigate to view', () => {
+      store.wallet.password = 'foo';
+      store.wallet.passwordVerify = 'bar';
+      store.wallet.newPassword = 'baz';
+      wallet.initResetPassword();
+      expect(store.wallet.password, 'to equal', '');
+      expect(store.wallet.passwordVerify, 'to equal', '');
+      expect(store.wallet.newPassword, 'to equal', '');
+      expect(nav.goResetPasswordCurrent, 'was called once');
+    });
+  });
+
   describe('setPassword()', () => {
     it('should clear attributes', () => {
       wallet.setPassword({ password: 'foo' });
