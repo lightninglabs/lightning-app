@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for updating wallet balances.
  */
 
-import { observe } from 'mobx';
+import { when } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap } from '../helper';
 import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY, RATE_DELAY } from '../config';
 import * as log from './log';
@@ -214,7 +214,7 @@ class WalletAction {
       });
       this._store.walletUnlocked = true;
       this._nav.goWait();
-      observe(this._store, 'lndReady', () => this._nav.goHome());
+      when(() => this._store.lndReady, () => this._nav.goHome());
     } catch (err) {
       this._notification.display({ type: 'error', msg: 'Invalid password' });
     }
