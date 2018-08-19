@@ -224,6 +224,30 @@ describe('Action Integration Tests', function() {
       expect(store2.lndReady, 'to be true');
     });
 
+    it('should unlock wallet with reset password', async () => {
+      lndProcess1.kill();
+      lndProcess2.kill();
+      await startLnd();
+
+      store1.walletUnlocked = false;
+      await grpc1.initUnlocker();
+      await wallet1.unlockWallet({ walletPassword: newWalletPassword });
+      expect(store1.walletUnlocked, 'to be true');
+
+      store2.walletUnlocked = false;
+      await grpc2.initUnlocker();
+      await wallet2.unlockWallet({ walletPassword: newWalletPassword });
+      expect(store2.walletUnlocked, 'to be true');
+    });
+
+    it('should close unlocker grpc clients and re-initialize lnd', async () => {
+      await grpc1.closeUnlocker();
+      await grpc1.initLnd();
+
+      await grpc2.closeUnlocker();
+      await grpc2.initLnd();
+    });
+
     it('should create new address for node1', async () => {
       await wallet1.getNewAddress();
       expect(store1.walletAddress, 'to be ok');
