@@ -1,5 +1,6 @@
 import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
+import IpcAction from '../../../src/action/ipc';
 import AppStorage from '../../../src/action/app-storage';
 import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
@@ -13,6 +14,7 @@ describe('Action Wallet Unit Tests', () => {
   let store;
   let sandbox;
   let grpc;
+  let ipc;
   let db;
   let wallet;
   let nav;
@@ -26,10 +28,11 @@ describe('Action Wallet Unit Tests', () => {
     require('../../../src/config').NOTIFICATION_DELAY = 1;
     require('../../../src/config').RATE_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
+    ipc = sinon.createStubInstance(IpcAction);
     db = sinon.createStubInstance(AppStorage);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    wallet = new WalletAction(store, grpc, db, nav, notification);
+    wallet = new WalletAction(store, grpc, db, nav, notification, ipc);
   });
 
   afterEach(() => {
