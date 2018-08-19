@@ -427,4 +427,37 @@ RadioButton.propTypes = {
   selected: PropTypes.bool.isRequired,
 };
 
+//
+// Toggle Show Button
+//
+
+const toggleShowStyles = StyleSheet.create({
+  iconWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 47,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+});
+
+export const ToggleShowButton = ({ borderColor, onPress, hide }) => (
+  <View
+    style={[toggleShowStyles.iconWrapper, { borderBottomColor: borderColor }]}
+  >
+    <TouchableOpacity onPress={() => onPress()}>
+      {hide ? (
+        <CancelIcon height={20} width={20} />
+      ) : (
+        <ArrowDownIcon height={20} width={20} />
+      )}
+    </TouchableOpacity>
+  </View>
+);
+
+ToggleShowButton.propTypes = {
+  borderColor: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  hide: PropTypes.bool.isRequired,
+};
+
 export default Button;
