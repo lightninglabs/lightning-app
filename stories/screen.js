@@ -46,6 +46,7 @@ import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
 import SetPassword from '../src/view/set-password';
 import Password from '../src/view/password';
+import ResetPasswordCurrent from '../src/view/reset-password-current';
 import NewAddress from '../src/view/new-address';
 import Wait from '../src/view/wait';
 import RestoreWallet from '../src/view/restore-wallet';
@@ -98,6 +99,9 @@ storiesOf('Screens', module)
   .add('Seed Success', () => <SeedSuccess nav={nav} />)
   .add('Set Password', () => <SetPassword store={store} wallet={wallet} />)
   .add('Password', () => <Password store={store} wallet={wallet} />)
+  .add('Reset Password - Current', () => (
+    <ResetPasswordCurrent store={store} wallet={wallet} nav={nav} />
+  ))
   .add('New Address', () => (
     <NewAddress store={store} invoice={invoice} info={info} />
   ))
