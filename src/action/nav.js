@@ -37,6 +37,22 @@ class NavAction {
     this._store.route = 'Password';
   }
 
+  goResetPasswordCurrent() {
+    this._store.route = 'ResetPasswordCurrent';
+  }
+
+  goResetPasswordNew() {
+    this._store.route = 'ResetPasswordNew';
+  }
+
+  goResetPasswordConfirm() {
+    this._store.route = 'ResetPasswordConfirm';
+  }
+
+  goResetPasswordSaved() {
+    this._store.route = 'ResetPasswordSaved';
+  }
+
   goNewAddress() {
     this._store.route = 'NewAddress';
   }
