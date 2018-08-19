@@ -174,6 +174,33 @@ class WalletAction {
   }
 
   /**
+   * Check the wallet password that was chosen by the user has the correct
+   * length and that it was also entered correctly twice to make sure that
+   * there was no typo.
+   * @return {Promise<undefined>}
+   */
+  async checkResetPassword() {
+    const { password, newPassword, passwordVerify } = this._store.wallet;
+    let errorMsg;
+    if (!newPassword || newPassword.length < MIN_PASSWORD_LENGTH) {
+      errorMsg = `Set a password with at least ${MIN_PASSWORD_LENGTH} characters.`;
+    } else if (newPassword === password) {
+      errorMsg = 'New password must not match old password.';
+    } else if (newPassword !== passwordVerify) {
+      errorMsg = 'Passwords do not match!';
+    }
+    if (errorMsg) {
+      this._nav.goResetPasswordNew();
+      return this._notification.display({ msg: errorMsg });
+    }
+    this._nav.goWait();
+    await this.resetPassword({
+      currentPassword: password,
+      newPassword: newPassword,
+    });
+  }
+
+  /**
    * Initiate the lnd wallet using the generated seed and password. If this
    * is success set `walletUnlocked` to true and navigate to the seed success
    * screen.
