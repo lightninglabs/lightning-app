@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SettingView = ({ store, nav }) => {
+const SettingView = ({ store, nav, wallet }) => {
   return (
     <Background color={color.blackDark}>
       <Header separator>
@@ -65,6 +65,7 @@ const SettingView = ({ store, nav }) => {
 SettingView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
+  wallet: PropTypes.object.isRequired,
 };
 
 export default observer(SettingView);
