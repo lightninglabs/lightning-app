@@ -4,7 +4,13 @@
 
 import { computed, extendObservable } from 'mobx';
 import { toAmountLabel } from '../helper';
-import { UNITS, FIATS } from '../config';
+import {
+  UNITS,
+  FIATS,
+  MIN_PASSWORD_LENGTH,
+  STRONG_PASSWORD_LENGTH,
+} from '../config';
+import { color } from '../component/style';
 
 const ComputedWallet = store => {
   extendObservable(store, {
@@ -26,7 +32,32 @@ const ComputedWallet = store => {
       const { settings } = store;
       return !settings.displayFiat ? UNITS[settings.unit].display : null;
     }),
+    newPasswordCopy: computed(() => {
+      const { newPassword } = store.wallet;
+      return getNewPasswordCopy({ newPassword });
+    }),
+    newPasswordCheckColor: computed(() => {
+      const { newPassword } = store.wallet;
+      if (!newPassword) {
+        return color.blackText;
+      }
+      return newPassword.length < MIN_PASSWORD_LENGTH ? color.red : color.green;
+    }),
   });
+};
+
+/**
+ * If necessary, return copy advising the user on the quality of their password.
+ * @param  {string} options.walletPassword The password used to encrypt the wallet
+ * @return {string}
+ */
+const getNewPasswordCopy = ({ newPassword }) => {
+  if (newPassword.length >= STRONG_PASSWORD_LENGTH) {
+    return "Now that's a strong password!";
+  } else if (newPassword.length >= MIN_PASSWORD_LENGTH) {
+    return 'Pro tip: add a few more characters to strengthen your password.';
+  }
+  return '';
 };
 
 export default ComputedWallet;
