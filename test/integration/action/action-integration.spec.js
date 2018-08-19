@@ -90,25 +90,7 @@ describe('Action Integration Tests', function() {
   let invoice2;
   let btcdArgs;
 
-  before(async () => {
-    rmdir('test/data');
-    sandbox = sinon.createSandbox({});
-    sandbox.stub(logger);
-    store1 = new Store();
-    store2 = new Store();
-    store1.settings.displayFiat = false;
-    store2.settings.displayFiat = false;
-    store1.init();
-    store2.init();
-
-    btcdArgs = {
-      isDev,
-      logger,
-      btcdSettingsDir: BTCD_SETTINGS_DIR,
-    };
-    btcdProcess = await startBtcdProcess(btcdArgs);
-    await nap(NAP_TIME);
-    await poll(() => isPortOpen(BTCD_PORT));
+  const startLnd = async () => {
     const lndProcess1Promise = startLndProcess({
       isDev,
       macaroonsEnabled: MACAROONS_ENABLED,
@@ -130,6 +112,29 @@ describe('Action Integration Tests', function() {
 
     lndProcess1 = await lndProcess1Promise;
     lndProcess2 = await lndProcess2Promise;
+  };
+
+  before(async () => {
+    rmdir('test/data');
+    sandbox = sinon.createSandbox({});
+    sandbox.stub(logger);
+    store1 = new Store();
+    store2 = new Store();
+    store1.settings.displayFiat = false;
+    store2.settings.displayFiat = false;
+    store1.init();
+    store2.init();
+
+    btcdArgs = {
+      isDev,
+      logger,
+      btcdSettingsDir: BTCD_SETTINGS_DIR,
+    };
+    btcdProcess = await startBtcdProcess(btcdArgs);
+    await nap(NAP_TIME);
+    await poll(() => isPortOpen(BTCD_PORT));
+
+    await startLnd();
 
     await grcpClient.init({
       ipcMain: ipcMainStub1,
