@@ -107,6 +107,8 @@ class ChannelAction {
         localBalance: parseSat(channel.local_balance),
         remoteBalance: parseSat(channel.remote_balance),
         channelPoint: channel.channel_point,
+        fundingTxId: this._parseChannelPoint(channel.channel_point)
+          .funding_txid_str,
         active: channel.active,
         private: channel.private,
         status: 'open',
@@ -130,6 +132,8 @@ class ChannelAction {
         localBalance: parseSat(channel.local_balance),
         remoteBalance: parseSat(channel.remote_balance),
         channelPoint: channel.channel_point,
+        fundingTxId: this._parseChannelPoint(channel.channel_point)
+          .funding_txid_str,
       });
       const pocs = response.pending_open_channels.map(poc => ({
         ...mapPendingAttributes(poc.channel),
