@@ -31,7 +31,9 @@ console.log(`
 const userDataPath = app.getPath('userData');
 const lndSettingsDir = path.join(isDev ? 'data' : userDataPath, 'lnd');
 const btcdSettingsDir = path.join(isDev ? 'data' : userDataPath, 'btcd');
-const lndArgs = process.argv.filter(a => /(bitcoin)|(btcd)|(neutrino)/.test(a));
+const lndArgs = process.argv.filter(a =>
+  /(^--bitcoin)|(^--btcd)|(^--neutrino)/.test(a)
+);
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
