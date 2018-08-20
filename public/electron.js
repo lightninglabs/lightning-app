@@ -125,6 +125,25 @@ function createWindow() {
   });
 }
 
+ipcMain.on('restart-lnd-process', async event => {
+  lndProcess && lndProcess.kill();
+  let restartError;
+  try {
+    lndProcess = await startLndProcess({
+      isDev,
+      lndSettingsDir,
+      macaroonsEnabled: MACAROONS_ENABLED,
+      lndPort: LND_PORT,
+      lndPeerPort: LND_PEER_PORT,
+      logger: Logger,
+      lndArgs,
+    });
+  } catch (err) {
+    restartError = err;
+  }
+  event.sender.send('lnd-restart-error', { restartError });
+});
+
 const startLnd = async () => {
   try {
     btcdProcess = await startBtcdProcess({

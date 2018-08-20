@@ -46,6 +46,10 @@ import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
 import SetPassword from '../src/view/set-password';
 import Password from '../src/view/password';
+import ResetPasswordCurrent from '../src/view/reset-password-current';
+import ResetPasswordNew from '../src/view/reset-password-new';
+import ResetPasswordConfirm from '../src/view/reset-password-confirm';
+import ResetPasswordSaved from '../src/view/reset-password-saved';
 import NewAddress from '../src/view/new-address';
 import Wait from '../src/view/wait';
 import RestoreWallet from '../src/view/restore-wallet';
@@ -98,6 +102,16 @@ storiesOf('Screens', module)
   .add('Seed Success', () => <SeedSuccess nav={nav} />)
   .add('Set Password', () => <SetPassword store={store} wallet={wallet} />)
   .add('Password', () => <Password store={store} wallet={wallet} />)
+  .add('Reset Password - Current', () => (
+    <ResetPasswordCurrent store={store} wallet={wallet} nav={nav} />
+  ))
+  .add('Reset Password - New', () => (
+    <ResetPasswordNew store={store} wallet={wallet} nav={nav} />
+  ))
+  .add('Reset Password - Confirm New', () => (
+    <ResetPasswordConfirm store={store} wallet={wallet} nav={nav} />
+  ))
+  .add('Reset Password - Saved', () => <ResetPasswordSaved nav={nav} />)
   .add('New Address', () => (
     <NewAddress store={store} invoice={invoice} info={info} />
   ))
@@ -114,7 +128,7 @@ storiesOf('Screens', module)
       nav={nav}
     />
   ))
-  .add('Settings', () => <Setting store={store} nav={nav} />)
+  .add('Settings', () => <Setting store={store} nav={nav} wallet={wallet} />)
   .add('Settings Units', () => (
     <SettingUnit store={store} nav={nav} setting={setting} />
   ))

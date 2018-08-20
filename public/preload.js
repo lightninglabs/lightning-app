@@ -6,7 +6,9 @@ const _ipcRenderer = require('electron').ipcRenderer;
 
 const filter = event => {
   if (
-    !/^(lnd)|(unlock)|(log)|(locale)|(open-url)[a-zA-Z_-]{0,20}$/.test(event)
+    !/^(lnd)|(unlock)|(restart-lnd-process)|(log)|(locale)|(open-url)[a-zA-Z_-]{0,20}$/.test(
+      event
+    )
   ) {
     throw new Error(`Invalid IPC: ${event}`);
   }

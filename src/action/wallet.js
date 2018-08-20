@@ -3,18 +3,19 @@
  * call the corresponding GRPC apis for updating wallet balances.
  */
 
-import { observe } from 'mobx';
+import { when } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap } from '../helper';
 import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY, RATE_DELAY } from '../config';
 import * as log from './log';
 
 class WalletAction {
-  constructor(store, grpc, db, nav, notification) {
+  constructor(store, grpc, db, nav, notification, ipc) {
     this._store = store;
     this._grpc = grpc;
     this._db = db;
     this._nav = nav;
     this._notification = notification;
+    this._ipc = ipc;
   }
 
   //
@@ -67,11 +68,31 @@ class WalletAction {
   }
 
   /**
+   * Initialize the reset password user flow by resetting input values
+   * and then navigating to the initial view.
+   * @return {undefined}
+   */
+  initResetPassword() {
+    this._store.wallet.password = '';
+    this._store.wallet.passwordVerify = '';
+    this._store.wallet.newPassword = '';
+    this._nav.goResetPasswordCurrent();
+  }
+
+  /**
    * Set the password input for the password view.
    * @param {string} options.password The wallet password
    */
   setPassword({ password }) {
     this._store.wallet.password = password;
+  }
+
+  /**
+   * Set the new password input for the reset password: new password view.
+   * @param {string} options.password The wallet password
+   */
+  setNewPassword({ password }) {
+    this._store.wallet.newPassword = password;
   }
 
   /**
@@ -173,6 +194,33 @@ class WalletAction {
   }
 
   /**
+   * Check the wallet password that was chosen by the user has the correct
+   * length and that it was also entered correctly twice to make sure that
+   * there was no typo.
+   * @return {Promise<undefined>}
+   */
+  async checkResetPassword() {
+    const { password, newPassword, passwordVerify } = this._store.wallet;
+    let errorMsg;
+    if (!newPassword || newPassword.length < MIN_PASSWORD_LENGTH) {
+      errorMsg = `Set a password with at least ${MIN_PASSWORD_LENGTH} characters.`;
+    } else if (newPassword === password) {
+      errorMsg = 'New password must not match old password.';
+    } else if (newPassword !== passwordVerify) {
+      errorMsg = 'Passwords do not match!';
+    }
+    if (errorMsg) {
+      this._nav.goResetPasswordNew();
+      return this._notification.display({ msg: errorMsg });
+    }
+    this._nav.goWait();
+    await this.resetPassword({
+      currentPassword: password,
+      newPassword: newPassword,
+    });
+  }
+
+  /**
    * Initiate the lnd wallet using the generated seed and password. If this
    * is success set `walletUnlocked` to true and navigate to the seed success
    * screen.
@@ -190,6 +238,40 @@ class WalletAction {
       this._nav.goSeedSuccess();
     } catch (err) {
       this._notification.display({ msg: 'Initializing wallet failed', err });
+    }
+  }
+
+  /**
+   * Update the current wallet password of the user.
+   * @param  {string} options.currentPassword The current password of the user.
+   * @param  {string} options.newPassword     The new password of the user.
+   * @return {Promise<undefined>}
+   */
+  async resetPassword({ currentPassword, newPassword }) {
+    try {
+      await this._grpc.closeLnd();
+      let restartError = await this._ipc.send(
+        'restart-lnd-process',
+        'lnd-restart-error'
+      );
+      if (restartError) {
+        return this._notification.display({
+          msg: 'Failed to restart lnd',
+          restartError,
+        });
+      }
+      this._store.walletUnlocked = false;
+      this._store.lndReady = false;
+      await this._grpc.initUnlocker();
+      await this._grpc.sendUnlockerCommand('ChangePassword', {
+        current_password: toBuffer(currentPassword),
+        new_password: toBuffer(newPassword),
+      });
+      this._store.walletUnlocked = true;
+      this._nav.goResetPasswordSaved();
+    } catch (err) {
+      this._notification.display({ msg: 'Password change failed', err });
+      this._nav.goResetPasswordCurrent();
     }
   }
 
@@ -214,7 +296,7 @@ class WalletAction {
       });
       this._store.walletUnlocked = true;
       this._nav.goWait();
-      observe(this._store, 'lndReady', () => this._nav.goHome());
+      when(() => this._store.lndReady, () => this._nav.goHome());
     } catch (err) {
       this._notification.display({ type: 'error', msg: 'Invalid password' });
     }

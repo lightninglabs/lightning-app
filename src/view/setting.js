@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SettingView = ({ store, nav }) => {
+const SettingView = ({ store, nav, wallet }) => {
   return (
     <Background color={color.blackDark}>
       <Header separator>
@@ -55,6 +55,11 @@ const SettingView = ({ store, nav }) => {
           onSelect={() => nav.goSettingsFiat()}
           arrow
         />
+        <SettingItem
+          name="Reset Password"
+          onSelect={() => wallet.initResetPassword()}
+          arrow
+        />
         <SettingHeader name="ADVANCED" style={styles.advanced} />
         <SettingItem name="Logs" onSelect={() => nav.goCLI()} arrow />
       </MainContent>
@@ -65,6 +70,7 @@ const SettingView = ({ store, nav }) => {
 SettingView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
+  wallet: PropTypes.object.isRequired,
 };
 
 export default observer(SettingView);

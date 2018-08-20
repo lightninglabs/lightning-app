@@ -38,6 +38,7 @@ export class Store {
       displayCopied: false,
       wallet: {
         password: '',
+        newPassword: '',
         passwordVerify: '',
         seedVerify: ['', '', ''],
       },
