@@ -80,7 +80,7 @@ const payment = new PaymentAction(store, grpc, transaction, nav, notify);
 sinon.stub(payment, 'checkType');
 sinon.stub(payment, 'payBitcoin');
 sinon.stub(payment, 'payLightning');
-const channel = new ChannelAction(store, grpc, nav, notify);
+const channel = new ChannelAction(store, grpc, transaction, nav, notify);
 sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
