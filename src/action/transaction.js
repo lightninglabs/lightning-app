@@ -3,6 +3,7 @@
  * call the corresponding GRPC apis for listing transactions.
  */
 
+import { RETRY_DELAY } from '../config';
 import * as log from './log';
 import { parseDate, parseSat, toHex, toHash } from '../helper';
 
@@ -21,7 +22,6 @@ class TransactionAction {
    */
   init() {
     this._nav.goTransactions();
-    this.update();
   }
 
   /**
@@ -33,7 +33,6 @@ class TransactionAction {
   select({ item }) {
     this._store.selectedTransaction = item;
     this._nav.goTransactionDetail();
-    this.update();
   }
 
   /**
@@ -49,6 +48,20 @@ class TransactionAction {
       this._wallet.getBalance(),
       this._wallet.getChannelBalance(),
     ]);
+  }
+
+  /**
+   * Poll the update api to update the transactions and wallet balances.
+   * @return {Promise<undefined>}
+   */
+  async pollUpdate() {
+    try {
+      clearTimeout(this.tPollUpdate);
+      this.tPollUpdate = setTimeout(() => this.pollUpdate(), RETRY_DELAY);
+      await this.update();
+    } catch (err) {
+      log.error('Polling transaction update failed', err);
+    }
   }
 
   /**

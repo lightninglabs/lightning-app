@@ -3,7 +3,6 @@ import { Store } from '../../../src/store';
 import IpcAction from '../../../src/action/ipc';
 import GrpcAction from '../../../src/action/grpc';
 import PaymentAction from '../../../src/action/payment';
-import TransactionAction from '../../../src/action/transaction';
 import NotificationAction from '../../../src/action/notification';
 import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
@@ -13,7 +12,6 @@ describe('Action Payments Unit Tests', () => {
   let store;
   let sandbox;
   let grpc;
-  let transaction;
   let payment;
   let nav;
   let notification;
@@ -27,8 +25,7 @@ describe('Action Payments Unit Tests', () => {
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    transaction = sinon.createStubInstance(TransactionAction);
-    payment = new PaymentAction(store, grpc, transaction, nav, notification);
+    payment = new PaymentAction(store, grpc, nav, notification);
   });
 
   afterEach(() => {
@@ -199,14 +196,12 @@ describe('Action Payments Unit Tests', () => {
       });
       expect(nav.goPayBitcoinDone, 'was called once');
       expect(notification.display, 'was not called');
-      expect(transaction.update, 'was called once');
     });
 
     it('should display notification on error', async () => {
       grpc.sendCommand.withArgs('sendCoins').rejects();
       await payment.payBitcoin();
       expect(notification.display, 'was called once');
-      expect(transaction.update, 'was called once');
     });
   });
 
@@ -237,7 +232,6 @@ describe('Action Payments Unit Tests', () => {
       expect(nav.goWait, 'was called once');
       expect(nav.goPayLightningDone, 'was called once');
       expect(notification.display, 'was not called');
-      expect(transaction.update, 'was called once');
     });
 
     it('should display notification on error', async () => {
@@ -245,7 +239,6 @@ describe('Action Payments Unit Tests', () => {
       await payment.payLightning({ invoice: 'some-payment' });
       expect(nav.goPayLightningConfirm, 'was called once');
       expect(notification.display, 'was called once');
-      expect(transaction.update, 'was called once');
     });
   });
 });
