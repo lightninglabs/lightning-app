@@ -25,7 +25,7 @@ const grcpClient = require('../../../public/grpc-client');
 /* eslint-disable no-unused-vars */
 
 const isDev = true;
-const BTCD_PORT = 18556;
+const BTCD_PORT = 18555;
 const BTCD_SETTINGS_DIR = 'test/data/btcd';
 const LND_SETTINGS_DIR_1 = 'test/data/lnd_1';
 const LND_SETTINGS_DIR_2 = 'test/data/lnd_2';
@@ -117,6 +117,10 @@ describe('Action Integration Tests', function() {
       lndPeerPort: LND_PEER_PORT_1,
       lndRestPort: LND_REST_PORT_1,
       logger,
+      lndArgs: [
+        '--bitcoin.node=neutrino',
+        `--neutrino.connect=127.0.0.1:${BTCD_PORT}`,
+      ],
     });
     const lndProcess2Promise = startLndProcess({
       isDev,
@@ -126,6 +130,10 @@ describe('Action Integration Tests', function() {
       lndPeerPort: LND_PEER_PORT_2,
       lndRestPort: LND_REST_PORT_2,
       logger,
+      lndArgs: [
+        '--bitcoin.node=neutrino',
+        `--neutrino.connect=127.0.0.1:${BTCD_PORT}`,
+      ],
     });
 
     lndProcess1 = await lndProcess1Promise;
