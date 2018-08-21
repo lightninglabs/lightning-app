@@ -57,27 +57,38 @@ module.exports.startLndProcess = async function({
 }) {
   if (!lndSettingsDir) throw new Error('lndSettingsDir not set!');
   const processName = 'lnd';
-  const useNeutrino = !isDev && !lndArgs.length;
   let args = [
     '--bitcoin.active',
-    isDev ? '--bitcoin.simnet' : '--bitcoin.testnet',
-    isDev ? '--btcd.rpcuser=kek' : '',
-    isDev ? '--btcd.rpcpass=kek' : '',
-    isDev ? '' : '--autopilot.active',
-    isDev ? '' : '--autopilot.private',
-    isDev ? '' : '--autopilot.minconfs=0',
-    useNeutrino ? '--bitcoin.node=neutrino' : '',
-    useNeutrino ? '--neutrino.connect=btcd0.lightning.engineering' : '',
-    useNeutrino ? '--neutrino.connect=127.0.0.1:18333' : '',
-
     macaroonsEnabled ? '' : '--no-macaroons',
     `--lnddir=${lndSettingsDir}`,
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
-
     '--debuglevel=info',
   ];
+  // set development or production settings
+  if (isDev) {
+    args = args.concat([
+      '--bitcoin.simnet',
+      '--bitcoin.node=neutrino',
+      '--neutrino.connect=127.0.0.1:18555',
+    ]);
+  } else {
+    args = args.concat([
+      '--bitcoin.testnet',
+      '--autopilot.active',
+      '--autopilot.private',
+      '--autopilot.minconfs=0',
+    ]);
+  }
+  // set default production settings if no custom flags
+  if (!isDev && !lndArgs.length) {
+    args = args.concat([
+      '--bitcoin.node=neutrino',
+      '--neutrino.connect=btcd0.lightning.engineering',
+      '--neutrino.connect=127.0.0.1:18333',
+    ]);
+  }
   args = args.concat(lndArgs);
   return startChildProcess(processName, args, logger);
 };
