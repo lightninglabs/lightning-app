@@ -1129,7 +1129,6 @@ message PendingUpdate {
 }
 
 message OpenChannelRequest {
-
     /// The pubkey of the node to open a channel with
     bytes node_pubkey = 2 [json_name = "node_pubkey"];
 
@@ -1156,6 +1155,9 @@ message OpenChannelRequest {
 
     /// The delay we require on the remote's commitment transaction. If this is not set, it will be scaled automatically with the channel size.
     uint32 remote_csv_delay = 10 [json_name = "remote_csv_delay"];
+
+    /// The minimum number of confirmations each one of your outputs used for the funding transaction must satisfy.
+    int32 min_confs = 11 [json_name = "min_confs"];
 }
 message OpenStatusUpdate {
     oneof update {
