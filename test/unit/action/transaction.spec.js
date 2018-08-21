@@ -128,7 +128,7 @@ describe('Action Transactions Unit Tests', () => {
       });
       await transaction.getInvoices();
       expect(store.invoices[0], 'to equal', {
-        hash: 'cdab',
+        id: 'cdab',
         type: 'lightning',
         amount: 42,
         status: 'complete',
@@ -159,7 +159,7 @@ describe('Action Transactions Unit Tests', () => {
       });
       await transaction.getPayments();
       expect(store.payments[0], 'to equal', {
-        hash: 'some-hash',
+        id: 'some-hash',
         type: 'lightning',
         amount: -42,
         fee: 10,

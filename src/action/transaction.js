@@ -82,7 +82,7 @@ class TransactionAction {
     try {
       const { invoices } = await this._grpc.sendCommand('listInvoices');
       this._store.invoices = invoices.map(invoice => ({
-        hash: toHex(invoice.r_hash),
+        id: toHex(invoice.r_hash),
         type: 'lightning',
         amount: parseSat(invoice.value),
         status: invoice.settled ? 'complete' : 'in-progress',
@@ -103,7 +103,7 @@ class TransactionAction {
     try {
       const { payments } = await this._grpc.sendCommand('listPayments');
       this._store.payments = payments.map(payment => ({
-        hash: payment.payment_hash,
+        id: payment.payment_hash,
         type: 'lightning',
         amount: -1 * parseSat(payment.value),
         fee: parseSat(payment.fee),
