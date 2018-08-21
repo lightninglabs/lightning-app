@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SeedSuccessView = ({ nav }) => (
+const SeedSuccessView = ({ wallet }) => (
   <Background image="purple-gradient-bg">
     <MainContent>
       <View style={styles.wrapper}>
@@ -36,13 +36,15 @@ const SeedSuccessView = ({ nav }) => (
           }
         </CopyText>
       </View>
-      <GlasButton onPress={() => nav.goNewAddress()}>Add some coin</GlasButton>
+      <GlasButton onPress={() => wallet.initInitialDeposit()}>
+        Add some coin
+      </GlasButton>
     </MainContent>
   </Background>
 );
 
 SeedSuccessView.propTypes = {
-  nav: PropTypes.object.isRequired,
+  wallet: PropTypes.object.isRequired,
 };
 
 export default SeedSuccessView;
