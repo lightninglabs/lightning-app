@@ -18,16 +18,9 @@ const TransactionDetailView = ({ store, nav }) => (
   <Background color={color.blackDark}>
     <MainContent style={styles.content}>
       <Modal title="Transaction Details" onClose={() => nav.goTransactions()}>
-        {store.selectedTransaction.confirmationsLabel ? (
-          <DetailField name="Transaction ID">
-            {store.selectedTransaction.id}
-          </DetailField>
-        ) : null}
-        {store.selectedTransaction.hash ? (
-          <DetailField name="Invoice ID">
-            {store.selectedTransaction.hash}
-          </DetailField>
-        ) : null}
+        <DetailField name={store.selectedTransaction.idName}>
+          {store.selectedTransaction.id}
+        </DetailField>
         <DetailField name="Type">
           {store.selectedTransaction.typeLabel}
         </DetailField>

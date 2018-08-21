@@ -130,7 +130,7 @@ const TransactionListHeader = () => (
     <View style={iStyles.i} />
     <Text style={[iStyles.m, hStyles.txt]}>STATUS</Text>
     <Text style={[iStyles.m, hStyles.txt]}>DATE</Text>
-    <Text style={[iStyles.l, hStyles.txt]}>TX ID</Text>
+    <Text style={[iStyles.l, hStyles.txt]}>TRANSACTION / INVOICE ID</Text>
     <Text style={[iStyles.m, hStyles.txt]}>AMOUNT</Text>
     <Text style={[iStyles.s, hStyles.txt]}>FEE</Text>
   </ListHeader>
