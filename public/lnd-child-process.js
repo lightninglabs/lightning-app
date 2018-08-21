@@ -59,12 +59,12 @@ module.exports.startLndProcess = async function({
   const processName = 'lnd';
   let args = [
     '--bitcoin.active',
-    macaroonsEnabled ? '' : '--no-macaroons',
+    '--debuglevel=info',
     `--lnddir=${lndSettingsDir}`,
+    macaroonsEnabled ? '' : '--no-macaroons',
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
-    '--debuglevel=info',
   ];
   // set development or production settings
   if (isDev) {
