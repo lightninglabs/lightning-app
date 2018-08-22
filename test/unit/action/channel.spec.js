@@ -99,12 +99,14 @@ describe('Action Channels Unit Tests', () => {
             capacity: '100',
             local_balance: '10',
             remote_balance: '90',
+            channel_point: 'FFFF:1',
           },
         ],
       });
       await channel.getChannels();
       expect(store.channels[0], 'to satisfy', {
         id: 42,
+        fundingTxId: 'FFFF',
         status: 'open',
       });
     });
@@ -122,7 +124,7 @@ describe('Action Channels Unit Tests', () => {
       capacity: '100',
       local_balance: '10',
       remote_balance: '90',
-      channel_point: 'some-point',
+      channel_point: 'FFFF:1',
     };
 
     it('should list pending channels', async () => {
@@ -134,7 +136,10 @@ describe('Action Channels Unit Tests', () => {
       });
       await channel.getPendingChannels();
       expect(store.pendingChannels.length, 'to equal', 4);
-      expect(store.pendingChannels[0].remotePubkey, 'to equal', 'some-key');
+      expect(store.pendingChannels[0], 'to satisfy', {
+        remotePubkey: 'some-key',
+        fundingTxId: 'FFFF',
+      });
     });
 
     it('should log error on failure', async () => {

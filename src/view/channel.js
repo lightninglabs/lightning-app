@@ -237,7 +237,7 @@ const ChannelListItem = ({ ch, onSelect }) => (
     <Text style={[iStyles.m, iStyles.txt]}>{ch.capacityLabel}</Text>
     <View style={iStyles.l}>
       <Text style={[iStyles.txt, iStyles.wrap]} numberOfLines={1}>
-        {ch.id}
+        {ch.fundingTxId}
       </Text>
     </View>
     <Text style={[iStyles.m, iStyles.txt]}>{ch.localBalanceLabel}</Text>
@@ -265,7 +265,7 @@ const ChannelListHeader = () => (
   <ListHeader>
     <Text style={[iStyles.m, hStyles.txt]}>STATUS</Text>
     <Text style={[iStyles.m, hStyles.txt]}>CAPACITY</Text>
-    <Text style={[iStyles.l, hStyles.txt]}>CHANNEL ID</Text>
+    <Text style={[iStyles.l, hStyles.txt]}>FUNDING TRANSACTION ID</Text>
     <Text style={[iStyles.m, hStyles.txt]}>CAN SEND</Text>
     <Text style={[iStyles.s, hStyles.txt]}>CAN RECEIVE</Text>
   </ListHeader>

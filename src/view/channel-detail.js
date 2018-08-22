@@ -34,7 +34,9 @@ const ChannelDetailView = ({ store, nav }) => (
         style={styles.modal}
         onClose={() => nav.goChannels()}
       >
-        <DetailField name="ID">{store.selectedChannel.id}</DetailField>
+        <DetailField name="Funding Transaction ID">
+          {store.selectedChannel.fundingTxId}
+        </DetailField>
         <DetailField name="Remote Node Public Key">
           {store.selectedChannel.remotePubkey}
         </DetailField>
