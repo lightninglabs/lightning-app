@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '../storybook-react';
 import MainContent from '../../src/component/main-content';
 import { SmallSpinner, LoadNetworkSpinner } from '../../src/component/spinner';
 import { color } from '../../src/component/style';
