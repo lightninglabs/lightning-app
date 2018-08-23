@@ -7,7 +7,9 @@ import Text from '../src/component/text';
 storiesOf('Fonts', module)
   .addDecorator(story => (
     <Background image="purple-gradient-bg">
-      <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
+      <MainContent style={{ justifyContent: 'center', padding: 20 }}>
+        {story()}
+      </MainContent>
     </Background>
   ))
   .add('OpenSans Light', () => renderFont('OpenSans Light'))
@@ -30,7 +32,7 @@ storiesOf('Fonts', module)
   .add('WorkSans Bold', () => renderFont('WorkSans Bold'));
 
 const renderFont = fontFamily => (
-  <Text style={{ fontFamily, fontSize: 24 }}>
+  <Text style={{ fontFamily, fontSize: 24, lineHeight: 30 }}>
     The quick brown fox jumps over the lazy dog.
   </Text>
 );
