@@ -237,7 +237,7 @@ const qrStyles = StyleSheet.create({
 const QrCodeSeparator = ({ goDeposit }) => (
   <View style={qrStyles.wrapper}>
     <View style={qrStyles.separator} />
-    <QrButton image="qr" onPress={goDeposit} style={qrStyles.button}>
+    <QrButton onPress={goDeposit} style={qrStyles.button}>
       Add coin
     </QrButton>
     <View style={qrStyles.separator} />

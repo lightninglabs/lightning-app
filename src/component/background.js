@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, StyleSheet, ImageBackground } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import BackgroundImage from './background-image';
 
 //
 // Background
@@ -14,12 +15,9 @@ const styles = StyleSheet.create({
 
 export const Background = ({ image, color, children, style }) =>
   image ? (
-    <ImageBackground
-      source={require(`../asset/img/${image}.svg`)}
-      style={[styles.background, style]}
-    >
+    <BackgroundImage image={image} style={[styles.background, style]}>
       {children}
-    </ImageBackground>
+    </BackgroundImage>
   ) : (
     <View style={[{ backgroundColor: color }, styles.background, style]}>
       {children}
@@ -44,20 +42,13 @@ const splitStyles = StyleSheet.create({
   bottom: {
     flex: 1,
   },
-  content: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
 });
 
 export const SplitBackground = ({ image, color, bottom, children, style }) => (
   <Background image={image} color={color} style={style}>
     <View style={splitStyles.top} />
     <View style={[splitStyles.bottom, { backgroundColor: bottom }]} />
-    <View style={splitStyles.content}>{children}</View>
+    <View style={StyleSheet.absoluteFill}>{children}</View>
   </Background>
 );
 

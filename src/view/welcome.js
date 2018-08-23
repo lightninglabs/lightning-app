@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   wordWrapper: {
-    marginTop: 18,
+    marginTop: 20,
   },
   subtitle: {
     marginTop: 12,
