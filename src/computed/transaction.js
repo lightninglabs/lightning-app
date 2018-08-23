@@ -15,6 +15,7 @@ const ComputedTransaction = store => {
       const all = [].concat(t, p, i);
       all.sort((a, b) => b.date.getTime() - a.date.getTime());
       all.forEach(t => {
+        t.idName = t.type === 'bitcoin' ? 'Transaction ID' : 'Invoice ID';
         t.typeLabel = toCaps(t.type);
         t.statusLabel = toCaps(t.status);
         t.dateLabel = t.date.toLocaleDateString();

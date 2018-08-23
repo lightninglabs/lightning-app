@@ -78,7 +78,6 @@ describe('Action Transactions Unit Tests', () => {
         confirmations: 5,
         status: 'unconfirmed',
         date: new Date('2018-05-23T10:13:15.000Z'),
-        hash: 'some-hash',
       });
     });
 
@@ -103,7 +102,6 @@ describe('Action Transactions Unit Tests', () => {
         confirmations: 6,
         status: 'confirmed',
         date: new Date('2018-05-23T10:13:15.000Z'),
-        hash: 'some-hash',
       });
     });
 
@@ -136,7 +134,6 @@ describe('Action Transactions Unit Tests', () => {
         status: 'complete',
         date: new Date('2018-05-23T10:13:15.000Z'),
         memo: 'some-memo',
-        hash: 'b2899efa9ade8a66a0',
       });
     });
 
@@ -168,7 +165,6 @@ describe('Action Transactions Unit Tests', () => {
         fee: 10,
         status: 'complete',
         date: new Date('2018-05-23T10:13:15.000Z'),
-        hash: 'some-hash',
       });
     });
 

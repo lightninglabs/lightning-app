@@ -18,7 +18,9 @@ const TransactionDetailView = ({ store, nav }) => (
   <Background color={color.blackDark}>
     <MainContent style={styles.content}>
       <Modal title="Transaction Details" onClose={() => nav.goTransactions()}>
-        <DetailField name="ID">{store.selectedTransaction.id}</DetailField>
+        <DetailField name={store.selectedTransaction.idName}>
+          {store.selectedTransaction.id}
+        </DetailField>
         <DetailField name="Type">
           {store.selectedTransaction.typeLabel}
         </DetailField>

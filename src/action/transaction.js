@@ -4,7 +4,7 @@
  */
 
 import * as log from './log';
-import { parseDate, parseSat, toHex, toHash } from '../helper';
+import { parseDate, parseSat, toHex } from '../helper';
 
 class TransactionAction {
   constructor(store, grpc, wallet, nav) {
@@ -67,7 +67,6 @@ class TransactionAction {
         confirmations: transaction.num_confirmations,
         status: transaction.num_confirmations < 6 ? 'unconfirmed' : 'confirmed',
         date: parseDate(transaction.time_stamp),
-        hash: transaction.tx_hash,
       }));
     } catch (err) {
       log.error('Listing transactions failed', err);
@@ -89,7 +88,6 @@ class TransactionAction {
         status: invoice.settled ? 'complete' : 'in-progress',
         date: parseDate(invoice.creation_date),
         memo: invoice.memo,
-        hash: toHash(invoice.r_preimage),
       }));
     } catch (err) {
       log.error('Listing invoices failed', err);
@@ -111,7 +109,6 @@ class TransactionAction {
         fee: parseSat(payment.fee),
         status: 'complete',
         date: parseDate(payment.creation_date),
-        hash: payment.payment_hash,
       }));
     } catch (err) {
       log.error('Listing payments failed', err);
