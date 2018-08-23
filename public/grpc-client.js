@@ -32,23 +32,19 @@ async function getCredentials(lndSettingsDir) {
   return grpc.credentials.createSsl(lndCert);
 }
 
-function getMetadata(lndSettingsDir) {
-  const metadata = new grpc.Metadata();
-  const macaroonPath = path.join(lndSettingsDir, 'admin.macaroon');
-  const macaroonHex = fs.readFileSync(macaroonPath).toString('hex');
-  metadata.add('macaroon', macaroonHex);
-  return metadata;
+function getMacaroonCreds(lndSettingsDir) {
+  return grpc.credentials.createFromMetadataGenerator(function(args, callback) {
+    const metadata = new grpc.Metadata();
+    const macaroonPath = path.join(lndSettingsDir, 'admin.macaroon');
+    const macaroonHex = fs.readFileSync(macaroonPath).toString('hex');
+    metadata.add('macaroon', macaroonHex);
+    callback(null, metadata);
+  });
 }
 
-module.exports.init = async function({
-  ipcMain,
-  lndPort,
-  lndSettingsDir,
-  macaroonsEnabled,
-}) {
+module.exports.init = async function({ ipcMain, lndPort, lndSettingsDir }) {
   let credentials;
   let protoPath;
-  let metadata;
   let lnrpc;
   let unlocker;
   let lnd;
@@ -57,9 +53,6 @@ module.exports.init = async function({
     credentials = await getCredentials(lndSettingsDir);
     protoPath = path.join(__dirname, '..', 'assets', 'rpc.proto');
     lnrpc = grpc.load(protoPath).lnrpc;
-    if (macaroonsEnabled) {
-      metadata = getMetadata(lndSettingsDir);
-    }
     unlocker = new lnrpc.WalletUnlocker(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(unlocker, Infinity, err => {
       event.sender.send('unlockReady', { err });
@@ -72,6 +65,11 @@ module.exports.init = async function({
   });
 
   ipcMain.on('lndInit', event => {
+    const macaroonCreds = getMacaroonCreds(lndSettingsDir);
+    credentials = grpc.credentials.combineChannelCredentials(
+      credentials,
+      macaroonCreds
+    );
     lnd = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(lnd, Infinity, err => {
       event.sender.send('lndReady', { err });
@@ -88,11 +86,7 @@ module.exports.init = async function({
     const handleResponse = (err, response) => {
       event.sender.send(`unlockResponse_${method}`, { err, response });
     };
-    if (metadata) {
-      unlocker[method](body, metadata, { deadline }, handleResponse);
-    } else {
-      unlocker[method](body, { deadline }, handleResponse);
-    }
+    unlocker[method](body, { deadline }, handleResponse);
   });
 
   ipcMain.on('lndRequest', (event, { method, body }) => {
@@ -100,21 +94,13 @@ module.exports.init = async function({
     const handleResponse = (err, response) => {
       event.sender.send(`lndResponse_${method}`, { err, response });
     };
-    if (metadata) {
-      lnd[method](body, metadata, { deadline }, handleResponse);
-    } else {
-      lnd[method](body, { deadline }, handleResponse);
-    }
+    lnd[method](body, { deadline }, handleResponse);
   });
 
   const streams = {};
   ipcMain.on('lndStreamRequest', (event, { method, body }) => {
     let stream;
-    if (metadata) {
-      stream = lnd[method](metadata, body);
-    } else {
-      stream = lnd[method](body);
-    }
+    stream = lnd[method](body);
     const send = res => event.sender.send(`lndStreamEvent_${method}`, res);
     stream.on('data', data => send({ event: 'data', data }));
     stream.on('end', () => send({ event: 'end' }));
