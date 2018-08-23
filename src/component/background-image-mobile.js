@@ -10,23 +10,20 @@ import PurpleGradientBg from '../asset/img/purple-gradient-bg';
 import OrangeGradientBg from '../asset/img/orange-gradient-bg';
 import TexturedBg from '../asset/img/textured-bg-mobile';
 
-const BackgroundImage = ({ image, ...props }) =>
-  image === 'purple-gradient-bg' ? (
-    <SvgBackground
-      svg={<PurpleGradientBg style={StyleSheet.absoluteFill} />}
-      {...props}
-    />
-  ) : image === 'orange-gradient-bg' ? (
-    <SvgBackground
-      svg={<OrangeGradientBg style={StyleSheet.absoluteFill} />}
-      {...props}
-    />
-  ) : image === 'textured-bg' ? (
-    <SvgBackground
-      svg={<TexturedBg style={StyleSheet.absoluteFill} />}
-      {...props}
-    />
-  ) : null;
+const BackgroundImage = ({ image, ...props }) => (
+  <SvgBackground
+    svg={
+      image === 'purple-gradient-bg' ? (
+        <PurpleGradientBg style={StyleSheet.absoluteFill} />
+      ) : image === 'orange-gradient-bg' ? (
+        <OrangeGradientBg style={StyleSheet.absoluteFill} />
+      ) : image === 'textured-bg' ? (
+        <TexturedBg style={StyleSheet.absoluteFill} />
+      ) : null
+    }
+    {...props}
+  />
+);
 
 BackgroundImage.propTypes = {
   image: PropTypes.string,
