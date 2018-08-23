@@ -9,7 +9,6 @@ const { startLndProcess, startBtcdProcess } = require('./lnd-child-process');
 const grcpClient = require('./grpc-client');
 const {
   PREFIX_NAME,
-  MACAROONS_ENABLED,
   LND_PORT,
   LND_PEER_PORT,
   LND_INIT_DELAY,
@@ -123,7 +122,6 @@ function createWindow() {
     ipcMain,
     lndSettingsDir,
     lndPort: LND_PORT,
-    macaroonsEnabled: MACAROONS_ENABLED,
   });
 }
 
@@ -138,7 +136,6 @@ const startLnd = async () => {
     lndProcess = await startLndProcess({
       isDev,
       lndSettingsDir,
-      macaroonsEnabled: MACAROONS_ENABLED,
       lndPort: LND_PORT,
       lndPeerPort: LND_PEER_PORT,
       logger: Logger,
