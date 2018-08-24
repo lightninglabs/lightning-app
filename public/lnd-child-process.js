@@ -47,7 +47,6 @@ function startBlockingProcess(name, args, logger) {
 
 module.exports.startLndProcess = async function({
   isDev,
-  macaroonsEnabled,
   lndSettingsDir,
   lndPort,
   lndPeerPort,
@@ -61,7 +60,6 @@ module.exports.startLndProcess = async function({
     '--bitcoin.active',
     '--debuglevel=info',
     `--lnddir=${lndSettingsDir}`,
-    macaroonsEnabled ? '' : '--no-macaroons',
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',

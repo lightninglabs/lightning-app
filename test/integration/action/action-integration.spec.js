@@ -25,6 +25,7 @@ const grcpClient = require('../../../public/grpc-client');
 /* eslint-disable no-unused-vars */
 
 const isDev = true;
+const NETWORK = 'simnet';
 const BTCD_PORT = 18555;
 const BTCD_SETTINGS_DIR = 'test/data/btcd';
 const LND_SETTINGS_DIR_1 = 'test/data/lnd_1';
@@ -37,7 +38,6 @@ const LND_REST_PORT_1 = 8001;
 const LND_REST_PORT_2 = 8002;
 const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
-const MACAROONS_ENABLED = false;
 const NAP_TIME = process.env.NAP_TIME || 5000;
 const walletPassword = 'bitconeeeeeect';
 
@@ -111,7 +111,6 @@ describe('Action Integration Tests', function() {
     await poll(() => isPortOpen(BTCD_PORT));
     const lndProcess1Promise = startLndProcess({
       isDev,
-      macaroonsEnabled: MACAROONS_ENABLED,
       lndSettingsDir: LND_SETTINGS_DIR_1,
       lndPort: LND_PORT_1,
       lndPeerPort: LND_PEER_PORT_1,
@@ -120,7 +119,6 @@ describe('Action Integration Tests', function() {
     });
     const lndProcess2Promise = startLndProcess({
       isDev,
-      macaroonsEnabled: MACAROONS_ENABLED,
       lndSettingsDir: LND_SETTINGS_DIR_2,
       lndPort: LND_PORT_2,
       lndPeerPort: LND_PEER_PORT_2,
@@ -135,13 +133,13 @@ describe('Action Integration Tests', function() {
       ipcMain: ipcMainStub1,
       lndPort: LND_PORT_1,
       lndSettingsDir: LND_SETTINGS_DIR_1,
-      macaroonsEnabled: MACAROONS_ENABLED,
+      network: NETWORK,
     });
     await grcpClient.init({
       ipcMain: ipcMainStub2,
       lndPort: LND_PORT_2,
       lndSettingsDir: LND_SETTINGS_DIR_2,
-      macaroonsEnabled: MACAROONS_ENABLED,
+      network: NETWORK,
     });
 
     db1 = sinon.createStubInstance(AppStorage);
