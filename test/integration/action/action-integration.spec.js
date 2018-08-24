@@ -25,6 +25,7 @@ const grcpClient = require('../../../public/grpc-client');
 /* eslint-disable no-unused-vars */
 
 const isDev = true;
+const NETWORK = 'simnet';
 const BTCD_PORT = 18555;
 const BTCD_SETTINGS_DIR = 'test/data/btcd';
 const LND_SETTINGS_DIR_1 = 'test/data/lnd_1';
@@ -132,11 +133,13 @@ describe('Action Integration Tests', function() {
       ipcMain: ipcMainStub1,
       lndPort: LND_PORT_1,
       lndSettingsDir: LND_SETTINGS_DIR_1,
+      network: NETWORK,
     });
     await grcpClient.init({
       ipcMain: ipcMainStub2,
       lndPort: LND_PORT_2,
       lndSettingsDir: LND_SETTINGS_DIR_2,
+      network: NETWORK,
     });
 
     db1 = sinon.createStubInstance(AppStorage);

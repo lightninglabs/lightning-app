@@ -9,6 +9,7 @@ module.exports.RATE_DELAY = 15 * 60 * 1000;
 
 module.exports.LND_PORT = 10009;
 module.exports.LND_PEER_PORT = 10019;
+module.exports.NETWORK = 'testnet';
 module.exports.BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
 
 const prefixName = 'lightning';

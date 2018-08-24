@@ -32,17 +32,25 @@ async function getCredentials(lndSettingsDir) {
   return grpc.credentials.createSsl(lndCert);
 }
 
-function getMacaroonCreds(lndSettingsDir) {
-  return grpc.credentials.createFromMetadataGenerator(function(args, callback) {
+function getMacaroonCreds(lndSettingsDir, network) {
+  return grpc.credentials.createFromMetadataGenerator((args, callback) => {
     const metadata = new grpc.Metadata();
-    const macaroonPath = path.join(lndSettingsDir, 'admin.macaroon');
+    const macaroonPath = path.join(
+      lndSettingsDir,
+      `data/chain/bitcoin/${network}/admin.macaroon`
+    );
     const macaroonHex = fs.readFileSync(macaroonPath).toString('hex');
     metadata.add('macaroon', macaroonHex);
     callback(null, metadata);
   });
 }
 
-module.exports.init = async function({ ipcMain, lndPort, lndSettingsDir }) {
+module.exports.init = async function({
+  ipcMain,
+  lndPort,
+  lndSettingsDir,
+  network,
+}) {
   let credentials;
   let protoPath;
   let lnrpc;
@@ -65,7 +73,7 @@ module.exports.init = async function({ ipcMain, lndPort, lndSettingsDir }) {
   });
 
   ipcMain.on('lndInit', event => {
-    const macaroonCreds = getMacaroonCreds(lndSettingsDir);
+    const macaroonCreds = getMacaroonCreds(lndSettingsDir, network);
     credentials = grpc.credentials.combineChannelCredentials(
       credentials,
       macaroonCreds
