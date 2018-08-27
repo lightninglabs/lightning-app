@@ -2,7 +2,7 @@
  * @fileOverview helper and utility functions that can be reused go here.
  */
 
-import { UNITS, LND_INIT_DELAY } from './config';
+import { UNITS, LND_INIT_DELAY, RETRY_DELAY } from './config';
 
 /**
  * Format a number value in locale format with either . or ,
@@ -251,4 +251,42 @@ export const checkHttpStatus = response => {
  */
 export const nap = (ms = LND_INIT_DELAY) => {
   return new Promise(resolve => setTimeout(resolve, ms));
+};
+
+/**
+ * A polling utility that can be used to poll apis. If the api returns
+ * a truthy value this utility will stop polling. Errors thrown by the
+ * api are just thrown up to the caller to handle.
+ * @param {Function} api     The api wrapped in an asynchronous function
+ * @param {number} interval  The time interval to wait between polls
+ * @param {number} retries   The number of retries to poll the api
+ * @return {Promise<Object>} The return value of the api
+ */
+export const poll = async (api, interval = RETRY_DELAY, retries = Infinity) => {
+  while (retries--) {
+    const response = await api();
+    if (response) return response;
+    await nap(interval);
+  }
+  throw new Error('Maximum retries for polling reached');
+};
+
+/**
+ * A retry utility that can be used to try multiple requests to an api. This
+ * utility will resolve with the return value if the api resolves. Errors
+ * thrown by the api are swallowed by this utility and another retry is triggered.
+ * @param {Function} api     The api wrapped in an asynchronous function
+ * @param {number} retries   The number of retries to be sent to the api
+ * @return {Promise<Object>} The return value of the api
+ */
+export const retry = async (api, interval = 100, retries = 1000) => {
+  while (retries--) {
+    try {
+      return await api();
+    } catch (err) {
+      if (!retries) throw err;
+    }
+    await nap(interval);
+  }
+  return null;
 };
