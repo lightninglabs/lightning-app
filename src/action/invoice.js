@@ -7,10 +7,9 @@ import { PREFIX_URI } from '../config';
 import { toSatoshis } from '../helper';
 
 class InvoiceAction {
-  constructor(store, grpc, transaction, nav, notification, clipboard) {
+  constructor(store, grpc, nav, notification, clipboard) {
     this._store = store;
     this._grpc = grpc;
-    this._transaction = transaction;
     this._nav = nav;
     this._notification = notification;
     this._clipboard = clipboard;
@@ -70,7 +69,6 @@ class InvoiceAction {
     } catch (err) {
       this._notification.display({ msg: 'Creating invoice failed!', err });
     }
-    await this._transaction.update();
   }
 
   /**

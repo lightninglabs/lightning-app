@@ -38,14 +38,7 @@ export const wallet = new WalletAction(store, grpc, db, nav, notify);
 export const info = new InfoAction(store, grpc, nav, notify);
 export const transaction = new TransactionAction(store, grpc, nav);
 export const channel = new ChannelAction(store, grpc, transaction, nav, notify);
-export const invoice = new InvoiceAction(
-  store,
-  grpc,
-  transaction,
-  nav,
-  notify,
-  Clipboard
-);
+export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 export const payment = new PaymentAction(store, grpc, transaction, nav, notify);
 export const setting = new SettingAction(store, wallet, db, ipc);
 
