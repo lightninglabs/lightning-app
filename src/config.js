@@ -2,7 +2,7 @@
  * @fileOverview this file is used to hardcode default settings for the app.
  */
 
-module.exports.RETRY_DELAY = 3000;
+module.exports.RETRY_DELAY = 1000;
 module.exports.LND_INIT_DELAY = 5000;
 module.exports.NOTIFICATION_DELAY = 5000;
 module.exports.RATE_DELAY = 15 * 60 * 1000;
