@@ -1,6 +1,5 @@
 import fs from 'fs';
 import net from 'net';
-import { nap } from '../../../src/helper';
 
 export const rmdir = path => {
   if (fs.existsSync(path)) {
@@ -13,17 +12,6 @@ export const rmdir = path => {
       }
     });
     fs.rmdirSync(path);
-  }
-};
-
-export const poll = async (api, interval = 100, retries = 1000) => {
-  while (retries--) {
-    try {
-      return await api();
-    } catch (err) {
-      if (!retries) throw err;
-    }
-    await nap(interval);
   }
 };
 

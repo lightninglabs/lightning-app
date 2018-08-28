@@ -1,4 +1,4 @@
-import { rmdir, poll, isPortOpen } from './test-util';
+import { rmdir, isPortOpen } from './test-util';
 import { Store } from '../../../src/store';
 import IpcAction from '../../../src/action/ipc';
 import GrpcAction from '../../../src/action/grpc';
@@ -12,7 +12,7 @@ import ChannelAction from '../../../src/action/channel';
 import TransactionAction from '../../../src/action/transaction';
 import PaymentAction from '../../../src/action/payment';
 import InvoiceAction from '../../../src/action/invoice';
-import { nap } from '../../../src/helper';
+import { nap, retry } from '../../../src/helper';
 import { EventEmitter } from 'events';
 
 const {
@@ -108,7 +108,7 @@ describe('Action Integration Tests', function() {
     };
     btcdProcess = await startBtcdProcess(btcdArgs);
     await nap(NAP_TIME);
-    await poll(() => isPortOpen(BTCD_PORT));
+    await retry(() => isPortOpen(BTCD_PORT));
     const lndProcess1Promise = startLndProcess({
       isDev,
       lndSettingsDir: LND_SETTINGS_DIR_1,
@@ -227,12 +227,12 @@ describe('Action Integration Tests', function() {
       btcdArgs.miningAddress = store1.walletAddress;
       btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
-      await poll(() => isPortOpen(BTCD_PORT));
+      await retry(() => isPortOpen(BTCD_PORT));
       await mineAndSync({ blocks: 400 });
     });
 
     it('should get public key node1', async () => {
-      await info1.getInfo();
+      await info1.pollInfo();
       expect(store1.pubKey, 'to be ok');
     });
 
@@ -266,7 +266,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should get public key node2', async () => {
-      await info2.getInfo();
+      await info2.pollInfo();
       expect(store2.pubKey, 'to be ok');
     });
 
@@ -443,8 +443,8 @@ describe('Action Integration Tests', function() {
 
   const mineAndSync = async ({ blocks }) => {
     await mineBlocks({ blocks, logger });
-    await info1.getInfo();
-    await info2.getInfo();
+    await info1.pollInfo();
+    await info2.pollInfo();
   };
 
   const updateBalances = async () => {
