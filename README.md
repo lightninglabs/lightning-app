@@ -15,7 +15,7 @@ The app comes for two threat models:
 
 2. *Tin Foil Hat:* if you'd rather build it yourself and do without auto updates, see the instructions below.
 
-After installing the app, head on over to the [testnet faucet](https://testnet.coinfaucet.eu/en/) to send some test BTC to your wallet.
+After installing the app, head on over to the [testnet faucet](https://testnet.manu.backend.hamburg/faucet) to send some test BTC to your wallet.
 
 ### Contributing
 
