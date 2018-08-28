@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for updating wallet balances.
  */
 
-import { observe, when } from 'mobx';
+import { observe } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap, poll } from '../helper';
 import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY, RATE_DELAY } from '../config';
 import * as log from './log';
@@ -277,10 +277,7 @@ class WalletAction {
       this._nav.goNewAddress();
     } else {
       this._nav.goWait();
-      when(
-        () => typeof this._store.walletAddress === 'string',
-        () => this._nav.goNewAddress()
-      );
+      observe(this._store, 'walletAddress', () => this._nav.goNewAddress());
     }
   }
 
