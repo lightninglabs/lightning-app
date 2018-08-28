@@ -41,7 +41,7 @@ describe('Action Info Unit Tests', () => {
     it('should log error on failure', async () => {
       grpc.sendCommand.rejects();
       await info.getNetworkInfo();
-      expect(logger.error, 'was called once');
+      expect(logger.info, 'was called once');
     });
   });
 
@@ -80,7 +80,7 @@ describe('Action Info Unit Tests', () => {
       grpc.sendCommand.withArgs('getNetworkInfo').rejects(new Error('Boom!'));
       const synced = await info.getInfo();
       expect(synced, 'to be', false);
-      expect(logger.error, 'was called once');
+      expect(logger.info, 'was called twice');
     });
 
     it('should return false if chain is synced but not filter headers', async () => {

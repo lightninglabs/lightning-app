@@ -26,7 +26,7 @@ class InfoAction {
       const response = await this._grpc.sendCommand('getNetworkInfo');
       this._store.numNodes = response.num_nodes;
     } catch (err) {
-      log.error('Getting network info failed', err);
+      log.info('Getting network info failed', err);
     }
   }
 
