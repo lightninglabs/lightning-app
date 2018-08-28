@@ -7,10 +7,9 @@ import * as log from './log';
 import { parseDate, parseSat, toHex } from '../helper';
 
 class TransactionAction {
-  constructor(store, grpc, wallet, nav) {
+  constructor(store, grpc, nav) {
     this._store = store;
     this._grpc = grpc;
-    this._wallet = wallet;
     this._nav = nav;
   }
 
@@ -37,8 +36,8 @@ class TransactionAction {
   }
 
   /**
-   * Update the on-chain transactions, invoice, lighting payments, and wallet
-   * balances in the app state by querying all required grpc apis.
+   * Update the on-chain transactions, invoice, and lighting payments in the
+   * app state by querying all required grpc apis.
    * @return {Promise<undefined>}
    */
   async update() {
@@ -46,8 +45,6 @@ class TransactionAction {
       this.getTransactions(),
       this.getInvoices(),
       this.getPayments(),
-      this._wallet.getBalance(),
-      this._wallet.getChannelBalance(),
     ]);
   }
 
