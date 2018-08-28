@@ -228,11 +228,11 @@ describe('Action Integration Tests', function() {
       btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
       await retry(() => isPortOpen(BTCD_PORT));
-      await mineAndSync({ blocks: 400 });
+      mineAndSync({ blocks: 400 });
     });
 
     it('should get public key node1', async () => {
-      await info1.pollInfo();
+      await info1.getInfo();
       expect(store1.pubKey, 'to be ok');
     });
 
@@ -259,14 +259,14 @@ describe('Action Integration Tests', function() {
     });
 
     it('should list transaction as confirmed after mining 6 blocks', async () => {
-      await mineAndSync({ blocks: 6 });
+      mineAndSync({ blocks: 6 });
       while (!store2.transactions.length) await nap(100);
       const tx = store2.computedTransactions.find(t => t.type === 'bitcoin');
       expect(tx.confirmations, 'to be positive');
     });
 
     it('should get public key node2', async () => {
-      await info2.pollInfo();
+      await info2.getInfo();
       expect(store2.pubKey, 'to be ok');
     });
 
@@ -324,7 +324,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should list open channel after mining 6 blocks', async () => {
-      await mineAndSync({ blocks: 6 });
+      mineAndSync({ blocks: 6 });
       while (store1.pendingChannels.length) await nap(100);
       while (!store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
@@ -402,7 +402,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should list no channels after mining 6 blocks', async () => {
-      await mineAndSync({ blocks: 6 });
+      mineAndSync({ blocks: 6 });
       while (store1.pendingChannels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 0);
     });
@@ -415,7 +415,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should list open channel after mining 6 blocks', async () => {
-      await mineAndSync({ blocks: 6 });
+      mineAndSync({ blocks: 6 });
       while (store1.pendingChannels.length) await nap(100);
       while (!store1.channels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 1);
@@ -435,7 +435,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should list no channels after mining 6 blocks', async () => {
-      await mineAndSync({ blocks: 6 });
+      mineAndSync({ blocks: 6 });
       while (store1.pendingChannels.length) await nap(100);
       expect(store1.computedChannels.length, 'to be', 0);
     });
