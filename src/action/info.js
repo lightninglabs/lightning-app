@@ -20,6 +20,9 @@ class InfoAction {
    * Fetches the current details of the lnd node and sets the corresponding
    * store parameters. This api is polled at the beginning of app initialization
    * until lnd has finished syncing the chain to the connected bitcoin full node.
+   * Since fetching filter headers can take a long time during initial sync, we
+   * use the number of nodes from the network info api as a proxy if filter
+   * headers are finished syncing and autopilot has enough nodes to start.
    * @return {Promise<undefined>}
    */
   async getInfo() {
@@ -28,22 +31,28 @@ class InfoAction {
       this._store.pubKey = response.identity_pubkey;
       this._store.syncedToChain = response.synced_to_chain;
       this._store.blockHeight = response.block_height;
+      const netRes = await this._grpc.sendCommand('getNetworkInfo');
+      this._store.isSyncing = !response.synced_to_chain || netRes.num_nodes < 2;
       if (this.startingSyncTimestamp === undefined) {
         this.startingSyncTimestamp = response.best_header_timestamp || 0;
       }
-      if (!response.synced_to_chain) {
+      if (this._store.isSyncing) {
         this._notification.display({ msg: 'Syncing to chain', wait: true });
-        log.info(`Syncing to chain ... block height: ${response.block_height}`);
+        log.info(
+          `Syncing to chain ...`,
+          `block height: ${response.block_height}`,
+          `num nodes: ${netRes.num_nodes}`
+        );
         this._store.percentSynced = this.calcPercentSynced(response);
       }
-      return response.synced_to_chain;
+      return !this._store.isSyncing;
     } catch (err) {
       log.error('Getting node info failed', err);
     }
   }
 
   /**
-   * Poll the getInfo api until synced_to_chain is true.
+   * Poll the getInfo api until isSyncing is false.
    * @return {Promise<undefined>}
    */
   async pollInfo() {
@@ -62,7 +71,7 @@ class InfoAction {
       this._nav.goHome();
     } else {
       this._nav.goLoaderSyncing();
-      observe(this._store, 'syncedToChain', () => this._nav.goHome());
+      observe(this._store, 'isSyncing', () => this._nav.goHome());
     }
   }
 
@@ -80,7 +89,8 @@ class InfoAction {
       : 0;
     const totalProgress = currTimestamp - this.startingSyncTimestamp || 0.001;
     const percentSynced = progressSoFar * 1.0 / totalProgress;
-    return percentSynced;
+    // TODO: display max 0.9 until we have progress for fetching filter headers
+    return percentSynced * 0.9;
   }
 }
 
