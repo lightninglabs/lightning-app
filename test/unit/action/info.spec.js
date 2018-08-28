@@ -4,7 +4,6 @@ import NavAction from '../../../src/action/nav';
 import NotificationAction from '../../../src/action/notification';
 import InfoAction from '../../../src/action/info';
 import * as logger from '../../../src/action/log';
-import { nap } from '../../../src/helper';
 
 describe('Action Info Unit Tests', () => {
   let sandbox;
@@ -27,7 +26,6 @@ describe('Action Info Unit Tests', () => {
   });
 
   afterEach(() => {
-    clearTimeout(info.t3);
     sandbox.restore();
   });
 
@@ -44,13 +42,12 @@ describe('Action Info Unit Tests', () => {
       expect(store.blockHeight, 'to equal', 'some-height');
     });
 
-    it('should only call once if chain is synced', async () => {
+    it('should return true if chain is synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         synced_to_chain: true,
       });
-      await info.getInfo();
-      await nap(30);
-      expect(grpc.sendCommand.callCount, 'to equal', 1);
+      const synced = await info.getInfo();
+      expect(synced, 'to be', true);
     });
 
     it('should set percentSynced', async () => {
@@ -63,19 +60,27 @@ describe('Action Info Unit Tests', () => {
       expect(store.percentSynced, 'to be within', 0, 1);
     });
 
-    it('should retry if chain is not synced', async () => {
+    it('should return false if chain is not synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         synced_to_chain: false,
       });
-      await info.getInfo();
-      await nap(30);
-      expect(grpc.sendCommand.callCount, 'to be greater than', 1);
+      const synced = await info.getInfo();
+      expect(synced, 'to be', false);
     });
 
-    it('should retry on failure', async () => {
+    it('should log error on failure', async () => {
       grpc.sendCommand.rejects();
       await info.getInfo();
       expect(logger.error, 'was called once');
+    });
+  });
+
+  describe('pollInfo()', () => {
+    it('should poll wallet balances', async () => {
+      sandbox.stub(info, 'getInfo');
+      info.getInfo.onSecondCall().resolves(true);
+      await info.pollInfo();
+      expect(info.getInfo, 'was called twice');
     });
   });
 
@@ -99,7 +104,7 @@ describe('Action Info Unit Tests', () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         synced_to_chain: true,
       });
-      await nap(10);
+      await info.getInfo();
       expect(nav.goHome, 'was called once');
     });
   });
