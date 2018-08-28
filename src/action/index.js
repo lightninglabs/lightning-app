@@ -36,7 +36,7 @@ export const grpc = new GrpcAction(store, ipc);
 export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, db, nav, notify);
 export const info = new InfoAction(store, grpc, nav, notify);
-export const transaction = new TransactionAction(store, grpc, wallet, nav);
+export const transaction = new TransactionAction(store, grpc, nav);
 export const channel = new ChannelAction(store, grpc, transaction, nav, notify);
 export const invoice = new InvoiceAction(
   store,

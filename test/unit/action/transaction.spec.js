@@ -1,7 +1,6 @@
 import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import TransactionAction from '../../../src/action/transaction';
-import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
 
@@ -10,7 +9,6 @@ describe('Action Transactions Unit Tests', () => {
   let sandbox;
   let grpc;
   let nav;
-  let wallet;
   let transaction;
 
   beforeEach(() => {
@@ -20,8 +18,7 @@ describe('Action Transactions Unit Tests', () => {
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     nav = sinon.createStubInstance(NavAction);
-    wallet = sinon.createStubInstance(WalletAction);
-    transaction = new TransactionAction(store, grpc, wallet, nav);
+    transaction = new TransactionAction(store, grpc, nav);
   });
 
   afterEach(() => {
@@ -48,11 +45,9 @@ describe('Action Transactions Unit Tests', () => {
   });
 
   describe('update()', () => {
-    it('should refresh transactions and balances', async () => {
+    it('should refresh transactions', async () => {
       await transaction.update();
       expect(grpc.sendCommand, 'was called thrice');
-      expect(wallet.getBalance, 'was called once');
-      expect(wallet.getChannelBalance, 'was called once');
     });
   });
 
