@@ -69,7 +69,7 @@ const transaction = new TransactionAction(store, grpc, nav);
 sinon.stub(transaction, 'update');
 const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 sinon.stub(invoice, 'generateUri');
-const payment = new PaymentAction(store, grpc, transaction, nav, notify);
+const payment = new PaymentAction(store, grpc, nav, notify);
 sinon.stub(payment, 'checkType');
 sinon.stub(payment, 'payBitcoin');
 sinon.stub(payment, 'payLightning');
