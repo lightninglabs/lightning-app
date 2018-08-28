@@ -29,6 +29,22 @@ describe('Action Info Unit Tests', () => {
     sandbox.restore();
   });
 
+  describe('getNetworkInfo()', () => {
+    it('should set number of nodes', async () => {
+      grpc.sendCommand.withArgs('getNetworkInfo').resolves({
+        num_nodes: 2,
+      });
+      await info.getNetworkInfo();
+      expect(store.numNodes, 'to equal', 2);
+    });
+
+    it('should log error on failure', async () => {
+      grpc.sendCommand.rejects();
+      await info.getNetworkInfo();
+      expect(logger.error, 'was called once');
+    });
+  });
+
   describe('getInfo()', () => {
     it('should get public key, synced to chain, and block height', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
@@ -55,6 +71,16 @@ describe('Action Info Unit Tests', () => {
       });
       const synced = await info.getInfo();
       expect(synced, 'to be', true);
+    });
+
+    it('should return false if chain is synced network info failed', async () => {
+      grpc.sendCommand.withArgs('getInfo').resolves({
+        synced_to_chain: true,
+      });
+      grpc.sendCommand.withArgs('getNetworkInfo').rejects(new Error('Boom!'));
+      const synced = await info.getInfo();
+      expect(synced, 'to be', false);
+      expect(logger.error, 'was called once');
     });
 
     it('should return false if chain is synced but not filter headers', async () => {

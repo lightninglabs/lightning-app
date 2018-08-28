@@ -29,6 +29,7 @@ export class Store {
       percentSynced: 0, // Expects 0-1 range
       route: DEFAULT_ROUTE,
       blockHeight: null,
+      numNodes: null,
       balanceSatoshis: 0,
       confirmedBalanceSatoshis: 0,
       unconfirmedBalanceSatoshis: 0,
