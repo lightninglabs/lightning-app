@@ -4,8 +4,8 @@
  * the current block height.
  */
 
-import { RETRY_DELAY } from '../config';
 import { observe } from 'mobx';
+import { poll } from '../helper';
 import * as log from './log';
 
 class InfoAction {
@@ -35,12 +35,19 @@ class InfoAction {
         this._notification.display({ msg: 'Syncing to chain', wait: true });
         log.info(`Syncing to chain ... block height: ${response.block_height}`);
         this._store.percentSynced = this.calcPercentSynced(response);
-        clearTimeout(this.t3);
-        this.t3 = setTimeout(() => this.getInfo(), RETRY_DELAY);
       }
+      return response.synced_to_chain;
     } catch (err) {
       log.error('Getting node info failed', err);
     }
+  }
+
+  /**
+   * Poll the getInfo api until synced_to_chain is true.
+   * @return {Promise<undefined>}
+   */
+  async pollInfo() {
+    await poll(() => this.getInfo());
   }
 
   /**
