@@ -152,7 +152,7 @@ describe('Action Integration Tests', function() {
     transactions1 = new TransactionAction(store1, grpc1, nav1);
     channels1 = new ChannelAction(store1, grpc1, nav1, notify1);
     invoice1 = new InvoiceAction(store1, grpc1, nav1, notify1);
-    payments1 = new PaymentAction(store1, grpc1, transactions1, nav1, notify1);
+    payments1 = new PaymentAction(store1, grpc1, nav1, notify1);
 
     db2 = sinon.createStubInstance(AppStorage);
     nav2 = sinon.createStubInstance(NavAction);
@@ -164,7 +164,7 @@ describe('Action Integration Tests', function() {
     transactions2 = new TransactionAction(store2, grpc2, nav2);
     channels2 = new ChannelAction(store2, grpc2, nav2, notify2);
     invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
-    payments2 = new PaymentAction(store2, grpc2, transactions2, nav2, notify2);
+    payments2 = new PaymentAction(store2, grpc2, nav2, notify2);
   });
 
   after(async () => {
