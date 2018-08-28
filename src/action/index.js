@@ -88,12 +88,21 @@ observe(store, 'walletUnlocked', async () => {
  * lnd node all balances, channels and transactions are fetched.
  */
 observe(store, 'lndReady', async () => {
+  // TODO: this is a workaround the deadlock bug in lnd that blocks
+  // calling NewAddress while netrino is syncing.
+  if (store.firstStart) {
+    // only fetch address before neutrino sync on first start
+    wallet.getNewAddress();
+  }
+  wallet.pollBalances();
+  wallet.pollExchangeRate();
   channel.update();
   transaction.update();
   transaction.subscribeTransactions();
   transaction.subscribeInvoices();
-  wallet.pollBalances();
-  wallet.pollExchangeRate();
   await info.pollInfo();
-  wallet.getNewAddress(); // wait until neutrino is synced due to deadlock bug
+  if (!store.firstStart) {
+    // wait until neutrino is synced on second start
+    wallet.getNewAddress();
+  }
 });
