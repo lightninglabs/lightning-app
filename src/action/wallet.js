@@ -309,9 +309,7 @@ class WalletAction {
    * @return {Promise<undefined>}
    */
   async pollExchangeRate() {
-    await this.getExchangeRate();
-    clearTimeout(this.tPollRate);
-    this.tPollRate = setTimeout(() => this.pollExchangeRate(), RATE_DELAY);
+    await poll(() => this.getExchangeRate(), RATE_DELAY);
   }
 
   /**
