@@ -26,7 +26,7 @@ class InfoAction {
       const response = await this._grpc.sendCommand('getNetworkInfo');
       this._store.numNodes = response.num_nodes;
     } catch (err) {
-      log.info('Getting network info failed', err);
+      log.info('No network info yet');
     }
   }
 
@@ -53,11 +53,7 @@ class InfoAction {
       }
       if (this._store.isSyncing) {
         this._notification.display({ msg: 'Syncing to chain', wait: true });
-        log.info(
-          `Syncing to chain ...`,
-          `block height: ${response.block_height}`,
-          `num nodes: ${this._store.numNodes}`
-        );
+        log.info(`Syncing to chain ... block height: ${response.block_height}`);
         this._store.percentSynced = this.calcPercentSynced(response);
       }
       return !this._store.isSyncing;
