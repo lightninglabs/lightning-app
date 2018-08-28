@@ -276,6 +276,7 @@ export const poll = async (api, interval = RETRY_DELAY, retries = Infinity) => {
  * utility will resolve with the return value if the api resolves. Errors
  * thrown by the api are swallowed by this utility and another retry is triggered.
  * @param {Function} api     The api wrapped in an asynchronous function
+ * @param {number} interval  The time interval to wait between retries
  * @param {number} retries   The number of retries to be sent to the api
  * @return {Promise<Object>} The return value of the api
  */
