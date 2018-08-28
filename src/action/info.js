@@ -17,6 +17,20 @@ class InfoAction {
   }
 
   /**
+   * Fetch the network info e.g. number of node in the channel graph as a
+   * proxy for filter header syncing being completed.
+   * @return {Promise<undefined>}
+   */
+  async getNetworkInfo() {
+    try {
+      const response = await this._grpc.sendCommand('getNetworkInfo');
+      this._store.numNodes = response.num_nodes;
+    } catch (err) {
+      log.error('Getting network info failed', err);
+    }
+  }
+
+  /**
    * Fetches the current details of the lnd node and sets the corresponding
    * store parameters. This api is polled at the beginning of app initialization
    * until lnd has finished syncing the chain to the connected bitcoin full node.
@@ -31,8 +45,9 @@ class InfoAction {
       this._store.pubKey = response.identity_pubkey;
       this._store.syncedToChain = response.synced_to_chain;
       this._store.blockHeight = response.block_height;
-      const netRes = await this._grpc.sendCommand('getNetworkInfo');
-      this._store.isSyncing = !response.synced_to_chain || netRes.num_nodes < 2;
+      await this.getNetworkInfo();
+      this._store.isSyncing =
+        !response.synced_to_chain || this._store.numNodes < 2;
       if (this.startingSyncTimestamp === undefined) {
         this.startingSyncTimestamp = response.best_header_timestamp || 0;
       }
@@ -41,7 +56,7 @@ class InfoAction {
         log.info(
           `Syncing to chain ...`,
           `block height: ${response.block_height}`,
-          `num nodes: ${netRes.num_nodes}`
+          `num nodes: ${this._store.numNodes}`
         );
         this._store.percentSynced = this.calcPercentSynced(response);
       }
