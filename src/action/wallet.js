@@ -4,7 +4,7 @@
  */
 
 import { observe, when } from 'mobx';
-import { toBuffer, parseSat, checkHttpStatus, nap } from '../helper';
+import { toBuffer, parseSat, checkHttpStatus, nap, poll } from '../helper';
 import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY, RATE_DELAY } from '../config';
 import * as log from './log';
 
@@ -105,17 +105,20 @@ class WalletAction {
   }
 
   /**
-   * Update the wallet on-chain balance, channel balance, wallet address
-   * and fiat/btc exchange rate.
+   * Update the wallet on-chain and channel balances.
    * @return {Promise<undefined>}
    */
   async update() {
-    await Promise.all([
-      this.getBalance(),
-      this.getChannelBalance(),
-      this.getNewAddress(),
-      this.pollExchangeRate(),
-    ]);
+    await Promise.all([this.getBalance(), this.getChannelBalance()]);
+  }
+
+  /**
+   * Poll the wallet balances in the background since there is no streaming
+   * grpc api yet
+   * @return {Promise<undefined>}
+   */
+  async pollBalances() {
+    await poll(() => this.update());
   }
 
   /**
