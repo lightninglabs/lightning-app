@@ -137,7 +137,7 @@ describe('Action Info Unit Tests', () => {
   describe('initLoaderSyncing()', () => {
     it('should navigate straight to home if synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
-        synced_to_chain: 'true',
+        synced_to_chain: true,
       });
       grpc.sendCommand.withArgs('getNetworkInfo').resolves({
         num_nodes: 2,
@@ -162,6 +162,40 @@ describe('Action Info Unit Tests', () => {
       });
       grpc.sendCommand.withArgs('getNetworkInfo').resolves({
         num_nodes: 2,
+      });
+      await info.getInfo();
+      expect(nav.goHome, 'was called once');
+    });
+
+    it('should navigate to loader if filter headers not synced', async () => {
+      grpc.sendCommand.withArgs('getInfo').resolves({
+        synced_to_chain: true,
+      });
+      grpc.sendCommand.withArgs('getNetworkInfo').resolves({
+        num_nodes: 1,
+      });
+      await info.getInfo();
+      info.initLoaderSyncing();
+      expect(nav.goLoaderSyncing, 'was called once');
+      grpc.sendCommand.withArgs('getNetworkInfo').resolves({
+        num_nodes: 2,
+      });
+      await info.getInfo();
+      expect(nav.goHome, 'was called once');
+    });
+
+    it('should navigate to loader if chain is not synced', async () => {
+      grpc.sendCommand.withArgs('getInfo').resolves({
+        synced_to_chain: false,
+      });
+      grpc.sendCommand.withArgs('getNetworkInfo').resolves({
+        num_nodes: 2,
+      });
+      await info.getInfo();
+      info.initLoaderSyncing();
+      expect(nav.goLoaderSyncing, 'was called once');
+      grpc.sendCommand.withArgs('getInfo').resolves({
+        synced_to_chain: true,
       });
       await info.getInfo();
       expect(nav.goHome, 'was called once');

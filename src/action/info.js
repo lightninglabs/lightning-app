@@ -73,12 +73,12 @@ class InfoAction {
   /**
    * A navigation helper called during the app onboarding process. The loader
    * screen indicating the syncing progress in displayed until syncing has
-   * completed `syncedToChain` is set to true. After that the user is taken
+   * completed `isSynced` is set to true. After that the user is taken
    * to the home screen.
    * @return {undefined}
    */
   initLoaderSyncing() {
-    if (this._store.syncedToChain) {
+    if (this._store.isSynced) {
       this._nav.goHome();
     } else {
       this._nav.goLoaderSyncing();
