@@ -19,7 +19,7 @@ configure(() => {
   require('../../stories/component/label-story');
   require('../../stories/component/list-story');
   require('../../stories/component/notification-story');
-  // require('../../stories/component/qrcode-story');
+  require('../../stories/component/qrcode-story');
   require('../../stories/component/spinner-story');
   require('../../stories/component/text-story');
   require('../../stories/color-story');
