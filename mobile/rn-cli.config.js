@@ -10,6 +10,7 @@ module.exports = {
       'node_modules/react-native-svg'
     ),
     mobx: path.resolve(__dirname, 'node_modules/mobx'),
+    'locale-currency': path.resolve(__dirname, 'node_modules/locale-currency'),
     '@storybook': path.resolve(__dirname, 'node_modules/@storybook'),
     'qr-image': path.resolve(__dirname, 'node_modules/qr-image'),
     stream: path.resolve(__dirname, 'node_modules/readable-stream'),
