@@ -11,6 +11,10 @@ module.exports = {
     ),
     mobx: path.resolve(__dirname, 'node_modules/mobx'),
     '@storybook': path.resolve(__dirname, 'node_modules/@storybook'),
+    'node-libs-react-native': path.resolve(
+      __dirname,
+      'node_modules/node-libs-react-native'
+    ),
   },
   getProjectRoots: () => [
     path.resolve(__dirname),
