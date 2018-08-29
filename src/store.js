@@ -25,7 +25,7 @@ export class Store {
       walletUnlocked: false, // Is the wallet unlocked
       lndReady: false, // Is lnd process running
       syncedToChain: false, // Is lnd synced to blockchain
-      syncedHeaders: false, // Has lnd synced filter headers
+      syncedFilters: false, // Has lnd synced filter headers
       synced: false, // Is lnd synced to chain and filter headers
       percentSynced: 0, // Expects 0-1 range
       route: DEFAULT_ROUTE,

@@ -24,7 +24,7 @@ class InfoAction {
   async getNetworkInfo() {
     try {
       const response = await this._grpc.sendCommand('getNetworkInfo');
-      this._store.syncedHeaders = response.num_nodes > 1;
+      this._store.syncedFilters = response.num_nodes > 1;
     } catch (err) {
       log.info('No network info yet');
     }
@@ -47,7 +47,7 @@ class InfoAction {
       this._store.blockHeight = response.block_height;
       await this.getNetworkInfo();
       this._store.synced =
-        this._store.syncedToChain && this._store.syncedHeaders;
+        this._store.syncedToChain && this._store.syncedFilters;
       if (this.startingSyncTimestamp === undefined) {
         this.startingSyncTimestamp = response.best_header_timestamp || 0;
       }

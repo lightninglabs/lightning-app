@@ -35,7 +35,7 @@ describe('Action Info Unit Tests', () => {
         num_nodes: 2,
       });
       await info.getNetworkInfo();
-      expect(store.syncedHeaders, 'to be', true);
+      expect(store.syncedFilters, 'to be', true);
     });
 
     it('should log error on failure', async () => {
