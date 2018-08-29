@@ -47,7 +47,7 @@ class InfoAction {
       this._store.blockHeight = response.block_height;
       await this.getNetworkInfo();
       this._store.synced =
-        response.synced_to_chain && this._store.syncedHeaders;
+        this._store.syncedToChain && this._store.syncedHeaders;
       if (this.startingSyncTimestamp === undefined) {
         this.startingSyncTimestamp = response.best_header_timestamp || 0;
       }
