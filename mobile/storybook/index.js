@@ -25,7 +25,7 @@ configure(() => {
   require('../../stories/color-story');
   require('../../stories/font-story');
   require('../../stories/layout-story');
-  // require('../../stories/screen-story');
+  require('../../stories/screen-story');
 }, module);
 
 // This assumes that storybook is running on the same host as your RN packager,
