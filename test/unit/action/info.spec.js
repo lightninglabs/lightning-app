@@ -58,7 +58,7 @@ describe('Action Info Unit Tests', () => {
       await info.getInfo();
       expect(store.pubKey, 'to equal', 'some-pubkey');
       expect(store.syncedToChain, 'to be', true);
-      expect(store.isSyncing, 'to be', false);
+      expect(store.isSynced, 'to be', true);
       expect(store.blockHeight, 'to equal', 'some-height');
     });
 

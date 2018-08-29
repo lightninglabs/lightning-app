@@ -46,24 +46,24 @@ class InfoAction {
       this._store.syncedToChain = response.synced_to_chain;
       this._store.blockHeight = response.block_height;
       await this.getNetworkInfo();
-      this._store.isSyncing =
-        !response.synced_to_chain || this._store.numNodes < 2;
+      this._store.isSynced =
+        response.synced_to_chain && this._store.numNodes > 1;
       if (this.startingSyncTimestamp === undefined) {
         this.startingSyncTimestamp = response.best_header_timestamp || 0;
       }
-      if (this._store.isSyncing) {
+      if (!this._store.isSynced) {
         this._notification.display({ msg: 'Syncing to chain', wait: true });
         log.info(`Syncing to chain ... block height: ${response.block_height}`);
         this._store.percentSynced = this.calcPercentSynced(response);
       }
-      return !this._store.isSyncing;
+      return this._store.isSynced;
     } catch (err) {
       log.error('Getting node info failed', err);
     }
   }
 
   /**
-   * Poll the getInfo api until isSyncing is false.
+   * Poll the getInfo api until isSynced is true.
    * @return {Promise<undefined>}
    */
   async pollInfo() {
@@ -82,7 +82,7 @@ class InfoAction {
       this._nav.goHome();
     } else {
       this._nav.goLoaderSyncing();
-      observe(this._store, 'isSyncing', () => this._nav.goHome());
+      observe(this._store, 'isSynced', () => this._nav.goHome());
     }
   }
 
