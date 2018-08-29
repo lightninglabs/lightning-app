@@ -24,7 +24,7 @@ class InfoAction {
   async getNetworkInfo() {
     try {
       const response = await this._grpc.sendCommand('getNetworkInfo');
-      this._store.numNodes = response.num_nodes;
+      this._store.syncedHeaders = response.num_nodes > 1;
     } catch (err) {
       log.info('No network info yet');
     }
@@ -46,24 +46,24 @@ class InfoAction {
       this._store.syncedToChain = response.synced_to_chain;
       this._store.blockHeight = response.block_height;
       await this.getNetworkInfo();
-      this._store.isSynced =
-        response.synced_to_chain && this._store.numNodes > 1;
+      this._store.synced =
+        response.synced_to_chain && this._store.syncedHeaders;
       if (this.startingSyncTimestamp === undefined) {
         this.startingSyncTimestamp = response.best_header_timestamp || 0;
       }
-      if (!this._store.isSynced) {
+      if (!this._store.synced) {
         this._notification.display({ msg: 'Syncing to chain', wait: true });
         log.info(`Syncing to chain ... block height: ${response.block_height}`);
         this._store.percentSynced = this.calcPercentSynced(response);
       }
-      return this._store.isSynced;
+      return this._store.synced;
     } catch (err) {
       log.error('Getting node info failed', err);
     }
   }
 
   /**
-   * Poll the getInfo api until isSynced is true.
+   * Poll the getInfo api until `synced` is true.
    * @return {Promise<undefined>}
    */
   async pollInfo() {
@@ -73,16 +73,16 @@ class InfoAction {
   /**
    * A navigation helper called during the app onboarding process. The loader
    * screen indicating the syncing progress in displayed until syncing has
-   * completed `isSynced` is set to true. After that the user is taken
+   * completed `synced` is set to true. After that the user is taken
    * to the home screen.
    * @return {undefined}
    */
   initLoaderSyncing() {
-    if (this._store.isSynced) {
+    if (this._store.synced) {
       this._nav.goHome();
     } else {
       this._nav.goLoaderSyncing();
-      observe(this._store, 'isSynced', () => this._nav.goHome());
+      observe(this._store, 'synced', () => this._nav.goHome());
     }
   }
 

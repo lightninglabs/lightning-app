@@ -35,7 +35,7 @@ describe('Action Info Unit Tests', () => {
         num_nodes: 2,
       });
       await info.getNetworkInfo();
-      expect(store.numNodes, 'to equal', 2);
+      expect(store.syncedHeaders, 'to be', true);
     });
 
     it('should log error on failure', async () => {
@@ -58,7 +58,7 @@ describe('Action Info Unit Tests', () => {
       await info.getInfo();
       expect(store.pubKey, 'to equal', 'some-pubkey');
       expect(store.syncedToChain, 'to be', true);
-      expect(store.isSynced, 'to be', true);
+      expect(store.synced, 'to be', true);
       expect(store.blockHeight, 'to equal', 'some-height');
     });
 
