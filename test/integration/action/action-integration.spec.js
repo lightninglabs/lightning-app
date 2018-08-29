@@ -1,4 +1,4 @@
-import { rmdir, poll, isPortOpen } from './test-util';
+import { rmdir, isPortOpen } from './test-util';
 import { Store } from '../../../src/store';
 import IpcAction from '../../../src/action/ipc';
 import GrpcAction from '../../../src/action/grpc';
@@ -12,7 +12,7 @@ import ChannelAction from '../../../src/action/channel';
 import TransactionAction from '../../../src/action/transaction';
 import PaymentAction from '../../../src/action/payment';
 import InvoiceAction from '../../../src/action/invoice';
-import { nap } from '../../../src/helper';
+import { nap, retry } from '../../../src/helper';
 import { EventEmitter } from 'events';
 
 const {
@@ -108,7 +108,7 @@ describe('Action Integration Tests', function() {
     };
     btcdProcess = await startBtcdProcess(btcdArgs);
     await nap(NAP_TIME);
-    await poll(() => isPortOpen(BTCD_PORT));
+    await retry(() => isPortOpen(BTCD_PORT));
     const lndProcess1Promise = startLndProcess({
       isDev,
       lndSettingsDir: LND_SETTINGS_DIR_1,
@@ -149,10 +149,10 @@ describe('Action Integration Tests', function() {
     grpc1 = new GrpcAction(store1, ipc1);
     info1 = new InfoAction(store1, grpc1, nav1, notify1);
     wallet1 = new WalletAction(store1, grpc1, db1, nav1, notify1);
-    transactions1 = new TransactionAction(store1, grpc1, wallet1, nav1);
-    channels1 = new ChannelAction(store1, grpc1, transactions1, nav1, notify1);
-    invoice1 = new InvoiceAction(store1, grpc1, transactions1, nav1, notify1);
-    payments1 = new PaymentAction(store1, grpc1, transactions1, nav1, notify1);
+    transactions1 = new TransactionAction(store1, grpc1, nav1);
+    channels1 = new ChannelAction(store1, grpc1, nav1, notify1);
+    invoice1 = new InvoiceAction(store1, grpc1, nav1, notify1);
+    payments1 = new PaymentAction(store1, grpc1, nav1, notify1);
 
     db2 = sinon.createStubInstance(AppStorage);
     nav2 = sinon.createStubInstance(NavAction);
@@ -161,10 +161,10 @@ describe('Action Integration Tests', function() {
     grpc2 = new GrpcAction(store2, ipc2);
     info2 = new InfoAction(store2, grpc2, nav2, notify2);
     wallet2 = new WalletAction(store2, grpc2, db2, nav2, notify2);
-    transactions2 = new TransactionAction(store2, grpc2, wallet2, nav2);
-    channels2 = new ChannelAction(store2, grpc2, transactions2, nav2, notify2);
-    invoice2 = new InvoiceAction(store2, grpc2, transactions2, nav2, notify2);
-    payments2 = new PaymentAction(store2, grpc2, transactions2, nav2, notify2);
+    transactions2 = new TransactionAction(store2, grpc2, nav2);
+    channels2 = new ChannelAction(store2, grpc2, nav2, notify2);
+    invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
+    payments2 = new PaymentAction(store2, grpc2, nav2, notify2);
   });
 
   after(async () => {
@@ -227,12 +227,12 @@ describe('Action Integration Tests', function() {
       btcdArgs.miningAddress = store1.walletAddress;
       btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
-      await poll(() => isPortOpen(BTCD_PORT));
+      await retry(() => isPortOpen(BTCD_PORT));
       await mineAndSync({ blocks: 400 });
     });
 
     it('should get public key node1', async () => {
-      await info1.getInfo();
+      await info1.pollInfo();
       expect(store1.pubKey, 'to be ok');
     });
 
@@ -266,7 +266,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should get public key node2', async () => {
-      await info2.getInfo();
+      await info2.pollInfo();
       expect(store2.pubKey, 'to be ok');
     });
 
@@ -443,8 +443,8 @@ describe('Action Integration Tests', function() {
 
   const mineAndSync = async ({ blocks }) => {
     await mineBlocks({ blocks, logger });
-    await info1.getInfo();
-    await info2.getInfo();
+    await info1.pollInfo();
+    await info2.pollInfo();
   };
 
   const updateBalances = async () => {

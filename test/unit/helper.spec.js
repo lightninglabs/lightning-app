@@ -749,4 +749,68 @@ describe('Helpers Unit Tests', () => {
       expect(res, 'to equal', response);
     });
   });
+
+  describe('poll()', () => {
+    it('should poll three times', async () => {
+      let counter = 0;
+      const stub = sinon.stub();
+      const api = () =>
+        new Promise(resolve => {
+          stub();
+          if (++counter === 3) resolve(true);
+          else resolve(false);
+        });
+      const response = await helpers.poll(api, 1, 10);
+      expect(response, 'to be true');
+      expect(stub.callCount, 'to equal', 3);
+    });
+
+    it('should throw an error after ten retries', async () => {
+      let counter = 0;
+      const stub = sinon.stub();
+      const api = () =>
+        new Promise(resolve => {
+          stub();
+          if (++counter === 11) resolve(true);
+          else resolve(false);
+        });
+      await expect(
+        helpers.poll(api, 1, 10),
+        'to be rejected with error satisfying',
+        /retries/
+      );
+      expect(stub.callCount, 'to equal', 10);
+    });
+  });
+
+  describe('retry()', () => {
+    it('should retry 10 times', async () => {
+      const stub = sinon.stub();
+      const api = () =>
+        new Promise((resolve, reject) => {
+          stub();
+          reject(new Error('Boom!'));
+        });
+      await expect(
+        helpers.retry(api, 1, 10),
+        'to be rejected with error satisfying',
+        /Boom!/
+      );
+      expect(stub.callCount, 'to equal', 10);
+    });
+
+    it('should try 3 times and then work', async () => {
+      let counter = 0;
+      const stub = sinon.stub();
+      const api = () =>
+        new Promise((resolve, reject) => {
+          stub();
+          if (++counter === 3) resolve('foo');
+          reject(new Error('Boom!'));
+        });
+      const response = await helpers.retry(api, 1);
+      expect(response, 'to equal', 'foo');
+      expect(stub.callCount, 'to equal', 3);
+    });
+  });
 });

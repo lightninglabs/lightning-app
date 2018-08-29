@@ -7,10 +7,9 @@ import { toSatoshis, parseSat } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
-  constructor(store, grpc, transaction, nav, notification) {
+  constructor(store, grpc, nav, notification) {
     this._store = store;
     this._grpc = grpc;
-    this._transaction = transaction;
     this._nav = nav;
     this._notification = notification;
   }
@@ -84,7 +83,6 @@ class ChannelAction {
       this.getPeers(),
       this.getChannels(),
       this.getPendingChannels(),
-      this._transaction.update(),
     ]);
   }
 

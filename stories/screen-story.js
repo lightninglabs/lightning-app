@@ -65,22 +65,15 @@ sinon.stub(wallet, 'checkSeed');
 sinon.stub(wallet, 'checkNewPassword');
 sinon.stub(wallet, 'checkPassword');
 sinon.stub(wallet, 'getExchangeRate');
-const transaction = new TransactionAction(store, grpc, wallet, nav);
+const transaction = new TransactionAction(store, grpc, nav);
 sinon.stub(transaction, 'update');
-const invoice = new InvoiceAction(
-  store,
-  grpc,
-  transaction,
-  nav,
-  notify,
-  Clipboard
-);
+const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 sinon.stub(invoice, 'generateUri');
-const payment = new PaymentAction(store, grpc, transaction, nav, notify);
+const payment = new PaymentAction(store, grpc, nav, notify);
 sinon.stub(payment, 'checkType');
 sinon.stub(payment, 'payBitcoin');
 sinon.stub(payment, 'payLightning');
-const channel = new ChannelAction(store, grpc, transaction, nav, notify);
+const channel = new ChannelAction(store, grpc, nav, notify);
 sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');

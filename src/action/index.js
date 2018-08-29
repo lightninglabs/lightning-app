@@ -36,17 +36,10 @@ export const grpc = new GrpcAction(store, ipc);
 export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, db, nav, notify);
 export const info = new InfoAction(store, grpc, nav, notify);
-export const transaction = new TransactionAction(store, grpc, wallet, nav);
-export const channel = new ChannelAction(store, grpc, transaction, nav, notify);
-export const invoice = new InvoiceAction(
-  store,
-  grpc,
-  transaction,
-  nav,
-  notify,
-  Clipboard
-);
-export const payment = new PaymentAction(store, grpc, transaction, nav, notify);
+export const transaction = new TransactionAction(store, grpc, nav);
+export const channel = new ChannelAction(store, grpc, nav, notify);
+export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
+export const payment = new PaymentAction(store, grpc, nav, notify);
 export const setting = new SettingAction(store, wallet, db, ipc);
 
 payment.listenForUrl(ipc); // enable incoming url handler
@@ -94,11 +87,22 @@ observe(store, 'walletUnlocked', async () => {
  * to and from lnd can be done. The display the current state of the
  * lnd node all balances, channels and transactions are fetched.
  */
-observe(store, 'lndReady', () => {
-  info.getInfo();
-  wallet.update();
+observe(store, 'lndReady', async () => {
+  // TODO: this is a workaround the deadlock bug in lnd that blocks
+  // calling NewAddress while netrino is syncing.
+  if (store.firstStart) {
+    // only fetch address before neutrino sync on first start
+    wallet.getNewAddress();
+  }
+  wallet.pollBalances();
+  wallet.pollExchangeRate();
   channel.update();
   transaction.update();
   transaction.subscribeTransactions();
   transaction.subscribeInvoices();
+  await info.pollInfo();
+  if (!store.firstStart) {
+    // wait until neutrino is synced on second start
+    wallet.getNewAddress();
+  }
 });

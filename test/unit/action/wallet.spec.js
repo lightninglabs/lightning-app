@@ -5,7 +5,6 @@ import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
 import NotificationAction from '../../../src/action/notification';
 import * as logger from '../../../src/action/log';
-import { nap } from '../../../src/helper';
 import nock from 'nock';
 import 'isomorphic-fetch';
 
@@ -33,7 +32,6 @@ describe('Action Wallet Unit Tests', () => {
   });
 
   afterEach(() => {
-    clearTimeout(wallet.tPollRate);
     sandbox.restore();
   });
 
@@ -110,11 +108,20 @@ describe('Action Wallet Unit Tests', () => {
   });
 
   describe('update()', () => {
-    it('should refresh balances, exchange rate and address', async () => {
+    it('should refresh wallet balances', async () => {
       sandbox.stub(wallet, 'pollExchangeRate');
       await wallet.update();
-      expect(grpc.sendCommand, 'was called thrice');
-      expect(wallet.pollExchangeRate, 'was called once');
+      expect(grpc.sendCommand, 'was called twice');
+      expect(wallet.pollExchangeRate, 'was not called');
+    });
+  });
+
+  describe('pollBalances()', () => {
+    it('should poll wallet balances', async () => {
+      sandbox.stub(wallet, 'update');
+      wallet.update.onSecondCall().resolves(true);
+      await wallet.pollBalances();
+      expect(wallet.update, 'was called twice');
     });
   });
 
@@ -348,11 +355,11 @@ describe('Action Wallet Unit Tests', () => {
   });
 
   describe('pollExchangeRate()', () => {
-    it('should call getExchangeRate', async () => {
+    it('should poll getExchangeRate', async () => {
       sandbox.stub(wallet, 'getExchangeRate');
+      wallet.getExchangeRate.onSecondCall().resolves(true);
       await wallet.pollExchangeRate();
-      await nap(30);
-      expect(wallet.getExchangeRate.callCount, 'to be greater than', 1);
+      expect(wallet.getExchangeRate, 'was called twice');
     });
   });
 

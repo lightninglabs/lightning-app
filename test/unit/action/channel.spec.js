@@ -1,7 +1,6 @@
 import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import ChannelAction from '../../../src/action/channel';
-import TransactionAction from '../../../src/action/transaction';
 import NotificationAction from '../../../src/action/notification';
 import NavAction from '../../../src/action/nav';
 import * as logger from '../../../src/action/log';
@@ -16,7 +15,6 @@ describe('Action Channels Unit Tests', () => {
   let grpc;
   let channel;
   let nav;
-  let transaction;
   let notification;
 
   beforeEach(() => {
@@ -26,10 +24,9 @@ describe('Action Channels Unit Tests', () => {
     store.settings.displayFiat = false;
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
-    transaction = sinon.createStubInstance(TransactionAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    channel = new ChannelAction(store, grpc, transaction, nav, notification);
+    channel = new ChannelAction(store, grpc, nav, notification);
   });
 
   afterEach(() => {
@@ -85,7 +82,6 @@ describe('Action Channels Unit Tests', () => {
     it('should refresh channels and peers', async () => {
       await channel.update();
       expect(grpc.sendCommand, 'was called thrice');
-      expect(transaction.update, 'was called once');
     });
   });
 
