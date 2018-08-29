@@ -9,9 +9,12 @@ module.exports = {
       __dirname,
       'node_modules/react-native-svg'
     ),
+    mobx: path.resolve(__dirname, 'node_modules/mobx'),
+    '@storybook': path.resolve(__dirname, 'node_modules/@storybook'),
   },
   getProjectRoots: () => [
     path.resolve(__dirname),
     path.resolve(__dirname, '../src'),
+    path.resolve(__dirname, '../stories'),
   ],
 };

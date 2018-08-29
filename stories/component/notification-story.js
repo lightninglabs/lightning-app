@@ -1,5 +1,5 @@
 import React from 'react';
-import { storiesOf } from '@storybook/react';
+import { storiesOf } from '../storybook-react';
 import { action } from '@storybook/addon-actions';
 import { NotificationBar, CountBubble } from '../../src/component/notification';
 import NotificationAction from '../../src/action/notification';

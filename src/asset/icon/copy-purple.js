@@ -14,7 +14,7 @@ const CopyPurple = props => (
     </Defs>
     <G fill="none" fillRule="evenodd">
       <G transform="translate(2 2)">
-        <Use fill="#57038D" xlinkHref="#a" />
+        <Use fill="#57038D" href="#a" />
         <Path
           stroke="#A540CD"
           strokeWidth={2}
@@ -22,7 +22,7 @@ const CopyPurple = props => (
         />
       </G>
       <G transform="translate(2 2)">
-        <Use fill="#57038D" xlinkHref="#b" />
+        <Use fill="#57038D" href="#b" />
         <Path
           stroke="#A540CD"
           strokeWidth={2}

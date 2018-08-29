@@ -17,7 +17,6 @@ const baseStyles = StyleSheet.create({
     fontSize: font.sizeM,
     lineHeight: font.lineHeightM + 2 * 12,
     color: color.blackText,
-    outline: 'none',
   },
 });
 

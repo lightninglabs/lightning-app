@@ -6,7 +6,7 @@ body {
 
 /* remove blue border around focused elements */
 
-div:focus {
+*:focus {
   outline: none;
 }
 

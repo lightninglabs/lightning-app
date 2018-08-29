@@ -14,7 +14,7 @@ const CopyDark = props => (
     </Defs>
     <G fill="none" fillRule="evenodd">
       <G transform="translate(2.646 2.226)">
-        <Use fill="#9B9B9B" xlinkHref="#a" />
+        <Use fill="#9B9B9B" href="#a" />
         <Path
           stroke="#000"
           strokeWidth={2}
@@ -22,7 +22,7 @@ const CopyDark = props => (
         />
       </G>
       <G transform="translate(2.646 2.226)">
-        <Use fill="#9B9B9B" xlinkHref="#b" />
+        <Use fill="#9B9B9B" href="#b" />
         <Path
           stroke="#000"
           strokeWidth={2}

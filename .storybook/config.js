@@ -5,7 +5,7 @@ import Container from '../src/component/container';
 addDecorator(story => <Container>{story()}</Container>);
 
 function loadStories() {
-  const context = require.context('../stories', true, /\.js?$/);
+  const context = require.context('../stories', true, /-story\.js?$/);
   context.keys().forEach(context);
 }
 
