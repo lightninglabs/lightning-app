@@ -10,7 +10,13 @@ module.exports = {
       'node_modules/react-native-svg'
     ),
     mobx: path.resolve(__dirname, 'node_modules/mobx'),
+    'mobx-react': path.resolve(__dirname, 'node_modules/mobx-react'),
+    'locale-currency': path.resolve(__dirname, 'node_modules/locale-currency'),
     '@storybook': path.resolve(__dirname, 'node_modules/@storybook'),
+    'qr-image': path.resolve(__dirname, 'node_modules/qr-image'),
+    stream: path.resolve(__dirname, 'node_modules/readable-stream'),
+    zlib: path.resolve(__dirname, 'node_modules/browserify-zlib'),
+    sinon: path.resolve(__dirname, 'node_modules/sinon'),
   },
   getProjectRoots: () => [
     path.resolve(__dirname),

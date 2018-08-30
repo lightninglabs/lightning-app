@@ -19,13 +19,13 @@ configure(() => {
   require('../../stories/component/label-story');
   require('../../stories/component/list-story');
   require('../../stories/component/notification-story');
-  // require('../../stories/component/qrcode-story');
+  require('../../stories/component/qrcode-story');
   require('../../stories/component/spinner-story');
   require('../../stories/component/text-story');
   require('../../stories/color-story');
   require('../../stories/font-story');
   require('../../stories/layout-story');
-  // require('../../stories/screen-story');
+  require('../../stories/screen-story');
 }, module);
 
 // This assumes that storybook is running on the same host as your RN packager,
