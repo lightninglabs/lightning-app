@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
 
 const SettingFiatView = ({ store, nav, setting }) => {
   return (
-    <Background color={color.blackDark} style={styles.wrapper}>
+    <Background color={color.blackDark}>
       <Header separator>
         <BackButton onPress={() => nav.goSettings()} />
         <Title title="Fiat Currency" />
