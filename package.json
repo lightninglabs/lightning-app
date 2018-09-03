@@ -73,7 +73,7 @@
     "sinon": "^6.0.0",
     "unexpected": "^10.37.2",
     "unexpected-sinon": "^10.10.1",
-    "wait-on": "^2.1.0"
+    "wait-on": "^3.0.0"
   },
   "build": {
     "appId": "engineering.lightning.lightning-app",
