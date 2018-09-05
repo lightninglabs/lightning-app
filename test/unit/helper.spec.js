@@ -721,12 +721,18 @@ describe('Helpers Unit Tests', () => {
   });
 
   describe('isAddress()', () => {
-    it('should accept bitcoin uri', () => {
+    it('should accept bitcoin address', () => {
       const address = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
       expect(helpers.isAddress(address), 'to be', true);
     });
 
-    it('should reject invalid bitcoin uri', () => {
+    it('should accept bech32 address', () => {
+      const address =
+        'bc1qrp33g0q5c5txsp9arysrx4k6zdkfs4nce4xj0gdcccefvpysxf3qccfmv3';
+      expect(helpers.isAddress(address), 'to be', true);
+    });
+
+    it('should reject invalid bitcoin address', () => {
       const address = '/INVALID/rfu4i1Mo2NF7TQsN9bMVLFSoj';
       expect(helpers.isAddress(address), 'to be', false);
     });
