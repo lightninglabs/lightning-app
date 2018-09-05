@@ -5,7 +5,12 @@
 
 import { observe, when } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap, poll } from '../helper';
-import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY, RATE_DELAY } from '../config';
+import {
+  MIN_PASSWORD_LENGTH,
+  NOTIFICATION_DELAY,
+  RATE_DELAY,
+  RECOVERY_WINDOW,
+} from '../config';
 import * as log from './log';
 
 class WalletAction {
@@ -181,19 +186,26 @@ class WalletAction {
    * screen.
    * @param  {string} options.walletPassword The user chosen password
    * @param  {Array}  options.seedMnemonic   The seed words to generate the wallet
+   * @param  {number} options.recoveryWindow The number of addresses to recover
    * @return {Promise<undefined>}
    */
-  async initWallet({ walletPassword, seedMnemonic }) {
+  async initWallet({ walletPassword, seedMnemonic, recoveryWindow = 0 }) {
     try {
       await this._grpc.sendUnlockerCommand('InitWallet', {
         wallet_password: toBuffer(walletPassword),
         cipher_seed_mnemonic: seedMnemonic,
+        recovery_window: recoveryWindow,
       });
       this._store.walletUnlocked = true;
       this._nav.goSeedSuccess();
     } catch (err) {
-      this._notification.display({ msg: 'Initializing wallet failed', err });
+      this._notification.display({
+        type: 'error',
+        msg: `Initializing wallet failed: ${err.details}`,
+      });
     }
+  }
+
   }
 
   /**
