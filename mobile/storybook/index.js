@@ -11,6 +11,7 @@ addDecorator(story => <FontLoader>{story()}</FontLoader>);
 
 // import stories
 configure(() => {
+  require('../../stories/screen-story');
   require('../../stories/component/button-story');
   require('../../stories/component/card-story');
   require('../../stories/component/field-story');
@@ -25,7 +26,6 @@ configure(() => {
   require('../../stories/color-story');
   require('../../stories/font-story');
   require('../../stories/layout-story');
-  require('../../stories/screen-story');
 }, module);
 
 // This assumes that storybook is running on the same host as your RN packager,
