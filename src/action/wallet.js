@@ -236,6 +236,20 @@ class WalletAction {
   }
 
   /**
+   * Initialize the wallet with the password input the seed that was already
+   * inputted, and the default recovery window.
+   * @return {Promise<undefined>}
+   */
+  async restoreWallet() {
+    const { password, restoreSeed } = this._store.wallet;
+    await this.initWallet({
+      walletPassword: password,
+      seedMnemonic: restoreSeed.toJSON(),
+      recoveryWindow: RECOVERY_WINDOW,
+    });
+  }
+
+  /**
    * Unlock the wallet by calling the grpc api with the user chosen password.
    * @param  {string} options.walletPassword The password used to encrypt the wallet
    * @return {Promise<undefined>}
