@@ -9,6 +9,7 @@ import Seed from './seed';
 import SeedVerify from './seed-verify';
 import SeedSuccess from './seed-success';
 import SetPassword from './set-password';
+import RestoreSeed from './restore-seed';
 import RestorePassword from './restore-password';
 import Password from './password';
 import NewAddress from './new-address';
@@ -68,6 +69,9 @@ class MainView extends Component {
         {route === 'SeedSuccess' && <SeedSuccess wallet={wallet} />}
         {route === 'SetPassword' && (
           <SetPassword store={store} wallet={wallet} />
+        )}
+        {route === 'RestoreSeed' && (
+          <RestoreSeed store={store} wallet={wallet} />
         )}
         {route === 'RestorePassword' && (
           <RestorePassword store={store} wallet={wallet} nav={nav} />

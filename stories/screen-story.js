@@ -50,7 +50,7 @@ import Password from '../src/view/password';
 import RestorePassword from '../src/view/restore-password';
 import NewAddress from '../src/view/new-address';
 import Wait from '../src/view/wait';
-import RestoreWallet from '../src/view/restore-wallet';
+import RestoreSeed from '../src/view/restore-seed';
 
 const store = new Store();
 store.init();
@@ -90,8 +90,8 @@ storiesOf('Screens', module)
   .add('Seed Verify', () => (
     <SeedVerify store={store} nav={nav} wallet={wallet} />
   ))
-  .add('Restore Wallet', () => (
-    <RestoreWallet store={store} nav={nav} wallet={wallet} />
+  .add('Restore Wallet: Seed', () => (
+    <RestoreSeed store={store} wallet={wallet} />
   ))
   .add('Seed Success', () => <SeedSuccess wallet={wallet} />)
   .add('Set Password', () => <SetPassword store={store} wallet={wallet} />)
