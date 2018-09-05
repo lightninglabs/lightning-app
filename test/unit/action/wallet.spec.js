@@ -236,11 +236,52 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('initRestoreWallet()', () => {
+    it('should clear attributes and navigate to view', () => {
+      store.wallet.restoreIndex = 42;
+      wallet.initRestoreWallet();
+      expect(store.wallet.restoreSeed.length, 'to equal', 24);
+      expect(store.wallet.restoreIndex, 'to equal', 0);
+      expect(nav.goRestoreSeed, 'was called once');
+    });
+  });
 
   describe('setRestoreSeed()', () => {
     it('should clear attributes', () => {
       wallet.setRestoreSeed({ word: 'foo', index: 1 });
       expect(store.wallet.restoreSeed[1], 'to equal', 'foo');
+    });
+  });
+
+  describe('initPrevRestorePage()', () => {
+    it('should navigate to select seed if restoreIndex < 3', () => {
+      store.wallet.restoreIndex = 2;
+      wallet.initPrevRestorePage();
+      expect(nav.goSelectSeed, 'was called once');
+      expect(store.wallet.restoreIndex, 'to equal', 2);
+    });
+
+    it('should decrement restoreIndex if greater than 2', async () => {
+      store.wallet.restoreIndex = 3;
+      wallet.initPrevRestorePage();
+      expect(nav.goSelectSeed, 'was not called');
+      expect(store.wallet.restoreIndex, 'to equal', 0);
+    });
+  });
+
+  describe('initNextRestorePage()', () => {
+    it('should navigate to password screen if restoreIndex > 20', () => {
+      store.wallet.restoreIndex = 21;
+      wallet.initNextRestorePage();
+      expect(nav.goRestorePassword, 'was called once');
+      expect(store.wallet.restoreIndex, 'to equal', 21);
+    });
+
+    it('should increment restoreIndex if less than 21', async () => {
+      store.wallet.restoreIndex = 18;
+      wallet.initNextRestorePage();
+      expect(nav.goRestorePassword, 'was not called');
+      expect(store.wallet.restoreIndex, 'to equal', 21);
     });
   });
 

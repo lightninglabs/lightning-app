@@ -224,6 +224,41 @@ class WalletAction {
     }
   }
 
+  /**
+   * Initialize the restore wallet view by resetting input values and then
+   * navigating to the view.
+   * @return {undefined}
+   */
+  initRestoreWallet() {
+    this._store.wallet.restoreIndex = 0;
+    this._nav.goRestoreSeed();
+  }
+
+  /**
+   * Initialize the next restore wallet view by setting a new restoreIndex or,
+   * if all seed words have been entered, navigating to the password entry
+   * view.
+   * @return {undefined}
+   */
+  initNextRestorePage() {
+    if (this._store.wallet.restoreIndex < 21) {
+      this._store.wallet.restoreIndex += 3;
+    } else {
+      this._nav.goRestorePassword();
+    }
+  }
+
+  /**
+   * Initialize the previous restore wallet view by setting a new restoreIndex
+   * or, if on the first seed entry page, navigating to the select seed view.
+   * @return {undefined}
+   */
+  initPrevRestorePage() {
+    if (this._store.wallet.restoreIndex >= 3) {
+      this._store.wallet.restoreIndex -= 3;
+    } else {
+      this._nav.goSelectSeed();
+    }
   }
 
   /**
