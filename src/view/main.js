@@ -4,6 +4,7 @@ import Container from '../component/container';
 import { NotificationBar } from '../component/notification';
 import Welcome from './welcome';
 import Loader from './loader';
+import SelectSeed from './select-seed';
 import Seed from './seed';
 import SeedVerify from './seed-verify';
 import SeedSuccess from './seed-success';
@@ -56,6 +57,9 @@ class MainView extends Component {
         />
         {route === 'Welcome' && <Welcome />}
         {route === 'Loader' && <Loader />}
+        {route === 'SelectSeed' && (
+          <SelectSeed store={store} wallet={wallet} nav={nav} />
+        )}
         {route === 'Seed' && <Seed store={store} wallet={wallet} />}
         {route === 'SeedVerify' && (
           <SeedVerify store={store} nav={nav} wallet={wallet} />

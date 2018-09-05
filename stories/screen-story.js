@@ -41,6 +41,7 @@ import PayBitcoinDone from '../src/view/pay-bitcoin-done';
 import NoRoute from '../src/view/no-route';
 import Loader from '../src/view/loader';
 import LoaderSyncing from '../src/view/loader-syncing';
+import SelectSeed from '../src/view/select-seed';
 import SeedSuccess from '../src/view/seed-success';
 import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
@@ -81,6 +82,9 @@ sinon.stub(channel, 'closeSelectedChannel');
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
   .add('Loader - First Time', () => <Loader />)
+  .add('Select Seed', () => (
+    <SelectSeed store={store} wallet={wallet} nav={nav} />
+  ))
   .add('Seed', () => <Seed store={store} wallet={wallet} />)
   .add('Seed Verify', () => (
     <SeedVerify store={store} nav={nav} wallet={wallet} />

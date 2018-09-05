@@ -13,6 +13,10 @@ class NavAction {
     this._store.route = 'Loader';
   }
 
+  goSelectSeed() {
+    this._store.route = 'SelectSeed';
+  }
+
   goSeed() {
     this._store.route = 'Seed';
   }

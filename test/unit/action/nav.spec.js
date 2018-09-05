@@ -25,6 +25,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goSelectSeed()', () => {
+    it('should set correct route', () => {
+      nav.goSelectSeed();
+      expect(store.route, 'to equal', 'SelectSeed');
+    });
+  });
+
   describe('goSeed()', () => {
     it('should set correct route', () => {
       nav.goSeed();
