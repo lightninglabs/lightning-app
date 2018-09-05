@@ -121,7 +121,7 @@ class WalletAction {
       this._store.firstStart = true;
       this._nav.goLoader();
       await nap(NOTIFICATION_DELAY);
-      this._nav.goSeed();
+      this._nav.goSelectSeed();
     } catch (err) {
       this.initPassword();
     }

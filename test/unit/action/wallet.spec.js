@@ -104,7 +104,7 @@ describe('Action Wallet Unit Tests', () => {
       expect(store.firstStart, 'to be', true);
       expect(store.seedMnemonic, 'to equal', 'foo bar');
       expect(nav.goLoader, 'was called once');
-      expect(nav.goSeed, 'was called once');
+      expect(nav.goSelectSeed, 'was called once');
     });
 
     it('should navigate to password unlock if wallet already exists', async () => {
