@@ -40,6 +40,8 @@ export class Store {
         password: '',
         passwordVerify: '',
         seedVerify: ['', '', ''],
+        restoring: false,
+        restoreSeed: Array(24).fill(''),
       },
       transactions: [],
       selectedTransaction: null,

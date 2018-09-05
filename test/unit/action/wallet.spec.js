@@ -87,6 +87,13 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('setRestoringWallet()', () => {
+    it('should clear attributes', () => {
+      wallet.setRestoringWallet({ restoring: true });
+      expect(store.wallet.restoring, 'to equal', true);
+    });
+  });
+
   describe('init()', () => {
     it('should generate seed and navigate to onboarding', async () => {
       grpc.sendUnlockerCommand.withArgs('GenSeed').resolves({
@@ -225,6 +232,14 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
       expect(notification.display, 'was called once');
       expect(nav.goSeedSuccess, 'was not called');
+    });
+  });
+
+
+  describe('setRestoreSeed()', () => {
+    it('should clear attributes', () => {
+      wallet.setRestoreSeed({ word: 'foo', index: 1 });
+      expect(store.wallet.restoreSeed[1], 'to equal', 'foo');
     });
   });
 

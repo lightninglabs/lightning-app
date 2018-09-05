@@ -46,6 +46,16 @@ class WalletAction {
     this._store.wallet.seedVerify[index] = word;
   }
 
+  /**
+   * Set the restore seed input by the seed word and
+   * seed index.
+   * @param {string} options.word  The seed word
+   * @param {number} options.index The seed index
+   */
+  setRestoreSeed({ word, index }) {
+    this._store.wallet.restoreSeed[index] = word;
+  }
+
   //
   // Wallet Password actions
   //
@@ -85,6 +95,14 @@ class WalletAction {
    */
   setPasswordVerify({ password }) {
     this._store.wallet.passwordVerify = password;
+  }
+
+  /**
+   * Set whether or not we're restoring the wallet.
+   * @param {boolean} options.restoring Whether or not we're restoring.
+   */
+  setRestoringWallet({ restoring }) {
+    this._store.wallet.restoring = restoring;
   }
 
   //
