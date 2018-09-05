@@ -12,7 +12,7 @@ import { Header } from '../component/header';
 import Card from '../component/card';
 
 //
-// Restore Wallet View
+// Restore Wallet Seed View
 //
 
 const styles = StyleSheet.create({
@@ -32,10 +32,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const RestoreWalletView = ({ store, nav, wallet }) => (
+const RestoreSeedView = ({ store, wallet }) => (
   <Background image="purple-gradient-bg">
     <Header>
-      <BackButton onPress={() => nav.goSeed()} />
+      <BackButton onPress={() => wallet.initPrevRestorePage()} />
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent style={styles.content}>
@@ -43,27 +43,28 @@ const RestoreWalletView = ({ store, nav, wallet }) => (
         <H1Text style={styles.title}>Restore your wallet</H1Text>
       </View>
       <Card style={styles.card}>
-        <FormSubText>{store.seedVerifyCopy}</FormSubText>
-        {store.seedVerifyIndexes.map((seedIndex, i) => (
+        <FormSubText>{store.restoreVerifyCopy}</FormSubText>
+        {store.restoreVerifyIndexes.map((seedIndex, i) => (
           <SeedEntry
             seedIndex={seedIndex}
-            value={store.wallet.seedVerify[i]}
-            onChangeText={word => wallet.setSeedVerify({ word, index: i })}
+            value={store.wallet.restoreSeed[seedIndex - 1]}
+            onChangeText={word =>
+              wallet.setRestoreSeed({ word, index: seedIndex - 1 })
+            }
             key={i}
             autoFocus={i === 0}
-            onSubmitEditing={() => wallet.checkSeed()}
+            onSubmitEditing={() => wallet.initNextRestorePage()}
           />
         ))}
       </Card>
-      <GlasButton onPress={() => wallet.checkSeed()}>Next</GlasButton>
+      <GlasButton onPress={() => wallet.initNextRestorePage()}>Next</GlasButton>
     </MainContent>
   </Background>
 );
 
-RestoreWalletView.propTypes = {
+RestoreSeedView.propTypes = {
   store: PropTypes.object.isRequired,
-  nav: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
 };
 
-export default observer(RestoreWalletView);
+export default observer(RestoreSeedView);
