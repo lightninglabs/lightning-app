@@ -27,6 +27,9 @@ class NavAction {
 
   goRestoreWallet() {
     // this._store.route = 'RestoreWallet';
+
+  goRestorePassword() {
+    this._store.route = 'RestorePassword';
   }
 
   goSeedSuccess() {

@@ -74,6 +74,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goRestorePassword()', () => {
+    it('should set correct route', () => {
+      nav.goRestorePassword();
+      expect(store.route, 'to equal', 'RestorePassword');
+    });
+  });
+
   describe('goNewAddress()', () => {
     it('should set correct route', () => {
       nav.goNewAddress();
