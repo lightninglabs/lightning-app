@@ -195,7 +195,7 @@ app.on('activate', () => {
 });
 
 app.on('quit', () => {
-  lndProcess && lndProcess.kill();
+  lndProcess && lndProcess.kill('SIGINT');
   btcdProcess && btcdProcess.kill();
 });
 

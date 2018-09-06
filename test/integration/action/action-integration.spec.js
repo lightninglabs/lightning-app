@@ -169,8 +169,8 @@ describe('Action Integration Tests', function() {
 
   after(async () => {
     await Promise.all([grpc1.closeLnd(), grpc2.closeLnd()]);
-    lndProcess1.kill();
-    lndProcess2.kill();
+    lndProcess1.kill('SIGINT');
+    lndProcess2.kill('SIGINT');
     btcdProcess.kill();
   });
 
