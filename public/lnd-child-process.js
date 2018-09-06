@@ -60,6 +60,7 @@ module.exports.startLndProcess = async function({
     '--bitcoin.active',
     '--debuglevel=info',
     `--lnddir=${lndSettingsDir}`,
+    `--routing.assumechanvalid`,
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',

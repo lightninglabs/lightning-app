@@ -2,7 +2,7 @@
 
 # versions
 GO_TAG=1.10.3
-LND_TAG=baee07ef480c15a731e0c87dc98d27269c5a80fa
+LND_TAG=fb95858afce6d7129758e7677bcb1552c5be2c51
 BTCD_TAG=f899737d7f2764dc13e4d01ff00108ec58f766a9
 
 # create empty btcd.conf for btcctl
@@ -34,7 +34,7 @@ go get -u github.com/Masterminds/glide
 git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
 cd $GOPATH/src/github.com/lightningnetwork/lnd
 git checkout $LND_TAG
-make && make install
+make && make install tags=experimental
 
 # install btcd
 git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd
