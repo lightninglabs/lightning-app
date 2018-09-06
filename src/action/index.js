@@ -87,22 +87,13 @@ observe(store, 'walletUnlocked', async () => {
  * to and from lnd can be done. The display the current state of the
  * lnd node all balances, channels and transactions are fetched.
  */
-observe(store, 'lndReady', async () => {
-  // TODO: this is a workaround the deadlock bug in lnd that blocks
-  // calling NewAddress while netrino is syncing.
-  if (store.firstStart) {
-    // only fetch address before neutrino sync on first start
-    wallet.getNewAddress();
-  }
+observe(store, 'lndReady', () => {
+  wallet.getNewAddress();
   wallet.pollBalances();
   wallet.pollExchangeRate();
   channel.update();
   transaction.update();
   transaction.subscribeTransactions();
   transaction.subscribeInvoices();
-  await info.pollInfo();
-  if (!store.firstStart) {
-    // wait until neutrino is synced on second start
-    wallet.getNewAddress();
-  }
+  info.pollInfo();
 });
