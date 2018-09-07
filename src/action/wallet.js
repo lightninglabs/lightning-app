@@ -37,8 +37,8 @@ class WalletAction {
    * @param {string} options.word  The seed word
    * @param {number} options.index The seed index
    */
-  setSeedVerify({ word, index }) {
-    this._store.wallet.seedVerify[index] = word;
+  setSeedVerify({ word = '', index }) {
+    this._store.wallet.seedVerify[index] = word.toLowerCase();
   }
 
   //
