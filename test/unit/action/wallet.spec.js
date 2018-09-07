@@ -47,8 +47,13 @@ describe('Action Wallet Unit Tests', () => {
   });
 
   describe('setSeedVerify()', () => {
-    it('should clear attributes', () => {
+    it('should set seed word', () => {
       wallet.setSeedVerify({ word: 'foo', index: 1 });
+      expect(store.wallet.seedVerify[1], 'to equal', 'foo');
+    });
+
+    it('should make seed word lowercase', () => {
+      wallet.setSeedVerify({ word: 'FOO', index: 1 });
       expect(store.wallet.seedVerify[1], 'to equal', 'foo');
     });
   });
