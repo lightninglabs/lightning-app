@@ -10,7 +10,7 @@ if [ "$(uname)" == "Darwin" ]; then
 else
   # build binaries for windows
   cd assets/bin/win32
-  env GOOS="windows" GOARCH="386" go build -v github.com/lightningnetwork/lnd
+  env GOOS="windows" GOARCH="386" go build -tags="experimental" -v github.com/lightningnetwork/lnd
   env GOOS="windows" GOARCH="386" go build -v github.com/btcsuite/btcd
 
   # build the packages using electron-builder on docker
