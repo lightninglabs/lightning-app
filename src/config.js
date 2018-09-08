@@ -7,8 +7,10 @@ module.exports.LND_INIT_DELAY = 5000;
 module.exports.NOTIFICATION_DELAY = 5000;
 module.exports.RATE_DELAY = 15 * 60 * 1000;
 
-module.exports.LND_PORT = 10009;
-module.exports.LND_PEER_PORT = 10019;
+module.exports.LND_PORT = 10006;
+module.exports.LND_PEER_PORT = 10016;
+module.exports.LND_REST_PORT = 8086;
+
 module.exports.NETWORK = 'testnet';
 module.exports.BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
 

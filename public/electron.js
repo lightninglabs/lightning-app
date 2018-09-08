@@ -12,6 +12,7 @@ const {
   NETWORK,
   LND_PORT,
   LND_PEER_PORT,
+  LND_REST_PORT,
   LND_INIT_DELAY,
   BTCD_MINING_ADDRESS,
 } = require('../src/config');
@@ -140,6 +141,7 @@ const startLnd = async () => {
       lndSettingsDir,
       lndPort: LND_PORT,
       lndPeerPort: LND_PEER_PORT,
+      lndRestPort: LND_REST_PORT,
       logger: Logger,
       lndArgs,
     });
