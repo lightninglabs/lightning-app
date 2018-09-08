@@ -24,3 +24,5 @@ window.ipcRenderer = {
     _ipcRenderer.once(filter(event), callback);
   },
 };
+
+_ipcRenderer.on('app-close', () => _ipcRenderer.send('app-close'));

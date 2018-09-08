@@ -38,7 +38,6 @@ const lndArgs = process.argv.filter(a =>
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let win;
-let lndProcess;
 let btcdProcess;
 
 log.transports.console.level = 'info';
@@ -111,6 +110,13 @@ function createWindow() {
     );
   }
 
+  win.on('close', e => {
+    if (win) {
+      e.preventDefault();
+      win.webContents.send('app-close');
+    }
+  });
+
   // Emitted when the window is closed.
   win.on('closed', () => {
     // Dereference the window object, usually you would store windows
@@ -135,7 +141,7 @@ const startLnd = async () => {
       btcdSettingsDir,
       miningAddress: BTCD_MINING_ADDRESS,
     });
-    lndProcess = await startLndProcess({
+    startLndProcess({
       isDev,
       lndSettingsDir,
       lndPort: LND_PORT,
@@ -179,13 +185,6 @@ app.on('ready', () => {
   startLnd();
 });
 
-// Quit when all windows are closed.
-app.on('window-all-closed', () => {
-  // On macOS it is common for applications and their menu bar
-  // to stay active until the user quits explicitly with Cmd + Q
-  app.quit();
-});
-
 app.on('activate', () => {
   // On macOS it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
@@ -194,8 +193,12 @@ app.on('activate', () => {
   }
 });
 
+ipcMain.on('app-close', () => {
+  win = null;
+  app.quit();
+});
+
 app.on('quit', () => {
-  lndProcess && lndProcess.kill();
   btcdProcess && btcdProcess.kill();
 });
 

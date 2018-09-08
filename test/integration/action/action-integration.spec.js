@@ -20,7 +20,7 @@ const {
   startBtcdProcess,
   mineBlocks,
 } = require('../../../public/lnd-child-process');
-const grcpClient = require('../../../public/grpc-client');
+const grpcClient = require('../../../public/grpc-client');
 
 /* eslint-disable no-unused-vars */
 
@@ -129,13 +129,13 @@ describe('Action Integration Tests', function() {
     lndProcess1 = await lndProcess1Promise;
     lndProcess2 = await lndProcess2Promise;
 
-    await grcpClient.init({
+    await grpcClient.init({
       ipcMain: ipcMainStub1,
       lndPort: LND_PORT_1,
       lndSettingsDir: LND_SETTINGS_DIR_1,
       network: NETWORK,
     });
-    await grcpClient.init({
+    await grpcClient.init({
       ipcMain: ipcMainStub2,
       lndPort: LND_PORT_2,
       lndSettingsDir: LND_SETTINGS_DIR_2,

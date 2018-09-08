@@ -85,8 +85,10 @@ module.exports.init = async function({
   });
 
   ipcMain.on('lndClose', event => {
+    lnd['stopDaemon']({}, (err, response) => {
+      event.sender.send('lndClosed', { err, response });
+    });
     lnd.close();
-    event.sender.send('lndClosed', {});
   });
 
   ipcMain.on('unlockRequest', (event, { method, body }) => {
@@ -121,5 +123,19 @@ module.exports.init = async function({
     const stream = streams[method];
     if (!stream) return;
     stream.write(data);
+  });
+
+  ipcMain.on('app-close', () => {
+    if (lnd) {
+      const errorCheck = err => {
+        if (err) {
+          console.log(`Errored stopping lnd daemon: ${JSON.stringify(err)}`);
+        }
+      };
+      lnd['stopDaemon']({}, errorCheck);
+      lnd.close();
+    } else if (unlocker) {
+      unlocker.close();
+    }
   });
 };
