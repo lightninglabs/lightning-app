@@ -196,7 +196,7 @@ app.on('activate', () => {
 
 app.on('quit', () => {
   lndProcess && lndProcess.kill('SIGINT');
-  btcdProcess && btcdProcess.kill();
+  btcdProcess && btcdProcess.kill('SIGINT');
 });
 
 app.setAsDefaultProtocolClient(PREFIX_NAME);
