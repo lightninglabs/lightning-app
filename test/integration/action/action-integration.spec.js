@@ -169,9 +169,9 @@ describe('Action Integration Tests', function() {
 
   after(async () => {
     await Promise.all([grpc1.closeLnd(), grpc2.closeLnd()]);
-    lndProcess1.kill();
-    lndProcess2.kill();
-    btcdProcess.kill();
+    lndProcess1.kill('SIGINT');
+    lndProcess2.kill('SIGINT');
+    btcdProcess.kill('SIGINT');
   });
 
   describe('Generate seed and unlock wallet', () => {
@@ -223,7 +223,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should fund wallet for node1', async () => {
-      btcdProcess.kill();
+      btcdProcess.kill('SIGINT');
       btcdArgs.miningAddress = store1.walletAddress;
       btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
