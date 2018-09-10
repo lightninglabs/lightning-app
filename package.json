@@ -39,7 +39,7 @@
     "react": "~16.3.2",
     "react-art": "~16.3.2",
     "react-dom": "~16.3.2",
-    "react-native-web": "^0.6.0",
+    "react-native-web": "^0.8.10",
     "react-scripts": "^1.1.1",
     "svgs": "^3.2.1"
   },
