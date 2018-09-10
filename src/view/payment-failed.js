@@ -28,14 +28,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const NoRouteView = ({ channel, payment }) => (
+const PaymentFailedView = ({ channel, payment }) => (
   <Background color={color.blackDark}>
     <MainContent>
       <FormStretcher>
         <LightningErrorIcon height={115 * 0.8} width={60 * 0.8} />
-        <H1Text style={styles.h1Txt}>No route found</H1Text>
+        <H1Text style={styles.h1Txt}>Payment Failed</H1Text>
         <CopyText style={styles.copyTxt}>
-          {"You'll need to manually create a channel"}
+          {'You may need to manually create a channel.'}
         </CopyText>
       </FormStretcher>
       <PillButton style={styles.createBtn} onPress={() => channel.initCreate()}>
@@ -48,9 +48,9 @@ const NoRouteView = ({ channel, payment }) => (
   </Background>
 );
 
-NoRouteView.propTypes = {
+PaymentFailedView.propTypes = {
   channel: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
 };
 
-export default observer(NoRouteView);
+export default observer(PaymentFailedView);
