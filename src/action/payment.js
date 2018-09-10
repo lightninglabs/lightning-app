@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for payment management.
  */
 
-import { PREFIX_URI } from '../config';
+import { PREFIX_URI, PAYMENT_TIMEOUT } from '../config';
 import {
   toSatoshis,
   toAmount,
@@ -174,17 +174,26 @@ class PaymentAction {
       this._nav.goWait();
       const invoice = this._store.payment.address.replace(PREFIX_URI, '');
       const stream = this._grpc.sendStreamCommand('sendPayment');
-      await new Promise((resolve, reject) => {
+      const success = await new Promise((resolve, reject) => {
+        const timeout = setTimeout(() => resolve(false), PAYMENT_TIMEOUT);
         stream.on('data', data => {
           if (data.payment_error) {
+            clearTimeout(timeout);
             reject(new Error(`Lightning payment error: ${data.payment_error}`));
           } else {
-            resolve();
+            clearTimeout(timeout);
+            resolve(true);
           }
         });
-        stream.on('error', reject);
+        stream.on('error', () => {
+          clearTimeout(timeout);
+          reject();
+        });
         stream.write(JSON.stringify({ payment_request: invoice }), 'utf8');
       });
+      if (!success) {
+        this._nav.goPaymentFailed();
+      }
       this._nav.goPayLightningDone();
     } catch (err) {
       this._nav.goPayLightningConfirm();
