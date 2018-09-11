@@ -52,6 +52,7 @@ module.exports.startLndProcess = async function({
   lndPeerPort,
   logger,
   lndRestPort,
+  lndProfilingPort,
   lndArgs = [],
 }) {
   if (!lndSettingsDir) throw new Error('lndSettingsDir not set!');
@@ -64,6 +65,7 @@ module.exports.startLndProcess = async function({
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
+    lndProfilingPort ? `--profile=${lndProfilingPort}` : '',
   ];
   // set development or production settings
   if (isDev) {
