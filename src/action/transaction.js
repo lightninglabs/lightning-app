@@ -62,7 +62,7 @@ class TransactionAction {
         amount: parseSat(transaction.amount),
         fee: parseSat(transaction.total_fees),
         confirmations: transaction.num_confirmations,
-        status: transaction.num_confirmations < 6 ? 'unconfirmed' : 'confirmed',
+        status: transaction.num_confirmations < 1 ? 'unconfirmed' : 'confirmed',
         date: parseDate(transaction.time_stamp),
       }));
     } catch (err) {
