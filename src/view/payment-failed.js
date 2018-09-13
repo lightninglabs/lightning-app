@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PaymentFailedView = ({ channel, payment }) => (
+const PaymentFailedView = ({ channel, nav }) => (
   <Background color={color.blackDark}>
     <MainContent>
       <FormStretcher>
@@ -41,7 +41,10 @@ const PaymentFailedView = ({ channel, payment }) => (
       <PillButton style={styles.createBtn} onPress={() => channel.initCreate()}>
         Create channel
       </PillButton>
-      <Button style={styles.retryBtn} onPress={() => payment.init()}>
+      <Button
+        style={styles.retryBtn}
+        onPress={() => nav.goPayLightningConfirm()}
+      >
         <ButtonText>Try again</ButtonText>
       </Button>
     </MainContent>
@@ -50,7 +53,7 @@ const PaymentFailedView = ({ channel, payment }) => (
 
 PaymentFailedView.propTypes = {
   channel: PropTypes.object.isRequired,
-  payment: PropTypes.object.isRequired,
+  nav: PropTypes.object.isRequired,
 };
 
 export default observer(PaymentFailedView);

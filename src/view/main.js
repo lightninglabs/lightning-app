@@ -113,7 +113,7 @@ class MainView extends Component {
           <PayLightningDone store={store} payment={payment} nav={nav} />
         )}
         {route === 'PaymentFailed' && (
-          <PaymentFailed channel={channel} payment={payment} />
+          <PaymentFailed channel={channel} nav={nav} />
         )}
         {route === 'PayBitcoin' && (
           <PayBitcoin store={store} payment={payment} nav={nav} />

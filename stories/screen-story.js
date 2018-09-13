@@ -149,9 +149,7 @@ storiesOf('Screens', module)
   .add('Pay Lightning Done', () => (
     <PayLightningDone store={store} payment={payment} nav={nav} />
   ))
-  .add('Payment Failed', () => (
-    <PaymentFailed channel={channel} payment={payment} />
-  ))
+  .add('Payment Failed', () => <PaymentFailed channel={channel} nav={nav} />)
   .add('Pay Bitcoin', () => (
     <PayBitcoin store={store} payment={payment} nav={nav} />
   ))
