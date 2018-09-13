@@ -25,6 +25,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goSelectSeed()', () => {
+    it('should set correct route', () => {
+      nav.goSelectSeed();
+      expect(store.route, 'to equal', 'SelectSeed');
+    });
+  });
+
   describe('goSeed()', () => {
     it('should set correct route', () => {
       nav.goSeed();
@@ -39,10 +46,10 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
-  describe.skip('goRestoreWallet()', () => {
+  describe('goRestoreSeed()', () => {
     it('should set correct route', () => {
-      nav.goRestoreWallet();
-      expect(store.route, 'to equal', 'RestoreWallet');
+      nav.goRestoreSeed();
+      expect(store.route, 'to equal', 'RestoreSeed');
     });
   });
 
@@ -64,6 +71,13 @@ describe('Action Nav Unit Tests', () => {
     it('should set correct route', () => {
       nav.goPassword();
       expect(store.route, 'to equal', 'Password');
+    });
+  });
+
+  describe('goRestorePassword()', () => {
+    it('should set correct route', () => {
+      nav.goRestorePassword();
+      expect(store.route, 'to equal', 'RestorePassword');
     });
   });
 

@@ -13,6 +13,10 @@ class NavAction {
     this._store.route = 'Loader';
   }
 
+  goSelectSeed() {
+    this._store.route = 'SelectSeed';
+  }
+
   goSeed() {
     this._store.route = 'Seed';
   }
@@ -21,8 +25,12 @@ class NavAction {
     this._store.route = 'SeedVerify';
   }
 
-  goRestoreWallet() {
-    // this._store.route = 'RestoreWallet';
+  goRestoreSeed() {
+    this._store.route = 'RestoreSeed';
+  }
+
+  goRestorePassword() {
+    this._store.route = 'RestorePassword';
   }
 
   goSeedSuccess() {

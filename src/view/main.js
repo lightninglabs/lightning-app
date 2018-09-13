@@ -4,10 +4,13 @@ import Container from '../component/container';
 import { NotificationBar } from '../component/notification';
 import Welcome from './welcome';
 import Loader from './loader';
+import SelectSeed from './select-seed';
 import Seed from './seed';
 import SeedVerify from './seed-verify';
 import SeedSuccess from './seed-success';
 import SetPassword from './set-password';
+import RestoreSeed from './restore-seed';
+import RestorePassword from './restore-password';
 import Password from './password';
 import NewAddress from './new-address';
 import LoaderSyncing from './loader-syncing';
@@ -56,6 +59,9 @@ class MainView extends Component {
         />
         {route === 'Welcome' && <Welcome />}
         {route === 'Loader' && <Loader />}
+        {route === 'SelectSeed' && (
+          <SelectSeed store={store} wallet={wallet} nav={nav} />
+        )}
         {route === 'Seed' && <Seed store={store} wallet={wallet} />}
         {route === 'SeedVerify' && (
           <SeedVerify store={store} nav={nav} wallet={wallet} />
@@ -63,6 +69,12 @@ class MainView extends Component {
         {route === 'SeedSuccess' && <SeedSuccess wallet={wallet} />}
         {route === 'SetPassword' && (
           <SetPassword store={store} wallet={wallet} />
+        )}
+        {route === 'RestoreSeed' && (
+          <RestoreSeed store={store} wallet={wallet} />
+        )}
+        {route === 'RestorePassword' && (
+          <RestorePassword store={store} wallet={wallet} nav={nav} />
         )}
         {route === 'Password' && <Password store={store} wallet={wallet} />}
         {route === 'NewAddress' && (

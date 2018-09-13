@@ -5,7 +5,12 @@
 
 import { observe, when } from 'mobx';
 import { toBuffer, parseSat, checkHttpStatus, nap, poll } from '../helper';
-import { MIN_PASSWORD_LENGTH, NOTIFICATION_DELAY, RATE_DELAY } from '../config';
+import {
+  MIN_PASSWORD_LENGTH,
+  NOTIFICATION_DELAY,
+  RATE_DELAY,
+  RECOVERY_WINDOW,
+} from '../config';
 import * as log from './log';
 
 class WalletAction {
@@ -39,6 +44,16 @@ class WalletAction {
    */
   setSeedVerify({ word = '', index }) {
     this._store.wallet.seedVerify[index] = word.toLowerCase();
+  }
+
+  /**
+   * Set the restore seed input by the seed word and
+   * seed index.
+   * @param {string} options.word  The seed word
+   * @param {number} options.index The seed index
+   */
+  setRestoreSeed({ word, index }) {
+    this._store.wallet.restoreSeed[index] = word;
   }
 
   //
@@ -82,6 +97,14 @@ class WalletAction {
     this._store.wallet.passwordVerify = password;
   }
 
+  /**
+   * Set whether or not we're restoring the wallet.
+   * @param {boolean} options.restoring Whether or not we're restoring.
+   */
+  setRestoringWallet({ restoring }) {
+    this._store.wallet.restoring = restoring;
+  }
+
   //
   // Wallet actions
   //
@@ -98,7 +121,7 @@ class WalletAction {
       this._store.firstStart = true;
       this._nav.goLoader();
       await nap(NOTIFICATION_DELAY);
-      this._nav.goSeed();
+      this._nav.goSelectSeed();
     } catch (err) {
       this.initPassword();
     }
@@ -181,18 +204,60 @@ class WalletAction {
    * screen.
    * @param  {string} options.walletPassword The user chosen password
    * @param  {Array}  options.seedMnemonic   The seed words to generate the wallet
+   * @param  {number} options.recoveryWindow The number of addresses to recover
    * @return {Promise<undefined>}
    */
-  async initWallet({ walletPassword, seedMnemonic }) {
+  async initWallet({ walletPassword, seedMnemonic, recoveryWindow = 0 }) {
     try {
       await this._grpc.sendUnlockerCommand('InitWallet', {
         wallet_password: toBuffer(walletPassword),
         cipher_seed_mnemonic: seedMnemonic,
+        recovery_window: recoveryWindow,
       });
       this._store.walletUnlocked = true;
       this._nav.goSeedSuccess();
     } catch (err) {
-      this._notification.display({ msg: 'Initializing wallet failed', err });
+      this._notification.display({
+        type: 'error',
+        msg: `Initializing wallet failed: ${err.details}`,
+      });
+    }
+  }
+
+  /**
+   * Initialize the restore wallet view by resetting input values and then
+   * navigating to the view.
+   * @return {undefined}
+   */
+  initRestoreWallet() {
+    this._store.wallet.restoreIndex = 0;
+    this._nav.goRestoreSeed();
+  }
+
+  /**
+   * Initialize the next restore wallet view by setting a new restoreIndex or,
+   * if all seed words have been entered, navigating to the password entry
+   * view.
+   * @return {undefined}
+   */
+  initNextRestorePage() {
+    if (this._store.wallet.restoreIndex < 21) {
+      this._store.wallet.restoreIndex += 3;
+    } else {
+      this._nav.goRestorePassword();
+    }
+  }
+
+  /**
+   * Initialize the previous restore wallet view by setting a new restoreIndex
+   * or, if on the first seed entry page, navigating to the select seed view.
+   * @return {undefined}
+   */
+  initPrevRestorePage() {
+    if (this._store.wallet.restoreIndex >= 3) {
+      this._store.wallet.restoreIndex -= 3;
+    } else {
+      this._nav.goSelectSeed();
     }
   }
 
@@ -203,6 +268,20 @@ class WalletAction {
   async checkPassword() {
     const { password } = this._store.wallet;
     await this.unlockWallet({ walletPassword: password });
+  }
+
+  /**
+   * Initialize the wallet with the password input the seed that was already
+   * inputted, and the default recovery window.
+   * @return {Promise<undefined>}
+   */
+  async restoreWallet() {
+    const { password, restoreSeed } = this._store.wallet;
+    await this.initWallet({
+      walletPassword: password,
+      seedMnemonic: restoreSeed.toJSON(),
+      recoveryWindow: RECOVERY_WINDOW,
+    });
   }
 
   /**
