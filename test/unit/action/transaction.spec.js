@@ -222,6 +222,31 @@ describe('Action Transactions Unit Tests', () => {
       expect(transaction.update, 'was called once');
     });
 
+    it('should notify the user on settled invoice', async () => {
+      store.computedTransactions = [{ id: 'cdab' }];
+      onStub.withArgs('data').yields({
+        settled: true,
+        r_hash: Buffer.from('cdab', 'hex'),
+      });
+      onStub.withArgs('end').yields();
+      grpc.sendStreamCommand
+        .withArgs('subscribeInvoices')
+        .returns({ on: onStub });
+      await transaction.subscribeInvoices();
+      expect(notification.display, 'was called once');
+    });
+
+    it('should not notify the user on an unsettled invoice', async () => {
+      onStub.withArgs('data').yields({ settled: false });
+      onStub.withArgs('end').yields();
+      grpc.sendStreamCommand
+        .withArgs('subscribeInvoices')
+        .returns({ on: onStub });
+      await transaction.subscribeInvoices();
+      expect(transaction.update, 'was called once');
+      expect(notification.display, 'was not called');
+    });
+
     it('should reject in case of error', async () => {
       onStub.withArgs('error').yields(new Error('Boom!'));
       grpc.sendStreamCommand

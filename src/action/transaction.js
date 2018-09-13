@@ -134,11 +134,30 @@ class TransactionAction {
   async subscribeInvoices() {
     const stream = this._grpc.sendStreamCommand('subscribeInvoices');
     await new Promise((resolve, reject) => {
-      stream.on('data', () => this.update());
+      stream.on('data', invoice => this._receiveInvoice(invoice));
       stream.on('end', resolve);
       stream.on('error', reject);
       stream.on('status', status => log.info(`Invoices update: ${status}`));
     });
+  }
+
+  //
+  // Helper functions
+  //
+
+  async _receiveInvoice(invoice) {
+    await this.update();
+    if (invoice.settled) {
+      const invoiceId = toHex(invoice.r_hash);
+      let inv = this._store.computedTransactions.find(
+        invoice => invoice.id === invoiceId
+      );
+      this._notification.display({
+        msg: `Invoice success: received ${inv.amountLabel}`,
+        handler: () => this.select({ item: inv }),
+        handlerLbl: 'View details',
+      });
+    }
   }
 }
 
