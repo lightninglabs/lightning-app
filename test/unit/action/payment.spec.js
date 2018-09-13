@@ -22,7 +22,7 @@ describe('Action Payments Unit Tests', () => {
     store = new Store();
     store.settings.displayFiat = false;
     require('../../../src/config').RETRY_DELAY = 1;
-    require('../../../src/config').PAYMENT_TIMEOUT = 500;
+    require('../../../src/config').PAYMENT_TIMEOUT = 10;
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
@@ -243,9 +243,10 @@ describe('Action Payments Unit Tests', () => {
     });
 
     it('should go to error page on timeout', async () => {
-      await payment.payLightning({ invoice: 'some-invoice' });
+      payment.payLightning({ invoice: 'some-invoice' });
+      await nap(100);
       expect(nav.goPaymentFailed, 'was called once');
-      expect(nav.goPayLightningConfirm, 'was not called');
+      expect(nav.goPayLightningDone, 'was not called');
     });
   });
 });

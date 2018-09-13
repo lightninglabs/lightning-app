@@ -170,34 +170,28 @@ class PaymentAction {
    * @return {Promise<undefined>}
    */
   async payLightning() {
+    const to = setTimeout(() => this._nav.goPaymentFailed(), PAYMENT_TIMEOUT);
     try {
       this._nav.goWait();
       const invoice = this._store.payment.address.replace(PREFIX_URI, '');
       const stream = this._grpc.sendStreamCommand('sendPayment');
-      const success = await new Promise((resolve, reject) => {
-        const timeout = setTimeout(() => resolve(false), PAYMENT_TIMEOUT);
+      await new Promise((resolve, reject) => {
         stream.on('data', data => {
           if (data.payment_error) {
-            clearTimeout(timeout);
             reject(new Error(`Lightning payment error: ${data.payment_error}`));
           } else {
-            clearTimeout(timeout);
-            resolve(true);
+            resolve();
           }
         });
-        stream.on('error', () => {
-          clearTimeout(timeout);
-          reject();
-        });
+        stream.on('error', reject);
         stream.write(JSON.stringify({ payment_request: invoice }), 'utf8');
       });
-      if (!success) {
-        this._nav.goPaymentFailed();
-      }
       this._nav.goPayLightningDone();
     } catch (err) {
       this._nav.goPayLightningConfirm();
       this._notification.display({ msg: 'Lightning payment failed!', err });
+    } finally {
+      clearTimeout(to);
     }
   }
 }
