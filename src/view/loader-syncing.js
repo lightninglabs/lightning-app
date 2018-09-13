@@ -59,7 +59,7 @@ const CopySection = () => (
   <View style={copyStyles.wrapper}>
     <H1Text style={copyStyles.title}>Almost there</H1Text>
     <CopyText style={copyStyles.copyTxt}>
-      Why not grab a coffee. This could take a few minutes.
+      Why not grab a coffee. This could take a while.
     </CopyText>
   </View>
 );

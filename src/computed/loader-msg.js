@@ -14,8 +14,8 @@ const ComputedLoaderMsg = store => {
 };
 
 export const LOADING_COPY_START = 'Loading network...';
-export const LOADING_COPY_MID = 'Almost done...';
-export const LOADING_COPY_END = 'Just a few seconds...';
+export const LOADING_COPY_MID = 'Loading network....';
+export const LOADING_COPY_END = 'Loading network.....';
 export const LOADING_PERCENT_MID = 0.5;
 export const LOADING_PERCENT_END = 0.95;
 

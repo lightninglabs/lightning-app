@@ -36,6 +36,10 @@ class InfoAction {
         log.info(`Syncing to chain ... block height: ${response.block_height}`);
         this._store.percentSynced = this.calcPercentSynced(response);
       }
+      if (response.synced_to_chain) {
+        this._store.percentSynced = 1.0;
+        clearInterval(this.increasePercentSynced);
+      }
       return response.synced_to_chain;
     } catch (err) {
       log.error('Getting node info failed', err);
@@ -70,16 +74,25 @@ class InfoAction {
    * An internal helper function to approximate the current progress while
    * syncing Neutrino to the full node.
    * @param  {Object} response The getInfo's grpc api response
-   * @return {number}          The percrentage a number between 0 and 1
+   * @return {number}          The percentage a number between 0 and 1
    */
   calcPercentSynced(response) {
+    if (this.percentSynced) {
+      return this.percentSynced;
+    }
     const bestHeaderTimestamp = response.best_header_timestamp;
     const currTimestamp = new Date().getTime() / 1000;
     const progressSoFar = bestHeaderTimestamp
       ? bestHeaderTimestamp - this.startingSyncTimestamp
       : 0;
     const totalProgress = currTimestamp - this.startingSyncTimestamp || 0.001;
-    const percentSynced = progressSoFar * 1.0 / totalProgress;
+    const percentSynced = progressSoFar * 1.0 / totalProgress * 0.6;
+    if (percentSynced >= 0.59 && this.percentSynced === undefined) {
+      this.percentSynced = percentSynced;
+      this.increasePercentSynced = setInterval(() => {
+        this.percentSynced = Math.min(this.percentSynced + 0.001, 0.95);
+      }, 1000);
+    }
     return percentSynced;
   }
 }
