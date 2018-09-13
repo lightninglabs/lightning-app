@@ -28,7 +28,7 @@ const ComputedTransaction = store => {
           t.confirmationsLabel = t.confirmations.toString();
         }
       });
-      return all;
+      return all.slice(0, 100);
     }),
   });
 };

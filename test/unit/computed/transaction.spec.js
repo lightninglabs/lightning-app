@@ -3,18 +3,19 @@ import ComputedTransaction from '../../../src/computed/transaction';
 
 describe('Computed Transactions Unit Tests', () => {
   let store;
+  const bitcoinTransaction = {
+    id: '0',
+    type: 'bitcoin',
+    amount: 923456,
+    fee: 8250,
+    confirmations: 0,
+    status: 'unconfirmed',
+    date: new Date(),
+  };
 
   beforeEach(() => {
     store = new Store();
-    store.transactions.push({
-      id: '0',
-      type: 'bitcoin',
-      amount: 923456,
-      fee: 8250,
-      confirmations: 0,
-      status: 'unconfirmed',
-      date: new Date(),
-    });
+    store.transactions.push(bitcoinTransaction);
     store.payments.push({
       id: '1',
       type: 'lightning',
@@ -67,6 +68,18 @@ describe('Computed Transactions Unit Tests', () => {
       const tx = store.computedTransactions.find(t => t.id === '0');
       expect(tx.amountLabel, 'to match', /63[,.]67/);
       expect(tx.feeLabel, 'to match', /0[,.]57/);
+    });
+
+    it('should limit transactions to last 100', () => {
+      store.payments = null;
+      store.invoices = null;
+      store.transactions = [];
+      const TRANSACTIONS_COUNT = 101;
+      [...Array(TRANSACTIONS_COUNT)].forEach(() =>
+        store.transactions.push(bitcoinTransaction)
+      );
+      ComputedTransaction(store);
+      expect(store.computedTransactions.length, 'to equal', 100);
     });
   });
 });
