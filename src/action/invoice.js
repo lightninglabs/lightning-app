@@ -52,8 +52,8 @@ class InvoiceAction {
    * which can be rendered in a QR code for scanning. After the values
    * are set on the store the user is navigated to the invoice QR view
    * which displays the QR for consumption by the payer.
-   * The invoice is set to not private since it should contain routing
-   * information for private channels.
+   * The invoice is set private since it should contain a routing hint
+   * for private channels.
    * This action can be called from a view event handler as does all
    * the necessary error handling and notification display.
    * @return {Promise<undefined>}
