@@ -60,6 +60,7 @@ describe('Action Invoice Unit Tests', () => {
         .withArgs('addInvoice', {
           value: 1000,
           memo: 'foo',
+          private: false,
         })
         .resolves({
           payment_request: 'some-request',
