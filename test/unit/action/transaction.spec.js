@@ -2,6 +2,7 @@ import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import TransactionAction from '../../../src/action/transaction';
 import NavAction from '../../../src/action/nav';
+import NotificationAction from '../../../src/action/notification';
 import * as logger from '../../../src/action/log';
 
 describe('Action Transactions Unit Tests', () => {
@@ -9,6 +10,7 @@ describe('Action Transactions Unit Tests', () => {
   let sandbox;
   let grpc;
   let nav;
+  let notification;
   let transaction;
 
   beforeEach(() => {
@@ -18,7 +20,8 @@ describe('Action Transactions Unit Tests', () => {
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     nav = sinon.createStubInstance(NavAction);
-    transaction = new TransactionAction(store, grpc, nav);
+    notification = sinon.createStubInstance(NotificationAction);
+    transaction = new TransactionAction(store, grpc, nav, notification);
   });
 
   afterEach(() => {

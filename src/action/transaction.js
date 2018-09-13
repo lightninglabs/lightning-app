@@ -7,10 +7,11 @@ import * as log from './log';
 import { parseDate, parseSat, toHex } from '../helper';
 
 class TransactionAction {
-  constructor(store, grpc, nav) {
+  constructor(store, grpc, nav, notification) {
     this._store = store;
     this._grpc = grpc;
     this._nav = nav;
+    this._notification = notification;
   }
 
   /**

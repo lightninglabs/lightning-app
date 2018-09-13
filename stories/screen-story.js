@@ -67,7 +67,7 @@ sinon.stub(wallet, 'checkSeed');
 sinon.stub(wallet, 'checkNewPassword');
 sinon.stub(wallet, 'checkPassword');
 sinon.stub(wallet, 'getExchangeRate');
-const transaction = new TransactionAction(store, grpc, nav);
+const transaction = new TransactionAction(store, grpc, nav, notify);
 sinon.stub(transaction, 'update');
 const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 sinon.stub(invoice, 'generateUri');
