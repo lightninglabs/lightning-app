@@ -170,7 +170,11 @@ class PaymentAction {
    * @return {Promise<undefined>}
    */
   async payLightning() {
-    const to = setTimeout(() => this._nav.goPaymentFailed(), PAYMENT_TIMEOUT);
+    let failed = false;
+    const timeout = setTimeout(() => {
+      failed = true;
+      this._nav.goPaymentFailed();
+    }, PAYMENT_TIMEOUT);
     try {
       this._nav.goWait();
       const invoice = this._store.payment.address.replace(PREFIX_URI, '');
@@ -186,12 +190,14 @@ class PaymentAction {
         stream.on('error', reject);
         stream.write(JSON.stringify({ payment_request: invoice }), 'utf8');
       });
+      if (failed) return;
       this._nav.goPayLightningDone();
     } catch (err) {
+      if (failed) return;
       this._nav.goPayLightningConfirm();
       this._notification.display({ msg: 'Lightning payment failed!', err });
     } finally {
-      clearTimeout(to);
+      clearTimeout(timeout);
     }
   }
 }
