@@ -203,6 +203,15 @@ app.on('quit', () => {
   btcdProcess && btcdProcess.kill('SIGINT');
 });
 
+// Prevent multiple instances of the application.
+const duplicateInstance = app.makeSingleInstance(() => {
+  if (win) {
+    if (win.isMinimized()) win.restore();
+    win.focus();
+  }
+});
+if (duplicateInstance) app.quit();
+
 app.setAsDefaultProtocolClient(PREFIX_NAME);
 app.on('open-url', async (event, url) => {
   while (!win) {
