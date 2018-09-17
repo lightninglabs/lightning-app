@@ -32,7 +32,10 @@ class InfoAction {
         this.startingSyncTimestamp = response.best_header_timestamp || 0;
       }
       if (!response.synced_to_chain) {
-        this._notification.display({ msg: 'Syncing to chain', wait: true });
+        this._notification.display({
+          msg: `Syncing to chain (block: ${response.block_height})`,
+          wait: true,
+        });
         log.info(`Syncing to chain ... block height: ${response.block_height}`);
         this._store.percentSynced = this.calcPercentSynced(response);
       }
