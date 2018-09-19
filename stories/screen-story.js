@@ -40,6 +40,7 @@ import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
 import PayBitcoinDone from '../src/view/pay-bitcoin-done';
 import PaymentFailed from '../src/view/payment-failed';
 import Loader from '../src/view/loader';
+import LoaderMobile from '../src/view/loader-mobile';
 import LoaderSyncing from '../src/view/loader-syncing';
 import SelectSeed from '../src/view/select-seed';
 import SeedSuccess from '../src/view/seed-success';
@@ -83,6 +84,7 @@ sinon.stub(channel, 'closeSelectedChannel');
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
   .add('Loader - First Time', () => <Loader />)
+  .add('Loader - First Time (mobile)', () => <LoaderMobile />)
   .add('Select Seed', () => (
     <SelectSeed store={store} wallet={wallet} nav={nav} />
   ))
