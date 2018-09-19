@@ -28,7 +28,7 @@
     "build-img": "svgr --native --filename-case kebab -d src/asset/img src/asset/img"
   },
   "dependencies": {
-    "electron-is-dev": "^0.3.0",
+    "electron-is-dev": "^1.0.0",
     "electron-log": "^2.2.14",
     "electron-updater": "^2.21.10",
     "grpc": "^1.10.0",
