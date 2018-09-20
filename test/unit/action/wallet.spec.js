@@ -354,13 +354,17 @@ describe('Action Wallet Unit Tests', () => {
       expect(nav.goHome, 'was called once');
     });
 
-    it('should display error notification on failure', async () => {
+    it('should display error notification on failure and clear password', async () => {
+      sandbox.stub(wallet, 'setPassword');
       grpc.sendUnlockerCommand
         .withArgs('UnlockWallet')
         .rejects(new Error('Boom!'));
       await wallet.unlockWallet({ walletPassword: 'baz' });
       expect(notification.display, 'was called once');
       expect(nav.goWait, 'was not called');
+      expect(wallet.setPassword, 'was called with', {
+        password: '',
+      });
     });
   });
 

@@ -298,6 +298,7 @@ class WalletAction {
       this._nav.goWait();
       observe(this._store, 'lndReady', () => this._nav.goHome());
     } catch (err) {
+      this.setPassword({ password: '' });
       this._notification.display({ type: 'error', msg: 'Invalid password' });
     }
   }
