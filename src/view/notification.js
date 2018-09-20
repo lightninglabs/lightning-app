@@ -26,8 +26,9 @@ const NotificationView = ({ store, nav }) => {
       <ListContent>
         <List
           data={notifications}
-          renderHeader={() => <NotificationListHeader />}
+          renderHeader={NotificationListHeader}
           renderItem={item => <NotificationListItem item={item} />}
+          stickyHeaderIndices={[0]}
         />
       </ListContent>
     </Background>
@@ -96,10 +97,13 @@ const hStyles = StyleSheet.create({
     color: color.greyListHeader,
     fontSize: font.sizeXS,
   },
+  header: {
+    backgroundColor: color.blackDark,
+  },
 });
 
 const NotificationListHeader = () => (
-  <ListHeader>
+  <ListHeader style={hStyles.header}>
     <Text style={[iStyles.s, hStyles.txt]}>TYPE</Text>
     <Text style={[iStyles.m, hStyles.txt]}>TIME</Text>
     <Text style={[iStyles.l, hStyles.txt]}>DESCRIPTION</Text>
