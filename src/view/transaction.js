@@ -28,13 +28,14 @@ const TransactionView = ({ store, nav, transaction }) => {
       <ListContent>
         <List
           data={transactions}
-          renderHeader={() => <TransactionListHeader />}
+          renderHeader={TransactionListHeader}
           renderItem={item => (
             <TransactionListItem
               tx={item}
               onSelect={() => transaction.select({ item })}
             />
           )}
+          stickyHeaderIndices={[0]}
         />
       </ListContent>
     </Background>
@@ -123,10 +124,13 @@ const hStyles = StyleSheet.create({
     color: color.greyListHeader,
     fontSize: font.sizeXS,
   },
+  header: {
+    backgroundColor: color.blackDark,
+  },
 });
 
 const TransactionListHeader = () => (
-  <ListHeader style={iStyles.item}>
+  <ListHeader style={[iStyles.item, hStyles.header]}>
     <View style={iStyles.i} />
     <Text style={[iStyles.m, hStyles.txt]}>STATUS</Text>
     <Text style={[iStyles.m, hStyles.txt]}>DATE</Text>
