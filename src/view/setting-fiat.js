@@ -1,13 +1,14 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Picker, StyleSheet, View } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
-import { Button, BackButton, RadioButton } from '../component/button';
-import { SettingItem } from '../component/list';
+import { Button, BackButton } from '../component/button';
+import { SettingPicker } from '../component/list';
 import { color } from '../component/style';
+import { FIATS } from '../config';
 
 //
 // Setting Fiat View
@@ -26,6 +27,8 @@ const styles = StyleSheet.create({
   },
 });
 
+const fiatEntries = Object.entries(FIATS);
+
 const SettingFiatView = ({ store, nav, setting }) => {
   return (
     <Background color={color.blackDark}>
@@ -36,24 +39,21 @@ const SettingFiatView = ({ store, nav, setting }) => {
       </Header>
       <MainContent style={styles.content}>
         <View style={styles.list}>
-          <SettingItem
-            name={store.usdFiatLabel}
-            onSelect={() => setting.setFiatCurrency({ fiat: 'usd' })}
+          <SettingPicker
+            selectedValue={store.settings.fiat}
+            onValueChange={itemValue => {
+              setting.setFiatCurrency({ fiat: itemValue });
+            }}
           >
-            <RadioButton selected={'usd' === store.settings.fiat} />
-          </SettingItem>
-          <SettingItem
-            name={store.eurFiatLabel}
-            onSelect={() => setting.setFiatCurrency({ fiat: 'eur' })}
-          >
-            <RadioButton selected={'eur' === store.settings.fiat} />
-          </SettingItem>
-          <SettingItem
-            name={store.gbpFiatLabel}
-            onSelect={() => setting.setFiatCurrency({ fiat: 'gbp' })}
-          >
-            <RadioButton selected={'gbp' === store.settings.fiat} />
-          </SettingItem>
+            {fiatEntries.map(([fiatKey, { displayLong }]) => (
+              <Picker.Item
+                label={displayLong}
+                value={fiatKey}
+                color={color.black}
+                key={fiatKey}
+              />
+            ))}
+          </SettingPicker>
         </View>
       </MainContent>
     </Background>

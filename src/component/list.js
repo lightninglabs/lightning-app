@@ -1,9 +1,17 @@
 import React, { Component, PureComponent } from 'react';
-import { View, ListView, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  ListView,
+  Picker,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import ForwardIcon from '../asset/icon/forward';
 import { color, font } from './style';
+
+const SETTING_ITEM_HEIGHT = 60;
 
 //
 // List Content
@@ -123,7 +131,7 @@ ListHeader.propTypes = {
 
 const iStyles = StyleSheet.create({
   item: {
-    height: 60,
+    height: SETTING_ITEM_HEIGHT,
   },
   name: {
     flex: 1,
@@ -158,6 +166,38 @@ SettingItem.propTypes = {
   onSelect: PropTypes.func.isRequired,
   label: PropTypes.string,
   arrow: PropTypes.bool,
+  children: PropTypes.node,
+};
+
+//
+// Setting Picker
+//
+
+const settingPickerStyle = [
+  itemStyles.item,
+  iStyles.item,
+  iStyles.name,
+  {
+    backgroundColor: 'transparent',
+    border: 'none',
+    fontFamily: 'OpenSans Regular',
+    maxHeight: SETTING_ITEM_HEIGHT,
+  },
+];
+
+export const SettingPicker = ({ selectedValue, onValueChange, children }) => (
+  <Picker
+    selectedValue={selectedValue}
+    style={settingPickerStyle}
+    onValueChange={onValueChange}
+  >
+    {children}
+  </Picker>
+);
+
+SettingPicker.propTypes = {
+  selectedValue: PropTypes.string.isRequired,
+  onValueChange: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
 

@@ -76,7 +76,7 @@ describe('Action Setting Unit Test', () => {
     });
 
     it('should fall back to USD for unsupported fiat', async () => {
-      ipc.send.resolves('jp');
+      ipc.send.resolves('no');
       await setting.detectLocalCurrency();
       expect(store.settings.fiat, 'to equal', 'usd');
       expect(logger.error, 'was called with', /Detecting/, /Invalid fiat/);
