@@ -38,7 +38,7 @@ import PayLightningDone from '../src/view/pay-lightning-done';
 import PayBitcoin from '../src/view/pay-bitcoin';
 import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
 import PayBitcoinDone from '../src/view/pay-bitcoin-done';
-import NoRoute from '../src/view/no-route';
+import PaymentFailed from '../src/view/payment-failed';
 import Loader from '../src/view/loader';
 import LoaderSyncing from '../src/view/loader-syncing';
 import SelectSeed from '../src/view/select-seed';
@@ -149,7 +149,7 @@ storiesOf('Screens', module)
   .add('Pay Lightning Done', () => (
     <PayLightningDone store={store} payment={payment} nav={nav} />
   ))
-  .add('No Route Found', () => <NoRoute channel={channel} payment={payment} />)
+  .add('Payment Failed', () => <PaymentFailed channel={channel} nav={nav} />)
   .add('Pay Bitcoin', () => (
     <PayBitcoin store={store} payment={payment} nav={nav} />
   ))

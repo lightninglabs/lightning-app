@@ -19,6 +19,7 @@ import Home from './home';
 import Payment from './payment';
 import PayLightningConfirm from './pay-lightning-confirm';
 import PayLightningDone from './pay-lightning-done';
+import PaymentFailed from './payment-failed';
 import PayBitcoin from './pay-bitcoin';
 import PayBitcoinConfirm from './pay-bitcoin-confirm';
 import PayBitcoinDone from './pay-bitcoin-done';
@@ -110,6 +111,9 @@ class MainView extends Component {
         )}
         {route === 'PayLightningDone' && (
           <PayLightningDone store={store} payment={payment} nav={nav} />
+        )}
+        {route === 'PaymentFailed' && (
+          <PaymentFailed channel={channel} nav={nav} />
         )}
         {route === 'PayBitcoin' && (
           <PayBitcoin store={store} payment={payment} nav={nav} />

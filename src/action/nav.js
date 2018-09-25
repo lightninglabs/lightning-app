@@ -73,6 +73,10 @@ class NavAction {
     this._store.route = 'PayLightningDone';
   }
 
+  goPaymentFailed() {
+    this._store.route = 'PaymentFailed';
+  }
+
   goPayBitcoin() {
     this._store.route = 'PayBitcoin';
   }

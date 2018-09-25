@@ -130,6 +130,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goPaymentFailed()', () => {
+    it('should set correct route', () => {
+      nav.goPaymentFailed();
+      expect(store.route, 'to equal', 'PaymentFailed');
+    });
+  });
+
   describe('goPayBitcoin()', () => {
     it('should set correct route', () => {
       nav.goPayBitcoin();
