@@ -334,7 +334,7 @@ store.payment.note = '#craefulgang';
 store.selectedTransaction = (store.computedTransactions || []).find(
   tx => tx.type === 'bitcoin'
 );
-store.channels = [...Array(4)].map(() => ({
+store.channels = [...Array(4)].map((x, i) => ({
   remotePubkey:
     '0343bc80b914aebf8e50eb0b8e445fc79b9e6e8e5e018fa8c5f85c7d429c117b38',
   id: '1337006139441152',
@@ -344,7 +344,7 @@ store.channels = [...Array(4)].map(() => ({
   remoteBalance: 10000,
   channelPoint:
     '3511ae8a52c97d957eaf65f828504e68d0991f0276adff94c6ba91c7f6cd4275',
-  active: true,
+  active: i % 2 === 0 ? true : false,
   status: 'open',
 }));
 store.pendingChannels = [...Array(6)].map((x, i) => ({
