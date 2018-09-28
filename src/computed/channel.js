@@ -48,7 +48,7 @@ const ComputedChannel = store => {
       return toAmountLabel(sum, settings);
     },
     get showChannelAlert() {
-      return (store.channels || []).length === 0;
+      return !store.channel.alertSeen && (store.channels || []).length === 0;
     },
   });
 };

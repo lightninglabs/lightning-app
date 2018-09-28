@@ -62,6 +62,7 @@ describe('Action Channels Unit Tests', () => {
     it('should update channels and navigate to list', () => {
       sandbox.stub(channel, 'update');
       channel.init();
+      expect(store.channel.alertSeen, 'to be', true);
       expect(channel.update, 'was called once');
       expect(nav.goChannels, 'was called once');
     });
@@ -105,12 +106,33 @@ describe('Action Channels Unit Tests', () => {
         fundingTxId: 'FFFF',
         status: 'open',
       });
+      expect(store.channel.alertSeen, 'to be', false);
     });
 
     it('should log error on failure', async () => {
       grpc.sendCommand.rejects();
       await channel.getChannels();
       expect(logger.error, 'was called once');
+    });
+
+    it('should show alert if the number of channels goes from non-zero to zero', async () => {
+      store.channels = [
+        {
+          chan_id: 42,
+          active: true,
+          capacity: '100',
+          local_balance: '10',
+          remote_balance: '90',
+          channel_point: 'FFFF:1',
+        },
+      ];
+      store.channel.alertSeen = true;
+      grpc.sendCommand.withArgs('listChannels').resolves({
+        channels: [],
+      });
+      await channel.getChannels();
+      expect(store.channels.length, 'to equal', 0);
+      expect(store.channel.alertSeen, 'to be', false);
     });
   });
 

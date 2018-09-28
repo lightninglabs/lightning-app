@@ -49,6 +49,12 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.showChannelAlert, 'to equal', true);
     });
 
+    it('should not show channel alert after navigating to view', () => {
+      store.channel.alertSeen = true;
+      ComputedChannel(store);
+      expect(store.showChannelAlert, 'to be', false);
+    });
+
     it('should aggregate open and pending channels', () => {
       ComputedChannel(store);
       expect(store.computedChannels.length, 'to equal', 3);

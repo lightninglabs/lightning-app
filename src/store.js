@@ -68,6 +68,7 @@ export class Store {
       channel: {
         pubkeyAtHost: '',
         amount: '',
+        alertSeen: false,
       },
       paymentRequest: null,
       seedMnemonic: [],
