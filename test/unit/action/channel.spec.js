@@ -81,7 +81,7 @@ describe('Action Channels Unit Tests', () => {
   describe('update()', () => {
     it('should refresh channels and peers', async () => {
       await channel.update();
-      expect(grpc.sendCommand, 'was called thrice');
+      expect(grpc.sendCommand.callCount, 'to equal', 4);
     });
   });
 

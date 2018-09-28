@@ -458,16 +458,20 @@ describe('Action Integration Tests', function() {
       expect(store1.computedChannels[0].status, 'to be', 'waiting-close');
     });
 
-    it('should list no channels after mining 6 blocks', async () => {
+    it('should list closed after mining 6 blocks', async () => {
       await mineAndSync({ blocks: 6 });
-      while (store1.pendingChannels.length) await nap(100);
-      expect(store1.computedChannels.length, 'to be', 0);
+      while (!store1.closedChannels.length) {
+        await nap(100);
+        channels1.update();
+      }
+      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels[0].status, 'to be', 'closed');
     });
 
     it('should list pending open channel after opening', async () => {
       channels1.openChannel({ pubkey: store2.pubKey, amount: 1000000 });
       while (!store1.pendingChannels.length) await nap(100);
-      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels.length, 'to be', 2);
       expect(store1.computedChannels[0].status, 'to be', 'pending-open');
     });
 
@@ -475,7 +479,7 @@ describe('Action Integration Tests', function() {
       await mineAndSync({ blocks: 6 });
       while (store1.pendingChannels.length) await nap(100);
       while (!store1.channels.length) await nap(100);
-      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels.length, 'to be', 2);
       expect(store1.computedChannels[0].status, 'to be', 'open');
       expect(store1.computedChannels[0].private, 'to be', true);
     });
@@ -487,14 +491,19 @@ describe('Action Integration Tests', function() {
       });
       while (!store1.pendingChannels.length) await nap(100);
       while (store1.channels.length) await nap(100);
-      expect(store1.computedChannels.length, 'to be', 1);
+      expect(store1.computedChannels.length, 'to be', 2);
       expect(store1.computedChannels[0].status, 'to be', 'waiting-close');
     });
 
-    it('should list no channels after mining 6 blocks', async () => {
-      await mineAndSync({ blocks: 6 });
-      while (store1.pendingChannels.length) await nap(100);
-      expect(store1.computedChannels.length, 'to be', 0);
+    it('should list closed after mining more than 144 blocks', async () => {
+      await mineAndSync({ blocks: 144 });
+      while (store1.closedChannels.length < 2) {
+        await nap(100);
+        await mineAndSync({ blocks: 1 });
+        channels1.update();
+      }
+      expect(store1.computedChannels.length, 'to be', 2);
+      expect(store1.computedChannels[0].status, 'to be', 'closed');
     });
   });
 
