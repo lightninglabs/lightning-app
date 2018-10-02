@@ -57,7 +57,7 @@ const NewAddressView = ({ store, invoice, info }) => (
       </View>
       <CopiedNotification
         display={store.displayCopied}
-        color={color.notifyLight}
+        color={color.notifyDark}
         style={styles.copied}
       />
     </MainContent>
