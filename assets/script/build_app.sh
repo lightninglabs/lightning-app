@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# exit on immediately on non-zero status
+set -e
+# avoid issues with relative paths
+cd "$(dirname "$0")"
+
 # set env vars
 GOPATH=$HOME/gocode
 GOROOT=$HOME/go
@@ -9,9 +14,6 @@ if [ "$(uname)" == "Darwin" ]; then
   # build electron app for macOS
   npm run electron-pack -- --mac
 else
-  # generate release notes only once
-  sh assets/script/release_notes.sh
-
   # build binaries for windows
   cd assets/bin/win32
   env GOOS="windows" GOARCH="386" go build -tags="experimental" -v github.com/lightningnetwork/lnd

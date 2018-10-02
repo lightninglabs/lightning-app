@@ -1,7 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/sh
+
+# exit on immediately on non-zero status
 set -e
 # avoid issues with relative paths
 cd "$(dirname "$0")"
+
+if [ "$(uname)" == "Darwin" ]; then
+  echo "Cannot release on macOS"
+  exit 0
+fi
 
 if [ -z "$(eval "echo \$GH_TOKEN")" ]; then
   echo "Missing environment variable GH_TOKEN."
