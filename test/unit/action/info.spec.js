@@ -42,6 +42,28 @@ describe('Action Info Unit Tests', () => {
       expect(store.blockHeight, 'to equal', 'some-height');
     });
 
+    it('should show notification if syncing', async () => {
+      grpc.sendCommand.withArgs('getInfo').resolves({
+        synced_to_chain: false,
+        block_height: 1234,
+      });
+      await info.getInfo();
+      expect(notification.display, 'was called once');
+      expect(notification.display, 'was called with', {
+        msg: 'Syncing to chain (block: 1234)',
+        wait: true,
+      });
+    });
+
+    it('should not show notification if synced', async () => {
+      grpc.sendCommand.withArgs('getInfo').resolves({
+        synced_to_chain: true,
+        block_height: 1234,
+      });
+      await info.getInfo();
+      expect(notification.display, 'was not called');
+    });
+
     it('should return true if chain is synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         synced_to_chain: true,
