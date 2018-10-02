@@ -8,9 +8,10 @@ PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 if [ "$(uname)" == "Darwin" ]; then
   # build electron app for macOS
   npm run electron-pack -- --mac
+else
   # generate release notes only once
   sh assets/script/release_notes.sh
-else
+
   # build binaries for windows
   cd assets/bin/win32
   env GOOS="windows" GOARCH="386" go build -tags="experimental" -v github.com/lightningnetwork/lnd
