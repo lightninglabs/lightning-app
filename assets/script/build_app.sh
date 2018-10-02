@@ -2,8 +2,6 @@
 
 # exit on immediately on non-zero status
 set -e
-# avoid issues with relative paths
-cd "$(dirname "$0")"
 
 # set env vars
 GOPATH=$HOME/gocode
