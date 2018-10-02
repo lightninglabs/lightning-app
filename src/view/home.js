@@ -111,7 +111,7 @@ const BalanceDisplay = ({
         <BalanceLabelNumeral>{channelBalanceLabel}</BalanceLabelNumeral>
         <BalanceLabelUnit>{unitLabel}</BalanceLabelUnit>
       </BalanceLabel>
-      <H4Text style={balanceStyles.smallLabel}>Pending Deposit</H4Text>
+      <H4Text style={balanceStyles.smallLabel}>Chain Deposit</H4Text>
       <SmallBalanceLabel unit={unitLabel}>{depositLabel}</SmallBalanceLabel>
     </Button>
   </View>
