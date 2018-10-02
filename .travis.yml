@@ -32,9 +32,7 @@ script:
 
 deploy:
   provider: script
-  script:
-    - ./assets/script/build_app.sh
-    - ./assets/script/release_notes.sh
+  script: ./assets/script/build_app.sh
   skip_cleanup: true
   on:
     repo: lightninglabs/lightning-app
