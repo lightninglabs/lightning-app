@@ -23,7 +23,7 @@ const ComputedTransaction = store => {
         t.amountLabel = toAmountLabel(t.amount, settings);
         t.feeLabel = Number.isInteger(t.fee)
           ? toAmountLabel(t.fee, settings)
-          : '-';
+          : '0';
         if (Number.isInteger(t.confirmations)) {
           t.confirmationsLabel = t.confirmations.toString();
         }
