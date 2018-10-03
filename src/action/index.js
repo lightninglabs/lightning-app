@@ -97,3 +97,10 @@ observe(store, 'lndReady', () => {
   transaction.subscribeInvoices();
   info.pollInfo();
 });
+
+/**
+ * Triggered after synced to chain.
+ */
+observe(store, 'syncedToChain', async () => {
+  notify.display({ msg: 'Syncing complete', type: 'success' });
+});
