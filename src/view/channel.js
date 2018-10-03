@@ -107,7 +107,6 @@ const ChannelList = ({ store, channel }) => {
       />
       <ListContent>
         <List
-          stickyHeaderIndices={[0]}
           data={channels}
           renderHeader={ChannelListHeader}
           renderItem={item => (

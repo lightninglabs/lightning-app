@@ -35,7 +35,6 @@ const TransactionView = ({ store, nav, transaction }) => {
               onSelect={() => transaction.select({ item })}
             />
           )}
-          stickyHeaderIndices={[0]}
         />
       </ListContent>
     </Background>

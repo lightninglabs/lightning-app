@@ -28,7 +28,6 @@ const NotificationView = ({ store, nav }) => {
           data={notifications}
           renderHeader={NotificationListHeader}
           renderItem={item => <NotificationListItem item={item} />}
-          stickyHeaderIndices={[0]}
         />
       </ListContent>
     </Background>
