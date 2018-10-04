@@ -21,9 +21,7 @@ const ComputedTransaction = store => {
         t.dateLabel = t.date.toLocaleDateString();
         t.dateTimeLabel = t.date.toLocaleString();
         t.amountLabel = toAmountLabel(t.amount, settings);
-        t.feeLabel = Number.isInteger(t.fee)
-          ? toAmountLabel(t.fee, settings)
-          : '-';
+        t.feeLabel = toAmountLabel(t.fee || 0, settings);
         if (Number.isInteger(t.confirmations)) {
           t.confirmationsLabel = t.confirmations.toString();
         }
