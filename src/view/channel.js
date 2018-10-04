@@ -108,7 +108,7 @@ const ChannelList = ({ store, channel }) => {
       <ListContent>
         <List
           data={channels}
-          renderHeader={() => <ChannelListHeader />}
+          renderHeader={ChannelListHeader}
           renderItem={item => (
             <ChannelListItem
               ch={item}
@@ -259,10 +259,13 @@ const hStyles = StyleSheet.create({
     color: color.greyListHeader,
     fontSize: font.sizeXS,
   },
+  header: {
+    backgroundColor: color.blackDark,
+  },
 });
 
 const ChannelListHeader = () => (
-  <ListHeader>
+  <ListHeader style={hStyles.header}>
     <Text style={[iStyles.m, hStyles.txt]}>STATUS</Text>
     <Text style={[iStyles.m, hStyles.txt]}>CAPACITY</Text>
     <Text style={[iStyles.l, hStyles.txt]}>FUNDING TRANSACTION ID</Text>

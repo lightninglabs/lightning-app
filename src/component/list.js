@@ -50,6 +50,7 @@ export class List extends Component {
         ref={component => (this.list = component)}
         dataSource={this.dataSource}
         renderHeader={this.props.renderHeader}
+        stickyHeaderIndices={[0]}
         renderRow={this.props.renderItem}
         enableEmptySections={true}
       />
