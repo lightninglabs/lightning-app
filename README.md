@@ -23,7 +23,22 @@ See the `ToDo (next release)` column on our [project board](https://github.com/l
 
 ### Developing Locally
 
-You'll need to build `lnd` and `btcd` locally using the [installation guide](http://dev.lightning.community/guides/installation/). Then start by cloning this git repo and go inside the project folder to run the following commands:
+#### Install lnd
+```
+git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
+cd $GOPATH/src/github.com/lightningnetwork/lnd
+make && make install tags=experimental
+```
+
+#### Install btcd
+```
+git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd
+cd $GOPATH/src/github.com/btcsuite/btcd
+glide install
+go install . ./cmd/...
+```
+
+Then start by cloning this git repo and go inside the project folder to run the following commands:
 ```
 npm install
 
