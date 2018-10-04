@@ -56,7 +56,7 @@ describe('Computed Transactions Unit Tests', () => {
       expect(tx.feeLabel, 'to match', /0[,.]0000825/);
       expect(tx.confirmationsLabel, 'to equal', '0');
       const inv = store.computedTransactions.find(t => t.id === '2');
-      expect(inv.feeLabel, 'to equal', '-');
+      expect(inv.feeLabel, 'to equal', '0');
       expect(inv.confirmationsLabel, 'to be', undefined);
     });
 
