@@ -12,10 +12,16 @@ import { color, font } from '../component/style';
 // Seed View
 //
 
+const styles = StyleSheet.create({
+  content: {
+    flexBasis: 0,
+  },
+});
+
 const SeedView = ({ store, wallet }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <CopySection />
-    <MainContent>
+    <MainContent style={styles.content}>
       <WordList seedMnemonic={store.seedMnemonic.slice()} />
       <GlasButton onPress={() => wallet.initSeedVerify()}>Next</GlasButton>
     </MainContent>
