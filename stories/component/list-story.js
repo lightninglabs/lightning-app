@@ -16,7 +16,7 @@ storiesOf('List', module).add('List Content', () => (
     <List
       data={[...Array(1000)].map((x, i) => ({ id: String(i), data: 'foo' }))}
       renderHeader={() => (
-        <ListHeader>
+        <ListHeader style={{ backgroundColor: color.white }}>
           <Text style={{ flex: 1, color: color.greyText }}>ID</Text>
           <Text style={{ flex: 1, color: color.greyText }}>Data</Text>
         </ListHeader>
