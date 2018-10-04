@@ -55,13 +55,16 @@ describe('Action Info Unit Tests', () => {
       });
     });
 
-    it('should not show notification if synced', async () => {
+    it('should show completed notification if synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         synced_to_chain: true,
-        block_height: 1234,
       });
       await info.getInfo();
-      expect(notification.display, 'was not called');
+      expect(notification.display, 'was called once');
+      expect(notification.display, 'was called with', {
+        type: 'success',
+        msg: 'Syncing complete',
+      });
     });
 
     it('should return true if chain is synced', async () => {

@@ -36,8 +36,12 @@ class InfoAction {
           msg: `Syncing to chain (block: ${response.block_height})`,
           wait: true,
         });
-        log.info(`Syncing to chain ... block height: ${response.block_height}`);
         this._store.percentSynced = this.calcPercentSynced(response);
+      } else {
+        this._notification.display({
+          type: 'success',
+          msg: 'Syncing complete',
+        });
       }
       return response.synced_to_chain;
     } catch (err) {
