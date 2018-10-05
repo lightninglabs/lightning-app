@@ -261,9 +261,12 @@ class ChannelAction {
    */
   async closeSelectedChannel() {
     try {
-      const { selectedChannel } = this._store;
+      const { selectedChannel: selected } = this._store;
       this._nav.goChannels();
-      await this.closeChannel({ channelPoint: selectedChannel.channelPoint });
+      await this.closeChannel({
+        channelPoint: selected.channelPoint,
+        force: selected.status !== 'open' || !selected.active,
+      });
     } catch (err) {
       this._notification.display({ msg: 'Closing channel failed!', err });
     }

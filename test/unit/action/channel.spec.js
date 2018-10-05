@@ -262,6 +262,7 @@ describe('Action Channels Unit Tests', () => {
       store.selectedChannel = {
         channelPoint: 'some-channel-point',
         status: 'open',
+        active: true,
       };
       sandbox.stub(channel, 'closeChannel');
     });
@@ -271,6 +272,27 @@ describe('Action Channels Unit Tests', () => {
       expect(nav.goChannels, 'was called once');
       expect(channel.closeChannel, 'was called with', {
         channelPoint: 'some-channel-point',
+        force: false,
+      });
+    });
+
+    it('should force close inactive open channel', async () => {
+      store.selectedChannel.active = false;
+      await channel.closeSelectedChannel();
+      expect(nav.goChannels, 'was called once');
+      expect(channel.closeChannel, 'was called with', {
+        channelPoint: 'some-channel-point',
+        force: true,
+      });
+    });
+
+    it('should force close pending-open channel', async () => {
+      store.selectedChannel.status = 'pending-open';
+      await channel.closeSelectedChannel();
+      expect(nav.goChannels, 'was called once');
+      expect(channel.closeChannel, 'was called with', {
+        channelPoint: 'some-channel-point',
+        force: true,
       });
     });
 
