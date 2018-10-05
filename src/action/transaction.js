@@ -147,17 +147,15 @@ class TransactionAction {
 
   async _receiveInvoice(invoice) {
     await this.update();
-    if (invoice.settled) {
-      const invoiceId = toHex(invoice.r_hash);
-      let inv = this._store.computedTransactions.find(
-        invoice => invoice.id === invoiceId
-      );
-      this._notification.display({
-        msg: `Invoice success: received ${inv.amountLabel}`,
-        handler: () => this.select({ item: inv }),
-        handlerLbl: 'View details',
-      });
-    }
+    if (!invoice.settled) return;
+    const { computedTransactions, unitLabel } = this._store;
+    let inv = computedTransactions.find(tx => tx.id === toHex(invoice.r_hash));
+    this._notification.display({
+      type: 'success',
+      msg: `Invoice success: received ${inv.amountLabel} ${unitLabel}`,
+      handler: () => this.select({ item: inv }),
+      handlerLbl: 'View details',
+    });
   }
 }
 
