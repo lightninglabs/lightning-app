@@ -274,6 +274,27 @@ describe('Action Channels Unit Tests', () => {
       });
     });
 
+    it('should force close open channel and navigate to channels view', async () => {
+      await channel.closeSelectedChannel(true);
+      expect(nav.goChannels, 'was called once');
+      expect(channel.closeChannel, 'was called with', {
+        channelPoint: 'some-channel-point',
+        force: true,
+      });
+    });
+
+    it('should navigate to force delete channel view in case of channel link error', async () => {
+      channel.closeChannel.rejects({
+        code: 2,
+        details:
+          'unable to gracefully close channel while peer is offline (try force closing it instead): channel link not found',
+      });
+      await channel.closeSelectedChannel();
+      expect(nav.goChannels, 'was called once');
+      expect(notification.display, 'was not called');
+      expect(nav.goChannelForceDelete, 'was called once');
+    });
+
     it('should display notification in case of error event', async () => {
       channel.closeChannel.rejects(new Error('Boom!'));
       await channel.closeSelectedChannel();

@@ -17,6 +17,7 @@ const ComputedChannel = store => {
       );
       all.sort((a, b) => (a.active === b.active ? 0 : a.active ? -1 : 1));
       all.forEach(c => {
+        c.isClosing = !c.status.includes('open');
         c.statusLabel = toCaps(c.status);
         c.capacityLabel = toAmountLabel(c.capacity, settings);
         c.localBalanceLabel = toAmountLabel(c.localBalance, settings);

@@ -259,13 +259,24 @@ class ChannelAction {
    * the necessary error handling and notification display.
    * @return {Promise<undefined>}
    */
-  async closeSelectedChannel() {
+  async closeSelectedChannel(force = false) {
     try {
       const { selectedChannel } = this._store;
       this._nav.goChannels();
-      await this.closeChannel({ channelPoint: selectedChannel.channelPoint });
+      await this.closeChannel({
+        channelPoint: selectedChannel.channelPoint,
+        force,
+      });
     } catch (err) {
-      this._notification.display({ msg: 'Closing channel failed!', err });
+      if (
+        err &&
+        err.details &&
+        err.details.includes('try force closing it instead')
+      ) {
+        this._nav.goChannelForceDelete();
+      } else {
+        this._notification.display({ msg: 'Closing channel failed!', err });
+      }
     }
   }
 

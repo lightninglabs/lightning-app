@@ -54,6 +54,7 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.computedChannels.length, 'to equal', 3);
       const ch = store.computedChannels.find(t => t.id === '0');
       expect(ch.statusLabel, 'to equal', 'Open');
+      expect(ch.isClosing, 'to equal', false);
       expect(ch.capacityLabel, 'to match', /0[,.]02005/);
       expect(ch.localBalanceLabel, 'to match', /0[,.]0199/);
       expect(ch.remoteBalanceLabel, 'to match', /0[,.]0001/);
@@ -61,6 +62,8 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalancePendingLabel, 'to match', /0[,.]006/);
       expect(store.channelBalanceClosingLabel, 'to match', /0[,.]005/);
       expect(store.showChannelAlert, 'to equal', false);
+      const ch2 = store.computedChannels.find(t => t.id === '2');
+      expect(ch2.isClosing, 'to equal', true);
     });
 
     it('should channel values in usd', () => {

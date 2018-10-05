@@ -29,6 +29,7 @@ import Deposit from './deposit';
 import Channel from './channel';
 import ChannelDetail from './channel-detail';
 import ChannelDelete from './channel-delete';
+import ChannelForceDelete from './channel-force-delete';
 import ChannelCreate from './channel-create';
 import Transaction from './transaction';
 import Setting from './setting';
@@ -141,6 +142,9 @@ class MainView extends Component {
         )}
         {route === 'ChannelDelete' && (
           <ChannelDelete store={store} channel={channel} nav={nav} />
+        )}
+        {route === 'ChannelForceDelete' && (
+          <ChannelForceDelete store={store} channel={channel} nav={nav} />
         )}
         {route === 'ChannelCreate' && (
           <ChannelCreate store={store} channel={channel} nav={nav} />

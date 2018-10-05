@@ -195,6 +195,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goChannelForceDelete()', () => {
+    it('should set correct route', () => {
+      nav.goChannelForceDelete();
+      expect(store.route, 'to equal', 'ChannelForceDelete');
+    });
+  });
+
   describe('goTransactions()', () => {
     it('should set correct route', () => {
       nav.goTransactions();
