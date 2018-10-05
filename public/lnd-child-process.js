@@ -59,6 +59,7 @@ module.exports.startLndProcess = async function({
   const processName = 'lnd';
   let args = [
     '--bitcoin.active',
+    '--bitcoin.defaultchanconfs=1',
     '--debuglevel=info',
     `--lnddir=${lndSettingsDir}`,
     `--routing.assumechanvalid`,
