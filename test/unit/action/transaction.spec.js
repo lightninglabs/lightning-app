@@ -2,6 +2,7 @@ import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import TransactionAction from '../../../src/action/transaction';
 import NavAction from '../../../src/action/nav';
+import NotificationAction from '../../../src/action/notification';
 import * as logger from '../../../src/action/log';
 
 describe('Action Transactions Unit Tests', () => {
@@ -9,6 +10,7 @@ describe('Action Transactions Unit Tests', () => {
   let sandbox;
   let grpc;
   let nav;
+  let notification;
   let transaction;
 
   beforeEach(() => {
@@ -18,7 +20,8 @@ describe('Action Transactions Unit Tests', () => {
     require('../../../src/config').RETRY_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     nav = sinon.createStubInstance(NavAction);
-    transaction = new TransactionAction(store, grpc, nav);
+    notification = sinon.createStubInstance(NotificationAction);
+    transaction = new TransactionAction(store, grpc, nav, notification);
   });
 
   afterEach(() => {
@@ -210,13 +213,38 @@ describe('Action Transactions Unit Tests', () => {
     });
 
     it('should update invoices on data event', async () => {
-      onStub.withArgs('data').yields();
+      onStub.withArgs('data').yields({});
       onStub.withArgs('end').yields();
       grpc.sendStreamCommand
         .withArgs('subscribeInvoices')
         .returns({ on: onStub });
       await transaction.subscribeInvoices();
       expect(transaction.update, 'was called once');
+    });
+
+    it('should notify the user on settled invoice', async () => {
+      store.computedTransactions = [{ id: 'cdab' }];
+      onStub.withArgs('data').yields({
+        settled: true,
+        r_hash: Buffer.from('cdab', 'hex'),
+      });
+      onStub.withArgs('end').yields();
+      grpc.sendStreamCommand
+        .withArgs('subscribeInvoices')
+        .returns({ on: onStub });
+      await transaction.subscribeInvoices();
+      expect(notification.display, 'was called once');
+    });
+
+    it('should not notify the user on an unsettled invoice', async () => {
+      onStub.withArgs('data').yields({ settled: false });
+      onStub.withArgs('end').yields();
+      grpc.sendStreamCommand
+        .withArgs('subscribeInvoices')
+        .returns({ on: onStub });
+      await transaction.subscribeInvoices();
+      expect(transaction.update, 'was called once');
+      expect(notification.display, 'was not called');
     });
 
     it('should reject in case of error', async () => {
