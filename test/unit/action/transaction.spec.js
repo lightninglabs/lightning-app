@@ -213,7 +213,7 @@ describe('Action Transactions Unit Tests', () => {
     });
 
     it('should update invoices on data event', async () => {
-      onStub.withArgs('data').yields();
+      onStub.withArgs('data').yields({});
       onStub.withArgs('end').yields();
       grpc.sendStreamCommand
         .withArgs('subscribeInvoices')
