@@ -249,12 +249,7 @@ service Lightning {
     /** lncli: `newaddress`
     NewAddress creates a new address under control of the local wallet.
     */
-    rpc NewAddress (NewAddressRequest) returns (NewAddressResponse);
-
-    /**
-    NewWitnessAddress creates a new witness address under control of the local wallet.
-    */
-    rpc NewWitnessAddress (NewWitnessAddressRequest) returns (NewAddressResponse) {
+    rpc NewAddress (NewAddressRequest) returns (NewAddressResponse) {
         option (google.api.http) = {
             get: "/v1/newaddress"
         };
@@ -389,6 +384,19 @@ service Lightning {
         };
     }
 
+    /** lncli: `abandonchannel`
+    AbandonChannel removes all channel state from the database except for a
+    close summary. This method can be used to get rid of permanently unusable
+    channels due to bugs fixed in newer versions of lnd. Only available
+    when in debug builds of lnd.
+    */
+    rpc AbandonChannel (AbandonChannelRequest) returns (AbandonChannelResponse) {
+        option (google.api.http) = {
+            delete: "/v1/channels/{channel_point.funding_txid_str}/{channel_point.output_index}"
+        };
+    }
+
+
     /** lncli: `sendpayment`
     SendPayment dispatches a bi-directional streaming RPC for sending payments
     through the Lightning Network. A single RPC invocation creates a persistent
@@ -443,7 +451,14 @@ service Lightning {
 
     /** lncli: `listinvoices`
     ListInvoices returns a list of all the invoices currently stored within the
-    database. Any active debug invoices are ignored.
+    database. Any active debug invoices are ignored. It has full support for
+    paginated responses, allowing users to query for specific invoices through
+    their add_index. This can be done by using either the first_index_offset or
+    last_index_offset fields included in the response as the index_offset of the
+    next request. The reversed flag is set by default in order to paginate
+    backwards. If you wish to paginate forwards, you must explicitly set the
+    flag to false. If none of the parameters are specified, then the last 100
+    invoices will be returned.
     */
     rpc ListInvoices (ListInvoiceRequest) returns (ListInvoiceResponse) {
         option (google.api.http) = {
@@ -463,7 +478,7 @@ service Lightning {
     }
 
     /**
-    SubscribeInvoices returns a uni-directional stream (sever -> client) for
+    SubscribeInvoices returns a uni-directional stream (server -> client) for
     notifying the client of newly added/settled invoices. The caller can
     optionally specify the add_index and/or the settle_index. If the add_index
     is specified, then we'll first start by sending add invoice events for all
@@ -636,7 +651,7 @@ message Transaction {
     /// The transaction hash
     string tx_hash = 1 [ json_name = "tx_hash" ];
 
-    /// The transaction ammount, denominated in satoshis
+    /// The transaction amount, denominated in satoshis
     int64 amount = 2 [ json_name = "amount" ];
 
     /// The number of confirmations
@@ -787,7 +802,6 @@ message SendCoinsResponse {
 
 - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
 - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
-- `p2pkh`:  Pay to public key hash (`PUBKEY_HASH` = 2)
 */
 message NewAddressRequest {
     enum AddressType {
@@ -798,10 +812,6 @@ message NewAddressRequest {
     /// The address type
     AddressType type = 1;
 }
-
-message NewWitnessAddressRequest {
-}
-
 message NewAddressResponse {
     /// The newly generated wallet address
     string address = 1 [json_name = "address"];
@@ -984,6 +994,7 @@ message ChannelCloseSummary {
         REMOTE_FORCE_CLOSE = 2;
         BREACH_CLOSE = 3;
         FUNDING_CANCELED = 4;
+        ABANDONED = 5;
     }
 
     /// Details on how the channel was closed.
@@ -996,6 +1007,7 @@ message ClosedChannelsRequest {
     bool remote_force = 3;
     bool breach = 4;
     bool funding_canceled = 5;
+    bool abandoned = 6;
 }
 
 message ClosedChannelsResponse {
@@ -1726,14 +1738,19 @@ message ListInvoiceRequest {
     bool pending_only = 1 [json_name = "pending_only"];
 
     /**
-    The offset in the time series to start at. As each response can only contain
-    50k invoices, callers can use this to skip around within a packed time
-    series.
+    The index of an invoice that will be used as either the start or end of a
+    query to determine which invoices should be returned in the response.
     */
-    uint32 index_offset = 4 [json_name = "index_offset"];
+    uint64 index_offset = 4 [json_name = "index_offset"];
 
     /// The max number of invoices to return in the response to this query.
-    uint32 num_max_invoices = 5 [json_name = "num_max_invoices"];
+    uint64 num_max_invoices = 5 [json_name = "num_max_invoices"];
+
+    /**
+    If set, the invoices returned will result from seeking backwards from the
+    specified index offset. This can be used to paginate backwards.
+    */
+    bool reversed = 6 [json_name = "reversed"];
 }
 message ListInvoiceResponse {
     /**
@@ -1743,10 +1760,16 @@ message ListInvoiceResponse {
     repeated Invoice invoices = 1 [json_name = "invoices"];
 
     /**
-    The index of the last time in the set of returned invoices. Can be used to
-    seek further, pagination style.
+    The index of the last item in the set of returned invoices. This can be used
+    to seek further, pagination style.
     */
-    uint32 last_index_offset = 2 [json_name = "last_index_offset"];
+    uint64 last_index_offset = 2 [json_name = "last_index_offset"];
+
+    /**
+    The index of the last item in the set of returned invoices. This can be used
+    to seek backwards, pagination style.
+    */
+    uint64 first_index_offset = 3 [json_name = "first_index_offset"];
 }
 
 message InvoiceSubscription {
@@ -1772,8 +1795,8 @@ message Payment {
     /// The payment hash
     string payment_hash = 1 [json_name = "payment_hash"];
 
-    /// The value of the payment in satoshis
-    int64 value = 2 [json_name = "value"];
+    /// Deprecated, use value_sat or value_msat.
+    int64 value = 2 [json_name = "value", deprecated = true];
 
     /// The date of this payment
     int64 creation_date = 3 [json_name = "creation_date"];
@@ -1786,6 +1809,12 @@ message Payment {
 
     /// The payment preimage
     string payment_preimage = 6 [json_name = "payment_preimage"];
+
+    /// The value of the payment in satoshis
+    int64 value_sat = 7 [json_name = "value_sat"];
+
+    /// The value of the payment in milli-satoshis
+    int64 value_msat = 8 [json_name = "value_msat"];
 }
 
 message ListPaymentsRequest {
@@ -1801,6 +1830,14 @@ message DeleteAllPaymentsRequest {
 
 message DeleteAllPaymentsResponse {
 }
+
+message AbandonChannelRequest {
+    ChannelPoint channel_point = 1;
+}
+
+message AbandonChannelResponse {
+}
+
 
 message DebugLevelRequest {
     bool show = 1;

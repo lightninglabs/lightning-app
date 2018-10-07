@@ -2,7 +2,7 @@
 
 # versions
 GO_TAG=1.10.3
-LND_TAG=51d43be1f369c7ec5ae8bc3bb282a45c6a0776ea
+LND_TAG=8f2da60dfa994992c1de9a3a7dc0bc4389b39299
 BTCD_TAG=f899737d7f2764dc13e4d01ff00108ec58f766a9
 
 # create empty btcd.conf for btcctl
