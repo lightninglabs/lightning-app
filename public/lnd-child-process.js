@@ -80,7 +80,7 @@ module.exports.startLndProcess = async function({
       '--autopilot.active',
       '--autopilot.private',
       '--autopilot.minconfs=0',
-      '--autopilot.allocation=1.0',
+      '--autopilot.allocation=0.95',
     ]);
   }
   // set default production settings if no custom flags
