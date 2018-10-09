@@ -2,20 +2,36 @@
  * @fileOverview computed values that are used in settings UI components.
  */
 
-import { computed, extendObservable } from 'mobx';
+import { extendObservable } from 'mobx';
 import { formatNumber } from '../helper';
 import { UNITS, FIATS } from '../config';
 
 const ComputedSetting = store => {
   extendObservable(store, {
-    selectedUnitLabel: computed(() => getUnitLabel(store.settings.unit)),
-    selectedFiatLabel: computed(() => FIATS[store.settings.fiat].displayLong),
-    satUnitLabel: computed(() => getUnitLabel('sat')),
-    bitUnitLabel: computed(() => getUnitLabel('bit')),
-    btcUnitLabel: computed(() => getUnitLabel('btc')),
-    usdFiatLabel: computed(() => FIATS['usd'].displayLong),
-    eurFiatLabel: computed(() => FIATS['eur'].displayLong),
-    gbpFiatLabel: computed(() => FIATS['gbp'].displayLong),
+    get selectedUnitLabel() {
+      return getUnitLabel(store.settings.unit);
+    },
+    get selectedFiatLabel() {
+      return FIATS[store.settings.fiat].displayLong;
+    },
+    get satUnitLabel() {
+      return getUnitLabel('sat');
+    },
+    get bitUnitLabel() {
+      return getUnitLabel('bit');
+    },
+    get btcUnitLabel() {
+      return getUnitLabel('btc');
+    },
+    get usdFiatLabel() {
+      return FIATS['usd'].displayLong;
+    },
+    get eurFiatLabel() {
+      return FIATS['eur'].displayLong;
+    },
+    get gbpFiatLabel() {
+      return FIATS['gbp'].displayLong;
+    },
   });
 };
 
