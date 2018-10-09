@@ -116,11 +116,5 @@
     "directories": {
       "buildResources": "assets"
     }
-  },
-  "greenkeeper": {
-    "ignore": [
-      "mobx",
-      "mobx-react"
-    ]
   }
 }
