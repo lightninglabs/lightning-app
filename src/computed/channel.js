@@ -2,12 +2,12 @@
  * @fileOverview computed values that are used in channel UI components.
  */
 
-import { computed, extendObservable } from 'mobx';
+import { extendObservable } from 'mobx';
 import { toAmountLabel, toCaps } from '../helper';
 
 const ComputedChannel = store => {
   extendObservable(store, {
-    computedChannels: computed(() => {
+    get computedChannels() {
       const { channels, pendingChannels, settings } = store;
       const c = channels ? channels.slice() : [];
       const p = pendingChannels ? pendingChannels.slice() : [];
@@ -23,31 +23,33 @@ const ComputedChannel = store => {
         c.remoteBalanceLabel = toAmountLabel(c.remoteBalance, settings);
       });
       return all;
-    }),
-    channelBalanceOpenLabel: computed(() => {
+    },
+    get channelBalanceOpenLabel() {
       const { channels, settings } = store;
       const sum = (channels || [])
         .map(c => Number(c.localBalance))
         .reduce((a, b) => a + b, 0);
       return toAmountLabel(sum, settings);
-    }),
-    channelBalancePendingLabel: computed(() => {
+    },
+    get channelBalancePendingLabel() {
       const { pendingChannels, settings } = store;
       const sum = (pendingChannels || [])
         .filter(c => c.status.includes('open'))
         .map(c => Number(c.localBalance))
         .reduce((a, b) => a + b, 0);
       return toAmountLabel(sum, settings);
-    }),
-    channelBalanceClosingLabel: computed(() => {
+    },
+    get channelBalanceClosingLabel() {
       const { pendingChannels, settings } = store;
       const sum = (pendingChannels || [])
         .filter(c => !c.status.includes('open'))
         .map(c => Number(c.localBalance))
         .reduce((a, b) => a + b, 0);
       return toAmountLabel(sum, settings);
-    }),
-    showChannelAlert: computed(() => (store.channels || []).length === 0),
+    },
+    get showChannelAlert() {
+      return (store.channels || []).length === 0;
+    },
   });
 };
 
