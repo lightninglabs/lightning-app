@@ -328,7 +328,7 @@ describe('Action Channels Unit Tests', () => {
     });
 
     it('should remove pending channel on chan_close (force close)', async () => {
-      store.pendingChannels = [{ channel: { channel_point: 'FFFF:1' } }];
+      store.pendingChannels = [{ channelPoint: 'FFFF:1' }];
       const chan_close = { closing_txid: new Buffer('cdab', 'hex') };
       onStub.withArgs('data').yields({ chan_close });
       onStub.withArgs('end').yields();

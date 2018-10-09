@@ -2,12 +2,12 @@
  * @fileOverview computed values that are used in transaction UI components.
  */
 
-import { computed, extendObservable } from 'mobx';
+import { extendObservable } from 'mobx';
 import { toAmountLabel, toCaps } from '../helper';
 
 const ComputedTransaction = store => {
   extendObservable(store, {
-    computedTransactions: computed(() => {
+    get computedTransactions() {
       const { transactions, payments, invoices, settings } = store;
       const t = transactions ? transactions.slice() : [];
       const p = payments ? payments.slice() : [];
@@ -27,7 +27,7 @@ const ComputedTransaction = store => {
         }
       });
       return all.slice(0, 100);
-    }),
+    },
   });
 };
 

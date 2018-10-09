@@ -2,20 +2,20 @@
  * @fileOverview computed values that are used in notification UI components.
  */
 
-import { computed, extendObservable } from 'mobx';
+import { extendObservable } from 'mobx';
 import { toCaps, formatNumber } from '../helper';
 
 const ComputedNotification = store => {
   extendObservable(store, {
-    lastNotification: computed(() => {
+    get lastNotification() {
       const { notifications: nots } = store;
       return nots.length ? nots[nots.length - 1] : null;
-    }),
-    displayNotification: computed(() => {
+    },
+    get displayNotification() {
       const { lastNotification: last } = store;
       return last ? last.display : false;
-    }),
-    computedNotifications: computed(() => {
+    },
+    get computedNotifications() {
       const { notifications } = store;
       const all = [];
       notifications.forEach(n => {
@@ -31,10 +31,10 @@ const ComputedNotification = store => {
         n.dateTimeLabel = n.date.toLocaleString();
       });
       return all;
-    }),
-    notificationCountLabel: computed(() =>
-      formatNumber(store.computedNotifications.length)
-    ),
+    },
+    get notificationCountLabel() {
+      return formatNumber(store.computedNotifications.length);
+    },
   });
 };
 
