@@ -2,34 +2,36 @@
  * @fileOverview computed values that are used in seed UI components.
  */
 
-import { computed, extendObservable } from 'mobx';
+import { extendObservable } from 'mobx';
 
 const ComputedSeed = store => {
   extendObservable(store, {
-    seedVerifyIndexes: computed(() => {
+    get seedVerifyIndexes() {
       const { seedMnemonic: words } = store;
       return words.length ? getSeedIndexes(1, words.length, 3) : [];
-    }),
-    seedVerifyCopy: computed(() => {
+    },
+    get seedVerifyCopy() {
       const { seedVerifyIndexes } = store;
       const c0 = formatOrdinal(seedVerifyIndexes[0]);
       const c1 = formatOrdinal(seedVerifyIndexes[1]);
       const c2 = formatOrdinal(seedVerifyIndexes[2]);
       return `Type the ${c0}, ${c1}, and ${c2} words of your recovery phrase.`;
-    }),
-    restoreIndexes: computed(() => [...Array(24).keys()].map(x => ++x)),
-    restoreVerifyIndexes: computed(() => {
+    },
+    get restoreIndexes() {
+      return [...Array(24).keys()].map(x => ++x);
+    },
+    get restoreVerifyIndexes() {
       const { restoreIndexes } = store;
       const { restoreIndex } = store.wallet;
       return restoreIndexes.slice(restoreIndex, restoreIndex + 3);
-    }),
-    restoreVerifyCopy: computed(() => {
+    },
+    get restoreVerifyCopy() {
       const { restoreVerifyIndexes } = store;
       const c0 = formatOrdinal(restoreVerifyIndexes[0]);
       const c1 = formatOrdinal(restoreVerifyIndexes[1]);
       const c2 = formatOrdinal(restoreVerifyIndexes[2]);
       return `Type the ${c0}, ${c1}, and ${c2} words of your recovery phrase.`;
-    }),
+    },
   });
 };
 
