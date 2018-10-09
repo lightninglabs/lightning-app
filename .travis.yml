@@ -1,6 +1,6 @@
 language: node_js
 node_js:
-  - '8.11.4'
+  - '8'
 
 matrix:
   include:
@@ -27,6 +27,7 @@ before_install:
   - ./assets/script/install_lnd.sh
 
 script:
+  - npm audit
   - npm test
   - npm run build-storybook
 
