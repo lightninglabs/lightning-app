@@ -31,8 +31,8 @@
   "dependencies": {
     "expo": "^27.0.1",
     "locale-currency": "0.0.2",
-    "mobx": "^3.6.2",
-    "mobx-react": "^4.4.3",
+    "mobx": "^4.5.0",
+    "mobx-react": "^5.2.8",
     "node-libs-react-native": "^1.0.2",
     "qr-image": "^3.2.0",
     "react": "~16.3.2",
