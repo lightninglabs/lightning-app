@@ -1,4 +1,4 @@
-import { observable, useStrict } from 'mobx';
+import { Store } from '../../../src/store';
 import ComputedLoaderMsg from '../../../src/computed/loader-msg';
 import {
   LOADING_COPY_START,
@@ -12,10 +12,7 @@ describe('Computed Loader Msg Unit Tests', () => {
   let store;
 
   beforeEach(() => {
-    useStrict(false);
-    store = observable({
-      percentSynced: 0,
-    });
+    store = new Store();
   });
 
   // TODO: figure out how error handling will work on network error
