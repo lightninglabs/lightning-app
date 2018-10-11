@@ -1,41 +1,31 @@
 {
   "name": "LightningApp",
-  "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.10",
-    "@storybook/addon-links": "^3.4.10",
-    "@storybook/addons": "^3.4.10",
-    "@storybook/react-native": "^3.4.10",
-    "babel-core": "^6.26.3",
-    "babel-runtime": "^6.26.0",
-    "jest-expo": "~27.0.0",
+    "@storybook/addon-actions": "^3.4.11",
+    "@storybook/addon-links": "^3.4.11",
+    "@storybook/addons": "^3.4.11",
+    "@storybook/react-native": "^3.4.11",
     "prop-types": "15.6.1",
     "react-dom": "16.3.1",
-    "react-native-scripts": "1.14.0",
-    "react-test-renderer": "16.3.1",
     "sinon": "^6.1.5"
   },
-  "main": "./node_modules/react-native-scripts/build/bin/crna-entry.js",
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
-    "test": "jest",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "eject": "expo eject",
     "storybook": "storybook start -p 7007"
   },
-  "jest": {
-    "preset": "jest-expo"
-  },
   "dependencies": {
-    "expo": "^27.0.1",
+    "expo": "^30.0.1",
     "locale-currency": "0.0.2",
     "mobx": "^4.5.0",
     "mobx-react": "^5.2.8",
     "node-libs-react-native": "^1.0.2",
     "qr-image": "^3.2.0",
-    "react": "~16.3.2",
-    "react-native": "~0.55.2"
+    "react": "16.3.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz"
   }
 }
