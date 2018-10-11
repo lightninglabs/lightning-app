@@ -1,5 +1,31 @@
 {
   "expo": {
-    "sdkVersion": "27.0.0"
+    "name": "Lightning",
+    "description": "An easy-to-use Lightning wallet.",
+    "slug": "lightning-app",
+    "privacy": "public",
+    "sdkVersion": "30.0.0",
+    "platforms": ["ios", "android"],
+    "version": "0.0.1-alpha",
+    "orientation": "portrait",
+    "primaryColor": "#57038D",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "packagerOpts": {
+      "config": "./rn-cli.config.js"
+    }
   }
 }

@@ -1,10 +1,10 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # expo
-.expo/
+.expo/*
 
 # dependencies
-/node_modules
+node_modules/**/*
 
 # misc
 .env.local
@@ -12,6 +12,6 @@
 .env.test.local
 .env.production.local
 
-npm-debug.log*
+npm-debug.*
 yarn-debug.log*
 yarn-error.log*
