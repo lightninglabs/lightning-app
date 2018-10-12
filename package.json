@@ -58,7 +58,7 @@
     "babel-preset-react-native": "^4.0.0",
     "concurrently": "^3.5.1",
     "electron": "^3.0.3",
-    "electron-builder": "^20.28.4",
+    "electron-builder": "^20.8.1",
     "eslint": "^4.19.0",
     "eslint-config-google": "^0.9.1",
     "eslint-config-prettier": "^2.9.0",
