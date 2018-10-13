@@ -36,43 +36,150 @@ TextInput.propTypes = {
 };
 
 //
-// Horizontal Expanding Text Input
+// Adjusting Text Input
 //
 
-export class HorizontalExpandingTextInput extends Component {
+const getCharWidthHeightRatio = (fontWidthHeightRatio, char) =>
+  fontWidthHeightRatio[char] || fontWidthHeightRatio['default'];
+
+const calculateWidthAndFontSize = (
+  text,
+  maxWidth,
+  defaultFontSize,
+  fontWidthHeightRatio,
+  placeholderFirstChar
+) => {
+  const predictedTextLength = text.length || 1;
+  const predictedTextCharArray = text.split('') || [placeholderFirstChar];
+  const predictedTextWidth = predictedTextCharArray.reduce(
+    (accumulator, currentValue) =>
+      getCharWidthHeightRatio(fontWidthHeightRatio, currentValue) *
+        defaultFontSize +
+      accumulator,
+    0
+  );
+  const calculatedWidth = Math.min(
+    maxWidth,
+    Math.max(
+      predictedTextWidth,
+      getCharWidthHeightRatio(fontWidthHeightRatio, placeholderFirstChar) *
+        defaultFontSize
+    )
+  );
+
+  const averageFontWidthHeightRatio =
+    predictedTextCharArray.reduce(
+      (accumulator, currentValue) =>
+        getCharWidthHeightRatio(fontWidthHeightRatio, currentValue) +
+        accumulator,
+      0
+    ) / predictedTextLength;
+  const calculatedFontSize =
+    calculatedWidth >= maxWidth
+      ? Math.min(
+          defaultFontSize,
+          calculatedWidth / predictedTextLength / averageFontWidthHeightRatio
+        )
+      : defaultFontSize;
+
+  return { calculatedWidth, calculatedFontSize };
+};
+
+export class AdjustingTextInput extends Component {
   constructor(props) {
     super(props);
-    this.state = { text: '', width: 0 };
+    const { defaultFontSize, fontWidthHeightRatio, placeholder } = props;
+    const placeholderFirstChar = placeholder.length
+      ? placeholder.charAt(0)
+      : '0';
+
+    this.state = {
+      text: '',
+      width: defaultFontSize * fontWidthHeightRatio[placeholderFirstChar],
+      fontSize: defaultFontSize,
+      placeholderFirstChar,
+    };
+
+    this.onChangeTextHandler = this.onChangeTextHandler.bind(this);
   }
+
+  onChangeTextHandler(
+    changedText,
+    maxWidth,
+    defaultFontSize,
+    fontWidthHeightRatio,
+    onChangeText,
+    placeholderFirstChar
+  ) {
+    const { calculatedWidth, calculatedFontSize } = calculateWidthAndFontSize(
+      changedText,
+      maxWidth,
+      defaultFontSize,
+      fontWidthHeightRatio,
+      placeholderFirstChar
+    );
+
+    if (changedText.match(/^(?:[1-9]\d*|0)?(?:\.\d*)?$/)) {
+      this.setState({
+        text: changedText,
+        width: calculatedWidth,
+        fontSize: calculatedFontSize,
+      });
+      onChangeText && onChangeText(changedText);
+    }
+  }
+
   render() {
-    const { value, charWidth, onChangeText, style, ...props } = this.props;
+    const {
+      value,
+      style,
+      fontWidthHeightRatio,
+      defaultFontSize,
+      maxWidth,
+      onChangeText,
+      ...props
+    } = this.props;
+    const { text, width, fontSize, placeholderFirstChar } = this.state;
+    const calculatedStyle = [
+      style,
+      {
+        width,
+        fontSize,
+      },
+    ];
+
     return (
       <TextInput
-        value={value || this.state.text}
-        onChangeText={text => {
-          this.setState({ text, width: charWidth * (text.length + 1) });
-          onChangeText && onChangeText(text);
-        }}
-        style={[
-          style,
-          {
-            width: Math.max(
-              charWidth * 2,
-              value ? charWidth * (value.length + 1) : this.state.width
-            ),
-          },
-        ]}
+        value={value || text}
+        onChangeText={changedText =>
+          this.onChangeTextHandler(
+            changedText,
+            maxWidth,
+            defaultFontSize,
+            fontWidthHeightRatio,
+            onChangeText,
+            placeholderFirstChar
+          )
+        }
+        style={calculatedStyle}
         {...props}
       />
     );
   }
 }
 
-HorizontalExpandingTextInput.propTypes = {
+AdjustingTextInput.propTypes = {
   value: PropTypes.string,
-  charWidth: PropTypes.number.isRequired,
+  fontWidthHeightRatio: PropTypes.object.isRequired,
+  defaultFontSize: PropTypes.number.isRequired,
+  maxWidth: PropTypes.number.isRequired,
   onChangeText: PropTypes.func,
   style: RNText.propTypes.style,
+  placeholder: PropTypes.string,
+};
+
+AdjustingTextInput.defaultProps = {
+  placeholder: '0',
 };
 
 export default TextInput;

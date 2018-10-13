@@ -7,11 +7,12 @@ import MainContent from '../component/main-content';
 import { InputField, AmountInputField } from '../component/field';
 import { Header, Title } from '../component/header';
 import { CancelButton, PillButton, Button } from '../component/button';
-import { BalanceLabel, BalanceLabelUnit } from '../component/label';
+import { BalanceLabelUnit } from '../component/label';
 import Card from '../component/card';
 import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import { FormStretcher, FormSubText } from '../component/form';
 import { color } from '../component/style';
+import AdjustingLayout from '../component/layout/AdjustingLayout';
 
 const styles = StyleSheet.create({
   balance: {
@@ -37,7 +38,7 @@ const InvoiceView = ({ store, nav, invoice }) => (
     </Header>
     <MainContent>
       <Card>
-        <BalanceLabel style={styles.balance}>
+        <AdjustingLayout style={styles.balance}>
           <AmountInputField
             autoFocus={true}
             value={store.invoice.amount}
@@ -47,7 +48,7 @@ const InvoiceView = ({ store, nav, invoice }) => (
           <BalanceLabelUnit style={styles.unit}>
             {store.unitFiatLabel}
           </BalanceLabelUnit>
-        </BalanceLabel>
+        </AdjustingLayout>
         <FormStretcher>
           <InputField
             placeholder="Note"

@@ -1,32 +1,36 @@
 import React from 'react';
-import { Text as RNText, StyleSheet, View } from 'react-native';
+import { Text as RNText, StyleSheet, View, Platform } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
-import { TextInput, HorizontalExpandingTextInput } from './input';
-import { color, font } from './style';
+import { TextInput, AdjustingTextInput } from './input';
+import { color, font, fontFamily } from './style';
 
 //
 // Amount Input Field
 //
 
+const amountFont = fontFamily.WorkSansExtraLight;
+
 const amountStyles = StyleSheet.create({
   input: {
     textAlign: 'right',
-    fontFamily: 'WorkSans ExtraLight',
-    fontSize: font.sizeXXXL,
+    fontFamily: amountFont.name,
+    height: 105,
   },
 });
 
-export const AmountInputField = ({ style, ...props }) => (
-  <HorizontalExpandingTextInput
-    style={[amountStyles.input, style]}
-    charWidth={46}
-    keyboardType="numeric"
-    placeholder="0"
-    placeholderTextColor={color.blackText}
-    {...props}
-  />
-);
+export const AmountInputField = ({ style, ...props }) => {
+  const nonWebProps = Platform.OS === 'web' ? {} : { keyboardType: 'numeric' };
+  return (
+    <AdjustingTextInput
+      style={[amountStyles.input, style]}
+      fontWidthHeightRatio={amountFont.widthHeightRatio}
+      defaultFontSize={font.sizeXXXL}
+      {...nonWebProps}
+      {...props}
+    />
+  );
+};
 
 AmountInputField.propTypes = {
   style: RNText.propTypes.style,
