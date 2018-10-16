@@ -50,7 +50,7 @@ To build the UI style guide
 npm run storybook
 ```
 
-To start start the app in development mode (simnet):
+To start the app in development mode (simnet):
 ```
 npm run electron-dev
 ```
