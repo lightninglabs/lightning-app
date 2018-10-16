@@ -57,7 +57,7 @@ const getStyles = base => {
 export const createStyles = (base, ...extra) => {
   const { styles, update } = getStyles(base);
 
-  styles.onLayout = fn => event => {
+  styles.onLayout = fn => () => {
     const dimensions = Dimensions.get('window');
     const computed = computeStyles(dimensions, base, ...extra);
     const changed = update(computed);
