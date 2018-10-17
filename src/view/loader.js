@@ -1,11 +1,12 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import { createStyles, maxWidth } from '../component/media-query';
 import Background from '../component/background';
 import { CopyOnboardText } from '../component/text';
 import MainContent from '../component/main-content';
-import { color } from '../component/style';
+import { color, invisible } from '../component/style';
 
-const styles = StyleSheet.create({
+const baseStyles = {
   content: {
     alignItems: 'center',
     justifyContent: 'center',
@@ -28,7 +29,15 @@ const styles = StyleSheet.create({
     marginTop: 25,
     paddingRight: 200,
   },
-});
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(500, {
+    copy2: invisible,
+  })
+);
 
 const LoaderView = () => (
   <Background color={color.blackDark}>
