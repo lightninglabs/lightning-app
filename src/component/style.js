@@ -51,3 +51,19 @@ export const font = {
   lineHeightXXL: 60,
   lineHeightXXXL: 100,
 };
+
+export const invisible = {
+  height: 0,
+  width: 0,
+  opacity: 0,
+  margin: 0,
+  marginTop: 0,
+  marginRight: 0,
+  marginLeft: 0,
+  marginBottom: 0,
+  padding: 0,
+  paddingTop: 0,
+  paddingRight: 0,
+  paddingLeft: 0,
+  paddingBottom: 0,
+};
