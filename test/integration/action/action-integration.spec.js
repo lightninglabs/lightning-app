@@ -14,6 +14,7 @@ import PaymentAction from '../../../src/action/payment';
 import InvoiceAction from '../../../src/action/invoice';
 import { nap, retry } from '../../../src/helper';
 import { EventEmitter } from 'events';
+import { BTCD_MINING_ADDRESS } from '../../../src/config';
 
 const {
   startLndProcess,
@@ -105,10 +106,12 @@ describe('Action Integration Tests', function() {
       isDev,
       logger,
       btcdSettingsDir: BTCD_SETTINGS_DIR,
+      miningAddress: BTCD_MINING_ADDRESS,
     };
     btcdProcess = await startBtcdProcess(btcdArgs);
     await nap(NAP_TIME);
     await retry(() => isPortOpen(BTCD_PORT));
+    await mineBlocks({ blocks: 400, logger });
     const lndProcess1Promise = startLndProcess({
       isDev,
       lndSettingsDir: LND_SETTINGS_DIR_1,
@@ -228,7 +231,7 @@ describe('Action Integration Tests', function() {
       btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
       await retry(() => isPortOpen(BTCD_PORT));
-      await mineAndSync({ blocks: 400 });
+      await mineAndSync({ blocks: 100 });
     });
 
     it('should get public key node1', async () => {
