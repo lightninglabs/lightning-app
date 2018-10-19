@@ -49,6 +49,7 @@ import SetPassword from '../src/view/set-password';
 import Password from '../src/view/password';
 import RestorePassword from '../src/view/restore-password';
 import ResetPasswordCurrent from '../src/view/reset-password-current';
+import ResetPasswordNew from '../src/view/reset-password-new';
 import NewAddress from '../src/view/new-address';
 import Wait from '../src/view/wait';
 import RestoreSeed from '../src/view/restore-seed';
@@ -102,6 +103,9 @@ storiesOf('Screens', module)
   ))
   .add('Reset Password - Current', () => (
     <ResetPasswordCurrent store={store} wallet={wallet} nav={nav} />
+  ))
+  .add('Reset Password - New', () => (
+    <ResetPasswordNew store={store} wallet={wallet} nav={nav} />
   ))
   .add('New Address', () => (
     <NewAddress store={store} invoice={invoice} info={info} />
