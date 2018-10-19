@@ -15,6 +15,7 @@ import {
   CancelButton,
   QrButton,
   DownButton,
+  ToggleShowButton,
 } from '../../src/component/button';
 import CancelIcon from '../../src/asset/icon/cancel';
 import CopyPurpleIcon from '../../src/asset/icon/copy-purple';
@@ -129,4 +130,11 @@ storiesOf('Button', module)
   ))
   .add('Down Button', () => (
     <DownButton onPress={action('clicked')}>Down Button</DownButton>
+  ))
+  .add('Toggle Show/Hide Button', () => (
+    <ToggleShowButton
+      borderColor={color.green}
+      onPress={action('clicked')}
+      icon="shield"
+    />
   ));
