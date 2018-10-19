@@ -74,6 +74,20 @@ describe('Action GRPC Unit Tests', () => {
     });
   });
 
+  describe('restartLnd()', () => {
+    it('should send ipc close and restart calls', async () => {
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.restartLnd();
+      expect(grpc._sendIpc, 'was called with', 'lndClose', 'lndClosed');
+      expect(
+        grpc._sendIpc,
+        'was called with',
+        'restart-lnd-process',
+        'lnd-restart-error'
+      );
+    });
+  });
+
   describe('sendCommand()', () => {
     it('should send ipc with correct args', async () => {
       sandbox.stub(grpc, '_sendIpc').resolves();

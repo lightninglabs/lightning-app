@@ -75,6 +75,22 @@ class GrpcAction {
   }
 
   /**
+   * This is called to restart the lnd process, after closing the main gRPC
+   * client that's connected to it.
+   * @return {Promise<undefined>}
+   */
+  async restartLnd() {
+    await this.closeLnd();
+    let restartError = await this._sendIpc(
+      'restart-lnd-process',
+      'lnd-restart-error'
+    );
+    if (restartError) {
+      throw new Error(`Failed to restart lnd: ${restartError}`);
+    }
+  }
+
+  /**
    * Wrapper function to execute calls to the lnd grpc client.
    * @param  {string} method The lnd GRPC api to call
    * @param  {Object} body   The payload passed to the api
