@@ -12,6 +12,7 @@ import SetPassword from './set-password';
 import RestoreSeed from './restore-seed';
 import RestorePassword from './restore-password';
 import Password from './password';
+import ResetPasswordCurrent from './reset-password-current';
 import NewAddress from './new-address';
 import LoaderSyncing from './loader-syncing';
 import Wait from './wait';
@@ -78,6 +79,9 @@ class MainView extends Component {
           <RestorePassword store={store} wallet={wallet} nav={nav} />
         )}
         {route === 'Password' && <Password store={store} wallet={wallet} />}
+        {route === 'ResetPasswordCurrent' && (
+          <ResetPasswordCurrent store={store} nav={nav} wallet={wallet} />
+        )}
         {route === 'NewAddress' && (
           <NewAddress store={store} invoice={invoice} info={info} />
         )}
