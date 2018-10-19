@@ -9,6 +9,10 @@ module.exports = {
       __dirname,
       'node_modules/react-native-svg'
     ),
+    'react-navigation': path.resolve(
+      __dirname,
+      'node_modules/react-navigation'
+    ),
     mobx: path.resolve(__dirname, 'node_modules/mobx'),
     'mobx-react': path.resolve(__dirname, 'node_modules/mobx-react'),
     'locale-currency': path.resolve(__dirname, 'node_modules/locale-currency'),
