@@ -31,6 +31,8 @@ export const color = {
   seedBorder: 'rgba(151,151,151,0.26)',
   seedBackground: 'rgba(130,129,129,0.09)',
   cliBackground: '#171D2C',
+  green: '#46E80E',
+  red: 'red',
 };
 
 export const font = {

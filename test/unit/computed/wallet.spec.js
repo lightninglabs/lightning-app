@@ -1,5 +1,6 @@
 import { Store } from '../../../src/store';
 import ComputedWallet from '../../../src/computed/wallet';
+import { color } from '../../../src/component/style';
 
 describe('Computed Wallet Unit Tests', () => {
   let store;
@@ -16,6 +17,8 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.channelBalanceLabel, 'to match', /0[,.]00/);
       expect(store.unitFiatLabel, 'to equal', '$');
       expect(store.unitLabel, 'to equal', null);
+      expect(store.newPasswordCopy, 'to equal', '');
+      expect(store.newPasswordCheckColor, 'to equal', color.blackText);
     });
 
     it('should generate valid wallet address uri', () => {
@@ -57,6 +60,27 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.channelBalanceLabel, 'to equal', '100');
       expect(store.unitFiatLabel, 'to equal', 'bits');
       expect(store.unitLabel, 'to equal', 'bits');
+    });
+
+    it('should have red input if password is too short', () => {
+      store.wallet.newPassword = '2short';
+      ComputedWallet(store);
+      expect(store.newPasswordCopy, 'to equal', '');
+      expect(store.newPasswordCheckColor, 'to equal', color.red);
+    });
+
+    it('should display a tip if password could be improved', () => {
+      store.wallet.newPassword = 'minlength';
+      ComputedWallet(store);
+      expect(store.newPasswordCopy, 'to match', /Pro tip/);
+      expect(store.newPasswordCheckColor, 'to equal', color.green);
+    });
+
+    it('should display a positive message for a good password', () => {
+      store.wallet.newPassword = 'at_least_12_chars';
+      ComputedWallet(store);
+      expect(store.newPasswordCopy, 'to match', /strong password/);
+      expect(store.newPasswordCheckColor, 'to equal', color.green);
     });
   });
 });
