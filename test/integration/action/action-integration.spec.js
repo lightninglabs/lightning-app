@@ -41,6 +41,7 @@ const HOST_1 = `localhost:${LND_PEER_PORT_1}`;
 const HOST_2 = `localhost:${LND_PEER_PORT_2}`;
 const NAP_TIME = process.env.NAP_TIME || 5000;
 const walletPassword = 'bitconeeeeeect';
+const newWalletPassword = 'wassupwassup';
 
 const wireUpIpc = (s1, s2) => {
   s1.send = (msg, ...args) => {
@@ -91,6 +92,28 @@ describe('Action Integration Tests', function() {
   let invoice2;
   let btcdArgs;
 
+  const startLnd = async () => {
+    const lndProcess1Promise = startLndProcess({
+      isDev,
+      lndSettingsDir: LND_SETTINGS_DIR_1,
+      lndPort: LND_PORT_1,
+      lndPeerPort: LND_PEER_PORT_1,
+      lndRestPort: LND_REST_PORT_1,
+      logger,
+    });
+    const lndProcess2Promise = startLndProcess({
+      isDev,
+      lndSettingsDir: LND_SETTINGS_DIR_2,
+      lndPort: LND_PORT_2,
+      lndPeerPort: LND_PEER_PORT_2,
+      lndRestPort: LND_REST_PORT_2,
+      logger,
+    });
+
+    lndProcess1 = await lndProcess1Promise;
+    lndProcess2 = await lndProcess2Promise;
+  };
+
   before(async () => {
     rmdir('test/data');
     sandbox = sinon.createSandbox({});
@@ -112,25 +135,8 @@ describe('Action Integration Tests', function() {
     await nap(NAP_TIME);
     await retry(() => isPortOpen(BTCD_PORT));
     await mineBlocks({ blocks: 400, logger });
-    const lndProcess1Promise = startLndProcess({
-      isDev,
-      lndSettingsDir: LND_SETTINGS_DIR_1,
-      lndPort: LND_PORT_1,
-      lndPeerPort: LND_PEER_PORT_1,
-      lndRestPort: LND_REST_PORT_1,
-      logger,
-    });
-    const lndProcess2Promise = startLndProcess({
-      isDev,
-      lndSettingsDir: LND_SETTINGS_DIR_2,
-      lndPort: LND_PORT_2,
-      lndPeerPort: LND_PEER_PORT_2,
-      lndRestPort: LND_REST_PORT_2,
-      logger,
-    });
 
-    lndProcess1 = await lndProcess1Promise;
-    lndProcess2 = await lndProcess2Promise;
+    await startLnd();
 
     await grcpClient.init({
       ipcMain: ipcMainStub1,
@@ -218,6 +224,54 @@ describe('Action Integration Tests', function() {
       expect(store1.lndReady, 'to be true');
       await grpc2.initLnd();
       expect(store2.lndReady, 'to be true');
+    });
+
+    it('should reset password', async () => {
+      lndProcess1.kill('SIGINT');
+      lndProcess2.kill('SIGINT');
+      await startLnd();
+      ipcMainStub1.on('restart-lnd-process', async event => {
+        event.sender.send('lnd-restart-error', { restartError: undefined });
+      });
+      store1.walletUnlocked = false;
+      await wallet1.resetPassword({
+        currentPassword: walletPassword,
+        newPassword: newWalletPassword,
+      });
+      expect(store1.walletUnlocked, 'to be true');
+      store2.walletUnlocked = false;
+      ipcMainStub2.on('restart-lnd-process', event => {
+        event.sender.send('lnd-restart-error', { restartError: undefined });
+      });
+      await wallet2.resetPassword({
+        currentPassword: walletPassword,
+        newPassword: newWalletPassword,
+      });
+      expect(store2.walletUnlocked, 'to be true');
+    });
+
+    it('should unlock wallet with reset password', async () => {
+      lndProcess1.kill();
+      lndProcess2.kill();
+      await startLnd();
+
+      store1.walletUnlocked = false;
+      await grpc1.initUnlocker();
+      await wallet1.unlockWallet({ walletPassword: newWalletPassword });
+      expect(store1.walletUnlocked, 'to be true');
+
+      store2.walletUnlocked = false;
+      await grpc2.initUnlocker();
+      await wallet2.unlockWallet({ walletPassword: newWalletPassword });
+      expect(store2.walletUnlocked, 'to be true');
+    });
+
+    it('should close unlocker grpc clients and re-initialize lnd', async () => {
+      await grpc1.closeUnlocker();
+      await grpc1.initLnd();
+
+      await grpc2.closeUnlocker();
+      await grpc2.initLnd();
     });
 
     it('should create new address for node1', async () => {
