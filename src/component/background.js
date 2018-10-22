@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 import BackgroundImage from './background-image';
 
@@ -11,16 +11,19 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
+  safe: {
+    flex: 1,
+  },
 });
 
 export const Background = ({ image, color, children, style }) =>
   image ? (
-    <BackgroundImage image={image} style={[styles.background, style]}>
-      {children}
+    <BackgroundImage image={image} style={styles.background}>
+      <SafeAreaView style={[styles.safe, style]}>{children}</SafeAreaView>
     </BackgroundImage>
   ) : (
     <View style={[{ backgroundColor: color }, styles.background, style]}>
-      {children}
+      <SafeAreaView style={[styles.safe, style]}>{children}</SafeAreaView>
     </View>
   );
 
@@ -45,11 +48,13 @@ const splitStyles = StyleSheet.create({
 });
 
 export const SplitBackground = ({ image, color, bottom, children, style }) => (
-  <Background image={image} color={color} style={style}>
+  <BackgroundImage image={image} style={styles.background}>
     <View style={splitStyles.top} />
     <View style={[splitStyles.bottom, { backgroundColor: bottom }]} />
-    <View style={StyleSheet.absoluteFill}>{children}</View>
-  </Background>
+    <View style={StyleSheet.absoluteFill}>
+      <SafeAreaView style={[styles.safe, style]}>{children}</SafeAreaView>
+    </View>
+  </BackgroundImage>
 );
 
 SplitBackground.propTypes = {
