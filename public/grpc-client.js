@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const grpc = require('grpc');
+import { loadSync } from '@grpc/proto-loader';
 
 const GRPC_TIMEOUT = 300000;
 
@@ -60,7 +61,15 @@ module.exports.init = async function({
   ipcMain.on('unlockInit', async event => {
     credentials = await getCredentials(lndSettingsDir);
     protoPath = path.join(__dirname, '..', 'assets', 'rpc.proto');
-    lnrpc = grpc.load(protoPath).lnrpc;
+    const options = {
+      keepCase: true,
+      longs: String,
+      enums: String,
+      defaults: true,
+      oneofs: true,
+    };
+    const packageDef = loadSync(protoPath, options);
+    lnrpc = grpc.loadPackageDefinition(packageDef).lnrpc;
     unlocker = new lnrpc.WalletUnlocker(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(unlocker, Infinity, err => {
       event.sender.send('unlockReady', { err });
@@ -89,7 +98,7 @@ module.exports.init = async function({
     event.sender.send('lndClosed', {});
   });
 
-  ipcMain.on('unlockRequest', (event, { method, body }) => {
+  ipcMain.on('unlockRequest', (event, { method, body = {} }) => {
     const deadline = new Date(new Date().getTime() + GRPC_TIMEOUT);
     const handleResponse = (err, response) => {
       event.sender.send(`unlockResponse_${method}`, { err, response });
@@ -97,7 +106,7 @@ module.exports.init = async function({
     unlocker[method](body, { deadline }, handleResponse);
   });
 
-  ipcMain.on('lndRequest', (event, { method, body }) => {
+  ipcMain.on('lndRequest', (event, { method, body = {} }) => {
     const deadline = new Date(new Date().getTime() + GRPC_TIMEOUT);
     const handleResponse = (err, response) => {
       event.sender.send(`lndResponse_${method}`, { err, response });
@@ -106,7 +115,7 @@ module.exports.init = async function({
   });
 
   const streams = {};
-  ipcMain.on('lndStreamRequest', (event, { method, body }) => {
+  ipcMain.on('lndStreamRequest', (event, { method, body = {} }) => {
     let stream;
     stream = lnd[method](body);
     const send = res => event.sender.send(`lndStreamEvent_${method}`, res);
