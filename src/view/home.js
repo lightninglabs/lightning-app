@@ -7,6 +7,7 @@ import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { color } from '../component/style';
 import { H4Text } from '../component/text';
+import Icon from '../component/icon';
 import SettingsIcon from '../asset/icon/settings';
 import LightningBoltPurpleIcon from '../asset/icon/lightning-bolt-purple';
 import {
@@ -184,6 +185,10 @@ const headerStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+  settingsIcon: {
+    height: 17,
+    width: 17,
+  },
 });
 
 const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
@@ -199,7 +204,10 @@ const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
     <Title title="Wallet" />
     <View style={headerStyles.btnWrapperRight}>
       <SmallButton text="Settings" onPress={goSettings}>
-        <SettingsIcon height={21 * 0.7} width={20 * 0.7} />
+        <Icon
+          image={require('../asset/icon/settings.png')}
+          style={headerStyles.settingsIcon}
+        />
       </SmallButton>
     </View>
   </Header>
