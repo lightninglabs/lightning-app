@@ -8,6 +8,7 @@ import { Header, Title } from '../component/header';
 import { color } from '../component/style';
 import { H4Text } from '../component/text';
 import Icon from '../component/icon';
+import ChannelIcon from '../asset/icon/channel';
 import LightningBoltPurpleIcon from '../asset/icon/lightning-bolt-purple';
 import {
   BalanceLabel,
@@ -15,13 +16,7 @@ import {
   BalanceLabelUnit,
   SmallBalanceLabel,
 } from '../component/label';
-import {
-  Button,
-  QrButton,
-  SmallButton,
-  GlasButton,
-  DownButton,
-} from '../component/button';
+import { Button, QrButton, GlasButton, DownButton } from '../component/button';
 
 //
 // Home View
@@ -177,38 +172,36 @@ const headerStyles = StyleSheet.create({
     width: 150,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingLeft: 20,
   },
   btnWrapperRight: {
     width: 150,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+  channelBtn: {
+    marginLeft: 3,
+  },
+  settingsBtn: {
+    marginRight: 3,
+  },
   settingsIcon: {
-    height: 17,
-    width: 17,
+    height: 22,
+    width: 22,
   },
 });
 
 const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
   <Header>
-    <View style={headerStyles.btnWrapperLeft}>
-      <SmallButton
-        border
-        alert={showChannelAlert ? color.pinkSig : null}
-        text="Channels"
-        onPress={goChannels}
-      />
-    </View>
+    <Button onPress={goChannels} style={headerStyles.channelBtn}>
+      <ChannelIcon height={24 * 0.9} width={25 * 0.9} />
+    </Button>
     <Title title="Wallet" />
-    <View style={headerStyles.btnWrapperRight}>
-      <SmallButton text="Settings" onPress={goSettings}>
-        <Icon
-          image={require('../asset/icon/settings.png')}
-          style={headerStyles.settingsIcon}
-        />
-      </SmallButton>
-    </View>
+    <Button onPress={goSettings} style={headerStyles.settingsBtn}>
+      <Icon
+        image={require('../asset/icon/settings.png')}
+        style={headerStyles.settingsIcon}
+      />
+    </Button>
   </Header>
 );
 
