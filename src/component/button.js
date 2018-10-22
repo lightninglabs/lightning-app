@@ -11,7 +11,6 @@ import Icon from '../component/icon';
 import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
 import QrIcon from '../asset/icon/qr';
-import ArrowDownIcon from '../asset/icon/arrow-down';
 import { color, font } from './style';
 
 //

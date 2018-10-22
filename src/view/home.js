@@ -8,7 +8,6 @@ import { Header, Title } from '../component/header';
 import { color } from '../component/style';
 import { H4Text } from '../component/text';
 import Icon from '../component/icon';
-import SettingsIcon from '../asset/icon/settings';
 import LightningBoltPurpleIcon from '../asset/icon/lightning-bolt-purple';
 import {
   BalanceLabel,
