@@ -82,7 +82,7 @@ describe('Action GRPC Unit Tests', () => {
       expect(
         grpc._sendIpc,
         'was called with',
-        'restart-lnd-process',
+        'lnd-restart-process',
         'lnd-restart-error'
       );
     });

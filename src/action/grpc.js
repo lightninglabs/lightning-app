@@ -82,7 +82,7 @@ class GrpcAction {
   async restartLnd() {
     await this.closeLnd();
     let restartError = await this._sendIpc(
-      'restart-lnd-process',
+      'lnd-restart-process',
       'lnd-restart-error'
     );
     if (restartError) {

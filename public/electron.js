@@ -129,7 +129,7 @@ function createWindow() {
   });
 }
 
-ipcMain.on('restart-lnd-process', async event => {
+ipcMain.on('lnd-restart-process', async event => {
   lndProcess && lndProcess.kill('SIGINT');
   let restartError;
   try {

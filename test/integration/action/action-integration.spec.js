@@ -230,7 +230,7 @@ describe('Action Integration Tests', function() {
       lndProcess1.kill('SIGINT');
       lndProcess2.kill('SIGINT');
       await startLnd();
-      ipcMainStub1.on('restart-lnd-process', async event => {
+      ipcMainStub1.on('lnd-restart-process', async event => {
         event.sender.send('lnd-restart-error', { restartError: undefined });
       });
       store1.walletUnlocked = false;
@@ -240,7 +240,7 @@ describe('Action Integration Tests', function() {
       });
       expect(store1.walletUnlocked, 'to be true');
       store2.walletUnlocked = false;
-      ipcMainStub2.on('restart-lnd-process', event => {
+      ipcMainStub2.on('lnd-restart-process', event => {
         event.sender.send('lnd-restart-error', { restartError: undefined });
       });
       await wallet2.resetPassword({

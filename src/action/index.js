@@ -77,11 +77,10 @@ observe(store, 'firstStart', async () => {
  * or a user's password has been successfully reset.
  */
 observe(store, 'walletUnlocked', async () => {
-  if (store.walletUnlocked) {
-    await nap();
-    await grpc.closeUnlocker();
-    await grpc.initLnd();
-  }
+  if (!store.walletUnlocked) return;
+  await nap();
+  await grpc.closeUnlocker();
+  await grpc.initLnd();
 });
 
 /**
