@@ -131,10 +131,17 @@ storiesOf('Button', module)
   .add('Down Button', () => (
     <DownButton onPress={action('clicked')}>Down Button</DownButton>
   ))
-  .add('Toggle Show/Hide Button', () => (
+  .add('Toggle Show Button', () => (
     <ToggleShowButton
       borderColor={color.green}
       onPress={action('clicked')}
-      icon="shield"
+      hide={true}
+    />
+  ))
+  .add('Toggle Hide Button', () => (
+    <ToggleShowButton
+      borderColor={color.green}
+      onPress={action('clicked')}
+      hide={false}
     />
   ));

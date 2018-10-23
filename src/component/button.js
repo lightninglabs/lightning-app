@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
+import Icon from './icon';
 import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
 import QrIcon from '../asset/icon/qr';
@@ -438,6 +439,14 @@ const toggleShowStyles = StyleSheet.create({
     height: 47,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
+  hideIcon: {
+    height: 69 * 0.25,
+    width: 72 * 0.25,
+  },
+  showIcon: {
+    height: 57 * 0.25,
+    width: 72 * 0.25,
+  },
 });
 
 export const ToggleShowButton = ({ borderColor, onPress, hide }) => (
@@ -446,9 +455,15 @@ export const ToggleShowButton = ({ borderColor, onPress, hide }) => (
   >
     <TouchableOpacity onPress={() => onPress()}>
       {hide ? (
-        <CancelIcon height={20} width={20} />
+        <Icon
+          image={require('../asset/icon/password-hide.png')}
+          style={toggleShowStyles.hideIcon}
+        />
       ) : (
-        <ArrowDownIcon height={20} width={20} />
+        <Icon
+          image={require('../asset/icon/password-show.png')}
+          style={toggleShowStyles.showIcon}
+        />
       )}
     </TouchableOpacity>
   </View>
