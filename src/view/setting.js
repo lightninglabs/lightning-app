@@ -56,7 +56,7 @@ const SettingView = ({ store, nav, wallet }) => {
           arrow
         />
         <SettingItem
-          name="Reset Password"
+          name="Change Password"
           onSelect={() => wallet.initResetPassword()}
           arrow
         />
