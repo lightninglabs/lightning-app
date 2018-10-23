@@ -1,6 +1,5 @@
 import { Store } from '../../../src/store';
 import ComputedWallet from '../../../src/computed/wallet';
-import { color } from '../../../src/component/style';
 
 describe('Computed Wallet Unit Tests', () => {
   let store;
