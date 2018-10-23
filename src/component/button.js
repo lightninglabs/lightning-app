@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
-import Icon from './icon';
 import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
 import QrIcon from '../asset/icon/qr';
@@ -426,53 +425,6 @@ export const RadioButton = ({ selected }) => (
 
 RadioButton.propTypes = {
   selected: PropTypes.bool.isRequired,
-};
-
-//
-// Toggle Show Button
-//
-
-const toggleShowStyles = StyleSheet.create({
-  iconWrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: 47,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  hideIcon: {
-    height: 69 * 0.25,
-    width: 72 * 0.25,
-  },
-  showIcon: {
-    height: 57 * 0.25,
-    width: 72 * 0.25,
-  },
-});
-
-export const ToggleShowButton = ({ borderColor, onPress, hide }) => (
-  <View
-    style={[toggleShowStyles.iconWrapper, { borderBottomColor: borderColor }]}
-  >
-    <TouchableOpacity onPress={() => onPress()}>
-      {hide ? (
-        <Icon
-          image={require('../asset/icon/password-hide.png')}
-          style={toggleShowStyles.hideIcon}
-        />
-      ) : (
-        <Icon
-          image={require('../asset/icon/password-show.png')}
-          style={toggleShowStyles.showIcon}
-        />
-      )}
-    </TouchableOpacity>
-  </View>
-);
-
-ToggleShowButton.propTypes = {
-  borderColor: PropTypes.string.isRequired,
-  onPress: PropTypes.func.isRequired,
-  hide: PropTypes.bool.isRequired,
 };
 
 export default Button;

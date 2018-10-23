@@ -1,9 +1,13 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { FormStretcher } from '../component/form';
-import { InputField } from '../component/field';
-import { ToggleShowButton } from '../component/button';
+import Icon from './icon';
+import { InputField } from './field';
+
+//
+// Password Entry
+//
 
 const styles = StyleSheet.create({
   input: {
@@ -53,6 +57,53 @@ PasswordEntry.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   toggleHidden: PropTypes.func.isRequired,
   border: PropTypes.string,
+};
+
+//
+// Toggle Show Button
+//
+
+const toggleShowStyles = StyleSheet.create({
+  iconWrapper: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 47,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  hideIcon: {
+    height: 69 * 0.25,
+    width: 72 * 0.25,
+  },
+  showIcon: {
+    height: 57 * 0.25,
+    width: 72 * 0.25,
+  },
+});
+
+const ToggleShowButton = ({ borderColor, onPress, hide }) => (
+  <View
+    style={[toggleShowStyles.iconWrapper, { borderBottomColor: borderColor }]}
+  >
+    <TouchableOpacity onPress={() => onPress()}>
+      {hide ? (
+        <Icon
+          image={require('../asset/icon/password-hide.png')}
+          style={toggleShowStyles.hideIcon}
+        />
+      ) : (
+        <Icon
+          image={require('../asset/icon/password-show.png')}
+          style={toggleShowStyles.showIcon}
+        />
+      )}
+    </TouchableOpacity>
+  </View>
+);
+
+ToggleShowButton.propTypes = {
+  borderColor: PropTypes.string.isRequired,
+  onPress: PropTypes.func.isRequired,
+  hide: PropTypes.bool.isRequired,
 };
 
 export default PasswordEntry;
