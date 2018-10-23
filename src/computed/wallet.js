@@ -10,7 +10,6 @@ import {
   MIN_PASSWORD_LENGTH,
   STRONG_PASSWORD_LENGTH,
 } from '../config';
-import { color } from '../component/style';
 
 const ComputedWallet = store => {
   extendObservable(store, {
@@ -36,12 +35,12 @@ const ComputedWallet = store => {
       const { newPassword } = store.wallet;
       return getNewPasswordCopy({ newPassword });
     },
-    get newPasswordCheckColor() {
+    get newPasswordSuccess() {
       const { newPassword } = store.wallet;
       if (!newPassword) {
-        return color.blackText;
+        return null;
       }
-      return newPassword.length < MIN_PASSWORD_LENGTH ? color.red : color.green;
+      return newPassword.length >= MIN_PASSWORD_LENGTH;
     },
   });
 };

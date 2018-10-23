@@ -41,7 +41,7 @@ const NewPasswordView = ({ store, nav, wallet }) => (
         onSubmit={() => nav.goResetPasswordConfirm()}
         newPassword={true}
         newCopy={store.newPasswordCopy}
-        border={store.newPasswordCheckColor}
+        success={store.newPasswordSuccess}
       />
       <GlasButton onPress={() => nav.goResetPasswordConfirm()}>Next</GlasButton>
     </MainContent>

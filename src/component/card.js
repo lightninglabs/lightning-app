@@ -56,7 +56,7 @@ export class PasswordCard extends Component {
       onSubmit,
       newPassword,
       newCopy,
-      border,
+      success,
     } = this.props;
     return (
       <Card style={passwordStyles.card}>
@@ -68,7 +68,7 @@ export class PasswordCard extends Component {
             autoFocus={true}
             onChangeText={onChangeText}
             onSubmitEditing={onSubmit}
-            border={newPassword ? border : color.blackDark}
+            success={newPassword ? success : null}
           />
           <FormSubText style={passwordStyles.newCopy}>{newCopy}</FormSubText>
         </FormStretcher>
@@ -85,7 +85,7 @@ PasswordCard.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   newPassword: PropTypes.bool,
   newCopy: PropTypes.string,
-  border: PropTypes.string,
+  success: PropTypes.bool,
 };
 
 export default Card;

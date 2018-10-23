@@ -3,6 +3,7 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Icon from './icon';
 import { InputField } from './field';
+import { color } from './style';
 
 //
 // Password Entry
@@ -28,7 +29,13 @@ export class PasswordEntry extends Component {
   }
 
   render() {
-    const { border, style, ...props } = this.props;
+    const { success, style, ...props } = this.props;
+    let border;
+    if (typeof success !== 'boolean') {
+      border = color.blackDark;
+    } else {
+      border = success ? color.green : color.red;
+    }
     return (
       <View style={[styles.wrapper, style]}>
         <InputField
@@ -49,7 +56,7 @@ export class PasswordEntry extends Component {
 }
 
 PasswordEntry.propTypes = {
-  border: PropTypes.string,
+  success: PropTypes.bool,
   style: View.propTypes.style,
 };
 
