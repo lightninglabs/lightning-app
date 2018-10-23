@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import PasswordEntry from './password-entry';
-import { FormSubText } from '../component/form';
+import { FormSubText, FormStretcher } from '../component/form';
 import { color, font } from './style';
 
 const styles = StyleSheet.create({
@@ -35,12 +35,6 @@ const passwordStyles = StyleSheet.create({
     paddingRight: 55,
     paddingBottom: 50,
   },
-  entry: {
-    flex: 1,
-    justifyContent: 'center',
-    alignSelf: 'stretch',
-    alignItems: 'center',
-  },
   newCopy: {
     maxWidth: 250,
     color: color.blackText,
@@ -51,9 +45,6 @@ const passwordStyles = StyleSheet.create({
 export class PasswordCard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      hidePassword: true,
-    };
   }
 
   render() {
@@ -70,21 +61,17 @@ export class PasswordCard extends Component {
     return (
       <Card style={passwordStyles.card}>
         <FormSubText>{copy}</FormSubText>
-        <View style={passwordStyles.entry}>
+        <FormStretcher>
           <PasswordEntry
             placeholder={placeholder}
-            hidden={this.state.hidePassword}
-            password={password}
-            onChangeText={password => onChangeText(password)}
-            onSubmit={() => onSubmit()}
-            toggleHidden={() =>
-              this.setState({ hidePassword: !this.state.hidePassword })
-            }
+            value={password}
+            autoFocus={true}
+            onChangeText={onChangeText}
+            onSubmitEditing={onSubmit}
             border={newPassword ? border : color.blackDark}
-            icon={this.state.hidePassword}
           />
           <FormSubText style={passwordStyles.newCopy}>{newCopy}</FormSubText>
-        </View>
+        </FormStretcher>
       </Card>
     );
   }

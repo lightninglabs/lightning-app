@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { FormStretcher } from '../component/form';
 import Icon from './icon';
 import { InputField } from './field';
 
@@ -10,53 +9,48 @@ import { InputField } from './field';
 //
 
 const styles = StyleSheet.create({
-  input: {
+  wrapper: {
     flexDirection: 'row',
     alignSelf: 'stretch',
     alignItems: 'center',
   },
-  form: {
-    alignSelf: 'center',
+  input: {
+    flex: 1,
   },
 });
 
-const PasswordEntry = ({
-  placeholder,
-  hidden,
-  password,
-  onChangeText,
-  onSubmit,
-  toggleHidden,
-  border,
-}) => (
-  <View style={styles.input}>
-    <FormStretcher style={styles.form}>
-      <InputField
-        placeholder={placeholder}
-        secureTextEntry={hidden}
-        autoFocus={true}
-        value={password}
-        onChangeText={password => onChangeText(password)}
-        onSubmitEditing={() => onSubmit()}
-        style={{ borderBottomColor: border }}
-      />
-    </FormStretcher>
-    <ToggleShowButton
-      borderColor={border}
-      onPress={() => toggleHidden()}
-      hide={hidden}
-    />
-  </View>
-);
+export class PasswordEntry extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      hidePassword: true,
+    };
+  }
+
+  render() {
+    const { border, style, ...props } = this.props;
+    return (
+      <View style={[styles.wrapper, style]}>
+        <InputField
+          secureTextEntry={this.state.hidePassword}
+          {...props}
+          style={[styles.input, { borderBottomColor: border }]}
+        />
+        <ToggleShowButton
+          borderColor={border}
+          onPress={() =>
+            this.setState({ hidePassword: !this.state.hidePassword })
+          }
+          hide={this.state.hidePassword}
+        />
+      </View>
+    );
+  }
+}
 
 PasswordEntry.propTypes = {
-  placeholder: PropTypes.string,
-  hidden: PropTypes.bool,
-  password: PropTypes.string,
-  onChangeText: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  toggleHidden: PropTypes.func.isRequired,
   border: PropTypes.string,
+  style: View.propTypes.style,
 };
 
 //

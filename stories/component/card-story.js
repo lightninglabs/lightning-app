@@ -1,5 +1,6 @@
 import React from 'react';
 import { storiesOf } from '../storybook-react';
+import { action } from '@storybook/addon-actions';
 import Background from '../../src/component/background';
 import MainContent from '../../src/component/main-content';
 import Card, { PasswordCard } from '../../src/component/card';
@@ -17,8 +18,7 @@ storiesOf('Card', module)
     <PasswordCard
       copy="Type the new password you would like to use below. Make sure it's at least 6 alphanumeric characters and symbols."
       placeholder="New password"
-      password="password"
-      onChangeText={() => {}}
+      onChangeText={action('input')}
       onSubmit={() => {}}
       newPassword={true}
       border="red"
