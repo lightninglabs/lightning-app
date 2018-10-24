@@ -1,7 +1,13 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { color } from './style';
+import PasswordEntry from './password-entry';
+import { FormSubText, FormStretcher } from '../component/form';
+import { color, font } from './style';
+
+//
+// Card
+//
 
 const styles = StyleSheet.create({
   card: {
@@ -23,6 +29,61 @@ const Card = ({ children, style }) => (
 Card.propTypes = {
   children: PropTypes.node,
   style: View.propTypes.style,
+};
+
+//
+// Password Card
+//
+
+const passwordStyles = StyleSheet.create({
+  card: {
+    maxHeight: 420,
+    maxWidth: 680,
+    paddingLeft: 55,
+    paddingRight: 55,
+    paddingBottom: 50,
+  },
+  newCopy: {
+    marginTop: 10,
+    maxWidth: 250,
+    color: color.blackText,
+    height: font.lineHeightSub * 2,
+  },
+});
+
+export const PasswordCard = ({
+  copy,
+  placeholder,
+  password,
+  onChangeText,
+  onSubmitEditing,
+  newCopy,
+  success,
+}) => (
+  <Card style={passwordStyles.card}>
+    <FormSubText>{copy}</FormSubText>
+    <FormStretcher>
+      <PasswordEntry
+        placeholder={placeholder}
+        value={password}
+        autoFocus={true}
+        onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
+        success={success}
+      />
+      <FormSubText style={passwordStyles.newCopy}>{newCopy}</FormSubText>
+    </FormStretcher>
+  </Card>
+);
+
+PasswordCard.propTypes = {
+  copy: PropTypes.string,
+  placeholder: PropTypes.string,
+  password: PropTypes.string,
+  onChangeText: PropTypes.func.isRequired,
+  onSubmitEditing: PropTypes.func.isRequired,
+  newCopy: PropTypes.string,
+  success: PropTypes.bool,
 };
 
 export default Card;

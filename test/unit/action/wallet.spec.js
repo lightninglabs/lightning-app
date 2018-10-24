@@ -79,10 +79,30 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('initResetPassword()', () => {
+    it('should clear attributes and navigate to view', () => {
+      store.wallet.password = 'foo';
+      store.wallet.passwordVerify = 'bar';
+      store.wallet.newPassword = 'baz';
+      wallet.initResetPassword();
+      expect(store.wallet.password, 'to equal', '');
+      expect(store.wallet.passwordVerify, 'to equal', '');
+      expect(store.wallet.newPassword, 'to equal', '');
+      expect(nav.goResetPasswordCurrent, 'was called once');
+    });
+  });
+
   describe('setPassword()', () => {
     it('should clear attributes', () => {
       wallet.setPassword({ password: 'foo' });
       expect(store.wallet.password, 'to equal', 'foo');
+    });
+  });
+
+  describe('setNewPassword()', () => {
+    it('should clear attributes', () => {
+      wallet.setNewPassword({ password: 'bar' });
+      expect(store.wallet.newPassword, 'to equal', 'bar');
     });
   });
 
@@ -219,6 +239,50 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('checkResetPassword()', () => {
+    beforeEach(() => {
+      store.wallet.password = 'secret123';
+      sandbox.stub(wallet, 'resetPassword');
+    });
+
+    it('reset password if passwords match', async () => {
+      wallet.setNewPassword({ password: 'newsecret123' });
+      wallet.setPasswordVerify({ password: 'newsecret123' });
+      await wallet.checkResetPassword();
+      expect(wallet.resetPassword, 'was called with', {
+        currentPassword: 'secret123',
+        newPassword: 'newsecret123',
+      });
+    });
+
+    it('fail if password is too short', async () => {
+      wallet.setNewPassword({ password: '' });
+      wallet.setPasswordVerify({ password: '' });
+      await wallet.checkResetPassword();
+      expect(wallet.resetPassword, 'was not called');
+      expect(notification.display, 'was called once');
+      expect(nav.goResetPasswordCurrent, 'was called once');
+    });
+
+    it('fail if input does not match', async () => {
+      wallet.setNewPassword({ password: 'secret123' });
+      wallet.setPasswordVerify({ password: 'secret123' });
+      await wallet.checkResetPassword();
+      expect(wallet.resetPassword, 'was not called');
+      expect(notification.display, 'was called once');
+      expect(nav.goResetPasswordCurrent, 'was called once');
+    });
+
+    it('fail if input does not match', async () => {
+      wallet.setNewPassword({ password: 'resetsecret1' });
+      wallet.setPasswordVerify({ password: 'resetsecret2' });
+      await wallet.checkResetPassword();
+      expect(wallet.resetPassword, 'was not called');
+      expect(notification.display, 'was called once');
+      expect(nav.goResetPasswordCurrent, 'was called once');
+    });
+  });
+
   describe('initWallet()', () => {
     it('should init wallet', async () => {
       grpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
@@ -305,6 +369,44 @@ describe('Action Wallet Unit Tests', () => {
       store.walletAddress = 'non-null-addr';
       expect(nav.goWait, 'was called once');
       expect(nav.goNewAddress, 'was called once');
+    });
+  });
+
+  describe('resetPassword()', () => {
+    it('should change password', async () => {
+      grpc.restartLnd.resolves(true);
+      grpc.sendUnlockerCommand.withArgs('ChangePassword').resolves();
+      await wallet.resetPassword({
+        currentPassword: 'currentPass',
+        newPassword: 'newPass',
+      });
+      expect(grpc.sendUnlockerCommand, 'was called with', 'ChangePassword', {
+        current_password: Buffer.from('currentPass', 'utf8'),
+        new_password: Buffer.from('newPass', 'utf8'),
+      });
+      expect(nav.goResetPasswordSaved, 'was called once');
+    });
+
+    it('should display error notification on lnd restart failure', async () => {
+      grpc.restartLnd.rejects(new Error('Boom!'));
+      await wallet.resetPassword({
+        currentPassword: 'currentPass',
+        newPassword: 'newPass',
+      });
+      expect(notification.display, 'was called once');
+      expect(nav.goResetPasswordSaved, 'was not called');
+    });
+
+    it('should display error notification on failure', async () => {
+      grpc.sendUnlockerCommand
+        .withArgs('ChangePassword')
+        .rejects(new Error('Boom!'));
+      await wallet.resetPassword({
+        currentPassword: 'currentPass',
+        newPassword: 'newPass',
+      });
+      expect(notification.display, 'was called once');
+      expect(nav.goResetPasswordSaved, 'was not called');
     });
   });
 

@@ -12,6 +12,10 @@ import SetPassword from './set-password';
 import RestoreSeed from './restore-seed';
 import RestorePassword from './restore-password';
 import Password from './password';
+import ResetPasswordCurrent from './reset-password-current';
+import ResetPasswordNew from './reset-password-new';
+import ResetPasswordConfirm from './reset-password-confirm';
+import ResetPasswordSaved from './reset-password-saved';
 import NewAddress from './new-address';
 import LoaderSyncing from './loader-syncing';
 import Wait from './wait';
@@ -78,6 +82,18 @@ class MainView extends Component {
           <RestorePassword store={store} wallet={wallet} nav={nav} />
         )}
         {route === 'Password' && <Password store={store} wallet={wallet} />}
+        {route === 'ResetPasswordCurrent' && (
+          <ResetPasswordCurrent store={store} nav={nav} wallet={wallet} />
+        )}
+        {route === 'ResetPasswordNew' && (
+          <ResetPasswordNew store={store} nav={nav} wallet={wallet} />
+        )}
+        {route === 'ResetPasswordConfirm' && (
+          <ResetPasswordConfirm store={store} nav={nav} wallet={wallet} />
+        )}
+        {route === 'ResetPasswordSaved' && (
+          <ResetPasswordSaved store={store} nav={nav} wallet={wallet} />
+        )}
         {route === 'NewAddress' && (
           <NewAddress store={store} invoice={invoice} info={info} />
         )}
@@ -94,7 +110,9 @@ class MainView extends Component {
             nav={nav}
           />
         )}
-        {route === 'Settings' && <Setting store={store} nav={nav} />}
+        {route === 'Settings' && (
+          <Setting store={store} nav={nav} wallet={wallet} />
+        )}
         {route === 'SettingsUnit' && (
           <SettingUnit store={store} nav={nav} setting={setting} />
         )}

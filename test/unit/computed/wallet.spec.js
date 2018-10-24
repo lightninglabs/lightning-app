@@ -16,6 +16,8 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.channelBalanceLabel, 'to match', /0[,.]00/);
       expect(store.unitFiatLabel, 'to equal', '$');
       expect(store.unitLabel, 'to equal', null);
+      expect(store.newPasswordCopy, 'to equal', '');
+      expect(store.newPasswordSuccess, 'to equal', null);
     });
 
     it('should generate valid wallet address uri', () => {
@@ -57,6 +59,27 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.channelBalanceLabel, 'to equal', '100');
       expect(store.unitFiatLabel, 'to equal', 'bits');
       expect(store.unitLabel, 'to equal', 'bits');
+    });
+
+    it('should have red input if password is too short', () => {
+      store.wallet.newPassword = '2short';
+      ComputedWallet(store);
+      expect(store.newPasswordCopy, 'to equal', '');
+      expect(store.newPasswordSuccess, 'to equal', false);
+    });
+
+    it('should display a tip if password could be improved', () => {
+      store.wallet.newPassword = 'minlength';
+      ComputedWallet(store);
+      expect(store.newPasswordCopy, 'to match', /Pro tip/);
+      expect(store.newPasswordSuccess, 'to equal', true);
+    });
+
+    it('should display a positive message for a good password', () => {
+      store.wallet.newPassword = 'at_least_12_chars';
+      ComputedWallet(store);
+      expect(store.newPasswordCopy, 'to match', /strong password/);
+      expect(store.newPasswordSuccess, 'to equal', true);
     });
   });
 });

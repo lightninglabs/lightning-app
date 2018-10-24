@@ -34,13 +34,13 @@ const getStyles = base => {
   let styles = {};
   let computed = {};
 
-  Object.keys(base).map(key => {
+  Object.keys(base).map(key =>
     Object.defineProperty(styles, key, {
       get: function() {
         return computed[key];
       },
-    });
-  });
+    })
+  );
 
   const update = newStyles => {
     if (JSON.stringify(newStyles) === JSON.stringify(computed)) {
@@ -97,5 +97,5 @@ export const minAspectRatio = aspectRatioQuery(
   (target, aspectRatio) => target <= aspectRatio
 );
 export const aspectRatio = aspectRatioQuery(
-  (target, aspectRatio) => target == aspectRatio
+  (target, aspectRatio) => target === aspectRatio
 );
