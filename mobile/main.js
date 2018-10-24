@@ -18,7 +18,7 @@ import { Store } from '../src/store';
 import NavAction from '../src/action/nav-mobile';
 import IpcAction from '../src/action/ipc';
 import GrpcAction from '../src/action/grpc';
-// import InfoAction from '../src/action/info';
+/* import InfoAction from '../src/action/info'; */
 import AppStorage from '../src/action/app-storage';
 import NotificationAction from '../src/action/notification';
 import SettingAction from '../src/action/setting';
@@ -34,7 +34,7 @@ const nav = new NavAction(store);
 const db = sinon.createStubInstance(AppStorage);
 const ipc = sinon.createStubInstance(IpcAction);
 const grpc = sinon.createStubInstance(GrpcAction);
-// const info = sinon.createStubInstance(InfoAction);
+/* const info = sinon.createStubInstance(InfoAction); */
 const notify = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, db, nav, notify);
 const setting = new SettingAction(store, wallet, db, ipc);
@@ -68,7 +68,7 @@ const HomeScreen = () => (
   />
 );
 
-const SettingScreen = () => <Setting store={store} nav={nav} />;
+const SettingScreen = () => <Setting store={store} nav={nav} wallet={wallet} />;
 
 const SettingUnitScreen = () => (
   <SettingUnit store={store} nav={nav} setting={setting} />
