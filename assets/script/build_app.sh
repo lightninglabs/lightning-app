@@ -10,7 +10,7 @@ PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
 if [ "$(uname)" == "Darwin" ]; then
   # build electron app for macOS
-  npm run electron-pack -- --mac
+  npm run electron-pack -- -c.beforeBuild=./assets/script/before_build.js --mac
 else
   # build binaries for windows
   cd assets/bin/win32
@@ -31,7 +31,7 @@ else
     -v ~/.cache/electron:/root/.cache/electron \
     -v ~/.cache/electron-builder:/root/.cache/electron-builder \
     electronuserland/builder:wine \
-    /bin/bash -c "chown -R root:root /project && npm i && npm run electron-pack -- --win -c.npmArgs=--target-libc=unknown && npm run electron-pack -- --linux"
+    /bin/bash -c "chown -R root:root /project && npm i && npm run electron-pack -- -c.beforeBuild=./assets/script/before_build.js --win -c.npmArgs=--target-libc=unknown && npm run electron-pack -- -c.beforeBuild=./assets/script/before_build.js --linux"
   sudo chown -R travis:travis ./
   rm env.txt
 fi
