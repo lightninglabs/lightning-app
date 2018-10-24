@@ -54,7 +54,7 @@ export class PasswordCard extends Component {
       placeholder,
       password,
       onChangeText,
-      onSubmit,
+      onSubmitEditing,
       newCopy,
       success,
     } = this.props;
@@ -67,7 +67,7 @@ export class PasswordCard extends Component {
             value={password}
             autoFocus={true}
             onChangeText={onChangeText}
-            onSubmitEditing={onSubmit}
+            onSubmitEditing={onSubmitEditing}
             success={success}
           />
           <FormSubText style={passwordStyles.newCopy}>{newCopy}</FormSubText>
@@ -82,7 +82,7 @@ PasswordCard.propTypes = {
   placeholder: PropTypes.string,
   password: PropTypes.string,
   onChangeText: PropTypes.func.isRequired,
-  onSubmit: PropTypes.func.isRequired,
+  onSubmitEditing: PropTypes.func.isRequired,
   newCopy: PropTypes.string,
   success: PropTypes.bool,
 };

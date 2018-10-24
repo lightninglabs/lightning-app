@@ -38,7 +38,7 @@ const ResetPasswordConfirmView = ({ store, nav, wallet }) => (
         placeholder="New password"
         password={store.wallet.passwordVerify}
         onChangeText={password => wallet.setPasswordVerify({ password })}
-        onSubmit={() => wallet.checkResetPassword()}
+        onSubmitEditing={() => wallet.checkResetPassword()}
       />
       <GlasButton onPress={() => wallet.checkResetPassword()}>Save</GlasButton>
     </MainContent>

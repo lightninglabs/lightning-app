@@ -19,8 +19,7 @@ storiesOf('Card', module)
       copy="Type the new password you would like to use below. Make sure it's at least 6 alphanumeric characters and symbols."
       placeholder="New password"
       onChangeText={action('input')}
-      onSubmit={() => {}}
-      newPassword={true}
-      border="red"
+      onSubmitEditing={() => {}}
+      success={null}
     />
   ));
