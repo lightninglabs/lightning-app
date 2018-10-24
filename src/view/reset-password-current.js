@@ -39,7 +39,6 @@ const ResetPasswordCurrentView = ({ store, nav, wallet }) => (
         password={store.wallet.password}
         onChangeText={password => wallet.setPassword({ password })}
         onSubmit={() => nav.goResetPasswordNew()}
-        newPassword={false}
       />
       <GlasButton onPress={() => nav.goResetPasswordNew()}>Next</GlasButton>
     </MainContent>

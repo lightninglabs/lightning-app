@@ -39,7 +39,6 @@ const NewPasswordView = ({ store, nav, wallet }) => (
         password={store.wallet.newPassword}
         onChangeText={password => wallet.setNewPassword({ password })}
         onSubmit={() => nav.goResetPasswordConfirm()}
-        newPassword={true}
         newCopy={store.newPasswordCopy}
         success={store.newPasswordSuccess}
       />
