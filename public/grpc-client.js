@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const grpc = require('grpc');
-import { loadSync } from '@grpc/proto-loader';
+const protoLoader = require('@grpc/proto-loader');
 
 const GRPC_TIMEOUT = 300000;
 
@@ -68,7 +68,7 @@ module.exports.init = async function({
       defaults: true,
       oneofs: true,
     };
-    const packageDef = loadSync(protoPath, options);
+    const packageDef = protoLoader.loadSync(protoPath, options);
     lnrpc = grpc.loadPackageDefinition(packageDef).lnrpc;
     unlocker = new lnrpc.WalletUnlocker(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(unlocker, Infinity, err => {
