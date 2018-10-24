@@ -8,6 +8,9 @@ GOPATH=$HOME/gocode
 GOROOT=$HOME/go
 PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
+# activate auto update in app config
+echo "module.exports.AUTO_UPDATE_ENABLED = true;" >> ./src/config.js
+
 if [ "$(uname)" == "Darwin" ]; then
   # build electron app for macOS
   npm run electron-pack -- --mac

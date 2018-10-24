@@ -16,6 +16,7 @@ const {
   LND_PROFILING_PORT,
   LND_INIT_DELAY,
   BTCD_MINING_ADDRESS,
+  AUTO_UPDATE_ENABLED,
 } = require('../src/config');
 
 console.log(`
@@ -185,7 +186,7 @@ autoUpdater.on('update-downloaded', () => {
 });
 
 function initAutoUpdate() {
-  if (isDev) return;
+  if (isDev || AUTO_UPDATE_ENABLED !== true) return;
   autoUpdater.checkForUpdates();
   const oneHour = 60 * 60 * 1000;
   setInterval(() => autoUpdater.checkForUpdates(), oneHour);
