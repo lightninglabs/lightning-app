@@ -36,6 +36,7 @@ const passwordStyles = StyleSheet.create({
     paddingBottom: 50,
   },
   newCopy: {
+    marginTop: 10,
     maxWidth: 250,
     color: color.blackText,
     height: font.lineHeightSub * 2,
