@@ -1,9 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import PasswordEntry from './password-entry';
 import { FormSubText, FormStretcher } from '../component/form';
 import { color, font } from './style';
+
+//
+// Card
+//
 
 const styles = StyleSheet.create({
   card: {
@@ -27,6 +31,10 @@ Card.propTypes = {
   style: View.propTypes.style,
 };
 
+//
+// Password Card
+//
+
 const passwordStyles = StyleSheet.create({
   card: {
     maxHeight: 420,
@@ -43,39 +51,30 @@ const passwordStyles = StyleSheet.create({
   },
 });
 
-export class PasswordCard extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const {
-      copy,
-      placeholder,
-      password,
-      onChangeText,
-      onSubmitEditing,
-      newCopy,
-      success,
-    } = this.props;
-    return (
-      <Card style={passwordStyles.card}>
-        <FormSubText>{copy}</FormSubText>
-        <FormStretcher>
-          <PasswordEntry
-            placeholder={placeholder}
-            value={password}
-            autoFocus={true}
-            onChangeText={onChangeText}
-            onSubmitEditing={onSubmitEditing}
-            success={success}
-          />
-          <FormSubText style={passwordStyles.newCopy}>{newCopy}</FormSubText>
-        </FormStretcher>
-      </Card>
-    );
-  }
-}
+export const PasswordCard = ({
+  copy,
+  placeholder,
+  password,
+  onChangeText,
+  onSubmitEditing,
+  newCopy,
+  success,
+}) => (
+  <Card style={passwordStyles.card}>
+    <FormSubText>{copy}</FormSubText>
+    <FormStretcher>
+      <PasswordEntry
+        placeholder={placeholder}
+        value={password}
+        autoFocus={true}
+        onChangeText={onChangeText}
+        onSubmitEditing={onSubmitEditing}
+        success={success}
+      />
+      <FormSubText style={passwordStyles.newCopy}>{newCopy}</FormSubText>
+    </FormStretcher>
+  </Card>
+);
 
 PasswordCard.propTypes = {
   copy: PropTypes.string,
