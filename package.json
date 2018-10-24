@@ -42,7 +42,7 @@
     "react-dom": "^16.5.2",
     "react-native-web": "^0.9.1",
     "react-scripts": "^1.1.5",
-    "svgs": "^3.2.1"
+    "svgs": "^4.0.0"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^3.3.15",
