@@ -1,3 +1,6 @@
 import 'node-libs-react-native/globals';
 import Storybook from './storybook';
-export default Storybook;
+
+import App from './main';
+
+module.exports = !__DEV__ ? Storybook : App;
