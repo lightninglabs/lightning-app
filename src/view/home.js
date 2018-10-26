@@ -181,6 +181,18 @@ const headerStyles = StyleSheet.create({
   channelBtn: {
     marginLeft: 3,
   },
+  channelAlert: {
+    position: 'absolute',
+    top: 17,
+    right: 21,
+    height: 10,
+    width: 10,
+    backgroundColor: color.pinkSig,
+    borderColor: color.white,
+    borderRadius: 50,
+    borderStyle: 'solid',
+    borderWidth: 2,
+  },
   settingsBtn: {
     marginRight: 3,
   },
@@ -194,6 +206,7 @@ const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
   <Header>
     <Button onPress={goChannels} style={headerStyles.channelBtn}>
       <ChannelIcon height={24 * 0.9} width={25 * 0.9} />
+      {showChannelAlert ? <View style={headerStyles.channelAlert} /> : null}
     </Button>
     <Title title="Wallet" />
     <Button onPress={goSettings} style={headerStyles.settingsBtn}>
