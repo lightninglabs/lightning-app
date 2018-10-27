@@ -29,7 +29,7 @@ const NewPasswordView = ({ store, nav, wallet }) => (
     <Header shadow color={color.purple}>
       <Button disabled onPress={() => {}} />
       <Title title="Change Password" />
-      <CancelButton onPress={() => nav.goHome()} />
+      <CancelButton onPress={() => nav.goSettings()} />
     </Header>
     <MainContent style={styles.content}>
       <H1Text style={styles.title}>New Password</H1Text>
