@@ -7,7 +7,7 @@ import MainContent from '../component/main-content';
 import { PasswordCard } from '../component/password-entry';
 import { Header, Title } from '../component/header';
 import { H1Text } from '../component/text';
-import { Button, GlasButton, CancelButton } from '../component/button';
+import { BackButton, GlasButton, CancelButton } from '../component/button';
 import { color } from '../component/style';
 
 //
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
 const NewPasswordView = ({ store, nav, wallet }) => (
   <Background color={color.blackDark}>
     <Header separator>
-      <Button disabled onPress={() => {}} />
+      <BackButton onPress={() => nav.goResetPasswordCurrent()} />
       <Title title="Change Password" />
       <CancelButton onPress={() => nav.goSettings()} />
     </Header>
