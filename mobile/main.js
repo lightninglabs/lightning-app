@@ -1,6 +1,6 @@
 import React from 'react';
 import { Clipboard } from 'react-native';
-import { SafeAreaView, createStackNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 import FontLoader from './component/font-loader';
 
 import Home from '../src/view/home';
@@ -134,9 +134,7 @@ export default class App extends React.Component {
   render() {
     return (
       <FontLoader>
-        <SafeAreaView style={{ flex: 1 }}>
-          <RootStack ref={navRef => nav.setTopLevelNavigator(navRef)} />
-        </SafeAreaView>
+        <RootStack ref={navRef => nav.setTopLevelNavigator(navRef)} />
       </FontLoader>
     );
   }

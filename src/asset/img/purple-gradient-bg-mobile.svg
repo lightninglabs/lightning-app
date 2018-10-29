@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375px" height="812px" viewBox="0 0 375 812" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 8</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-6.4709114%" y1="-1.00006949%" x2="87.8201134%" y2="84.6960773%" id="linearGradient-1">
+            <stop stop-color="#A95BDC" offset="0%"></stop>
+            <stop stop-color="#651399" offset="51.5755742%"></stop>
+            <stop stop-color="#610F96" offset="70.3015434%"></stop>
+            <stop stop-color="#610F96" offset="70.3015434%"></stop>
+            <stop stop-color="#57038D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Home" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Home-Mobile-Small---Bigger-Button" fill="url(#linearGradient-1)">
+            <polygon id="Rectangle-8" points="0 -2 375 -2 375 814 0 814"></polygon>
+        </g>
+    </g>
+</svg>

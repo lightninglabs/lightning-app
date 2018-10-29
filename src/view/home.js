@@ -7,7 +7,8 @@ import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { color } from '../component/style';
 import { H4Text } from '../component/text';
-import SettingsIcon from '../asset/icon/settings';
+import Icon from '../component/icon';
+import ChannelIcon from '../asset/icon/channel';
 import LightningBoltPurpleIcon from '../asset/icon/lightning-bolt-purple';
 import {
   BalanceLabel,
@@ -15,13 +16,7 @@ import {
   BalanceLabelUnit,
   SmallBalanceLabel,
 } from '../component/label';
-import {
-  Button,
-  QrButton,
-  SmallButton,
-  GlasButton,
-  DownButton,
-} from '../component/button';
+import { Button, QrButton, GlasButton, DownButton } from '../component/button';
 
 //
 // Home View
@@ -177,31 +172,49 @@ const headerStyles = StyleSheet.create({
     width: 150,
     flexDirection: 'row',
     justifyContent: 'flex-start',
-    paddingLeft: 20,
   },
   btnWrapperRight: {
     width: 150,
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
+  channelBtn: {
+    marginLeft: 3,
+  },
+  channelAlert: {
+    position: 'absolute',
+    top: 17,
+    right: 21,
+    height: 10,
+    width: 10,
+    backgroundColor: color.pinkSig,
+    borderColor: color.white,
+    borderRadius: 50,
+    borderStyle: 'solid',
+    borderWidth: 2,
+  },
+  settingsBtn: {
+    marginRight: 3,
+  },
+  settingsIcon: {
+    height: 22,
+    width: 22,
+  },
 });
 
 const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
   <Header>
-    <View style={headerStyles.btnWrapperLeft}>
-      <SmallButton
-        border
-        alert={showChannelAlert ? color.pinkSig : null}
-        text="Channels"
-        onPress={goChannels}
-      />
-    </View>
+    <Button onPress={goChannels} style={headerStyles.channelBtn}>
+      <ChannelIcon height={24 * 0.9} width={25 * 0.9} />
+      {showChannelAlert ? <View style={headerStyles.channelAlert} /> : null}
+    </Button>
     <Title title="Wallet" />
-    <View style={headerStyles.btnWrapperRight}>
-      <SmallButton text="Settings" onPress={goSettings}>
-        <SettingsIcon height={21 * 0.7} width={20 * 0.7} />
-      </SmallButton>
-    </View>
+    <Button onPress={goSettings} style={headerStyles.settingsBtn}>
+      <Icon
+        image={require('../asset/icon/settings.png')}
+        style={headerStyles.settingsIcon}
+      />
+    </Button>
   </Header>
 );
 

@@ -7,10 +7,10 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
+import Icon from '../component/icon';
 import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
 import QrIcon from '../asset/icon/qr';
-import ArrowDownIcon from '../asset/icon/arrow-down';
 import { color, font } from './style';
 
 //
@@ -336,12 +336,20 @@ const downStyles = StyleSheet.create({
     fontFamily: 'OpenSans SemiBold',
     fontSize: font.sizeS,
   },
+  icon: {
+    marginTop: 4,
+    height: 32 * 0.22,
+    width: 56 * 0.22,
+  },
 });
 
 export const DownButton = ({ onPress, disabled, style, children }) => (
   <Button onPress={onPress} disabled={disabled} style={style}>
     <Text style={downStyles.text}>{children}</Text>
-    <ArrowDownIcon height={7.2} width={18.4} />
+    <Icon
+      image={require('../asset/icon/arrow-down.png')}
+      style={downStyles.icon}
+    />
   </Button>
 );
 
