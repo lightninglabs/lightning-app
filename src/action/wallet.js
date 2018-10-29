@@ -66,7 +66,7 @@ class WalletAction {
    * @return {undefined}
    */
   initSetPassword() {
-    this._store.wallet.password = '';
+    this._store.wallet.newPassword = '';
     this._store.wallet.passwordVerify = '';
     this._nav.goSetPassword();
   }
@@ -203,17 +203,19 @@ class WalletAction {
    * @return {Promise<undefined>}
    */
   async checkNewPassword() {
-    const { password, passwordVerify } = this._store.wallet;
-    if (!password || password.length < MIN_PASSWORD_LENGTH) {
-      return this._notification.display({
-        msg: `Set a password with at least ${MIN_PASSWORD_LENGTH} characters.`,
-      });
+    const { newPassword, passwordVerify } = this._store.wallet;
+    let errorMsg;
+    if (!newPassword || newPassword.length < MIN_PASSWORD_LENGTH) {
+      errorMsg = `Set a password with at least ${MIN_PASSWORD_LENGTH} characters.`;
+    } else if (newPassword !== passwordVerify) {
+      errorMsg = 'Passwords do not match!';
     }
-    if (password !== passwordVerify) {
-      return this._notification.display({ msg: 'Passwords do not match!' });
+    if (errorMsg) {
+      this.initSetPassword();
+      return this._notification.display({ msg: errorMsg });
     }
     await this.initWallet({
-      walletPassword: password,
+      walletPassword: newPassword,
       seedMnemonic: this._store.seedMnemonic.toJSON(),
     });
   }

@@ -1,15 +1,13 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import Background from '../component/background';
+import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
+import { PasswordCard } from '../component/password-entry';
 import { H1Text } from '../component/text';
 import { GlasButton } from '../component/button';
-import { InputField } from '../component/field';
-import Card from '../component/card';
-import { FormSubText, FormStretcher } from '../component/form';
-import { MIN_PASSWORD_LENGTH } from '../config';
+import { color } from '../component/style';
 
 //
 // Set Password View
@@ -23,59 +21,31 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  card: {
-    maxHeight: 350,
-    maxWidth: 680,
-    paddingLeft: 45,
-    paddingRight: 45,
-    paddingBottom: 50,
-  },
-  copy: {
-    width: 340,
-  },
-  confirm: {
-    marginTop: 25,
-  },
 });
 
-const SetPasswordView = ({ store, wallet }) => (
-  <Background image="purple-gradient-bg">
+const SetPasswordView = ({ store, wallet, nav }) => (
+  <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <MainContent style={styles.content}>
-      <View>
-        <H1Text style={styles.title}>Set a password</H1Text>
-      </View>
-      <Card style={styles.card}>
-        <FormSubText style={styles.copy}>
-          The password must be at least {MIN_PASSWORD_LENGTH} characters long
-          and is used to protect your wallet on disk.
-        </FormSubText>
-        <FormStretcher>
-          <InputField
-            placeholder="Password"
-            secureTextEntry={true}
-            autoFocus={true}
-            value={store.wallet.password}
-            onChangeText={password => wallet.setPassword({ password })}
-            onSubmitEditing={() => wallet.checkNewPassword()}
-          />
-          <InputField
-            style={styles.confirm}
-            placeholder="Confirm password"
-            secureTextEntry={true}
-            value={store.wallet.passwordVerify}
-            onChangeText={password => wallet.setPasswordVerify({ password })}
-            onSubmitEditing={() => wallet.checkNewPassword()}
-          />
-        </FormStretcher>
-      </Card>
-      <GlasButton onPress={() => wallet.checkNewPassword()}>Next</GlasButton>
+      <H1Text style={styles.title}>Set a password</H1Text>
+      <PasswordCard
+        copy="The password must be at least 8 characters long
+          and is used to protect your wallet on disk."
+        placeholder="Password"
+        password={store.wallet.newPassword}
+        onChangeText={password => wallet.setNewPassword({ password })}
+        onSubmitEditing={() => nav.goSetPasswordConfirm()}
+        newCopy={store.newPasswordCopy}
+        success={store.newPasswordSuccess}
+      />
+      <GlasButton onPress={() => nav.goSetPasswordConfirm()}>Next</GlasButton>
     </MainContent>
-  </Background>
+  </SplitBackground>
 );
 
 SetPasswordView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
+  nav: PropTypes.object.isRequired,
 };
 
 export default observer(SetPasswordView);

@@ -61,10 +61,10 @@ describe('Action Wallet Unit Tests', () => {
 
   describe('initSetPassword()', () => {
     it('should clear attributes and navigate to view', () => {
-      store.wallet.password = 'foo';
+      store.wallet.newPassword = 'foo';
       store.wallet.passwordVerify = 'bar';
       wallet.initSetPassword();
-      expect(store.wallet.password, 'to equal', '');
+      expect(store.wallet.newPassword, 'to equal', '');
       expect(store.wallet.passwordVerify, 'to equal', '');
       expect(nav.goSetPassword, 'was called once');
     });
@@ -207,13 +207,14 @@ describe('Action Wallet Unit Tests', () => {
   describe('checkNewPassword()', () => {
     beforeEach(() => {
       sandbox.stub(wallet, 'initWallet');
+      sandbox.stub(wallet, 'initSetPassword');
       store.seedMnemonic[0] = 'foo';
       store.seedMnemonic[1] = 'bar';
       store.seedMnemonic[2] = 'baz';
     });
 
     it('init wallet if passwords match', async () => {
-      wallet.setPassword({ password: 'secret123' });
+      wallet.setNewPassword({ password: 'secret123' });
       wallet.setPasswordVerify({ password: 'secret123' });
       await wallet.checkNewPassword();
       expect(wallet.initWallet, 'was called with', {
@@ -223,18 +224,20 @@ describe('Action Wallet Unit Tests', () => {
     });
 
     it('display notification if input does not match', async () => {
-      wallet.setPassword({ password: 'secret123' });
+      wallet.setNewPassword({ password: 'secret123' });
       wallet.setPasswordVerify({ password: 'secret1234' });
       await wallet.checkNewPassword();
       expect(wallet.initWallet, 'was not called');
+      expect(wallet.initSetPassword, 'was called once');
       expect(notification.display, 'was called once');
     });
 
     it('display notification if password is too short', async () => {
-      wallet.setPassword({ password: '' });
+      wallet.setNewPassword({ password: '' });
       wallet.setPasswordVerify({ password: '' });
       await wallet.checkNewPassword();
       expect(wallet.initWallet, 'was not called');
+      expect(wallet.initSetPassword, 'was called once');
       expect(notification.display, 'was called once');
     });
   });

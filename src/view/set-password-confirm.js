@@ -4,13 +4,13 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
+import { PasswordCard } from '../component/password-entry';
 import { H1Text } from '../component/text';
 import { GlasButton } from '../component/button';
-import { PasswordCard } from '../component/password-entry';
 import { color } from '../component/style';
 
 //
-// Password View
+// Set Password Confirm View
 //
 
 const styles = StyleSheet.create({
@@ -23,25 +23,26 @@ const styles = StyleSheet.create({
   },
 });
 
-const PasswordView = ({ store, wallet }) => (
+const SetPasswordConfirmView = ({ store, wallet }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <MainContent style={styles.content}>
-      <H1Text style={styles.title}>Unlock wallet</H1Text>
+      <H1Text style={styles.title}>Confirm password</H1Text>
       <PasswordCard
-        copy="Please enter your password."
-        placeholder="Password"
-        password={store.wallet.password}
-        onChangeText={password => wallet.setPassword({ password })}
-        onSubmitEditing={() => wallet.checkPassword()}
+        copy="The password must be at least 8 characters long
+          and is used to protect your wallet on disk."
+        placeholder="Confirm password"
+        password={store.wallet.passwordVerify}
+        onChangeText={password => wallet.setPasswordVerify({ password })}
+        onSubmitEditing={() => wallet.checkNewPassword()}
       />
-      <GlasButton onPress={() => wallet.checkPassword()}>Unlock</GlasButton>
+      <GlasButton onPress={() => wallet.checkNewPassword()}>Next</GlasButton>
     </MainContent>
   </SplitBackground>
 );
 
-PasswordView.propTypes = {
+SetPasswordConfirmView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
 };
 
-export default observer(PasswordView);
+export default observer(SetPasswordConfirmView);
