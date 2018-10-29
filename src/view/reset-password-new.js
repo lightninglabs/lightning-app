@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
-import { PasswordCard } from '../component/card';
+import { PasswordCard } from '../component/password-entry';
 import { Header, Title } from '../component/header';
 import { H1Text } from '../component/text';
 import { Button, GlasButton, CancelButton } from '../component/button';
@@ -34,7 +34,7 @@ const NewPasswordView = ({ store, nav, wallet }) => (
     <MainContent style={styles.content}>
       <H1Text style={styles.title}>New Password</H1Text>
       <PasswordCard
-        copy="Type the new password you would like to use below. Make sure it's at least 6 alphanumeric characters and symbols."
+        copy="Type the new password you would like to use below. Make sure it's at least 8 alphanumeric characters and symbols."
         placeholder="New password"
         password={store.wallet.newPassword}
         onChangeText={password => wallet.setNewPassword({ password })}

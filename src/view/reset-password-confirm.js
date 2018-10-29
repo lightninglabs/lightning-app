@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
-import { PasswordCard } from '../component/card';
+import { PasswordCard } from '../component/password-entry';
 import { Header, Title } from '../component/header';
 import { H1Text } from '../component/text';
 import { Button, GlasButton, CancelButton } from '../component/button';
@@ -32,10 +32,10 @@ const ResetPasswordConfirmView = ({ store, nav, wallet }) => (
       <CancelButton onPress={() => nav.goHome()} />
     </Header>
     <MainContent style={styles.content}>
-      <H1Text style={styles.title}>Confirm new password</H1Text>
+      <H1Text style={styles.title}>Confirm password</H1Text>
       <PasswordCard
         copy="Re-type your new password to confirm it."
-        placeholder="New password"
+        placeholder="Confirm password"
         password={store.wallet.passwordVerify}
         onChangeText={password => wallet.setPasswordVerify({ password })}
         onSubmitEditing={() => wallet.checkResetPassword()}

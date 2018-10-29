@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
-import { PasswordCard } from '../component/card';
+import { PasswordCard } from '../component/password-entry';
 import { Header, Title } from '../component/header';
 import { H1Text } from '../component/text';
 import { Button, GlasButton, CancelButton } from '../component/button';
