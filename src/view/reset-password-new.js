@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import { SplitBackground } from '../component/background';
+import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { PasswordCard } from '../component/password-entry';
 import { Header, Title } from '../component/header';
@@ -25,11 +25,11 @@ const styles = StyleSheet.create({
 });
 
 const NewPasswordView = ({ store, nav, wallet }) => (
-  <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
-    <Header shadow color={color.purple}>
+  <Background color={color.blackDark}>
+    <Header separator>
       <Button disabled onPress={() => {}} />
       <Title title="Change Password" />
-      <CancelButton onPress={() => nav.goHome()} />
+      <CancelButton onPress={() => nav.goSettings()} />
     </Header>
     <MainContent style={styles.content}>
       <H1Text style={styles.title}>New Password</H1Text>
@@ -44,7 +44,7 @@ const NewPasswordView = ({ store, nav, wallet }) => (
       />
       <GlasButton onPress={() => nav.goResetPasswordConfirm()}>Next</GlasButton>
     </MainContent>
-  </SplitBackground>
+  </Background>
 );
 
 NewPasswordView.propTypes = {
