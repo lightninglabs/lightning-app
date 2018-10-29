@@ -10,7 +10,7 @@ import { GlasButton } from '../component/button';
 import { color } from '../component/style';
 
 //
-// Set Password View
+// Set Password Confirm View
 //
 
 const styles = StyleSheet.create({
@@ -23,29 +23,26 @@ const styles = StyleSheet.create({
   },
 });
 
-const SetPasswordView = ({ store, wallet, nav }) => (
+const SetPasswordConfirmView = ({ store, wallet }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <MainContent style={styles.content}>
-      <H1Text style={styles.title}>Set a password</H1Text>
+      <H1Text style={styles.title}>Confirm password</H1Text>
       <PasswordCard
         copy="The password must be at least 8 characters long
           and is used to protect your wallet on disk."
-        placeholder="Password"
-        password={store.wallet.newPassword}
-        onChangeText={password => wallet.setNewPassword({ password })}
-        onSubmitEditing={() => nav.goSetPasswordConfirm()}
-        newCopy={store.newPasswordCopy}
-        success={store.newPasswordSuccess}
+        placeholder="Confirm password"
+        password={store.wallet.passwordVerify}
+        onChangeText={password => wallet.setPasswordVerify({ password })}
+        onSubmitEditing={() => wallet.checkNewPassword()}
       />
-      <GlasButton onPress={() => nav.goSetPasswordConfirm()}>Next</GlasButton>
+      <GlasButton onPress={() => wallet.checkNewPassword()}>Next</GlasButton>
     </MainContent>
   </SplitBackground>
 );
 
-SetPasswordView.propTypes = {
+SetPasswordConfirmView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
-  nav: PropTypes.object.isRequired,
 };
 
-export default observer(SetPasswordView);
+export default observer(SetPasswordConfirmView);

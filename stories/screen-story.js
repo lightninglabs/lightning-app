@@ -46,6 +46,7 @@ import SeedSuccess from '../src/view/seed-success';
 import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
 import SetPassword from '../src/view/set-password';
+import SetPasswordConfirm from '../src/view/set-password-confirm';
 import Password from '../src/view/password';
 import RestorePassword from '../src/view/restore-password';
 import ResetPasswordCurrent from '../src/view/reset-password-current';
@@ -98,7 +99,12 @@ storiesOf('Screens', module)
     <RestoreSeed store={store} wallet={wallet} />
   ))
   .add('Seed Success', () => <SeedSuccess wallet={wallet} />)
-  .add('Set Password', () => <SetPassword store={store} wallet={wallet} />)
+  .add('Set Password', () => (
+    <SetPassword store={store} wallet={wallet} nav={nav} />
+  ))
+  .add('Set Password Confirm', () => (
+    <SetPasswordConfirm store={store} wallet={wallet} />
+  ))
   .add('Password', () => <Password store={store} wallet={wallet} />)
   .add('Restore Wallet: Password', () => (
     <RestorePassword store={store} wallet={wallet} nav={nav} />

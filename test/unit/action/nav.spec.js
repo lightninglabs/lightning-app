@@ -67,6 +67,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goSetPasswordConfirm()', () => {
+    it('should set correct route', () => {
+      nav.goSetPasswordConfirm();
+      expect(store.route, 'to equal', 'SetPasswordConfirm');
+    });
+  });
+
   describe('goPassword()', () => {
     it('should set correct route', () => {
       nav.goPassword();

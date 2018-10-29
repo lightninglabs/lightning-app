@@ -41,6 +41,10 @@ class NavAction {
     this._store.route = 'SetPassword';
   }
 
+  goSetPasswordConfirm() {
+    this._store.route = 'SetPasswordConfirm';
+  }
+
   goPassword() {
     this._store.route = 'Password';
   }
