@@ -37,6 +37,11 @@ const ChannelDetailView = ({ store, nav }) => (
         <DetailField name="Funding Transaction ID">
           {store.selectedChannel.fundingTxId}
         </DetailField>
+        {store.selectedChannel.closingTxId ? (
+          <DetailField name="Closing Transaction ID">
+            {store.selectedChannel.closingTxId}
+          </DetailField>
+        ) : null}
         <DetailField name="Remote Node Public Key">
           {store.selectedChannel.remotePubkey}
         </DetailField>

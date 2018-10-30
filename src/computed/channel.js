@@ -8,14 +8,15 @@ import { toAmountLabel, toCaps } from '../helper';
 const ComputedChannel = store => {
   extendObservable(store, {
     get computedChannels() {
-      const { channels, pendingChannels, settings } = store;
+      const { channels, pendingChannels, closedChannels, settings } = store;
       const c = channels ? channels.slice() : [];
       const p = pendingChannels ? pendingChannels.slice() : [];
-      const all = [].concat(c, p);
-      all.sort(
+      const cl = closedChannels ? closedChannels.slice() : [];
+      c.sort((a, b) => (a.active === b.active ? 0 : a.active ? -1 : 1));
+      p.sort(
         (a, b) => (a.status > b.status ? -1 : a.status < b.status ? 1 : 0)
       );
-      all.sort((a, b) => (a.active === b.active ? 0 : a.active ? -1 : 1));
+      let all = [].concat(c, p, cl);
       all.forEach(c => {
         c.statusLabel = toCaps(c.status);
         c.capacityLabel = toAmountLabel(c.capacity, settings);

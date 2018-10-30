@@ -83,6 +83,7 @@ class ChannelAction {
       this.getPeers(),
       this.getChannels(),
       this.getPendingChannels(),
+      this.getClosedChannels(),
     ]);
   }
 
@@ -144,12 +145,12 @@ class ChannelAction {
       }));
       const pccs = response.pending_closing_channels.map(pcc => ({
         ...mapPendingAttributes(pcc.channel),
-        closingTxid: pcc.closing_txid,
+        closingTxId: pcc.closing_txid,
         status: 'pending-closing',
       }));
       const pfccs = response.pending_force_closing_channels.map(pfcc => ({
         ...mapPendingAttributes(pfcc.channel),
-        closingTxid: pfcc.closing_txid,
+        closingTxId: pfcc.closing_txid,
         limboBalance: pfcc.limbo_balance,
         maturityHeight: pfcc.maturity_height,
         blocksTilMaturity: pfcc.blocks_til_maturity,
@@ -163,6 +164,31 @@ class ChannelAction {
       this._store.pendingChannels = [].concat(pocs, pccs, pfccs, wccs);
     } catch (err) {
       log.error('Listing pending channels failed', err);
+    }
+  }
+
+  /**
+   * List the closed channels by calling the respective grpc api and updating
+   * the closed channels array in the global store.
+   * @return {Promise<undefined>}
+   */
+  async getClosedChannels() {
+    try {
+      const { channels } = await this._grpc.sendCommand('closedChannels');
+      this._store.closedChannels = channels.map(channel => ({
+        remotePubkey: channel.remote_pubkey,
+        capacity: parseSat(channel.capacity),
+        channelPoint: channel.channel_point,
+        fundingTxId: this._parseChannelPoint(channel.channel_point)
+          .funding_txid_str,
+        localBalance: parseSat(channel.settled_balance),
+        remoteBalance:
+          parseSat(channel.capacity) - parseSat(channel.settled_balance),
+        closingTxId: channel.closing_tx_hash,
+        status: 'closed',
+      }));
+    } catch (err) {
+      log.error('Listing closed channels failed', err);
     }
   }
 
