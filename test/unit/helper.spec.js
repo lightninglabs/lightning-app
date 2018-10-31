@@ -819,4 +819,42 @@ describe('Helpers Unit Tests', () => {
       expect(stub.callCount, 'to equal', 3);
     });
   });
+
+  describe('generateArc()', () => {
+    it('should work for continuous spinner inputs', () => {
+      const spinnerRadius = 40;
+      const startAngle = 3.6000000000009593;
+      const endAngle = 147.60000000000096;
+      const svgPath = helpers.generateArc(
+        spinnerRadius,
+        spinnerRadius,
+        spinnerRadius,
+        startAngle,
+        endAngle
+      );
+      expect(
+        svgPath,
+        'to equal',
+        'M 40 40 L 61.4330717991593 73.77311702008096 A 40 40 0 0 0 42.51162078117321 0.0789308628691785 Z'
+      );
+    });
+
+    it('should work for network spinner inputs', () => {
+      const spinnerRadius = 40;
+      const startAngle = 0;
+      const endAngle = 158.39318884228678;
+      const svgPath = helpers.generateArc(
+        spinnerRadius,
+        spinnerRadius,
+        spinnerRadius,
+        startAngle,
+        endAngle
+      );
+      expect(
+        svgPath,
+        'to equal',
+        'M 40 40 L 54.72940316966346 77.1893087091641 A 40 40 0 0 0 40 0 Z'
+      );
+    });
+  });
 });
