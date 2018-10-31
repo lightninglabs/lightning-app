@@ -113,6 +113,33 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('pushPinDigit()', () => {
+    it('should add a digit for empty password', () => {
+      wallet.pushPinDigit({ digit: '1', param: 'password' });
+      expect(store.wallet.password, 'to equal', '1');
+    });
+
+    it('should add no digit for max length password', () => {
+      store.wallet.password = '000000';
+      wallet.pushPinDigit({ digit: '1', param: 'password' });
+      expect(store.wallet.password, 'to equal', '000000');
+    });
+  });
+
+  describe('popPinDigit()', () => {
+    it('should remove digit from a password', () => {
+      store.wallet.password = '000000';
+      wallet.popPinDigit({ param: 'password' });
+      expect(store.wallet.password, 'to equal', '00000');
+    });
+
+    it('should not remove a digit from an empty password', () => {
+      store.wallet.password = '';
+      wallet.popPinDigit({ param: 'password' });
+      expect(store.wallet.password, 'to equal', '');
+    });
+  });
+
   describe('setRestoringWallet()', () => {
     it('should clear attributes', () => {
       wallet.setRestoringWallet({ restoring: true });
