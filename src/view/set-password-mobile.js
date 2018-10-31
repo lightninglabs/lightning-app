@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SetPasswordView = ({ store, wallet, nav }) => (
+const SetPasswordView = ({ store, wallet }) => (
   <Background image="purple-gradient-bg">
     <MainContent style={styles.content}>
       <CopyOnboardText style={styles.title}>Set PIN</CopyOnboardText>
@@ -50,7 +50,6 @@ const SetPasswordView = ({ store, wallet, nav }) => (
 SetPasswordView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
-  nav: PropTypes.object.isRequired,
 };
 
 export default observer(SetPasswordView);
