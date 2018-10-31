@@ -6,6 +6,7 @@
     "@storybook/addon-links": "^3.4.11",
     "@storybook/addons": "^3.4.11",
     "@storybook/react-native": "^3.4.11",
+    "expo-cli": "^2.2.4",
     "prop-types": "15.6.1",
     "react-dom": "16.3.1",
     "sinon": "^6.1.5"
