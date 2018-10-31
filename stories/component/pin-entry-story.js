@@ -11,8 +11,8 @@ storiesOf('PIN Entry (Mobile)', module)
       <MainContent style={{ justifyContent: 'center' }}>{story()}</MainContent>
     </Background>
   ))
-  .add('PIN Entry (Mobile)', () => <PinBubbles pin={'123'} />)
-  .add('PIN Keyboard (Mobile)', () => (
+  .add('PIN Bubbles', () => <PinBubbles pin={'123'} />)
+  .add('PIN Keyboard', () => (
     <PinKeyboard
       onInput={action('digit input')}
       onBackspace={action('delete')}
