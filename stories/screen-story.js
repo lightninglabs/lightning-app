@@ -55,6 +55,7 @@ import ResetPasswordConfirm from '../src/view/reset-password-confirm';
 import ResetPasswordSaved from '../src/view/reset-password-saved';
 import NewAddress from '../src/view/new-address';
 import Wait from '../src/view/wait';
+import WaitMobile from '../src/view/wait-mobile';
 import RestoreSeed from '../src/view/restore-seed';
 
 const store = new Store();
@@ -124,6 +125,7 @@ storiesOf('Screens', module)
   ))
   .add('Loader - Syncing Chain', () => <LoaderSyncing store={store} />)
   .add('Wait', () => <Wait />)
+  .add('WaitMobile', () => <WaitMobile />)
   .add('Home', () => (
     <Home
       store={store}
