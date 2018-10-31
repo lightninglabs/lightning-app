@@ -70,6 +70,7 @@ PinBubble.propTypes = {
 
 const keyboardStyles = StyleSheet.create({
   wrapper: {
+    alignSelf: 'stretch',
     flexDirection: 'row',
   },
   column: {
