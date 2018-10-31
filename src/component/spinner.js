@@ -10,6 +10,7 @@ import { color, font } from './style';
 import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import Text from './text';
 import Svg, { Path, Circle, Defs, Stop, LinearGradient } from './svg';
+import { generateArc } from '../helper';
 
 //
 // Small Spinner
@@ -224,50 +225,4 @@ SpinnerFill.propTypes = {
   spinnerWidth: PropTypes.number.isRequired,
   progressWidth: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
-};
-
-/**
- * @typedef {Object} Point
- * @property {number} x The X Coordinate
- * @property {number} y The Y Coordinate
- */
-
-/**
- * Translate radius + angle information into cartestian x and y
- * @param  {number} centerX        The X-coord of the center of the circle
- * @param  {number} centerY        The Y-coord of the center of the circle
- * @param  {number} radius         The radius of the circle
- * @param  {number} angleInDegrees The angle at which the point sits
- * @return {Point}                 The point in cartesian form
- */
-const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
-  const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
-
-  return {
-    x: centerX + radius * Math.cos(angleInRadians),
-    y: centerY + radius * Math.sin(angleInRadians),
-  };
-};
-
-/**
- * Create an SVG path string for a circular arc
- * @param  {number} x          The X-coord of the center of the circle
- * @param  {number} y          The Y-coord of the center of the circle
- * @param  {number} radius     The radius of the circle
- * @param  {number} startAngle The angle at which to start the arc
- * @param  {number} endAngle   The angle at which to end the arc
- * @return {string}            The path string for the arc
- */
-const generateArc = (x, y, radius, startAngle, endAngle) => {
-  const start = polarToCartesian(x, y, radius, endAngle);
-  const end = polarToCartesian(x, y, radius, startAngle);
-
-  const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
-
-  return [
-    `M ${x} ${y}`,
-    `L ${start.x} ${start.y}`,
-    `A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`,
-    'Z',
-  ].join(' ');
 };
