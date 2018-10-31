@@ -158,6 +158,7 @@ PinKey.propTypes = {
 const backStyles = StyleSheet.create({
   btn: {
     paddingTop: 15,
+    paddingLeft: 5,
   },
 });
 
