@@ -19,7 +19,7 @@
     "storybook": "storybook start -p 7007"
   },
   "dependencies": {
-    "expo": "^30.0.1",
+    "expo": "^30.0.2",
     "locale-currency": "0.0.2",
     "mobx": "^4.5.0",
     "mobx-react": "^5.2.8",
