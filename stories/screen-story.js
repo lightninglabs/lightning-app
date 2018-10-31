@@ -125,7 +125,7 @@ storiesOf('Screens', module)
   ))
   .add('Loader - Syncing Chain', () => <LoaderSyncing store={store} />)
   .add('Wait', () => <Wait />)
-  .add('WaitMobile', () => <WaitMobile />)
+  .add('Wait (Mobile)', () => <WaitMobile />)
   .add('Home', () => (
     <Home
       store={store}
