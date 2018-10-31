@@ -3,6 +3,7 @@ import { Clipboard } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import FontLoader from './component/font-loader';
 
+import SetPassword from '../src/view/set-password-mobile';
 import Home from '../src/view/home';
 import Setting from '../src/view/setting';
 import SettingUnit from '../src/view/setting-unit';
@@ -56,6 +57,10 @@ sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
 
+const SetPasswordScreen = () => (
+  <SetPassword store={store} wallet={wallet} nav={nav} />
+);
+
 const HomeScreen = () => (
   <Home
     store={store}
@@ -94,6 +99,15 @@ const InvoiceQRScreen = () => (
 
 const PayScreen = () => <Payment store={store} payment={payment} nav={nav} />;
 
+const SetupStack = createStackNavigator(
+  {
+    SetPassword: SetPasswordScreen,
+  },
+  {
+    headerMode: 'none',
+  }
+);
+
 const MainStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -119,6 +133,7 @@ const InvoiceStack = createStackNavigator(
 
 const RootStack = createStackNavigator(
   {
+    Setup: SetupStack,
     Main: MainStack,
     Deposit: DepositScreen,
     Pay: PayScreen,
