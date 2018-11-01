@@ -14,13 +14,11 @@ import { PinBubbles, PinKeyboard } from '../component/pin-entry';
 
 const styles = StyleSheet.create({
   content: {
-    paddingTop: 10,
-    paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
   },
   title: {
-    marginTop: 35,
+    marginTop: 50,
   },
   text: {
     marginTop: 10,
@@ -34,7 +32,7 @@ const SetPasswordView = ({ store, wallet }) => (
     <MainContent style={styles.content}>
       <CopyOnboardText style={styles.title}>Set PIN</CopyOnboardText>
       <Text style={styles.text}>
-        Type the PIN you want to use to unlock your wallet
+        Type the PIN you want to use to unlock your wallet.
       </Text>
       <FormStretcher>
         <PinBubbles pin={store.wallet.newPassword} />
