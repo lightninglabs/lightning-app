@@ -48,6 +48,7 @@ import SeedVerify from '../src/view/seed-verify';
 import SetPassword from '../src/view/set-password';
 import SetPasswordMobile from '../src/view/set-password-mobile';
 import SetPasswordConfirm from '../src/view/set-password-confirm';
+import SetPasswordConfirmMobile from '../src/view/set-password-confirm-mobile';
 import Password from '../src/view/password';
 import RestorePassword from '../src/view/restore-password';
 import ResetPasswordCurrent from '../src/view/reset-password-current';
@@ -104,11 +105,14 @@ storiesOf('Screens', module)
   .add('Set Password', () => (
     <SetPassword store={store} wallet={wallet} nav={nav} />
   ))
+  .add('Set Password Confirm', () => (
+    <SetPasswordConfirm store={store} wallet={wallet} />
+  ))
   .add('Set Password (Mobile)', () => (
     <SetPasswordMobile store={store} wallet={wallet} nav={nav} />
   ))
-  .add('Set Password Confirm', () => (
-    <SetPasswordConfirm store={store} wallet={wallet} />
+  .add('Set Password Confirm (Mobile)', () => (
+    <SetPasswordConfirmMobile store={store} wallet={wallet} />
   ))
   .add('Password', () => <Password store={store} wallet={wallet} />)
   .add('Restore Wallet: Password', () => (

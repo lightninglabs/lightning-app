@@ -3,16 +3,19 @@ import { Clipboard } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import FontLoader from './component/font-loader';
 
-import SetPassword from '../src/view/set-password-mobile';
-import Home from '../src/view/home';
-import Setting from '../src/view/setting';
-import SettingUnit from '../src/view/setting-unit';
-import SettingFiat from '../src/view/setting-fiat';
-import CLI from '../src/view/cli';
-import Payment from '../src/view/payment';
-import Invoice from '../src/view/invoice';
-import InvoiceQR from '../src/view/invoice-qr';
-import Deposit from '../src/view/deposit';
+import SetPasswordView from '../src/view/set-password-mobile';
+import SetPasswordConfirmView from '../src/view/set-password-confirm-mobile';
+import SeedSuccessView from '../src/view/seed-success';
+
+import HomeView from '../src/view/home';
+import SettingView from '../src/view/setting';
+import SettingUnitView from '../src/view/setting-unit';
+import SettingFiatView from '../src/view/setting-fiat';
+import CLIView from '../src/view/cli';
+import PaymentView from '../src/view/payment';
+import InvoiceView from '../src/view/invoice';
+import InvoiceQRView from '../src/view/invoice-qr';
+import DepositView from '../src/view/deposit';
 
 import sinon from 'sinon';
 import { Store } from '../src/store';
@@ -41,7 +44,6 @@ const wallet = new WalletAction(store, grpc, db, nav, notify);
 const setting = new SettingAction(store, wallet, db, ipc);
 sinon.stub(wallet, 'update');
 sinon.stub(wallet, 'checkSeed');
-sinon.stub(wallet, 'checkNewPassword');
 sinon.stub(wallet, 'checkPassword');
 sinon.stub(wallet, 'getExchangeRate');
 const transaction = new TransactionAction(store, grpc, nav, notify);
@@ -57,12 +59,18 @@ sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
 
-const SetPasswordScreen = () => (
-  <SetPassword store={store} wallet={wallet} nav={nav} />
+const SetPassword = () => (
+  <SetPasswordView store={store} wallet={wallet} nav={nav} />
 );
 
-const HomeScreen = () => (
-  <Home
+const SetPasswordConfirm = () => (
+  <SetPasswordConfirmView store={store} wallet={wallet} nav={nav} />
+);
+
+const SeedSuccess = () => <SeedSuccessView wallet={wallet} />;
+
+const Home = () => (
+  <HomeView
     store={store}
     wallet={wallet}
     channel={channel}
@@ -73,35 +81,33 @@ const HomeScreen = () => (
   />
 );
 
-const SettingScreen = () => <Setting store={store} nav={nav} wallet={wallet} />;
+const Settings = () => <SettingView store={store} nav={nav} wallet={wallet} />;
 
-const SettingUnitScreen = () => (
-  <SettingUnit store={store} nav={nav} setting={setting} />
+const SettingsUnit = () => (
+  <SettingUnitView store={store} nav={nav} setting={setting} />
 );
 
-const SettingFiatScreen = () => (
-  <SettingFiat store={store} nav={nav} setting={setting} />
+const SettingsFiat = () => (
+  <SettingFiatView store={store} nav={nav} setting={setting} />
 );
 
-const CLIScreen = () => <CLI store={store} nav={nav} />;
+const CLI = () => <CLIView store={store} nav={nav} />;
 
-const DepositScreen = () => (
-  <Deposit store={store} invoice={invoice} nav={nav} />
+const Deposit = () => <DepositView store={store} invoice={invoice} nav={nav} />;
+
+const Invoice = () => <InvoiceView store={store} invoice={invoice} nav={nav} />;
+
+const InvoiceQR = () => (
+  <InvoiceQRView store={store} invoice={invoice} nav={nav} />
 );
 
-const InvoiceScreen = () => (
-  <Invoice store={store} invoice={invoice} nav={nav} />
-);
-
-const InvoiceQRScreen = () => (
-  <InvoiceQR store={store} invoice={invoice} nav={nav} />
-);
-
-const PayScreen = () => <Payment store={store} payment={payment} nav={nav} />;
+const Pay = () => <PaymentView store={store} payment={payment} nav={nav} />;
 
 const SetupStack = createStackNavigator(
   {
-    SetPassword: SetPasswordScreen,
+    SetPassword,
+    SetPasswordConfirm,
+    SeedSuccess,
   },
   {
     headerMode: 'none',
@@ -110,11 +116,11 @@ const SetupStack = createStackNavigator(
 
 const MainStack = createStackNavigator(
   {
-    Home: HomeScreen,
-    Settings: SettingScreen,
-    SettingsUnit: SettingUnitScreen,
-    SettingsFiat: SettingFiatScreen,
-    CLI: CLIScreen,
+    Home,
+    Settings,
+    SettingsUnit,
+    SettingsFiat,
+    CLI,
   },
   {
     headerMode: 'none',
@@ -123,8 +129,17 @@ const MainStack = createStackNavigator(
 
 const InvoiceStack = createStackNavigator(
   {
-    Invoice: InvoiceScreen,
-    InvoiceQR: InvoiceQRScreen,
+    Invoice,
+    InvoiceQR,
+  },
+  {
+    headerMode: 'none',
+  }
+);
+
+const PayStack = createStackNavigator(
+  {
+    Pay,
   },
   {
     headerMode: 'none',
@@ -135,9 +150,9 @@ const RootStack = createStackNavigator(
   {
     Setup: SetupStack,
     Main: MainStack,
-    Deposit: DepositScreen,
-    Pay: PayScreen,
     Invoice: InvoiceStack,
+    Pay: PayStack,
+    Deposit,
   },
   {
     mode: 'modal',
