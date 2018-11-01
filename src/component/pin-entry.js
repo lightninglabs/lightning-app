@@ -17,8 +17,8 @@ const pinEntryStyles = StyleSheet.create({
   },
 });
 
-export const PinBubbles = ({ pin }) => (
-  <View style={pinEntryStyles.wrapper}>
+export const PinBubbles = ({ pin, style }) => (
+  <View style={[pinEntryStyles.wrapper, style]}>
     <PinBubble char={pin[0]} />
     <PinBubble char={pin[1]} />
     <PinBubble char={pin[2]} />
@@ -30,6 +30,7 @@ export const PinBubbles = ({ pin }) => (
 
 PinBubbles.propTypes = {
   pin: PropTypes.string.isRequired,
+  style: View.propTypes.style,
 };
 
 //
