@@ -6,6 +6,7 @@ import FontLoader from './component/font-loader';
 import SetPasswordView from '../src/view/set-password-mobile';
 import SetPasswordConfirmView from '../src/view/set-password-confirm-mobile';
 import SeedSuccessView from '../src/view/seed-success';
+import NewAddressView from '../src/view/new-address';
 
 import HomeView from '../src/view/home';
 import SettingView from '../src/view/setting';
@@ -69,6 +70,14 @@ const SetPasswordConfirm = () => (
 
 const SeedSuccess = () => <SeedSuccessView wallet={wallet} />;
 
+const NewAddress = () => (
+  <NewAddressView
+    store={store}
+    invoice={invoice}
+    info={{ initLoaderSyncing: () => nav.goHome() }}
+  />
+);
+
 const Home = () => (
   <HomeView
     store={store}
@@ -108,6 +117,7 @@ const SetupStack = createStackNavigator(
     SetPassword,
     SetPasswordConfirm,
     SeedSuccess,
+    NewAddress,
   },
   {
     headerMode: 'none',
