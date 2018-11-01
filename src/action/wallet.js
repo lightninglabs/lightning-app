@@ -126,8 +126,19 @@ class WalletAction {
    */
   pushPinDigit({ digit, param }) {
     const { wallet } = this._store;
-    if (wallet[param].length >= PIN_LENGTH) return;
-    wallet[param] += digit;
+    if (wallet[param].length < PIN_LENGTH) {
+      wallet[param] += digit;
+    }
+    if (wallet[param].length < PIN_LENGTH) {
+      return;
+    }
+    if (param === 'newPassword') {
+      this._nav.goSetPasswordConfirm();
+    } else if (param === 'passwordVerify') {
+      this.checkNewPassword(PIN_LENGTH);
+    } else if (param === 'password') {
+      this.checkPassword();
+    }
   }
 
   /**
@@ -137,8 +148,11 @@ class WalletAction {
    */
   popPinDigit({ param }) {
     const { wallet } = this._store;
-    if (!wallet[param]) return;
-    wallet[param] = wallet[param].slice(0, -1);
+    if (wallet[param]) {
+      wallet[param] = wallet[param].slice(0, -1);
+    } else if (param === 'passwordVerify') {
+      this.initSetPassword();
+    }
   }
 
   /**
@@ -226,11 +240,11 @@ class WalletAction {
    * there was no typo.
    * @return {Promise<undefined>}
    */
-  async checkNewPassword() {
+  async checkNewPassword(minLength = MIN_PASSWORD_LENGTH) {
     const { newPassword, passwordVerify } = this._store.wallet;
     let errorMsg;
-    if (!newPassword || newPassword.length < MIN_PASSWORD_LENGTH) {
-      errorMsg = `Set a password with at least ${MIN_PASSWORD_LENGTH} characters.`;
+    if (!newPassword || newPassword.length < minLength) {
+      errorMsg = `Set a password with at least ${minLength} characters.`;
     } else if (newPassword !== passwordVerify) {
       errorMsg = 'Passwords do not match!';
     }

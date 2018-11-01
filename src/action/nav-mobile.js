@@ -48,6 +48,10 @@ class NavAction {
     this._navigate('SetPassword');
   }
 
+  goSetPasswordConfirm() {
+    this._navigate('SetPasswordConfirm');
+  }
+
   goPassword() {
     this._navigate('Password');
   }
