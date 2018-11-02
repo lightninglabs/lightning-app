@@ -8,6 +8,8 @@ import SetPasswordConfirmView from '../src/view/set-password-confirm-mobile';
 import SeedSuccessView from '../src/view/seed-success';
 import NewAddressView from '../src/view/new-address';
 
+import PasswordView from '../src/view/password-mobile';
+import WaitView from '../src/view/wait-mobile';
 import HomeView from '../src/view/home';
 import SettingView from '../src/view/setting';
 import SettingUnitView from '../src/view/setting-unit';
@@ -45,7 +47,6 @@ const wallet = new WalletAction(store, grpc, db, nav, notify);
 const setting = new SettingAction(store, wallet, db, ipc);
 sinon.stub(wallet, 'update');
 sinon.stub(wallet, 'checkSeed');
-sinon.stub(wallet, 'checkPassword');
 sinon.stub(wallet, 'getExchangeRate');
 const transaction = new TransactionAction(store, grpc, nav, notify);
 sinon.stub(transaction, 'update');
@@ -77,6 +78,10 @@ const NewAddress = () => (
     info={{ initLoaderSyncing: () => nav.goHome() }}
   />
 );
+
+const Password = () => <PasswordView store={store} wallet={wallet} />;
+
+const Wait = () => <WaitView />;
 
 const Home = () => (
   <HomeView
@@ -112,20 +117,14 @@ const InvoiceQR = () => (
 
 const Pay = () => <PaymentView store={store} payment={payment} nav={nav} />;
 
-const SetupStack = createStackNavigator(
+const MainStack = createStackNavigator(
   {
     SetPassword,
     SetPasswordConfirm,
     SeedSuccess,
     NewAddress,
-  },
-  {
-    headerMode: 'none',
-  }
-);
-
-const MainStack = createStackNavigator(
-  {
+    Password,
+    Wait,
     Home,
     Settings,
     SettingsUnit,
@@ -158,7 +157,6 @@ const PayStack = createStackNavigator(
 
 const RootStack = createStackNavigator(
   {
-    Setup: SetupStack,
     Main: MainStack,
     Invoice: InvoiceStack,
     Pay: PayStack,

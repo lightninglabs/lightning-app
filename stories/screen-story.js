@@ -50,6 +50,7 @@ import SetPasswordMobile from '../src/view/set-password-mobile';
 import SetPasswordConfirm from '../src/view/set-password-confirm';
 import SetPasswordConfirmMobile from '../src/view/set-password-confirm-mobile';
 import Password from '../src/view/password';
+import PasswordMobile from '../src/view/password-mobile';
 import RestorePassword from '../src/view/restore-password';
 import ResetPasswordCurrent from '../src/view/reset-password-current';
 import ResetPasswordNew from '../src/view/reset-password-new';
@@ -115,6 +116,9 @@ storiesOf('Screens', module)
     <SetPasswordConfirmMobile store={store} wallet={wallet} />
   ))
   .add('Password', () => <Password store={store} wallet={wallet} />)
+  .add('Password (Mobile)', () => (
+    <PasswordMobile store={store} wallet={wallet} />
+  ))
   .add('Restore Wallet: Password', () => (
     <RestorePassword store={store} wallet={wallet} nav={nav} />
   ))
