@@ -16,3 +16,6 @@ ios/Pods/**/*
 npm-debug.*
 yarn-debug.log*
 yarn-error.log*
+
+ios/lightning.xcworkspace/xcshareddata/
+ios/lightning.xcworkspace/xcuserdata/
