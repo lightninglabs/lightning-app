@@ -9,6 +9,7 @@ import {
   NOTIFICATION_DELAY,
   RATE_DELAY,
   RECOVERY_WINDOW,
+  PIN_LENGTH,
 } from '../config';
 import { when } from 'mobx';
 import * as log from './log';
@@ -118,6 +119,43 @@ class WalletAction {
   }
 
   /**
+   * Append a digit input to the password parameter.
+   * @param  {string} options.digit The digit to append to the password
+   * @param  {string} options.param The password parameter name
+   * @return {undefined}
+   */
+  pushPinDigit({ digit, param }) {
+    const { wallet } = this._store;
+    if (wallet[param].length < PIN_LENGTH) {
+      wallet[param] += digit;
+    }
+    if (wallet[param].length < PIN_LENGTH) {
+      return;
+    }
+    if (param === 'newPassword') {
+      this._nav.goSetPasswordConfirm();
+    } else if (param === 'passwordVerify') {
+      this.checkNewPassword(PIN_LENGTH);
+    } else if (param === 'password') {
+      this.checkPassword();
+    }
+  }
+
+  /**
+   * Remove the last digit from the password parameter.
+   * @param  {string} options.param The password parameter name
+   * @return {undefined}
+   */
+  popPinDigit({ param }) {
+    const { wallet } = this._store;
+    if (wallet[param]) {
+      wallet[param] = wallet[param].slice(0, -1);
+    } else if (param === 'passwordVerify') {
+      this.initSetPassword();
+    }
+  }
+
+  /**
    * Set whether or not we're restoring the wallet.
    * @param {boolean} options.restoring Whether or not we're restoring.
    */
@@ -202,11 +240,11 @@ class WalletAction {
    * there was no typo.
    * @return {Promise<undefined>}
    */
-  async checkNewPassword() {
+  async checkNewPassword(minLength = MIN_PASSWORD_LENGTH) {
     const { newPassword, passwordVerify } = this._store.wallet;
     let errorMsg;
-    if (!newPassword || newPassword.length < MIN_PASSWORD_LENGTH) {
-      errorMsg = `Set a password with at least ${MIN_PASSWORD_LENGTH} characters.`;
+    if (!newPassword || newPassword.length < minLength) {
+      errorMsg = `Set a password with at least ${minLength} characters.`;
     } else if (newPassword !== passwordVerify) {
       errorMsg = 'Passwords do not match!';
     }

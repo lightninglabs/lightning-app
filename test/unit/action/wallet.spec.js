@@ -113,6 +113,53 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('pushPinDigit()', () => {
+    it('should add a digit for empty password', () => {
+      wallet.pushPinDigit({ digit: '1', param: 'password' });
+      expect(store.wallet.password, 'to equal', '1');
+    });
+
+    it('should add no digit for max length password', () => {
+      store.wallet.password = '000000';
+      wallet.pushPinDigit({ digit: '1', param: 'password' });
+      expect(store.wallet.password, 'to equal', '000000');
+    });
+
+    it('should go to next screen on last digit', () => {
+      store.wallet.newPassword = '00000';
+      wallet.pushPinDigit({ digit: '1', param: 'newPassword' });
+      expect(store.wallet.newPassword, 'to equal', '000001');
+      expect(nav.goSetPasswordConfirm, 'was called once');
+    });
+
+    it('should not go to next screen on fifth digit', () => {
+      store.wallet.newPassword = '0000';
+      wallet.pushPinDigit({ digit: '1', param: 'newPassword' });
+      expect(store.wallet.newPassword, 'to equal', '00001');
+      expect(nav.goSetPasswordConfirm, 'was not called');
+    });
+  });
+
+  describe('popPinDigit()', () => {
+    it('should remove digit from a password', () => {
+      store.wallet.password = '000000';
+      wallet.popPinDigit({ param: 'password' });
+      expect(store.wallet.password, 'to equal', '00000');
+    });
+
+    it('should not remove a digit from an empty password', () => {
+      store.wallet.password = '';
+      wallet.popPinDigit({ param: 'password' });
+      expect(store.wallet.password, 'to equal', '');
+    });
+
+    it('should go back to SetPassword screen on empty string', () => {
+      store.wallet.passwordVerify = '';
+      wallet.popPinDigit({ param: 'passwordVerify' });
+      expect(nav.goSetPassword, 'was called once');
+    });
+  });
+
   describe('setRestoringWallet()', () => {
     it('should clear attributes', () => {
       wallet.setRestoringWallet({ restoring: true });
@@ -233,12 +280,22 @@ describe('Action Wallet Unit Tests', () => {
     });
 
     it('display notification if password is too short', async () => {
-      wallet.setNewPassword({ password: '' });
-      wallet.setPasswordVerify({ password: '' });
+      wallet.setNewPassword({ password: 'secret' });
+      wallet.setPasswordVerify({ password: 'secret' });
       await wallet.checkNewPassword();
       expect(wallet.initWallet, 'was not called');
       expect(wallet.initSetPassword, 'was called once');
       expect(notification.display, 'was called once');
+    });
+
+    it('should support custom length', async () => {
+      wallet.setNewPassword({ password: 'secret' });
+      wallet.setPasswordVerify({ password: 'secret' });
+      await wallet.checkNewPassword(6);
+      expect(wallet.initWallet, 'was called with', {
+        walletPassword: 'secret',
+        seedMnemonic: ['foo', 'bar', 'baz'],
+      });
     });
   });
 

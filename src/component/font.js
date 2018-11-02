@@ -21,6 +21,13 @@ import '../asset/font/Poppins-Bold.ttf';
 import '../asset/font/Poppins-ExtraBold.ttf';
 import '../asset/font/Poppins-Black.ttf';
 
+import '../asset/font/SF-Pro-Display-Regular.ttf';
+
+import '../asset/font/SF-Pro-Text-Regular.ttf';
+import '../asset/font/SF-Pro-Text-Medium.ttf';
+import '../asset/font/SF-Pro-Text-SemiBold.ttf';
+import '../asset/font/SF-Pro-Text-Bold.ttf';
+
 import '../asset/font/WorkSans-Thin.ttf';
 import '../asset/font/WorkSans-ExtraLight.ttf';
 import '../asset/font/WorkSans-Light.ttf';

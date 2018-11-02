@@ -100,6 +100,42 @@ body {
   font-weight: 900;
 }
 
+/* SF Pro Display */
+
+@font-face {
+  font-family: 'SF Pro Display Regular';
+  src: url('../asset/font/SF-Pro-Display-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* SF Pro Text */
+
+@font-face {
+  font-family: 'SF Pro Text Regular';
+  src: url('../asset/font/Poppins-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: 'SF Pro Text Medium';
+  src: url('../asset/font/Poppins-Medium.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 500;
+}
+@font-face {
+  font-family: 'SF Pro Text SemiBold';
+  src: url('../asset/font/Poppins-SemiBold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 600;
+}
+@font-face {
+  font-family: 'SF Pro Text Bold';
+  src: url('../asset/font/Poppins-Bold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 700;
+}
+
 /* Work Sans */
 
 @font-face {
