@@ -117,20 +117,12 @@ const InvoiceQR = () => (
 
 const Pay = () => <PaymentView store={store} payment={payment} nav={nav} />;
 
-const SetupStack = createStackNavigator(
+const MainStack = createStackNavigator(
   {
     SetPassword,
     SetPasswordConfirm,
     SeedSuccess,
     NewAddress,
-  },
-  {
-    headerMode: 'none',
-  }
-);
-
-const MainStack = createStackNavigator(
-  {
     Password,
     Wait,
     Home,
@@ -165,7 +157,6 @@ const PayStack = createStackNavigator(
 
 const RootStack = createStackNavigator(
   {
-    Setup: SetupStack,
     Main: MainStack,
     Invoice: InvoiceStack,
     Pay: PayStack,
