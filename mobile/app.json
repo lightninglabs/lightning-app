@@ -22,7 +22,11 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "engineering.lightning.Lightning"
+    },
+    "android": {
+      "package": "engineering.lightning.Lightning"
     },
     "packagerOpts": {
       "config": "./rn-cli.config.js"
