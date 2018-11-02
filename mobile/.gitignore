@@ -5,6 +5,7 @@
 
 # dependencies
 node_modules/**/*
+ios/Pods/**/*
 
 # misc
 .env.local
