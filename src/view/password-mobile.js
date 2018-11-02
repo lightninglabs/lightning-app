@@ -11,7 +11,7 @@ import { FormStretcher } from '../component/form';
 import { PinBubbles, PinKeyboard } from '../component/pin-entry';
 
 //
-// Set Password View (Mobile)
+// Password View (Mobile)
 //
 
 const styles = StyleSheet.create({
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SetPasswordView = ({ store, wallet }) => (
+const PasswordView = ({ store, wallet }) => (
   <Background image="purple-gradient-bg">
     <MainContent style={styles.content}>
       <View style={styles.boltWrapper}>
@@ -51,9 +51,9 @@ const SetPasswordView = ({ store, wallet }) => (
   </Background>
 );
 
-SetPasswordView.propTypes = {
+PasswordView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
 };
 
-export default observer(SetPasswordView);
+export default observer(PasswordView);
