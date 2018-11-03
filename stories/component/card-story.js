@@ -3,7 +3,8 @@ import { storiesOf } from '../storybook-react';
 import { action } from '@storybook/addon-actions';
 import Background from '../../src/component/background';
 import MainContent from '../../src/component/main-content';
-import Card, { PasswordCard } from '../../src/component/card';
+import Card from '../../src/component/card';
+import { PasswordCard } from '../../src/component/password-entry';
 
 storiesOf('Card', module)
   .addDecorator(story => (
