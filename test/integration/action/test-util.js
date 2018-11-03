@@ -1,5 +1,6 @@
 import fs from 'fs';
 import net from 'net';
+import { nap } from '../../../src/helper';
 
 export const rmdir = path => {
   if (fs.existsSync(path)) {
@@ -23,4 +24,16 @@ export const isPortOpen = async port => {
     client.on('connect', () => client.destroy());
     client.connect(port, 'localhost');
   });
+};
+
+export const killProcess = async pid => {
+  let terminated = false;
+  while (!terminated) {
+    try {
+      process.kill(pid);
+      await nap(500);
+    } catch (e) {
+      terminated = true;
+    }
+  }
 };
