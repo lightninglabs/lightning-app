@@ -1,4 +1,4 @@
-import { rmdir, isPortOpen } from './test-util';
+import { rmdir, isPortOpen, killProcess } from './test-util';
 import { Store } from '../../../src/store';
 import IpcAction from '../../../src/action/ipc';
 import GrpcAction from '../../../src/action/grpc';
@@ -280,7 +280,7 @@ describe('Action Integration Tests', function() {
     });
 
     it('should fund wallet for node1', async () => {
-      btcdProcess.kill('SIGINT');
+      await killProcess(btcdProcess.pid);
       btcdArgs.miningAddress = store1.walletAddress;
       btcdProcess = await startBtcdProcess(btcdArgs);
       await nap(NAP_TIME);
