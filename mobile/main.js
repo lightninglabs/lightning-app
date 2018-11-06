@@ -29,7 +29,7 @@ import DepositView from '../src/view/deposit';
 import sinon from 'sinon';
 import { Store } from '../src/store';
 import NavAction from '../src/action/nav-mobile';
-import IpcAction from '../src/action/ipc';
+import IpcAction from './ipc-mobile';
 import GrpcAction from '../src/action/grpc';
 /* import InfoAction from '../src/action/info'; */
 import AppStorage from '../src/action/app-storage';
