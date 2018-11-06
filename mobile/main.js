@@ -1,6 +1,6 @@
 import React from 'react';
 import { Clipboard } from 'react-native';
-import { Alert, SecureStore, LocalAuthentication } from 'expo';
+import { SecureStore, LocalAuthentication, Alert } from 'expo';
 import { createStackNavigator } from 'react-navigation';
 import FontLoader from './component/font-loader';
 
@@ -64,7 +64,7 @@ sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
 
-const auth = new AuthAction(store, nav, Alert, SecureStore, LocalAuthentication);
+const auth = new AuthAction(store, nav, SecureStore, LocalAuthentication, Alert);
 
 const SetPin = () => <SetPinView store={store} auth={auth} nav={nav} />;
 

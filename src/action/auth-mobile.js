@@ -5,12 +5,12 @@ const PASS = 'WalletPassword';
 const PASS_SIZE = 32; // 32 bytes (256 bits)
 
 class AuthAction {
-  constructor(store, nav, Alert, SecureStore, LocalAuthentication) {
+  constructor(store, nav, SecureStore, LocalAuthentication, Alert) {
     this._store = store;
     this._nav = nav;
-    this._Alert = Alert;
     this._SecureStore = SecureStore;
     this._LocalAuthentication = LocalAuthentication;
+    this._Alert = Alert;
     this.STORE = {
       keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
     };
