@@ -1,14 +1,15 @@
 import React from 'react';
 import { Clipboard } from 'react-native';
+import { Alert, SecureStore, LocalAuthentication } from 'expo';
 import { createStackNavigator } from 'react-navigation';
 import FontLoader from './component/font-loader';
 
-import SetPasswordView from '../src/view/set-password-mobile';
-import SetPasswordConfirmView from '../src/view/set-password-confirm-mobile';
+import SetPinView from '../src/view/set-pin-mobile';
+import SetPinConfirmView from '../src/view/set-pin-confirm-mobile';
 import SeedSuccessView from '../src/view/seed-success';
 import NewAddressView from '../src/view/new-address';
 
-import PasswordView from '../src/view/password-mobile';
+import PinView from '../src/view/pin-mobile';
 import WaitView from '../src/view/wait-mobile';
 import HomeView from '../src/view/home';
 import SettingView from '../src/view/setting';
@@ -34,6 +35,8 @@ import InvoiceAction from '../src/action/invoice';
 import PaymentAction from '../src/action/payment';
 import ChannelAction from '../src/action/channel';
 import TransactionAction from '../src/action/transaction';
+
+import AuthAction from '../src/action/auth-mobile';
 
 const store = new Store();
 store.init();
@@ -61,12 +64,12 @@ sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
 
-const SetPassword = () => (
-  <SetPasswordView store={store} wallet={wallet} nav={nav} />
-);
+const auth = new AuthAction(store, nav, Alert, SecureStore, LocalAuthentication);
 
-const SetPasswordConfirm = () => (
-  <SetPasswordConfirmView store={store} wallet={wallet} nav={nav} />
+const SetPin = () => <SetPinView store={store} auth={auth} nav={nav} />;
+
+const SetPinConfirm = () => (
+  <SetPinConfirmView store={store} auth={auth} nav={nav} />
 );
 
 const SeedSuccess = () => <SeedSuccessView wallet={wallet} />;
@@ -79,7 +82,7 @@ const NewAddress = () => (
   />
 );
 
-const Password = () => <PasswordView store={store} wallet={wallet} />;
+const Pin = () => <PinView store={store} auth={auth} />;
 
 const Wait = () => <WaitView />;
 
@@ -119,11 +122,11 @@ const Pay = () => <PaymentView store={store} payment={payment} nav={nav} />;
 
 const MainStack = createStackNavigator(
   {
-    SetPassword,
-    SetPasswordConfirm,
+    SetPin,
+    SetPinConfirm,
     SeedSuccess,
     NewAddress,
-    Password,
+    Pin,
     Wait,
     Home,
     Settings,

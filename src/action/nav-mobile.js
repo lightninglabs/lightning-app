@@ -36,24 +36,24 @@ class NavAction {
     this._navigate('RestoreSeed');
   }
 
-  goRestorePassword() {
-    this._navigate('RestorePassword');
+  goRestorePin() {
+    this._navigate('RestorePin');
   }
 
   goSeedSuccess() {
     this._navigate('SeedSuccess');
   }
 
-  goSetPassword() {
-    this._navigate('SetPassword');
+  goSetPin() {
+    this._navigate('SetPin');
   }
 
-  goSetPasswordConfirm() {
-    this._navigate('SetPasswordConfirm');
+  goSetPinConfirm() {
+    this._navigate('SetPinConfirm');
   }
 
-  goPassword() {
-    this._navigate('Password');
+  goPin() {
+    this._navigate('Pin');
   }
 
   goNewAddress() {

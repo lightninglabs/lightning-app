@@ -36,6 +36,11 @@ export class Store {
       pubKey: null,
       walletAddress: null,
       displayCopied: false,
+      auth: {
+        pin: '',
+        newPin: '',
+        pinVerify: '',
+      },
       wallet: {
         password: '',
         newPassword: '',
