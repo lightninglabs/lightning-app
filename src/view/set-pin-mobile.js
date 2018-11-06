@@ -9,7 +9,7 @@ import { FormStretcher } from '../component/form';
 import { PinBubbles, PinKeyboard } from '../component/pin-entry';
 
 //
-// Set Password View (Mobile)
+// Set Pin View (Mobile)
 //
 
 const styles = StyleSheet.create({
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SetPasswordView = ({ store, wallet }) => (
+const SetPinView = ({ store, auth }) => (
   <Background image="purple-gradient-bg">
     <MainContent style={styles.content}>
       <CopyOnboardText style={styles.title}>Set PIN</CopyOnboardText>
@@ -35,19 +35,19 @@ const SetPasswordView = ({ store, wallet }) => (
         Type the PIN you want to use to unlock your wallet.
       </Text>
       <FormStretcher>
-        <PinBubbles pin={store.wallet.newPassword} />
+        <PinBubbles pin={store.auth.newPin} />
       </FormStretcher>
       <PinKeyboard
-        onInput={digit => wallet.pushPinDigit({ digit, param: 'newPassword' })}
-        onBackspace={() => wallet.popPinDigit({ param: 'newPassword' })}
+        onInput={digit => auth.pushPinDigit({ digit, param: 'newPin' })}
+        onBackspace={() => auth.popPinDigit({ param: 'newPin' })}
       />
     </MainContent>
   </Background>
 );
 
-SetPasswordView.propTypes = {
+SetPinView.propTypes = {
   store: PropTypes.object.isRequired,
-  wallet: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default observer(SetPasswordView);
+export default observer(SetPinView);
