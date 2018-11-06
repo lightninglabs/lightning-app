@@ -9,7 +9,6 @@ import {
   NOTIFICATION_DELAY,
   RATE_DELAY,
   RECOVERY_WINDOW,
-  PIN_LENGTH,
 } from '../config';
 import { when } from 'mobx';
 import * as log from './log';
@@ -116,43 +115,6 @@ class WalletAction {
    */
   setPasswordVerify({ password }) {
     this._store.wallet.passwordVerify = password;
-  }
-
-  /**
-   * Append a digit input to the password parameter.
-   * @param  {string} options.digit The digit to append to the password
-   * @param  {string} options.param The password parameter name
-   * @return {undefined}
-   */
-  pushPinDigit({ digit, param }) {
-    const { wallet } = this._store;
-    if (wallet[param].length < PIN_LENGTH) {
-      wallet[param] += digit;
-    }
-    if (wallet[param].length < PIN_LENGTH) {
-      return;
-    }
-    if (param === 'newPassword') {
-      this._nav.goSetPasswordConfirm();
-    } else if (param === 'passwordVerify') {
-      this.checkNewPassword(PIN_LENGTH);
-    } else if (param === 'password') {
-      this.checkPassword();
-    }
-  }
-
-  /**
-   * Remove the last digit from the password parameter.
-   * @param  {string} options.param The password parameter name
-   * @return {undefined}
-   */
-  popPinDigit({ param }) {
-    const { wallet } = this._store;
-    if (wallet[param]) {
-      wallet[param] = wallet[param].slice(0, -1);
-    } else if (param === 'passwordVerify') {
-      this.initSetPassword();
-    }
   }
 
   /**
