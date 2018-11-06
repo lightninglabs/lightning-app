@@ -9,7 +9,7 @@ import { FormStretcher } from '../component/form';
 import { PinBubbles, PinKeyboard } from '../component/pin-entry';
 
 //
-// Set Password Confirm View (Mobile)
+// Set Pin Confirm View (Mobile)
 //
 
 const styles = StyleSheet.create({
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const SetPasswordConfirmView = ({ store, wallet }) => (
+const SetPinConfirmView = ({ store, auth }) => (
   <Background image="purple-gradient-bg">
     <MainContent style={styles.content}>
       <CopyOnboardText style={styles.title}>Re-type PIN</CopyOnboardText>
@@ -35,21 +35,19 @@ const SetPasswordConfirmView = ({ store, wallet }) => (
         {"Type your PIN again to make sure it's the correct one."}
       </Text>
       <FormStretcher>
-        <PinBubbles pin={store.wallet.passwordVerify} />
+        <PinBubbles pin={store.auth.pinVerify} />
       </FormStretcher>
       <PinKeyboard
-        onInput={digit =>
-          wallet.pushPinDigit({ digit, param: 'passwordVerify' })
-        }
-        onBackspace={() => wallet.popPinDigit({ param: 'passwordVerify' })}
+        onInput={digit => auth.pushPinDigit({ digit, param: 'pinVerify' })}
+        onBackspace={() => auth.popPinDigit({ param: 'pinVerify' })}
       />
     </MainContent>
   </Background>
 );
 
-SetPasswordConfirmView.propTypes = {
+SetPinConfirmView.propTypes = {
   store: PropTypes.object.isRequired,
-  wallet: PropTypes.object.isRequired,
+  auth: PropTypes.object.isRequired,
 };
 
-export default observer(SetPasswordConfirmView);
+export default observer(SetPinConfirmView);
