@@ -89,11 +89,12 @@ const channel = new ChannelAction(store, grpc, nav, notify);
 sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
-const auth = new AuthAction(store, nav, {});
+const auth = new AuthAction(store, wallet, nav);
 sinon.stub(auth, 'checkNewPin');
 sinon.stub(auth, 'checkPin');
-sinon.stub(auth, 'authenticateUser');
-sinon.stub(auth, 'unlockWallet');
+sinon.stub(auth, 'tryFingerprint');
+sinon.stub(auth, '_unlockWallet');
+sinon.stub(auth, '_generateWalletPassword');
 
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)

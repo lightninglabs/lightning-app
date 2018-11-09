@@ -1,7 +1,11 @@
+/**
+ * @fileOverview The main module that wires up all depdencies for mobile.
+ */
+
 import React from 'react';
 import { Clipboard, Alert } from 'react-native';
 import { SecureStore, LocalAuthentication } from 'expo';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, NavigationActions } from 'react-navigation';
 import FontLoader from './component/font-loader';
 
 import SetPinView from '../src/view/set-pin-mobile';
@@ -40,7 +44,7 @@ import AuthAction from '../src/action/auth-mobile';
 
 const store = new Store();
 store.init();
-const nav = new NavAction(store);
+const nav = new NavAction(store, NavigationActions);
 const db = sinon.createStubInstance(AppStorage);
 const ipc = sinon.createStubInstance(IpcAction);
 const grpc = sinon.createStubInstance(GrpcAction);
@@ -66,6 +70,7 @@ sinon.stub(channel, 'closeSelectedChannel');
 
 const auth = new AuthAction(
   store,
+  wallet,
   nav,
   SecureStore,
   LocalAuthentication,

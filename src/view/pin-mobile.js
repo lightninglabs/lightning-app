@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 
 class PinView extends React.Component {
   componentDidMount() {
-    this.props.auth.authenticateUser();
+    this.props.auth.tryFingerprint();
   }
 
   render() {

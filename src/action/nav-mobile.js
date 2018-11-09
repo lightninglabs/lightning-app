@@ -4,16 +4,15 @@
  * and only change the route to be rendered in the user interface.
  */
 
-import { NavigationActions } from 'react-navigation';
-
 class NavAction {
-  constructor(store) {
+  constructor(store, Navigation) {
     this._store = store;
+    this._Navigation = Navigation;
   }
 
   setTopLevelNavigator(navigatorRef) {
     this._navigate = (routeName, params) =>
-      navigatorRef.dispatch(NavigationActions.navigate({ routeName, params }));
+      navigatorRef.dispatch(this._Navigation.navigate({ routeName, params }));
   }
 
   goLoader() {
