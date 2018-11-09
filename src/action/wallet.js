@@ -202,11 +202,11 @@ class WalletAction {
    * there was no typo.
    * @return {Promise<undefined>}
    */
-  async checkNewPassword(minLength = MIN_PASSWORD_LENGTH) {
+  async checkNewPassword() {
     const { newPassword, passwordVerify } = this._store.wallet;
     let errorMsg;
-    if (!newPassword || newPassword.length < minLength) {
-      errorMsg = `Set a password with at least ${minLength} characters.`;
+    if (!newPassword || newPassword.length < MIN_PASSWORD_LENGTH) {
+      errorMsg = `Set a password with at least ${MIN_PASSWORD_LENGTH} characters.`;
     } else if (newPassword !== passwordVerify) {
       errorMsg = 'Passwords do not match!';
     }
