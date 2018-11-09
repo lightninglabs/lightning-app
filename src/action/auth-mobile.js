@@ -11,9 +11,6 @@ class AuthAction {
     this._SecureStore = SecureStore;
     this._LocalAuthentication = LocalAuthentication;
     this._Alert = Alert;
-    this.STORE = {
-      keychainAccessible: SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-    };
   }
 
   //
@@ -87,37 +84,18 @@ class AuthAction {
   async checkNewPin() {
     const { newPin, pinVerify } = this._store.auth;
     if (newPin !== pinVerify) {
-      this._Alert.alert(
-        'Incorrect PIN',
-        'PINs do not match!',
-        [
-          {
-            text: 'TRY AGAIN',
-            onPress: () => this.initSetPin(),
-          },
-        ],
-        { cancelable: false }
-      );
+      this._alert('Incorrect PIN', () => this.initSetPin());
       return;
     }
-    await this._SecureStore.setItemAsync(PIN, newPin, this.STORE);
+    await this._setToKeyStore(PIN, newPin);
     await this.unlockWallet();
   }
 
   async checkPin() {
     const { pin } = this._store.auth;
-    const storedPin = await this._SecureStore.getItemAsync(PIN, this.STORE);
+    const storedPin = await this._getFromKeyStore(PIN);
     if (pin !== storedPin) {
-      this._Alert.alert(
-        'Incorrect PIN',
-        [
-          {
-            text: 'TRY AGAIN',
-            onPress: () => this.initPin(),
-          },
-        ],
-        { cancelable: false }
-      );
+      this._alert('Incorrect PIN', () => this.initPin());
       return;
     }
     await this.unlockWallet();
@@ -146,7 +124,7 @@ class AuthAction {
   }
 
   async unlockWallet() {
-    const storedPass = await this._SecureStore.getItemAsync(PASS, this.STORE);
+    const storedPass = await this._getFromKeyStore(PASS);
     if (storedPass) {
       this._store.password = storedPass;
       // await this._wallet.checkPassword();
@@ -155,11 +133,29 @@ class AuthAction {
     }
     // If no password exists yet, generate a random one
     const newPass = this._totallyNotSecureRandomPassword();
-    await this._SecureStore.setItemAsync(PASS, newPass, this.STORE);
+    await this._setToKeyStore(PASS, newPass);
     this._store.newPassword = newPass;
     this._store.passwordVerify = newPass;
     // await this._wallet.checkNewPassword();
     this._nav.goHome();
+  }
+
+  _getFromKeyStore(key) {
+    const options = {
+      keychainAccessible: this._SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    };
+    return this._SecureStore.getItemAsync(key, options);
+  }
+
+  _setToKeyStore(key, value) {
+    const options = {
+      keychainAccessible: this._SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+    };
+    return this._SecureStore.setItemAsync(key, value, options);
+  }
+
+  _alert(title, callback) {
+    this._Alert.alert(title, '', [{ text: 'TRY AGAIN', onPress: callback }]);
   }
 
   /**
