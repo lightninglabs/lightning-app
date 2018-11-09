@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
+import { createStyles, maxWidth } from '../component/media-query';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -13,7 +14,7 @@ import { color } from '../component/style';
 // Select Seed View
 //
 
-const styles = StyleSheet.create({
+const baseStyles = {
   content: {
     justifyContent: 'center',
     paddingLeft: 50,
@@ -28,12 +29,25 @@ const styles = StyleSheet.create({
     marginTop: 50,
     width: 400,
   },
-});
+  header: {
+    textAlign: 'center',
+  },
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(400, {
+    list: {
+      width: 300,
+    },
+  })
+);
 
 const SelectSeedView = ({ store, wallet, nav }) => (
   <Background color={color.blackDark}>
     <MainContent style={styles.content}>
-      <H1Text>Recovery phrase?</H1Text>
+      <H1Text style={styles.header}>Recovery phrase?</H1Text>
       <CopyText style={styles.copyTxt}>
         If you already have a recovery phrase, you can use that now. Otherwise,
         you should generate a new wallet.

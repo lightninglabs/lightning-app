@@ -8,6 +8,7 @@ import { SecureStore, LocalAuthentication } from 'expo';
 import { createStackNavigator, NavigationActions } from 'react-navigation';
 import FontLoader from './component/font-loader';
 
+import SelectSeedView from '../src/view/select-seed';
 import SetPinView from '../src/view/set-pin-mobile';
 import SetPinConfirmView from '../src/view/set-pin-confirm-mobile';
 import SeedSuccessView from '../src/view/seed-success';
@@ -76,6 +77,10 @@ const auth = new AuthAction(
   Alert
 );
 
+const SelectSeed = () => (
+  <SelectSeedView store={store} wallet={wallet} nav={nav} />
+);
+
 const SetPin = () => <SetPinView store={store} auth={auth} nav={nav} />;
 
 const SetPinConfirm = () => (
@@ -132,6 +137,7 @@ const Pay = () => <PaymentView store={store} payment={payment} nav={nav} />;
 
 const MainStack = createStackNavigator(
   {
+    SelectSeed,
     SetPin,
     SetPinConfirm,
     SeedSuccess,
