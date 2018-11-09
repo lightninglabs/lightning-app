@@ -1,5 +1,5 @@
 /**
- * @fileOverview The main module that wires up all depdencies for mobile.
+ * @fileOverview the main module that wires up all depedencies for mobile.
  */
 
 import React from 'react';
@@ -39,7 +39,6 @@ import InvoiceAction from '../src/action/invoice';
 import PaymentAction from '../src/action/payment';
 import ChannelAction from '../src/action/channel';
 import TransactionAction from '../src/action/transaction';
-
 import AuthAction from '../src/action/auth-mobile';
 
 const store = new Store();
