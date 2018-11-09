@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
-import { color } from '../component/style';
+import Text from '../component/text';
+import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
   content: {
@@ -10,6 +11,11 @@ const styles = StyleSheet.create({
   },
   spinner: {
     transform: [{ scale: 1.5 }],
+  },
+  copy: {
+    marginTop: 15,
+    fontSize: font.sizeXS,
+    color: color.white,
   },
 });
 
@@ -21,6 +27,7 @@ const WaitView = () => (
         color={color.lightPurple}
         style={styles.spinner}
       />
+      <Text style={styles.copy}>Loading network...</Text>
     </MainContent>
   </Background>
 );
