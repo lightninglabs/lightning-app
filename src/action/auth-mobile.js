@@ -90,7 +90,7 @@ class AuthAction {
   async checkNewPin() {
     const { newPin, pinVerify } = this._store.auth;
     if (newPin.length !== PIN_LENGTH || newPin !== pinVerify) {
-      this._alert('Incorrect PIN', () => this.initSetPin());
+      this._alert("PINs don't match", () => this.initSetPin());
       return;
     }
     await this._setToKeyStore(PIN, newPin);
