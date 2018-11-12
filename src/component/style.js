@@ -47,7 +47,7 @@ export const font = {
   lineHeightXS: 14,
   lineHeightS: 16,
   lineHeightSub: 18,
-  lineHeightBase: 20,
+  lineHeightBase: 22,
   lineHeightM: 22,
   lineHeightL: 24,
   lineHeightXXL: 60,
