@@ -1,5 +1,5 @@
 /**
- * @fileOverview the main module that wires up all depedencies for mobile.
+ * @fileOverview the main module that wires up all dependencies for mobile.
  */
 
 import React from 'react';
