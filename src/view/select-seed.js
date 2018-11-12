@@ -5,10 +5,10 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
-import { H1Text, CopyText } from '../component/text';
+import { CopyOnboardText, Text } from '../component/text';
 import { RadioButton, GlasButton } from '../component/button';
 import { SettingItem } from '../component/list';
-import { color } from '../component/style';
+import { color, breakWidth } from '../component/style';
 
 //
 // Select Seed View
@@ -16,30 +16,34 @@ import { color } from '../component/style';
 
 const baseStyles = {
   content: {
-    justifyContent: 'center',
-    paddingLeft: 50,
-    paddingRight: 50,
+    paddingLeft: 20,
+    paddingRight: 20,
+  },
+  title: {
+    marginTop: 60,
+    textAlign: 'center',
   },
   copyTxt: {
     textAlign: 'center',
     marginTop: 10,
-    maxWidth: 450,
+    maxWidth: 300,
   },
   list: {
     marginTop: 50,
     width: 400,
-  },
-  header: {
-    textAlign: 'center',
   },
 };
 
 const styles = createStyles(
   baseStyles,
 
-  maxWidth(400, {
+  maxWidth(breakWidth, {
+    title: {
+      marginTop: 50,
+    },
     list: {
-      width: 300,
+      width: undefined,
+      alignSelf: 'stretch',
     },
   })
 );
@@ -47,11 +51,11 @@ const styles = createStyles(
 const SelectSeedView = ({ store, wallet, nav }) => (
   <Background color={color.blackDark}>
     <MainContent style={styles.content}>
-      <H1Text style={styles.header}>Recovery phrase?</H1Text>
-      <CopyText style={styles.copyTxt}>
+      <CopyOnboardText style={styles.title}>Recovery phrase?</CopyOnboardText>
+      <Text style={styles.copyTxt}>
         If you already have a recovery phrase, you can use that now. Otherwise,
         you should generate a new wallet.
-      </CopyText>
+      </Text>
       <View style={styles.list}>
         <SettingItem
           name="Generate a new wallet"
