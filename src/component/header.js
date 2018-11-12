@@ -1,14 +1,15 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
+import { createStyles, maxWidth } from './media-query';
 import Text from './text';
-import { color } from './style';
+import { color, breakWidth } from './style';
 
 //
 // Header
 //
 
-const styles = StyleSheet.create({
+const baseStyles = {
   header: {
     height: 75,
     flexDirection: 'row',
@@ -29,7 +30,19 @@ const styles = StyleSheet.create({
   centerTitle: {
     justifyContent: 'center',
   },
-});
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(breakWidth, {
+    separator: {
+      shadowOffset: { width: 0, height: 0 },
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      borderBottomColor: color.white,
+    },
+  })
+);
 
 export const Header = ({ style, children, color, shadow, separator }) => (
   <View
