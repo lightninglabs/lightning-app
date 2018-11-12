@@ -69,3 +69,5 @@ export const invisible = {
   paddingLeft: 0,
   paddingBottom: 0,
 };
+
+export const breakWidth = 400;
