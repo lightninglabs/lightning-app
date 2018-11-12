@@ -4,16 +4,15 @@
  * and only change the route to be rendered in the user interface.
  */
 
-import { NavigationActions } from 'react-navigation';
-
 class NavAction {
-  constructor(store) {
+  constructor(store, Navigation) {
     this._store = store;
+    this._Navigation = Navigation;
   }
 
   setTopLevelNavigator(navigatorRef) {
     this._navigate = (routeName, params) =>
-      navigatorRef.dispatch(NavigationActions.navigate({ routeName, params }));
+      navigatorRef.dispatch(this._Navigation.navigate({ routeName, params }));
   }
 
   goLoader() {
@@ -36,24 +35,24 @@ class NavAction {
     this._navigate('RestoreSeed');
   }
 
-  goRestorePassword() {
-    this._navigate('RestorePassword');
+  goRestorePin() {
+    this._navigate('RestorePin');
   }
 
   goSeedSuccess() {
     this._navigate('SeedSuccess');
   }
 
-  goSetPassword() {
-    this._navigate('SetPassword');
+  goSetPin() {
+    this._navigate('SetPin');
   }
 
-  goSetPasswordConfirm() {
-    this._navigate('SetPasswordConfirm');
+  goSetPinConfirm() {
+    this._navigate('SetPinConfirm');
   }
 
-  goPassword() {
-    this._navigate('Password');
+  goPin() {
+    this._navigate('Pin');
   }
 
   goNewAddress() {

@@ -16,6 +16,7 @@ import InvoiceAction from '../src/action/invoice';
 import PaymentAction from '../src/action/payment';
 import ChannelAction from '../src/action/channel';
 import TransactionAction from '../src/action/transaction';
+import AuthAction from '../src/action/auth-mobile';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import Setting from '../src/view/setting';
@@ -46,11 +47,11 @@ import SeedSuccess from '../src/view/seed-success';
 import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
 import SetPassword from '../src/view/set-password';
-import SetPasswordMobile from '../src/view/set-password-mobile';
+import SetPinMobile from '../src/view/set-pin-mobile';
 import SetPasswordConfirm from '../src/view/set-password-confirm';
-import SetPasswordConfirmMobile from '../src/view/set-password-confirm-mobile';
+import SetPinConfirmMobile from '../src/view/set-pin-confirm-mobile';
 import Password from '../src/view/password';
-import PasswordMobile from '../src/view/password-mobile';
+import PinMobile from '../src/view/pin-mobile';
 import RestorePassword from '../src/view/restore-password';
 import ResetPasswordCurrent from '../src/view/reset-password-current';
 import ResetPasswordNew from '../src/view/reset-password-new';
@@ -88,6 +89,12 @@ const channel = new ChannelAction(store, grpc, nav, notify);
 sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
+const auth = new AuthAction(store, wallet, nav);
+sinon.stub(auth, 'checkNewPin');
+sinon.stub(auth, 'checkPin');
+sinon.stub(auth, 'tryFingerprint');
+sinon.stub(auth, '_unlockWallet');
+sinon.stub(auth, '_generateWalletPassword');
 
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
@@ -109,16 +116,14 @@ storiesOf('Screens', module)
   .add('Set Password Confirm', () => (
     <SetPasswordConfirm store={store} wallet={wallet} />
   ))
-  .add('Set Password (Mobile)', () => (
-    <SetPasswordMobile store={store} wallet={wallet} nav={nav} />
+  .add('Set PIN (Mobile)', () => (
+    <SetPinMobile store={store} auth={auth} nav={nav} />
   ))
-  .add('Set Password Confirm (Mobile)', () => (
-    <SetPasswordConfirmMobile store={store} wallet={wallet} />
+  .add('Set PIN Confirm (Mobile)', () => (
+    <SetPinConfirmMobile store={store} auth={auth} />
   ))
   .add('Password', () => <Password store={store} wallet={wallet} />)
-  .add('Password (Mobile)', () => (
-    <PasswordMobile store={store} wallet={wallet} />
-  ))
+  .add('PIN (Mobile)', () => <PinMobile store={store} auth={auth} />)
   .add('Restore Wallet: Password', () => (
     <RestorePassword store={store} wallet={wallet} nav={nav} />
   ))
