@@ -36,8 +36,6 @@ Text.propTypes = {
 const copyStyles = StyleSheet.create({
   text: {
     fontFamily: 'OpenSans Light',
-    fontSize: font.sizeBase,
-    lineHeight: 22,
   },
 });
 

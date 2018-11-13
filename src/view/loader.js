@@ -4,7 +4,7 @@ import { createStyles, maxWidth } from '../component/media-query';
 import Background from '../component/background';
 import { CopyOnboardText } from '../component/text';
 import MainContent from '../component/main-content';
-import { color, invisible } from '../component/style';
+import { color, invisible, breakWidth } from '../component/style';
 
 const baseStyles = {
   content: {
@@ -34,7 +34,7 @@ const baseStyles = {
 const styles = createStyles(
   baseStyles,
 
-  maxWidth(500, {
+  maxWidth(breakWidth, {
     copy2: invisible,
   })
 );
