@@ -40,7 +40,7 @@ class IpcAction {
                 return
             }
 
-            var p = lnrpc.SendResponse.deserializeBinary(base64.toByteArray(resp.resp))
+            var p = lnrpc.SendResponse.deserializeBinary(base64.toByteArray(resp.b64))
             console.log("callback object", p.toObject())
         }
     );
@@ -52,15 +52,14 @@ class IpcAction {
 
 //    var msg = new lnrpc.GetInfoRequest()
 //    var b64 = base64.fromByteArray(msg.serializeBinary())
-//    Lnd.GetInfo(b64, (error, resp) => {
-//         if (error) {
-//            console.error("callback error", error);
-//         } else {
-//             var p = lnrpc.GetInfoResponse.deserializeBinary(base64.toByteArray(resp))
-//             console.log("callback object", p.toObject())
-//         }
-//    });
-//
+//    try {
+//        var resp = await Lnd.GetInfo(b64)
+//        var p = lnrpc.GetInfoResponse.deserializeBinary(base64.toByteArray(resp.b64))
+//        console.log("callback object", p.toObject())
+//    } catch (e) {
+//        console.log("callback error", e);
+//    }
+
 //    return new Promise((resolve, reject) => {
 //      this._ipcRenderer.send(event, payload);
 //      if (!listen) return resolve();
