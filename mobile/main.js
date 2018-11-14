@@ -3,7 +3,12 @@
  */
 
 import React from 'react';
-import { Clipboard, Alert } from 'react-native';
+import {
+  Clipboard,
+  Alert,
+  NativeModules,
+  NativeEventEmitter,
+} from 'react-native';
 import { SecureStore, LocalAuthentication } from 'expo';
 import { createStackNavigator, NavigationActions } from 'react-navigation';
 import FontLoader from './component/font-loader';
@@ -29,8 +34,7 @@ import DepositView from '../src/view/deposit';
 import sinon from 'sinon';
 import { Store } from '../src/store';
 import NavAction from '../src/action/nav-mobile';
-import IpcAction from './ipc-mobile';
-import GrpcAction from '../src/action/grpc';
+import GrpcAction from '../src/action/grpc-mobile';
 /* import InfoAction from '../src/action/info'; */
 import AppStorage from '../src/action/app-storage';
 import NotificationAction from '../src/action/notification';
@@ -46,12 +50,11 @@ const store = new Store();
 store.init();
 const nav = new NavAction(store, NavigationActions);
 const db = sinon.createStubInstance(AppStorage);
-const ipc = sinon.createStubInstance(IpcAction);
-const grpc = sinon.createStubInstance(GrpcAction);
+const grpc = new GrpcAction(store, NativeModules, NativeEventEmitter);
 /* const info = sinon.createStubInstance(InfoAction); */
 const notify = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, db, nav, notify);
-const setting = new SettingAction(store, wallet, db, ipc);
+const setting = new SettingAction(store, wallet, db, { send: sinon.stub() });
 sinon.stub(wallet, 'update');
 sinon.stub(wallet, 'checkSeed');
 sinon.stub(wallet, 'getExchangeRate');
