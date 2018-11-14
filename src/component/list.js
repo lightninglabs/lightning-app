@@ -1,10 +1,9 @@
 import React, { Component, PureComponent } from 'react';
 import { View, ListView, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { createStyles, maxWidth } from './media-query';
 import Text from './text';
 import ForwardIcon from '../asset/icon/forward';
-import { color, font, breakWidth } from './style';
+import { color, font } from './style';
 
 //
 // List Content
@@ -69,30 +68,16 @@ List.propTypes = {
 // List Item
 //
 
-const itemBaseStyles = {
+const itemStyles = StyleSheet.create({
   item: {
     alignSelf: 'stretch',
     flexDirection: 'row',
     alignItems: 'center',
     height: 40,
-    marginTop: 1, // prevent box-shadow blinking when pressing item
-    shadowOffset: { width: 0, height: 0.5 },
-    shadowColor: color.greyBorder,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: color.greyBorder,
   },
-};
-
-const itemStyles = createStyles(
-  itemBaseStyles,
-
-  maxWidth(breakWidth, {
-    item: {
-      marginTop: 0,
-      shadowOffset: { width: 0, height: 0 },
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      borderBottomColor: color.greyBorder,
-    },
-  })
-);
+});
 
 export class ListItem extends PureComponent {
   render() {
@@ -119,7 +104,6 @@ ListItem.propTypes = {
 
 const headStyles = StyleSheet.create({
   head: {
-    shadowOffset: { width: 0, height: 0 },
     borderBottomWidth: 0,
   },
 });
