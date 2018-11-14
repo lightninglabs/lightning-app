@@ -11,30 +11,33 @@
 #import <Lndmobile/Lndmobile.h>
 
 @interface NativeCallback:NSObject<LndmobileCallback>
-@property (nonatomic) RCTResponseSenderBlock jsCallback;
+@property (nonatomic) RCTPromiseResolveBlock resolve;
+@property (nonatomic) RCTPromiseRejectBlock reject;
 
 @end
 
 @implementation NativeCallback
 
-- (instancetype)initWithCallback: (RCTResponseSenderBlock)c
+- (instancetype)initWithResolver: (RCTPromiseResolveBlock)resolve rejecter:(RCTPromiseRejectBlock)reject
 {
     self = [super init];
     if (self) {
-        self.jsCallback = c;
+        self.resolve = resolve;
+        self.reject = reject;
     }
     return self;
 }
 
 - (void)onError:(NSError *)p0 {
     NSLog(@"Got error %@", p0);
-    self.jsCallback(@[p0]);
+    self.reject(@"error", @"received error", p0);
 }
 
 - (void)onResponse:(NSData *)p0 {
     NSLog(@"Go response %@", p0);
     NSString* b64 = [p0 base64EncodedStringWithOptions:0];
-    self.jsCallback(@[[NSNull null], b64]);
+    NSLog(@"Go response string %@", b64);
+    self.resolve(@{@"b64": b64});
 }
 
 @end
@@ -65,7 +68,8 @@
 - (void)onResponse:(NSData *)p0 {
     NSLog(@"Go response %@", p0);
     NSString* b64 = [p0 base64EncodedStringWithOptions:0];
-    [self.eventEmitter sendEventWithName:self.name body:@{@"resp": b64}];
+    NSLog(@"Go response string %@", b64);
+    [self.eventEmitter sendEventWithName:self.name body:@{@"b64": b64}];
 }
 
 @end
@@ -79,7 +83,8 @@ RCT_EXPORT_MODULE();
     return @[@"SendResponse"];
 }
 
-RCT_EXPORT_METHOD(Start:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(Start: (RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     NSURL *dir = [[fileMgr URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
@@ -94,18 +99,20 @@ RCT_EXPORT_METHOD(Start:(RCTResponseSenderBlock)callback)
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         RCTLogInfo(@"Starting lnd");
-        NativeCallback* cb = [[NativeCallback alloc] initWithCallback:callback];
+        NativeCallback* cb = [[NativeCallback alloc] initWithResolver:resolve rejecter:reject];
         LndmobileStart(dir.path, cb);
     });
 
 }
 
-RCT_EXPORT_METHOD(GetInfo:(NSString*)msg callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(GetInfo:(NSString*)msg
+                  resolver:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     RCTLogInfo(@"Getting info from string %@", msg);
 
     NSData* bytes = [[NSData alloc]initWithBase64EncodedString:msg options:0];
-    LndmobileGetInfo(bytes, [[NativeCallback alloc] initWithCallback:callback]);
+    LndmobileGetInfo(bytes, [[NativeCallback alloc] initWithResolver:resolve rejecter:reject]);
 }
 
 RCT_EXPORT_METHOD(SendPayment:(NSString*)msg)
