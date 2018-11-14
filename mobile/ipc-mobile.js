@@ -4,7 +4,8 @@ import {
   Text,
   View,
   Button,
-  NativeModules
+  NativeModules,
+  NativeEventEmitter
 } from 'react-native';
 
 var base64 = require('base64-js');
@@ -29,16 +30,37 @@ class IpcAction {
    * @return {Promise<Object>}
    */
   send(event, listen, payload) {
-    var msg = new lnrpc.GetInfoRequest()
+    const events = new NativeEventEmitter(Lnd);
+    const subscription = events.addListener(
+        'SendResponse',
+        (resp) => {
+            if (resp.error) {
+                console.log("Got stream error", resp.error)
+                subscription.remove();
+                return
+            }
+
+            var p = lnrpc.SendResponse.deserializeBinary(base64.toByteArray(resp.resp))
+            console.log("callback object", p.toObject())
+        }
+    );
+
+    var msg = new lnrpc.SendRequest()
+    msg.setAmt(1234)
     var b64 = base64.fromByteArray(msg.serializeBinary())
-    Lnd.getInfo(b64, (error, resp) => {
-         if (error) {
-            console.error("callback error", error);
-         } else {
-             var p = lnrpc.GetInfoResponse.deserializeBinary(base64.toByteArray(resp))
-             console.log("callback object", p.toObject())
-         }
-    });
+    Lnd.sendPayment(b64);
+
+//    var msg = new lnrpc.GetInfoRequest()
+//    var b64 = base64.fromByteArray(msg.serializeBinary())
+//    Lnd.getInfo(b64, (error, resp) => {
+//         if (error) {
+//            console.error("callback error", error);
+//         } else {
+//             var p = lnrpc.GetInfoResponse.deserializeBinary(base64.toByteArray(resp))
+//             console.log("callback object", p.toObject())
+//         }
+//    });
+//
 //    return new Promise((resolve, reject) => {
 //      this._ipcRenderer.send(event, payload);
 //      if (!listen) return resolve();
