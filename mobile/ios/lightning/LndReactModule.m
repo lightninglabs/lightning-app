@@ -80,12 +80,25 @@ RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[@"SendResponse"];
+    return @[@"SendPayment"];
 }
+
+
+typedef void (^SyncHandler)(NSData*, NativeCallback*);
+typedef id<LndmobileSendStream> (^StreamHandler)(StreamEvents* respStream, NSError** err);
 
 RCT_EXPORT_METHOD(Start: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
+
+    self.syncMethods = @{
+                         @"GetInfo" : ^(NSData* bytes, NativeCallback* cb) { LndmobileGetInfo(bytes, cb); },
+                         };
+
+    self.streamMethods = @{
+                           @"SendPayment" : (id<LndmobileSendStream>)^(StreamEvents* r, NSError** err) { return LndmobileSendPayment(r, err); },
+                           };
+
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     NSURL *dir = [[fileMgr URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 
@@ -105,31 +118,45 @@ RCT_EXPORT_METHOD(Start: (RCTPromiseResolveBlock)resolve
 
 }
 
-RCT_EXPORT_METHOD(GetInfo:(NSString*)msg
+RCT_EXPORT_METHOD(Sync:(NSString*)method body:(NSString*)msg
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-    RCTLogInfo(@"Getting info from string %@", msg);
+
+    SyncHandler block = [self.syncMethods objectForKey:method];
+    if (block == nil) {
+        NSLog(@"method %@ not found", method);
+        NSError* err = [[NSError alloc] initWithDomain:@"LND" code:0 userInfo: @{ NSLocalizedDescriptionKey: NSLocalizedString(@"Method not found.", nil) }];
+        reject(@"error", @"method not found", err);
+        return;
+    }
 
     NSData* bytes = [[NSData alloc]initWithBase64EncodedString:msg options:0];
-    LndmobileGetInfo(bytes, [[NativeCallback alloc] initWithResolver:resolve rejecter:reject]);
+    block(bytes, [[NativeCallback alloc] initWithResolver:resolve rejecter:reject]);
 }
 
-RCT_EXPORT_METHOD(SendPayment:(NSString*)msg)
+RCT_EXPORT_METHOD(ReceiveStream:(NSString*)method body:(NSString*)msg)
 {
+
+    StreamEvents* respStream = [[StreamEvents alloc] initWithName:method emitter:self];
+    StreamHandler block = [self.streamMethods objectForKey:method];
+    if (block == nil) {
+        NSLog(@"method %@ not found", method);
+        NSError* err = [[NSError alloc] initWithDomain:@"LND" code:0 userInfo: @{ NSLocalizedDescriptionKey: NSLocalizedString(@"Method not found.", nil) }];
+        [respStream onError:err];
+        return;
+    }
+
     NSData* bytes = [[NSData alloc]initWithBase64EncodedString:msg options:0];
-    StreamEvents* respStream = [[StreamEvents alloc] initWithName:@"SendResponse" emitter:self];
     NSError* err = nil;
-    id<LndmobileSendStream> stream = LndmobileSendPayment(respStream, &err);
+    id<LndmobileSendStream> sendStream = block(respStream, &err);
     if (err != nil) {
         NSLog(@"got init error %@", err);
         [respStream onError:err];
         return;
     }
 
-    NSLog(@"stream %@", stream);
-
-    [stream send:bytes error:&err];
+    [sendStream send:bytes error:&err];
     if (err != nil) {
         NSLog(@"got stream error %@", err);
         [respStream onError:err];
