@@ -39,9 +39,45 @@
 
 @end
 
+@interface StreamEvents:NSObject<LndmobileCallback>
+@property (nonatomic) NSString* name;
+@property (nonatomic) RCTEventEmitter* eventEmitter;
+
+@end
+
+@implementation StreamEvents
+
+- (instancetype)initWithName: (NSString*)c emitter: (RCTEventEmitter*)e
+{
+    self = [super init];
+    if (self) {
+        self.name = c;
+        self.eventEmitter = e;
+    }
+    return self;
+}
+
+- (void)onError:(NSError *)p0 {
+    NSLog(@"Go error %@", p0);
+    [self.eventEmitter sendEventWithName:self.name body:@{@"error": p0}];
+}
+
+- (void)onResponse:(NSData *)p0 {
+    NSLog(@"Go response %@", p0);
+    NSString* b64 = [p0 base64EncodedStringWithOptions:0];
+    [self.eventEmitter sendEventWithName:self.name body:@{@"resp": b64}];
+}
+
+@end
+
 @implementation LndReactModule
 
 RCT_EXPORT_MODULE();
+
+- (NSArray<NSString *> *)supportedEvents
+{
+    return @[@"SendResponse"];
+}
 
 RCT_EXPORT_METHOD(start:(RCTResponseSenderBlock)callback)
 {
@@ -70,6 +106,28 @@ RCT_EXPORT_METHOD(getInfo:(NSString*)msg callback:(RCTResponseSenderBlock)callba
 
     NSData* bytes = [[NSData alloc]initWithBase64EncodedString:msg options:0];
     LndmobileGetInfo(bytes, [[NativeCallback alloc] initWithCallback:callback]);
+}
+
+RCT_EXPORT_METHOD(sendPayment:(NSString*)msg)
+{
+    NSData* bytes = [[NSData alloc]initWithBase64EncodedString:msg options:0];
+    StreamEvents* respStream = [[StreamEvents alloc] initWithName:@"SendResponse" emitter:self];
+    NSError* err = nil;
+    id<LndmobileSendStream> stream = LndmobileSendPayment(respStream, &err);
+    if (err != nil) {
+        NSLog(@"got init error %@", err);
+        [respStream onError:err];
+        return;
+    }
+
+    NSLog(@"stream %@", stream);
+
+    [stream send:bytes error:&err];
+    if (err != nil) {
+        NSLog(@"got stream error %@", err);
+        [respStream onError:err];
+        return;
+    }
 }
 
 @end
