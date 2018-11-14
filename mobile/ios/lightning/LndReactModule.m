@@ -59,7 +59,7 @@
 
 - (void)onError:(NSError *)p0 {
     NSLog(@"Go error %@", p0);
-    [self.eventEmitter sendEventWithName:self.name body:@{@"error": p0}];
+    [self.eventEmitter sendEventWithName:self.name body:@{@"error": [p0 localizedDescription]}];
 }
 
 - (void)onResponse:(NSData *)p0 {
