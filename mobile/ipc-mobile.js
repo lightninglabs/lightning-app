@@ -48,11 +48,11 @@ class IpcAction {
     var msg = new lnrpc.SendRequest()
     msg.setAmt(1234)
     var b64 = base64.fromByteArray(msg.serializeBinary())
-    Lnd.sendPayment(b64);
+    Lnd.SendPayment(b64);
 
 //    var msg = new lnrpc.GetInfoRequest()
 //    var b64 = base64.fromByteArray(msg.serializeBinary())
-//    Lnd.getInfo(b64, (error, resp) => {
+//    Lnd.GetInfo(b64, (error, resp) => {
 //         if (error) {
 //            console.error("callback error", error);
 //         } else {

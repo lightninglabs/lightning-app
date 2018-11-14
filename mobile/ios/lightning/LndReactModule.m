@@ -79,7 +79,7 @@ RCT_EXPORT_MODULE();
     return @[@"SendResponse"];
 }
 
-RCT_EXPORT_METHOD(start:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(Start:(RCTResponseSenderBlock)callback)
 {
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     NSURL *dir = [[fileMgr URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
@@ -100,7 +100,7 @@ RCT_EXPORT_METHOD(start:(RCTResponseSenderBlock)callback)
 
 }
 
-RCT_EXPORT_METHOD(getInfo:(NSString*)msg callback:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(GetInfo:(NSString*)msg callback:(RCTResponseSenderBlock)callback)
 {
     RCTLogInfo(@"Getting info from string %@", msg);
 
@@ -108,7 +108,7 @@ RCT_EXPORT_METHOD(getInfo:(NSString*)msg callback:(RCTResponseSenderBlock)callba
     LndmobileGetInfo(bytes, [[NativeCallback alloc] initWithCallback:callback]);
 }
 
-RCT_EXPORT_METHOD(sendPayment:(NSString*)msg)
+RCT_EXPORT_METHOD(SendPayment:(NSString*)msg)
 {
     NSData* bytes = [[NSData alloc]initWithBase64EncodedString:msg options:0];
     StreamEvents* respStream = [[StreamEvents alloc] initWithName:@"SendResponse" emitter:self];
