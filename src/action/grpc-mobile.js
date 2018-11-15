@@ -143,20 +143,29 @@ class GrpcAction {
   }
 
   _serializeRequest(method, body = {}) {
-    const req = new lnrpc[`${method}Request`]();
+    const req = new lnrpc[`${this._getMessageName(method)}Request`]();
     Object.keys(body).forEach(key => req[`set${toCaps(key)}`](body[key]));
     return base64.fromByteArray(req.serializeBinary());
   }
 
   _deserializeResponse(method, response) {
-    const res = lnrpc[`${method}Response`];
+    const res = lnrpc[`${this._getMessageName(method)}Response`];
     return res.deserializeBinary(base64.toByteArray(response)).toObject();
   }
 
   _serializeResponse(method, body = {}) {
-    const res = new lnrpc[`${method}Response`]();
+    const res = new lnrpc[`${this._getMessageName(method)}Response`]();
     Object.keys(body).forEach(key => res[`set${toCaps(key)}`](body[key]));
     return base64.fromByteArray(res.serializeBinary());
+  }
+
+  _getMessageName(method) {
+    switch (method) {
+      case 'SendPayment':
+        return 'Send';
+      default:
+        return method;
+    }
   }
 
   _generateStreamId() {
