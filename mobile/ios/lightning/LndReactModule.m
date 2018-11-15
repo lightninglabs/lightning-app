@@ -10,6 +10,11 @@
 #import <React/RCTConvert.h>
 #import <Lndmobile/Lndmobile.h>
 
+static NSString* const streamEventName = @"streamEvent";
+static NSString* const streamIdKey = @"streamId";
+static NSString* const respB64Key = @"b64";
+static NSString* const respErrorKey = @"error";
+
 @interface NativeCallback:NSObject<LndmobileCallback>
 @property (nonatomic) RCTPromiseResolveBlock resolve;
 @property (nonatomic) RCTPromiseRejectBlock reject;
@@ -42,19 +47,19 @@
 
 @end
 
-@interface StreamEvents:NSObject<LndmobileCallback>
-@property (nonatomic) NSString* name;
+@interface RecvStream:NSObject<LndmobileCallback>
+@property (nonatomic) NSString* streamId;
 @property (nonatomic) RCTEventEmitter* eventEmitter;
 
 @end
 
-@implementation StreamEvents
+@implementation RecvStream
 
-- (instancetype)initWithName: (NSString*)c emitter: (RCTEventEmitter*)e
+- (instancetype)initWithStreamId: (NSString*)streamId emitter: (RCTEventEmitter*)e
 {
     self = [super init];
     if (self) {
-        self.name = c;
+        self.streamId = streamId;
         self.eventEmitter = e;
     }
     return self;
@@ -62,14 +67,14 @@
 
 - (void)onError:(NSError *)p0 {
     NSLog(@"Go error %@", p0);
-    [self.eventEmitter sendEventWithName:self.name body:@{@"error": [p0 localizedDescription]}];
+    [self.eventEmitter sendEventWithName:streamEventName body:@{streamIdKey: self.streamId, respErrorKey: [p0 localizedDescription]}];
 }
 
 - (void)onResponse:(NSData *)p0 {
     NSLog(@"Go response %@", p0);
     NSString* b64 = [p0 base64EncodedStringWithOptions:0];
     NSLog(@"Go response string %@", b64);
-    [self.eventEmitter sendEventWithName:self.name body:@{@"b64": b64}];
+    [self.eventEmitter sendEventWithName:streamEventName body:@{streamIdKey: self.streamId, respB64Key: b64}];
 }
 
 @end
@@ -80,14 +85,14 @@ RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[@"SendPayment"];
+    return @[streamEventName];
 }
 
 
 typedef void (^SyncHandler)(NSData*, NativeCallback*);
-typedef id<LndmobileSendStream> (^StreamHandler)(StreamEvents* respStream, NSError** err);
+typedef id<LndmobileSendStream> (^StreamHandler)(NSData* req, RecvStream* respStream, NSError** err);
 
-RCT_EXPORT_METHOD(Start: (RCTPromiseResolveBlock)resolve
+RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
 
@@ -96,8 +101,11 @@ RCT_EXPORT_METHOD(Start: (RCTPromiseResolveBlock)resolve
                          };
 
     self.streamMethods = @{
-                           @"SendPayment" : (id<LndmobileSendStream>)^(StreamEvents* r, NSError** err) { return LndmobileSendPayment(r, err); },
+                           @"SendPayment" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSendPayment(cb, err); },
+                           @"CloseChannel" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileCloseChannel(req, cb); },
                            };
+
+    self.activeStreams = [NSMutableDictionary dictionary];
 
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     NSURL *dir = [[fileMgr URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
@@ -118,7 +126,7 @@ RCT_EXPORT_METHOD(Start: (RCTPromiseResolveBlock)resolve
 
 }
 
-RCT_EXPORT_METHOD(Sync:(NSString*)method body:(NSString*)msg
+RCT_EXPORT_METHOD(sendCommand:(NSString*)method body:(NSString*)msg
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
@@ -135,11 +143,11 @@ RCT_EXPORT_METHOD(Sync:(NSString*)method body:(NSString*)msg
     block(bytes, [[NativeCallback alloc] initWithResolver:resolve rejecter:reject]);
 }
 
-RCT_EXPORT_METHOD(ReceiveStream:(NSString*)method body:(NSString*)msg)
+RCT_EXPORT_METHOD(sendStreamCommand:(NSString*)method streamId:(NSString*)streamId body:(NSString*)msg)
 {
 
-    StreamEvents* respStream = [[StreamEvents alloc] initWithName:method emitter:self];
-    StreamHandler block = [self.streamMethods objectForKey:method];
+    RecvStream* respStream = [[RecvStream alloc] initWithStreamId:streamId emitter:self];
+    StreamHandler block = self.streamMethods[method];
     if (block == nil) {
         NSLog(@"method %@ not found", method);
         NSError* err = [[NSError alloc] initWithDomain:@"LND" code:0 userInfo: @{ NSLocalizedDescriptionKey: NSLocalizedString(@"Method not found.", nil) }];
@@ -149,19 +157,18 @@ RCT_EXPORT_METHOD(ReceiveStream:(NSString*)method body:(NSString*)msg)
 
     NSData* bytes = [[NSData alloc]initWithBase64EncodedString:msg options:0];
     NSError* err = nil;
-    id<LndmobileSendStream> sendStream = block(respStream, &err);
+    id<LndmobileSendStream> sendStream = block(bytes, respStream, &err);
     if (err != nil) {
         NSLog(@"got init error %@", err);
         [respStream onError:err];
         return;
     }
 
-    [sendStream send:bytes error:&err];
-    if (err != nil) {
-        NSLog(@"got stream error %@", err);
-        [respStream onError:err];
+    if (sendStream == nil) {
         return;
     }
+
+    self.activeStreams[streamId] = sendStream;
 }
 
 @end
