@@ -89,7 +89,6 @@ typedef id<LndmobileSendStream> (^StreamHandler)(NSData* req, RecvStream* respSt
 RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-
     self.syncMethods = @{
                          @"GetInfo" : ^(NSData* bytes, NativeCallback* cb) { LndmobileGetInfo(bytes, cb); },
                          };
@@ -124,12 +123,9 @@ RCT_EXPORT_METHOD(sendCommand:(NSString*)method body:(NSString*)msg
                   resolver:(RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
-
     SyncHandler block = [self.syncMethods objectForKey:method];
     if (block == nil) {
         RCTLogError(@"method %@ not found", method);
-        NSError* err = [[NSError alloc] initWithDomain:@"LND" code:0 userInfo: @{ NSLocalizedDescriptionKey: NSLocalizedString(@"Method not found.", nil) }];
-        reject(@"error", @"method not found", err);
         return;
     }
 
@@ -139,13 +135,10 @@ RCT_EXPORT_METHOD(sendCommand:(NSString*)method body:(NSString*)msg
 
 RCT_EXPORT_METHOD(sendStreamCommand:(NSString*)method streamId:(NSString*)streamId body:(NSString*)msg)
 {
-
     RecvStream* respStream = [[RecvStream alloc] initWithStreamId:streamId emitter:self];
     StreamHandler block = self.streamMethods[method];
     if (block == nil) {
         RCTLogError(@"method %@ not found", method);
-        NSError* err = [[NSError alloc] initWithDomain:@"LND" code:0 userInfo: @{ NSLocalizedDescriptionKey: NSLocalizedString(@"Method not found.", nil) }];
-        [respStream onError:err];
         return;
     }
 
@@ -154,7 +147,6 @@ RCT_EXPORT_METHOD(sendStreamCommand:(NSString*)method streamId:(NSString*)stream
     id<LndmobileSendStream> sendStream = block(bytes, respStream, &err);
     if (err != nil) {
         RCTLogError(@"got init error %@", err);
-        [respStream onError:err];
         return;
     }
 
@@ -165,6 +157,25 @@ RCT_EXPORT_METHOD(sendStreamCommand:(NSString*)method streamId:(NSString*)stream
 
     // TODO: clean up on stream close.
     self.activeStreams[streamId] = sendStream;
+}
+
+RCT_EXPORT_METHOD(sendStreamWrite:(NSString*)streamId body:(NSString*)msg)
+{
+    // TODO: clean up on stream close.
+    id<LndmobileSendStream> sendStream = self.activeStreams[streamId];
+    if (sendStream == nil) {
+        RCTLogError(@"StreamId %@ not found", streamId);
+        return;
+    }
+
+    NSData* bytes = [[NSData alloc]initWithBase64EncodedString:msg options:0];
+
+    NSError* err = nil;
+    [sendStream send:bytes error:&err];
+    if (err != nil) {
+        NSLog(@"send stream error %@", err);
+        return;
+    }
 }
 
 @end
