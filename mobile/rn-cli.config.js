@@ -21,6 +21,7 @@ module.exports = {
     'qr-image': path.resolve(__dirname, 'node_modules/qr-image'),
     stream: path.resolve(__dirname, 'node_modules/readable-stream'),
     zlib: path.resolve(__dirname, 'node_modules/browserify-zlib'),
+    'base64-js': path.resolve(__dirname, 'node_modules/base64-js'),
     sinon: path.resolve(__dirname, 'node_modules/sinon'),
   },
   getProjectRoots: () => [
