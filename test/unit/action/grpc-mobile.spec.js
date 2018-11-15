@@ -16,13 +16,11 @@ describe('Action GRPC Mobile Unit Tests', () => {
     LndReactModuleStub = {
       startUnlocker: sinon.stub(),
       closeUnlocker: sinon.stub(),
-      UnlockWallet: sinon.stub(),
       start: sinon.stub(),
       close: sinon.stub(),
-      GetInfo: sinon.stub(),
-      SendCoins: sinon.stub(),
-      OpenChannelStreamRequest: sinon.stub(),
-      SendPaymentStreamRequest: sinon.stub(),
+      sendCommand: sinon.stub(),
+      sendStreamCommand: sinon.stub(),
+      sendStreamWrite: sinon.stub(),
     };
     const NativeModulesStub = {
       LndReactModule: LndReactModuleStub,
@@ -54,13 +52,18 @@ describe('Action GRPC Mobile Unit Tests', () => {
 
   describe('sendUnlockerCommand()', () => {
     it('should send ipc with correct args', async () => {
-      LndReactModuleStub.UnlockWallet.resolves(
+      LndReactModuleStub.sendCommand.resolves(
         grpc._serializeResponse('UnlockWallet')
       );
       await grpc.sendUnlockerCommand('UnlockWallet', {
         wallet_password: 'secret',
       });
-      expect(LndReactModuleStub.UnlockWallet, 'was called with', 'CgSx5yt6');
+      expect(
+        LndReactModuleStub.sendCommand,
+        'was called with',
+        'UnlockWallet',
+        'CgSx5yt6'
+      );
     });
   });
 
@@ -90,19 +93,23 @@ describe('Action GRPC Mobile Unit Tests', () => {
 
   describe('sendCommand()', () => {
     it('should work without body', async () => {
-      LndReactModuleStub.GetInfo.resolves(grpc._serializeResponse('GetInfo'));
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('GetInfo')
+      );
       await grpc.sendCommand('GetInfo');
-      expect(LndReactModuleStub.GetInfo, 'was called with', '');
+      expect(LndReactModuleStub.sendCommand, 'was called with', 'GetInfo', '');
     });
 
     it('should work without body (lowercase)', async () => {
-      LndReactModuleStub.GetInfo.resolves(grpc._serializeResponse('GetInfo'));
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('GetInfo')
+      );
       await grpc.sendCommand('getInfo');
-      expect(LndReactModuleStub.GetInfo, 'was called with', '');
+      expect(LndReactModuleStub.sendCommand, 'was called with', 'GetInfo', '');
     });
 
     it('should work with body', async () => {
-      LndReactModuleStub.SendCoins.resolves(
+      LndReactModuleStub.sendCommand.resolves(
         grpc._serializeResponse('SendCoins')
       );
       await grpc.sendCommand('SendCoins', {
@@ -110,40 +117,73 @@ describe('Action GRPC Mobile Unit Tests', () => {
         amount: 42,
       });
       expect(
-        LndReactModuleStub.SendCoins,
+        LndReactModuleStub.sendCommand,
         'was called with',
+        'SendCoins',
         'Cgxzb21lLWFkZHJlc3MQKg=='
       );
     });
   });
 
   describe('sendStreamCommand()', () => {
-    it('should create unidirectional stream', () => {
+    it('should create unidirectional stream', done => {
+      grpc._lndEvent.addListener.yieldsAsync(null, {
+        streamId: '1',
+        event: 'data',
+        data: 'foo',
+      });
       const stream = grpc.sendStreamCommand('OpenChannel', {
         node_pubkey: new Buffer('FFFF', 'hex'),
         local_funding_amount: 42,
       });
-      expect(stream, 'to be ok');
       expect(
-        LndReactModuleStub.OpenChannelStreamRequest,
+        LndReactModuleStub.sendStreamCommand,
         'was called with',
+        'OpenChannel',
+        '1',
         'EgL//yAq'
+      );
+      stream.on('data', data => {
+        expect(data, 'to equal', 'foo');
+        done();
+      });
+    });
+
+    it('should create duplex stream that parses json', () => {
+      const stream = grpc.sendStreamCommand('SendPayment');
+      expect(
+        LndReactModuleStub.sendStreamCommand,
+        'was called with',
+        'SendPayment',
+        '1',
+        ''
+      );
+      stream.write(JSON.stringify({ payment_request: 'foo' }), 'utf8');
+      expect(
+        LndReactModuleStub.sendStreamWrite,
+        'was called with',
+        '1',
+        'MgNmb28='
       );
     });
 
-    it.skip('should create duplex stream that parses json', () => {
+    it('should fail on stream error', done => {
+      grpc._lndEvent.addListener.yieldsAsync(new Error('Boom!'));
       const stream = grpc.sendStreamCommand('SendPayment');
-      expect(
-        LndReactModuleStub.SendPaymentStreamRequest,
-        'was called with',
-        'EgL//yAq'
-      );
-      stream.write(JSON.stringify({ foo: 'bar' }), 'utf8');
-      expect(
-        LndReactModuleStub.SendPaymentStreamWrite,
-        'was called with',
-        'EgL//yAq'
-      );
+      stream.on('error', err => {
+        expect(err.message, 'to equal', 'Boom!');
+        done();
+      });
+    });
+  });
+
+  describe('_generateStreamId()', () => {
+    it('should increment stream counter and generate a string', () => {
+      expect(grpc._streamCounter, 'to equal', 0);
+      expect(grpc._generateStreamId(), 'to equal', '1');
+      expect(grpc._streamCounter, 'to equal', 1);
+      expect(grpc._generateStreamId(), 'to equal', '2');
+      expect(grpc._streamCounter, 'to equal', 2);
     });
   });
 });

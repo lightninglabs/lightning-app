@@ -16,6 +16,7 @@ class GrpcAction {
     this._store = store;
     this._lnd = NativeModules.LndReactModule;
     this._lndEvent = new NativeEventEmitter(this._lnd);
+    this._streamCounter = 0;
   }
 
   //
@@ -109,24 +110,24 @@ class GrpcAction {
   sendStreamCommand(method, body) {
     method = toCaps(method);
     const self = this;
+    const streamId = this._generateStreamId();
     const stream = new Duplex({
       write(data) {
         data = JSON.parse(data.toString('utf8'));
-        // TODO: handle duplex stream writes in native module
         const req = self._serializeRequest(method, data);
-        self._lnd[`${method}StreamWrite`](req);
+        self._lnd.sendStreamWrite(streamId, req);
       },
       read() {},
     });
-    this._lndEvent.addListener(`${method}StreamEvent`, (err, res) => {
+    this._lndEvent.addListener('streamEvent', (err, res) => {
       if (err) {
         stream.emit('error', err);
-      } else {
+      } else if (res.streamId === streamId) {
         stream.emit(res.event, res.data);
       }
     });
     const req = this._serializeRequest(method, body);
-    self._lnd[`${method}StreamRequest`](req);
+    self._lnd.sendStreamCommand(method, streamId, req);
     return stream;
   }
 
@@ -137,7 +138,7 @@ class GrpcAction {
   async _lnrpcRequest(method, body) {
     method = toCaps(method);
     const req = this._serializeRequest(method, body);
-    const response = await this._lnd[method](req);
+    const response = await this._lnd.sendCommand(method, req);
     return this._deserializeResponse(method, response);
   }
 
@@ -156,6 +157,11 @@ class GrpcAction {
     const res = new lnrpc[`${method}Response`]();
     Object.keys(body).forEach(key => res[`set${toCaps(key)}`](body[key]));
     return base64.fromByteArray(res.serializeBinary());
+  }
+
+  _generateStreamId() {
+    this._streamCounter = this._streamCounter + 1;
+    return String(this._streamCounter);
   }
 }
 
