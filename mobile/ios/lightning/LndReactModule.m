@@ -34,15 +34,12 @@ static NSString* const respErrorKey = @"error";
 }
 
 - (void)onError:(NSError *)p0 {
-    NSLog(@"Got error %@", p0);
     self.reject(@"error", @"received error", p0);
 }
 
 - (void)onResponse:(NSData *)p0 {
-    NSLog(@"Go response %@", p0);
     NSString* b64 = [p0 base64EncodedStringWithOptions:0];
-    NSLog(@"Go response string %@", b64);
-    self.resolve(@{@"b64": b64});
+    self.resolve(@{respB64Key: b64});
 }
 
 @end
@@ -66,14 +63,11 @@ static NSString* const respErrorKey = @"error";
 }
 
 - (void)onError:(NSError *)p0 {
-    NSLog(@"Go error %@", p0);
     [self.eventEmitter sendEventWithName:streamEventName body:@{streamIdKey: self.streamId, respErrorKey: [p0 localizedDescription]}];
 }
 
 - (void)onResponse:(NSData *)p0 {
-    NSLog(@"Go response %@", p0);
     NSString* b64 = [p0 base64EncodedStringWithOptions:0];
-    NSLog(@"Go response string %@", b64);
     [self.eventEmitter sendEventWithName:streamEventName body:@{streamIdKey: self.streamId, respB64Key: b64}];
 }
 
@@ -133,7 +127,7 @@ RCT_EXPORT_METHOD(sendCommand:(NSString*)method body:(NSString*)msg
 
     SyncHandler block = [self.syncMethods objectForKey:method];
     if (block == nil) {
-        NSLog(@"method %@ not found", method);
+        RCTLogError(@"method %@ not found", method);
         NSError* err = [[NSError alloc] initWithDomain:@"LND" code:0 userInfo: @{ NSLocalizedDescriptionKey: NSLocalizedString(@"Method not found.", nil) }];
         reject(@"error", @"method not found", err);
         return;
@@ -149,7 +143,7 @@ RCT_EXPORT_METHOD(sendStreamCommand:(NSString*)method streamId:(NSString*)stream
     RecvStream* respStream = [[RecvStream alloc] initWithStreamId:streamId emitter:self];
     StreamHandler block = self.streamMethods[method];
     if (block == nil) {
-        NSLog(@"method %@ not found", method);
+        RCTLogError(@"method %@ not found", method);
         NSError* err = [[NSError alloc] initWithDomain:@"LND" code:0 userInfo: @{ NSLocalizedDescriptionKey: NSLocalizedString(@"Method not found.", nil) }];
         [respStream onError:err];
         return;
@@ -159,15 +153,17 @@ RCT_EXPORT_METHOD(sendStreamCommand:(NSString*)method streamId:(NSString*)stream
     NSError* err = nil;
     id<LndmobileSendStream> sendStream = block(bytes, respStream, &err);
     if (err != nil) {
-        NSLog(@"got init error %@", err);
+        RCTLogError(@"got init error %@", err);
         [respStream onError:err];
         return;
     }
 
+    // Expect a nil send stream for non-receive stream methods.
     if (sendStream == nil) {
         return;
     }
 
+    // TODO: clean up on stream close.
     self.activeStreams[streamId] = sendStream;
 }
 
