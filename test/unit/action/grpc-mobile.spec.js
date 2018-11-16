@@ -263,7 +263,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
 
   describe('sendStreamCommand()', () => {
     it('should work for OpenChannel (unidirectional stream)', done => {
-      grpc._lndEvent.addListener.yieldsAsync(null, {
+      grpc._lndEvent.addListener.yieldsAsync({
         streamId: '1',
         event: 'data',
         data: grpc._serializeResponse('OpenChannel'),
@@ -286,7 +286,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
     });
 
     it('should work for SendPayment (duplex stream parses json)', done => {
-      grpc._lndEvent.addListener.yieldsAsync(null, {
+      grpc._lndEvent.addListener.yieldsAsync({
         streamId: '1',
         event: 'data',
         data: grpc._serializeResponse('SendPayment'),
@@ -313,7 +313,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
     });
 
     it('should work for CloseChannel', done => {
-      grpc._lndEvent.addListener.yieldsAsync(null, {
+      grpc._lndEvent.addListener.yieldsAsync({
         streamId: '1',
         event: 'data',
         data: grpc._serializeResponse('CloseChannel'),
@@ -327,7 +327,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
     });
 
     it('should work for SubscribeTransactions', done => {
-      grpc._lndEvent.addListener.yieldsAsync(null, {
+      grpc._lndEvent.addListener.yieldsAsync({
         streamId: '1',
         event: 'data',
         data: grpc._serializeResponse('SubscribeTransactions'),
@@ -341,7 +341,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
     });
 
     it('should work for SubscribeInvoices', done => {
-      grpc._lndEvent.addListener.yieldsAsync(null, {
+      grpc._lndEvent.addListener.yieldsAsync({
         streamId: '1',
         event: 'data',
         data: grpc._serializeResponse('SubscribeInvoices'),
@@ -355,7 +355,11 @@ describe('Action GRPC Mobile Unit Tests', () => {
     });
 
     it('should fail on stream error', done => {
-      grpc._lndEvent.addListener.yieldsAsync(new Error('Boom!'));
+      grpc._lndEvent.addListener.yieldsAsync({
+        streamId: '1',
+        event: 'error',
+        error: new Error('Boom!'),
+      });
       const stream = grpc.sendStreamCommand('SendPayment');
       stream.on('error', err => {
         expect(err.message, 'to equal', 'Boom!');

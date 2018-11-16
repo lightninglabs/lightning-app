@@ -119,15 +119,14 @@ class GrpcAction {
       },
       read() {},
     });
-    self._lndEvent.addListener('streamEvent', (err, res) => {
-      if (err) {
-        stream.emit('error', err);
-      } else if (res.streamId === streamId) {
-        if (res.event === 'data') {
-          res.data = this._deserializeResponse(method, res.data);
-        }
-        stream.emit(res.event, res.data);
+    self._lndEvent.addListener('streamEvent', res => {
+      if (res.streamId !== streamId) {
+        return;
       }
+      if (res.event === 'data') {
+        res.data = this._deserializeResponse(method, res.data);
+      }
+      stream.emit(res.event, res.data || res.error);
     });
     const req = self._serializeRequest(method, body);
     self._lnd.sendStreamCommand(method, streamId, req);
