@@ -12,8 +12,11 @@
 
 static NSString* const streamEventName = @"streamEvent";
 static NSString* const streamIdKey = @"streamId";
-static NSString* const respB64Key = @"b64";
+static NSString* const respB64DataKey = @"data";
 static NSString* const respErrorKey = @"error";
+static NSString* const respEventTypeKey = @"event";
+static NSString* const respEventTypeData = @"data";
+static NSString* const respEventTypeError = @"error";
 
 @interface NativeCallback:NSObject<LndmobileCallback>
 @property (nonatomic) RCTPromiseResolveBlock resolve;
@@ -42,7 +45,7 @@ static NSString* const respErrorKey = @"error";
     if (b64 == nil) {
         b64 = @"";
     }
-    self.resolve(@{respB64Key: b64});
+    self.resolve(@{respB64DataKey: b64});
 }
 
 @end
@@ -66,7 +69,13 @@ static NSString* const respErrorKey = @"error";
 }
 
 - (void)onError:(NSError *)p0 {
-    [self.eventEmitter sendEventWithName:streamEventName body:@{streamIdKey: self.streamId, respErrorKey: [p0 localizedDescription]}];
+    [self.eventEmitter sendEventWithName:streamEventName
+                                    body:@{
+                                           streamIdKey: self.streamId,
+                                           respEventTypeKey: respEventTypeError,
+                                           respErrorKey: [p0 localizedDescription],
+                                           }
+     ];
 }
 
 - (void)onResponse:(NSData *)p0 {
@@ -74,7 +83,13 @@ static NSString* const respErrorKey = @"error";
     if (b64 == nil) {
         b64 = @"";
     }
-    [self.eventEmitter sendEventWithName:streamEventName body:@{streamIdKey: self.streamId, respB64Key: b64}];
+    [self.eventEmitter sendEventWithName:streamEventName
+                                    body:@{
+                                           streamIdKey: self.streamId,
+                                           respEventTypeKey: respEventTypeData,
+                                           respB64DataKey: b64,
+                                           }
+     ];
 }
 
 @end
