@@ -39,6 +39,9 @@ static NSString* const respErrorKey = @"error";
 
 - (void)onResponse:(NSData *)p0 {
     NSString* b64 = [p0 base64EncodedStringWithOptions:0];
+    if (b64 == nil) {
+        b64 = @"";
+    }
     self.resolve(@{respB64Key: b64});
 }
 
@@ -68,6 +71,9 @@ static NSString* const respErrorKey = @"error";
 
 - (void)onResponse:(NSData *)p0 {
     NSString* b64 = [p0 base64EncodedStringWithOptions:0];
+    if (b64 == nil) {
+        b64 = @"";
+    }
     [self.eventEmitter sendEventWithName:streamEventName body:@{streamIdKey: self.streamId, respB64Key: b64}];
 }
 
