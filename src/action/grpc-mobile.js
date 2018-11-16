@@ -110,7 +110,7 @@ class GrpcAction {
   sendStreamCommand(method, body) {
     method = toCaps(method);
     const self = this;
-    const streamId = this._generateStreamId();
+    const streamId = self._generateStreamId();
     const stream = new Duplex({
       write(data) {
         data = JSON.parse(data.toString('utf8'));
@@ -119,14 +119,17 @@ class GrpcAction {
       },
       read() {},
     });
-    this._lndEvent.addListener('streamEvent', (err, res) => {
+    self._lndEvent.addListener('streamEvent', (err, res) => {
       if (err) {
         stream.emit('error', err);
       } else if (res.streamId === streamId) {
+        if (res.event === 'data') {
+          res.data = this._deserializeResponse(method, res.data);
+        }
         stream.emit(res.event, res.data);
       }
     });
-    const req = this._serializeRequest(method, body);
+    const req = self._serializeRequest(method, body);
     self._lnd.sendStreamCommand(method, streamId, req);
     return stream;
   }
@@ -143,34 +146,51 @@ class GrpcAction {
   }
 
   _serializeRequest(method, body = {}) {
-    const req = new lnrpc[`${this._getMessageName(method)}Request`]();
+    const req = new lnrpc[(this._getRequestName(method))]();
     Object.keys(body).forEach(key => req[`set${toCaps(key)}`](body[key]));
     return base64.fromByteArray(req.serializeBinary());
   }
 
   _deserializeResponse(method, response) {
-    const res = lnrpc[`${this._getMessageName(method)}Response`];
+    const res = lnrpc[this._getResponseName(method)];
     return res.deserializeBinary(base64.toByteArray(response)).toObject();
   }
 
   _serializeResponse(method, body = {}) {
-    const res = new lnrpc[`${this._getMessageName(method)}Response`]();
+    const res = new lnrpc[(this._getResponseName(method))]();
     Object.keys(body).forEach(key => res[`set${toCaps(key)}`](body[key]));
     return base64.fromByteArray(res.serializeBinary());
-  }
-
-  _getMessageName(method) {
-    switch (method) {
-      case 'SendPayment':
-        return 'Send';
-      default:
-        return method;
-    }
   }
 
   _generateStreamId() {
     this._streamCounter = this._streamCounter + 1;
     return String(this._streamCounter);
+  }
+
+  _getRequestName(method) {
+    const map = {
+      AddInvoice: 'Invoice',
+      DecodePayReq: 'PayReqString',
+      ListInvoices: 'ListInvoiceRequest',
+      SendPayment: 'SendRequest',
+      SubscribeTransactions: 'GetTransactionsRequest',
+      SubscribeInvoices: 'InvoiceSubscription',
+    };
+    return map[method] || `${method}Request`;
+  }
+
+  _getResponseName(method) {
+    const map = {
+      DecodePayReq: 'PayReq',
+      GetTransactions: 'TransactionDetails',
+      ListInvoices: 'ListInvoiceResponse',
+      SendPayment: 'SendResponse',
+      OpenChannel: 'OpenStatusUpdate',
+      CloseChannel: 'CloseStatusUpdate',
+      SubscribeTransactions: 'Transaction',
+      SubscribeInvoices: 'Invoice',
+    };
+    return map[method] || `${method}Response`;
   }
 }
 

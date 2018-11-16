@@ -51,7 +51,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
   });
 
   describe('sendUnlockerCommand()', () => {
-    it('should send ipc with correct args', async () => {
+    it('should work for UnlockWallet', async () => {
       LndReactModuleStub.sendCommand.resolves(
         grpc._serializeResponse('UnlockWallet')
       );
@@ -64,6 +64,30 @@ describe('Action GRPC Mobile Unit Tests', () => {
         'UnlockWallet',
         'CgSx5yt6'
       );
+    });
+
+    it('should work for GenSeed', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('GenSeed')
+      );
+      await grpc.sendUnlockerCommand('GenSeed');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for InitWallet', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('InitWallet')
+      );
+      await grpc.sendUnlockerCommand('InitWallet');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for ChangePassword', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('ChangePassword')
+      );
+      await grpc.sendUnlockerCommand('ChangePassword');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
     });
   });
 
@@ -92,7 +116,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
   });
 
   describe('sendCommand()', () => {
-    it('should work without body', async () => {
+    it('should work for GetInfo (without body)', async () => {
       LndReactModuleStub.sendCommand.resolves(
         grpc._serializeResponse('GetInfo')
       );
@@ -100,7 +124,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
       expect(LndReactModuleStub.sendCommand, 'was called with', 'GetInfo', '');
     });
 
-    it('should work without body (lowercase)', async () => {
+    it('should work for GetInfo (lowercase)', async () => {
       LndReactModuleStub.sendCommand.resolves(
         grpc._serializeResponse('GetInfo')
       );
@@ -108,7 +132,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
       expect(LndReactModuleStub.sendCommand, 'was called with', 'GetInfo', '');
     });
 
-    it('should work with body', async () => {
+    it('should work for SendCoins (with body)', async () => {
       LndReactModuleStub.sendCommand.resolves(
         grpc._serializeResponse('SendCoins')
       );
@@ -123,14 +147,126 @@ describe('Action GRPC Mobile Unit Tests', () => {
         'Cgxzb21lLWFkZHJlc3MQKg=='
       );
     });
+
+    it('should work for ListChannels', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('ListChannels')
+      );
+      await grpc.sendCommand('ListChannels');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for PendingChannels', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('PendingChannels')
+      );
+      await grpc.sendCommand('PendingChannels');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for ClosedChannels', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('ClosedChannels')
+      );
+      await grpc.sendCommand('ClosedChannels');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for ListPeers', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('ListPeers')
+      );
+      await grpc.sendCommand('ListPeers');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for ConnectPeer', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('ConnectPeer')
+      );
+      await grpc.sendCommand('ConnectPeer');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for AddInvoice', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('AddInvoice')
+      );
+      await grpc.sendCommand('AddInvoice');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for DecodePayReq', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('DecodePayReq')
+      );
+      await grpc.sendCommand('DecodePayReq');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for QueryRoutes', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('QueryRoutes')
+      );
+      await grpc.sendCommand('QueryRoutes');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for GetTransactions', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('GetTransactions')
+      );
+      await grpc.sendCommand('GetTransactions');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for ListInvoices', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('ListInvoices')
+      );
+      await grpc.sendCommand('ListInvoices');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for ListPayments', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('ListPayments')
+      );
+      await grpc.sendCommand('ListPayments');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for WalletBalance', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('WalletBalance')
+      );
+      await grpc.sendCommand('WalletBalance');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for ChannelBalance', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('ChannelBalance')
+      );
+      await grpc.sendCommand('ChannelBalance');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for NewAddress', async () => {
+      LndReactModuleStub.sendCommand.resolves(
+        grpc._serializeResponse('NewAddress')
+      );
+      await grpc.sendCommand('NewAddress');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
   });
 
   describe('sendStreamCommand()', () => {
-    it('should create unidirectional stream', done => {
+    it('should work for OpenChannel (unidirectional stream)', done => {
       grpc._lndEvent.addListener.yieldsAsync(null, {
         streamId: '1',
         event: 'data',
-        data: 'foo',
+        data: grpc._serializeResponse('OpenChannel'),
       });
       const stream = grpc.sendStreamCommand('OpenChannel', {
         node_pubkey: new Buffer('FFFF', 'hex'),
@@ -144,12 +280,17 @@ describe('Action GRPC Mobile Unit Tests', () => {
         'EgL//yAq'
       );
       stream.on('data', data => {
-        expect(data, 'to equal', 'foo');
+        expect(data, 'to be ok');
         done();
       });
     });
 
-    it('should create duplex stream that parses json', () => {
+    it('should work for SendPayment (duplex stream parses json)', done => {
+      grpc._lndEvent.addListener.yieldsAsync(null, {
+        streamId: '1',
+        event: 'data',
+        data: grpc._serializeResponse('SendPayment'),
+      });
       const stream = grpc.sendStreamCommand('SendPayment');
       expect(
         LndReactModuleStub.sendStreamCommand,
@@ -165,6 +306,52 @@ describe('Action GRPC Mobile Unit Tests', () => {
         '1',
         'MgNmb28='
       );
+      stream.on('data', data => {
+        expect(data, 'to be ok');
+        done();
+      });
+    });
+
+    it('should work for CloseChannel', done => {
+      grpc._lndEvent.addListener.yieldsAsync(null, {
+        streamId: '1',
+        event: 'data',
+        data: grpc._serializeResponse('CloseChannel'),
+      });
+      const stream = grpc.sendStreamCommand('CloseChannel');
+      expect(LndReactModuleStub.sendStreamCommand, 'was called once');
+      stream.on('data', data => {
+        expect(data, 'to be ok');
+        done();
+      });
+    });
+
+    it('should work for SubscribeTransactions', done => {
+      grpc._lndEvent.addListener.yieldsAsync(null, {
+        streamId: '1',
+        event: 'data',
+        data: grpc._serializeResponse('SubscribeTransactions'),
+      });
+      const stream = grpc.sendStreamCommand('SubscribeTransactions');
+      expect(LndReactModuleStub.sendStreamCommand, 'was called once');
+      stream.on('data', data => {
+        expect(data, 'to be ok');
+        done();
+      });
+    });
+
+    it('should work for SubscribeInvoices', done => {
+      grpc._lndEvent.addListener.yieldsAsync(null, {
+        streamId: '1',
+        event: 'data',
+        data: grpc._serializeResponse('SubscribeInvoices'),
+      });
+      const stream = grpc.sendStreamCommand('SubscribeInvoices');
+      expect(LndReactModuleStub.sendStreamCommand, 'was called once');
+      stream.on('data', data => {
+        expect(data, 'to be ok');
+        done();
+      });
     });
 
     it('should fail on stream error', done => {
