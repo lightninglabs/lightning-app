@@ -91,11 +91,33 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
 {
     self.syncMethods = @{
                          @"GetInfo" : ^(NSData* bytes, NativeCallback* cb) { LndmobileGetInfo(bytes, cb); },
+                         @"ListChannels" : ^(NSData* bytes, NativeCallback* cb) { LndmobileListChannels(bytes, cb); },
+                         @"PendingChannels" : ^(NSData* bytes, NativeCallback* cb) { LndmobilePendingChannels(bytes, cb); },
+                         @"ClosedChannels" : ^(NSData* bytes, NativeCallback* cb) { LndmobileClosedChannels(bytes, cb); },
+                         @"ListPeers" : ^(NSData* bytes, NativeCallback* cb) { LndmobileListPeers(bytes, cb); },
+                         @"ConnectPeer" : ^(NSData* bytes, NativeCallback* cb) { LndmobileConnectPeer(bytes, cb); },
+                         @"AddInvoice" : ^(NSData* bytes, NativeCallback* cb) { LndmobileAddInvoice(bytes, cb); },
+                         @"DecodePayReq" : ^(NSData* bytes, NativeCallback* cb) { LndmobileDecodePayReq(bytes, cb); },
+                         @"QueryRoutes" : ^(NSData* bytes, NativeCallback* cb) { LndmobileQueryRoutes(bytes, cb); },
+                         @"SendCoins" : ^(NSData* bytes, NativeCallback* cb) { LndmobileSendCoins(bytes, cb); },
+                         @"GetTransactions" : ^(NSData* bytes, NativeCallback* cb) { LndmobileGetTransactions(bytes, cb); },
+                         @"ListInvoices" : ^(NSData* bytes, NativeCallback* cb) { LndmobileListInvoices(bytes, cb); },
+                         @"ListPayments" : ^(NSData* bytes, NativeCallback* cb) { LndmobileListPayments(bytes, cb); },
+                         @"GenSeed" : ^(NSData* bytes, NativeCallback* cb) { LndmobileGenSeed(bytes, cb); },
+                         @"InitWallet" : ^(NSData* bytes, NativeCallback* cb) { LndmobileInitWallet(bytes, cb); },
+                         @"ChangePassword" : ^(NSData* bytes, NativeCallback* cb) { LndmobileChangePassword(bytes, cb); },
+                         @"UnlockWallet" : ^(NSData* bytes, NativeCallback* cb) { LndmobileUnlockWallet(bytes, cb); },
+                         @"WalletBalance" : ^(NSData* bytes, NativeCallback* cb) { LndmobileWalletBalance(bytes, cb); },
+                         @"ChannelBalance" : ^(NSData* bytes, NativeCallback* cb) { LndmobileChannelBalance(bytes, cb); },
+                         @"NewAddress" : ^(NSData* bytes, NativeCallback* cb) { LndmobileNewAddress(bytes, cb); },
                          };
 
     self.streamMethods = @{
                            @"SendPayment" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSendPayment(cb, err); },
                            @"CloseChannel" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileCloseChannel(req, cb); },
+                           @"OpenChannel" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileOpenChannel(req, cb); },
+                           @"SubscribeTransactions" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSubscribeTransactions(req, cb); },
+                           @"SubscribeInvoices" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSubscribeInvoices(req, cb); },
                            };
 
     self.activeStreams = [NSMutableDictionary dictionary];
