@@ -123,7 +123,7 @@ class GrpcAction {
       if (res.streamId !== streamId) {
         return;
       } else if (res.event === 'data') {
-        stream.emit('data', this._deserializeResponse(method, res.data));
+        stream.emit('data', self._deserializeResponse(method, res.data));
       } else {
         stream.emit(res.event, res.error || res.data);
       }
