@@ -14,10 +14,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
     sandbox.stub(logger);
     store = new Store();
     LndReactModuleStub = {
-      startUnlocker: sinon.stub(),
-      closeUnlocker: sinon.stub(),
       start: sinon.stub(),
-      close: sinon.stub(),
       sendCommand: sinon.stub(),
       sendStreamCommand: sinon.stub(),
       sendStreamWrite: sinon.stub(),
@@ -36,17 +33,15 @@ describe('Action GRPC Mobile Unit Tests', () => {
 
   describe('initUnlocker()', () => {
     it('should set unlockerReady', async () => {
-      LndReactModuleStub.startUnlocker.resolves();
+      LndReactModuleStub.start.resolves();
       await grpc.initUnlocker();
       expect(store.unlockerReady, 'to be', true);
     });
   });
 
   describe('closeUnlocker()', () => {
-    it('should send ipc close call', async () => {
-      LndReactModuleStub.closeUnlocker.resolves();
+    it('should not crash', async () => {
       await grpc.closeUnlocker();
-      expect(LndReactModuleStub.closeUnlocker, 'was called once');
     });
   });
 
@@ -100,18 +95,14 @@ describe('Action GRPC Mobile Unit Tests', () => {
   });
 
   describe('closeLnd()', () => {
-    it('should send ipc close call', async () => {
-      LndReactModuleStub.close.resolves();
+    it('should not crash', async () => {
       await grpc.closeLnd();
-      expect(LndReactModuleStub.close, 'was called once');
     });
   });
 
   describe('restartLnd()', () => {
-    it('should send ipc close and restart calls', async () => {
-      LndReactModuleStub.close.resolves();
+    it('should not crash', async () => {
       await grpc.restartLnd();
-      expect(LndReactModuleStub.close, 'was called once');
     });
   });
 

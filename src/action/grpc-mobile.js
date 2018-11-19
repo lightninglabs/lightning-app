@@ -30,7 +30,7 @@ class GrpcAction {
    * @return {Promise<undefined>}
    */
   async initUnlocker() {
-    await this._lnd.startUnlocker();
+    await this._lnd.start();
     log.info('GRPC unlockerReady');
     this._store.unlockerReady = true;
   }
@@ -41,7 +41,8 @@ class GrpcAction {
    * @return {Promise<undefined>}
    */
   async closeUnlocker() {
-    await this._lnd.closeUnlocker();
+    // TODO: restart is not required on mobile
+    // await this._lnd.closeUnlocker();
     log.info('GRPC unlockerClosed');
   }
 
@@ -65,7 +66,8 @@ class GrpcAction {
    * @return {Promise<undefined>}
    */
   async initLnd() {
-    await this._lnd.start();
+    // TODO: restart is not required on mobile
+    // await this._lnd.start();
     log.info('GRPC lndReady');
     this._store.lndReady = true;
   }
@@ -76,7 +78,8 @@ class GrpcAction {
    * @return {Promise<undefined>}
    */
   async closeLnd() {
-    await this._lnd.close();
+    // TODO: add api on mobile
+    // await this._lnd.close();
     log.info('GRPC lndClosed');
   }
 
