@@ -19,6 +19,7 @@ import { DEFAULT_ROUTE, DEFAULT_UNIT, DEFAULT_FIAT } from './config';
 export class Store {
   constructor() {
     extendObservable(this, {
+      navReady: false, // the navigator on mobile is ready
       loaded: false, // Is persistent data loaded
       unlockerReady: false, // Is wallet unlocker running
       firstStart: false, // Is the first time the app was started

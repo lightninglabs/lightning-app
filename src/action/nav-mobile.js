@@ -13,6 +13,7 @@ class NavAction {
   setTopLevelNavigator(navigatorRef) {
     this._navigate = (routeName, params) =>
       navigatorRef.dispatch(this._Navigation.navigate({ routeName, params }));
+    this._store.navReady = true;
   }
 
   goLoader() {
