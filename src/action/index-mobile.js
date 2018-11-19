@@ -30,8 +30,6 @@ import InvoiceAction from './invoice';
 import SettingAction from './setting';
 import AuthAction from './auth-mobile';
 
-import { NOTIFICATION_DELAY } from '../config';
-
 //
 // Inject dependencies
 //
@@ -81,28 +79,8 @@ when(
  * Triggered after the wallet unlocker grpc client is initialized.
  */
 observe(store, 'unlockerReady', async () => {
-  try {
-    console.log('Generating seed...')
-    await wallet.generateSeed();
-    console.log('Seed generated.')
-
-    store.firstStart = true;
-    nav.goLoader();
-
-    await nap(NOTIFICATION_DELAY);
-    // nav.goSelectSeed();
-    wallet.initSetPassword();
-  } catch (err) {
-    wallet.initPassword();
-  }
-});
-
-/**
- * Triggered the first time the app was started e.g. to set the
- * local fiat currency only once.
- */
-observe(store, 'firstStart', async () => {
-  // await setting.detectLocalCurrency();
+  store.walletUnlocked = true;
+  nav.goWait();
 });
 
 /**
@@ -112,7 +90,6 @@ observe(store, 'firstStart', async () => {
 observe(store, 'walletUnlocked', async () => {
   if (!store.walletUnlocked) return;
   await nap();
-  await grpc.closeUnlocker();
   await grpc.initLnd();
 });
 
@@ -124,12 +101,6 @@ observe(store, 'walletUnlocked', async () => {
  */
 observe(store, 'lndReady', () => {
   if (!store.lndReady) return;
-  wallet.getNewAddress();
-  wallet.pollBalances();
-  wallet.pollExchangeRate();
-  channel.update();
-  transaction.update();
-  transaction.subscribeTransactions();
-  transaction.subscribeInvoices();
-  info.pollInfo();
+  nav.goHome();
+  info.getInfo();
 });
