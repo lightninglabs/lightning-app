@@ -30,7 +30,7 @@ class AuthAction {
   initSetPin() {
     this._store.auth.newPin = '';
     this._store.auth.pinVerify = '';
-    this._nav.goSetPin();
+    this._nav.goSetPassword();
   }
 
   /**
@@ -40,7 +40,7 @@ class AuthAction {
    */
   initPin() {
     this._store.auth.pin = '';
-    this._nav.goPin();
+    this._nav.goPassword();
   }
 
   /**
@@ -58,7 +58,7 @@ class AuthAction {
       return;
     }
     if (param === 'newPin') {
-      this._nav.goSetPinConfirm();
+      this._nav.goSetPasswordConfirm();
     } else if (param === 'pinVerify') {
       this.checkNewPin();
     } else if (param === 'pin') {

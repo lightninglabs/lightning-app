@@ -43,16 +43,16 @@ class NavAction {
     this._navigate('SeedSuccess');
   }
 
-  goSetPin() {
-    this._navigate('SetPin');
+  goSetPassword() {
+    this._navigate('SetPassword');
   }
 
-  goSetPinConfirm() {
-    this._navigate('SetPinConfirm');
+  goSetPasswordConfirm() {
+    this._navigate('SetPasswordConfirm');
   }
 
-  goPin() {
-    this._navigate('Pin');
+  goPassword() {
+    this._navigate('Password');
   }
 
   goNewAddress() {
