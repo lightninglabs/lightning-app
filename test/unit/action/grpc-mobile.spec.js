@@ -47,9 +47,9 @@ describe('Action GRPC Mobile Unit Tests', () => {
 
   describe('sendUnlockerCommand()', () => {
     it('should work for UnlockWallet', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('UnlockWallet')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('UnlockWallet'),
+      });
       await grpc.sendUnlockerCommand('UnlockWallet', {
         wallet_password: 'secret',
       });
@@ -62,25 +62,25 @@ describe('Action GRPC Mobile Unit Tests', () => {
     });
 
     it('should work for GenSeed', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('GenSeed')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('GenSeed'),
+      });
       await grpc.sendUnlockerCommand('GenSeed');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for InitWallet', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('InitWallet')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('InitWallet'),
+      });
       await grpc.sendUnlockerCommand('InitWallet');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for ChangePassword', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('ChangePassword')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('ChangePassword'),
+      });
       await grpc.sendUnlockerCommand('ChangePassword');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
@@ -108,25 +108,25 @@ describe('Action GRPC Mobile Unit Tests', () => {
 
   describe('sendCommand()', () => {
     it('should work for GetInfo (without body)', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('GetInfo')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('GetInfo'),
+      });
       await grpc.sendCommand('GetInfo');
       expect(LndReactModuleStub.sendCommand, 'was called with', 'GetInfo', '');
     });
 
     it('should work for GetInfo (lowercase)', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('GetInfo')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('GetInfo'),
+      });
       await grpc.sendCommand('getInfo');
       expect(LndReactModuleStub.sendCommand, 'was called with', 'GetInfo', '');
     });
 
     it('should work for SendCoins (with body)', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('SendCoins')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('SendCoins'),
+      });
       await grpc.sendCommand('SendCoins', {
         addr: 'some-address',
         amount: 42,
@@ -140,113 +140,113 @@ describe('Action GRPC Mobile Unit Tests', () => {
     });
 
     it('should work for ListChannels', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('ListChannels')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('ListChannels'),
+      });
       await grpc.sendCommand('ListChannels');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for PendingChannels', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('PendingChannels')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('PendingChannels'),
+      });
       await grpc.sendCommand('PendingChannels');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for ClosedChannels', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('ClosedChannels')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('ClosedChannels'),
+      });
       await grpc.sendCommand('ClosedChannels');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for ListPeers', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('ListPeers')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('ListPeers'),
+      });
       await grpc.sendCommand('ListPeers');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for ConnectPeer', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('ConnectPeer')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('ConnectPeer'),
+      });
       await grpc.sendCommand('ConnectPeer');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for AddInvoice', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('AddInvoice')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('AddInvoice'),
+      });
       await grpc.sendCommand('AddInvoice');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for DecodePayReq', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('DecodePayReq')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('DecodePayReq'),
+      });
       await grpc.sendCommand('DecodePayReq');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for QueryRoutes', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('QueryRoutes')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('QueryRoutes'),
+      });
       await grpc.sendCommand('QueryRoutes');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for GetTransactions', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('GetTransactions')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('GetTransactions'),
+      });
       await grpc.sendCommand('GetTransactions');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for ListInvoices', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('ListInvoices')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('ListInvoices'),
+      });
       await grpc.sendCommand('ListInvoices');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for ListPayments', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('ListPayments')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('ListPayments'),
+      });
       await grpc.sendCommand('ListPayments');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for WalletBalance', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('WalletBalance')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('WalletBalance'),
+      });
       await grpc.sendCommand('WalletBalance');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for ChannelBalance', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('ChannelBalance')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('ChannelBalance'),
+      });
       await grpc.sendCommand('ChannelBalance');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
 
     it('should work for NewAddress', async () => {
-      LndReactModuleStub.sendCommand.resolves(
-        grpc._serializeResponse('NewAddress')
-      );
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('NewAddress'),
+      });
       await grpc.sendCommand('NewAddress');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });

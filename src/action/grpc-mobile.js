@@ -144,7 +144,7 @@ class GrpcAction {
     method = toCaps(method);
     const req = this._serializeRequest(method, body);
     const response = await this._lnd.sendCommand(method, req);
-    return this._deserializeResponse(method, response);
+    return this._deserializeResponse(method, response.data);
   }
 
   _serializeRequest(method, body = {}) {
