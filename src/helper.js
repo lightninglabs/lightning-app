@@ -308,7 +308,6 @@ export const retry = async (api, interval = 100, retries = 1000) => {
  */
 const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
   const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
-
   return {
     x: centerX + radius * Math.cos(angleInRadians),
     y: centerY + radius * Math.sin(angleInRadians),
@@ -327,12 +326,9 @@ const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
 export const generateArc = (x, y, radius, startAngle, endAngle) => {
   const start = polarToCartesian(x, y, radius, endAngle);
   const end = polarToCartesian(x, y, radius, startAngle);
-
   const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
   const sweepFlag = endAngle === 360 ? '1' : '0';
-
   end.x = endAngle === 360 ? end.x - 0.01 : end.x;
-
   return [
     `M ${x} ${y}`,
     `L ${start.x} ${start.y}`,
