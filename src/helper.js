@@ -329,11 +329,14 @@ export const generateArc = (x, y, radius, startAngle, endAngle) => {
   const end = polarToCartesian(x, y, radius, startAngle);
 
   const largeArcFlag = endAngle - startAngle <= 180 ? '0' : '1';
+  const sweepFlag = endAngle === 360 ? '1' : '0';
+
+  end.x = endAngle === 360 ? end.x - 0.01 : end.x;
 
   return [
     `M ${x} ${y}`,
     `L ${start.x} ${start.y}`,
-    `A ${radius} ${radius} 0 ${largeArcFlag} 0 ${end.x} ${end.y}`,
+    `A ${radius} ${radius} 0 ${largeArcFlag} ${sweepFlag} ${end.x} ${end.y}`,
     'Z',
   ].join(' ');
 };
