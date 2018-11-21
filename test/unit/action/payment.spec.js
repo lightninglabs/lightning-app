@@ -139,18 +139,18 @@ describe('Action Payments Unit Tests', () => {
   describe('decodeInvoice()', () => {
     it('should decode successfully', async () => {
       grpc.sendCommand.withArgs('decodePayReq').resolves({
-        num_satoshis: '1700',
+        numSatoshis: '1700',
         description: 'foo',
         destination: 'bar',
       });
       grpc.sendCommand
         .withArgs('queryRoutes', {
-          pub_key: 'bar',
+          pubKey: 'bar',
           amt: 1700,
-          num_routes: 1,
+          numRoutes: 1,
         })
         .resolves({
-          routes: [{ total_fees: '100' }],
+          routes: [{ totalFees: '100' }],
         });
       const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
       expect(isValid, 'to be', true);
@@ -171,7 +171,7 @@ describe('Action Payments Unit Tests', () => {
 
     it('should set no fee on query route error', async () => {
       grpc.sendCommand.withArgs('decodePayReq').resolves({
-        num_satoshis: '1700',
+        numSatoshis: '1700',
         description: 'foo',
         destination: 'bar',
       });
@@ -220,14 +220,14 @@ describe('Action Payments Unit Tests', () => {
     });
 
     it('should send lightning payment', async () => {
-      paymentsOnStub.withArgs('data').yields({ payment_error: '' });
+      paymentsOnStub.withArgs('data').yields({ paymentError: '' });
       store.payment.address = 'lightning:some-invoice';
       await payment.payLightning();
       expect(grpc.sendStreamCommand, 'was called with', 'sendPayment');
       expect(
         paymentsWriteStub,
         'was called with',
-        JSON.stringify({ payment_request: 'some-invoice' }),
+        JSON.stringify({ paymentRequest: 'some-invoice' }),
         'utf8'
       );
       expect(nav.goWait, 'was called once');
@@ -236,7 +236,7 @@ describe('Action Payments Unit Tests', () => {
     });
 
     it('should display notification on error', async () => {
-      paymentsOnStub.withArgs('data').yields({ payment_error: 'Boom!' });
+      paymentsOnStub.withArgs('data').yields({ paymentError: 'Boom!' });
       await payment.payLightning({ invoice: 'some-payment' });
       expect(nav.goPayLightningConfirm, 'was called once');
       expect(notification.display, 'was called once');
