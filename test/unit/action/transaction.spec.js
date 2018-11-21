@@ -59,11 +59,11 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.withArgs('getTransactions').resolves({
         transactions: [
           {
-            tx_hash: 'some-hash',
+            txHash: 'some-hash',
             amount: '42',
-            total_fees: '10',
-            num_confirmations: 0,
-            time_stamp: '1527070395',
+            totalFees: '10',
+            numConfirmations: 0,
+            timeStamp: '1527070395',
           },
         ],
       });
@@ -83,11 +83,11 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.withArgs('getTransactions').resolves({
         transactions: [
           {
-            tx_hash: 'some-hash',
+            txHash: 'some-hash',
             amount: '42',
-            total_fees: '10',
-            num_confirmations: 1,
-            time_stamp: '1527070395',
+            totalFees: '10',
+            numConfirmations: 1,
+            timeStamp: '1527070395',
           },
         ],
       });
@@ -115,8 +115,8 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.withArgs('listInvoices').resolves({
         invoices: [
           {
-            r_hash: Buffer.from('cdab', 'hex'),
-            creation_date: '1527070395',
+            rHash: Buffer.from('cdab', 'hex'),
+            creationDate: '1527070395',
             value: '42',
             settled: true,
             memo: 'some-memo',
@@ -147,11 +147,11 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.withArgs('listPayments').resolves({
         payments: [
           {
-            creation_date: '1527070395',
+            creationDate: '1527070395',
             value: '42',
             fee: '10',
             settled: true,
-            payment_hash: 'some-hash',
+            paymentHash: 'some-hash',
           },
         ],
       });
@@ -226,7 +226,7 @@ describe('Action Transactions Unit Tests', () => {
       store.computedTransactions = [{ id: 'cdab' }];
       onStub.withArgs('data').yields({
         settled: true,
-        r_hash: Buffer.from('cdab', 'hex'),
+        rHash: Buffer.from('cdab', 'hex'),
       });
       onStub.withArgs('end').yields();
       grpc.sendStreamCommand
