@@ -62,7 +62,7 @@ module.exports.init = async function({
     credentials = await getCredentials(lndSettingsDir);
     protoPath = path.join(__dirname, '..', 'assets', 'rpc.proto');
     const options = {
-      keepCase: true,
+      keepCase: false,
       longs: String,
       enums: String,
       defaults: true,
