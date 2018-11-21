@@ -66,7 +66,7 @@ class InvoiceAction {
         memo: invoice.note,
         private: true,
       });
-      invoice.encoded = response.payment_request;
+      invoice.encoded = response.paymentRequest;
       invoice.uri = `${PREFIX_URI}${invoice.encoded}`;
       this._nav.goInvoiceQR();
     } catch (err) {
