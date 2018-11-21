@@ -90,12 +90,12 @@ describe('Action Channels Unit Tests', () => {
       grpc.sendCommand.withArgs('listChannels').resolves({
         channels: [
           {
-            chan_id: 42,
+            chanId: 42,
             active: true,
             capacity: '100',
-            local_balance: '10',
-            remote_balance: '90',
-            channel_point: 'FFFF:1',
+            localBalance: '10',
+            remoteBalance: '90',
+            channelPoint: 'FFFF:1',
           },
         ],
       });
@@ -116,19 +116,19 @@ describe('Action Channels Unit Tests', () => {
 
   describe('getPendingChannels()', () => {
     const pendingChannel = {
-      remote_node_pub: 'some-key',
+      remoteNodePub: 'some-key',
       capacity: '100',
-      local_balance: '10',
-      remote_balance: '90',
-      channel_point: 'FFFF:1',
+      localBalance: '10',
+      remoteBalance: '90',
+      channelPoint: 'FFFF:1',
     };
 
     it('should list pending channels', async () => {
       grpc.sendCommand.withArgs('pendingChannels').resolves({
-        pending_open_channels: [{ channel: { ...pendingChannel } }],
-        pending_closing_channels: [{ channel: { ...pendingChannel } }],
-        pending_force_closing_channels: [{ channel: { ...pendingChannel } }],
-        waiting_close_channels: [{ channel: { ...pendingChannel } }],
+        pendingOpenChannels: [{ channel: { ...pendingChannel } }],
+        pendingClosingChannels: [{ channel: { ...pendingChannel } }],
+        pendingForceClosingChannels: [{ channel: { ...pendingChannel } }],
+        waitingCloseChannels: [{ channel: { ...pendingChannel } }],
       });
       await channel.getPendingChannels();
       expect(store.pendingChannels.length, 'to equal', 4);
@@ -148,7 +148,7 @@ describe('Action Channels Unit Tests', () => {
   describe('getPeers()', () => {
     it('should list peers', async () => {
       grpc.sendCommand.withArgs('listPeers').resolves({
-        peers: [{ pub_key: 'foo' }],
+        peers: [{ pubKey: 'foo' }],
       });
       await channel.getPeers();
       expect(store.peers[0].pubKey, 'to equal', 'foo');
@@ -314,12 +314,12 @@ describe('Action Channels Unit Tests', () => {
       channelPoint = 'FFFF:1';
     });
 
-    it('should update pending/open channels on close_pending', async () => {
-      onStub.withArgs('data').yields({ close_pending: {} });
+    it('should update pending/open channels on closePending', async () => {
+      onStub.withArgs('data').yields({ closePending: {} });
       onStub.withArgs('end').yields();
       grpc.sendStreamCommand
         .withArgs('closeChannel', {
-          channel_point: { funding_txid_str: 'FFFF', output_index: 1 },
+          channelPoint: { fundingTxidStr: 'FFFF', outputIndex: 1 },
           force: false,
         })
         .returns({ on: onStub });
@@ -327,14 +327,14 @@ describe('Action Channels Unit Tests', () => {
       expect(channel.update, 'was called once');
     });
 
-    it('should remove pending channel on chan_close (force close)', async () => {
+    it('should remove pending channel on chanClose (force close)', async () => {
       store.pendingChannels = [{ channelPoint: 'FFFF:1' }];
-      const chan_close = { closing_txid: new Buffer('cdab', 'hex') };
-      onStub.withArgs('data').yields({ chan_close });
+      const chanClose = { closingTxid: new Buffer('cdab', 'hex') };
+      onStub.withArgs('data').yields({ chanClose });
       onStub.withArgs('end').yields();
       grpc.sendStreamCommand
         .withArgs('closeChannel', {
-          channel_point: { funding_txid_str: 'FFFF', output_index: 1 },
+          channelPoint: { fundingTxidStr: 'FFFF', outputIndex: 1 },
           force: true,
         })
         .returns({ on: onStub });
