@@ -14,11 +14,6 @@ import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   qrWrapper: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -40,7 +35,7 @@ const styles = StyleSheet.create({
 
 const NewAddressView = ({ store, invoice, info }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
-    <View style={styles.qrWrapper}>
+    <View style={[StyleSheet.absoluteFill, styles.qrWrapper]}>
       <QRCode size={130}>{store.walletAddressUri}</QRCode>
     </View>
     <MainContent style={styles.content}>
