@@ -123,7 +123,7 @@ describe('Action Wallet Unit Tests', () => {
   describe('init()', () => {
     it('should generate seed and navigate to onboarding', async () => {
       grpc.sendUnlockerCommand.withArgs('GenSeed').resolves({
-        cipher_seed_mnemonic: 'foo bar',
+        cipherSeedMnemonic: 'foo bar',
       });
       await wallet.init();
       expect(store.firstStart, 'to be', true);
@@ -161,7 +161,7 @@ describe('Action Wallet Unit Tests', () => {
   describe('generateSeed()', () => {
     it('should generate seed', async () => {
       grpc.sendUnlockerCommand.withArgs('GenSeed').resolves({
-        cipher_seed_mnemonic: 'foo bar',
+        cipherSeedMnemonic: 'foo bar',
       });
       await wallet.generateSeed();
       expect(store.seedMnemonic, 'to equal', 'foo bar');
@@ -292,8 +292,8 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
       expect(store.walletUnlocked, 'to be', true);
       expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
-        wallet_password: Buffer.from('baz', 'utf8'),
-        cipher_seed_mnemonic: ['foo'],
+        walletPassword: Buffer.from('baz', 'utf8'),
+        cipherSeedMnemonic: ['foo'],
       });
       expect(nav.goSeedSuccess, 'was called once');
     });
@@ -384,8 +384,8 @@ describe('Action Wallet Unit Tests', () => {
         newPassword: 'newPass',
       });
       expect(grpc.sendUnlockerCommand, 'was called with', 'ChangePassword', {
-        current_password: Buffer.from('currentPass', 'utf8'),
-        new_password: Buffer.from('newPass', 'utf8'),
+        currentPassword: Buffer.from('currentPass', 'utf8'),
+        newPassword: Buffer.from('newPass', 'utf8'),
       });
       expect(nav.goResetPasswordSaved, 'was called once');
     });
@@ -451,7 +451,7 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.unlockWallet({ walletPassword: 'baz' });
       expect(store.walletUnlocked, 'to be', true);
       expect(grpc.sendUnlockerCommand, 'was called with', 'UnlockWallet', {
-        wallet_password: Buffer.from('baz', 'utf8'),
+        walletPassword: Buffer.from('baz', 'utf8'),
       });
       expect(nav.goWait, 'was called once');
       expect(nav.goHome, 'was not called');
@@ -491,9 +491,9 @@ describe('Action Wallet Unit Tests', () => {
   describe('getBalance()', () => {
     it('should get wallet balance', async () => {
       grpc.sendCommand.withArgs('WalletBalance').resolves({
-        total_balance: '1',
-        confirmed_balance: '2',
-        unconfirmed_balance: '3',
+        totalBalance: '1',
+        confirmedBalance: '2',
+        unconfirmedBalance: '3',
       });
       await wallet.getBalance();
       expect(store.balanceSatoshis, 'to equal', 1);
@@ -512,7 +512,7 @@ describe('Action Wallet Unit Tests', () => {
     it('should get channel balance', async () => {
       grpc.sendCommand.withArgs('ChannelBalance').resolves({
         balance: '1',
-        pending_open_balance: '2',
+        pendingOpenBalance: '2',
       });
       await wallet.getChannelBalance();
       expect(store.channelBalanceSatoshis, 'to equal', 1);
