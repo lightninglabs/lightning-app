@@ -25,6 +25,7 @@ import PaymentView from '../src/view/payment';
 import InvoiceView from '../src/view/invoice';
 import InvoiceQRView from '../src/view/invoice-qr';
 import DepositView from '../src/view/deposit';
+import NotificationView from '../src/view/notification';
 
 import {
   nav,
@@ -90,6 +91,8 @@ const SettingsFiat = () => (
 
 const CLI = () => <CLIView store={store} nav={nav} />;
 
+const Notifications = () => <NotificationView store={store} nav={nav} />;
+
 const Deposit = () => <DepositView store={store} invoice={invoice} nav={nav} />;
 
 const Invoice = () => <InvoiceView store={store} invoice={invoice} nav={nav} />;
@@ -116,6 +119,7 @@ const MainStack = createStackNavigator(
     Settings,
     SettingsUnit,
     SettingsFiat,
+    Notifications,
     CLI,
   },
   {
