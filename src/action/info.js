@@ -25,15 +25,15 @@ class InfoAction {
   async getInfo() {
     try {
       const response = await this._grpc.sendCommand('getInfo');
-      this._store.pubKey = response.identity_pubkey;
-      this._store.syncedToChain = response.synced_to_chain;
-      this._store.blockHeight = response.block_height;
+      this._store.pubKey = response.identityPubkey;
+      this._store.syncedToChain = response.syncedToChain;
+      this._store.blockHeight = response.blockHeight;
       if (this.startingSyncTimestamp === undefined) {
-        this.startingSyncTimestamp = response.best_header_timestamp || 0;
+        this.startingSyncTimestamp = response.bestHeaderTimestamp || 0;
       }
-      if (!response.synced_to_chain) {
+      if (!response.syncedToChain) {
         this._notification.display({
-          msg: `Syncing to chain (block: ${response.block_height})`,
+          msg: `Syncing to chain (block: ${response.blockHeight})`,
           wait: true,
         });
         this._store.percentSynced = this.calcPercentSynced(response);
@@ -43,14 +43,14 @@ class InfoAction {
           msg: 'Syncing complete',
         });
       }
-      return response.synced_to_chain;
+      return response.syncedToChain;
     } catch (err) {
       log.error('Getting node info failed', err);
     }
   }
 
   /**
-   * Poll the getInfo api until synced_to_chain is true.
+   * Poll the getInfo api until syncedToChain is true.
    * @return {Promise<undefined>}
    */
   async pollInfo() {
@@ -80,7 +80,7 @@ class InfoAction {
    * @return {number}          The percrentage a number between 0 and 1
    */
   calcPercentSynced(response) {
-    const bestHeaderTimestamp = response.best_header_timestamp;
+    const bestHeaderTimestamp = response.bestHeaderTimestamp;
     const currTimestamp = new Date().getTime() / 1000;
     const progressSoFar = bestHeaderTimestamp
       ? bestHeaderTimestamp - this.startingSyncTimestamp
