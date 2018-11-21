@@ -103,4 +103,5 @@ observe(store, 'lndReady', () => {
   if (!store.lndReady) return;
   nav.goHome();
   info.getInfo();
+  wallet.getNewAddress();
 });
