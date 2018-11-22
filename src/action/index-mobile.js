@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 import { SecureStore, LocalAuthentication } from 'expo';
 import { NavigationActions } from 'react-navigation';
-import { nap } from '../helper';
 import store from '../store';
 import AppStorage from './app-storage';
 import GrpcAction from './grpc-mobile';
@@ -71,6 +70,7 @@ db.restore(); // read user settings from disk
 when(
   () => store.loaded && store.navReady,
   async () => {
+    nav.goWait();
     await grpc.initUnlocker();
   }
 );
@@ -80,7 +80,6 @@ when(
  */
 observe(store, 'unlockerReady', async () => {
   store.walletUnlocked = true;
-  nav.goWait();
 });
 
 /**
@@ -89,7 +88,6 @@ observe(store, 'unlockerReady', async () => {
  */
 observe(store, 'walletUnlocked', async () => {
   if (!store.walletUnlocked) return;
-  await nap();
   await grpc.initLnd();
 });
 
