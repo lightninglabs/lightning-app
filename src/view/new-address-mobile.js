@@ -1,7 +1,8 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
+import { createStyles, maxWidth } from '../component/media-query';
 import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
 import { CopyOnboardText, CopyText } from '../component/text';
@@ -9,11 +10,27 @@ import { CopyButton, GlasButton } from '../component/button';
 import { CopiedNotification } from '../component/notification';
 import CopyDarkIcon from '../../src/asset/icon/copy-dark';
 import QRCode from '../component/qrcode';
-import { color } from '../component/style';
+import { color, smallBreakWidth } from '../component/style';
 
-const styles = StyleSheet.create({
+const baseStyles = {
   content: {
     justifyContent: 'space-between',
+  },
+  copyWrapper: {
+    alignItems: 'center',
+  },
+  title: {
+    textAlign: 'center',
+    marginTop: 50,
+  },
+  copyTxt: {
+    textAlign: 'center',
+    marginTop: 10,
+    maxWidth: 250,
+  },
+  qrCode: {
+    height: 170,
+    width: 170,
   },
   buttons: {
     alignSelf: 'stretch',
@@ -26,13 +43,35 @@ const styles = StyleSheet.create({
   copied: {
     bottom: 180,
   },
-});
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(smallBreakWidth, {
+    title: {
+      marginTop: 20,
+    },
+    qrCode: {
+      height: 100,
+      width: 100,
+    },
+  })
+);
 
 const NewAddressView = ({ store, invoice, info }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <MainContent style={styles.content}>
-      <CopySection />
-      <QRCode size={130}>{store.walletAddressUri}</QRCode>
+      <View style={styles.copyWrapper}>
+        <CopyOnboardText style={styles.title}>
+          Your shiny new address
+        </CopyOnboardText>
+        <CopyText style={styles.copyTxt}>
+          Scan the QR code, or copy the address to send from another wallet or
+          exchange.
+        </CopyText>
+      </View>
+      <QRCode size={styles.qrCode.height}>{store.walletAddressUri}</QRCode>
       <View style={styles.buttons}>
         <CopyButton
           onPress={() => invoice.toClipboard({ text: store.walletAddress })}
@@ -57,36 +96,5 @@ NewAddressView.propTypes = {
   invoice: PropTypes.object.isRequired,
   info: PropTypes.object.isRequired,
 };
-
-//
-// Copy Section
-//
-
-const copyStyles = StyleSheet.create({
-  wrapper: {
-    alignItems: 'center',
-  },
-  title: {
-    textAlign: 'center',
-    marginTop: 60,
-  },
-  copyTxt: {
-    textAlign: 'center',
-    marginTop: 10,
-    maxWidth: 250,
-  },
-});
-
-const CopySection = () => (
-  <View style={copyStyles.wrapper}>
-    <CopyOnboardText style={copyStyles.title}>
-      Your shiny new address
-    </CopyOnboardText>
-    <CopyText style={copyStyles.copyTxt}>
-      Scan the QR code, or copy the address to send from another wallet or
-      exchange.
-    </CopyText>
-  </View>
-);
 
 export default observer(NewAddressView);
