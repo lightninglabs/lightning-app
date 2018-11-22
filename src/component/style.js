@@ -71,3 +71,4 @@ export const invisible = {
 };
 
 export const breakWidth = 400;
+export const smallBreakWidth = 374;
