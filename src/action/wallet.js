@@ -171,7 +171,7 @@ class WalletAction {
    */
   async generateSeed() {
     const response = await this._grpc.sendUnlockerCommand('GenSeed');
-    this._store.seedMnemonic = response.cipher_seed_mnemonic;
+    this._store.seedMnemonic = response.cipherSeedMnemonic;
   }
 
   /**
@@ -259,9 +259,9 @@ class WalletAction {
   async initWallet({ walletPassword, seedMnemonic, recoveryWindow = 0 }) {
     try {
       await this._grpc.sendUnlockerCommand('InitWallet', {
-        wallet_password: toBuffer(walletPassword),
-        cipher_seed_mnemonic: seedMnemonic,
-        recovery_window: recoveryWindow,
+        walletPassword: toBuffer(walletPassword),
+        cipherSeedMnemonic: seedMnemonic,
+        recoveryWindow: recoveryWindow,
       });
       this._store.walletUnlocked = true;
       this._nav.goSeedSuccess();
@@ -323,8 +323,8 @@ class WalletAction {
       this._store.lndReady = false;
       await this._grpc.initUnlocker();
       await this._grpc.sendUnlockerCommand('ChangePassword', {
-        current_password: toBuffer(currentPassword),
-        new_password: toBuffer(newPassword),
+        currentPassword: toBuffer(currentPassword),
+        newPassword: toBuffer(newPassword),
       });
       this._store.walletUnlocked = true;
       this._nav.goResetPasswordSaved();
@@ -365,7 +365,7 @@ class WalletAction {
   async unlockWallet({ walletPassword }) {
     try {
       await this._grpc.sendUnlockerCommand('UnlockWallet', {
-        wallet_password: toBuffer(walletPassword),
+        walletPassword: toBuffer(walletPassword),
       });
       this._store.walletUnlocked = true;
       this._nav.goWait();
@@ -394,9 +394,9 @@ class WalletAction {
   async getBalance() {
     try {
       const r = await this._grpc.sendCommand('WalletBalance');
-      this._store.balanceSatoshis = parseSat(r.total_balance);
-      this._store.confirmedBalanceSatoshis = parseSat(r.confirmed_balance);
-      this._store.unconfirmedBalanceSatoshis = parseSat(r.unconfirmed_balance);
+      this._store.balanceSatoshis = parseSat(r.totalBalance);
+      this._store.confirmedBalanceSatoshis = parseSat(r.confirmedBalance);
+      this._store.unconfirmedBalanceSatoshis = parseSat(r.unconfirmedBalance);
     } catch (err) {
       log.error('Getting wallet balance failed', err);
     }
@@ -411,7 +411,7 @@ class WalletAction {
     try {
       const r = await this._grpc.sendCommand('ChannelBalance');
       this._store.channelBalanceSatoshis = parseSat(r.balance);
-      this._store.pendingBalanceSatoshis = parseSat(r.pending_open_balance);
+      this._store.pendingBalanceSatoshis = parseSat(r.pendingOpenBalance);
     } catch (err) {
       log.error('Getting channel balance failed', err);
     }

@@ -63,7 +63,7 @@ describe('Action Invoice Unit Tests', () => {
           private: true,
         })
         .resolves({
-          payment_request: 'some-request',
+          paymentRequest: 'some-request',
         });
       await invoice.generateUri();
       expect(store.invoice.encoded, 'to equal', 'some-request');

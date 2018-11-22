@@ -106,13 +106,13 @@ class PaymentAction {
     try {
       const { payment, settings } = this._store;
       const request = await this._grpc.sendCommand('decodePayReq', {
-        pay_req: invoice.replace(PREFIX_URI, ''),
+        payReq: invoice.replace(PREFIX_URI, ''),
       });
-      payment.amount = toAmount(parseSat(request.num_satoshis), settings);
+      payment.amount = toAmount(parseSat(request.numSatoshis), settings);
       payment.note = request.description;
       await this.estimateLightningFee({
         destination: request.destination,
-        satAmt: parseSat(request.num_satoshis),
+        satAmt: parseSat(request.numSatoshis),
       });
       return true;
     } catch (err) {
@@ -132,11 +132,11 @@ class PaymentAction {
     try {
       const { payment, settings } = this._store;
       const { routes } = await this._grpc.sendCommand('queryRoutes', {
-        pub_key: destination,
+        pubKey: destination,
         amt: satAmt,
-        num_routes: 1,
+        numRoutes: 1,
       });
-      payment.fee = toAmount(parseSat(routes[0].total_fees), settings);
+      payment.fee = toAmount(parseSat(routes[0].totalFees), settings);
     } catch (err) {
       log.error(`Estimating lightning fee failed!`, err);
     }
@@ -181,14 +181,14 @@ class PaymentAction {
       const stream = this._grpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {
         stream.on('data', data => {
-          if (data.payment_error) {
-            reject(new Error(`Lightning payment error: ${data.payment_error}`));
+          if (data.paymentError) {
+            reject(new Error(`Lightning payment error: ${data.paymentError}`));
           } else {
             resolve();
           }
         });
         stream.on('error', reject);
-        stream.write(JSON.stringify({ payment_request: invoice }), 'utf8');
+        stream.write(JSON.stringify({ paymentRequest: invoice }), 'utf8');
       });
       if (failed) return;
       this._nav.goPayLightningDone();

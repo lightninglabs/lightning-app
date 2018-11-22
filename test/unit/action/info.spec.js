@@ -32,9 +32,9 @@ describe('Action Info Unit Tests', () => {
   describe('getInfo()', () => {
     it('should get public key, synced to chain, and block height', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
-        identity_pubkey: 'some-pubkey',
-        synced_to_chain: 'true/false',
-        block_height: 'some-height',
+        identityPubkey: 'some-pubkey',
+        syncedToChain: 'true/false',
+        blockHeight: 'some-height',
       });
       await info.getInfo();
       expect(store.pubKey, 'to equal', 'some-pubkey');
@@ -44,8 +44,8 @@ describe('Action Info Unit Tests', () => {
 
     it('should show notification if syncing', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
-        synced_to_chain: false,
-        block_height: 1234,
+        syncedToChain: false,
+        blockHeight: 1234,
       });
       await info.getInfo();
       expect(notification.display, 'was called once');
@@ -57,7 +57,7 @@ describe('Action Info Unit Tests', () => {
 
     it('should show completed notification if synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
-        synced_to_chain: true,
+        syncedToChain: true,
       });
       await info.getInfo();
       expect(notification.display, 'was called once');
@@ -69,7 +69,7 @@ describe('Action Info Unit Tests', () => {
 
     it('should return true if chain is synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
-        synced_to_chain: true,
+        syncedToChain: true,
       });
       const synced = await info.getInfo();
       expect(synced, 'to be', true);
@@ -78,7 +78,7 @@ describe('Action Info Unit Tests', () => {
     it('should set percentSynced', async () => {
       const testTimestamp = new Date().getTime();
       grpc.sendCommand.withArgs('getInfo').resolves({
-        synced_to_chain: false,
+        syncedToChain: false,
         best_header_timestamp: testTimestamp / 1000,
       });
       await info.getInfo();
@@ -87,7 +87,7 @@ describe('Action Info Unit Tests', () => {
 
     it('should return false if chain is not synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
-        synced_to_chain: false,
+        syncedToChain: false,
       });
       const synced = await info.getInfo();
       expect(synced, 'to be', false);
@@ -112,7 +112,7 @@ describe('Action Info Unit Tests', () => {
   describe('initLoaderSyncing()', () => {
     it('should navigate straight to home if synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
-        synced_to_chain: 'true',
+        syncedToChain: 'true',
       });
       await info.getInfo();
       info.initLoaderSyncing();
@@ -121,13 +121,13 @@ describe('Action Info Unit Tests', () => {
 
     it('should navigate from loader to home on synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
-        synced_to_chain: false,
+        syncedToChain: false,
       });
       await info.getInfo();
       info.initLoaderSyncing();
       expect(nav.goLoaderSyncing, 'was called once');
       grpc.sendCommand.withArgs('getInfo').resolves({
-        synced_to_chain: true,
+        syncedToChain: true,
       });
       await info.getInfo();
       expect(nav.goHome, 'was called once');

@@ -58,13 +58,13 @@ class TransactionAction {
     try {
       const { transactions } = await this._grpc.sendCommand('getTransactions');
       this._store.transactions = transactions.map(transaction => ({
-        id: transaction.tx_hash,
+        id: transaction.txHash,
         type: 'bitcoin',
         amount: parseSat(transaction.amount),
-        fee: parseSat(transaction.total_fees),
-        confirmations: transaction.num_confirmations,
-        status: transaction.num_confirmations < 1 ? 'unconfirmed' : 'confirmed',
-        date: parseDate(transaction.time_stamp),
+        fee: parseSat(transaction.totalFees),
+        confirmations: transaction.numConfirmations,
+        status: transaction.numConfirmations < 1 ? 'unconfirmed' : 'confirmed',
+        date: parseDate(transaction.timeStamp),
       }));
     } catch (err) {
       log.error('Listing transactions failed', err);
@@ -80,11 +80,11 @@ class TransactionAction {
     try {
       const { invoices } = await this._grpc.sendCommand('listInvoices');
       this._store.invoices = invoices.map(invoice => ({
-        id: toHex(invoice.r_hash),
+        id: toHex(invoice.rHash),
         type: 'lightning',
         amount: parseSat(invoice.value),
         status: invoice.settled ? 'complete' : 'in-progress',
-        date: parseDate(invoice.creation_date),
+        date: parseDate(invoice.creationDate),
         memo: invoice.memo,
       }));
     } catch (err) {
@@ -101,12 +101,12 @@ class TransactionAction {
     try {
       const { payments } = await this._grpc.sendCommand('listPayments');
       this._store.payments = payments.map(payment => ({
-        id: payment.payment_hash,
+        id: payment.paymentHash,
         type: 'lightning',
         amount: -1 * parseSat(payment.value),
         fee: parseSat(payment.fee),
         status: 'complete',
-        date: parseDate(payment.creation_date),
+        date: parseDate(payment.creationDate),
       }));
     } catch (err) {
       log.error('Listing payments failed', err);
@@ -149,7 +149,7 @@ class TransactionAction {
     await this.update();
     if (!invoice.settled) return;
     const { computedTransactions, unitLabel } = this._store;
-    let inv = computedTransactions.find(tx => tx.id === toHex(invoice.r_hash));
+    let inv = computedTransactions.find(tx => tx.id === toHex(invoice.rHash));
     this._notification.display({
       type: 'success',
       msg: `Invoice success: received ${inv.amountLabel} ${unitLabel}`,
