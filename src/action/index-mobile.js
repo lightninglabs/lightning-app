@@ -100,6 +100,9 @@ observe(store, 'walletUnlocked', async () => {
 observe(store, 'lndReady', () => {
   if (!store.lndReady) return;
   nav.goHome();
-  info.getInfo();
+  info.pollInfo();
   wallet.getNewAddress();
+  wallet.pollBalances();
+  wallet.pollExchangeRate();
+  channel.update();
 });
