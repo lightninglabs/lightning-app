@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for updating wallet balances.
  */
 
-import { toBuffer, parseSat, checkHttpStatus, nap, poll } from '../helper';
+import { toBuffer, checkHttpStatus, nap, poll } from '../helper';
 import {
   MIN_PASSWORD_LENGTH,
   NOTIFICATION_DELAY,
@@ -394,9 +394,9 @@ class WalletAction {
   async getBalance() {
     try {
       const r = await this._grpc.sendCommand('WalletBalance');
-      this._store.balanceSatoshis = parseSat(r.totalBalance);
-      this._store.confirmedBalanceSatoshis = parseSat(r.confirmedBalance);
-      this._store.unconfirmedBalanceSatoshis = parseSat(r.unconfirmedBalance);
+      this._store.balanceSatoshis = r.totalBalance;
+      this._store.confirmedBalanceSatoshis = r.confirmedBalance;
+      this._store.unconfirmedBalanceSatoshis = r.unconfirmedBalance;
     } catch (err) {
       log.error('Getting wallet balance failed', err);
     }
@@ -410,8 +410,8 @@ class WalletAction {
   async getChannelBalance() {
     try {
       const r = await this._grpc.sendCommand('ChannelBalance');
-      this._store.channelBalanceSatoshis = parseSat(r.balance);
-      this._store.pendingBalanceSatoshis = parseSat(r.pendingOpenBalance);
+      this._store.channelBalanceSatoshis = r.balance;
+      this._store.pendingBalanceSatoshis = r.pendingOpenBalance;
     } catch (err) {
       log.error('Getting channel balance failed', err);
     }
