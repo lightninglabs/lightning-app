@@ -4,14 +4,7 @@
  */
 
 import { PREFIX_URI, PAYMENT_TIMEOUT } from '../config';
-import {
-  toSatoshis,
-  toAmount,
-  parseSat,
-  isLnUri,
-  isAddress,
-  nap,
-} from '../helper';
+import { toSatoshis, toAmount, isLnUri, isAddress, nap } from '../helper';
 import * as log from './log';
 
 class PaymentAction {
@@ -108,11 +101,11 @@ class PaymentAction {
       const request = await this._grpc.sendCommand('decodePayReq', {
         payReq: invoice.replace(PREFIX_URI, ''),
       });
-      payment.amount = toAmount(parseSat(request.numSatoshis), settings);
+      payment.amount = toAmount(request.numSatoshis, settings);
       payment.note = request.description;
       await this.estimateLightningFee({
         destination: request.destination,
-        satAmt: parseSat(request.numSatoshis),
+        satAmt: request.numSatoshis,
       });
       return true;
     } catch (err) {
@@ -136,7 +129,7 @@ class PaymentAction {
         amt: satAmt,
         numRoutes: 1,
       });
-      payment.fee = toAmount(parseSat(routes[0].totalFees), settings);
+      payment.fee = toAmount(routes[0].totalFees, settings);
     } catch (err) {
       log.error(`Estimating lightning fee failed!`, err);
     }
