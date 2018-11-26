@@ -18,8 +18,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "storybook": "storybook start -p 7007",
-    "protobuf": "pbjs  ../assets/rpc.proto -t static-module -o ./lnrpc/protobuf.js"
+    "storybook": "storybook start -p 7007"
   },
   "dependencies": {
     "expo": "^30.0.2",
