@@ -28,6 +28,7 @@ module.exports = {
   getProjectRoots: () => [
     path.resolve(__dirname),
     path.resolve(__dirname, '../src'),
+    path.resolve(__dirname, '../assets'),
     path.resolve(__dirname, '../stories'),
   ],
 };
