@@ -7,6 +7,9 @@
 node_modules/**/*
 ios/Pods/**/*
 
+# proto
+lnrpc/*.js
+
 # misc
 .env.local
 .env.development.local
