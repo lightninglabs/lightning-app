@@ -110,6 +110,9 @@ typedef id<LndmobileSendStream> (^StreamHandler)(NSData* req, RecvStream* respSt
 RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
 {
+    // Avoid crash on socket close.
+    signal(SIGPIPE, SIG_IGN);
+
     self.syncMethods = @{
                          @"GetInfo" : ^(NSData* bytes, NativeCallback* cb) { LndmobileGetInfo(bytes, cb); },
                          @"ListChannels" : ^(NSData* bytes, NativeCallback* cb) { LndmobileListChannels(bytes, cb); },
