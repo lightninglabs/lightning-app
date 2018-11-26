@@ -7,7 +7,7 @@
 import { Duplex } from 'stream';
 import base64 from 'base64-js';
 
-import lnrpc from '../../mobile/rpc_pb';
+import { lnrpc } from '../../mobile/lnrpc/protobuf';
 import * as log from './log';
 import { toCaps } from '../helper';
 
@@ -148,20 +148,23 @@ class GrpcAction {
   }
 
   _serializeRequest(method, body = {}) {
-    const req = new lnrpc[(this._getRequestName(method))]();
-    Object.keys(body).forEach(key => req[`set${toCaps(key)}`](body[key]));
-    return base64.fromByteArray(req.serializeBinary());
+    const req = lnrpc[this._getRequestName(method)];
+    const message = req.create(body);
+    const buffer = req.encode(message).finish();
+    return base64.fromByteArray(buffer);
   }
 
   _deserializeResponse(method, response) {
     const res = lnrpc[this._getResponseName(method)];
-    return res.deserializeBinary(base64.toByteArray(response)).toObject();
+    const buffer = base64.toByteArray(response);
+    return res.decode(buffer);
   }
 
   _serializeResponse(method, body = {}) {
-    const res = new lnrpc[(this._getResponseName(method))]();
-    Object.keys(body).forEach(key => res[`set${toCaps(key)}`](body[key]));
-    return base64.fromByteArray(res.serializeBinary());
+    const res = lnrpc[this._getResponseName(method)];
+    const message = res.create(body);
+    const buffer = res.encode(message).finish();
+    return base64.fromByteArray(buffer);
   }
 
   _generateStreamId() {
