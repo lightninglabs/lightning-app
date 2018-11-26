@@ -92,9 +92,9 @@ describe('Action Channels Unit Tests', () => {
           {
             chanId: 42,
             active: true,
-            capacity: '100',
-            localBalance: '10',
-            remoteBalance: '90',
+            capacity: 100,
+            localBalance: 10,
+            remoteBalance: 90,
             channelPoint: 'FFFF:1',
           },
         ],
@@ -117,9 +117,9 @@ describe('Action Channels Unit Tests', () => {
   describe('getPendingChannels()', () => {
     const pendingChannel = {
       remoteNodePub: 'some-key',
-      capacity: '100',
-      localBalance: '10',
-      remoteBalance: '90',
+      capacity: 100,
+      localBalance: 10,
+      remoteBalance: 90,
       channelPoint: 'FFFF:1',
     };
 
