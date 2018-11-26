@@ -26,6 +26,10 @@ import InvoiceView from '../src/view/invoice';
 import InvoiceQRView from '../src/view/invoice-qr';
 import DepositView from '../src/view/deposit';
 import NotificationView from '../src/view/notification';
+import ChannelView from '../src/view/channel';
+import ChannelDetailView from '../src/view/channel-detail';
+import ChannelDeleteView from '../src/view/channel-delete';
+import ChannelCreateView from '../src/view/channel-create';
 
 import {
   nav,
@@ -95,6 +99,22 @@ const Notifications = () => <NotificationView store={store} nav={nav} />;
 
 const Deposit = () => <DepositView store={store} invoice={invoice} nav={nav} />;
 
+const Channels = () => (
+  <ChannelView store={store} channel={channel} nav={nav} />
+);
+
+const ChannelDetail = () => (
+  <ChannelDetailView store={store} channel={channel} nav={nav} />
+);
+
+const ChannelDelete = () => (
+  <ChannelDeleteView store={store} channel={channel} nav={nav} />
+);
+
+const ChannelCreate = () => (
+  <ChannelCreateView store={store} channel={channel} nav={nav} />
+);
+
 const Invoice = () => <InvoiceView store={store} invoice={invoice} nav={nav} />;
 
 const InvoiceQR = () => (
@@ -116,6 +136,10 @@ const MainStack = createStackNavigator(
     LoaderSyncing,
     Wait,
     Home,
+    Channels,
+    ChannelDetail,
+    ChannelDelete,
+    ChannelCreate,
     Settings,
     SettingsUnit,
     SettingsFiat,
