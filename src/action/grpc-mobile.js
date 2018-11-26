@@ -7,7 +7,7 @@
 import { Duplex } from 'stream';
 import base64 from 'base64-js';
 
-import { lnrpc } from '../../mobile/lnrpc/protobuf';
+import { lnrpc } from '../../assets/rpc';
 import * as log from './log';
 import { toCaps } from '../helper';
 

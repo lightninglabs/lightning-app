@@ -9,6 +9,9 @@
 # production
 /build
 
+# proto
+/assets/*.js
+
 # misc
 .DS_Store
 .env.local
