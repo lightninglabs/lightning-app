@@ -4,7 +4,7 @@
  */
 
 import * as log from './log';
-import { parseDate, parseSat, toHex } from '../helper';
+import { parseDate, toHex } from '../helper';
 
 class TransactionAction {
   constructor(store, grpc, nav, notification) {
@@ -60,8 +60,8 @@ class TransactionAction {
       this._store.transactions = transactions.map(transaction => ({
         id: transaction.txHash,
         type: 'bitcoin',
-        amount: parseSat(transaction.amount),
-        fee: parseSat(transaction.totalFees),
+        amount: transaction.amount,
+        fee: transaction.totalFees,
         confirmations: transaction.numConfirmations,
         status: transaction.numConfirmations < 1 ? 'unconfirmed' : 'confirmed',
         date: parseDate(transaction.timeStamp),
@@ -82,7 +82,7 @@ class TransactionAction {
       this._store.invoices = invoices.map(invoice => ({
         id: toHex(invoice.rHash),
         type: 'lightning',
-        amount: parseSat(invoice.value),
+        amount: invoice.value,
         status: invoice.settled ? 'complete' : 'in-progress',
         date: parseDate(invoice.creationDate),
         memo: invoice.memo,
@@ -103,8 +103,8 @@ class TransactionAction {
       this._store.payments = payments.map(payment => ({
         id: payment.paymentHash,
         type: 'lightning',
-        amount: -1 * parseSat(payment.value),
-        fee: parseSat(payment.fee),
+        amount: -1 * payment.value,
+        fee: payment.fee,
         status: 'complete',
         date: parseDate(payment.creationDate),
       }));
