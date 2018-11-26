@@ -44,22 +44,6 @@ export const parseDate = timeStamp => {
 };
 
 /**
- * Parse satoshi values to an integer number
- * @param  {string} satoshis The integer value as a string
- * @return {number}          The satoshi integer as a number
- */
-export const parseSat = satoshis => {
-  if (typeof satoshis !== 'string' || !/^-*[0-9]+$/.test(satoshis)) {
-    throw new Error('Invalid input!');
-  }
-  satoshis = parseInt(satoshis, 10);
-  if (isNaN(satoshis)) {
-    throw new Error('Invalid input!');
-  }
-  return satoshis;
-};
-
-/**
  * Convert a string formatted btc/fiat amount to satoshis
  * @param  {string} amount   The amount e.g. '0.0001'
  * @param  {Object} settings Contains the current exchange rate
@@ -84,7 +68,7 @@ export const toSatoshis = (amount, settings) => {
 
 /**
  * Convert satoshis to a BTC values than can set as a text input value
- * @param  {number} satoshis The value as a string or number
+ * @param  {number} satoshis The value as a number
  * @param  {Object} settings Contains the current exchange rate
  * @return {string}          The amount formatted as '0.0001'
  */
