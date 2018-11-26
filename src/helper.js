@@ -33,14 +33,14 @@ export const formatFiat = (val, currency) => {
 
 /**
  * Parse a unix time stamp to a JavaScript date object
- * @param  {string} timeStamp The unix time stamp in seconds
+ * @param  {number} timeStamp The unix time stamp in seconds
  * @return {Date}             The date object
  */
 export const parseDate = timeStamp => {
-  if (typeof timeStamp !== 'string' || !/^[0-9]+$/.test(timeStamp)) {
+  if (!Number.isInteger(timeStamp)) {
     throw new Error('Invalid input!');
   }
-  return new Date(parseInt(timeStamp, 10) * 1000);
+  return new Date(timeStamp * 1000);
 };
 
 /**
