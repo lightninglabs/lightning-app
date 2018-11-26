@@ -51,7 +51,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
         data: grpc._serializeResponse('UnlockWallet'),
       });
       await grpc.sendUnlockerCommand('UnlockWallet', {
-        wallet_password: 'secret',
+        walletPassword: 'secret',
       });
       expect(
         LndReactModuleStub.sendCommand,
@@ -260,8 +260,8 @@ describe('Action GRPC Mobile Unit Tests', () => {
         data: grpc._serializeResponse('OpenChannel'),
       });
       const stream = grpc.sendStreamCommand('OpenChannel', {
-        node_pubkey: new Buffer('FFFF', 'hex'),
-        local_funding_amount: 42,
+        nodePubkey: new Buffer('FFFF', 'hex'),
+        localFundingAmount: 42,
       });
       expect(
         LndReactModuleStub.sendStreamCommand,
@@ -290,7 +290,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
         '1',
         ''
       );
-      stream.write(JSON.stringify({ payment_request: 'foo' }), 'utf8');
+      stream.write(JSON.stringify({ paymentRequest: 'foo' }), 'utf8');
       expect(
         LndReactModuleStub.sendStreamWrite,
         'was called with',
