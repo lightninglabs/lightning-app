@@ -63,7 +63,7 @@ module.exports.init = async function({
     protoPath = path.join(__dirname, '..', 'assets', 'rpc.proto');
     const options = {
       keepCase: false,
-      longs: String,
+      longs: Number,
       enums: String,
       defaults: true,
       oneofs: true,

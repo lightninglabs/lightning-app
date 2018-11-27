@@ -60,10 +60,10 @@ describe('Action Transactions Unit Tests', () => {
         transactions: [
           {
             txHash: 'some-hash',
-            amount: '42',
-            totalFees: '10',
+            amount: 42,
+            totalFees: 10,
             numConfirmations: 0,
-            timeStamp: '1527070395',
+            timeStamp: 1527070395,
           },
         ],
       });
@@ -84,10 +84,10 @@ describe('Action Transactions Unit Tests', () => {
         transactions: [
           {
             txHash: 'some-hash',
-            amount: '42',
-            totalFees: '10',
+            amount: 42,
+            totalFees: 10,
             numConfirmations: 1,
-            timeStamp: '1527070395',
+            timeStamp: 1527070395,
           },
         ],
       });
@@ -116,8 +116,8 @@ describe('Action Transactions Unit Tests', () => {
         invoices: [
           {
             rHash: Buffer.from('cdab', 'hex'),
-            creationDate: '1527070395',
-            value: '42',
+            creationDate: 1527070395,
+            value: 42,
             settled: true,
             memo: 'some-memo',
             r_preimage: 'some-preimage',
@@ -147,9 +147,9 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.withArgs('listPayments').resolves({
         payments: [
           {
-            creationDate: '1527070395',
-            value: '42',
-            fee: '10',
+            creationDate: 1527070395,
+            value: 42,
+            fee: 10,
             settled: true,
             paymentHash: 'some-hash',
           },

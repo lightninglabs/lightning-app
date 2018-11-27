@@ -33,30 +33,14 @@ export const formatFiat = (val, currency) => {
 
 /**
  * Parse a unix time stamp to a JavaScript date object
- * @param  {string} timeStamp The unix time stamp in seconds
+ * @param  {number} timeStamp The unix time stamp in seconds
  * @return {Date}             The date object
  */
 export const parseDate = timeStamp => {
-  if (typeof timeStamp !== 'string' || !/^[0-9]+$/.test(timeStamp)) {
+  if (!Number.isInteger(timeStamp)) {
     throw new Error('Invalid input!');
   }
-  return new Date(parseInt(timeStamp, 10) * 1000);
-};
-
-/**
- * Parse satoshi values to an integer number
- * @param  {string} satoshis The integer value as a string
- * @return {number}          The satoshi integer as a number
- */
-export const parseSat = satoshis => {
-  if (typeof satoshis !== 'string' || !/^-*[0-9]+$/.test(satoshis)) {
-    throw new Error('Invalid input!');
-  }
-  satoshis = parseInt(satoshis, 10);
-  if (isNaN(satoshis)) {
-    throw new Error('Invalid input!');
-  }
-  return satoshis;
+  return new Date(timeStamp * 1000);
 };
 
 /**
@@ -84,7 +68,7 @@ export const toSatoshis = (amount, settings) => {
 
 /**
  * Convert satoshis to a BTC values than can set as a text input value
- * @param  {number} satoshis The value as a string or number
+ * @param  {number} satoshis The value as a number
  * @param  {Object} settings Contains the current exchange rate
  * @return {string}          The amount formatted as '0.0001'
  */

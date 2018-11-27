@@ -83,73 +83,23 @@ describe('Helpers Unit Tests', () => {
       );
     });
 
-    it('should throw error for string decimal values', () => {
-      expect(helpers.parseDate.bind(null, '100000.9'), 'to throw', /Invalid/);
-    });
-
-    it('should throw error for negative string input', () => {
-      expect(helpers.parseDate.bind(null, '-1000'), 'to throw', /Invalid/);
+    it('should throw error for decimal values', () => {
+      expect(helpers.parseDate.bind(null, 100000.9), 'to throw', /Invalid/);
     });
 
     it('should work for single char', () => {
-      const date = helpers.parseDate('0');
+      const date = helpers.parseDate(0);
       expect(date.toISOString(), 'to equal', '1970-01-01T00:00:00.000Z');
     });
 
     it('should work for single char', () => {
-      const date = helpers.parseDate('1');
+      const date = helpers.parseDate(1);
       expect(date.toISOString(), 'to equal', '1970-01-01T00:00:01.000Z');
     });
 
-    it('should work for string input', () => {
-      const date = helpers.parseDate('1527070395');
+    it('should work for number input', () => {
+      const date = helpers.parseDate(1527070395);
       expect(date.toISOString(), 'to equal', '2018-05-23T10:13:15.000Z');
-    });
-  });
-
-  describe('parseSat()', () => {
-    it('should throw error if satoshis is undefined', () => {
-      expect(helpers.parseSat.bind(null, undefined), 'to throw', /Invalid/);
-    });
-
-    it('should throw error if satoshis is null', () => {
-      expect(helpers.parseSat.bind(null, null), 'to throw', /Invalid/);
-    });
-
-    it('should throw error for empty satoshis', () => {
-      expect(helpers.parseSat.bind(null, ''), 'to throw', /Invalid/);
-    });
-
-    it('should throw error if satoshis is not a number', () => {
-      expect(
-        helpers.parseSat.bind(null, 'not-a-number'),
-        'to throw',
-        /Invalid/
-      );
-    });
-
-    it('should throw error for string decimal values', () => {
-      expect(helpers.parseSat.bind(null, '100000000.9'), 'to throw', /Invalid/);
-    });
-
-    it('should work for single char', () => {
-      const num = helpers.parseSat('0');
-      expect(num, 'to equal', 0);
-    });
-
-    it('should work for single char', () => {
-      const num = helpers.parseSat('1');
-      expect(num, 'to equal', 1);
-    });
-
-    it('should work for string input', () => {
-      const num = helpers.parseSat('100000000');
-      expect(num, 'to equal', 100000000);
-    });
-
-    it('should work for negative string input', () => {
-      const num = helpers.parseSat('-100000000');
-      expect(num, 'to equal', -100000000);
     });
   });
 

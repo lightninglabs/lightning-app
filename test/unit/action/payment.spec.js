@@ -139,7 +139,7 @@ describe('Action Payments Unit Tests', () => {
   describe('decodeInvoice()', () => {
     it('should decode successfully', async () => {
       grpc.sendCommand.withArgs('decodePayReq').resolves({
-        numSatoshis: '1700',
+        numSatoshis: 1700,
         description: 'foo',
         destination: 'bar',
       });
@@ -150,7 +150,7 @@ describe('Action Payments Unit Tests', () => {
           numRoutes: 1,
         })
         .resolves({
-          routes: [{ totalFees: '100' }],
+          routes: [{ totalFees: 100 }],
         });
       const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
       expect(isValid, 'to be', true);
@@ -171,7 +171,7 @@ describe('Action Payments Unit Tests', () => {
 
     it('should set no fee on query route error', async () => {
       grpc.sendCommand.withArgs('decodePayReq').resolves({
-        numSatoshis: '1700',
+        numSatoshis: 1700,
         description: 'foo',
         destination: 'bar',
       });

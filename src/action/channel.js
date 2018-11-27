@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for channel management.
  */
 
-import { toSatoshis, parseSat } from '../helper';
+import { toSatoshis } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
@@ -102,9 +102,9 @@ class ChannelAction {
       this._store.channels = channels.map(channel => ({
         remotePubkey: channel.remotePubkey,
         id: channel.chanId,
-        capacity: parseSat(channel.capacity),
-        localBalance: parseSat(channel.localBalance),
-        remoteBalance: parseSat(channel.remoteBalance),
+        capacity: channel.capacity,
+        localBalance: channel.localBalance,
+        remoteBalance: channel.remoteBalance,
         channelPoint: channel.channelPoint,
         fundingTxId: this._parseChannelPoint(channel.channelPoint)
           .fundingTxidStr,
@@ -127,9 +127,9 @@ class ChannelAction {
       const response = await this._grpc.sendCommand('pendingChannels');
       const mapPendingAttributes = channel => ({
         remotePubkey: channel.remoteNodePub,
-        capacity: parseSat(channel.capacity),
-        localBalance: parseSat(channel.localBalance),
-        remoteBalance: parseSat(channel.remoteBalance),
+        capacity: channel.capacity,
+        localBalance: channel.localBalance,
+        remoteBalance: channel.remoteBalance,
         channelPoint: channel.channelPoint,
         fundingTxId: this._parseChannelPoint(channel.channelPoint)
           .fundingTxidStr,
@@ -177,13 +177,12 @@ class ChannelAction {
       const { channels } = await this._grpc.sendCommand('closedChannels');
       this._store.closedChannels = channels.map(channel => ({
         remotePubkey: channel.remotePubkey,
-        capacity: parseSat(channel.capacity),
+        capacity: channel.capacity,
         channelPoint: channel.channelPoint,
         fundingTxId: this._parseChannelPoint(channel.channelPoint)
           .fundingTxidStr,
-        localBalance: parseSat(channel.settledBalance),
-        remoteBalance:
-          parseSat(channel.capacity) - parseSat(channel.settledBalance),
+        localBalance: channel.settledBalance,
+        remoteBalance: channel.capacity - channel.settledBalance,
         closingTxId: channel.closingTxHash,
         status: 'closed',
       }));
