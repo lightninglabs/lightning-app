@@ -25,11 +25,16 @@ const styles = StyleSheet.create({
   content: {
     justifyContent: 'space-between',
     padding: 5,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   copyTxt: {
     textAlign: 'center',
     marginTop: 25,
     maxWidth: 450,
+  },
+  btnWrapper: {
+    alignItems: 'center',
   },
   copyBtn: {
     backgroundColor: color.glas,
@@ -50,7 +55,7 @@ const DepositView = ({ store, nav, invoice }) => (
         Scan the QR code, or copy the address to send from another wallet or
         exchange. Only Bitcoin works at the moment.
       </CopyText>
-      <View>
+      <View style={styles.btnWrapper}>
         <CopyButton
           onPress={() => invoice.toClipboard({ text: store.walletAddress })}
           icon={<CopyDarkIcon height={17.5} width={14} />}
