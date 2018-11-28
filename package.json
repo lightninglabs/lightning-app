@@ -21,11 +21,12 @@
     "electron-only": "electron --enable-sandbox .",
     "preelectron-pack": "npm run build",
     "prettier": "prettier --write --single-quote --trailing-comma es5 \"src/**/*.js\" public/electron.js",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps && npm run protobuf",
     "storybook": "start-storybook -p 9009 -s public",
     "build-storybook": "build-storybook -s public",
     "build-icon": "svgr --native --icon --filename-case kebab -d src/asset/icon src/asset/icon",
-    "build-img": "svgr --native --filename-case kebab -d src/asset/img src/asset/img"
+    "build-img": "svgr --native --filename-case kebab -d src/asset/img src/asset/img",
+    "protobuf": "pbjs assets/rpc.proto -t static-module -w es6 -o assets/rpc.js"
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
@@ -71,6 +72,7 @@
     "nock": "^9.1.6",
     "prettier": "^1.11.1",
     "prop-types": "^15.6.2",
+    "protobufjs": "^6.8.8",
     "sinon": "^6.0.0",
     "unexpected": "^10.37.2",
     "unexpected-sinon": "^10.10.1",

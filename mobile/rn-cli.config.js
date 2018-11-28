@@ -21,11 +21,14 @@ module.exports = {
     'qr-image': path.resolve(__dirname, 'node_modules/qr-image'),
     stream: path.resolve(__dirname, 'node_modules/readable-stream'),
     zlib: path.resolve(__dirname, 'node_modules/browserify-zlib'),
+    'base64-js': path.resolve(__dirname, 'node_modules/base64-js'),
+    protobufjs: path.resolve(__dirname, 'node_modules/protobufjs'),
     sinon: path.resolve(__dirname, 'node_modules/sinon'),
   },
   getProjectRoots: () => [
     path.resolve(__dirname),
     path.resolve(__dirname, '../src'),
+    path.resolve(__dirname, '../assets'),
     path.resolve(__dirname, '../stories'),
   ],
 };

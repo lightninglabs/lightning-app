@@ -41,7 +41,7 @@ describe('Action AuthMobile Unit Tests', () => {
       auth.initSetPin();
       expect(store.auth.newPin, 'to equal', '');
       expect(store.auth.pinVerify, 'to equal', '');
-      expect(nav.goSetPin, 'was called once');
+      expect(nav.goSetPassword, 'was called once');
     });
   });
 
@@ -49,7 +49,7 @@ describe('Action AuthMobile Unit Tests', () => {
     it('should init values and navigate', () => {
       auth.initPin();
       expect(store.auth.pin, 'to equal', '');
-      expect(nav.goPin, 'was called once');
+      expect(nav.goPassword, 'was called once');
     });
   });
 
@@ -69,14 +69,14 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.newPin = '00000';
       auth.pushPinDigit({ digit: '1', param: 'newPin' });
       expect(store.auth.newPin, 'to equal', '000001');
-      expect(nav.goSetPinConfirm, 'was called once');
+      expect(nav.goSetPasswordConfirm, 'was called once');
     });
 
     it('should not go to next screen on fifth digit', () => {
       store.auth.newPin = '0000';
       auth.pushPinDigit({ digit: '1', param: 'newPin' });
       expect(store.auth.newPin, 'to equal', '00001');
-      expect(nav.goSetPinConfirm, 'was not called');
+      expect(nav.goSetPasswordConfirm, 'was not called');
     });
   });
 
@@ -96,7 +96,7 @@ describe('Action AuthMobile Unit Tests', () => {
     it('should go back to SetPassword screen on empty string', () => {
       store.auth.pinVerify = '';
       auth.popPinDigit({ param: 'pinVerify' });
-      expect(nav.goSetPin, 'was called once');
+      expect(nav.goSetPassword, 'was called once');
     });
   });
 

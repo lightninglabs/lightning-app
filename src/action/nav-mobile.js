@@ -13,6 +13,7 @@ class NavAction {
   setTopLevelNavigator(navigatorRef) {
     this._navigate = (routeName, params) =>
       navigatorRef.dispatch(this._Navigation.navigate({ routeName, params }));
+    this._store.navReady = true;
   }
 
   goLoader() {
@@ -43,16 +44,16 @@ class NavAction {
     this._navigate('SeedSuccess');
   }
 
-  goSetPin() {
-    this._navigate('SetPin');
+  goSetPassword() {
+    this._navigate('SetPassword');
   }
 
-  goSetPinConfirm() {
-    this._navigate('SetPinConfirm');
+  goSetPasswordConfirm() {
+    this._navigate('SetPasswordConfirm');
   }
 
-  goPin() {
-    this._navigate('Pin');
+  goPassword() {
+    this._navigate('Password');
   }
 
   goNewAddress() {
