@@ -58,6 +58,7 @@ import ResetPasswordNew from '../src/view/reset-password-new';
 import ResetPasswordConfirm from '../src/view/reset-password-confirm';
 import ResetPasswordSaved from '../src/view/reset-password-saved';
 import NewAddress from '../src/view/new-address';
+import NewAddressMobile from '../src/view/new-address-mobile';
 import Wait from '../src/view/wait';
 import WaitMobile from '../src/view/wait-mobile';
 import RestoreSeed from '../src/view/restore-seed';
@@ -139,6 +140,9 @@ storiesOf('Screens', module)
   .add('Reset Password - Saved', () => <ResetPasswordSaved nav={nav} />)
   .add('New Address', () => (
     <NewAddress store={store} invoice={invoice} info={info} />
+  ))
+  .add('New Address (Mobile)', () => (
+    <NewAddressMobile store={store} invoice={invoice} info={info} />
   ))
   .add('Loader - Syncing Chain', () => <LoaderSyncing store={store} />)
   .add('Wait', () => <Wait />)
