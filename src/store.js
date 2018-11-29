@@ -47,6 +47,7 @@ export class Store {
         newPassword: '',
         passwordVerify: '',
         seedVerify: ['', '', ''],
+        seedIndex: 0,
         restoring: false,
         restoreIndex: 0,
         restoreSeed: Array(24).fill(''),
