@@ -22,18 +22,42 @@ class PaymentAction {
    * @return {undefined}
    */
   listenForUrl(ipc) {
-    ipc.listen('open-url', async (event, url) => {
-      log.info('open-url', url);
-      if (!isLnUri(url)) {
-        return;
-      }
-      while (!this._store.lndReady) {
-        this._tOpenUri = await nap(100);
-      }
-      this.init();
-      this.setAddress({ address: url.replace(PREFIX_URI, '') });
-      this.checkType();
-    });
+    ipc.listen('open-url', (event, url) => this._openUrl(url));
+  }
+
+  /**
+   * Set the listener for the mobile app to handle incoming URIs
+   * containing lightning invoices.
+   * @param  {Object} Linking The expo api to handle incoming uris
+   * @return {undefined}
+   */
+  async listenForUrlMobile(Linking) {
+    Linking.addEventListener('url', ({ url }) => this._openUrl(url));
+    const url = await Linking.getInitialURL();
+    if (!url) {
+      return;
+    }
+    while (!this._store.navReady) {
+      this._tOpenUri = await nap(100);
+    }
+    this._nav.goWait();
+    while (!this._store.syncedToChain) {
+      this._tOpenUri = await nap(100);
+    }
+    this._openUrl(url);
+  }
+
+  async _openUrl(url) {
+    log.info('open-url', url);
+    if (!isLnUri(url)) {
+      return;
+    }
+    while (!this._store.lndReady) {
+      this._tOpenUri = await nap(100);
+    }
+    this.init();
+    this.setAddress({ address: url.replace(PREFIX_URI, '') });
+    this.checkType();
   }
 
   /**

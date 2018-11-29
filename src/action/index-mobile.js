@@ -14,7 +14,7 @@ import {
   // NativeModules,
   // NativeEventEmitter,
 } from 'react-native';
-import { SecureStore, LocalAuthentication } from 'expo';
+import { SecureStore, LocalAuthentication, Linking } from 'expo';
 import { NavigationActions } from 'react-navigation';
 import store from '../store';
 import AppStorage from './app-storage';
@@ -60,6 +60,8 @@ export const auth = new AuthAction(
   LocalAuthentication,
   Alert
 );
+
+payment.listenForUrlMobile(Linking); // enable incoming url handler
 
 //
 // Init actions
