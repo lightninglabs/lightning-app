@@ -155,7 +155,7 @@ class PaymentAction {
       });
       payment.fee = toAmount(routes[0].totalFees, settings);
     } catch (err) {
-      log.error(`Estimating lightning fee failed!`, err);
+      log.info(`Estimating lightning fee failed!`, err);
     }
   }
 

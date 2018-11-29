@@ -181,7 +181,7 @@ describe('Action Payments Unit Tests', () => {
       expect(store.payment.amount, 'to match', /^0[,.]0{4}1{1}7{1}$/);
       expect(store.payment.note, 'to be', 'foo');
       expect(store.payment.fee, 'to be', '');
-      expect(logger.error, 'was called once');
+      expect(logger.info, 'was called once');
     });
   });
 
