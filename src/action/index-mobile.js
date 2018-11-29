@@ -116,7 +116,6 @@ observe(store, 'lndReady', () => {
 
 // STUB DURING DEVELOPMENT
 sinon.stub(wallet, 'update');
-sinon.stub(wallet, 'checkSeed');
 sinon.stub(wallet, 'getExchangeRate');
 sinon.stub(transaction, 'update');
 sinon.stub(invoice, 'generateUri');

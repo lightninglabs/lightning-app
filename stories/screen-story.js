@@ -65,6 +65,7 @@ import SeedSuccessMobile from '../src/view/seed-success-mobile';
 import Seed from '../src/view/seed';
 import SeedMobile from '../src/view/seed-mobile';
 import SeedVerify from '../src/view/seed-verify';
+import SeedVerifyMobile from '../src/view/seed-verify-mobile';
 import SetPassword from '../src/view/set-password';
 import SetPinMobile from '../src/view/set-pin-mobile';
 import SetPasswordConfirm from '../src/view/set-password-confirm';
@@ -125,6 +126,9 @@ storiesOf('Screens', module)
   .add('Seed (Mobile)', () => <SeedMobile store={store} wallet={wallet} />)
   .add('Seed Verify', () => (
     <SeedVerify store={store} nav={nav} wallet={wallet} />
+  ))
+  .add('Seed Verify (Mobile)', () => (
+    <SeedVerifyMobile store={store} nav={nav} wallet={wallet} />
   ))
   .add('Restore Wallet: Seed', () => (
     <RestoreSeed store={store} wallet={wallet} />
