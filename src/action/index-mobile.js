@@ -109,6 +109,7 @@ observe(store, 'lndReady', () => {
   wallet.pollBalances();
   wallet.pollExchangeRate();
   channel.update();
+  transaction.update();
 });
 
 // STUB DURING DEVELOPMENT

@@ -23,6 +23,12 @@ import SettingUnitView from '../src/view/setting-unit';
 import SettingFiatView from '../src/view/setting-fiat';
 import CLIView from '../src/view/cli';
 import PaymentView from '../src/view/payment';
+import PayLightningConfirmView from '../src/view/pay-lightning-confirm';
+import PayLightningDoneView from '../src/view/pay-lightning-done';
+import PaymentFailedView from '../src/view/payment-failed';
+import PayBitcoinView from '../src/view/pay-bitcoin';
+import PayBitcoinConfirmView from '../src/view/pay-bitcoin-confirm';
+import PayBitcoinDoneView from '../src/view/pay-bitcoin-done';
 import InvoiceView from '../src/view/invoice';
 import InvoiceQRView from '../src/view/invoice-qr';
 import DepositView from '../src/view/deposit';
@@ -31,6 +37,8 @@ import ChannelView from '../src/view/channel';
 import ChannelDetailView from '../src/view/channel-detail';
 import ChannelDeleteView from '../src/view/channel-delete';
 import ChannelCreateView from '../src/view/channel-create';
+import TransactionView from '../src/view/transaction';
+import TransactionDetailView from '../src/view/transaction-detail';
 
 import {
   nav,
@@ -124,6 +132,36 @@ const InvoiceQR = () => (
 
 const Pay = () => <PaymentView store={store} payment={payment} nav={nav} />;
 
+const PayLightningConfirm = () => (
+  <PayLightningConfirmView store={store} payment={payment} nav={nav} />
+);
+
+const PayLightningDone = () => (
+  <PayLightningDoneView store={store} payment={payment} nav={nav} />
+);
+
+const PaymentFailed = () => <PaymentFailedView channel={channel} nav={nav} />;
+
+const PayBitcoin = () => (
+  <PayBitcoinView store={store} payment={payment} nav={nav} />
+);
+
+const PayBitcoinConfirm = () => (
+  <PayBitcoinConfirmView store={store} payment={payment} nav={nav} />
+);
+
+const PayBitcoinDone = () => (
+  <PayBitcoinDoneView store={store} payment={payment} nav={nav} />
+);
+
+const Transactions = () => (
+  <TransactionView store={store} transaction={transaction} nav={nav} />
+);
+
+const TransactionDetail = () => (
+  <TransactionDetailView store={store} channel={channel} nav={nav} />
+);
+
 const MainStack = createStackNavigator(
   {
     Welcome,
@@ -165,6 +203,22 @@ const InvoiceStack = createStackNavigator(
 const PayStack = createStackNavigator(
   {
     Pay,
+    PayLightningConfirm,
+    PayLightningDone,
+    PaymentFailed,
+    PayBitcoin,
+    PayBitcoinConfirm,
+    PayBitcoinDone,
+  },
+  {
+    headerMode: 'none',
+  }
+);
+
+const TransactionStack = createStackNavigator(
+  {
+    Transactions,
+    TransactionDetail,
   },
   {
     headerMode: 'none',
@@ -176,6 +230,7 @@ const RootStack = createStackNavigator(
     Main: MainStack,
     Invoice: InvoiceStack,
     Pay: PayStack,
+    Transactions: TransactionStack,
     Deposit,
   },
   {
