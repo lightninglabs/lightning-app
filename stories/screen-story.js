@@ -63,6 +63,7 @@ import SeedIntro from '../src/view/seed-intro-mobile';
 import SeedSuccess from '../src/view/seed-success';
 import SeedSuccessMobile from '../src/view/seed-success-mobile';
 import Seed from '../src/view/seed';
+import SeedMobile from '../src/view/seed-mobile';
 import SeedVerify from '../src/view/seed-verify';
 import SetPassword from '../src/view/set-password';
 import SetPinMobile from '../src/view/set-pin-mobile';
@@ -118,11 +119,10 @@ sinon.stub(auth, '_generateWalletPassword');
 storiesOf('Screens', module)
   .add('Welcome', () => <Welcome />)
   .add('Loader - First Time', () => <Loader />)
-  .add('Select Seed', () => (
-    <SelectSeed store={store} wallet={wallet} nav={nav} />
-  ))
+  .add('Select Seed', () => <SelectSeed store={store} wallet={wallet} />)
   .add('Seed Intro (Mobile)', () => <SeedIntro nav={nav} />)
   .add('Seed', () => <Seed store={store} wallet={wallet} />)
+  .add('Seed (Mobile)', () => <SeedMobile store={store} wallet={wallet} />)
   .add('Seed Verify', () => (
     <SeedVerify store={store} nav={nav} wallet={wallet} />
   ))

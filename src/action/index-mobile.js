@@ -208,6 +208,32 @@ store.selectedTransaction = (store.computedTransactions || []).find(
   tx => tx.type === 'bitcoin'
 );
 store.selectedChannel = store.computedChannels && store.computedChannels[0];
+store.seedMnemonic = [
+  'empower',
+  'neglect',
+  'experience',
+  'elevator',
+  'entropy',
+  'future',
+  'trust',
+  'swift',
+  'pluck',
+  'easy',
+  'kite',
+  'measure',
+  'engage',
+  'settle',
+  'dog',
+  'manager',
+  'tool',
+  'fan',
+  'neglect',
+  'conduct',
+  'blouse',
+  'stone',
+  'quit',
+  'cashew',
+];
 store.logs = [
   '[14:00:24.995] [info] Using lnd in path lnd',
   'Checking for update',
