@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import {
-  TextInput as RNTextInput,
-  Text as RNText,
-  StyleSheet,
-} from 'react-native';
+import { TextInput as RNTextInput, Text as RNText } from 'react-native';
 import PropTypes from 'prop-types';
-import { color, font } from './style';
+import { createStyles, maxWidth } from '../component/media-query';
+import { color, font, breakWidth } from './style';
 
 //
 // Base Text Input
 //
 
-const baseStyles = StyleSheet.create({
+const baseStyles = {
   input: {
     fontFamily: 'OpenSans Regular',
     fontSize: font.sizeM,
@@ -19,21 +16,43 @@ const baseStyles = StyleSheet.create({
     height: font.lineHeightM + 2 * 12,
     color: color.blackText,
   },
-});
+};
 
-export const TextInput = ({ style, ...props }) => (
-  <RNTextInput
-    style={[baseStyles.input, style]}
-    autoCorrect={false}
-    autoCapitalize="none"
-    underlineColorAndroid="rgba(0,0,0,0)"
-    placeholderTextColor={color.greyPlaceholder}
-    {...props}
-  />
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(breakWidth, {
+    input: {
+      lineHeight: undefined,
+    },
+  })
 );
+
+export class TextInput extends Component {
+  componentDidUpdate(prevProps) {
+    const { autoFocus } = this.props;
+    prevProps.autoFocus === false && autoFocus && this._input.focus();
+  }
+
+  render() {
+    const { style, ...props } = this.props;
+    return (
+      <RNTextInput
+        style={[styles.input, style]}
+        autoCorrect={false}
+        autoCapitalize="none"
+        underlineColorAndroid="rgba(0,0,0,0)"
+        placeholderTextColor={color.greyPlaceholder}
+        ref={component => (this._input = component)}
+        {...props}
+      />
+    );
+  }
+}
 
 TextInput.propTypes = {
   style: RNText.propTypes.style,
+  autoFocus: PropTypes.bool,
 };
 
 //
