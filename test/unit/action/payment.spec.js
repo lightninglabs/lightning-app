@@ -74,6 +74,58 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
+  describe('listenForUrlMobile()', () => {
+    let LinkingStub;
+
+    beforeEach(() => {
+      LinkingStub = new EventEmitter();
+      LinkingStub.addEventListener = (event, callback) =>
+        LinkingStub.on(event, callback);
+      LinkingStub.getInitialURL = sinon.stub();
+      sandbox.stub(payment, 'init');
+      sandbox.stub(payment, 'checkType');
+    });
+
+    it('should not navigate to payment view for invalid url', () => {
+      payment.listenForUrlMobile(LinkingStub);
+      const url = 'invalid-url';
+      LinkingStub.emit('url', { url });
+      expect(payment.init, 'was not called');
+    });
+
+    it('should navigate to payment view for valid url and lndReady', () => {
+      payment.listenForUrlMobile(LinkingStub);
+      store.lndReady = true;
+      const url = 'lightning:lntb100n1pdn2e0app';
+      LinkingStub.emit('url', { url });
+      expect(payment.init, 'was called once');
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
+
+    it('should navigate on start (initialUrl)', async () => {
+      store.lndReady = false;
+      store.navReady = false;
+      store.syncedToChain = false;
+      const url = 'lightning:lntb100n1pdn2e0app';
+      LinkingStub.getInitialURL.resolves(url);
+      payment.listenForUrlMobile(LinkingStub);
+      expect(nav.goWait, 'was not called');
+      store.navReady = true;
+      await nap(300);
+      expect(nav.goWait, 'was called once');
+      expect(payment.init, 'was not called');
+      store.syncedToChain = true;
+      await nap(300);
+      expect(payment.init, 'was not called');
+      store.lndReady = true;
+      await nap(300);
+      expect(payment.init, 'was called once');
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
+  });
+
   describe('init()', () => {
     it('should clear attributes and navigate to payment view', () => {
       store.payment.address = 'foo';

@@ -44,7 +44,7 @@ class PaymentAction {
     while (!this._store.syncedToChain) {
       this._tOpenUri = await nap(100);
     }
-    this._openUrl(url);
+    await this._openUrl(url);
   }
 
   async _openUrl(url) {
