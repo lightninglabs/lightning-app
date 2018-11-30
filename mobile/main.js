@@ -112,9 +112,7 @@ const Channels = () => (
   <ChannelView store={store} channel={channel} nav={nav} />
 );
 
-const ChannelDetail = () => (
-  <ChannelDetailView store={store} channel={channel} nav={nav} />
-);
+const ChannelDetail = () => <ChannelDetailView store={store} nav={nav} />;
 
 const ChannelDelete = () => (
   <ChannelDeleteView store={store} channel={channel} nav={nav} />
@@ -137,14 +135,12 @@ const PayLightningConfirm = () => (
 );
 
 const PayLightningDone = () => (
-  <PayLightningDoneView store={store} payment={payment} nav={nav} />
+  <PayLightningDoneView payment={payment} nav={nav} />
 );
 
 const PaymentFailed = () => <PaymentFailedView channel={channel} nav={nav} />;
 
-const PayBitcoin = () => (
-  <PayBitcoinView store={store} payment={payment} nav={nav} />
-);
+const PayBitcoin = () => <PayBitcoinView payment={payment} nav={nav} />;
 
 const PayBitcoinConfirm = () => (
   <PayBitcoinConfirmView store={store} payment={payment} nav={nav} />
@@ -159,7 +155,7 @@ const Transactions = () => (
 );
 
 const TransactionDetail = () => (
-  <TransactionDetailView store={store} channel={channel} nav={nav} />
+  <TransactionDetailView store={store} nav={nav} />
 );
 
 const MainStack = createStackNavigator(
