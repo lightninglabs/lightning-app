@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import FontLoader from './component/font-loader';
+import FontLoader from '../src/component/font-loader-mobile';
 
 import WelcomeView from '../src/view/welcome';
 import LoaderView from '../src/view/loader';
