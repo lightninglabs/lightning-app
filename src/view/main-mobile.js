@@ -4,41 +4,41 @@
 
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import FontLoader from '../src/component/font-loader-mobile';
+import FontLoader from '../component/font-loader-mobile';
 
-import WelcomeView from '../src/view/welcome';
-import LoaderView from '../src/view/loader';
-import SelectSeedView from '../src/view/select-seed';
-import SetPinView from '../src/view/set-pin-mobile';
-import SetPinConfirmView from '../src/view/set-pin-confirm-mobile';
-import SeedSuccessView from '../src/view/seed-success';
-import NewAddressView from '../src/view/new-address-mobile';
+import WelcomeView from './welcome';
+import LoaderView from './loader';
+import SelectSeedView from './select-seed';
+import SetPinView from './set-pin-mobile';
+import SetPinConfirmView from './set-pin-confirm-mobile';
+import SeedSuccessView from './seed-success';
+import NewAddressView from './new-address-mobile';
 
-import PinView from '../src/view/pin-mobile';
-import LoaderSyncingView from '../src/view/loader-syncing';
-import WaitView from '../src/view/wait-mobile';
-import HomeView from '../src/view/home';
-import SettingView from '../src/view/setting';
-import SettingUnitView from '../src/view/setting-unit';
-import SettingFiatView from '../src/view/setting-fiat';
-import CLIView from '../src/view/cli';
-import PaymentView from '../src/view/payment';
-import PayLightningConfirmView from '../src/view/pay-lightning-confirm';
-import PayLightningDoneView from '../src/view/pay-lightning-done';
-import PaymentFailedView from '../src/view/payment-failed';
-import PayBitcoinView from '../src/view/pay-bitcoin';
-import PayBitcoinConfirmView from '../src/view/pay-bitcoin-confirm';
-import PayBitcoinDoneView from '../src/view/pay-bitcoin-done';
-import InvoiceView from '../src/view/invoice';
-import InvoiceQRView from '../src/view/invoice-qr';
-import DepositView from '../src/view/deposit';
-import NotificationView from '../src/view/notification';
-import ChannelView from '../src/view/channel';
-import ChannelDetailView from '../src/view/channel-detail';
-import ChannelDeleteView from '../src/view/channel-delete';
-import ChannelCreateView from '../src/view/channel-create';
-import TransactionView from '../src/view/transaction';
-import TransactionDetailView from '../src/view/transaction-detail';
+import PinView from './pin-mobile';
+import LoaderSyncingView from './loader-syncing';
+import WaitView from './wait-mobile';
+import HomeView from './home';
+import SettingView from './setting';
+import SettingUnitView from './setting-unit';
+import SettingFiatView from './setting-fiat';
+import CLIView from './cli';
+import PaymentView from './payment';
+import PayLightningConfirmView from './pay-lightning-confirm';
+import PayLightningDoneView from './pay-lightning-done';
+import PaymentFailedView from './payment-failed';
+import PayBitcoinView from './pay-bitcoin';
+import PayBitcoinConfirmView from './pay-bitcoin-confirm';
+import PayBitcoinDoneView from './pay-bitcoin-done';
+import InvoiceView from './invoice';
+import InvoiceQRView from './invoice-qr';
+import DepositView from './deposit';
+import NotificationView from './notification';
+import ChannelView from './channel';
+import ChannelDetailView from './channel-detail';
+import ChannelDeleteView from './channel-delete';
+import ChannelCreateView from './channel-create';
+import TransactionView from './transaction';
+import TransactionDetailView from './transaction-detail';
 
 import {
   nav,
@@ -50,9 +50,9 @@ import {
   setting,
   info,
   auth,
-} from '../src/action/index-mobile';
+} from '../action/index-mobile';
 
-import store from '../src/store';
+import store from '../store';
 
 const Welcome = () => <WelcomeView />;
 
