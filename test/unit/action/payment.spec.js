@@ -22,7 +22,8 @@ describe('Action Payments Unit Tests', () => {
     store = new Store();
     store.settings.displayFiat = false;
     require('../../../src/config').RETRY_DELAY = 1;
-    require('../../../src/config').PAYMENT_TIMEOUT = 10;
+    require('../../../src/config').PAYMENT_TIMEOUT = 1;
+    require('../../../src/config').POLL_STORE_TIMEOUT = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
@@ -67,7 +68,7 @@ describe('Action Payments Unit Tests', () => {
       ipcRendererStub.emit('open-url', 'some-event', uri);
       expect(payment.init, 'was not called');
       store.lndReady = true;
-      await nap(300);
+      await nap(10);
       expect(payment.init, 'was called once');
       expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
       expect(payment.checkType, 'was called once');
@@ -112,14 +113,14 @@ describe('Action Payments Unit Tests', () => {
       payment.listenForUrlMobile(LinkingStub);
       expect(nav.goWait, 'was not called');
       store.navReady = true;
-      await nap(300);
+      await nap(10);
       expect(nav.goWait, 'was called once');
       expect(payment.init, 'was not called');
       store.syncedToChain = true;
-      await nap(300);
+      await nap(10);
       expect(payment.init, 'was not called');
       store.lndReady = true;
-      await nap(300);
+      await nap(10);
       expect(payment.init, 'was called once');
       expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
       expect(payment.checkType, 'was called once');
@@ -296,7 +297,7 @@ describe('Action Payments Unit Tests', () => {
 
     it('should go to error page on timeout', async () => {
       payment.payLightning({ invoice: 'some-invoice' });
-      await nap(100);
+      await nap(10);
       expect(nav.goPaymentFailed, 'was called once');
       expect(nav.goPayLightningDone, 'was not called');
     });

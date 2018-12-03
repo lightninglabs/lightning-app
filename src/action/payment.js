@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for payment management.
  */
 
-import { PREFIX_URI, PAYMENT_TIMEOUT } from '../config';
+import { PREFIX_URI, PAYMENT_TIMEOUT, POLL_STORE_TIMEOUT } from '../config';
 import { toSatoshis, toAmount, isLnUri, isAddress, nap } from '../helper';
 import * as log from './log';
 
@@ -38,11 +38,11 @@ class PaymentAction {
       return;
     }
     while (!this._store.navReady) {
-      this._tOpenUri = await nap(100);
+      await nap(POLL_STORE_TIMEOUT);
     }
     this._nav.goWait();
     while (!this._store.syncedToChain) {
-      this._tOpenUri = await nap(100);
+      await nap(POLL_STORE_TIMEOUT);
     }
     await this._openUrl(url);
   }
@@ -53,7 +53,7 @@ class PaymentAction {
       return;
     }
     while (!this._store.lndReady) {
-      this._tOpenUri = await nap(100);
+      await nap(POLL_STORE_TIMEOUT);
     }
     this.init();
     this.setAddress({ address: url.replace(PREFIX_URI, '') });
