@@ -14,6 +14,8 @@ const amountStyles = StyleSheet.create({
     textAlign: 'right',
     fontFamily: 'WorkSans ExtraLight',
     fontSize: font.sizeXXXL,
+    lineHeight: font.lineHeightXXXL,
+    height: font.lineHeightXXXL,
   },
 });
 
