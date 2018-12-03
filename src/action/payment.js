@@ -8,11 +8,12 @@ import { toSatoshis, toAmount, isLnUri, isAddress, nap } from '../helper';
 import * as log from './log';
 
 class PaymentAction {
-  constructor(store, grpc, nav, notification) {
+  constructor(store, grpc, nav, notification, clipboard) {
     this._store = store;
     this._grpc = grpc;
     this._nav = nav;
     this._notification = notification;
+    this._clipboard = clipboard;
   }
 
   /**
@@ -58,6 +59,16 @@ class PaymentAction {
     this.init();
     this.setAddress({ address: url });
     this.checkType();
+  }
+
+  /**
+   * Paste the contents of the clipboard into the address input
+   * and then check which type of invoice it is.
+   * @return {Promise<undefined>}
+   */
+  async pasteAddress() {
+    this.setAddress({ address: await this._clipboard.getString() });
+    await this.checkType();
   }
 
   /**

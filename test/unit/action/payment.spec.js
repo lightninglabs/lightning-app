@@ -15,6 +15,7 @@ describe('Action Payments Unit Tests', () => {
   let payment;
   let nav;
   let notification;
+  let clipboard;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
@@ -27,7 +28,8 @@ describe('Action Payments Unit Tests', () => {
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    payment = new PaymentAction(store, grpc, nav, notification);
+    clipboard = { getString: sinon.stub() };
+    payment = new PaymentAction(store, grpc, nav, notification, clipboard);
   });
 
   afterEach(() => {
@@ -122,6 +124,16 @@ describe('Action Payments Unit Tests', () => {
       store.lndReady = true;
       await nap(10);
       expect(payment.init, 'was called once');
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
+  });
+
+  describe('pasteAddress()', () => {
+    it('should paste content of clipboard in address attribute', async () => {
+      sandbox.stub(payment, 'checkType');
+      clipboard.getString.resolves('lightning:lntb100n1pdn2e0app');
+      await payment.pasteAddress();
       expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
       expect(payment.checkType, 'was called once');
     });
