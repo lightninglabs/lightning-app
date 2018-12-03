@@ -46,6 +46,7 @@ import PaymentFailed from '../src/view/payment-failed';
 import Loader from '../src/view/loader';
 import LoaderSyncing from '../src/view/loader-syncing';
 import SelectSeed from '../src/view/select-seed';
+import SeedIntro from '../src/view/seed-intro-mobile';
 import SeedSuccess from '../src/view/seed-success';
 import SeedSuccessMobile from '../src/view/seed-success-mobile';
 import Seed from '../src/view/seed';
@@ -107,6 +108,7 @@ storiesOf('Screens', module)
   .add('Select Seed', () => (
     <SelectSeed store={store} wallet={wallet} nav={nav} />
   ))
+  .add('Seed Intro (Mobile)', () => <SeedIntro nav={nav} />)
   .add('Seed', () => <Seed store={store} wallet={wallet} />)
   .add('Seed Verify', () => (
     <SeedVerify store={store} nav={nav} wallet={wallet} />
