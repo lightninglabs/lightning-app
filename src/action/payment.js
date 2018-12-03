@@ -62,6 +62,14 @@ class PaymentAction {
   }
 
   /**
+   * Toggle between address input field and the QR code scanner.
+   * @return {undefined}
+   */
+  toggleScanner() {
+    this._store.payment.useScanner = !this._store.payment.useScanner;
+  }
+
+  /**
    * Paste the contents of the clipboard into the address input
    * and then check which type of invoice it is.
    * @return {Promise<undefined>}
@@ -81,6 +89,7 @@ class PaymentAction {
     this._store.payment.amount = '';
     this._store.payment.fee = '';
     this._store.payment.note = '';
+    this._store.payment.useScanner = false;
     this._nav.goPay();
   }
 

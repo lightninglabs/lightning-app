@@ -129,6 +129,14 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
+  describe('toggleScanner()', () => {
+    it('change toggle useScanner attribute', () => {
+      expect(store.payment.useScanner, 'to equal', false);
+      payment.toggleScanner();
+      expect(store.payment.useScanner, 'to equal', true);
+    });
+  });
+
   describe('pasteAddress()', () => {
     it('should paste content of clipboard in address attribute', async () => {
       sandbox.stub(payment, 'checkType');
