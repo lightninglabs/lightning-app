@@ -129,6 +129,15 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
+  describe('readQRCode()', () => {
+    it('should read the QR data and set an address', () => {
+      sandbox.stub(payment, 'checkType');
+      payment.readQRCode({ data: 'lightning:lntb100n1pdn2e0app' });
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
+  });
+
   describe('toggleScanner()', () => {
     it('change toggle useScanner attribute', () => {
       expect(store.payment.useScanner, 'to equal', false);

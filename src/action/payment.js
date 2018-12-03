@@ -62,6 +62,20 @@ class PaymentAction {
   }
 
   /**
+   * Read data from the QR code scanner, set it as the address and
+   * check which type of invoice it is.
+   * @param  {string} options.data The data containing the scanned invoice
+   * @return {undefined}
+   */
+  readQRCode({ data }) {
+    if (!data) {
+      return;
+    }
+    this.setAddress({ address: data });
+    this.checkType();
+  }
+
+  /**
    * Toggle between address input field and the QR code scanner.
    * @return {undefined}
    */
