@@ -70,5 +70,5 @@ export const invisible = {
   paddingBottom: 0,
 };
 
-export const breakWidth = 400;
+export const breakWidth = 415;
 export const smallBreakWidth = 374;
