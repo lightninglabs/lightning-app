@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for payment management.
  */
 
-import { PREFIX_URI, PAYMENT_TIMEOUT, POLL_STORE_TIMEOUT } from '../config';
+import { PREFIX_REGEX, PAYMENT_TIMEOUT, POLL_STORE_TIMEOUT } from '../config';
 import { toSatoshis, toAmount, isLnUri, isAddress, nap } from '../helper';
 import * as log from './log';
 
@@ -56,7 +56,7 @@ class PaymentAction {
       await nap(POLL_STORE_TIMEOUT);
     }
     this.init();
-    this.setAddress({ address: url.replace(PREFIX_URI, '') });
+    this.setAddress({ address: url });
     this.checkType();
   }
 
@@ -79,7 +79,7 @@ class PaymentAction {
    * @param {string} options.address The payment address
    */
   setAddress({ address }) {
-    this._store.payment.address = address;
+    this._store.payment.address = address.replace(PREFIX_REGEX, '');
   }
 
   /**
@@ -123,7 +123,7 @@ class PaymentAction {
     try {
       const { payment, settings } = this._store;
       const request = await this._grpc.sendCommand('decodePayReq', {
-        payReq: invoice.replace(PREFIX_URI, ''),
+        payReq: invoice,
       });
       payment.amount = toAmount(request.numSatoshis, settings);
       payment.note = request.description;
@@ -194,7 +194,7 @@ class PaymentAction {
     }, PAYMENT_TIMEOUT);
     try {
       this._nav.goWait();
-      const invoice = this._store.payment.address.replace(PREFIX_URI, '');
+      const invoice = this._store.payment.address;
       const stream = this._grpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {
         stream.on('data', data => {

@@ -145,6 +145,11 @@ describe('Action Payments Unit Tests', () => {
       payment.setAddress({ address: 'some-address' });
       expect(store.payment.address, 'to equal', 'some-address');
     });
+
+    it('should work for lighning uri', () => {
+      payment.setAddress({ address: 'lightning:some-address' });
+      expect(store.payment.address, 'to equal', 'some-address');
+    });
   });
 
   describe('setAmount()', () => {
@@ -274,7 +279,7 @@ describe('Action Payments Unit Tests', () => {
 
     it('should send lightning payment', async () => {
       paymentsOnStub.withArgs('data').yields({ paymentError: '' });
-      store.payment.address = 'lightning:some-invoice';
+      payment.setAddress({ address: 'lightning:some-invoice' });
       await payment.payLightning();
       expect(grpc.sendStreamCommand, 'was called with', 'sendPayment');
       expect(
