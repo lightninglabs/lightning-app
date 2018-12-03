@@ -132,7 +132,7 @@ class MainView extends Component {
           <PayLightningConfirm store={store} payment={payment} nav={nav} />
         )}
         {route === 'PayLightningDone' && (
-          <PayLightningDone store={store} payment={payment} nav={nav} />
+          <PayLightningDone payment={payment} nav={nav} />
         )}
         {route === 'PaymentFailed' && (
           <PaymentFailed channel={channel} nav={nav} />
@@ -144,7 +144,7 @@ class MainView extends Component {
           <PayBitcoinConfirm store={store} payment={payment} nav={nav} />
         )}
         {route === 'PayBitcoinDone' && (
-          <PayBitcoinDone store={store} payment={payment} nav={nav} />
+          <PayBitcoinDone payment={payment} nav={nav} />
         )}
         {route === 'Invoice' && (
           <Invoice store={store} invoice={invoice} nav={nav} />
@@ -158,9 +158,7 @@ class MainView extends Component {
         {route === 'Channels' && (
           <Channel store={store} channel={channel} nav={nav} />
         )}
-        {route === 'ChannelDetail' && (
-          <ChannelDetail store={store} channel={channel} nav={nav} />
-        )}
+        {route === 'ChannelDetail' && <ChannelDetail store={store} nav={nav} />}
         {route === 'ChannelDelete' && (
           <ChannelDelete store={store} channel={channel} nav={nav} />
         )}
@@ -171,7 +169,7 @@ class MainView extends Component {
           <Transaction store={store} transaction={transaction} nav={nav} />
         )}
         {route === 'TransactionDetail' && (
-          <TransactionDetail store={store} channel={channel} nav={nav} />
+          <TransactionDetail store={store} nav={nav} />
         )}
       </Container>
     );

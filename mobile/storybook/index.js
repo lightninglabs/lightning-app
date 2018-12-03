@@ -5,7 +5,7 @@ import {
   configure,
   addDecorator,
 } from '@storybook/react-native';
-import FontLoader from '../component/font-loader';
+import FontLoader from '../../src/component/font-loader-mobile';
 
 addDecorator(story => <FontLoader>{story()}</FontLoader>);
 

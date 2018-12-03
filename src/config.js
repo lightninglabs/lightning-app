@@ -7,6 +7,7 @@ module.exports.LND_INIT_DELAY = 5000;
 module.exports.NOTIFICATION_DELAY = 5000;
 module.exports.RATE_DELAY = 15 * 60 * 1000;
 module.exports.PAYMENT_TIMEOUT = 60 * 1000;
+module.exports.POLL_STORE_TIMEOUT = 100;
 
 module.exports.LND_PORT = 10006;
 module.exports.LND_PEER_PORT = 10016;

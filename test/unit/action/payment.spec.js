@@ -22,7 +22,8 @@ describe('Action Payments Unit Tests', () => {
     store = new Store();
     store.settings.displayFiat = false;
     require('../../../src/config').RETRY_DELAY = 1;
-    require('../../../src/config').PAYMENT_TIMEOUT = 10;
+    require('../../../src/config').PAYMENT_TIMEOUT = 1;
+    require('../../../src/config').POLL_STORE_TIMEOUT = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
@@ -67,7 +68,59 @@ describe('Action Payments Unit Tests', () => {
       ipcRendererStub.emit('open-url', 'some-event', uri);
       expect(payment.init, 'was not called');
       store.lndReady = true;
-      await nap(300);
+      await nap(10);
+      expect(payment.init, 'was called once');
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
+  });
+
+  describe('listenForUrlMobile()', () => {
+    let LinkingStub;
+
+    beforeEach(() => {
+      LinkingStub = new EventEmitter();
+      LinkingStub.addEventListener = (event, callback) =>
+        LinkingStub.on(event, callback);
+      LinkingStub.getInitialURL = sinon.stub();
+      sandbox.stub(payment, 'init');
+      sandbox.stub(payment, 'checkType');
+    });
+
+    it('should not navigate to payment view for invalid url', () => {
+      payment.listenForUrlMobile(LinkingStub);
+      const url = 'invalid-url';
+      LinkingStub.emit('url', { url });
+      expect(payment.init, 'was not called');
+    });
+
+    it('should navigate to payment view for valid url and lndReady', () => {
+      payment.listenForUrlMobile(LinkingStub);
+      store.lndReady = true;
+      const url = 'lightning:lntb100n1pdn2e0app';
+      LinkingStub.emit('url', { url });
+      expect(payment.init, 'was called once');
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
+
+    it('should navigate on start (initialUrl)', async () => {
+      store.lndReady = false;
+      store.navReady = false;
+      store.syncedToChain = false;
+      const url = 'lightning:lntb100n1pdn2e0app';
+      LinkingStub.getInitialURL.resolves(url);
+      payment.listenForUrlMobile(LinkingStub);
+      expect(nav.goWait, 'was not called');
+      store.navReady = true;
+      await nap(10);
+      expect(nav.goWait, 'was called once');
+      expect(payment.init, 'was not called');
+      store.syncedToChain = true;
+      await nap(10);
+      expect(payment.init, 'was not called');
+      store.lndReady = true;
+      await nap(10);
       expect(payment.init, 'was called once');
       expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
       expect(payment.checkType, 'was called once');
@@ -181,7 +234,7 @@ describe('Action Payments Unit Tests', () => {
       expect(store.payment.amount, 'to match', /^0[,.]0{4}1{1}7{1}$/);
       expect(store.payment.note, 'to be', 'foo');
       expect(store.payment.fee, 'to be', '');
-      expect(logger.error, 'was called once');
+      expect(logger.info, 'was called once');
     });
   });
 
@@ -244,7 +297,7 @@ describe('Action Payments Unit Tests', () => {
 
     it('should go to error page on timeout', async () => {
       payment.payLightning({ invoice: 'some-invoice' });
-      await nap(100);
+      await nap(10);
       expect(nav.goPaymentFailed, 'was called once');
       expect(nav.goPayLightningDone, 'was not called');
     });
