@@ -47,7 +47,7 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
   <Background color={color.purple}>
     <Header color={color.purple}>
       <BackButton onPress={() => nav.goPay()} />
-      <Title title="Lightning Confirmation">
+      <Title title="Lightning Payment">
         <LightningBoltIcon height={12} width={6.1} />
       </Title>
       <CancelButton onPress={() => nav.goHome()} />
