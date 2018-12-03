@@ -35,6 +35,7 @@ import Invoice from '../src/view/invoice';
 import InvoiceQR from '../src/view/invoice-qr';
 import Payment from '../src/view/payment';
 import PayLightningConfirm from '../src/view/pay-lightning-confirm';
+import PayLightningConfirmMobile from '../src/view/pay-lightning-confirm-mobile';
 import PayLightningDone from '../src/view/pay-lightning-done';
 import PayBitcoin from '../src/view/pay-bitcoin';
 import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
@@ -190,6 +191,9 @@ storiesOf('Screens', module)
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)
   .add('Pay Lightning Confirm', () => (
     <PayLightningConfirm store={store} payment={payment} nav={nav} />
+  ))
+  .add('Pay Lightning Confirm (Mobile)', () => (
+    <PayLightningConfirmMobile store={store} payment={payment} nav={nav} />
   ))
   .add('Pay Lightning Done', () => (
     <PayLightningDone store={store} payment={payment} nav={nav} />
