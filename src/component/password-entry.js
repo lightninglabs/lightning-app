@@ -125,7 +125,7 @@ const toggleShowStyles = StyleSheet.create({
   iconWrapper: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 47,
+    height: 46,
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
   hideIcon: {
