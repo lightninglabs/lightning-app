@@ -18,10 +18,6 @@ import {
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
-  description: {
-    paddingLeft: 50,
-    paddingRight: 50,
-  },
   balance: {
     marginBottom: 10,
   },
