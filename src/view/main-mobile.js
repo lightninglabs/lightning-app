@@ -26,8 +26,8 @@ import PaymentView from './payment-mobile';
 import PayLightningConfirmView from './pay-lightning-confirm-mobile';
 import PayLightningDoneView from './pay-lightning-done';
 import PaymentFailedView from './payment-failed';
-import PayBitcoinView from './pay-bitcoin';
-import PayBitcoinConfirmView from './pay-bitcoin-confirm';
+import PayBitcoinView from './pay-bitcoin-mobile';
+import PayBitcoinConfirmView from './pay-bitcoin-confirm-mobile';
 import PayBitcoinDoneView from './pay-bitcoin-done';
 import InvoiceView from './invoice';
 import InvoiceQRView from './invoice-qr';
@@ -140,15 +140,15 @@ const PayLightningDone = () => (
 
 const PaymentFailed = () => <PaymentFailedView channel={channel} nav={nav} />;
 
-const PayBitcoin = () => <PayBitcoinView payment={payment} nav={nav} />;
+const PayBitcoin = () => (
+  <PayBitcoinView store={store} payment={payment} nav={nav} />
+);
 
 const PayBitcoinConfirm = () => (
   <PayBitcoinConfirmView store={store} payment={payment} nav={nav} />
 );
 
-const PayBitcoinDone = () => (
-  <PayBitcoinDoneView store={store} payment={payment} nav={nav} />
-);
+const PayBitcoinDone = () => <PayBitcoinDoneView payment={payment} nav={nav} />;
 
 const Transactions = () => (
   <TransactionView store={store} transaction={transaction} nav={nav} />
