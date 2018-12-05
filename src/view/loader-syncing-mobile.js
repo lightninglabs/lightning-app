@@ -10,11 +10,7 @@ import { color, smallBreakWidth } from '../component/style';
 
 const styles = StyleSheet.create({
   spinner: {
-    position: 'absolute',
-    marginTop: 40,
-  },
-  downBtn: {
-    margin: 25,
+    marginTop: 60,
   },
 });
 
@@ -45,13 +41,11 @@ const baseCopyStyles = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    marginTop: 40,
-  },
+  title: {},
   copyTxt: {
     textAlign: 'center',
     marginTop: 10,
-    maxWidth: 300,
+    maxWidth: 280,
     paddingBottom: 30,
   },
 };
@@ -60,8 +54,11 @@ const copyStyles = createStyles(
   baseCopyStyles,
 
   maxWidth(smallBreakWidth, {
+    title: {
+      fontSize: 35,
+    },
     copyTxt: {
-      maxWidth: 250,
+      maxWidth: 240,
     },
   })
 );
