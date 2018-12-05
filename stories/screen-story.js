@@ -32,6 +32,7 @@ import ChannelCreate from '../src/view/channel-create';
 import Home from '../src/view/home';
 import Deposit from '../src/view/deposit';
 import Invoice from '../src/view/invoice';
+import InvoiceMobile from '../src/view/invoice-mobile';
 import InvoiceQR from '../src/view/invoice-qr';
 import Payment from '../src/view/payment';
 import PayLightningConfirm from '../src/view/pay-lightning-confirm';
@@ -217,6 +218,9 @@ storiesOf('Screens', module)
   ))
   .add('Pay Bitcoin Done', () => <PayBitcoinDone payment={payment} nav={nav} />)
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
+  .add('Invoice (Mobile)', () => (
+    <InvoiceMobile store={store} invoice={invoice} nav={nav} />
+  ))
   .add('Invoice QR', () => (
     <InvoiceQR store={store} invoice={invoice} nav={nav} />
   ));

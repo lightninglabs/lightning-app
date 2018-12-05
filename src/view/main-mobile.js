@@ -30,7 +30,7 @@ import PaymentFailedView from './payment-failed';
 import PayBitcoinView from './pay-bitcoin-mobile';
 import PayBitcoinConfirmView from './pay-bitcoin-confirm-mobile';
 import PayBitcoinDoneView from './pay-bitcoin-done';
-import InvoiceView from './invoice';
+import InvoiceView from './invoice-mobile';
 import InvoiceQRView from './invoice-qr';
 import DepositView from './deposit';
 import NotificationView from './notification';
