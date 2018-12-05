@@ -3,16 +3,17 @@
  * call the corresponding GRPC apis for payment management.
  */
 
-import { PREFIX_URI, PAYMENT_TIMEOUT, POLL_STORE_TIMEOUT } from '../config';
+import { PREFIX_REGEX, PAYMENT_TIMEOUT, POLL_STORE_TIMEOUT } from '../config';
 import { toSatoshis, toAmount, isLnUri, isAddress, nap } from '../helper';
 import * as log from './log';
 
 class PaymentAction {
-  constructor(store, grpc, nav, notification) {
+  constructor(store, grpc, nav, notification, clipboard) {
     this._store = store;
     this._grpc = grpc;
     this._nav = nav;
     this._notification = notification;
+    this._clipboard = clipboard;
   }
 
   /**
@@ -56,8 +57,40 @@ class PaymentAction {
       await nap(POLL_STORE_TIMEOUT);
     }
     this.init();
-    this.setAddress({ address: url.replace(PREFIX_URI, '') });
+    this.setAddress({ address: url });
     this.checkType();
+  }
+
+  /**
+   * Read data from the QR code scanner, set it as the address and
+   * check which type of invoice it is.
+   * @param  {string} options.data The data containing the scanned invoice
+   * @return {undefined}
+   */
+  readQRCode({ data }) {
+    if (!data) {
+      return;
+    }
+    this.setAddress({ address: data });
+    this.checkType();
+  }
+
+  /**
+   * Toggle between address input field and the QR code scanner.
+   * @return {undefined}
+   */
+  toggleScanner() {
+    this._store.payment.useScanner = !this._store.payment.useScanner;
+  }
+
+  /**
+   * Paste the contents of the clipboard into the address input
+   * and then check which type of invoice it is.
+   * @return {Promise<undefined>}
+   */
+  async pasteAddress() {
+    this.setAddress({ address: await this._clipboard.getString() });
+    await this.checkType();
   }
 
   /**
@@ -70,6 +103,7 @@ class PaymentAction {
     this._store.payment.amount = '';
     this._store.payment.fee = '';
     this._store.payment.note = '';
+    this._store.payment.useScanner = false;
     this._nav.goPay();
   }
 
@@ -79,7 +113,7 @@ class PaymentAction {
    * @param {string} options.address The payment address
    */
   setAddress({ address }) {
-    this._store.payment.address = address;
+    this._store.payment.address = address.replace(PREFIX_REGEX, '');
   }
 
   /**
@@ -123,7 +157,7 @@ class PaymentAction {
     try {
       const { payment, settings } = this._store;
       const request = await this._grpc.sendCommand('decodePayReq', {
-        payReq: invoice.replace(PREFIX_URI, ''),
+        payReq: invoice,
       });
       payment.amount = toAmount(request.numSatoshis, settings);
       payment.note = request.description;
@@ -194,7 +228,7 @@ class PaymentAction {
     }, PAYMENT_TIMEOUT);
     try {
       this._nav.goWait();
-      const invoice = this._store.payment.address.replace(PREFIX_URI, '');
+      const invoice = this._store.payment.address;
       const stream = this._grpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {
         stream.on('data', data => {

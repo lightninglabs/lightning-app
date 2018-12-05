@@ -405,7 +405,7 @@ describe('Action Integration Tests', function() {
       invoice2.setAmount({ amount: '0.000001' });
       invoice2.setNote({ note: 'coffee' });
       await invoice2.generateUri();
-      expect(store2.invoice.uri, 'to match', /^lightning:/);
+      expect(store2.invoice.encoded, 'to match', /^ln[a-zA-Z0-9]*$/);
     });
 
     it('should list new invoice as in-progress', async () => {
@@ -416,14 +416,14 @@ describe('Action Integration Tests', function() {
 
     it('should not decode invalid invoice and return false', async () => {
       const isValid = await payments1.decodeInvoice({
-        invoice: 'lightning:invalid_payment_request',
+        invoice: 'invalid_payment_request',
       });
       expect(isValid, 'to be', false);
     });
 
     it('should decode invoice, set fee and return true', async () => {
       const isValid = await payments1.decodeInvoice({
-        invoice: store2.invoice.uri,
+        invoice: store2.invoice.encoded,
       });
       expect(isValid, 'to be', true);
       expect(

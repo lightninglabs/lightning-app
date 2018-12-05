@@ -6,10 +6,10 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { NamedField } from '../component/field';
 import { Header, Title } from '../component/header';
-import { CancelButton, BackButton, PillButton } from '../component/button';
+import { CancelButton, BackButton, GlasButton } from '../component/button';
 import Card from '../component/card';
-import LightningBoltIcon from '../asset/icon/lightning-bolt';
-import { FormStretcher } from '../component/form';
+import BitcoinIcon from '../asset/icon/bitcoin';
+import { FormStretcher, FormText } from '../component/form';
 import {
   BalanceLabel,
   BalanceLabelNumeral,
@@ -18,6 +18,9 @@ import {
 import { color } from '../component/style';
 
 const styles = StyleSheet.create({
+  description: {
+    maxWidth: 290,
+  },
   balance: {
     marginBottom: 10,
   },
@@ -27,29 +30,33 @@ const styles = StyleSheet.create({
   unit: {
     color: color.blackText,
   },
+  btcIcon: {
+    height: 170 * 0.08,
+    width: 135 * 0.08,
+  },
   totalLbl: {
     marginTop: 5,
   },
-  note: {
-    marginTop: 5,
-    borderBottomWidth: 0,
-  },
   confirmBtn: {
     marginTop: 20,
+    backgroundColor: color.orange,
   },
 });
 
-const PayLightningConfirmView = ({ store, nav, payment }) => (
-  <Background image="purple-gradient-bg">
-    <Header shadow color={color.purple}>
-      <BackButton onPress={() => nav.goPay()} />
-      <Title title="Lightning Confirmation">
-        <LightningBoltIcon height={12} width={6.1} />
+const PayBitcoinConfirmView = ({ store, nav, payment }) => (
+  <Background color={color.orange}>
+    <Header color={color.orange}>
+      <BackButton onPress={() => nav.goPayBitcoin()} />
+      <Title title="Bitcoin Payment">
+        <BitcoinIcon height={13.6} width={10.8} />
       </Title>
       <CancelButton onPress={() => nav.goHome()} />
     </Header>
     <MainContent>
       <Card>
+        <FormText style={styles.description}>
+          You are about to send a Bitcoin payment on-chain.
+        </FormText>
         <FormStretcher>
           <BalanceLabel style={styles.balance}>
             <BalanceLabelNumeral style={styles.numeral}>
@@ -65,27 +72,17 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
           <NamedField name="Total" style={styles.totalLbl}>
             {store.paymentTotalLabel} {store.unitLabel}
           </NamedField>
-          {store.payment.note ? (
-            <NamedField name="Note" style={styles.note}>
-              {store.payment.note}
-            </NamedField>
-          ) : null}
         </FormStretcher>
-        <PillButton
-          style={styles.confirmBtn}
-          onPress={() => payment.payLightning()}
-        >
-          Confirm
-        </PillButton>
       </Card>
     </MainContent>
+    <GlasButton onPress={() => payment.payBitcoin()}>Confirm</GlasButton>
   </Background>
 );
 
-PayLightningConfirmView.propTypes = {
+PayBitcoinConfirmView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
 };
 
-export default observer(PayLightningConfirmView);
+export default observer(PayBitcoinConfirmView);

@@ -15,6 +15,7 @@ describe('Action Payments Unit Tests', () => {
   let payment;
   let nav;
   let notification;
+  let clipboard;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
@@ -27,7 +28,8 @@ describe('Action Payments Unit Tests', () => {
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    payment = new PaymentAction(store, grpc, nav, notification);
+    clipboard = { getString: sinon.stub() };
+    payment = new PaymentAction(store, grpc, nav, notification, clipboard);
   });
 
   afterEach(() => {
@@ -127,6 +129,33 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
+  describe('readQRCode()', () => {
+    it('should read the QR data and set an address', () => {
+      sandbox.stub(payment, 'checkType');
+      payment.readQRCode({ data: 'lightning:lntb100n1pdn2e0app' });
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
+  });
+
+  describe('toggleScanner()', () => {
+    it('change toggle useScanner attribute', () => {
+      expect(store.payment.useScanner, 'to equal', false);
+      payment.toggleScanner();
+      expect(store.payment.useScanner, 'to equal', true);
+    });
+  });
+
+  describe('pasteAddress()', () => {
+    it('should paste content of clipboard in address attribute', async () => {
+      sandbox.stub(payment, 'checkType');
+      clipboard.getString.resolves('lightning:lntb100n1pdn2e0app');
+      await payment.pasteAddress();
+      expect(store.payment.address, 'to equal', 'lntb100n1pdn2e0app');
+      expect(payment.checkType, 'was called once');
+    });
+  });
+
   describe('init()', () => {
     it('should clear attributes and navigate to payment view', () => {
       store.payment.address = 'foo';
@@ -143,6 +172,11 @@ describe('Action Payments Unit Tests', () => {
   describe('setAddress()', () => {
     it('should set attribute', () => {
       payment.setAddress({ address: 'some-address' });
+      expect(store.payment.address, 'to equal', 'some-address');
+    });
+
+    it('should work for lighning uri', () => {
+      payment.setAddress({ address: 'lightning:some-address' });
       expect(store.payment.address, 'to equal', 'some-address');
     });
   });
@@ -274,7 +308,7 @@ describe('Action Payments Unit Tests', () => {
 
     it('should send lightning payment', async () => {
       paymentsOnStub.withArgs('data').yields({ paymentError: '' });
-      store.payment.address = 'lightning:some-invoice';
+      payment.setAddress({ address: 'lightning:some-invoice' });
       await payment.payLightning();
       expect(grpc.sendStreamCommand, 'was called with', 'sendPayment');
       expect(

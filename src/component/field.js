@@ -14,6 +14,8 @@ const amountStyles = StyleSheet.create({
     textAlign: 'right',
     fontFamily: 'WorkSans ExtraLight',
     fontSize: font.sizeXXXL,
+    lineHeight: font.lineHeightXXXL,
+    height: font.lineHeightXXXL,
   },
 });
 
@@ -40,7 +42,7 @@ const inputStyles = StyleSheet.create({
   input: {
     alignSelf: 'stretch',
     textAlign: 'center',
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
   },
 });
 
@@ -63,7 +65,7 @@ const namedStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomColor: color.blackText,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
   },
   name: {
     color: color.blackText,

@@ -20,6 +20,7 @@ module.exports.BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
 const prefixName = 'lightning';
 module.exports.PREFIX_NAME = prefixName;
 module.exports.PREFIX_URI = `${prefixName}:`;
+module.exports.PREFIX_REGEX = /^[a-zA-Z]*:/;
 
 module.exports.DEFAULT_ROUTE = 'Welcome';
 module.exports.PIN_LENGTH = 6;

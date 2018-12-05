@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { NamedField } from '../component/field';
 import { Header, Title } from '../component/header';
-import { CancelButton, BackButton, PillButton } from '../component/button';
+import { CancelButton, BackButton, GlasButton } from '../component/button';
 import Card from '../component/card';
 import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import { FormStretcher } from '../component/form';
@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
 });
 
 const PayLightningConfirmView = ({ store, nav, payment }) => (
-  <Background image="purple-gradient-bg">
-    <Header shadow color={color.purple}>
+  <Background color={color.purple}>
+    <Header color={color.purple}>
       <BackButton onPress={() => nav.goPay()} />
-      <Title title="Lightning Confirmation">
+      <Title title="Lightning Payment">
         <LightningBoltIcon height={12} width={6.1} />
       </Title>
       <CancelButton onPress={() => nav.goHome()} />
@@ -71,14 +71,9 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
             </NamedField>
           ) : null}
         </FormStretcher>
-        <PillButton
-          style={styles.confirmBtn}
-          onPress={() => payment.payLightning()}
-        >
-          Confirm
-        </PillButton>
       </Card>
     </MainContent>
+    <GlasButton onPress={() => payment.payLightning()}>Confirm</GlasButton>
   </Background>
 );
 
