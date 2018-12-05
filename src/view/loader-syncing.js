@@ -12,9 +12,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginTop: 40,
   },
-  downBtn: {
-    margin: 25,
-  },
 });
 
 const LoaderSyncingView = ({ store }) => (
