@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
-import ShieldIcon from '../asset/icon/shield';
+import SeedBackupIcon from '../asset/icon/seed-backup';
 import { CopyOnboardText, Text } from '../component/text';
 import { GlasButton } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
@@ -16,25 +16,25 @@ import { smallBreakWidth } from '../component/style';
 
 const baseStyles = {
   content: {
-    justifyContent: 'space-between',
     paddingLeft: 20,
     paddingRight: 20,
   },
   title: {
-    marginTop: 50,
+    marginTop: 40,
     textAlign: 'center',
+    marginBottom: 25,
   },
   icon: {
-    height: 281,
-    width: 218,
+    height: 223,
+    width: 221,
   },
   copyWrapper: {
     marginBottom: 50,
   },
   copyTxt: {
     textAlign: 'center',
-    marginTop: 10,
-    maxWidth: 300,
+    marginTop: 25,
+    maxWidth: 250,
   },
 };
 
@@ -44,10 +44,12 @@ const styles = createStyles(
   maxWidth(smallBreakWidth, {
     title: {
       marginTop: 25,
+      fontSize: 30,
+      lineHeight: 40,
     },
     icon: {
-      height: 281 * 0.55,
-      width: 218 * 0.55,
+      height: 223 * 0.75,
+      width: 221 * 0.75,
     },
   })
 );
@@ -58,7 +60,7 @@ const SeedIntroView = ({ nav }) => (
       <CopyOnboardText style={styles.title}>
         Generate a recovery phrase
       </CopyOnboardText>
-      <ShieldIcon height={styles.icon.height} width={styles.icon.width} />
+      <SeedBackupIcon height={styles.icon.height} width={styles.icon.width} />
       <View style={styles.copyWrapper}>
         <Text style={styles.copyTxt}>
           {"We'll generate a recovery phrase."}
