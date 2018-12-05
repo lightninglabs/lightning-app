@@ -11,7 +11,7 @@ import LoaderView from './loader';
 import SelectSeedView from './select-seed';
 import SetPinView from './set-pin-mobile';
 import SetPinConfirmView from './set-pin-confirm-mobile';
-import SeedSuccessView from './seed-success';
+import SeedSuccessView from './seed-success-mobile';
 import NewAddressView from './new-address-mobile';
 
 import PinView from './pin-mobile';

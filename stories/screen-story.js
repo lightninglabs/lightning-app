@@ -44,6 +44,7 @@ import Loader from '../src/view/loader';
 import LoaderSyncing from '../src/view/loader-syncing';
 import SelectSeed from '../src/view/select-seed';
 import SeedSuccess from '../src/view/seed-success';
+import SeedSuccessMobile from '../src/view/seed-success-mobile';
 import Seed from '../src/view/seed';
 import SeedVerify from '../src/view/seed-verify';
 import SetPassword from '../src/view/set-password';
@@ -111,6 +112,7 @@ storiesOf('Screens', module)
     <RestoreSeed store={store} wallet={wallet} />
   ))
   .add('Seed Success', () => <SeedSuccess wallet={wallet} />)
+  .add('Seed Success (Mobile)', () => <SeedSuccessMobile wallet={wallet} />)
   .add('Set Password', () => (
     <SetPassword store={store} wallet={wallet} nav={nav} />
   ))
