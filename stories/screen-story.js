@@ -34,6 +34,7 @@ import Deposit from '../src/view/deposit';
 import Invoice from '../src/view/invoice';
 import InvoiceMobile from '../src/view/invoice-mobile';
 import InvoiceQR from '../src/view/invoice-qr';
+import InvoiceQRMobile from '../src/view/invoice-qr-mobile';
 import Payment from '../src/view/payment';
 import PayLightningConfirm from '../src/view/pay-lightning-confirm';
 import PayLightningConfirmMobile from '../src/view/pay-lightning-confirm-mobile';
@@ -223,6 +224,9 @@ storiesOf('Screens', module)
   ))
   .add('Invoice QR', () => (
     <InvoiceQR store={store} invoice={invoice} nav={nav} />
+  ))
+  .add('Invoice QR (Mobile)', () => (
+    <InvoiceQRMobile store={store} invoice={invoice} nav={nav} />
   ));
 
 // set some dummy data
