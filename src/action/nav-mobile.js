@@ -24,6 +24,10 @@ class NavAction {
     this._navigate('SelectSeed');
   }
 
+  goSeedIntro() {
+    this._navigate('SeedIntro');
+  }
+
   goSeed() {
     this._navigate('Seed');
   }

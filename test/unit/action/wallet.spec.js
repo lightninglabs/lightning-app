@@ -3,6 +3,7 @@ import GrpcAction from '../../../src/action/grpc';
 import AppStorage from '../../../src/action/app-storage';
 import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
+import NavActionMobile from '../../../src/action/nav-mobile';
 import NotificationAction from '../../../src/action/notification';
 import * as logger from '../../../src/action/log';
 import nock from 'nock';
@@ -305,6 +306,20 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
       expect(notification.display, 'was called once');
       expect(nav.goSeedSuccess, 'was not called');
+    });
+  });
+
+  describe('initSeed()', () => {
+    it('should navigate to seed view', () => {
+      wallet.initSeed();
+      expect(nav.goSeed, 'was called once');
+    });
+
+    it('should navigate to seed intro on mobile', () => {
+      nav = sinon.createStubInstance(NavActionMobile);
+      wallet = new WalletAction(store, grpc, db, nav, notification);
+      wallet.initSeed();
+      expect(nav.goSeedIntro, 'was called once');
     });
   });
 

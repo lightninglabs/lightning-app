@@ -48,7 +48,7 @@ const styles = createStyles(
   })
 );
 
-const SelectSeedView = ({ store, wallet, nav }) => (
+const SelectSeedView = ({ store, wallet }) => (
   <Background color={color.blackDark}>
     <MainContent style={styles.content}>
       <CopyOnboardText style={styles.title}>Recovery phrase?</CopyOnboardText>
@@ -73,7 +73,7 @@ const SelectSeedView = ({ store, wallet, nav }) => (
     </MainContent>
     <GlasButton
       onPress={() =>
-        store.wallet.restoring ? wallet.initRestoreWallet() : nav.goSeed()
+        store.wallet.restoring ? wallet.initRestoreWallet() : wallet.initSeed()
       }
     >
       Next
@@ -84,7 +84,6 @@ const SelectSeedView = ({ store, wallet, nav }) => (
 SelectSeedView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
-  nav: PropTypes.object.isRequired,
 };
 
 export default observer(SelectSeedView);
