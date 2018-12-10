@@ -53,7 +53,9 @@ describe('Computed Transactions Unit Tests', () => {
       expect(tx.dateLabel, 'to be ok');
       expect(tx.dateTimeLabel, 'to be ok');
       expect(tx.amountLabel, 'to match', /0[,.]00923456/);
+      expect(tx.unitAmountLbl, 'to match', /0[,.]00923456 BTC/);
       expect(tx.feeLabel, 'to match', /0[,.]0000825/);
+      expect(tx.unitFeeLbl, 'to match', /0[,.]0000825 BTC/);
       expect(tx.confirmationsLabel, 'to equal', '0');
       const inv = store.computedTransactions.find(t => t.id === '2');
       expect(inv.feeLabel, 'to equal', '0');
@@ -67,7 +69,9 @@ describe('Computed Transactions Unit Tests', () => {
       expect(store.computedTransactions.length, 'to equal', 3);
       const tx = store.computedTransactions.find(t => t.id === '0');
       expect(tx.amountLabel, 'to match', /63[,.]67/);
+      expect(tx.unitAmountLbl, 'to match', /63[,.]67/);
       expect(tx.feeLabel, 'to match', /0[,.]57/);
+      expect(tx.unitFeeLbl, 'to match', /0[,.]57/);
     });
 
     it('should limit transactions to last 100', () => {
