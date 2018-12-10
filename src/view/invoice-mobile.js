@@ -20,6 +20,10 @@ const styles = StyleSheet.create({
   unit: {
     color: color.blackText,
   },
+  form: {
+    paddingTop: 10,
+    paddingBottom: 10,
+  },
   subText: {
     paddingTop: 40,
     paddingBottom: 40,
@@ -51,7 +55,7 @@ const InvoiceView = ({ store, nav, invoice }) => (
         </BalanceLabel>
         <FormStretcher style={styles.form}>
           <InputField
-            placeholder="Note"
+            placeholder="NOTE"
             value={store.invoice.note}
             onChangeText={note => invoice.setNote({ note })}
             onSubmitEditing={() => invoice.generateUri()}
