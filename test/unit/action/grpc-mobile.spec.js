@@ -260,7 +260,7 @@ describe('Action GRPC Mobile Unit Tests', () => {
         data: grpc._serializeResponse('OpenChannel'),
       });
       const stream = grpc.sendStreamCommand('OpenChannel', {
-        nodePubkey: new Buffer('FFFF', 'hex'),
+        nodePubkey: Buffer.from('FFFF', 'hex'),
         localFundingAmount: 42,
       });
       expect(

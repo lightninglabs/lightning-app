@@ -329,7 +329,7 @@ describe('Action Channels Unit Tests', () => {
 
     it('should remove pending channel on chanClose (force close)', async () => {
       store.pendingChannels = [{ channelPoint: 'FFFF:1' }];
-      const chanClose = { closingTxid: new Buffer('cdab', 'hex') };
+      const chanClose = { closingTxid: Buffer.from('cdab', 'hex') };
       onStub.withArgs('data').yields({ chanClose });
       onStub.withArgs('end').yields();
       grpc.sendStreamCommand
