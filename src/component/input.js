@@ -15,7 +15,7 @@ const baseStyles = StyleSheet.create({
   input: {
     fontFamily: 'OpenSans Regular',
     fontSize: font.sizeM,
-    lineHeight: font.lineHeightM + 2 * 12,
+    lineHeight: font.lineHeightM + 3,
     height: font.lineHeightM + 2 * 12,
     color: color.blackText,
   },
