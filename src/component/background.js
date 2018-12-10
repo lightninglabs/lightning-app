@@ -1,5 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, SafeAreaView } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  KeyboardAvoidingView,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import BackgroundImage from './background-image';
 
@@ -11,19 +16,16 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
-  safe: {
-    flex: 1,
-  },
 });
 
 export const Background = ({ image, color, children, style }) =>
   image ? (
     <BackgroundImage image={image} style={styles.background}>
-      <SafeAreaView style={[styles.safe, style]}>{children}</SafeAreaView>
+      <ContentWrapper style={style}>{children}</ContentWrapper>
     </BackgroundImage>
   ) : (
     <View style={[{ backgroundColor: color }, styles.background, style]}>
-      <SafeAreaView style={[styles.safe, style]}>{children}</SafeAreaView>
+      <ContentWrapper style={style}>{children}</ContentWrapper>
     </View>
   );
 
@@ -52,7 +54,7 @@ export const SplitBackground = ({ image, bottom, children, style }) => (
     <View style={splitStyles.top} />
     <View style={[splitStyles.bottom, { backgroundColor: bottom }]} />
     <View style={StyleSheet.absoluteFill}>
-      <SafeAreaView style={[styles.safe, style]}>{children}</SafeAreaView>
+      <ContentWrapper style={style}>{children}</ContentWrapper>
     </View>
   </BackgroundImage>
 );
@@ -60,6 +62,35 @@ export const SplitBackground = ({ image, bottom, children, style }) => (
 SplitBackground.propTypes = {
   image: PropTypes.string,
   bottom: PropTypes.string,
+  children: PropTypes.node,
+  style: View.propTypes.style,
+};
+
+//
+// ContentWrapper
+//
+
+const wrapperStyles = StyleSheet.create({
+  safe: {
+    flex: 1,
+  },
+  avoid: {
+    flex: 1,
+  },
+});
+
+export const ContentWrapper = ({ children, style }) => (
+  <SafeAreaView style={wrapperStyles.safe}>
+    <KeyboardAvoidingView
+      style={[wrapperStyles.avoid, style]}
+      behavior="padding"
+    >
+      {children}
+    </KeyboardAvoidingView>
+  </SafeAreaView>
+);
+
+ContentWrapper.propTypes = {
   children: PropTypes.node,
   style: View.propTypes.style,
 };
