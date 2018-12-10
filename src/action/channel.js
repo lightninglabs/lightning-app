@@ -266,7 +266,7 @@ class ChannelAction {
    */
   async openChannel({ pubkey, amount }) {
     const stream = this._grpc.sendStreamCommand('openChannel', {
-      nodePubkey: new Buffer(pubkey, 'hex'),
+      nodePubkey: Buffer.from(pubkey, 'hex'),
       localFundingAmount: amount,
       private: true,
     });
