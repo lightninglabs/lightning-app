@@ -31,7 +31,7 @@ import PayBitcoinView from './pay-bitcoin-mobile';
 import PayBitcoinConfirmView from './pay-bitcoin-confirm-mobile';
 import PayBitcoinDoneView from './pay-bitcoin-done';
 import InvoiceView from './invoice-mobile';
-import InvoiceQRView from './invoice-qr';
+import InvoiceQRView from './invoice-qr-mobile';
 import DepositView from './deposit';
 import NotificationView from './notification';
 import ChannelView from './channel';
