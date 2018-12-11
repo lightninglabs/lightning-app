@@ -28,8 +28,12 @@ const baseStyles = {
   numeral: {
     color: color.blackText,
   },
-  qrcode: {
+  qrWrapper: {
     margin: 40,
+  },
+  qrcode: {
+    height: 160,
+    width: 160,
   },
   doneBtn: {
     marginTop: 15,
@@ -47,9 +51,13 @@ const styles = createStyles(
       fontSize: font.sizeXXL,
       lineHeight: font.lineHeightXXL,
     },
+    qrWrapper: {
+      margin: 25,
+      padding: 20,
+    },
     qrcode: {
-      padding: 10,
-      margin: 20,
+      height: 150,
+      width: 150,
     },
     doneBtn: {
       marginTop: 0,
@@ -58,8 +66,8 @@ const styles = createStyles(
 );
 
 const InvoiceQRView = ({ store, nav, invoice }) => (
-  <Background image="purple-gradient-bg">
-    <Header shadow color={color.purple}>
+  <Background color={color.purple}>
+    <Header color={color.purple}>
       <BackButton onPress={() => nav.goInvoice()} />
       <Title title="Payment Request">
         <LightningBoltIcon height={12} width={6.1} />
@@ -75,7 +83,9 @@ const InvoiceQRView = ({ store, nav, invoice }) => (
           <BalanceLabelUnit>{store.unitLabel}</BalanceLabelUnit>
         </BalanceLabel>
         <NamedField name="Note">{store.invoice.note}</NamedField>
-        <QRCode style={styles.qrcode}>{store.invoice.uri}</QRCode>
+        <QRCode size={styles.qrcode.height} style={styles.qrWrapper}>
+          {store.invoice.uri}
+        </QRCode>
         <CopyButton
           onPress={() => invoice.toClipboard({ text: store.invoice.encoded })}
           icon={<CopyPurpleIcon height={17.5} width={14} />}
