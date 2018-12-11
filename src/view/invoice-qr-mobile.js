@@ -35,6 +35,9 @@ const baseStyles = {
     height: 160,
     width: 160,
   },
+  copyBtn: {
+    alignSelf: 'stretch',
+  },
   doneBtn: {
     marginTop: 15,
   },
@@ -89,6 +92,7 @@ const InvoiceQRView = ({ store, nav, invoice }) => (
         <CopyButton
           onPress={() => invoice.toClipboard({ text: store.invoice.encoded })}
           icon={<CopyPurpleIcon height={17.5} width={14} />}
+          style={styles.copyBtn}
         >
           {store.invoice.encoded}
         </CopyButton>
