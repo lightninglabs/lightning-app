@@ -55,7 +55,7 @@ const InvoiceView = ({ store, nav, invoice }) => (
         </BalanceLabel>
         <FormStretcher style={styles.form}>
           <InputField
-            placeholder="NOTE"
+            placeholder="Note"
             value={store.invoice.note}
             onChangeText={note => invoice.setNote({ note })}
             onSubmitEditing={() => invoice.generateUri()}
