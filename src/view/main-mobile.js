@@ -16,7 +16,7 @@ import SeedSuccessView from './seed-success-mobile';
 import NewAddressView from './new-address-mobile';
 
 import PinView from './pin-mobile';
-import LoaderSyncingView from './loader-syncing';
+import LoaderSyncingView from './loader-syncing-mobile';
 import WaitView from './wait-mobile';
 import HomeView from './home';
 import SettingView from './setting';

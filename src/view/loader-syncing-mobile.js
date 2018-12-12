@@ -1,16 +1,16 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
+import { createStyles, maxWidth } from '../component/media-query';
 import Background from '../component/background';
-import { H1Text, CopyText } from '../component/text';
+import { CopyOnboardText, CopyText } from '../component/text';
 import MainContent from '../component/main-content';
 import { LoadNetworkSpinner } from '../component/spinner';
-import { color } from '../component/style';
+import { color, smallBreakWidth } from '../component/style';
 
 const styles = StyleSheet.create({
   spinner: {
-    position: 'absolute',
-    marginTop: 40,
+    marginTop: 60,
   },
 });
 
@@ -35,28 +35,41 @@ LoaderSyncingView.propTypes = {
 // Copy Section
 //
 
-const copyStyles = StyleSheet.create({
+const baseCopyStyles = {
   wrapper: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    marginTop: 40,
-  },
+  title: {},
   copyTxt: {
     textAlign: 'center',
     marginTop: 10,
-    maxWidth: 450,
+    maxWidth: 280,
     paddingBottom: 30,
   },
-});
+};
+
+const copyStyles = createStyles(
+  baseCopyStyles,
+
+  maxWidth(smallBreakWidth, {
+    title: {
+      fontSize: 35,
+    },
+    copyTxt: {
+      maxWidth: 240,
+    },
+  })
+);
 
 const CopySection = () => (
   <View style={copyStyles.wrapper}>
-    <H1Text style={copyStyles.title}>Almost there</H1Text>
+    <CopyOnboardText style={copyStyles.title}>Almost there</CopyOnboardText>
     <CopyText style={copyStyles.copyTxt}>
-      Why not grab a coffee. This could take a few minutes.
+      {
+        "We're making the final touches to get you up and running on Lightning. This could take about 30 minutes, but it will only happen once."
+      }
     </CopyText>
   </View>
 );
