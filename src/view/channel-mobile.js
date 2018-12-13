@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
+import { createStyles, maxWidth } from '../component/media-query';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
 import { SmallButton, BackButton } from '../component/button';
@@ -13,7 +14,7 @@ import { H1Text, CopyText } from '../component/text';
 import Text from '../component/text';
 import PlusIcon from '../../src/asset/icon/plus';
 import LightningBoltGradientIcon from '../../src/asset/icon/lightning-bolt-gradient';
-import { color, font } from '../component/style';
+import { color, font, smallBreakWidth } from '../component/style';
 
 //
 // Channel View (Mobile)
@@ -206,32 +207,61 @@ ChannelListItem.propTypes = {
 // No Channel (Mobile)
 //
 
-const noStyles = StyleSheet.create({
+const baseNoStyles = {
   content: {
     justifyContent: 'center',
   },
   title: {
+    textAlign: 'center',
+    lineHeight: font.sizeXXL + 5,
     marginTop: 40,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   copyTxt: {
     textAlign: 'center',
+    padding: 30,
   },
-});
+  spinner: {
+    height: 190,
+  },
+  bolt: {
+    height: 172 * 0.6,
+    width: 95 * 0.6,
+  },
+};
+
+const noStyles = createStyles(
+  baseNoStyles,
+
+  maxWidth(smallBreakWidth, {
+    spinner: {
+      height: 150,
+    },
+    bolt: {
+      height: 90,
+      width: 50,
+    },
+  })
+);
 
 const NoChannel = () => (
   <MainContent style={noStyles.content}>
     <ResizeableSpinner
       percentage={1}
-      size={190}
+      size={noStyles.spinner.height}
       progressWidth={6}
       gradient="openChannelsGrad"
     >
-      <LightningBoltGradientIcon height={172 * 0.6} width={95 * 0.6} />
+      <LightningBoltGradientIcon
+        height={noStyles.bolt.height}
+        width={noStyles.bolt.width}
+      />
     </ResizeableSpinner>
     <H1Text style={noStyles.title}>Opening Channels</H1Text>
     <CopyText style={noStyles.copyTxt}>
       {
-        'The autopilot feature will open channels for you, but\nyou can add your own at any time.'
+        'The autopilot feature will open channels for you, but you can add your own at any time.'
       }
     </CopyText>
   </MainContent>
