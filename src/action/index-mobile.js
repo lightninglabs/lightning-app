@@ -140,6 +140,44 @@ store.invoice.note = 'For the love of bitcoin';
 store.invoice.encoded =
   'lnbc4567800n1pdvqx48pp5eng6uyqnkdlx93m2598ug93qtuls8gapygxznshzd56h7n5cxs0sdp9gehhygr5dpjjqmr0wejjqmmxyp3xjarrda5kucqzysmhyrleqpt3yqf5nctzsr3hvrv9vhhnawazkwyzu8t4mf85tllsyjsf8hgu5nt6dj3jaljjgmt999xnlsweqvatypzlu34nhpjlxf59qp4dn2pv';
 store.invoice.uri = `lightning:${store.invoice.encoded}`;
+store.channels = [...Array(4)].map(() => ({
+  remotePubkey:
+    '0343bc80b914aebf8e50eb0b8e445fc79b9e6e8e5e018fa8c5f85c7d429c117b38',
+  id: '1337006139441152',
+  fundingTxId: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
+  capacity: 2005000,
+  localBalance: 1990000,
+  remoteBalance: 10000,
+  channelPoint:
+    '3511ae8a52c97d957eaf65f828504e68d0991f0276adff94c6ba91c7f6cd4275',
+  active: true,
+  status: 'open',
+}));
+store.pendingChannels = [...Array(6)].map((x, i) => ({
+  remotePubkey:
+    '0343bc80b914aebf8e50eb0b8e445fc79b9e6e8e5e018fa8c5f85c7d429c117b38',
+  id: '1337006139441152',
+  fundingTxId: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
+  capacity: 1005000,
+  localBalance: 600000,
+  remoteBalance: 400000,
+  channelPoint:
+    '3511ae8a52c97d957eaf65f828504e68d0991f0276adff94c6ba91c7f6cd4275',
+  status: i % 2 === 0 ? 'pending-closing' : 'pending-open',
+}));
+store.closedChannels = [...Array(4)].map(() => ({
+  remotePubkey:
+    '0343bc80b914aebf8e50eb0b8e445fc79b9e6e8e5e018fa8c5f85c7d429c117b38',
+  fundingTxId: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
+  closingTxId:
+    'd8413966f01ac4d288d87b8b6f2057aed07ceccb318a94f1319b1b2cc7876f4a',
+  capacity: 2005000,
+  localBalance: 1990000,
+  remoteBalance: 10000,
+  channelPoint:
+    '3511ae8a52c97d957eaf65f828504e68d0991f0276adff94c6ba91c7f6cd4275',
+  status: 'closed',
+}));
 store.percentSynced = 0.85;
 store.transactions = [...Array(5)].map((x, i) => ({
   id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
