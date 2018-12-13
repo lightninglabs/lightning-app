@@ -26,6 +26,7 @@ import SettingFiat from '../src/view/setting-fiat';
 import CLI from '../src/view/cli';
 import Notification from '../src/view/notification';
 import TransactionDetail from '../src/view/transaction-detail';
+import TransactionDetailMobile from '../src/view/transaction-detail-mobile';
 import Channel from '../src/view/channel';
 import ChannelDetail from '../src/view/channel-detail';
 import ChannelDelete from '../src/view/channel-delete';
@@ -189,6 +190,9 @@ storiesOf('Screens', module)
   ))
   .add('Transaction Details', () => (
     <TransactionDetail store={store} nav={nav} />
+  ))
+  .add('Transaction Details (Mobile)', () => (
+    <TransactionDetailMobile store={store} nav={nav} />
   ))
   .add('Channels', () => <Channel store={store} channel={channel} nav={nav} />)
   .add('Channels (Opening)', () => (
