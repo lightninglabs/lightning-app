@@ -4,7 +4,6 @@
 
 import { extendObservable } from 'mobx';
 import { toAmountLabel, toCaps } from '../helper';
-import { UNITS } from '../config';
 
 const ComputedTransaction = store => {
   extendObservable(store, {
@@ -22,17 +21,7 @@ const ComputedTransaction = store => {
         t.dateLabel = t.date.toLocaleDateString();
         t.dateTimeLabel = t.date.toLocaleString();
         t.amountLabel = toAmountLabel(t.amount, settings);
-        t.unitAmountLbl = `${toAmountLabel(t.amount, settings)}${
-          store.settings.displayFiat
-            ? ''
-            : ' ' + UNITS[store.settings.unit].display
-        }`;
         t.feeLabel = toAmountLabel(t.fee || 0, settings);
-        t.unitFeeLbl = `${toAmountLabel(t.fee || 0, settings)}${
-          store.settings.displayFiat
-            ? ''
-            : ' ' + UNITS[store.settings.unit].display
-        }`;
         if (Number.isInteger(t.confirmations)) {
           t.confirmationsLabel = t.confirmations.toString();
         }
