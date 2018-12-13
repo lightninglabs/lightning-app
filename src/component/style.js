@@ -19,7 +19,6 @@ export const color = {
   orange: '#F66B1C',
   blackDark: '#252F4A',
   blackText: '#4A4A4A',
-  txNavy: 'rgba(44,54,79,1)',
   greenSig: '#46E80E',
   orangeSig: '#FF7C00',
   pinkSig: '#F5406E',
