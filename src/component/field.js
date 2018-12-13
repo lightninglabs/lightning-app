@@ -1,9 +1,10 @@
 import React from 'react';
 import { Text as RNText, StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
+import { createStyles, maxWidth } from './media-query';
 import Text from './text';
 import { TextInput, HorizontalExpandingTextInput } from './input';
-import { color, font } from './style';
+import { color, font, breakWidth } from './style';
 
 //
 // Amount Input Field
@@ -102,7 +103,7 @@ NamedField.propTypes = {
 // Detail Field
 //
 
-const detailStyles = StyleSheet.create({
+const baseDetailStyles = {
   content: {
     alignSelf: 'stretch',
     marginTop: 12,
@@ -120,7 +121,20 @@ const detailStyles = StyleSheet.create({
     lineHeight: font.lineHeightXS + 2 * 3,
     color: color.blackDark,
   },
-});
+};
+
+const detailStyles = createStyles(
+  baseDetailStyles,
+
+  maxWidth(breakWidth, {
+    name: {
+      fontSize: font.sizeSub,
+    },
+    text: {
+      fontSize: font.sizeSub,
+    },
+  })
+);
 
 export const DetailField = ({ name, children, style }) => (
   <View style={[detailStyles.content, style]}>
