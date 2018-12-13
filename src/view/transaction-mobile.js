@@ -79,9 +79,6 @@ const iStyles = StyleSheet.create({
     borderRadius: 17,
     marginRight: 10,
   },
-  left: {
-    flex: 1,
-  },
   right: {
     flex: 1,
     alignItems: 'flex-end',
@@ -111,11 +108,9 @@ const TransactionListItem = ({ tx, unitLabel, onSelect }) => (
         <BitcoinIcon height={170 * 0.12} width={135 * 0.12} />
       )}
     </View>
-    <View style={iStyles.left}>
-      <View style={iStyles.status}>
-        <Text style={iStyles.txt}>{tx.dateLabel}</Text>
-        <Text style={[iStyles.txt, iStyles.subTxt]}>{tx.statusLabel}</Text>
-      </View>
+    <View style={iStyles.status}>
+      <Text style={iStyles.txt}>{tx.dateLabel}</Text>
+      <Text style={[iStyles.txt, iStyles.subTxt]}>{tx.statusLabel}</Text>
     </View>
     <View style={iStyles.right}>
       <Text>
