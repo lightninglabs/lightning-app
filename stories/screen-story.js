@@ -202,6 +202,13 @@ storiesOf('Screens', module)
   .add('Channels (Opening)', () => (
     <Channel store={{ computedChannels: [] }} channel={channel} nav={nav} />
   ))
+  .add('Channels (Opening) (Mobile)', () => (
+    <ChannelMobile
+      store={{ computedChannels: [] }}
+      channel={channel}
+      nav={nav}
+    />
+  ))
   .add('Channel Details', () => <ChannelDetail store={store} nav={nav} />)
   .add('Channel Delete', () => (
     <ChannelDelete store={store} channel={channel} nav={nav} />
