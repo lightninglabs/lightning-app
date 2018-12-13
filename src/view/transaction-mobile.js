@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 10,
     paddingLeft: 10,
-    paddingRight: 0,
+    paddingRight: 10,
   },
 });
 
