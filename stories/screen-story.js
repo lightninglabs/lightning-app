@@ -19,6 +19,7 @@ import TransactionAction from '../src/action/transaction';
 import AuthAction from '../src/action/auth-mobile';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
+import TransactionMobile from '../src/view/transaction-mobile';
 import Setting from '../src/view/setting';
 import SettingUnit from '../src/view/setting-unit';
 import SettingFiat from '../src/view/setting-fiat';
@@ -182,6 +183,9 @@ storiesOf('Screens', module)
   .add('CLI', () => <CLI store={store} nav={nav} />)
   .add('Transactions', () => (
     <Transaction store={store} transaction={transaction} nav={nav} />
+  ))
+  .add('Transactions (Mobile)', () => (
+    <TransactionMobile store={store} transaction={transaction} nav={nav} />
   ))
   .add('Transaction Details', () => (
     <TransactionDetail store={store} nav={nav} />

@@ -38,7 +38,7 @@ import ChannelView from './channel';
 import ChannelDetailView from './channel-detail';
 import ChannelDeleteView from './channel-delete';
 import ChannelCreateView from './channel-create';
-import TransactionView from './transaction';
+import TransactionView from './transaction-mobile';
 import TransactionDetailView from './transaction-detail';
 
 import {

@@ -141,6 +141,22 @@ store.invoice.encoded =
   'lnbc4567800n1pdvqx48pp5eng6uyqnkdlx93m2598ug93qtuls8gapygxznshzd56h7n5cxs0sdp9gehhygr5dpjjqmr0wejjqmmxyp3xjarrda5kucqzysmhyrleqpt3yqf5nctzsr3hvrv9vhhnawazkwyzu8t4mf85tllsyjsf8hgu5nt6dj3jaljjgmt999xnlsweqvatypzlu34nhpjlxf59qp4dn2pv';
 store.invoice.uri = `lightning:${store.invoice.encoded}`;
 store.percentSynced = 0.85;
+store.transactions = [...Array(5)].map((x, i) => ({
+  id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
+  type: 'bitcoin',
+  amount: 923456,
+  fee: 8250,
+  confirmations: i % 2 === 0 ? 0 : 6,
+  status: i % 2 === 0 ? 'unconfirmed' : 'confirmed',
+  date: new Date(),
+}));
+store.invoices = [...Array(1)].map(() => ({
+  id: '610da3203c36b17783477cbe5db092220ac7d58477cbe5db092',
+  type: 'lightning',
+  amount: 81345,
+  status: 'in-progress',
+  date: new Date(),
+}));
 store.logs = [
   '[14:00:24.995] [info] Using lnd in path lnd',
   'Checking for update',
