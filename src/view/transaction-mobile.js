@@ -12,7 +12,7 @@ import LightningBoltIcon from '../../src/asset/icon/lightning-bolt';
 import { color, font } from '../component/style';
 
 //
-// Transaction View
+// Transaction View (Mobile)
 //
 
 const styles = StyleSheet.create({
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 });
 
 const TransactionView = ({ store, nav, transaction }) => {
-  const { computedTransactions: transactions } = store;
+  const { computedTransactions: transactions, unitLabel } = store;
   return (
     <Background color={color.blackDark}>
       <Header>
@@ -39,6 +39,7 @@ const TransactionView = ({ store, nav, transaction }) => {
           renderItem={item => (
             <TransactionListItem
               tx={item}
+              unitLabel={unitLabel}
               onSelect={() => transaction.select({ item })}
             />
           )}
@@ -60,64 +61,68 @@ TransactionView.propTypes = {
 
 const iStyles = StyleSheet.create({
   item: {
-    justifyContent: 'space-between',
+    flexDirection: 'row',
     alignItems: 'center',
     height: 80,
-    margin: 5,
+    marginTop: 8,
     paddingLeft: 10,
     paddingRight: 10,
     borderBottomWidth: 0,
-    backgroundColor: color.txNavy,
+    backgroundColor: color.glasDarker,
     borderRadius: 7,
-  },
-  left: {
-    flex: 1,
-    flexDirection: 'row',
-    alignContent: 'center',
-    alignItems: 'flex-start',
   },
   icon: {
     justifyContent: 'center',
-    margin: 15,
+    alignItems: 'center',
+    height: 34,
+    width: 34,
+    borderRadius: 17,
+    marginRight: 10,
+  },
+  left: {
+    flex: 1,
   },
   right: {
     flex: 1,
     alignItems: 'flex-end',
   },
   txt: {
-    color: color.white,
     fontSize: font.sizeS,
+  },
+  subTxt: {
     opacity: 0.7,
-  },
-  amount: {
-    fontSize: font.sizeBase,
-    opacity: 1,
-  },
-  date: {
-    opacity: 1,
   },
 });
 
-const TransactionListItem = ({ tx, onSelect }) => (
+const TransactionListItem = ({ tx, unitLabel, onSelect }) => (
   <ListItem style={iStyles.item} onSelect={onSelect}>
+    <View
+      style={[
+        iStyles.icon,
+        {
+          backgroundColor:
+            tx.type === 'lightning' ? color.purple : color.orange,
+        },
+      ]}
+    >
+      {tx.type === 'lightning' ? (
+        <LightningBoltIcon height={126 * 0.19} width={64 * 0.19} />
+      ) : (
+        <BitcoinIcon height={170 * 0.12} width={135 * 0.12} />
+      )}
+    </View>
     <View style={iStyles.left}>
-      <View style={iStyles.icon}>
-        {tx.type === 'lightning' ? (
-          <LightningBoltIcon height={126 * 0.14} width={64 * 0.14} />
-        ) : (
-          <BitcoinIcon height={170 * 0.08} width={135 * 0.08} />
-        )}
-      </View>
       <View style={iStyles.status}>
-        <Text style={[iStyles.txt, iStyles.date]}>{tx.dateLabel}</Text>
-        <Text style={iStyles.txt}>{tx.statusLabel}</Text>
+        <Text style={iStyles.txt}>{tx.dateLabel}</Text>
+        <Text style={[iStyles.txt, iStyles.subTxt]}>{tx.statusLabel}</Text>
       </View>
     </View>
     <View style={iStyles.right}>
-      <Text style={[iStyles.txt, iStyles.amount]}>{tx.unitAmountLbl}</Text>
-      <Text style={[iStyles.txt]}>
-        {tx.feeLabel === '0' ? '' : '-'}
-        {tx.unitFeeLbl}
+      <Text>
+        {tx.amountLabel} {unitLabel}
+      </Text>
+      <Text style={[iStyles.txt, iStyles.subTxt]}>
+        {tx.feeLabel} {unitLabel}
       </Text>
     </View>
   </ListItem>
@@ -125,6 +130,7 @@ const TransactionListItem = ({ tx, onSelect }) => (
 
 TransactionListItem.propTypes = {
   tx: PropTypes.object.isRequired,
+  unitLabel: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
 };
 
