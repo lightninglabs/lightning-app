@@ -106,9 +106,9 @@ NamedField.propTypes = {
 const baseDetailStyles = {
   content: {
     alignSelf: 'stretch',
-    marginTop: 12,
+    paddingTop: 12,
     borderBottomColor: color.greyLight,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
   },
   name: {
     fontFamily: 'OpenSans Bold',
@@ -127,10 +127,15 @@ const detailStyles = createStyles(
   baseDetailStyles,
 
   maxWidth(breakWidth, {
+    content: {
+      paddingTop: 17,
+      paddingBottom: 15,
+    },
     name: {
       fontSize: font.sizeSub,
     },
     text: {
+      marginTop: 4,
       fontSize: font.sizeSub,
     },
   })
