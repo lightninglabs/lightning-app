@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
-import { Button, BackButton } from '../component/button';
+import { Button, CancelButton } from '../component/button';
 import { ListContent, List, ListItem } from '../component/list';
 import Text from '../component/text';
 import BitcoinIcon from '../../src/asset/icon/bitcoin';
@@ -29,9 +29,9 @@ const TransactionView = ({ store, nav, transaction }) => {
   return (
     <Background color={color.blackDark}>
       <Header>
-        <BackButton onPress={() => nav.goHome()} />
-        <Title title="Transactions" />
         <Button disabled onPress={() => {}} />
+        <Title title="Transactions" />
+        <CancelButton onPress={() => nav.goHome()} />
       </Header>
       <ListContent style={styles.list}>
         <List
