@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { SvgBackground } from './image';
 import PurpleGradientBg from '../asset/img/purple-gradient-bg-mobile';
-import OrangeGradientBg from '../asset/img/orange-gradient-bg';
+import OrangeGradientBg from '../asset/img/orange-gradient-bg-mobile';
 import TexturedBg from '../asset/img/textured-bg-mobile';
 
 const BackgroundImage = ({ image, ...props }) => (

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="375px" height="812px" viewBox="0 0 375 812" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>Rectangle 8</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-19.991335%" y1="-32.1933833%" x2="39.2979436%" y2="55.7017994%" id="linearGradient-1">
+            <stop stop-color="#FAD961" offset="0%"></stop>
+            <stop stop-color="#F76B1C" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Errors-and-Notifications" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Bitcoin-Payment-Sent---Mobile---Small" fill="url(#linearGradient-1)">
+            <polygon id="Rectangle-8" points="0 0 375 0 375 812 0 812"></polygon>
+        </g>
+    </g>
+</svg>
