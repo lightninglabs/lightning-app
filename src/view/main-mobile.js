@@ -36,7 +36,7 @@ import DepositView from './deposit';
 import NotificationView from './notification';
 import ChannelView from './channel';
 import ChannelDetailView from './channel-detail';
-import ChannelDeleteView from './channel-delete';
+import ChannelDeleteView from './channel-delete-mobile';
 import ChannelCreateView from './channel-create';
 import TransactionView from './transaction-mobile';
 import TransactionDetailView from './transaction-detail-mobile';
