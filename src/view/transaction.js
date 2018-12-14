@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
-import { Button, BackButton } from '../component/button';
+import { Button, CancelButton } from '../component/button';
 import { ListContent, List, ListItem, ListHeader } from '../component/list';
 import { Alert } from '../component/notification';
 import Text from '../component/text';
@@ -21,9 +21,9 @@ const TransactionView = ({ store, nav, transaction }) => {
   return (
     <Background color={color.blackDark}>
       <Header separator>
-        <BackButton onPress={() => nav.goHome()} />
-        <Title title="Transactions" />
         <Button disabled onPress={() => {}} />
+        <Title title="Transactions" />
+        <CancelButton onPress={() => nav.goHome()} />
       </Header>
       <ListContent>
         <List
