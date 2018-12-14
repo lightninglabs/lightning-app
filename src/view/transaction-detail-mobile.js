@@ -6,6 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { Button, BackButton } from '../component/button';
+import Card from '../component/card';
 import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import BitcoinIcon from '../asset/icon/bitcoin';
 import { DetailField } from '../component/field';
@@ -13,15 +14,14 @@ import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   header: {
-    zIndex: 100,
+    zIndex: 1,
   },
   backBtn: {
-    marginBottom: 8,
+    marginBottom: 9,
   },
   titleWrapper: {
-    justifyContent: 'flex-end',
     alignItems: 'center',
-    height: 110,
+    marginTop: 40,
   },
   icon: {
     justifyContent: 'center',
@@ -29,22 +29,13 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: 40,
     height: 40,
-    borderRadius: 35,
+    borderRadius: 20,
   },
   bolt: {
     backgroundColor: color.purple,
   },
   btc: {
     backgroundColor: color.orangeSig,
-  },
-  content: {
-    justifyContent: 'flex-start',
-    backgroundColor: color.whiteBg,
-    padding: 10,
-  },
-  detail: {
-    justifyContent: 'center',
-    height: 77,
   },
 });
 
@@ -62,45 +53,44 @@ const TransactionDetailView = ({ store, nav }) => (
         <Title title="Transaction Detail" />
         {store.selectedTransaction.type === 'bitcoin' ? (
           <View style={[styles.icon, styles.btc]}>
-            <BitcoinIcon height={25} width={20} />
+            <BitcoinIcon height={135 * 0.19} width={170 * 0.19} />
           </View>
         ) : (
           <View style={[styles.icon, styles.bolt]}>
-            <LightningBoltIcon height={35} width={29} />
+            <LightningBoltIcon height={126 * 0.23} width={64 * 0.23} />
           </View>
         )}
       </View>
       <Button disabled onPress={() => {}} />
     </Header>
-    <MainContent style={styles.content}>
-      {store.selectedTransaction.confirmationsLabel ? (
-        <DetailField style={styles.detail} name="Confirmations">
-          {store.selectedTransaction.confirmationsLabel}
+    <MainContent>
+      <Card>
+        <DetailField name={store.selectedTransaction.idName}>
+          {store.selectedTransaction.id}
         </DetailField>
-      ) : null}
-      <DetailField name="Amount" style={styles.detail}>
-        {store.selectedTransaction.amountLabel} {store.unitLabel}
-      </DetailField>
-      <DetailField
-        name={store.selectedTransaction.idName}
-        style={styles.detail}
-      >
-        {store.selectedTransaction.id}
-      </DetailField>
-      <DetailField name="Fee" style={styles.detail}>
-        {store.selectedTransaction.feeLabel} {store.unitLabel}
-      </DetailField>
-      <DetailField name="Date" style={styles.detail}>
-        {store.selectedTransaction.dateTimeLabel}
-      </DetailField>
-      <DetailField name="Status" style={styles.detail}>
-        {store.selectedTransaction.statusLabel}
-      </DetailField>
-      {store.selectedTransaction.memo ? (
-        <DetailField name="Memo" style={styles.detail}>
-          {store.selectedTransaction.memo}
+        <DetailField name="Date">
+          {store.selectedTransaction.dateTimeLabel}
         </DetailField>
-      ) : null}
+        {store.selectedTransaction.memo ? (
+          <DetailField name="Note">
+            {store.selectedTransaction.memo}
+          </DetailField>
+        ) : null}
+        <DetailField name="Amount">
+          {store.selectedTransaction.amountLabel} {store.unitLabel}
+        </DetailField>
+        <DetailField name="Fee">
+          {store.selectedTransaction.feeLabel} {store.unitLabel}
+        </DetailField>
+        {store.selectedTransaction.confirmationsLabel ? (
+          <DetailField name="Confirmations">
+            {store.selectedTransaction.confirmationsLabel}
+          </DetailField>
+        ) : null}
+        <DetailField name="Status">
+          {store.selectedTransaction.statusLabel}
+        </DetailField>
+      </Card>
     </MainContent>
   </Background>
 );
