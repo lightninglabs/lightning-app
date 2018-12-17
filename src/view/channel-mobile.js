@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from '../component/media-query';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
-import { SmallButton, BackButton } from '../component/button';
+import { Button, BackButton } from '../component/button';
 import { ListContent, List, ListItem } from '../component/list';
 import { Alert } from '../component/notification';
 import MainContent from '../component/main-content';
@@ -51,9 +51,9 @@ const ChannelHeader = ({ goChannelCreate, goHome }) => (
   <Header>
     <BackButton onPress={goHome} />
     <Title title="Channels" />
-    <SmallButton onPress={goChannelCreate}>
-      <PlusIcon height={14} width={14} />
-    </SmallButton>
+    <Button onPress={goChannelCreate}>
+      <PlusIcon height={16} width={16} />
+    </Button>
   </Header>
 );
 
