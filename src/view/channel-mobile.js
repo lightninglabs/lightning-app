@@ -211,23 +211,24 @@ const baseNoStyles = {
   content: {
     justifyContent: 'center',
   },
-  title: {
-    textAlign: 'center',
-    lineHeight: font.sizeXXL + 5,
-    marginTop: 40,
-    paddingLeft: 15,
-    paddingRight: 15,
-  },
-  copyTxt: {
-    textAlign: 'center',
-    padding: 30,
-  },
   spinner: {
     height: 190,
   },
   bolt: {
     height: 172 * 0.6,
     width: 95 * 0.6,
+  },
+  title: {
+    textAlign: 'center',
+    lineHeight: font.sizeXXL + 5,
+    marginTop: 50,
+    maxWidth: 250,
+  },
+  copyTxt: {
+    textAlign: 'center',
+    marginTop: 40,
+    maxWidth: 250,
+    marginBottom: 40,
   },
 };
 
@@ -239,8 +240,14 @@ const noStyles = createStyles(
       height: 150,
     },
     bolt: {
-      height: 90,
-      width: 50,
+      height: 172 * 0.5,
+      width: 95 * 0.5,
+    },
+    title: {
+      marginTop: 30,
+    },
+    copyTxt: {
+      marginTop: 20,
     },
   })
 );
