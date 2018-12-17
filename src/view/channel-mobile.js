@@ -144,18 +144,11 @@ const iStyles = StyleSheet.create({
   },
 });
 
-const statusType = ch =>
-  ch.status === 'open'
-    ? 'success'
-    : ch.status.includes('open')
-      ? 'info'
-      : 'error';
-
 const ChannelListItem = ({ ch, unitLabel, onSelect }) => (
   <ListItem style={iStyles.item} onSelect={onSelect}>
     <View style={iStyles.header}>
       <View style={iStyles.status}>
-        <Alert type={statusType(ch)} />
+        <Alert type={ch.statusType} />
         <Text style={iStyles.statusTxt}>{ch.statusLabel}</Text>
       </View>
       <Text style={iStyles.fundingTx} numberOfLines={1}>

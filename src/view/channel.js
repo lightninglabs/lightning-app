@@ -221,17 +221,10 @@ const iStyles = StyleSheet.create({
   i: { flex: 1 },
 });
 
-const statusType = ch =>
-  ch.status === 'open'
-    ? 'success'
-    : ch.status.includes('open')
-      ? 'info'
-      : 'error';
-
 const ChannelListItem = ({ ch, onSelect }) => (
   <ListItem onSelect={onSelect}>
     <View style={[iStyles.m, iStyles.group]}>
-      <Alert type={statusType(ch)} style={iStyles.alert} />
+      <Alert type={ch.statusType} style={iStyles.alert} />
       <Text style={iStyles.txt}>{ch.statusLabel}</Text>
     </View>
     <Text style={[iStyles.m, iStyles.txt]}>{ch.capacityLabel}</Text>
