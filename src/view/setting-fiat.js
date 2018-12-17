@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -7,13 +7,14 @@ import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { Button, BackButton, RadioButton } from '../component/button';
 import { SettingItem } from '../component/list';
-import { color } from '../component/style';
+import { createStyles, maxWidth } from '../component/media-query';
+import { color, breakWidth } from '../component/style';
 
 //
 // Setting Fiat View
 //
 
-const styles = StyleSheet.create({
+const baseStyles = {
   content: {
     paddingBottom: 75,
     paddingLeft: 50,
@@ -24,7 +25,24 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 400,
   },
-});
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(breakWidth, {
+    content: {
+      paddingTop: 50,
+      paddingLeft: 20,
+      paddingRight: 20,
+    },
+    list: {
+      justifyContent: 'flex-start',
+      alignSelf: 'stretch',
+      width: undefined,
+    },
+  })
+);
 
 const SettingFiatView = ({ store, nav, setting }) => {
   return (
