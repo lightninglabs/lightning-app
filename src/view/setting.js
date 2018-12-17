@@ -1,5 +1,4 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -7,14 +6,15 @@ import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { Button, BackButton } from '../component/button';
 import { SettingItem, SettingHeader } from '../component/list';
-import { CountBubble } from '../../src/component/notification';
-import { color } from '../component/style';
+import { CountBubble } from '../component/notification';
+import { createStyles, maxWidth } from '../component/media-query';
+import { color, breakWidth } from '../component/style';
 
 //
 // Settings View
 //
 
-const styles = StyleSheet.create({
+const baseStyles = {
   content: {
     alignItems: 'stretch',
     paddingTop: 35,
@@ -24,7 +24,18 @@ const styles = StyleSheet.create({
   advanced: {
     marginTop: 50,
   },
-});
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(breakWidth, {
+    content: {
+      paddingLeft: 20,
+      paddingRight: 20,
+    },
+  })
+);
 
 const SettingView = ({ store, nav, wallet }) => {
   return (
