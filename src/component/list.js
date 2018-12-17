@@ -3,13 +3,14 @@ import { View, ListView, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import ForwardIcon from '../asset/icon/forward';
-import { color, font } from './style';
+import { createStyles, maxWidth } from './media-query';
+import { color, font, breakWidth } from './style';
 
 //
 // List Content
 //
 
-const styles = StyleSheet.create({
+const baseStyles = {
   content: {
     flex: 1,
     paddingTop: 25,
@@ -17,7 +18,20 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     paddingRight: 50,
   },
-});
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(breakWidth, {
+    content: {
+      paddingTop: 10,
+      paddingBottom: 0,
+      paddingLeft: 10,
+      paddingRight: 10,
+    },
+  })
+);
 
 export const ListContent = ({ children, style }) => (
   <View style={[styles.content, style]}>{children}</View>

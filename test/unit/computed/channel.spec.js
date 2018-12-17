@@ -54,6 +54,7 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.computedChannels.length, 'to equal', 3);
       const ch = store.computedChannels.find(t => t.id === '0');
       expect(ch.statusLabel, 'to equal', 'Open');
+      expect(ch.statusType, 'to equal', 'success');
       expect(ch.capacityLabel, 'to match', /0[,.]02005/);
       expect(ch.localBalanceLabel, 'to match', /0[,.]0199/);
       expect(ch.remoteBalanceLabel, 'to match', /0[,.]0001/);
