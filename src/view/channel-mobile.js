@@ -97,7 +97,7 @@ const iStyles = StyleSheet.create({
     height: 180,
     paddingRight: 10,
     paddingLeft: 10,
-    marginBottom: 10,
+    marginBottom: 15,
     backgroundColor: color.glasDarker,
     borderBottomWidth: 0,
     borderRadius: 7,
@@ -107,7 +107,6 @@ const iStyles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     height: 45,
-    marginBottom: 10,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: color.greyBorder,
   },
@@ -121,9 +120,11 @@ const iStyles = StyleSheet.create({
     marginLeft: 6,
   },
   fundingTx: {
-    color: color.white,
     fontSize: 9,
     width: 120,
+  },
+  capacityWrapper: {
+    marginTop: 10,
   },
   label: {
     color: color.greyListHeader,
@@ -139,7 +140,7 @@ const iStyles = StyleSheet.create({
     marginTop: 10,
   },
   balanceField: {
-    flex: 1,
+    marginRight: 30,
   },
 });
 
@@ -161,7 +162,7 @@ const ChannelListItem = ({ ch, unitLabel, onSelect }) => (
         {ch.fundingTxId}
       </Text>
     </View>
-    <View>
+    <View style={iStyles.capacityWrapper}>
       <Text style={iStyles.label}>CAPACITY</Text>
       <Text style={iStyles.capacity}>
         {ch.capacityLabel} {unitLabel}
