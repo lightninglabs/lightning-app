@@ -43,6 +43,7 @@ import Payment from '../src/view/payment';
 import PayLightningConfirm from '../src/view/pay-lightning-confirm';
 import PayLightningConfirmMobile from '../src/view/pay-lightning-confirm-mobile';
 import PayLightningDone from '../src/view/pay-lightning-done';
+import PayLightningDoneMobile from '../src/view/pay-lightning-done-mobile';
 import PayBitcoin from '../src/view/pay-bitcoin';
 import PayBitcoinMobile from '../src/view/pay-bitcoin-mobile';
 import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
@@ -231,6 +232,9 @@ storiesOf('Screens', module)
   ))
   .add('Pay Lightning Done', () => (
     <PayLightningDone store={store} payment={payment} nav={nav} />
+  ))
+  .add('Pay Lightning Done (Mobile)', () => (
+    <PayLightningDoneMobile store={store} payment={payment} nav={nav} />
   ))
   .add('Payment Failed', () => <PaymentFailed channel={channel} nav={nav} />)
   .add('Pay Bitcoin', () => (

@@ -25,7 +25,7 @@ import SettingFiatView from './setting-fiat';
 import CLIView from './cli';
 import PaymentView from './payment-mobile';
 import PayLightningConfirmView from './pay-lightning-confirm-mobile';
-import PayLightningDoneView from './pay-lightning-done';
+import PayLightningDoneView from './pay-lightning-done-mobile';
 import PaymentFailedView from './payment-failed';
 import PayBitcoinView from './pay-bitcoin-mobile';
 import PayBitcoinConfirmView from './pay-bitcoin-confirm-mobile';
