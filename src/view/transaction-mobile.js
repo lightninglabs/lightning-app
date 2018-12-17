@@ -15,15 +15,6 @@ import { color, font } from '../component/style';
 // Transaction View (Mobile)
 //
 
-const styles = StyleSheet.create({
-  list: {
-    paddingTop: 0,
-    paddingBottom: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-});
-
 const TransactionView = ({ store, nav, transaction }) => {
   const { computedTransactions: transactions, unitLabel } = store;
   return (
@@ -33,7 +24,7 @@ const TransactionView = ({ store, nav, transaction }) => {
         <Title title="Transactions" />
         <CancelButton onPress={() => nav.goHome()} />
       </Header>
-      <ListContent style={styles.list}>
+      <ListContent>
         <List
           data={transactions}
           renderItem={item => (
@@ -64,7 +55,7 @@ const iStyles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     height: 80,
-    marginTop: 8,
+    marginBottom: 8,
     paddingLeft: 10,
     paddingRight: 10,
     borderBottomWidth: 0,

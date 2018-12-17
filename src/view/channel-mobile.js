@@ -63,35 +63,21 @@ ChannelHeader.propTypes = {
 // Channel List
 //
 
-const listStyles = StyleSheet.create({
-  wrapper: {
-    flex: 1,
-  },
-  list: {
-    paddingTop: 0,
-    paddingBottom: 0,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-});
-
 const ChannelList = ({ store, channel }) => {
   const { computedChannels: channels, unitLabel } = store;
   return (
-    <View style={listStyles.wrapper}>
-      <ListContent style={listStyles.list}>
-        <List
-          data={channels}
-          renderItem={item => (
-            <ChannelListItem
-              ch={item}
-              unitLabel={unitLabel}
-              onSelect={() => channel.select({ item })}
-            />
-          )}
-        />
-      </ListContent>
-    </View>
+    <ListContent>
+      <List
+        data={channels}
+        renderItem={item => (
+          <ChannelListItem
+            ch={item}
+            unitLabel={unitLabel}
+            onSelect={() => channel.select({ item })}
+          />
+        )}
+      />
+    </ListContent>
   );
 };
 
