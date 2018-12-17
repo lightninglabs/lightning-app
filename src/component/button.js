@@ -10,6 +10,7 @@ import Text from './text';
 import Icon from '../component/icon';
 import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
+import PlusIcon from '../asset/icon/plus';
 import QrIcon from '../asset/icon/qr';
 import { color, font } from './style';
 
@@ -287,6 +288,22 @@ export const CancelButton = ({ onPress, disabled, style }) => (
 );
 
 CancelButton.propTypes = {
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
+  style: View.propTypes.style,
+};
+
+//
+// Add Button
+//
+
+export const AddButton = ({ onPress, disabled, style }) => (
+  <Button onPress={onPress} disabled={disabled} style={style}>
+    <PlusIcon height={16} width={16} />
+  </Button>
+);
+
+AddButton.propTypes = {
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
   style: View.propTypes.style,

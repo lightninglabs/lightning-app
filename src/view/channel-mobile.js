@@ -5,14 +5,13 @@ import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from '../component/media-query';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
-import { Button, BackButton } from '../component/button';
+import { BackButton, AddButton } from '../component/button';
 import { ListContent, List, ListItem } from '../component/list';
 import { Alert } from '../component/notification';
 import MainContent from '../component/main-content';
 import { ResizeableSpinner } from '../component/spinner';
 import { H1Text, CopyText } from '../component/text';
 import Text from '../component/text';
-import PlusIcon from '../../src/asset/icon/plus';
 import LightningBoltGradientIcon from '../../src/asset/icon/lightning-bolt-gradient';
 import { color, font, smallBreakWidth } from '../component/style';
 
@@ -51,9 +50,7 @@ const ChannelHeader = ({ goChannelCreate, goHome }) => (
   <Header>
     <BackButton onPress={goHome} />
     <Title title="Channels" />
-    <Button onPress={goChannelCreate}>
-      <PlusIcon height={16} width={16} />
-    </Button>
+    <AddButton onPress={goChannelCreate} />
   </Header>
 );
 

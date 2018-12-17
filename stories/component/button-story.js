@@ -13,6 +13,7 @@ import {
   SmallPillButton,
   BackButton,
   CancelButton,
+  AddButton,
   QrButton,
   DownButton,
 } from '../../src/component/button';
@@ -124,6 +125,7 @@ storiesOf('Button', module)
   ))
   .add('Back Button', () => <BackButton onPress={action('clicked')} />)
   .add('Cancel Button', () => <CancelButton onPress={action('clicked')} />)
+  .add('Add Button', () => <AddButton onPress={action('clicked')} />)
   .add('QR Button', () => (
     <QrButton onPress={action('clicked')}>QR Button</QrButton>
   ))
