@@ -6,7 +6,8 @@ import Background from '../component/background';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
 import { Button, BackButton } from '../component/button';
-import { color, font } from '../component/style';
+import { createStyles, maxWidth } from '../component/media-query';
+import { color, font, breakWidth } from '../component/style';
 
 //
 // CLI View
@@ -38,7 +39,7 @@ CLIView.propTypes = {
 // Log Output
 //
 
-const logStyles = StyleSheet.create({
+const baseLogStyles = {
   content: {
     flexGrow: 1,
     backgroundColor: color.cliBackground,
@@ -50,7 +51,18 @@ const logStyles = StyleSheet.create({
   text: {
     fontSize: font.sizeS,
   },
-});
+};
+
+const logStyles = createStyles(
+  baseLogStyles,
+
+  maxWidth(breakWidth, {
+    content: {
+      paddingLeft: 20,
+      paddingRight: 20,
+    },
+  })
+);
 
 class LogOutput extends Component {
   constructor(props) {
