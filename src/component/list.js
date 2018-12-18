@@ -1,7 +1,8 @@
 import React, { Component, PureComponent } from 'react';
 import { View, ListView, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
-import { color } from './style';
+import { createStyles, maxWidth } from './media-query';
+import { color, breakWidth } from './style';
 
 //
 // List Content
