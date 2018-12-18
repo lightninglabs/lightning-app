@@ -6,13 +6,14 @@ import {
   StyleSheet,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { createStyles, maxWidth } from '../component/media-query';
 import Text from './text';
 import Icon from './icon';
 import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
 import PlusIcon from '../asset/icon/plus';
 import QrIcon from '../asset/icon/qr';
-import { color, font } from './style';
+import { color, font, breakWidth } from './style';
 
 //
 // Regular Button
@@ -237,8 +238,10 @@ SmallButton.propTypes = {
 // Small Pill Button
 //
 
-const smallPillStyles = StyleSheet.create({
+const baseSmallPillStyles = {
   touchable: {
+    justifyContent: 'center',
+    alignItems: 'center',
     paddingTop: 3,
     paddingBottom: 4,
     paddingLeft: 15,
@@ -255,7 +258,19 @@ const smallPillStyles = StyleSheet.create({
     borderRadius: 58.94,
     borderColor: color.greyPill,
   },
-});
+};
+
+const smallPillStyles = createStyles(
+  baseSmallPillStyles,
+
+  maxWidth(breakWidth, {
+    text: {
+      fontFamily: 'OpenSans Regular',
+      fontSize: font.sizeS,
+      lineHeight: font.lineHeightS,
+    },
+  })
+);
 
 export const SmallPillButton = ({ text, onPress, disabled, style }) => (
   <TouchableOpacity
