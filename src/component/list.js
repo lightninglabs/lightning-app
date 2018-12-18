@@ -1,5 +1,11 @@
 import React, { Component, PureComponent } from 'react';
-import { View, ListView, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  ListView,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import ForwardIcon from '../asset/icon/forward';
@@ -127,6 +133,76 @@ export const ListHeader = ({ style, children }) => (
 );
 
 ListHeader.propTypes = {
+  children: PropTypes.node,
+  style: View.propTypes.style,
+};
+
+//
+// Setting Content
+//
+
+const baseCStyles = {
+  content: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 75,
+    paddingLeft: 50,
+    paddingRight: 50,
+  },
+};
+
+const cStyles = createStyles(
+  baseCStyles,
+
+  maxWidth(breakWidth, {
+    content: {
+      justifyContent: 'flex-start',
+      alignItems: 'stretch',
+      paddingTop: 50,
+      paddingBottom: 0,
+      paddingLeft: 20,
+      paddingRight: 20,
+    },
+  })
+);
+
+export const SettingContent = ({ children, style }) => (
+  <ScrollView contentContainerStyle={[cStyles.content, style]}>
+    {children}
+  </ScrollView>
+);
+
+SettingContent.propTypes = {
+  children: PropTypes.node,
+  style: View.propTypes.style,
+};
+
+//
+// Setting List
+//
+
+const baseLStyles = {
+  list: {
+    width: 400,
+  },
+};
+
+const lStyles = createStyles(
+  baseLStyles,
+
+  maxWidth(breakWidth, {
+    list: {
+      width: undefined,
+    },
+  })
+);
+
+export const SettingList = ({ children, style }) => (
+  <View style={[lStyles.list, style]}>{children}</View>
+);
+
+SettingList.propTypes = {
   children: PropTypes.node,
   style: View.propTypes.style,
 };
