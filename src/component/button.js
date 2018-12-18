@@ -418,6 +418,7 @@ const copyStyles = StyleSheet.create({
   },
   text: {
     fontFamily: 'OpenSans Light',
+    textAlign: 'center',
   },
   iconWrapper: {
     marginLeft: 5,
