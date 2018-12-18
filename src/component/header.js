@@ -103,7 +103,7 @@ export const Title = ({ title = '', style, children }) => (
 
 Title.propTypes = {
   title: PropTypes.string,
-  style: View.propTypes.style,
+  style: Text.propTypes.style,
   children: PropTypes.node,
 };
 
