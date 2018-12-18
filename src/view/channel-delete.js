@@ -60,7 +60,7 @@ const ChannelDeleteView = ({ nav, channel }) => (
         <H1Text style={styles.h1}>Are you sure?</H1Text>
         <CopyText style={styles.copyTxt}>
           If you close this channel, all sending and receiving of funds will be
-          suspeneded.
+          suspended.
         </CopyText>
       </FormStretcher>
       <PillButton
