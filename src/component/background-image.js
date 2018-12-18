@@ -6,12 +6,16 @@
  */
 
 import React from 'react';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { ImageBackground } from './image';
 
-const BackgroundImage = ({ image, ...props }) => (
-  <ImageBackground source={require(`../asset/img/${image}.svg`)} {...props} />
-);
+const BackgroundImage = ({ image, ...props }) =>
+  image ? (
+    <ImageBackground source={require(`../asset/img/${image}.svg`)} {...props} />
+  ) : (
+    <View {...props} />
+  );
 
 BackgroundImage.propTypes = {
   image: PropTypes.string,

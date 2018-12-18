@@ -49,8 +49,11 @@ const splitStyles = StyleSheet.create({
   },
 });
 
-export const SplitBackground = ({ image, bottom, children, style }) => (
-  <BackgroundImage image={image} style={styles.background}>
+export const SplitBackground = ({ image, color, bottom, children, style }) => (
+  <BackgroundImage
+    image={image}
+    style={[styles.background, { backgroundColor: color }]}
+  >
     <View style={splitStyles.top} />
     <View style={[splitStyles.bottom, { backgroundColor: bottom }]} />
     <View style={StyleSheet.absoluteFill}>
@@ -61,6 +64,7 @@ export const SplitBackground = ({ image, bottom, children, style }) => (
 
 SplitBackground.propTypes = {
   image: PropTypes.string,
+  color: PropTypes.string,
   bottom: PropTypes.string,
   children: PropTypes.node,
   style: View.propTypes.style,
