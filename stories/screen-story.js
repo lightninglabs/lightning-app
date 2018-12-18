@@ -37,6 +37,7 @@ import ChannelCreate from '../src/view/channel-create';
 import ChannelCreateMobile from '../src/view/channel-create-mobile';
 import Home from '../src/view/home';
 import Deposit from '../src/view/deposit';
+import DepositMobile from '../src/view/deposit-mobile';
 import Invoice from '../src/view/invoice';
 import InvoiceMobile from '../src/view/invoice-mobile';
 import InvoiceQR from '../src/view/invoice-qr';
@@ -232,6 +233,9 @@ storiesOf('Screens', module)
     <ChannelCreateMobile store={store} channel={channel} nav={nav} />
   ))
   .add('Deposit', () => <Deposit store={store} invoice={invoice} nav={nav} />)
+  .add('Deposit (Mobile)', () => (
+    <DepositMobile store={store} invoice={invoice} nav={nav} />
+  ))
   .add('Payment', () => <Payment store={store} payment={payment} nav={nav} />)
   .add('Pay Lightning Confirm', () => (
     <PayLightningConfirm store={store} payment={payment} nav={nav} />
