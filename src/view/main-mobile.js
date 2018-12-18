@@ -29,7 +29,7 @@ import PayLightningDoneView from './pay-lightning-done';
 import PaymentFailedView from './payment-failed';
 import PayBitcoinView from './pay-bitcoin-mobile';
 import PayBitcoinConfirmView from './pay-bitcoin-confirm-mobile';
-import PayBitcoinDoneView from './pay-bitcoin-done';
+import PayBitcoinDoneView from './pay-bitcoin-done-mobile';
 import InvoiceView from './invoice-mobile';
 import InvoiceQRView from './invoice-qr-mobile';
 import DepositView from './deposit';

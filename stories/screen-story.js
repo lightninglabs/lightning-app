@@ -48,6 +48,7 @@ import PayBitcoinMobile from '../src/view/pay-bitcoin-mobile';
 import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
 import PayBitcoinConfirmMobile from '../src/view/pay-bitcoin-confirm-mobile';
 import PayBitcoinDone from '../src/view/pay-bitcoin-done';
+import PayBitcoinDoneMobile from '../src/view/pay-bitcoin-done-mobile';
 import PaymentFailed from '../src/view/payment-failed';
 import Loader from '../src/view/loader';
 import LoaderSyncing from '../src/view/loader-syncing';
@@ -245,6 +246,9 @@ storiesOf('Screens', module)
     <PayBitcoinConfirmMobile store={store} payment={payment} nav={nav} />
   ))
   .add('Pay Bitcoin Done', () => <PayBitcoinDone payment={payment} nav={nav} />)
+  .add('Pay Bitcoin Done (Mobile)', () => (
+    <PayBitcoinDoneMobile payment={payment} nav={nav} />
+  ))
   .add('Invoice', () => <Invoice store={store} invoice={invoice} nav={nav} />)
   .add('Invoice (Mobile)', () => (
     <InvoiceMobile store={store} invoice={invoice} nav={nav} />
