@@ -4,7 +4,11 @@ import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
 import { Button, BackButton } from '../component/button';
-import { SettingContent, SettingItem, SettingHeader } from '../component/list';
+import {
+  SettingContent,
+  SettingItem,
+  SettingHeader,
+} from '../component/setting';
 import { CountBubble } from '../component/notification';
 import { createStyles, maxWidth } from '../component/media-query';
 import { color, breakWidth } from '../component/style';

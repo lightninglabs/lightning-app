@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
 import { Button, BackButton, RadioButton } from '../component/button';
-import { SettingContent, SettingList, SettingItem } from '../component/list';
+import { SettingContent, SettingList, SettingItem } from '../component/setting';
 import { color } from '../component/style';
 
 //
