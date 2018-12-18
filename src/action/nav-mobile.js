@@ -60,6 +60,10 @@ class NavAction {
     this._navigate('Password');
   }
 
+  goResetPasswordCurrent() {
+    this._navigate('ResetPasswordCurrent');
+  }
+
   goNewAddress() {
     this._navigate('NewAddress');
   }

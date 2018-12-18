@@ -1,30 +1,15 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
-import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { Button, BackButton, RadioButton } from '../component/button';
-import { SettingItem } from '../component/list';
+import { SettingContent, SettingList, SettingItem } from '../component/setting';
 import { color } from '../component/style';
 
 //
 // Setting Fiat View
 //
-
-const styles = StyleSheet.create({
-  content: {
-    paddingBottom: 75,
-    paddingLeft: 50,
-    paddingRight: 50,
-  },
-  list: {
-    flex: 1,
-    justifyContent: 'center',
-    width: 400,
-  },
-});
 
 const SettingFiatView = ({ store, nav, setting }) => {
   return (
@@ -34,8 +19,8 @@ const SettingFiatView = ({ store, nav, setting }) => {
         <Title title="Fiat Currency" />
         <Button disabled onPress={() => {}} />
       </Header>
-      <MainContent style={styles.content}>
-        <View style={styles.list}>
+      <SettingContent>
+        <SettingList>
           <SettingItem
             name={store.usdFiatLabel}
             onSelect={() => setting.setFiatCurrency({ fiat: 'usd' })}
@@ -54,8 +39,8 @@ const SettingFiatView = ({ store, nav, setting }) => {
           >
             <RadioButton selected={'gbp' === store.settings.fiat} />
           </SettingItem>
-        </View>
-      </MainContent>
+        </SettingList>
+      </SettingContent>
     </Background>
   );
 };
