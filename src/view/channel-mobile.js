@@ -6,7 +6,7 @@ import { createStyles, maxWidth } from '../component/media-query';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
 import { BackButton, AddButton } from '../component/button';
-import { ListContent, List, ListItem } from '../component/list';
+import { ListContent, List, CardItem } from '../component/list';
 import { Alert } from '../component/notification';
 import MainContent from '../component/main-content';
 import { ResizeableSpinner } from '../component/spinner';
@@ -92,21 +92,13 @@ ChannelList.propTypes = {
 
 const iStyles = StyleSheet.create({
   item: {
-    flexDirection: 'column',
     alignItems: 'stretch',
-    height: 180,
-    paddingRight: 10,
-    paddingLeft: 10,
-    marginBottom: 15,
-    backgroundColor: color.glasDarker,
-    borderBottomWidth: 0,
-    borderRadius: 7,
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: 45,
+    paddingBottom: 10,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: color.greyBorder,
   },
@@ -145,7 +137,7 @@ const iStyles = StyleSheet.create({
 });
 
 const ChannelListItem = ({ ch, unitLabel, onSelect }) => (
-  <ListItem style={iStyles.item} onSelect={onSelect}>
+  <CardItem style={iStyles.item} onSelect={onSelect}>
     <View style={iStyles.header}>
       <View style={iStyles.status}>
         <Alert type={ch.statusType} />
@@ -171,7 +163,7 @@ const ChannelListItem = ({ ch, unitLabel, onSelect }) => (
         <Text>{ch.remoteBalanceLabel}</Text>
       </View>
     </View>
-  </ListItem>
+  </CardItem>
 );
 
 ChannelListItem.propTypes = {
