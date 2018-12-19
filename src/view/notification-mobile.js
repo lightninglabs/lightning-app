@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
 import { Button, BackButton, SmallPillButton } from '../component/button';
-import { ListContent, List, ListItem } from '../component/list';
+import { ListContent, List, CardItem } from '../component/list';
 import { Alert } from '../component/notification';
 import Text from '../component/text';
 import { color, font } from '../component/style';
@@ -43,51 +43,31 @@ NotificationView.propTypes = {
 //
 
 const iStyles = StyleSheet.create({
-  item: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'flex-start',
-    paddingLeft: 16,
-    marginBottom: 15,
-    backgroundColor: color.glasDarker,
-    borderBottomWidth: 0,
-    borderRadius: 7,
-  },
   group: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 14,
   },
   alert: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
     marginRight: 6,
-  },
-  alertTxt: {
-    fontSize: font.sizeBase,
   },
   txt: {
     fontSize: font.sizeS,
     lineHeight: font.lineHeightS,
-    width: 220,
+    maxWidth: 220,
     marginTop: 16,
-    marginBottom: 20,
-    paddingLeft: 20,
+    paddingLeft: 12,
   },
   btn: {
-    height: 34,
-    width: 135,
-    marginLeft: 20,
-    marginBottom: 25,
+    marginTop: 16,
+    marginLeft: 12,
   },
 });
 
 const NotificationListItem = ({ item }) => (
-  <ListItem style={[iStyles.item, { height: item.handler ? 170 : 120 }]}>
+  <CardItem>
     <View style={iStyles.group}>
       <Alert type={item.type} style={iStyles.alert} />
-      <Text style={iStyles.alertTxt}>{item.typeLabel}</Text>
+      <Text>{item.typeLabel}</Text>
     </View>
     <Text style={iStyles.txt}>
       On {item.dateTimeLabel} {item.message}
@@ -99,7 +79,7 @@ const NotificationListItem = ({ item }) => (
         onPress={item.handler}
       />
     ) : null}
-  </ListItem>
+  </CardItem>
 );
 
 NotificationListItem.propTypes = {
