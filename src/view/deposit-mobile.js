@@ -1,39 +1,33 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from '../component/media-query';
 import { CopyText } from '../component/text';
 import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
-import { Title } from '../component/header';
+import { Header, Title } from '../component/header';
 import { CopyButton, Button, ButtonText } from '../component/button';
 import { CopiedNotification } from '../component/notification';
 import CopyDarkIcon from '../../src/asset/icon/copy-dark';
 import QRCode from '../component/qrcode';
-import { color, font, smallBreakWidth } from '../component/style';
+import { color, smallBreakWidth } from '../component/style';
 
 const baseStyles = {
-  title: {
-    fontSize: font.sizeBase + 1,
-    marginTop: 30,
-  },
   qrWrapper: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  qrCode: {
+    height: 170,
+    width: 170,
   },
   content: {
     justifyContent: 'space-between',
   },
   copyTxt: {
-    fontSize: font.sizeBase - 1,
     textAlign: 'center',
-    margin: 22,
+    maxWidth: 300,
   },
   btnWrapper: {
     alignItems: 'center',
@@ -45,7 +39,8 @@ const baseStyles = {
     backgroundColor: color.glas,
   },
   doneBtn: {
-    height: 100,
+    marginTop: 10,
+    marginBottom: 10,
   },
 };
 
@@ -53,18 +48,24 @@ const styles = createStyles(
   baseStyles,
 
   maxWidth(smallBreakWidth, {
-    doneBtn: {
-      height: 60,
+    qrCode: {
+      height: 120,
+      width: 120,
+    },
+    copyTxt: {
+      maxWidth: 250,
     },
   })
 );
 
 const DepositView = ({ store, nav, invoice }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
-    <View style={styles.qrWrapper}>
-      <QRCode size={130}>{store.walletAddressUri}</QRCode>
+    <View style={[StyleSheet.absoluteFill, styles.qrWrapper]}>
+      <QRCode size={styles.qrCode.height}>{store.walletAddressUri}</QRCode>
     </View>
-    <Title style={styles.title} title="Add coin" />
+    <Header>
+      <Title title="Add coin" />
+    </Header>
     <MainContent style={styles.content}>
       <CopyText style={styles.copyTxt}>
         Scan the QR code, or copy the address to send from another wallet or
