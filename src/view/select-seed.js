@@ -7,7 +7,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { CopyOnboardText, Text } from '../component/text';
 import { RadioButton, GlasButton } from '../component/button';
-import { SettingItem } from '../component/list';
+import { SettingItem } from '../component/setting';
 import { color, breakWidth } from '../component/style';
 
 //
