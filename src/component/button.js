@@ -12,8 +12,7 @@ import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
 import PlusIcon from '../asset/icon/plus';
 import QrIcon from '../asset/icon/qr';
-import { createStyles, maxWidth } from './media-query';
-import { color, font, breakWidth } from './style';
+import { color, font } from './style';
 
 //
 // Regular Button
