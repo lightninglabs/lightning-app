@@ -198,6 +198,7 @@ store.invoices = [...Array(1)].map(() => ({
 store.selectedTransaction = (store.computedTransactions || []).find(
   tx => tx.type === 'bitcoin'
 );
+store.selectedChannel = store.computedChannels && store.computedChannels[0];
 store.logs = [
   '[14:00:24.995] [info] Using lnd in path lnd',
   'Checking for update',
