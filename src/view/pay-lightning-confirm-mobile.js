@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { NamedField } from '../component/field';
 import { Header, Title } from '../component/header';
-import { CancelButton, BackButton, GlasButton } from '../component/button';
+import { CancelButton, BackButton, SmallGlasButton } from '../component/button';
 import Card from '../component/card';
 import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import { FormStretcher } from '../component/form';
@@ -73,7 +73,9 @@ const PayLightningConfirmView = ({ store, nav, payment }) => (
         </FormStretcher>
       </Card>
     </MainContent>
-    <GlasButton onPress={() => payment.payLightning()}>Confirm</GlasButton>
+    <SmallGlasButton onPress={() => payment.payLightning()}>
+      Confirm
+    </SmallGlasButton>
   </Background>
 );
 

@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import ShieldIcon from '../asset/icon/shield-dots';
 import { CopyOnboardText, CopyText } from '../component/text';
-import { GlasButton } from '../component/button';
+import { SmallGlasButton } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { smallBreakWidth } from '../component/style';
 
@@ -67,9 +67,9 @@ const SeedSuccessView = ({ wallet }) => (
         </CopyText>
       </View>
     </MainContent>
-    <GlasButton onPress={() => wallet.initInitialDeposit()}>
+    <SmallGlasButton onPress={() => wallet.initInitialDeposit()}>
       Add some coin
-    </GlasButton>
+    </SmallGlasButton>
   </Background>
 );
 

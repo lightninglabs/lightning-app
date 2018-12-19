@@ -12,8 +12,7 @@ import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
 import PlusIcon from '../asset/icon/plus';
 import QrIcon from '../asset/icon/qr';
-import { createStyles, maxWidth } from './media-query';
-import { color, font, breakWidth } from './style';
+import { color, font } from './style';
 
 //
 // Regular Button
@@ -69,7 +68,7 @@ ButtonText.propTypes = {
 // Glas Button
 //
 
-const baseGlasStyles = {
+const glasStyles = StyleSheet.create({
   touchable: {
     height: 75,
     alignSelf: 'stretch',
@@ -80,17 +79,7 @@ const baseGlasStyles = {
     fontFamily: 'OpenSans Bold',
     letterSpacing: 1,
   },
-};
-
-const glasStyles = createStyles(
-  baseGlasStyles,
-
-  maxWidth(breakWidth, {
-    touchable: {
-      height: 60,
-    },
-  })
-);
+});
 
 export const GlasButton = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
@@ -112,6 +101,24 @@ GlasButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
+  style: View.propTypes.style,
+};
+
+//
+// Small Glas Button
+//
+
+const smallGlasStyles = StyleSheet.create({
+  touchable: {
+    height: 60,
+  },
+});
+
+export const SmallGlasButton = ({ style, ...props }) => (
+  <GlasButton style={[smallGlasStyles.touchable, style]} {...props} />
+);
+
+SmallGlasButton.propTypes = {
   style: View.propTypes.style,
 };
 

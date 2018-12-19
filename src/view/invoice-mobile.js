@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { InputField, AmountInputField } from '../component/field';
 import { Header, Title } from '../component/header';
-import { CancelButton, GlasButton, Button } from '../component/button';
+import { CancelButton, SmallGlasButton, Button } from '../component/button';
 import { BalanceLabel, BalanceLabelUnit } from '../component/label';
 import Card from '../component/card';
 import LightningBoltIcon from '../asset/icon/lightning-bolt';
@@ -67,7 +67,9 @@ const InvoiceView = ({ store, nav, invoice }) => (
         </FormSubText>
       </Card>
     </MainContent>
-    <GlasButton onPress={() => invoice.generateUri()}>Next</GlasButton>
+    <SmallGlasButton onPress={() => invoice.generateUri()}>
+      Next
+    </SmallGlasButton>
   </Background>
 );
 

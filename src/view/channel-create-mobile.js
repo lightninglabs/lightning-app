@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { InputField, AmountInputField } from '../component/field';
 import { Header, Title } from '../component/header';
-import { CancelButton, GlasButton, Button } from '../component/button';
+import { CancelButton, SmallGlasButton, Button } from '../component/button';
 import { BalanceLabel, BalanceLabelUnit } from '../component/label';
 import Card from '../component/card';
 import { FormStretcher, FormSubText } from '../component/form';
@@ -65,7 +65,9 @@ const ChannelCreateView = ({ store, nav, channel }) => (
         </FormSubText>
       </Card>
     </MainContent>
-    <GlasButton onPress={() => channel.connectAndOpen()}>Done</GlasButton>
+    <SmallGlasButton onPress={() => channel.connectAndOpen()}>
+      Done
+    </SmallGlasButton>
   </Background>
 );
 
