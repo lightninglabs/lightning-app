@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Background from '../component/background';
 import { Header, Title } from '../component/header';
 import { Button, CancelButton } from '../component/button';
-import { ListContent, List, ListItem } from '../component/list';
+import { ListContent, List, CardItem } from '../component/list';
 import Text from '../component/text';
 import BitcoinIcon from '../../src/asset/icon/bitcoin';
 import LightningBoltIcon from '../../src/asset/icon/lightning-bolt';
@@ -54,13 +54,9 @@ const iStyles = StyleSheet.create({
   item: {
     flexDirection: 'row',
     alignItems: 'center',
-    height: 80,
+    paddingTop: 18,
+    paddingBottom: 18,
     marginBottom: 8,
-    paddingLeft: 10,
-    paddingRight: 10,
-    borderBottomWidth: 0,
-    backgroundColor: color.glasDarker,
-    borderRadius: 7,
   },
   icon: {
     justifyContent: 'center',
@@ -83,7 +79,7 @@ const iStyles = StyleSheet.create({
 });
 
 const TransactionListItem = ({ tx, unitLabel, onSelect }) => (
-  <ListItem style={iStyles.item} onSelect={onSelect}>
+  <CardItem style={iStyles.item} onSelect={onSelect}>
     <View
       style={[
         iStyles.icon,
@@ -111,7 +107,7 @@ const TransactionListItem = ({ tx, unitLabel, onSelect }) => (
         {tx.feeLabel} {unitLabel}
       </Text>
     </View>
-  </ListItem>
+  </CardItem>
 );
 
 TransactionListItem.propTypes = {
