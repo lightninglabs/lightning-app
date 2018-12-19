@@ -20,6 +20,9 @@ storiesOf('Layout', module)
   .add('Split Background', () => (
     <SplitBackground image="purple-gradient-bg" bottom={color.blackDark} />
   ))
+  .add('Split Background (two colors)', () => (
+    <SplitBackground color={color.blackDark} bottom={color.whiteBg} />
+  ))
   .add('Button Bottom', () => (
     <Background image="purple-gradient-bg">
       <MainContent style={{ justifyContent: 'center' }}>

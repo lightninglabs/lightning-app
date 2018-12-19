@@ -35,7 +35,7 @@ import InvoiceQRView from './invoice-qr-mobile';
 import DepositView from './deposit';
 import NotificationView from './notification';
 import ChannelView from './channel-mobile';
-import ChannelDetailView from './channel-detail';
+import ChannelDetailView from './channel-detail-mobile';
 import ChannelDeleteView from './channel-delete';
 import ChannelCreateView from './channel-create-mobile';
 import TransactionView from './transaction-mobile';

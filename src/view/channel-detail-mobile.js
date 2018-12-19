@@ -1,20 +1,19 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import Background from '../component/background';
+import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
+import { Header, Title } from '../component/header';
 import { DetailField } from '../component/field';
-import { Button, ButtonText } from '../component/button';
-import Modal from '../component/modal';
+import { Button, BackButton, ButtonText } from '../component/button';
+import Card from '../component/card';
 import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
-  content: {
-    justifyContent: 'center',
-  },
-  modal: {
-    paddingBottom: 0,
+  btnWrapper: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
   deleteBtn: {
     marginTop: 15,
@@ -27,13 +26,14 @@ const styles = StyleSheet.create({
 });
 
 const ChannelDetailView = ({ store, nav }) => (
-  <Background color={color.blackDark}>
-    <MainContent style={styles.content}>
-      <Modal
-        title="Channel Details"
-        style={styles.modal}
-        onClose={() => nav.goChannels()}
-      >
+  <SplitBackground color={color.blackDark} bottom={color.whiteBg}>
+    <Header>
+      <BackButton onPress={() => nav.goChannels()} />
+      <Title title="Channel Detail" />
+      <Button disabled onPress={() => {}} />
+    </Header>
+    <MainContent>
+      <Card>
         <DetailField name="Funding Transaction ID">
           {store.selectedChannel.fundingTxId}
         </DetailField>
@@ -54,12 +54,17 @@ const ChannelDetailView = ({ store, nav }) => (
         <DetailField name="Balance">
           {store.selectedChannel.localBalanceLabel} {store.unitLabel}
         </DetailField>
-        <Button style={styles.deleteBtn} onPress={() => nav.goChannelDelete()}>
-          <ButtonText style={styles.deleteBtnText}>CLOSE CHANNEL</ButtonText>
-        </Button>
-      </Modal>
+        <View style={styles.btnWrapper}>
+          <Button
+            style={styles.deleteBtn}
+            onPress={() => nav.goChannelDelete()}
+          >
+            <ButtonText style={styles.deleteBtnText}>CLOSE CHANNEL</ButtonText>
+          </Button>
+        </View>
+      </Card>
     </MainContent>
-  </Background>
+  </SplitBackground>
 );
 
 ChannelDetailView.propTypes = {
