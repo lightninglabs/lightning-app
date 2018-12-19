@@ -8,14 +8,12 @@ import { CopyOnboardText } from '../component/text';
 import { Circle } from '../component/loader';
 import { Button, ButtonText, GlasButton } from '../component/button';
 import { FormStretcher } from '../component/form';
-import BitcoinIcon from '../asset/icon/bitcoin';
+import LightningBoltIcon from '../asset/icon/lightning-bolt';
 import { font, smallBreakWidth } from '../component/style';
 
 const baseStyles = {
   copy: {
     fontSize: font.sizeXXL - 4,
-    textAlign: 'center',
-    width: 300,
   },
   circle: {
     width: 255,
@@ -24,9 +22,9 @@ const baseStyles = {
     borderRadius: 128,
     borderWidth: 8,
   },
-  icon: {
-    height: 170 * 0.82,
-    width: 135 * 0.82,
+  bolt: {
+    height: 126 * 1.15,
+    width: 64 * 1.15,
   },
   anotherBtn: {
     marginTop: 20,
@@ -43,22 +41,23 @@ const styles = createStyles(
       height: 200,
       marginTop: 30,
     },
-    icon: {
-      height: 170 * 0.65,
-      width: 135 * 0.65,
+    bolt: {
+      height: 126 * 0.9,
+      width: 64 * 0.9,
     },
   })
 );
 
-const PayBitcoinDoneView = ({ nav, payment }) => (
-  <Background image="orange-gradient-bg">
+const PayLightningDoneView = ({ nav, payment }) => (
+  <Background image="purple-gradient-bg">
     <MainContent>
       <FormStretcher>
-        <CopyOnboardText style={styles.copy}>
-          Payment processing…
-        </CopyOnboardText>
+        <CopyOnboardText>Payment sent!</CopyOnboardText>
         <Circle style={styles.circle}>
-          <BitcoinIcon height={styles.icon.height} width={styles.icon.width} />
+          <LightningBoltIcon
+            height={styles.bolt.height}
+            width={styles.bolt.width}
+          />
         </Circle>
       </FormStretcher>
       <GlasButton onPress={() => nav.goHome()}>Done</GlasButton>
@@ -69,9 +68,9 @@ const PayBitcoinDoneView = ({ nav, payment }) => (
   </Background>
 );
 
-PayBitcoinDoneView.propTypes = {
+PayLightningDoneView.propTypes = {
   nav: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
 };
 
-export default observer(PayBitcoinDoneView);
+export default observer(PayLightningDoneView);
