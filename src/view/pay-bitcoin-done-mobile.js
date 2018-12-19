@@ -15,13 +15,13 @@ const baseStyles = {
   copy: {
     fontSize: font.sizeXXL - 4,
     textAlign: 'center',
-    width: 350,
+    width: 300,
   },
   circle: {
     width: 255,
     height: 255,
-    borderRadius: 128,
     marginTop: 60,
+    borderRadius: 128,
     borderWidth: 8,
   },
   icon: {
@@ -29,8 +29,8 @@ const baseStyles = {
     width: 135 * 0.82,
   },
   anotherBtn: {
-    paddingTop: 20,
-    paddingBottom: 30,
+    marginTop: 20,
+    marginBottom: 30,
   },
 };
 
