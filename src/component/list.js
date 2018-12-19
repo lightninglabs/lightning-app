@@ -139,7 +139,7 @@ const cardStyles = StyleSheet.create({
     alignItems: 'flex-start',
     height: undefined,
     paddingTop: 10,
-    paddingBottom: 15,
+    paddingBottom: 10,
     paddingLeft: 10,
     paddingRight: 10,
     marginBottom: 15,

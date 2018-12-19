@@ -43,6 +43,9 @@ NotificationView.propTypes = {
 //
 
 const iStyles = StyleSheet.create({
+  item: {
+    paddingBottom: 20,
+  },
   group: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -64,7 +67,7 @@ const iStyles = StyleSheet.create({
 });
 
 const NotificationListItem = ({ item }) => (
-  <CardItem>
+  <CardItem style={iStyles.item}>
     <View style={iStyles.group}>
       <Alert type={item.type} style={iStyles.alert} />
       <Text>{item.typeLabel}</Text>

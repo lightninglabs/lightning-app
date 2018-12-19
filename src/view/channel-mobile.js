@@ -93,6 +93,7 @@ ChannelList.propTypes = {
 const iStyles = StyleSheet.create({
   item: {
     alignItems: 'stretch',
+    paddingBottom: 15,
   },
   header: {
     flexDirection: 'row',
