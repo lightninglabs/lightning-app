@@ -18,8 +18,8 @@ const baseStyles = {
   circle: {
     width: 255,
     height: 255,
-    borderRadius: 128,
     marginTop: 60,
+    borderRadius: 128,
     borderWidth: 8,
   },
   bolt: {
@@ -27,8 +27,8 @@ const baseStyles = {
     width: 64 * 1.15,
   },
   anotherBtn: {
-    paddingTop: 20,
-    paddingBottom: 30,
+    marginTop: 20,
+    marginBottom: 10,
   },
 };
 
