@@ -7,7 +7,7 @@ import { CopyText } from '../component/text';
 import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
-import { CopyButton, Button, ButtonText } from '../component/button';
+import { SmallCopyButton, Button, ButtonText } from '../component/button';
 import { CopiedNotification } from '../component/notification';
 import CopyDarkIcon from '../../src/asset/icon/copy-dark';
 import QRCode from '../component/qrcode';
@@ -33,9 +33,6 @@ const baseStyles = {
     alignItems: 'center',
   },
   copyBtn: {
-    borderRadius: 0,
-    paddingLeft: 15,
-    paddingRight: 15,
     backgroundColor: color.glas,
   },
   doneBtn: {
@@ -72,13 +69,13 @@ const DepositView = ({ store, nav, invoice }) => (
         exchange.
       </CopyText>
       <View style={styles.btnWrapper}>
-        <CopyButton
+        <SmallCopyButton
           onPress={() => invoice.toClipboard({ text: store.walletAddress })}
           icon={<CopyDarkIcon height={17.5} width={14} />}
           style={styles.copyBtn}
         >
           {store.walletAddress}
-        </CopyButton>
+        </SmallCopyButton>
         <Button onPress={() => nav.goHome()} style={styles.doneBtn}>
           <ButtonText style={styles.doneBtnText}>Done</ButtonText>
         </Button>
