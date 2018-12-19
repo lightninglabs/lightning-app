@@ -7,7 +7,7 @@ import MainContent from '../component/main-content';
 import { DetailField } from '../component/field';
 import { Button, ButtonText } from '../component/button';
 import Modal from '../component/modal';
-import { color } from '../component/style';
+import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
   content: {
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
   },
   deleteBtnText: {
     color: color.pinkSig,
-    fontSize: 12,
+    fontSize: font.sizeS,
   },
 });
 

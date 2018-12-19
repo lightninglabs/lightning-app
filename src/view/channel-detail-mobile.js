@@ -8,7 +8,7 @@ import { Header, Title } from '../component/header';
 import { DetailField } from '../component/field';
 import { Button, BackButton, ButtonText } from '../component/button';
 import Card from '../component/card';
-import { color } from '../component/style';
+import { color, font } from '../component/style';
 
 const styles = StyleSheet.create({
   btnWrapper: {
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
   deleteBtnText: {
     color: color.pinkSig,
-    fontSize: 12,
+    fontSize: font.sizeS,
   },
 });
 
