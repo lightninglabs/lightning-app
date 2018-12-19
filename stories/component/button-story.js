@@ -7,6 +7,7 @@ import {
   Button,
   ButtonText,
   GlasButton,
+  SmallGlasButton,
   PillButton,
   CopyButton,
   SmallButton,
@@ -50,6 +51,11 @@ storiesOf('Button', module)
     <GlasButton disabled onPress={action('clicked')}>
       Glas Disabled
     </GlasButton>
+  ))
+  .add('Small Glas Button', () => (
+    <SmallGlasButton onPress={action('clicked')}>
+      Small Glas Button
+    </SmallGlasButton>
   ));
 
 storiesOf('Button', module)
