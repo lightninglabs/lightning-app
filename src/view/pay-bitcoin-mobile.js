@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { InputField, AmountInputField } from '../component/field';
 import { Header, Title } from '../component/header';
-import { CancelButton, BackButton, GlasButton } from '../component/button';
+import { CancelButton, BackButton, SmallGlasButton } from '../component/button';
 import Card from '../component/card';
 import BitcoinIcon from '../asset/icon/bitcoin';
 import { FormStretcher, FormText } from '../component/form';
@@ -65,7 +65,9 @@ const PayBitcoinView = ({ store, nav, payment }) => (
         </FormStretcher>
       </Card>
     </MainContent>
-    <GlasButton onPress={() => nav.goPayBitcoinConfirm()}>Next</GlasButton>
+    <SmallGlasButton onPress={() => nav.goPayBitcoinConfirm()}>
+      Next
+    </SmallGlasButton>
   </Background>
 );
 

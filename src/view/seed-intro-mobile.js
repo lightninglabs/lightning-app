@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import SeedBackupIcon from '../asset/icon/seed-backup';
 import { CopyOnboardText, Text } from '../component/text';
-import { GlasButton } from '../component/button';
+import { SmallGlasButton } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { smallBreakWidth } from '../component/style';
 
@@ -72,7 +72,7 @@ const SeedIntroView = ({ nav }) => (
         </Text>
       </View>
     </MainContent>
-    <GlasButton onPress={() => nav.goSeed()}>Get my phrase</GlasButton>
+    <SmallGlasButton onPress={() => nav.goSeed()}>Get my phrase</SmallGlasButton>
   </Background>
 );
 

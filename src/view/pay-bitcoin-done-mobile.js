@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { CopyOnboardText } from '../component/text';
 import { Circle } from '../component/loader';
-import { Button, ButtonText, GlasButton } from '../component/button';
+import { Button, ButtonText, SmallGlasButton } from '../component/button';
 import { FormStretcher } from '../component/form';
 import BitcoinIcon from '../asset/icon/bitcoin';
 import { font, smallBreakWidth } from '../component/style';
@@ -61,7 +61,7 @@ const PayBitcoinDoneView = ({ nav, payment }) => (
           <BitcoinIcon height={styles.icon.height} width={styles.icon.width} />
         </Circle>
       </FormStretcher>
-      <GlasButton onPress={() => nav.goHome()}>Done</GlasButton>
+      <SmallGlasButton onPress={() => nav.goHome()}>Done</SmallGlasButton>
       <Button onPress={() => payment.init()} style={styles.anotherBtn}>
         <ButtonText>Send another payment</ButtonText>
       </Button>

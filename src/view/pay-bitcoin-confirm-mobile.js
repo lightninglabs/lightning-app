@@ -6,7 +6,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { NamedField } from '../component/field';
 import { Header, Title } from '../component/header';
-import { CancelButton, BackButton, GlasButton } from '../component/button';
+import { CancelButton, BackButton, SmallGlasButton } from '../component/button';
 import Card from '../component/card';
 import BitcoinIcon from '../asset/icon/bitcoin';
 import { FormStretcher, FormText } from '../component/form';
@@ -75,7 +75,9 @@ const PayBitcoinConfirmView = ({ store, nav, payment }) => (
         </FormStretcher>
       </Card>
     </MainContent>
-    <GlasButton onPress={() => payment.payBitcoin()}>Confirm</GlasButton>
+    <SmallGlasButton onPress={() => payment.payBitcoin()}>
+      Confirm
+    </SmallGlasButton>
   </Background>
 );
 

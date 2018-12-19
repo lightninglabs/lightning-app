@@ -6,7 +6,7 @@ import { createStyles, maxWidth } from '../component/media-query';
 import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
 import { CopyOnboardText, CopyText } from '../component/text';
-import { CopyButton, GlasButton } from '../component/button';
+import { CopyButton, SmallGlasButton } from '../component/button';
 import { CopiedNotification } from '../component/notification';
 import CopyDarkIcon from '../../src/asset/icon/copy-dark';
 import QRCode from '../component/qrcode';
@@ -80,7 +80,9 @@ const NewAddressView = ({ store, invoice, info }) => (
         >
           {store.walletAddress}
         </CopyButton>
-        <GlasButton onPress={() => info.initLoaderSyncing()}>Done</GlasButton>
+        <SmallGlasButton onPress={() => info.initLoaderSyncing()}>
+          Done
+        </SmallGlasButton>
       </View>
       <CopiedNotification
         display={store.displayCopied}
