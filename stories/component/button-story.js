@@ -10,6 +10,7 @@ import {
   SmallGlasButton,
   PillButton,
   CopyButton,
+  SmallCopyButton,
   SmallButton,
   SmallPillButton,
   BackButton,
@@ -82,6 +83,14 @@ storiesOf('Button', module)
     >
       Copy Button
     </CopyButton>
+  ))
+  .add('Small Copy Button', () => (
+    <SmallCopyButton
+      icon={<CopyPurpleIcon height={17.5} width={14} />}
+      onPress={action('clicked')}
+    >
+      Small Copy Button
+    </SmallCopyButton>
   ));
 
 storiesOf('Button', module)
