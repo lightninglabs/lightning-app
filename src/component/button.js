@@ -7,12 +7,13 @@ import {
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
-import Icon from '../component/icon';
+import Icon from './icon';
 import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
 import PlusIcon from '../asset/icon/plus';
 import QrIcon from '../asset/icon/qr';
-import { color, font } from './style';
+import { createStyles, maxWidth } from './media-query';
+import { color, font, breakWidth } from './style';
 
 //
 // Regular Button
@@ -68,7 +69,7 @@ ButtonText.propTypes = {
 // Glas Button
 //
 
-const glasStyles = StyleSheet.create({
+const baseGlasStyles = {
   touchable: {
     height: 75,
     alignSelf: 'stretch',
@@ -79,7 +80,17 @@ const glasStyles = StyleSheet.create({
     fontFamily: 'OpenSans Bold',
     letterSpacing: 1,
   },
-});
+};
+
+const glasStyles = createStyles(
+  baseGlasStyles,
+
+  maxWidth(breakWidth, {
+    touchable: {
+      height: 60,
+    },
+  })
+);
 
 export const GlasButton = ({ onPress, disabled, children, style }) => (
   <TouchableOpacity
