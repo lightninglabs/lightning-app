@@ -72,7 +72,9 @@ const SeedIntroView = ({ nav }) => (
         </Text>
       </View>
     </MainContent>
-    <SmallGlasButton onPress={() => nav.goSeed()}>Get my phrase</SmallGlasButton>
+    <SmallGlasButton onPress={() => nav.goSeed()}>
+      Get my phrase
+    </SmallGlasButton>
   </Background>
 );
 
