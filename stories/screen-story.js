@@ -25,6 +25,7 @@ import SettingUnit from '../src/view/setting-unit';
 import SettingFiat from '../src/view/setting-fiat';
 import CLI from '../src/view/cli';
 import Notification from '../src/view/notification';
+import NotificationMobile from '../src/view/notification-mobile';
 import TransactionDetail from '../src/view/transaction-detail';
 import TransactionDetailMobile from '../src/view/transaction-detail-mobile';
 import Channel from '../src/view/channel';
@@ -187,6 +188,9 @@ storiesOf('Screens', module)
     <SettingFiat store={store} nav={nav} setting={setting} />
   ))
   .add('Notifications', () => <Notification store={store} nav={nav} />)
+  .add('Notifications (Mobile)', () => (
+    <NotificationMobile store={store} nav={nav} />
+  ))
   .add('CLI', () => <CLI store={store} nav={nav} />)
   .add('Transactions', () => (
     <Transaction store={store} transaction={transaction} nav={nav} />

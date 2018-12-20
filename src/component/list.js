@@ -128,3 +128,34 @@ ListHeader.propTypes = {
   children: PropTypes.node,
   style: View.propTypes.style,
 };
+
+//
+// Card Item
+//
+
+const cardStyles = StyleSheet.create({
+  item: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    height: undefined,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
+    marginBottom: 15,
+    backgroundColor: color.glasDarker,
+    borderBottomWidth: 0,
+    borderRadius: 7,
+  },
+});
+
+export class CardItem extends PureComponent {
+  render() {
+    const { style, ...props } = this.props;
+    return <ListItem style={[cardStyles.item, style]} {...props} />;
+  }
+}
+
+CardItem.propTypes = {
+  style: View.propTypes.style,
+};

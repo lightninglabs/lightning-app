@@ -95,8 +95,6 @@ Alert.propTypes = {
 
 const countStyles = StyleSheet.create({
   bubble: {
-    fontSize: font.sizeXS,
-    lineHeight: font.lineHeightXS,
     paddingTop: 1,
     paddingBottom: 2,
     paddingRight: 10,
@@ -104,11 +102,17 @@ const countStyles = StyleSheet.create({
     borderRadius: 13,
     backgroundColor: color.pinkSig,
   },
+  txt: {
+    fontSize: font.sizeXS,
+    lineHeight: font.lineHeightXS,
+  },
 });
 
 export const CountBubble = ({ children, style }) =>
   children && children !== '0' ? (
-    <H4Text style={[countStyles.bubble, style]}>{children}</H4Text>
+    <View style={[countStyles.bubble, style]}>
+      <H4Text style={countStyles.txt}>{children}</H4Text>
+    </View>
   ) : null;
 
 CountBubble.propTypes = {

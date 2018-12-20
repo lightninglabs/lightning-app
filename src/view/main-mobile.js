@@ -33,7 +33,7 @@ import PayBitcoinDoneView from './pay-bitcoin-done-mobile';
 import InvoiceView from './invoice-mobile';
 import InvoiceQRView from './invoice-qr-mobile';
 import DepositView from './deposit';
-import NotificationView from './notification';
+import NotificationView from './notification-mobile';
 import ChannelView from './channel-mobile';
 import ChannelDetailView from './channel-detail-mobile';
 import ChannelDeleteView from './channel-delete';
