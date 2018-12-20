@@ -3,4 +3,4 @@ import Storybook from './storybook';
 
 import App from '../src/view/main-mobile';
 
-module.exports = !__DEV__ ? Storybook : App;
+module.exports = !Storybook ? Storybook : App;
