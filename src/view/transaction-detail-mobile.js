@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import Background from '../component/background';
+import { SplitBackground } from '../component/background';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
 import { Button, BackButton } from '../component/button';
@@ -40,12 +40,13 @@ const styles = StyleSheet.create({
 });
 
 const TransactionDetailView = ({ store, nav }) => (
-  <Background
+  <SplitBackground
     image={
       store.selectedTransaction.type === 'bitcoin'
         ? 'orange-gradient-bg'
         : 'purple-gradient-bg'
     }
+    bottom={color.whiteBg}
   >
     <Header style={styles.header}>
       <BackButton style={styles.backBtn} onPress={() => nav.goTransactions()} />
@@ -92,7 +93,7 @@ const TransactionDetailView = ({ store, nav }) => (
         </DetailField>
       </Card>
     </MainContent>
-  </Background>
+  </SplitBackground>
 );
 
 TransactionDetailView.propTypes = {

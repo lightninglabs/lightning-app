@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ScrollView, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
-import Background from '../component/background';
+import { SplitBackground } from '../component/background';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
 import { Button, BackButton } from '../component/button';
@@ -20,14 +20,14 @@ const styles = StyleSheet.create({
 });
 
 const CLIView = ({ store, nav }) => (
-  <Background color={color.blackDark}>
+  <SplitBackground color={color.blackDark} bottom={color.cliBackground}>
     <Header separator style={styles.header}>
       <BackButton onPress={() => nav.goSettings()} />
       <Title title="Logs" />
       <Button disabled onPress={() => {}} />
     </Header>
     <LogOutput logs={store.logs} />
-  </Background>
+  </SplitBackground>
 );
 
 CLIView.propTypes = {
