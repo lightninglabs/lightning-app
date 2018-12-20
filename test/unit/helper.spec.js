@@ -584,12 +584,12 @@ describe('Helpers Unit Tests', () => {
     });
 
     it('should work for two word inputs', () => {
-      const caps = helpers.toCaps('foo_bar');
-      expect(caps, 'to equal', 'FooBar');
+      const caps = helpers.toCaps('foo-bar');
+      expect(caps, 'to equal', 'Foo Bar');
     });
 
     it('should work for string input with separator', () => {
-      const caps = helpers.toCaps('foo_bar_baz', ' ');
+      const caps = helpers.toCaps('foo-bar-baz', ' ');
       expect(caps, 'to equal', 'Foo Bar Baz');
     });
 

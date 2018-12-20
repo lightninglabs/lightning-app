@@ -144,7 +144,7 @@ export const toLabel = (amount, settings) => {
  * @param  {string} split     The split char that concats the value
  * @return {string}           The words conected with the separator
  */
-export const toCaps = (value = '', separator = '', split = '_') => {
+export const toCaps = (value = '', separator = ' ', split = '-') => {
   return value
     .split(split)
     .map(v => v.charAt(0).toUpperCase() + v.substring(1))
