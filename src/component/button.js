@@ -414,7 +414,7 @@ const copyStyles = StyleSheet.create({
     flex: 1,
     height: 30,
     borderBottomColor: color.white,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
   },
   text: {
     fontFamily: 'OpenSans Light',
@@ -437,6 +437,57 @@ export const CopyButton = ({ onPress, icon, children, style }) => (
 );
 
 CopyButton.propTypes = {
+  onPress: PropTypes.func,
+  icon: PropTypes.node,
+  children: PropTypes.string,
+  style: View.propTypes.style,
+};
+
+//
+// Small Copy Button
+//
+
+const smallCopyStyles = StyleSheet.create({
+  touchable: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 60,
+    backgroundColor: color.purple,
+    paddingLeft: 15,
+    paddingRight: 15,
+  },
+  textWrapper: {
+    flex: 1,
+    height: 30,
+    borderBottomColor: color.white,
+    borderBottomWidth: 1,
+  },
+  text: {
+    fontFamily: 'OpenSans Light',
+    textAlign: 'center',
+  },
+  iconWrapper: {
+    marginLeft: 5,
+    marginBottom: 7,
+  },
+});
+
+export const SmallCopyButton = ({ onPress, icon, children, style }) => (
+  <TouchableOpacity
+    onPress={onPress}
+    style={[smallCopyStyles.touchable, style]}
+  >
+    <View style={smallCopyStyles.textWrapper}>
+      <Text numberOfLines={1} style={smallCopyStyles.text}>
+        {children}
+      </Text>
+    </View>
+    <View style={smallCopyStyles.iconWrapper}>{icon}</View>
+  </TouchableOpacity>
+);
+
+SmallCopyButton.propTypes = {
   onPress: PropTypes.func,
   icon: PropTypes.node,
   children: PropTypes.string,
