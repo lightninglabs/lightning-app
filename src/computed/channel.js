@@ -19,13 +19,16 @@ const ComputedChannel = store => {
       let all = [].concat(c, p, cl);
       all.forEach((c, i) => {
         c.key = String(i);
-        c.statusLabel = toCaps(c.status);
+        c.statusLabel =
+          c.status == 'open' && !c.active ? 'Inactive' : toCaps(c.status);
         c.statusType =
-          c.status === 'open'
+          c.status === 'open' && c.active
             ? 'success'
-            : c.status.includes('open')
-              ? 'info'
-              : 'error';
+            : c.status === 'open'
+              ? 'inactive'
+              : c.status.includes('open')
+                ? 'info'
+                : 'error';
         c.capacityLabel = toAmountLabel(c.capacity, settings);
         c.localBalanceLabel = toAmountLabel(c.localBalance, settings);
         c.remoteBalanceLabel = toAmountLabel(c.remoteBalance, settings);
