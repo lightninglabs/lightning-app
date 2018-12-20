@@ -414,7 +414,7 @@ const copyStyles = StyleSheet.create({
     flex: 1,
     height: 30,
     borderBottomColor: color.white,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
   },
   text: {
     fontFamily: 'OpenSans Light',
@@ -453,7 +453,6 @@ const smallCopyStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 60,
-    borderRadius: 0,
     backgroundColor: color.purple,
     paddingLeft: 15,
     paddingRight: 15,
@@ -462,7 +461,7 @@ const smallCopyStyles = StyleSheet.create({
     flex: 1,
     height: 30,
     borderBottomColor: color.white,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
   },
   text: {
     fontFamily: 'OpenSans Light',
