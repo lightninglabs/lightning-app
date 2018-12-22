@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Lightning",
-    "version": "0.0.1-alpha",
+    "version": "0.0.1",
     "description": "An easy-to-use Lightning wallet.",
     "slug": "lightning-app",
     "privacy": "public",
@@ -23,10 +23,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "engineering.lightning.Lightning"
+      "bundleIdentifier": "engineering.lightning.LightningApp"
     },
     "android": {
-      "package": "engineering.lightning.Lightning"
+      "package": "engineering.lightning.LightningApp"
     },
     "packagerOpts": {
       "config": "./rn-cli.config.js"
