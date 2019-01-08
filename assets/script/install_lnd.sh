@@ -1,10 +1,5 @@
 #!/bin/sh
 
-# versions
-GO_TAG=1.11.1
-LND_TAG=b07499f227bd78dbceaa8c6ee047f1c033716cdf
-BTCD_TAG=2a560b2036bee5e3679ec2133eb6520b2f195213
-
 # create empty btcd.conf for btcctl
 if [ "$(uname)" == "Darwin" ]; then
   PLATFORM="darwin"
@@ -19,17 +14,6 @@ GO_DOWNLOAD="https://storage.googleapis.com/golang/go$GO_TAG.$PLATFORM-amd64.tar
 curl -L $GO_DOWNLOAD | tar -xz
 mv go $HOME
 
-# set env vars
-export GOROOT=$HOME/go
-export GOPATH=$HOME/gocode
-export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-
-# install dep
-go get -u github.com/golang/dep/cmd/dep
-
-# install glide
-go get -u github.com/Masterminds/glide
-
 # install lnd
 git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
 cd $GOPATH/src/github.com/lightningnetwork/lnd
@@ -40,8 +24,7 @@ make && make install tags=experimental
 git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd
 cd $GOPATH/src/github.com/btcsuite/btcd
 git checkout $BTCD_TAG
-glide install
-go install . ./cmd/...
+GO111MODULE=on go install . ./cmd/...
 
 # copy lnd/btcd binaries to git repo for integration tests
 cp $GOPATH/bin/* $TRAVIS_BUILD_DIR/assets/bin/$PLATFORM/

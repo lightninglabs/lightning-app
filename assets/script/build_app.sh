@@ -3,11 +3,6 @@
 # exit on immediately on non-zero status
 set -e
 
-# set env vars
-GOPATH=$HOME/gocode
-GOROOT=$HOME/go
-PATH=$GOPATH/bin:$GOROOT/bin:$PATH
-
 # activate auto update in app config
 echo "module.exports.AUTO_UPDATE_ENABLED = true;" >> ./src/config.js
 
@@ -17,8 +12,8 @@ if [ "$(uname)" == "Darwin" ]; then
 else
   # build binaries for windows
   cd assets/bin/win32
-  env GOOS="windows" GOARCH="386" go build -tags="experimental" -v github.com/lightningnetwork/lnd
-  env GOOS="windows" GOARCH="386" go build -v github.com/btcsuite/btcd
+  env GOOS="windows" GOARCH="386" GO111MODULE="on" go get -tags="experimental" -v github.com/lightningnetwork/lnd@$LND_TAG
+  env GOOS="windows" GOARCH="386" GO111MODULE="on" go build -tags="experimental" -v github.com/lightningnetwork/lnd
 
   # build the packages using electron-builder on docker
   cd $TRAVIS_BUILD_DIR
