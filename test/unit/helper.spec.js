@@ -682,6 +682,11 @@ describe('Helpers Unit Tests', () => {
       expect(helpers.isAddress(address), 'to be', true);
     });
 
+    it('should accept p2wkh address', () => {
+      const address = 'tb1q94yln7u75nt580a6s0gvs9wqvmfl4zgcxj78sw';
+      expect(helpers.isAddress(address), 'to be', true);
+    });
+
     it('should reject invalid bitcoin address', () => {
       const address = '/INVALID/rfu4i1Mo2NF7TQsN9bMVLFSoj';
       expect(helpers.isAddress(address), 'to be', false);
