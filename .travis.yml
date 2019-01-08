@@ -15,7 +15,7 @@ env:
   global:
     - LND_TAG=21460c9e676b4b6f649dc7d1cd59a26518e0b474
     - BTCD_TAG=7d2daa5bfef28c5e282571bc06416516936115ee
-    - GO_TAG=1.11.2
+    - GO_TAG=1.11.4
     - GOROOT=$HOME/go
     - GOPATH=$HOME/gocode
     - PATH=$GOPATH/bin:$GOROOT/bin:$PATH
