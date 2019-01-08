@@ -3,7 +3,7 @@
 # versions
 GO_TAG=1.11.1
 LND_TAG=21460c9e676b4b6f649dc7d1cd59a26518e0b474
-BTCD_TAG=2a560b2036bee5e3679ec2133eb6520b2f195213
+BTCD_TAG=7d2daa5bfef28c5e282571bc06416516936115ee
 
 # create empty btcd.conf for btcctl
 if [ "$(uname)" == "Darwin" ]; then
