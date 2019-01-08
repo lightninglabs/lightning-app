@@ -15,7 +15,6 @@ else
   env GOOS="windows" GOARCH="386" GO111MODULE="on" go get -tags="experimental" -v github.com/lightningnetwork/lnd@$LND_TAG
   env GOOS="windows" GOARCH="386" GO111MODULE="on" go build -tags="experimental" -v github.com/lightningnetwork/lnd
 
-
   # build the packages using electron-builder on docker
   cd $TRAVIS_BUILD_DIR
   env | grep -iE 'DEBUG|NODE_|ELECTRON_|YARN_|NPM_|CI|CIRCLE|TRAVIS_TAG|TRAVIS|TRAVIS_REPO_|TRAVIS_BUILD_|TRAVIS_BRANCH|TRAVIS_PULL_REQUEST_|APPVEYOR_|CSC_|GH_|GITHUB_|BT_|AWS_|STRIP|BUILD_' > env.txt
