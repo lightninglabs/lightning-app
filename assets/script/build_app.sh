@@ -14,7 +14,7 @@ else
   cd assets/bin/win32
   env GOOS="windows" GOARCH="386" GO111MODULE="on" go get -tags="experimental" -v github.com/lightningnetwork/lnd@$LND_TAG
   env GOOS="windows" GOARCH="386" GO111MODULE="on" go get -v github.com/btcsuite/btcd@$BTCD_TAG
-  cp $GOPATH/bin/* .
+  cp $GOPATH/bin/lnd.exe .
 
 
   # build the packages using electron-builder on docker
