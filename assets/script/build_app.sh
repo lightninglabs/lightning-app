@@ -13,7 +13,7 @@ else
   # build binaries for windows
   cd assets/bin/win32
   env GOOS="windows" GOARCH="386" GO111MODULE="on" go get -tags="experimental" -v github.com/lightningnetwork/lnd@$LND_TAG
-  cp $GOPATH/bin/lnd.exe .
+  env GOOS="windows" GOARCH="386" GO111MODULE="on" go build -tags="experimental" -v github.com/lightningnetwork/lnd
 
 
   # build the packages using electron-builder on docker
