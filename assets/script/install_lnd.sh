@@ -24,12 +24,6 @@ export GOROOT=$HOME/go
 export GOPATH=$HOME/gocode
 export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 
-# install dep
-go get -u github.com/golang/dep/cmd/dep
-
-# install glide
-go get -u github.com/Masterminds/glide
-
 # install lnd
 git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
 cd $GOPATH/src/github.com/lightningnetwork/lnd
@@ -40,8 +34,7 @@ make && make install tags=experimental
 git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd
 cd $GOPATH/src/github.com/btcsuite/btcd
 git checkout $BTCD_TAG
-glide install
-go install . ./cmd/...
+GO111MODULE=on go install . ./cmd/...
 
 # copy lnd/btcd binaries to git repo for integration tests
 cp $GOPATH/bin/* $TRAVIS_BUILD_DIR/assets/bin/$PLATFORM/
