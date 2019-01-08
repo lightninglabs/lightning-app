@@ -12,7 +12,7 @@ const SvgComponent = props => (
         <Stop stopColor="#57038D" offset="100%" />
       </LinearGradient>
     </Defs>
-    <Path d="M0-2h375v816H0z" fill="url(#a)" fillRule="evenodd" />
+    <Path d="M0 0h415v816H0z" fill="url(#a)" fillRule="evenodd" />
   </Svg>
 );
 
