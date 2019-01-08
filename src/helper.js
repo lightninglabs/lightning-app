@@ -213,7 +213,7 @@ export const isLnUri = str => {
  * @return {boolean}     If the uri is valid
  */
 export const isAddress = str => {
-  return /^[a-km-zA-HJ-NP-Z0-9]{26,90}$/.test(str);
+  return /^[a-zA-Z0-9]{26,90}$/.test(str);
 };
 
 /**
