@@ -4,10 +4,10 @@ import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import MainContent from '../component/main-content';
 import { Text } from '../component/text';
-import { Background } from '../component/background';
-import { Header } from '../component/header';
-import { Button, BackButton, GlasButton } from '../component/button';
-import LightningBoltIcon from '../asset/icon/lightning-bolt';
+import { SplitBackground } from '../component/background';
+import { Header, LargeTitle } from '../component/header';
+import { Button, BackButton, SmallGlasButton } from '../component/button';
+import SeedIcon from '../asset/icon/seed';
 import { color, font } from '../component/style';
 
 //
@@ -15,62 +15,47 @@ import { color, font } from '../component/style';
 //
 
 const styles = StyleSheet.create({
-  header: {
-    height: 150,
+  backBtn: {
+    alignSelf: 'flex-start',
+    marginTop: 5,
   },
-  title: {
-    alignItems: 'center',
-  },
-  titleTxt: {
-    width: 200,
-    marginTop: 10,
-    textAlign: 'center',
-    fontSize: 15,
-    letterSpacing: 2,
-  },
-  background: {
-    flex: 1,
-    justifyContent: 'space-between',
+  content: {
+    justifyContent: 'center',
     backgroundColor: color.blackDark,
   },
-  seed: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   pagination: {
-    paddingBottom: 10,
+    marginBottom: 10,
   },
 });
 
 const SeedView = ({ store, wallet }) => (
-  <Background image="purple-gradient-bg">
-    <Header separator style={styles.header}>
-      <BackButton onPress={() => wallet.initPrevSeedPage()} />
-      <View style={styles.title}>
-        <LightningBoltIcon height={35} width={29} />
-        <Text style={styles.titleTxt}>
-          Write down each word and store it in a safe place.
-        </Text>
-      </View>
+  <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
+    <Header>
+      <BackButton
+        style={styles.backBtn}
+        onPress={() => wallet.initPrevSeedPage()}
+      />
+      <LargeTitle title="Write down each word and store it in a safe place.">
+        <SeedIcon height={44} width={37} />
+      </LargeTitle>
       <Button disabled onPress={() => {}} />
     </Header>
-    <MainContent style={styles.background}>
-      <View style={styles.seed}>
-        <WordList
-          startingIndex={store.wallet.seedIndex}
-          seedMnemonic={store.seedMnemonic.slice(
-            store.wallet.seedIndex,
-            store.wallet.seedIndex + 8
-          )}
-        />
-        <Text style={styles.pagination}>
-          {`${store.wallet.seedIndex + 8} of 24`}
-        </Text>
-      </View>
-      <GlasButton onPress={() => wallet.initNextSeedPage()}>Next</GlasButton>
+    <MainContent style={styles.content}>
+      <WordList
+        startingIndex={store.wallet.seedIndex}
+        seedMnemonic={store.seedMnemonic.slice(
+          store.wallet.seedIndex,
+          store.wallet.seedIndex + 8
+        )}
+      />
+      <Text style={styles.pagination}>
+        {`${store.wallet.seedIndex + 8} of 24`}
+      </Text>
     </MainContent>
-  </Background>
+    <SmallGlasButton onPress={() => wallet.initNextSeedPage()}>
+      Next
+    </SmallGlasButton>
+  </SplitBackground>
 );
 
 SeedView.propTypes = {
@@ -85,6 +70,7 @@ SeedView.propTypes = {
 const listStyles = StyleSheet.create({
   wrapper: {
     justifyContent: 'center',
+    maxWidth: 350,
     margin: 20,
   },
   words: {
@@ -118,7 +104,7 @@ const wordStyles = StyleSheet.create({
     justifyContent: 'center',
     height: 45,
     width: 115,
-    margin: 10,
+    margin: 8,
     borderWidth: 1,
     borderColor: color.seedBorder,
     backgroundColor: color.seedBackground,
