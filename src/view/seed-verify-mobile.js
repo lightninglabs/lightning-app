@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
@@ -12,7 +12,7 @@ import { Header } from '../component/header';
 import Card from '../component/card';
 
 //
-// Seed Verify View
+// Seed Verify View (Mobile)
 //
 
 const styles = StyleSheet.create({
@@ -25,52 +25,40 @@ const styles = StyleSheet.create({
   },
 });
 
-class SeedVerifyView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      focusedInput: 0,
-    };
-  }
-
-  render() {
-    const { store, nav, wallet } = this.props;
-    return (
-      <Background image="purple-gradient-bg">
-        <Header>
-          <BackButton onPress={() => nav.goSeed()} />
-          <Button disabled onPress={() => {}} />
-        </Header>
-        <MainContent style={styles.content}>
-          <View>
-            <CopyOnboardText style={styles.title}>
-              {"Let's double check"}
-            </CopyOnboardText>
-          </View>
-          <Card>
-            <FormSubText>{store.seedVerifyCopy}</FormSubText>
-            {store.seedVerifyIndexes.map((seedIndex, i) => (
-              <SeedEntry
-                seedIndex={seedIndex}
-                value={store.wallet.seedVerify[i]}
-                onChangeText={word => wallet.setSeedVerify({ word, index: i })}
-                key={i}
-                autoFocus={i === this.state.focusedInput}
-                onSubmitEditing={() =>
-                  i === 2
-                    ? wallet.checkSeed()
-                    : this.setState({ focusedInput: i + 1 })
-                }
-                onClick={() => this.setState({ focusedInput: i })}
-              />
-            ))}
-          </Card>
-          <GlasButton onPress={() => wallet.checkSeed()}>Next</GlasButton>
-        </MainContent>
-      </Background>
-    );
-  }
-}
+const SeedVerifyView = ({ store, nav, wallet }) => (
+  <Background image="purple-gradient-bg">
+    <Header>
+      <BackButton onPress={() => nav.goSeed()} />
+      <Button disabled onPress={() => {}} />
+    </Header>
+    <MainContent style={styles.content}>
+      <View>
+        <CopyOnboardText style={styles.title}>
+          {"Let's double check"}
+        </CopyOnboardText>
+      </View>
+      <Card>
+        <FormSubText>{store.seedVerifyCopy}</FormSubText>
+        {store.seedVerifyIndexes.map((seedIndex, i) => (
+          <SeedEntry
+            seedIndex={seedIndex}
+            value={store.wallet.seedVerify[i]}
+            onChangeText={word => wallet.setSeedVerify({ word, index: i })}
+            key={i}
+            autoFocus={i === 0}
+            onSubmitEditing={() =>
+              i === 2
+                ? wallet.checkSeed()
+                : this.setState({ focusedInput: i + 1 })
+            }
+            onClick={() => this.setState({ focusedInput: i })}
+          />
+        ))}
+      </Card>
+      <GlasButton onPress={() => wallet.checkSeed()}>Next</GlasButton>
+    </MainContent>
+  </Background>
+);
 
 SeedVerifyView.propTypes = {
   store: PropTypes.object.isRequired,
