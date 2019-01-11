@@ -333,7 +333,7 @@ describe('Action Wallet Unit Tests', () => {
       expect(store.wallet.seedIndex, 'to equal', 7);
     });
 
-    it('should decrement seedIndex if greater than 7', async () => {
+    it('should decrement seedIndex if greater than 7', () => {
       store.wallet.seedIndex = 8;
       wallet.initPrevSeedPage();
       expect(nav.goSelectSeed, 'was not called');
@@ -349,7 +349,7 @@ describe('Action Wallet Unit Tests', () => {
       expect(store.wallet.seedIndex, 'to equal', 16);
     });
 
-    it('should increment seedIndex if less than 16', async () => {
+    it('should increment seedIndex if less than 16', () => {
       store.wallet.seedIndex = 8;
       wallet.initNextSeedPage();
       expect(nav.goSeedVerify, 'was not called');
