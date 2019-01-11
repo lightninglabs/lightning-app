@@ -46,12 +46,6 @@ const SeedVerifyView = ({ store, nav, wallet }) => (
             onChangeText={word => wallet.setSeedVerify({ word, index: i })}
             key={i}
             autoFocus={i === 0}
-            onSubmitEditing={() =>
-              i === 2
-                ? wallet.checkSeed()
-                : this.setState({ focusedInput: i + 1 })
-            }
-            onClick={() => this.setState({ focusedInput: i })}
           />
         ))}
       </Card>
