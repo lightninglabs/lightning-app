@@ -1,21 +1,22 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import SeedEntry from '../component/seed-entry';
-import { Button, BackButton, GlasButton } from '../component/button';
+import { Button, BackButton, SmallGlasButton } from '../component/button';
 import { FormSubText } from '../component/form';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { CopyOnboardText } from '../component/text';
 import { Header } from '../component/header';
 import Card from '../component/card';
+import { createStyles, maxWidth } from '../component/media-query';
+import { smallBreakWidth } from '../component/style';
 
 //
 // Seed Verify View (Mobile)
 //
 
-const styles = StyleSheet.create({
+const baseStyles = {
   content: {
     justifyContent: 'flex-end',
   },
@@ -23,7 +24,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-});
+  subText: {
+    maxWidth: 235,
+  },
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(smallBreakWidth, {
+    title: {
+      fontSize: 30,
+      lineHeight: 40,
+    },
+  })
+);
 
 const SeedVerifyView = ({ store, nav, wallet }) => (
   <Background image="purple-gradient-bg">
@@ -32,13 +47,11 @@ const SeedVerifyView = ({ store, nav, wallet }) => (
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent style={styles.content}>
-      <View>
-        <CopyOnboardText style={styles.title}>
-          {"Let's double check"}
-        </CopyOnboardText>
-      </View>
+      <CopyOnboardText style={styles.title}>
+        {"Let's double check"}
+      </CopyOnboardText>
       <Card>
-        <FormSubText>{store.seedVerifyCopy}</FormSubText>
+        <FormSubText style={styles.subText}>{store.seedVerifyCopy}</FormSubText>
         {store.seedVerifyIndexes.map((seedIndex, i) => (
           <SeedEntry
             seedIndex={seedIndex}
@@ -49,7 +62,7 @@ const SeedVerifyView = ({ store, nav, wallet }) => (
           />
         ))}
       </Card>
-      <GlasButton onPress={() => wallet.checkSeed()}>Next</GlasButton>
+      <SmallGlasButton onPress={() => wallet.checkSeed()}>Next</SmallGlasButton>
     </MainContent>
   </Background>
 );
