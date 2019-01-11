@@ -1,14 +1,17 @@
 import React, { Component } from 'react';
-import { TextInput as RNTextInput, Text as RNText } from 'react-native';
+import {
+  TextInput as RNTextInput,
+  Text as RNText,
+  StyleSheet,
+} from 'react-native';
 import PropTypes from 'prop-types';
-import { createStyles, maxWidth } from '../component/media-query';
-import { color, font, breakWidth } from './style';
+import { color, font } from './style';
 
 //
 // Base Text Input
 //
 
-const baseStyles = {
+const baseStyles = StyleSheet.create({
   input: {
     fontFamily: 'OpenSans Regular',
     fontSize: font.sizeM,
@@ -16,17 +19,7 @@ const baseStyles = {
     height: font.lineHeightM + 2 * 12,
     color: color.blackText,
   },
-};
-
-const styles = createStyles(
-  baseStyles,
-
-  maxWidth(breakWidth, {
-    input: {
-      lineHeight: undefined,
-    },
-  })
-);
+});
 
 export class TextInput extends Component {
   componentDidUpdate(prevProps) {
@@ -38,7 +31,7 @@ export class TextInput extends Component {
     const { style, ...props } = this.props;
     return (
       <RNTextInput
-        style={[styles.input, style]}
+        style={[baseStyles.input, style]}
         autoCorrect={false}
         autoCapitalize="none"
         underlineColorAndroid="rgba(0,0,0,0)"
