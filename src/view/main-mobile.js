@@ -177,14 +177,9 @@ const MainStack = createStackNavigator(
     LoaderSyncing,
     Wait,
     Home,
-    Channels,
-    ChannelDetail,
-    ChannelDelete,
-    ChannelCreate,
     Settings,
     SettingsUnit,
     SettingsFiat,
-    Notifications,
     CLI,
   },
   {
@@ -227,12 +222,35 @@ const TransactionStack = createStackNavigator(
   }
 );
 
+const ChannelStack = createStackNavigator(
+  {
+    Channels,
+    ChannelDetail,
+    ChannelDelete,
+    ChannelCreate,
+  },
+  {
+    headerMode: 'none',
+  }
+);
+
+const NotificationStack = createStackNavigator(
+  {
+    Notifications,
+  },
+  {
+    headerMode: 'none',
+  }
+);
+
 const RootStack = createStackNavigator(
   {
     Main: MainStack,
     Invoice: InvoiceStack,
     Pay: PayStack,
     Transactions: TransactionStack,
+    Channels: ChannelStack,
+    Notifications: NotificationStack,
     Deposit,
   },
   {
