@@ -278,6 +278,7 @@ describe('Action Payments Unit Tests', () => {
       store.payment.address = 'some-address';
       grpc.sendCommand.withArgs('sendCoins').resolves();
       await payment.payBitcoin();
+      expect(nav.goWait, 'was called once');
       expect(grpc.sendCommand, 'was called with', 'sendCoins', {
         addr: 'some-address',
         amount: 1000,
@@ -289,7 +290,18 @@ describe('Action Payments Unit Tests', () => {
     it('should display notification on error', async () => {
       grpc.sendCommand.withArgs('sendCoins').rejects();
       await payment.payBitcoin();
+      expect(nav.goWait, 'was called once');
+      expect(nav.goPayBitcoinConfirm, 'was called once');
       expect(notification.display, 'was called once');
+    });
+
+    it('should display error notification on timeout', async () => {
+      grpc.sendCommand.callsFake(() => nap(50));
+      payment.payBitcoin();
+      await nap(10);
+      expect(nav.goPayBitcoinConfirm, 'was called once');
+      expect(notification.display, 'was called once');
+      expect(nav.goPayBitcoinDone, 'was not called');
     });
   });
 
