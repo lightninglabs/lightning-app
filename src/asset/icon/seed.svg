@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="37px" height="44px" viewBox="0 0 37 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.6 (67491) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M3.1781037,0.249876209 L26.333602,0.249876209 C27.9904563,0.249876209 29.333602,1.59302196 29.333602,3.24987621 L29.333602,32.4846382 C29.333602,34.1414925 27.9904563,35.4846382 26.333602,35.4846382 L3.1781037,35.4846382 C1.52124945,35.4846382 0.178103697,34.1414925 0.178103697,32.4846382 L0.178103697,3.24987621 C0.178103697,1.59302196 1.52124945,0.249876209 3.1781037,0.249876209 Z" id="path-1"></path>
+        <filter x="-24.0%" y="-14.2%" width="148.0%" height="139.7%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.313179348 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Onboarding" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Seed---Mobile1of3---Small" transform="translate(-164.000000, -54.000000)">
+            <g id="Group" transform="translate(168.000000, 56.000000)">
+                <g id="Rectangle-5">
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill="#F5F5F5" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+                <path d="M3.78416061,29.7250513 L14.8180843,29.7250513" id="Path-3-Copy" stroke-opacity="0.382359601" stroke="#252F4A" stroke-linecap="round"></path>
+                <path d="M3.78416061,26.0621418 L25.7333629,26.0621418" id="Path-3-Copy-2" stroke-opacity="0.382359601" stroke="#252F4A" stroke-linecap="round"></path>
+                <path d="M3.78416061,22.3499776 L25.7333629,22.3499776" id="Path-3-Copy-3" stroke-opacity="0.382359601" stroke="#252F4A" stroke-linecap="round"></path>
+                <path d="M3.78416061,18.6378133 L25.7333629,18.6378133" id="Path-3-Copy-4" stroke-opacity="0.382359601" stroke="#252F4A" stroke-linecap="round"></path>
+                <path d="M3.78416061,14.9256491 L25.7333629,14.9256491" id="Path-3-Copy-5" stroke-opacity="0.382359601" stroke="#252F4A" stroke-linecap="round"></path>
+                <path d="M3.78416061,11.2134848 L25.7333629,11.2134848" id="Path-3-Copy-6" stroke-opacity="0.382359601" stroke="#252F4A" stroke-linecap="round"></path>
+                <path d="M3.78416061,7.50132059 L25.7333629,7.50132059" id="Path-3-Copy-7" stroke-opacity="0.382359601" stroke="#252F4A" stroke-linecap="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

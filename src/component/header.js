@@ -3,7 +3,7 @@ import { View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from './media-query';
 import Text from './text';
-import { color, breakWidth } from './style';
+import { color, font, breakWidth } from './style';
 
 //
 // Header
@@ -11,7 +11,7 @@ import { color, breakWidth } from './style';
 
 const baseStyles = {
   header: {
-    height: 75,
+    minHeight: 75,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -102,6 +102,49 @@ export const Title = ({ title = '', style, children }) => (
 );
 
 Title.propTypes = {
+  title: PropTypes.string,
+  style: Text.propTypes.style,
+  children: PropTypes.node,
+};
+
+//
+// Large Title
+//
+
+const largeTitleStyles = StyleSheet.create({
+  titleWrapper: {
+    alignItems: 'center',
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+  title: {
+    maxWidth: 200,
+    textAlign: 'center',
+    fontSize: font.sizeSub,
+    lineHeight: font.lineHeightSub,
+    letterSpacing: 1,
+  },
+  titleIcon: {
+    marginTop: 10,
+  },
+});
+
+export const LargeTitle = ({ title = '', style, children }) => (
+  <View style={largeTitleStyles.titleWrapper}>
+    {children}
+    <Text
+      style={[
+        largeTitleStyles.title,
+        children ? largeTitleStyles.titleIcon : null,
+        style,
+      ]}
+    >
+      {title}
+    </Text>
+  </View>
+);
+
+LargeTitle.propTypes = {
   title: PropTypes.string,
   style: Text.propTypes.style,
   children: PropTypes.node,

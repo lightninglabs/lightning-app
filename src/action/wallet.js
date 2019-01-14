@@ -274,11 +274,39 @@ class WalletAction {
   }
 
   /**
-   * Initialize the seed flow by navigating to the proper next view.
+   * Initialize the seed flow by navigating to the proper next view and
+   * resetting the current seed index.
    * @return {undefined}
    */
   initSeed() {
+    this._store.wallet.seedIndex = 0;
     this._nav.goSeedIntro ? this._nav.goSeedIntro() : this._nav.goSeed();
+  }
+
+  /**
+   * Initialize the next seed view by setting a new seedIndex or, if all seed
+   * words have been displayed, navigating to the mobile seed verify view.
+   * @return {undefined}
+   */
+  initNextSeedPage() {
+    if (this._store.wallet.seedIndex < 16) {
+      this._store.wallet.seedIndex += 8;
+    } else {
+      this.initSeedVerify();
+    }
+  }
+
+  /**
+   * Initialize the previous seed view by setting a new seedIndex or, if on the
+   * first seed page, navigating to the select seed view.
+   * @return {undefined}
+   */
+  initPrevSeedPage() {
+    if (this._store.wallet.seedIndex >= 8) {
+      this._store.wallet.seedIndex -= 8;
+    } else {
+      this._nav.goSelectSeed();
+    }
   }
 
   /**
