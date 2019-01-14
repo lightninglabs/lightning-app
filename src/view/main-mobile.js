@@ -162,6 +162,10 @@ const TransactionDetail = () => (
   <TransactionDetailView store={store} nav={nav} />
 );
 
+const stackOptions = {
+  headerMode: 'none',
+};
+
 const MainStack = createStackNavigator(
   {
     Welcome,
@@ -182,9 +186,7 @@ const MainStack = createStackNavigator(
     SettingsFiat,
     CLI,
   },
-  {
-    headerMode: 'none',
-  }
+  stackOptions
 );
 
 const InvoiceStack = createStackNavigator(
@@ -192,9 +194,7 @@ const InvoiceStack = createStackNavigator(
     Invoice,
     InvoiceQR,
   },
-  {
-    headerMode: 'none',
-  }
+  stackOptions
 );
 
 const PayStack = createStackNavigator(
@@ -207,9 +207,7 @@ const PayStack = createStackNavigator(
     PayBitcoinConfirm,
     PayBitcoinDone,
   },
-  {
-    headerMode: 'none',
-  }
+  stackOptions
 );
 
 const TransactionStack = createStackNavigator(
@@ -217,9 +215,7 @@ const TransactionStack = createStackNavigator(
     Transactions,
     TransactionDetail,
   },
-  {
-    headerMode: 'none',
-  }
+  stackOptions
 );
 
 const ChannelStack = createStackNavigator(
@@ -229,18 +225,14 @@ const ChannelStack = createStackNavigator(
     ChannelDelete,
     ChannelCreate,
   },
-  {
-    headerMode: 'none',
-  }
+  stackOptions
 );
 
 const NotificationStack = createStackNavigator(
   {
     Notifications,
   },
-  {
-    headerMode: 'none',
-  }
+  stackOptions
 );
 
 const RootStack = createStackNavigator(
@@ -254,8 +246,8 @@ const RootStack = createStackNavigator(
     Deposit,
   },
   {
+    ...stackOptions,
     mode: 'modal',
-    headerMode: 'none',
   }
 );
 
