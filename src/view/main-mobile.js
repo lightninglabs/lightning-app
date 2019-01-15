@@ -162,6 +162,10 @@ const TransactionDetail = () => (
   <TransactionDetailView store={store} nav={nav} />
 );
 
+const stackOptions = {
+  headerMode: 'none',
+};
+
 const MainStack = createStackNavigator(
   {
     Welcome,
@@ -177,19 +181,12 @@ const MainStack = createStackNavigator(
     LoaderSyncing,
     Wait,
     Home,
-    Channels,
-    ChannelDetail,
-    ChannelDelete,
-    ChannelCreate,
     Settings,
     SettingsUnit,
     SettingsFiat,
-    Notifications,
     CLI,
   },
-  {
-    headerMode: 'none',
-  }
+  stackOptions
 );
 
 const InvoiceStack = createStackNavigator(
@@ -197,9 +194,7 @@ const InvoiceStack = createStackNavigator(
     Invoice,
     InvoiceQR,
   },
-  {
-    headerMode: 'none',
-  }
+  stackOptions
 );
 
 const PayStack = createStackNavigator(
@@ -212,9 +207,7 @@ const PayStack = createStackNavigator(
     PayBitcoinConfirm,
     PayBitcoinDone,
   },
-  {
-    headerMode: 'none',
-  }
+  stackOptions
 );
 
 const TransactionStack = createStackNavigator(
@@ -222,9 +215,24 @@ const TransactionStack = createStackNavigator(
     Transactions,
     TransactionDetail,
   },
+  stackOptions
+);
+
+const ChannelStack = createStackNavigator(
   {
-    headerMode: 'none',
-  }
+    Channels,
+    ChannelDetail,
+    ChannelDelete,
+    ChannelCreate,
+  },
+  stackOptions
+);
+
+const NotificationStack = createStackNavigator(
+  {
+    Notifications,
+  },
+  stackOptions
 );
 
 const RootStack = createStackNavigator(
@@ -233,11 +241,13 @@ const RootStack = createStackNavigator(
     Invoice: InvoiceStack,
     Pay: PayStack,
     Transactions: TransactionStack,
+    Channels: ChannelStack,
+    Notifications: NotificationStack,
     Deposit,
   },
   {
+    ...stackOptions,
     mode: 'modal',
-    headerMode: 'none',
   }
 );
 
