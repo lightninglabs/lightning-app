@@ -14,6 +14,7 @@ import { color } from '../component/style';
 
 const styles = StyleSheet.create({
   header: {
+    height: 75,
     zIndex: 1,
   },
   backBtn: {
