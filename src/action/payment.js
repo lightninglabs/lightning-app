@@ -201,6 +201,14 @@ class PaymentAction {
    * @return {Promise<undefined>}
    */
   async payBitcoin() {
+    const timeout = setTimeout(() => {
+      this._nav.goPayBitcoinConfirm();
+      this._notification.display({
+        type: 'error',
+        msg: 'Sending transaction timed out!',
+      });
+    }, PAYMENT_TIMEOUT);
+    this._nav.goWait();
     try {
       const { payment, settings } = this._store;
       await this._grpc.sendCommand('sendCoins', {
@@ -209,7 +217,10 @@ class PaymentAction {
       });
       this._nav.goPayBitcoinDone();
     } catch (err) {
+      this._nav.goPayBitcoinConfirm();
       this._notification.display({ msg: 'Sending transaction failed!', err });
+    } finally {
+      clearTimeout(timeout);
     }
   }
 
