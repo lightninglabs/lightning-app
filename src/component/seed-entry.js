@@ -1,22 +1,23 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Text } from '../component/text';
 import { InputField } from '../component/field';
-import { color, font } from '../component/style';
+import { createStyles, maxWidth } from '../component/media-query';
+import { color, font, breakWidth } from '../component/style';
 
 //
 // Seed Entry
 //
 
-const entryStyles = StyleSheet.create({
+const baseStyles = {
   wrapper: {
     alignSelf: 'stretch',
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 40,
     borderBottomColor: color.greyText,
-    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomWidth: 1,
   },
   index: {
     color: color.greyText,
@@ -29,12 +30,25 @@ const entryStyles = StyleSheet.create({
     textAlign: 'left',
     borderBottomWidth: 0,
   },
-});
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(breakWidth, {
+    wrapper: {
+      marginTop: 20,
+    },
+    input: {
+      height: font.lineHeightM + 2 * 6,
+    },
+  })
+);
 
 const SeedEntry = ({ seedIndex, ...props }) => (
-  <View style={entryStyles.wrapper}>
-    <Text style={entryStyles.index}>{seedIndex}.</Text>
-    <InputField style={entryStyles.input} {...props} />
+  <View style={styles.wrapper}>
+    <Text style={styles.index}>{seedIndex}.</Text>
+    <InputField style={styles.input} {...props} />
   </View>
 );
 
