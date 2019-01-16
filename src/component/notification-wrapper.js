@@ -18,11 +18,11 @@ const NotificationWrapper = ({ store, children }) => {
   const { lastNotification, displayNotification } = store;
   return (
     <View style={styles.wrapper}>
-      <View style={StyleSheet.absoluteFill}>{children}</View>
       <NotificationBar
         notification={lastNotification}
         display={displayNotification}
       />
+      {children}
     </View>
   );
 };
