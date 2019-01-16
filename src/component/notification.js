@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Animated, StyleSheet, View } from 'react-native';
+import { Animated, StyleSheet, View, SafeAreaView } from 'react-native';
 import PropTypes from 'prop-types';
 import { SmallPillButton } from './button';
 import { Text, H4Text } from './text';
@@ -12,6 +12,9 @@ import { color, font } from './style';
 //
 
 const barStyles = StyleSheet.create({
+  safe: {
+    backgroundColor: color.blackDark,
+  },
   bar: {
     alignSelf: 'stretch',
     flexDirection: 'row',
@@ -37,19 +40,21 @@ const barStyles = StyleSheet.create({
 
 export const NotificationBar = ({ notification, display, style }) =>
   notification && display ? (
-    <View style={[barStyles.bar, style]}>
-      <View style={barStyles.msgWrapper}>
-        <Alert type={notification.type} style={barStyles.alert} />
-        <Text style={barStyles.text}>{notification.message}</Text>
+    <SafeAreaView style={barStyles.safe}>
+      <View style={[barStyles.bar, style]}>
+        <View style={barStyles.msgWrapper}>
+          <Alert type={notification.type} style={barStyles.alert} />
+          <Text style={barStyles.text}>{notification.message}</Text>
+        </View>
+        {notification.handler ? (
+          <SmallPillButton
+            text={notification.handlerLbl}
+            onPress={notification.handler}
+          />
+        ) : null}
+        {notification.waiting ? <SmallSpinner /> : null}
       </View>
-      {notification.handler ? (
-        <SmallPillButton
-          text={notification.handlerLbl}
-          onPress={notification.handler}
-        />
-      ) : null}
-      {notification.waiting ? <SmallSpinner /> : null}
-    </View>
+    </SafeAreaView>
   ) : null;
 
 NotificationBar.propTypes = {
