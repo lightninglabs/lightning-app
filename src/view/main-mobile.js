@@ -5,6 +5,7 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 import FontLoader from '../component/font-loader-mobile';
+import NotificationWrapper from '../component/notification-wrapper';
 
 import WelcomeView from './welcome';
 import LoaderView from './loader';
@@ -261,7 +262,9 @@ export default class App extends React.Component {
   render() {
     return (
       <FontLoader>
-        <RootStack ref={navRef => nav.setTopLevelNavigator(navRef)} />
+        <NotificationWrapper store={store}>
+          <RootStack ref={navRef => nav.setTopLevelNavigator(navRef)} />
+        </NotificationWrapper>
       </FontLoader>
     );
   }
