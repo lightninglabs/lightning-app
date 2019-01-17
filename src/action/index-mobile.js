@@ -76,7 +76,6 @@ db.restore(); // read user settings from disk
 when(
   () => store.loaded && store.navReady,
   async () => {
-    nav.goWait();
     await grpc.initUnlocker();
   }
 );
