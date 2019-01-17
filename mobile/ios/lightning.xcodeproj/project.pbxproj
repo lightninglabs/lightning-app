@@ -163,7 +163,7 @@
 				TargetAttributes = {
 					B56386401DB9693800A0598C = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 5ZNC3DCNS3;
+						DevelopmentTeam = F7DV2MY8JF;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -406,7 +406,7 @@
 			baseConfigurationReference = 2C1548D9E4CB1AEFA5CCAE6D /* Pods-lightning.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5ZNC3DCNS3;
+				DEVELOPMENT_TEAM = F7DV2MY8JF;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -425,7 +425,7 @@
 			baseConfigurationReference = A47FE4D7F70906B7DC8CE39B /* Pods-lightning.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 5ZNC3DCNS3;
+				DEVELOPMENT_TEAM = F7DV2MY8JF;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
