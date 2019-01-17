@@ -105,7 +105,6 @@ observe(store, 'walletUnlocked', async () => {
  */
 observe(store, 'lndReady', () => {
   if (!store.lndReady) return;
-  nav.goHome();
   info.pollInfo();
   wallet.getNewAddress();
   wallet.pollBalances();
@@ -113,6 +112,13 @@ observe(store, 'lndReady', () => {
   channel.update();
   transaction.update();
 });
+
+/**
+ * Stay on the wait screen until the first grpc apis are queried. In this
+ * case we're using the wallet address as a proxy for data being displayed
+ * on the home screen.
+ */
+when(() => store.walletAddress, () => nav.goHome());
 
 // STUB DURING DEVELOPMENT
 sinon.stub(wallet, 'update');
