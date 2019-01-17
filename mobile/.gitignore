@@ -34,10 +34,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-ios/lightning.xcworkspace
 ios/lightning/Lndmobile.framework
-ios/lightning/Supporting/*
-android/app/src/main/assets/shell-app*
 
 # Android/IJ
 .idea
