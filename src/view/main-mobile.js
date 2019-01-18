@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { createStackNavigator } from 'react-navigation';
+import { createStackNavigator, createAppContainer } from 'react-navigation';
 import FontLoader from '../component/font-loader-mobile';
 import NotificationWrapper from '../component/notification-wrapper';
 
@@ -258,12 +258,14 @@ const RootStack = createStackNavigator(
   }
 );
 
+const AppContainer = createAppContainer(RootStack);
+
 export default class App extends React.Component {
   render() {
     return (
       <FontLoader>
         <NotificationWrapper store={store}>
-          <RootStack ref={navRef => nav.setTopLevelNavigator(navRef)} />
+          <AppContainer ref={navRef => nav.setTopLevelNavigator(navRef)} />
         </NotificationWrapper>
       </FontLoader>
     );
