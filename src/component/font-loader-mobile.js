@@ -2,10 +2,15 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import PropTypes from 'prop-types';
 import { Font } from 'expo';
+import { color } from './style';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  placeholder: {
+    flex: 1,
+    backgroundColor: color.purple,
   },
 });
 
@@ -52,7 +57,9 @@ class FontLoader extends React.Component {
   render() {
     return this.state.fontLoaded ? (
       <View style={styles.container}>{this.props.children}</View>
-    ) : null;
+    ) : (
+      <View style={styles.placeholder} />
+    );
   }
 }
 
