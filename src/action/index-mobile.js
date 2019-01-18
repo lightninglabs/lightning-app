@@ -133,7 +133,10 @@ sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
 
 // SET SOME DUMMY DATA DURING DEVELOPMENT
-store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
+setTimeout(
+  () => (store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K'),
+  3000
+);
 store.balanceSatoshis = 798765432;
 store.pendingBalanceSatoshis = 100000000;
 store.channelBalanceSatoshis = 59876000;
