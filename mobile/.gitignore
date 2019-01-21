@@ -35,6 +35,10 @@ DerivedData
 *.ipa
 *.xcuserstate
 ios/lightning/Lndmobile.framework
+ios/lightning/Supporting/EXShell.json
+ios/lightning/Supporting/EXShell.plist.bak
+android/app/src/main/assets/shell-app.bundle
+android/app/src/main/assets/shell-app-manifest.json
 
 # Android/IJ
 .idea
