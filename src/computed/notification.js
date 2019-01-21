@@ -25,7 +25,8 @@ const ComputedNotification = store => {
         all.push(n);
       });
       all.sort((a, b) => b.date.getTime() - a.date.getTime());
-      all.forEach(n => {
+      all.forEach((n, i) => {
+        n.key = String(i);
         n.typeLabel = toCaps(n.type);
         n.dateLabel = n.date.toLocaleDateString();
         n.dateTimeLabel = n.date.toLocaleString();

@@ -17,7 +17,8 @@ const ComputedChannel = store => {
         (a, b) => (a.status > b.status ? -1 : a.status < b.status ? 1 : 0)
       );
       let all = [].concat(c, p, cl);
-      all.forEach(c => {
+      all.forEach((c, i) => {
+        c.key = String(i);
         c.statusLabel = toCaps(c.status);
         c.statusType =
           c.status === 'open'
