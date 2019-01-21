@@ -103,7 +103,7 @@ class PaymentAction {
     this._store.payment.amount = '';
     this._store.payment.fee = '';
     this._store.payment.note = '';
-    this._store.payment.useScanner = true;
+    this._store.payment.useScanner = false;
     this._nav.goPay();
   }
 
