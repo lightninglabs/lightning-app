@@ -83,9 +83,12 @@ when(
 /**
  * Triggered after the wallet unlocker grpc client is initialized.
  */
-observe(store, 'unlockerReady', async () => {
-  store.walletUnlocked = true;
-});
+when(
+  () => store.unlockerReady,
+  async () => {
+    await wallet.init();
+  }
+);
 
 /**
  * Triggered after the user's password has unlocked the wallet
