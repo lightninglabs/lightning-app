@@ -837,6 +837,13 @@ message SendCoinsRequest {
 
     /// A manual fee rate set in sat/byte that should be used when crafting the transaction.
     int64 sat_per_byte = 5;
+
+    /**
+    If set, then the amount field will be ignored, and lnd will attempt to
+    send all the coins under control of the internal wallet to the specified
+    address.
+    */
+    bool send_all = 6;
 }
 message SendCoinsResponse {
     /// The transaction ID of the transaction
@@ -1003,8 +1010,11 @@ message Channel {
     */
     uint32 csv_delay = 16 [json_name = "csv_delay"];
 
-    /// Whether this channel is advertised to the network or not
+    /// Whether this channel is advertised to the network or not.
     bool private = 17 [json_name = "private"];
+
+    /// True if we were the ones that creted the channel.
+    bool initiator = 18 [json_name = "initiator"];
 }
 
 
