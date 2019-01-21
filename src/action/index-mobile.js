@@ -115,13 +115,6 @@ observe(store, 'lndReady', () => {
   transaction.update();
 });
 
-/**
- * Stay on the wait screen until the first grpc apis are queried. In this
- * case we're using the wallet address as a proxy for data being displayed
- * on the home screen.
- */
-when(() => store.walletAddress, () => nav.goHome());
-
 // STUB DURING DEVELOPMENT
 sinon.stub(wallet, 'update');
 sinon.stub(wallet, 'getExchangeRate');
