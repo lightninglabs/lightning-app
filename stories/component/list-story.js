@@ -14,7 +14,7 @@ import { color } from '../../src/component/style';
 storiesOf('List', module).add('List Content', () => (
   <ListContent>
     <List
-      data={[...Array(1000)].map((x, i) => ({ id: String(i), data: 'foo' }))}
+      data={[...Array(1000)].map((x, i) => ({ key: String(i), data: 'foo' }))}
       renderHeader={() => (
         <ListHeader style={{ backgroundColor: color.white }}>
           <Text style={{ flex: 1, color: color.greyText }}>ID</Text>
@@ -31,7 +31,7 @@ class CustomListItem extends PureComponent {
     const { item } = this.props;
     return (
       <ListItem onSelect={action('select')}>
-        <Text style={{ flex: 1, color: color.blackText }}>{item.id}</Text>
+        <Text style={{ flex: 1, color: color.blackText }}>{item.key}</Text>
         <Text style={{ flex: 1, color: color.blackText }}>{item.data}</Text>
       </ListItem>
     );
