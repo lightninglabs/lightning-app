@@ -505,6 +505,7 @@ describe('Action Wallet Unit Tests', () => {
       expect(nav.goWait, 'was called once');
       expect(nav.goHome, 'was not called');
       store.lndReady = true;
+      store.walletAddress = 'some-address';
       expect(nav.goHome, 'was called once');
     });
 
@@ -516,8 +517,10 @@ describe('Action Wallet Unit Tests', () => {
         .rejects(new Error('Boom!'));
       await wallet.unlockWallet({ walletPassword: 'baz' });
       expect(notification.display, 'was called once');
-      expect(nav.goWait, 'was not called');
+      expect(nav.goWait, 'was called once');
+      expect(store.walletUnlocked, 'to be', false);
       expect(store.wallet.password, 'to be', '');
+      expect(nav.goPassword, 'was called once');
     });
   });
 
