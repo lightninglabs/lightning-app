@@ -7,6 +7,7 @@ import { createStackNavigator, createAppContainer } from 'react-navigation';
 import FontLoader from '../component/font-loader-mobile';
 import NotificationWrapper from '../component/notification-wrapper';
 
+import WelcomeView from './welcome';
 import LoaderView from './loader';
 import SelectSeedView from './select-seed';
 import SeedIntroView from './seed-intro-mobile';
@@ -56,6 +57,8 @@ import {
 } from '../action/index-mobile';
 
 import store from '../store';
+
+const Welcome = () => <WelcomeView />;
 
 const Loader = () => <LoaderView />;
 
@@ -171,6 +174,7 @@ const stackOptions = {
 
 const MainStack = createStackNavigator(
   {
+    Welcome,
     Wait,
     Loader,
     SelectSeed,
