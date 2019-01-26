@@ -6,7 +6,7 @@
 
 import sinon from 'sinon';
 
-import { observe, when } from 'mobx';
+import { when } from 'mobx';
 import {
   Alert,
   Clipboard,
@@ -73,28 +73,18 @@ db.restore(); // read user settings from disk
  * Triggered after user settings are restored from disk and the
  * navigator is ready.
  */
-when(
-  () => store.loaded && store.navReady,
-  async () => {
-    await grpc.initUnlocker();
-  }
-);
+when(() => store.loaded && store.navReady, () => grpc.initUnlocker());
 
 /**
  * Triggered after the wallet unlocker grpc client is initialized.
  */
-observe(store, 'unlockerReady', async () => {
-  store.walletUnlocked = true;
-});
+when(() => store.unlockerReady, () => wallet.init());
 
 /**
  * Triggered after the user's password has unlocked the wallet
  * or a user's password has been successfully reset.
  */
-observe(store, 'walletUnlocked', async () => {
-  if (!store.walletUnlocked) return;
-  await grpc.initLnd();
-});
+when(() => store.walletUnlocked, () => grpc.initLnd());
 
 /**
  * Triggered once the main lnd grpc client is initialized. This is when
@@ -102,22 +92,17 @@ observe(store, 'walletUnlocked', async () => {
  * to and from lnd can be done. The display the current state of the
  * lnd node all balances, channels and transactions are fetched.
  */
-observe(store, 'lndReady', () => {
-  if (!store.lndReady) return;
-  info.pollInfo();
-  wallet.getNewAddress();
-  wallet.pollBalances();
-  wallet.pollExchangeRate();
-  channel.update();
-  transaction.update();
-});
-
-/**
- * Stay on the wait screen until the first grpc apis are queried. In this
- * case we're using the wallet address as a proxy for data being displayed
- * on the home screen.
- */
-when(() => store.walletAddress, () => nav.goHome());
+when(
+  () => store.lndReady,
+  () => {
+    info.pollInfo();
+    wallet.getNewAddress();
+    wallet.pollBalances();
+    wallet.pollExchangeRate();
+    channel.update();
+    transaction.update();
+  }
+);
 
 // STUB DURING DEVELOPMENT
 sinon.stub(wallet, 'update');

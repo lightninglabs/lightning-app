@@ -41,7 +41,6 @@ class PaymentAction {
     while (!this._store.navReady) {
       await nap(POLL_STORE_TIMEOUT);
     }
-    this._nav.goWait();
     while (!this._store.syncedToChain) {
       await nap(POLL_STORE_TIMEOUT);
     }

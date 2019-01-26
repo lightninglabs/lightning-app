@@ -400,14 +400,17 @@ class WalletAction {
    */
   async unlockWallet({ walletPassword }) {
     try {
+      this._nav.goWait();
       await this._grpc.sendUnlockerCommand('UnlockWallet', {
         walletPassword: toBuffer(walletPassword),
       });
       this._store.walletUnlocked = true;
-      this._nav.goWait();
-      when(() => this._store.lndReady, () => this._nav.goHome());
+      when(
+        () => this._store.lndReady && this._store.walletAddress,
+        () => this._nav.goHome()
+      );
     } catch (err) {
-      this.setPassword({ password: '' });
+      this.initPassword();
       this._notification.display({ type: 'error', msg: 'Invalid password' });
     }
   }
@@ -466,10 +469,7 @@ class WalletAction {
       this._nav.goNewAddress();
     } else {
       this._nav.goWait();
-      when(
-        () => typeof this._store.walletAddress === 'string',
-        () => this._nav.goNewAddress()
-      );
+      when(() => this._store.walletAddress, () => this._nav.goNewAddress());
     }
   }
 

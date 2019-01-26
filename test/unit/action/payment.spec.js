@@ -113,10 +113,8 @@ describe('Action Payments Unit Tests', () => {
       const url = 'lightning:lntb100n1pdn2e0app';
       LinkingStub.getInitialURL.resolves(url);
       payment.listenForUrlMobile(LinkingStub);
-      expect(nav.goWait, 'was not called');
       store.navReady = true;
       await nap(10);
-      expect(nav.goWait, 'was called once');
       expect(payment.init, 'was not called');
       store.syncedToChain = true;
       await nap(10);
