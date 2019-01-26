@@ -48,7 +48,6 @@ export class Store {
         passwordVerify: '',
         seedVerify: ['', '', ''],
         seedIndex: 0,
-        restoring: false,
         restoreIndex: 0,
         restoreSeed: Array(24).fill(''),
       },
@@ -89,6 +88,7 @@ export class Store {
         fiat: DEFAULT_FIAT,
         displayFiat: true,
         exchangeRate: {},
+        restoring: false,
       },
     });
   }

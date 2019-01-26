@@ -117,14 +117,6 @@ class WalletAction {
     this._store.wallet.passwordVerify = password;
   }
 
-  /**
-   * Set whether or not we're restoring the wallet.
-   * @param {boolean} options.restoring Whether or not we're restoring.
-   */
-  setRestoringWallet({ restoring }) {
-    this._store.wallet.restoring = restoring;
-  }
-
   //
   // Wallet actions
   //
@@ -403,6 +395,7 @@ class WalletAction {
       this._nav.goWait();
       await this._grpc.sendUnlockerCommand('UnlockWallet', {
         walletPassword: toBuffer(walletPassword),
+        recoveryWindow: this._store.settings.restoring ? 250 : 0,
       });
       this._store.walletUnlocked = true;
       when(

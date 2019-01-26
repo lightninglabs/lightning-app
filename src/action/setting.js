@@ -56,6 +56,14 @@ class SettingAction {
       log.error('Detecting local currency failed', err);
     }
   }
+
+  /**
+   * Set whether or not we're restoring the wallet.
+   * @param {boolean} options.restoring Whether or not we're restoring.
+   */
+  setRestoringWallet({ restoring }) {
+    this._store.settings.restoring = restoring;
+  }
 }
 
 export default SettingAction;

@@ -114,13 +114,6 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
-  describe('setRestoringWallet()', () => {
-    it('should clear attributes', () => {
-      wallet.setRestoringWallet({ restoring: true });
-      expect(store.wallet.restoring, 'to equal', true);
-    });
-  });
-
   describe('init()', () => {
     it('should generate seed and navigate to onboarding', async () => {
       grpc.sendUnlockerCommand.withArgs('GenSeed').resolves({
