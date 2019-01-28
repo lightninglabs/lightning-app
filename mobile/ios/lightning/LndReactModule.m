@@ -149,13 +149,15 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     NSURL *dir = [[fileMgr URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 
+    self.appDir = dir.path;
+    RCTLogInfo(@"lnd dir: %@", self.appDir);
+
     NSString *lndConf = [[NSBundle mainBundle] pathForResource:@"lnd" ofType:@"conf"];
-    NSString *confTarget = [dir.path stringByAppendingString:@"/lnd.conf"];
+    NSString *confTarget = [self.appDir stringByAppendingString:@"/lnd.conf"];
 
     [fileMgr removeItemAtPath:confTarget error:nil];
     [fileMgr copyItemAtPath:lndConf toPath: confTarget error:nil];
 
-    RCTLogInfo(@"lnd dir: %@", dir.path);
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         RCTLogInfo(@"Starting lnd");
