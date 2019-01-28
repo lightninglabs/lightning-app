@@ -13,5 +13,6 @@
 @property (nonatomic) NSDictionary *syncMethods;
 @property (nonatomic) NSDictionary *streamMethods;
 @property (nonatomic) NSMutableDictionary *activeStreams;
+@property (nonatomic) NSString *appDir;
 
 @end
