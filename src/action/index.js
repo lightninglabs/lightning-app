@@ -4,7 +4,7 @@
  * flags on the global store are set to true.
  */
 
-import { observe } from 'mobx';
+import { when } from 'mobx';
 import { AsyncStorage, Clipboard } from 'react-native';
 import { nap } from '../helper';
 import store from '../store';
@@ -53,35 +53,31 @@ db.restore(); // read user settings from disk
 /**
  * Triggered after user settings are restored from disk.
  */
-observe(store, 'loaded', async () => {
-  await grpc.initUnlocker();
-});
+when(() => store.loaded, () => grpc.initUnlocker());
 
 /**
  * Triggered after the wallet unlocker grpc client is initialized.
  */
-observe(store, 'unlockerReady', async () => {
-  await wallet.init();
-});
+when(() => store.unlockerReady, () => wallet.init());
 
 /**
  * Triggered the first time the app was started e.g. to set the
  * local fiat currency only once.
  */
-observe(store, 'firstStart', async () => {
-  await setting.detectLocalCurrency();
-});
+when(() => store.firstStart, () => setting.detectLocalCurrency());
 
 /**
  * Triggered after the user's password has unlocked the wallet
  * or a user's password has been successfully reset.
  */
-observe(store, 'walletUnlocked', async () => {
-  if (!store.walletUnlocked) return;
-  await nap();
-  await grpc.closeUnlocker();
-  await grpc.initLnd();
-});
+when(
+  () => store.walletUnlocked,
+  async () => {
+    await nap();
+    await grpc.closeUnlocker();
+    await grpc.initLnd();
+  }
+);
 
 /**
  * Triggered once the main lnd grpc client is initialized. This is when
@@ -89,14 +85,16 @@ observe(store, 'walletUnlocked', async () => {
  * to and from lnd can be done. The display the current state of the
  * lnd node all balances, channels and transactions are fetched.
  */
-observe(store, 'lndReady', () => {
-  if (!store.lndReady) return;
-  wallet.getNewAddress();
-  wallet.pollBalances();
-  wallet.pollExchangeRate();
-  channel.update();
-  transaction.update();
-  transaction.subscribeTransactions();
-  transaction.subscribeInvoices();
-  info.pollInfo();
-});
+when(
+  () => store.lndReady,
+  () => {
+    wallet.getNewAddress();
+    wallet.pollBalances();
+    wallet.pollExchangeRate();
+    channel.update();
+    transaction.update();
+    transaction.subscribeTransactions();
+    transaction.subscribeInvoices();
+    info.pollInfo();
+  }
+);
