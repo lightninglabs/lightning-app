@@ -1,4 +1,4 @@
-import React, { Component, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from './media-query';
@@ -44,21 +44,13 @@ ListContent.propTypes = {
 // List
 //
 
-export class List extends Component {
-  get dataSource() {
-    return this.props.data;
-  }
-
-  render() {
-    return (
-      <FlatList
-        data={this.dataSource}
-        ListHeaderComponent={this.props.renderHeader}
-        renderItem={({ item }) => this.props.renderItem(item)}
-      />
-    );
-  }
-}
+export const List = ({ data, renderHeader, renderItem }) => (
+  <FlatList
+    data={data}
+    ListHeaderComponent={renderHeader}
+    renderItem={({ item }) => renderItem(item)}
+  />
+);
 
 List.propTypes = {
   data: PropTypes.array.isRequired,
