@@ -158,11 +158,12 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
     [fileMgr removeItemAtPath:confTarget error:nil];
     [fileMgr copyItemAtPath:lndConf toPath: confTarget error:nil];
 
+    NSString *args = [NSString stringWithFormat:@"--lnddir=%@", self.appDir];
 
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void){
         RCTLogInfo(@"Starting lnd");
         NativeCallback* cb = [[NativeCallback alloc] initWithResolver:resolve rejecter:reject];
-        LndmobileStart(dir.path, cb);
+        LndmobileStart(args, cb);
     });
 
 }
