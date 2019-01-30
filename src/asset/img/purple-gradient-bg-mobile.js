@@ -2,7 +2,7 @@ import React from 'react';
 import Svg, { Defs, LinearGradient, Stop, Path } from '../../component/svg';
 
 const SvgComponent = props => (
-  <Svg width={'100%'} height={'100%'} {...props}>
+  <Svg width={600} height={'100%'} {...props}>
     <Defs>
       <LinearGradient x1="-6.471%" y1="-1%" x2="87.82%" y2="84.696%" id="a">
         <Stop stopColor="#A95BDC" offset="0%" />
@@ -12,7 +12,7 @@ const SvgComponent = props => (
         <Stop stopColor="#57038D" offset="100%" />
       </LinearGradient>
     </Defs>
-    <Path d="M0 0h415v816H0z" fill="url(#a)" fillRule="evenodd" />
+    <Path d="M0 0h600v1000H0z" fill="url(#a)" fillRule="evenodd" />
   </Svg>
 );
 
