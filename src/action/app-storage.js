@@ -26,9 +26,6 @@ class AppStorage {
         if (typeof this._store.settings[key] !== 'undefined') {
           this._store.settings[key] = state[key];
         }
-        if (key === 'restoring') {
-          this._store.settings[key] = JSON.parse(state[key]);
-        }
       });
     } catch (err) {
       log.error('Store load error', err);
