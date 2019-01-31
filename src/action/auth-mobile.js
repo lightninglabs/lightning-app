@@ -124,7 +124,8 @@ class AuthAction {
    */
   async tryFingerprint() {
     const hasHardware = await this._Fingerprint.hasHardwareAsync();
-    if (!hasHardware) {
+    const isEnrolled = await this._Fingerprint.isEnrolledAsync();
+    if (!hasHardware || !isEnrolled) {
       return;
     }
     const msg = 'Unlock your Wallet';

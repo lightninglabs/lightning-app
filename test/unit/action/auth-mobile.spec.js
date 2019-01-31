@@ -24,6 +24,7 @@ describe('Action AuthMobile Unit Tests', () => {
     };
     Fingerprint = {
       hasHardwareAsync: sinon.stub(),
+      isEnrolledAsync: sinon.stub(),
       authenticateAsync: sinon.stub(),
     };
     Alert = {
@@ -165,12 +166,21 @@ describe('Action AuthMobile Unit Tests', () => {
 
     it('should not unlock wallet without hardware support', async () => {
       Fingerprint.hasHardwareAsync.resolves(false);
+      Fingerprint.isEnrolledAsync.resolves(true);
+      await auth.tryFingerprint();
+      expect(auth._unlockWallet, 'was not called');
+    });
+
+    it('should not unlock wallet if hardware not enrolled', async () => {
+      Fingerprint.hasHardwareAsync.resolves(true);
+      Fingerprint.isEnrolledAsync.resolves(false);
       await auth.tryFingerprint();
       expect(auth._unlockWallet, 'was not called');
     });
 
     it('should not unlock wallet if authentication failed', async () => {
       Fingerprint.hasHardwareAsync.resolves(true);
+      Fingerprint.isEnrolledAsync.resolves(true);
       Fingerprint.authenticateAsync.resolves({ success: false });
       await auth.tryFingerprint();
       expect(auth._unlockWallet, 'was not called');
@@ -178,6 +188,7 @@ describe('Action AuthMobile Unit Tests', () => {
 
     it('should unlock wallet if authentication worked', async () => {
       Fingerprint.hasHardwareAsync.resolves(true);
+      Fingerprint.isEnrolledAsync.resolves(true);
       Fingerprint.authenticateAsync.resolves({ success: true });
       await auth.tryFingerprint();
       expect(auth._unlockWallet, 'was called once');
