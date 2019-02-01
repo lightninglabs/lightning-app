@@ -50,6 +50,7 @@ public class MainApplication extends ExpoApplication implements AppLoaderPackage
 
         // Needed for `react-native link`
         // new MainReactPackage()
+        new LndNativePackage()
     );
   }
 
