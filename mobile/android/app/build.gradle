@@ -187,6 +187,8 @@ dependencies {
     exclude group: 'com.squareup.okhttp3', module: 'okhttp'
     exclude group: 'com.squareup.okhttp3', module: 'okhttp-urlconnection'
   }
+
+  implementation project(":Lndmobile")
   
 
 
