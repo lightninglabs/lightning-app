@@ -54,7 +54,6 @@ describe('Computed Channels Unit Tests', () => {
       ComputedChannel(store);
       expect(store.computedChannels.length, 'to equal', 0);
       expect(store.channelBalanceOpenLabel, 'to equal', '0');
-      expect(store.channelBalanceInactiveLabel, 'to equal', '0');
       expect(store.channelBalancePendingLabel, 'to equal', '0');
       expect(store.channelBalanceClosingLabel, 'to equal', '0');
       expect(store.showChannelAlert, 'to equal', true);
@@ -83,8 +82,7 @@ describe('Computed Channels Unit Tests', () => {
       expect(pendingCloseCh.statusLabel, 'to equal', 'Pending Closing');
       expect(pendingCloseCh.statusType, 'to equal', 'error');
 
-      expect(store.channelBalanceOpenLabel, 'to match', /0[,.]0199/);
-      expect(store.channelBalanceInactiveLabel, 'to match', /0[,.]0199/);
+      expect(store.channelBalanceOpenLabel, 'to match', /0[,.]0398/);
       expect(store.channelBalancePendingLabel, 'to match', /0[,.]006/);
       expect(store.channelBalanceClosingLabel, 'to match', /0[,.]005/);
       expect(store.showChannelAlert, 'to equal', false);
@@ -99,8 +97,7 @@ describe('Computed Channels Unit Tests', () => {
       expect(ch.capacityLabel, 'to match', /138[,.]25/);
       expect(ch.localBalanceLabel, 'to match', /137[,.]21/);
       expect(ch.remoteBalanceLabel, 'to match', /0[,.]69/);
-      expect(store.channelBalanceOpenLabel, 'to match', /137[,.]21/);
-      expect(store.channelBalanceInactiveLabel, 'to match', /137[,.]21/);
+      expect(store.channelBalanceOpenLabel, 'to match', /274[,.]43/);
       expect(store.channelBalancePendingLabel, 'to match', /41[,.]37/);
       expect(store.channelBalanceClosingLabel, 'to match', /34[,.]48/);
     });
