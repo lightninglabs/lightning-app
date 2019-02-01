@@ -17,6 +17,8 @@ static NSString* const respErrorKey = @"error";
 static NSString* const respEventTypeKey = @"event";
 static NSString* const respEventTypeData = @"data";
 static NSString* const respEventTypeError = @"error";
+static NSString* const logEventName = @"logs";
+static NSString* const logEventDataKey = @"logs";
 
 @interface NativeCallback:NSObject<LndmobileCallback>
 @property (nonatomic) RCTPromiseResolveBlock resolve;
@@ -100,7 +102,7 @@ RCT_EXPORT_MODULE();
 
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[streamEventName];
+    return @[streamEventName, logEventName];
 }
 
 
@@ -157,6 +159,25 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
 
     [fileMgr removeItemAtPath:confTarget error:nil];
     [fileMgr copyItemAtPath:lndConf toPath: confTarget error:nil];
+
+    NSString *logFile = [self.appDir stringByAppendingString:@"/logs/bitcoin/testnet/lnd.log"];
+    NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:logFile];
+
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
+                                                          object:fileHandle
+                                                           queue:[NSOperationQueue mainQueue]
+                                                      usingBlock:^(NSNotification *n) {
+                                                          NSData *data = [fileHandle availableData];
+                                                          if ([data length] > 0) {
+                                                              NSString *s = [NSString stringWithUTF8String:[data bytes]];
+                                                              [self sendEventWithName:logEventName body:@{ logEventDataKey:s }];
+                                                          }
+                                                          [fileHandle waitForDataInBackgroundAndNotify];
+                                                      }];
+        [fileHandle seekToEndOfFile];
+        [fileHandle waitForDataInBackgroundAndNotify];
+    });
 
     NSString *args = [NSString stringWithFormat:@"--lnddir=%@", self.appDir];
 
