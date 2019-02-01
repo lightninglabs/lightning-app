@@ -1,4 +1,4 @@
-include ':app'
+include ':app', ':Lndmobile'
 
 
 // Import gradle helpers for unimodules.
