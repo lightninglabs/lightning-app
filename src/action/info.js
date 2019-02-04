@@ -38,6 +38,7 @@ class InfoAction {
         });
         this._store.percentSynced = this.calcPercentSynced(response);
       } else {
+        this._store.settings.restoring = false;
         this._notification.display({
           type: 'success',
           msg: 'Syncing complete',

@@ -43,6 +43,14 @@ class SettingAction {
   }
 
   /**
+   * Set whether or not we're restoring the wallet.
+   * @param {boolean} options.restoring Whether or not we're restoring.
+   */
+  setRestoringWallet({ restoring }) {
+    this._store.settings.restoring = restoring;
+  }
+
+  /**
    * Detect the user's local fiat currency based on their OS locale.
    * If the currency is not supported use the default currency `usd`.
    * @return {Promise<undefined>}

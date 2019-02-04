@@ -48,7 +48,7 @@ const styles = createStyles(
   })
 );
 
-const SelectSeedView = ({ store, wallet }) => (
+const SelectSeedView = ({ store, wallet, setting }) => (
   <Background color={color.blackDark}>
     <MainContent style={styles.content}>
       <CopyOnboardText style={styles.title}>Recovery phrase?</CopyOnboardText>
@@ -59,21 +59,23 @@ const SelectSeedView = ({ store, wallet }) => (
       <View style={styles.list}>
         <SettingItem
           name="Generate a new wallet"
-          onSelect={() => wallet.setRestoringWallet({ restoring: false })}
+          onSelect={() => setting.setRestoringWallet({ restoring: false })}
         >
-          <RadioButton selected={store.wallet.restoring === false} />
+          <RadioButton selected={store.settings.restoring === false} />
         </SettingItem>
         <SettingItem
           name="Recover an existing wallet"
-          onSelect={() => wallet.setRestoringWallet({ restoring: true })}
+          onSelect={() => setting.setRestoringWallet({ restoring: true })}
         >
-          <RadioButton selected={store.wallet.restoring === true} />
+          <RadioButton selected={store.settings.restoring === true} />
         </SettingItem>
       </View>
     </MainContent>
     <GlasButton
       onPress={() =>
-        store.wallet.restoring ? wallet.initRestoreWallet() : wallet.initSeed()
+        store.settings.restoring
+          ? wallet.initRestoreWallet()
+          : wallet.initSeed()
       }
     >
       Next
@@ -84,6 +86,7 @@ const SelectSeedView = ({ store, wallet }) => (
 SelectSeedView.propTypes = {
   store: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
+  setting: PropTypes.object.isRequired,
 };
 
 export default observer(SelectSeedView);

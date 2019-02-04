@@ -83,4 +83,11 @@ describe('Action Setting Unit Test', () => {
       expect(db.save, 'was not called');
     });
   });
+
+  describe('setRestoringWallet()', () => {
+    it('should clear attributes', () => {
+      setting.setRestoringWallet({ restoring: true });
+      expect(store.settings.restoring, 'to equal', true);
+    });
+  });
 });

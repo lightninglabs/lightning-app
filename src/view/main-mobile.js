@@ -62,7 +62,9 @@ const Welcome = () => <WelcomeView />;
 
 const Loader = () => <LoaderView />;
 
-const SelectSeed = () => <SelectSeedView store={store} wallet={wallet} />;
+const SelectSeed = () => (
+  <SelectSeedView store={store} wallet={wallet} setting={setting} />
+);
 
 const SeedIntro = () => <SeedIntroView nav={nav} />;
 
