@@ -22,7 +22,7 @@ export const color = {
   greenSig: '#46E80E',
   orangeSig: '#FF7C00',
   pinkSig: '#F5406E',
-  blueSig: '#002FFF',
+  greySig: '#454D64',
   glas: 'rgba(255,255,255,0.13)',
   glasDark: 'rgba(255,255,255,0.08)',
   glasDarker: 'rgba(255,255,255,0.04)',

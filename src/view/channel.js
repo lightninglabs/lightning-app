@@ -93,6 +93,7 @@ const ChannelList = ({ store, channel }) => {
   const {
     computedChannels: channels,
     channelBalanceOpenLabel,
+    channelBalanceInactiveLabel,
     channelBalancePendingLabel,
     channelBalanceClosingLabel,
     unitLabel,
@@ -101,6 +102,7 @@ const ChannelList = ({ store, channel }) => {
     <View style={listStyles.wrapper}>
       <ChannelSummary
         channelBalanceOpenLabel={channelBalanceOpenLabel}
+        channelBalanceInactiveLabel={channelBalanceInactiveLabel}
         channelBalancePendingLabel={channelBalancePendingLabel}
         channelBalanceClosingLabel={channelBalanceClosingLabel}
         unitLabel={unitLabel}
@@ -159,6 +161,7 @@ const summaryStyles = StyleSheet.create({
 
 const ChannelSummary = ({
   channelBalanceOpenLabel,
+  channelBalanceInactiveLabel,
   channelBalancePendingLabel,
   channelBalanceClosingLabel,
   unitLabel,
@@ -169,6 +172,13 @@ const ChannelSummary = ({
       <Text style={summaryStyles.txt}>Opened</Text>
       <Text style={[summaryStyles.txt, summaryStyles.total]}>
         {channelBalanceOpenLabel} {unitLabel}
+      </Text>
+    </View>
+    <View style={summaryStyles.box}>
+      <Alert type="inactive" style={summaryStyles.alert} />
+      <Text style={summaryStyles.txt}>Inactive</Text>
+      <Text style={[summaryStyles.txt, summaryStyles.total]}>
+        {channelBalanceInactiveLabel} {unitLabel}
       </Text>
     </View>
     <View style={summaryStyles.box}>
@@ -190,6 +200,7 @@ const ChannelSummary = ({
 
 ChannelSummary.propTypes = {
   channelBalanceOpenLabel: PropTypes.string.isRequired,
+  channelBalanceInactiveLabel: PropTypes.string.isRequired,
   channelBalancePendingLabel: PropTypes.string.isRequired,
   channelBalanceClosingLabel: PropTypes.string.isRequired,
   unitLabel: PropTypes.string,
