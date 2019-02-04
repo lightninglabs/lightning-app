@@ -6,7 +6,7 @@ const url = require('url');
 const isDev = require('electron-is-dev');
 const log = require('electron-log');
 const { startLndProcess, startBtcdProcess } = require('./lnd-child-process');
-const { parseCliArg } = require('../public/helper');
+const { parseCliArg } = require('./helper');
 const grcpClient = require('./grpc-client');
 const {
   PREFIX_NAME,
