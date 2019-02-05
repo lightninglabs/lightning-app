@@ -28,6 +28,7 @@ module.exports = {
       'base64-js': path.resolve(__dirname, 'node_modules/base64-js'),
       protobufjs: path.resolve(__dirname, 'node_modules/protobufjs'),
       sinon: path.resolve(__dirname, 'node_modules/sinon'),
+      '@babel/runtime': path.resolve(__dirname, 'node_modules/@babel/runtime'),
     },
   },
   projectRoot: path.resolve(__dirname),
