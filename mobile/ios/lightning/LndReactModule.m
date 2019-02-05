@@ -164,19 +164,21 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
     NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:logFile];
 
     dispatch_async(dispatch_get_main_queue(), ^{
-        [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleDataAvailableNotification
+        [[NSNotificationCenter defaultCenter] addObserverForName:NSFileHandleReadCompletionNotification
                                                           object:fileHandle
                                                            queue:[NSOperationQueue mainQueue]
                                                       usingBlock:^(NSNotification *n) {
-                                                          NSData *data = [fileHandle availableData];
-                                                          if ([data length] > 0) {
-                                                              NSString *s = [NSString stringWithUTF8String:[data bytes]];
-                                                              [self sendEventWithName:logEventName body:@{ logEventDataKey:s }];
+                                                          NSData *data = [n.userInfo objectForKey:NSFileHandleNotificationDataItem];
+                                                          if (data != nil && [data length] > 0) {
+                                                              NSString *s = [[NSString alloc]initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
+                                                              if (s != nil) {
+                                                                  [self sendEventWithName:logEventName body:@{ logEventDataKey:s }];
+                                                              }
                                                           }
-                                                          [fileHandle waitForDataInBackgroundAndNotify];
+                                                          [fileHandle readInBackgroundAndNotify];
                                                       }];
         [fileHandle seekToEndOfFile];
-        [fileHandle waitForDataInBackgroundAndNotify];
+        [fileHandle readInBackgroundAndNotify];
     });
 
     NSString *args = [NSString stringWithFormat:@"--lnddir=%@", self.appDir];
