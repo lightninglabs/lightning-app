@@ -2,10 +2,6 @@
   "name": "LightningApp",
   "private": true,
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.11",
-    "@storybook/addon-links": "^3.4.11",
-    "@storybook/addons": "^3.4.11",
-    "@storybook/react-native": "^3.4.11",
     "expo-cli": "^2.7.1",
     "expokit": "^32.0.6",
     "prop-types": "^15.6.2",
@@ -18,7 +14,6 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "storybook": "storybook start -p 7007",
     "publish": "expo publish"
   },
   "dependencies": {
