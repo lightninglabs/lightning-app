@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   ViewPropTypes,
+  Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import BackgroundImage from './background-image';
@@ -78,6 +79,7 @@ SplitBackground.propTypes = {
 const wrapperStyles = StyleSheet.create({
   safe: {
     flex: 1,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
   },
   avoid: {
     flex: 1,
