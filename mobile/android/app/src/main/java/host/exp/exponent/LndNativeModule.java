@@ -96,7 +96,7 @@ public class LndNativeModule extends ReactContextBaseJavaModule {
         public void onResponse(byte[] bytes) {
             String b64 = "";
             if (bytes != null && bytes.length > 0) {
-                b64 = Base64.encodeToString(bytes, Base64.DEFAULT);
+                b64 = Base64.encodeToString(bytes, Base64.NO_WRAP);
             }
 
             WritableMap params = Arguments.createMap();
@@ -128,7 +128,7 @@ public class LndNativeModule extends ReactContextBaseJavaModule {
         public void onResponse(byte[] bytes) {
             String b64 = "";
             if (bytes != null && bytes.length > 0) {
-                b64 = Base64.encodeToString(bytes, Base64.DEFAULT);
+                b64 = Base64.encodeToString(bytes, Base64.NO_WRAP);
             }
 
             WritableMap params = Arguments.createMap();
@@ -187,7 +187,7 @@ public class LndNativeModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        byte[] b = Base64.decode(msg, Base64.DEFAULT);
+        byte[] b = Base64.decode(msg, Base64.NO_WRAP);
 
         try {
             m.invoke(null, b, new NativeCallback(promise));
@@ -210,7 +210,7 @@ public class LndNativeModule extends ReactContextBaseJavaModule {
                 Object sendStream = m.invoke(null, r);
                 this.activeStreams.put(streamId, (SendStream) sendStream);
             } else {
-                byte[] b = Base64.decode(msg, Base64.DEFAULT);
+                byte[] b = Base64.decode(msg, Base64.NO_WRAP);
                 m.invoke(null, b, r);
             }
         } catch (IllegalAccessException e) {
@@ -227,7 +227,7 @@ public class LndNativeModule extends ReactContextBaseJavaModule {
             return;
         }
 
-        byte[] b = Base64.decode(msg, Base64.DEFAULT);
+        byte[] b = Base64.decode(msg, Base64.NO_WRAP);
         try {
             stream.send(b);
         } catch (Exception e) {
