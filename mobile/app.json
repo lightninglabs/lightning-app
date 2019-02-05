@@ -4,7 +4,7 @@
     "version": "0.0.1",
     "description": "An easy-to-use Lightning wallet.",
     "slug": "lightning-app",
-    "privacy": "public",
+    "privacy": "unlisted",
     "sdkVersion": "32.0.0",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
