@@ -170,8 +170,10 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
                                                       usingBlock:^(NSNotification *n) {
                                                           NSData *data = [fileHandle availableData];
                                                           if ([data length] > 0) {
-                                                              NSString *s = [NSString stringWithUTF8String:[data bytes]];
-                                                              [self sendEventWithName:logEventName body:@{ logEventDataKey:s }];
+                                                              NSString *s = [[NSString alloc]initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
+                                                              if (s != nil) {
+                                                                  [self sendEventWithName:logEventName body:@{ logEventDataKey:s }];
+                                                              }
                                                           }
                                                           [fileHandle waitForDataInBackgroundAndNotify];
                                                       }];
