@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Animated, StyleSheet, View, SafeAreaView } from 'react-native';
+import {
+  Animated,
+  StyleSheet,
+  View,
+  SafeAreaView,
+  ViewPropTypes,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { SmallPillButton } from './button';
 import { Text, H4Text } from './text';
@@ -60,7 +66,7 @@ export const NotificationBar = ({ notification, display, style }) =>
 NotificationBar.propTypes = {
   notification: PropTypes.object,
   display: PropTypes.bool.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -93,7 +99,7 @@ export const Alert = ({ type, style }) => (
 
 Alert.propTypes = {
   type: PropTypes.string.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -124,7 +130,7 @@ export const CountBubble = ({ children, style }) =>
 
 CountBubble.propTypes = {
   children: PropTypes.string.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -163,7 +169,7 @@ export const CopiedNotification = ({ display, color, style }) => (
 CopiedNotification.propTypes = {
   display: PropTypes.bool.isRequired,
   color: PropTypes.string.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -202,5 +208,5 @@ class FadeInView extends Component {
 FadeInView.propTypes = {
   display: PropTypes.bool.isRequired,
   children: PropTypes.node.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };

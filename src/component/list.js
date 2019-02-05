@@ -1,5 +1,11 @@
 import React, { PureComponent } from 'react';
-import { View, FlatList, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  FlatList,
+  TouchableOpacity,
+  StyleSheet,
+  ViewPropTypes,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from './media-query';
 import { color, breakWidth } from './style';
@@ -37,7 +43,7 @@ export const ListContent = ({ children, style }) => (
 
 ListContent.propTypes = {
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -89,7 +95,7 @@ export class ListItem extends PureComponent {
 ListItem.propTypes = {
   onSelect: PropTypes.func,
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -108,7 +114,7 @@ export const ListHeader = ({ style, children }) => (
 
 ListHeader.propTypes = {
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -139,5 +145,5 @@ export class CardItem extends PureComponent {
 }
 
 CardItem.propTypes = {
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };

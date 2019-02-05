@@ -63,7 +63,7 @@ LoadNetworkSpinner.propTypes = {
   continuous: PropTypes.bool,
   percentage: PropTypes.number.isRequired,
   msg: PropTypes.string.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //

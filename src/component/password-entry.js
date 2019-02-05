@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  StyleSheet,
+  ViewPropTypes,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { FormSubText, FormStretcher } from './form';
 import { color, font } from './style';
@@ -114,7 +119,7 @@ export class PasswordEntry extends Component {
 
 PasswordEntry.propTypes = {
   success: PropTypes.bool,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //

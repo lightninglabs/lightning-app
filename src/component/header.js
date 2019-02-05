@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from './media-query';
 import Text from './text';
@@ -60,7 +60,7 @@ export const Header = ({ style, children, color, shadow, separator }) => (
 );
 
 Header.propTypes = {
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
   children: PropTypes.node,
   color: PropTypes.string,
   shadow: PropTypes.bool,

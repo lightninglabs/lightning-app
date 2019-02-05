@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text as RNText, StyleSheet, View } from 'react-native';
+import { Text as RNText, StyleSheet, View, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from './media-query';
 import Text from './text';
@@ -96,7 +96,7 @@ export const NamedField = ({ name, children, style }) => (
 NamedField.propTypes = {
   name: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -151,5 +151,5 @@ export const DetailField = ({ name, children, style }) => (
 DetailField.propTypes = {
   name: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };

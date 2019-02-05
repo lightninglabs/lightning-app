@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   ImageBackground as RNImageBackground,
+  ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
 
@@ -26,7 +27,7 @@ export const ImageBackground = ({ source, children, style }) => (
 ImageBackground.propTypes = {
   source: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -49,5 +50,5 @@ export const SvgBackground = ({ svg, children, style }) => (
 SvgBackground.propTypes = {
   svg: PropTypes.node,
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
