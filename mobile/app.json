@@ -5,7 +5,7 @@
     "description": "An easy-to-use Lightning wallet.",
     "slug": "lightning-app",
     "privacy": "public",
-    "sdkVersion": "30.0.0",
+    "sdkVersion": "32.0.0",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
     "primaryColor": "#57038D",
