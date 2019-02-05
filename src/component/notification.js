@@ -5,6 +5,7 @@ import {
   View,
   SafeAreaView,
   ViewPropTypes,
+  Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { SmallPillButton } from './button';
@@ -20,6 +21,7 @@ import { color, font } from './style';
 const barStyles = StyleSheet.create({
   safe: {
     backgroundColor: color.blackDark,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
   },
   bar: {
     alignSelf: 'stretch',
