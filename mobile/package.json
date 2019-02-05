@@ -8,7 +8,7 @@
     "@storybook/react-native": "^3.4.11",
     "expo-cli": "^2.7.1",
     "expokit": "^32.0.6",
-    "prop-types": "15.6.1",
+    "prop-types": "^15.6.2",
     "protobufjs": "^6.8.8",
     "sinon": "^6.1.5"
   },
