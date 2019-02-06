@@ -28,7 +28,7 @@ class IpcAction {
    * @return {undefined}
    */
   listen(event, callback) {
-    this._grpc._lndEvent.addListener(event, callback);
+    this._grpc._lndEvent.addListener(event, data => callback(event, data));
   }
 }
 
