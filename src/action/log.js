@@ -9,6 +9,7 @@ import { MAX_LOG_LENGTH } from '../config';
 
 let _store;
 let _ipc;
+let _printErrObj;
 
 /**
  * Log an info event e.g. when something relevant but non-critical happens.
@@ -36,7 +37,13 @@ export function error(...args) {
   pushLogs(''); // newline
   pushLogs(`ERROR: ${args[0]}`);
   for (let i = 1; i < args.length; i++) {
-    pushLogs(JSON.stringify(args[i], null, '    '));
+    pushLogs(
+      JSON.stringify(
+        _printErrObj ? args[i] : { message: args[i].message },
+        null,
+        '    '
+      )
+    );
   }
   pushLogs(''); // newline
   _ipc && _ipc.send('log-error', null, args);
@@ -52,9 +59,10 @@ function pushLogs(message) {
 }
 
 class LogAction {
-  constructor(store, ipc) {
+  constructor(store, ipc, printErrObj = true) {
     _store = store;
     _ipc = ipc;
+    _printErrObj = printErrObj;
     _ipc.listen('logs', (event, message) => pushLogs(message));
     _ipc.send('logs-ready', null, true);
   }
