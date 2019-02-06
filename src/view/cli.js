@@ -84,8 +84,13 @@ class LogOutput extends Component {
     return current;
   }
 
+  componentWillUnmount() {
+    clearTimeout(this._tLast);
+    clearTimeout(this._tScroll);
+  }
+
   get printLogs() {
-    setTimeout(() => this._ref.current.scrollToEnd(), 50);
+    this._tScroll = setTimeout(() => this._ref.current.scrollToEnd(), 50);
     return this.props.logs;
   }
 
