@@ -48,6 +48,7 @@ function getMacaroonCreds(lndSettingsDir, network) {
 
 module.exports.init = async function({
   ipcMain,
+  lndIP = 'localhost',
   lndPort,
   lndSettingsDir,
   network,
@@ -70,7 +71,7 @@ module.exports.init = async function({
     };
     const packageDef = protoLoader.loadSync(protoPath, options);
     lnrpc = grpc.loadPackageDefinition(packageDef).lnrpc;
-    unlocker = new lnrpc.WalletUnlocker(`localhost:${lndPort}`, credentials);
+    unlocker = new lnrpc.WalletUnlocker(`${lndIP}:${lndPort}`, credentials);
     grpc.waitForClientReady(unlocker, Infinity, err => {
       event.sender.send('unlockReady', { err });
     });
@@ -87,7 +88,7 @@ module.exports.init = async function({
       credentials,
       macaroonCreds
     );
-    lnd = new lnrpc.Lightning(`localhost:${lndPort}`, credentials);
+    lnd = new lnrpc.Lightning(`${lndIP}:${lndPort}`, credentials);
     grpc.waitForClientReady(lnd, Infinity, err => {
       event.sender.send('lndReady', { err });
     });
