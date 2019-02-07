@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   Text as RNText,
   StyleSheet,
+  ViewPropTypes,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
@@ -41,7 +42,7 @@ Button.propTypes = {
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -101,7 +102,7 @@ GlasButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -119,7 +120,7 @@ export const SmallGlasButton = ({ style, ...props }) => (
 );
 
 SmallGlasButton.propTypes = {
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -155,7 +156,7 @@ PillButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
   children: PropTypes.string.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -230,7 +231,7 @@ SmallButton.propTypes = {
   border: PropTypes.bool,
   alert: PropTypes.string,
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -276,7 +277,7 @@ SmallPillButton.propTypes = {
   text: PropTypes.string,
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -292,7 +293,7 @@ export const BackButton = ({ onPress, disabled, style }) => (
 BackButton.propTypes = {
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -308,7 +309,7 @@ export const CancelButton = ({ onPress, disabled, style }) => (
 CancelButton.propTypes = {
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -324,7 +325,7 @@ export const AddButton = ({ onPress, disabled, style }) => (
 AddButton.propTypes = {
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -358,7 +359,7 @@ export const QrButton = ({ onPress, disabled, style, children }) => (
 QrButton.propTypes = {
   onPress: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
   children: PropTypes.string,
 };
 
@@ -391,7 +392,7 @@ export const DownButton = ({ onPress, disabled, style, children }) => (
 DownButton.propTypes = {
   onPress: PropTypes.func,
   disabled: PropTypes.bool,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
   children: PropTypes.string,
 };
 
@@ -440,7 +441,7 @@ CopyButton.propTypes = {
   onPress: PropTypes.func,
   icon: PropTypes.node,
   children: PropTypes.string,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -491,7 +492,7 @@ SmallCopyButton.propTypes = {
   onPress: PropTypes.func,
   icon: PropTypes.node,
   children: PropTypes.string,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //

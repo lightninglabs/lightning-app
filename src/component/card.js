@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ViewPropTypes } from 'react-native';
 import { createStyles, maxWidth } from '../component/media-query';
 import PropTypes from 'prop-types';
 import { color, breakWidth } from './style';
@@ -42,7 +42,7 @@ const Card = ({ children, style }) => (
 
 Card.propTypes = {
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 export default Card;

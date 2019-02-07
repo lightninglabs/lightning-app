@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 import { Button } from './button';
 import { H4Text } from './text';
@@ -50,7 +50,7 @@ Modal.propTypes = {
   title: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 export default Modal;

@@ -16,6 +16,10 @@ ios/Pods/**/*
 npm-debug.*
 yarn-debug.log*
 yarn-error.log*
+*.jks
+*.p12
+*.key
+*.mobileprovision
 
 # Xcode
 build/

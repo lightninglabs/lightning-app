@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import { View, ScrollView, StyleSheet, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { ListItem, ListHeader } from './list';
@@ -45,7 +45,7 @@ export const SettingContent = ({ children, style }) => (
 
 SettingContent.propTypes = {
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -74,7 +74,7 @@ export const SettingList = ({ children, style }) => (
 
 SettingList.propTypes = {
   children: PropTypes.node,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
@@ -144,5 +144,5 @@ export const SettingHeader = ({ name, style }) => (
 
 SettingHeader.propTypes = {
   name: PropTypes.string.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };

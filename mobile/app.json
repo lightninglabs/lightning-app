@@ -4,8 +4,8 @@
     "version": "0.0.1",
     "description": "An easy-to-use Lightning wallet.",
     "slug": "lightning-app",
-    "privacy": "public",
-    "sdkVersion": "30.0.0",
+    "privacy": "unlisted",
+    "sdkVersion": "32.0.0",
     "platforms": ["ios", "android"],
     "orientation": "portrait",
     "primaryColor": "#57038D",
@@ -16,7 +16,8 @@
       "backgroundColor": "#57038D"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "enabled": false
     },
     "assetBundlePatterns": [
       "**/*"

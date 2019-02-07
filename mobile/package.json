@@ -2,13 +2,9 @@
   "name": "LightningApp",
   "private": true,
   "devDependencies": {
-    "@storybook/addon-actions": "^3.4.11",
-    "@storybook/addon-links": "^3.4.11",
-    "@storybook/addons": "^3.4.11",
-    "@storybook/react-native": "^3.4.11",
-    "expo-cli": "^2.2.4",
-    "expokit": "^1.7.1",
-    "prop-types": "15.6.1",
+    "expo-cli": "^2.9.0",
+    "expokit": "^32.0.6",
+    "prop-types": "^15.6.2",
     "protobufjs": "^6.8.8",
     "sinon": "^6.1.5"
   },
@@ -18,18 +14,17 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "storybook": "storybook start -p 7007",
-    "publish": "expo publish"
+    "publish": "expo publish --release-channel expo-32"
   },
   "dependencies": {
-    "expo": "^30.0.2",
+    "expo": "^32.0.4",
     "locale-currency": "0.0.2",
     "mobx": "^4.5.0",
     "mobx-react": "^5.2.8",
     "node-libs-react-native": "^1.0.2",
     "qr-image": "^3.2.0",
-    "react": "16.3.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-30.0.0.tar.gz",
+    "react": "16.5.0",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
     "react-navigation": "^3.0.9"
   }
 }

@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, ViewPropTypes } from 'react-native';
 import PropTypes from 'prop-types';
 import Text from './text';
 import Button from './button';
@@ -30,7 +30,7 @@ export const PinBubbles = ({ pin, style }) => (
 
 PinBubbles.propTypes = {
   pin: PropTypes.string.isRequired,
-  style: View.propTypes.style,
+  style: ViewPropTypes.style,
 };
 
 //
