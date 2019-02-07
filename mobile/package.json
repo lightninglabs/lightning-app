@@ -14,7 +14,7 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "eject": "expo eject",
-    "publish": "expo publish"
+    "publish": "expo publish --release-channel expo-32"
   },
   "dependencies": {
     "expo": "^32.0.4",
