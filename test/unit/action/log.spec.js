@@ -18,6 +18,10 @@ describe('Action Logs Unit Tests', () => {
     };
   });
 
+  afterEach(() => {
+    sandbox.restore();
+  });
+
   describe('without constructor', () => {
     describe('info()', () => {
       it('should call console.log with all args', () => {
@@ -35,7 +39,6 @@ describe('Action Logs Unit Tests', () => {
         sandbox.stub(console, 'error');
         log.error('foo', err);
         expect(console.error, 'was called with', 'foo', err);
-        sandbox.restore();
         expect(ipcRenderer.send, 'was not called');
       });
     });
@@ -97,9 +100,19 @@ describe('Action Logs Unit Tests', () => {
         sandbox.stub(console, 'error');
         log.error('foo', err);
         expect(console.error, 'was called with', 'foo', err);
-        sandbox.restore();
         expect(store.logs.length, 'to equal', 25);
         expect(ipcRenderer.send, 'was called with', 'log-error', ['foo', err]);
+      });
+    });
+
+    describe('error()', () => {
+      it('should call console.error with all args', () => {
+        new LogAction(store, ipc, false);
+        const err = new Error('bar');
+        sandbox.stub(console, 'error');
+        log.error('foo', err);
+        expect(console.error, 'was called with', 'foo', err);
+        expect(store.logs.length, 'to equal', 56);
       });
     });
   });

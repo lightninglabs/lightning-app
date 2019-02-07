@@ -18,6 +18,7 @@ import { SecureStore, LocalAuthentication, Linking } from 'expo';
 import { NavigationActions } from 'react-navigation';
 import store from '../store';
 import AppStorage from './app-storage';
+import IpcAction from './ipc-mobile';
 import GrpcAction from './grpc-mobile';
 import NavAction from './nav-mobile';
 import WalletAction from './wallet';
@@ -37,13 +38,13 @@ import AuthAction from './auth-mobile';
 
 store.init(); // initialize computed values
 
-export const ipc = { send: () => {}, listen: () => {} };
 // export const db = new AppStorage(store, AsyncStorage);
 export const db = sinon.createStubInstance(AppStorage); // STUB DURING DEVELOPMENT
-export const log = new LogAction(store, ipc);
-export const nav = new NavAction(store, NavigationActions);
 // export const grpc = new GrpcAction(store, NativeModules, NativeEventEmitter);
 export const grpc = sinon.createStubInstance(GrpcAction); // STUB DURING DEVELOPMENT
+export const ipc = new IpcAction(grpc);
+export const log = new LogAction(store, ipc, false);
+export const nav = new NavAction(store, NavigationActions);
 export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, db, nav, notify);
 export const info = new InfoAction(store, grpc, nav, notify);

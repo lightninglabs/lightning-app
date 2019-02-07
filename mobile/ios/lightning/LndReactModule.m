@@ -18,7 +18,6 @@ static NSString* const respEventTypeKey = @"event";
 static NSString* const respEventTypeData = @"data";
 static NSString* const respEventTypeError = @"error";
 static NSString* const logEventName = @"logs";
-static NSString* const logEventDataKey = @"logs";
 
 @interface NativeCallback:NSObject<LndmobileCallback>
 @property (nonatomic) RCTPromiseResolveBlock resolve;
@@ -172,7 +171,7 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
                                                           if (data != nil && [data length] > 0) {
                                                               NSString *s = [[NSString alloc]initWithBytes:[data bytes] length:[data length] encoding:NSUTF8StringEncoding];
                                                               if (s != nil) {
-                                                                  [self sendEventWithName:logEventName body:@{ logEventDataKey:s }];
+                                                                  [self sendEventWithName:logEventName body:s];
                                                               }
                                                           }
                                                           [fileHandle readInBackgroundAndNotify];
