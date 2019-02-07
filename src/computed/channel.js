@@ -20,7 +20,7 @@ const ComputedChannel = store => {
       all.forEach((c, i) => {
         c.key = String(i);
         c.statusLabel =
-          c.status == 'open' && !c.active ? 'Inactive' : toCaps(c.status);
+          c.status === 'open' && !c.active ? 'Inactive' : toCaps(c.status);
         c.statusType =
           c.status === 'open' && c.active
             ? 'success'
