@@ -2,7 +2,7 @@
   "name": "LightningApp",
   "private": true,
   "devDependencies": {
-    "expo-cli": "^2.7.1",
+    "expo-cli": "^2.8.0",
     "expokit": "^32.0.6",
     "prop-types": "^15.6.2",
     "protobufjs": "^6.8.8",
