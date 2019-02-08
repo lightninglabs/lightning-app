@@ -39,7 +39,7 @@ const styles = createStyles(
   })
 );
 
-const SettingView = ({ store, nav, wallet, autopilot }) => {
+const SettingView = ({ store, nav, wallet, autopilot, auth }) => {
   return (
     <Background color={color.blackDark}>
       <Header separator>
@@ -70,7 +70,9 @@ const SettingView = ({ store, nav, wallet, autopilot }) => {
         />
         <SettingItem
           name="Change Password"
-          onSelect={() => wallet.initResetPassword()}
+          onSelect={() =>
+            wallet ? wallet.initResetPassword() : auth.initResetPin()
+          }
           arrow
         />
         <SettingItem name="Enable Autopilot">
@@ -91,6 +93,7 @@ SettingView.propTypes = {
   nav: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
   autopilot: PropTypes.object.isRequired,
+  auth: PropTypes.object,
 };
 
 export default observer(SettingView);
