@@ -76,7 +76,6 @@ module.exports.startLndProcess = async function({
     ]);
   } else {
     args = args.concat([
-      '--bitcoin.testnet',
       '--autopilot.active',
       '--autopilot.private',
       '--autopilot.minconfs=0',
@@ -86,6 +85,7 @@ module.exports.startLndProcess = async function({
   // set default production settings if no custom flags
   if (!isDev && !lndArgs.length) {
     args = args.concat([
+      '--bitcoin.testnet',
       '--bitcoin.node=neutrino',
       '--neutrino.connect=btcd0.lightning.engineering',
       '--neutrino.connect=127.0.0.1:18333',
