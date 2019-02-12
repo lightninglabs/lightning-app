@@ -14,7 +14,8 @@ export const formatNumber = val => {
   if (isNaN(num)) {
     num = 0;
   }
-  return num.toLocaleString(undefined, { maximumFractionDigits: 8 });
+  const options = { maximumFractionDigits: 8 };
+  return new Intl.NumberFormat(undefined, options).format(num);
 };
 
 /**
@@ -28,7 +29,8 @@ export const formatFiat = (val, currency) => {
   if (isNaN(num)) {
     num = 0;
   }
-  return num.toLocaleString(undefined, { style: 'currency', currency });
+  const options = { style: 'currency', currency };
+  return new Intl.NumberFormat(undefined, options).format(num);
 };
 
 /**
@@ -83,10 +85,8 @@ export const toAmount = (satoshis, settings) => {
   const num = settings.displayFiat
     ? calculateExchangeRate(satoshis, settings)
     : satoshis / UNITS[settings.unit].denominator;
-  return num.toLocaleString('en-US', {
-    useGrouping: false,
-    maximumFractionDigits: 8,
-  });
+  const options = { useGrouping: false, maximumFractionDigits: 8 };
+  return new Intl.NumberFormat('en-US', options).format(num);
 };
 
 /**
