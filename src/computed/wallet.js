@@ -35,6 +35,15 @@ const ComputedWallet = store => {
       const { settings } = store;
       return !settings.displayFiat ? UNITS[settings.unit].display : null;
     },
+    get channelPercentageLabel() {
+      const {
+        channelBalanceSatoshis: opened,
+        pendingBalanceSatoshis: pending,
+        totalBalanceSatoshis: total,
+      } = store;
+      const percent = total ? (opened + pending) / total * 100 : 0;
+      return `${Math.round(percent)}% in Channels`;
+    },
     get newPasswordCopy() {
       const { newPassword } = store.wallet;
       return getNewPasswordCopy({ newPassword });
