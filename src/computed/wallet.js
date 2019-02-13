@@ -20,17 +20,16 @@ const ComputedWallet = store => {
       const { balanceSatoshis, pendingBalanceSatoshis, settings } = store;
       return toAmountLabel(balanceSatoshis + pendingBalanceSatoshis, settings);
     },
-    get totalBalanceLabel() {
+    get totalBalanceSatoshis() {
       const {
         balanceSatoshis,
         pendingBalanceSatoshis,
         channelBalanceSatoshis,
-        settings,
       } = store;
-      return toAmountLabel(
-        balanceSatoshis + pendingBalanceSatoshis + channelBalanceSatoshis,
-        settings
-      );
+      return balanceSatoshis + pendingBalanceSatoshis + channelBalanceSatoshis;
+    },
+    get totalBalanceLabel() {
+      return toAmountLabel(store.totalBalanceSatoshis, store.settings);
     },
     get unitFiatLabel() {
       const { displayFiat, unit, fiat } = store.settings;
