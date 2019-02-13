@@ -144,7 +144,9 @@ const detailStyles = createStyles(
 export const DetailField = ({ name, children, style }) => (
   <View style={[detailStyles.content, style]}>
     <Text style={detailStyles.name}>{name}</Text>
-    <Text style={detailStyles.text}>{children}</Text>
+    <Text style={detailStyles.text} selectable>
+      {children}
+    </Text>
   </View>
 );
 
