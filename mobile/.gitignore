@@ -50,3 +50,4 @@ android/app/src/main/assets/shell-app-manifest.json
 .idea
 .gradle
 local.properties
+*.aab
