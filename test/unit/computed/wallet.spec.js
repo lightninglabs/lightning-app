@@ -13,7 +13,7 @@ describe('Computed Wallet Unit Tests', () => {
       ComputedWallet(store);
       expect(store.walletAddressUri, 'to equal', '');
       expect(store.depositLabel, 'to match', /0[,.]00/);
-      expect(store.channelBalanceLabel, 'to match', /0[,.]00/);
+      expect(store.totalBalanceLabel, 'to match', /0[,.]00/);
       expect(store.unitFiatLabel, 'to equal', '$');
       expect(store.unitLabel, 'to equal', null);
       expect(store.newPasswordCopy, 'to equal', '');
@@ -38,7 +38,7 @@ describe('Computed Wallet Unit Tests', () => {
       store.channelBalanceSatoshis = 10000;
       ComputedWallet(store);
       expect(store.depositLabel, 'to match', /6[,.]895[,.]13/);
-      expect(store.channelBalanceLabel, 'to match', /0[,.]69/);
+      expect(store.totalBalanceLabel, 'to match', /6[,.]895[,.]81/);
       expect(store.unitFiatLabel, 'to equal', '$');
       expect(store.unitLabel, 'to equal', null);
     });
@@ -56,7 +56,7 @@ describe('Computed Wallet Unit Tests', () => {
         'to match',
         /^1{1}[,.]0{3}[,.]0{3}[,.]0{1}1{1}$/
       );
-      expect(store.channelBalanceLabel, 'to equal', '100');
+      expect(store.totalBalanceLabel, 'to match', /1[,.]000[,.]100[,.]01/);
       expect(store.unitFiatLabel, 'to equal', 'bits');
       expect(store.unitLabel, 'to equal', 'bits');
     });
