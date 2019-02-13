@@ -35,37 +35,45 @@ const ComputedChannel = store => {
       });
       return all;
     },
-    get channelBalanceOpenLabel() {
-      const { channels, settings } = store;
-      const sum = (channels || [])
+    get channelBalanceOpenSatoshis() {
+      return (store.channels || [])
         .filter(c => c.active)
         .map(c => Number(c.localBalance))
         .reduce((a, b) => a + b, 0);
-      return toAmountLabel(sum, settings);
     },
-    get channelBalanceInactiveLabel() {
-      const { channels, settings } = store;
-      const sum = (channels || [])
+    get channelBalanceOpenLabel() {
+      const { channelBalanceOpenSatoshis, settings } = store;
+      return toAmountLabel(channelBalanceOpenSatoshis, settings);
+    },
+    get channelBalanceInactiveSatoshis() {
+      return (store.channels || [])
         .filter(c => !c.active)
         .map(c => Number(c.localBalance))
         .reduce((a, b) => a + b, 0);
-      return toAmountLabel(sum, settings);
     },
-    get channelBalancePendingLabel() {
-      const { pendingChannels, settings } = store;
-      const sum = (pendingChannels || [])
+    get channelBalanceInactiveLabel() {
+      const { channelBalanceInactiveSatoshis, settings } = store;
+      return toAmountLabel(channelBalanceInactiveSatoshis, settings);
+    },
+    get channelBalancePendingSatoshis() {
+      return (store.pendingChannels || [])
         .filter(c => c.status.includes('open'))
         .map(c => Number(c.localBalance))
         .reduce((a, b) => a + b, 0);
-      return toAmountLabel(sum, settings);
     },
-    get channelBalanceClosingLabel() {
-      const { pendingChannels, settings } = store;
-      const sum = (pendingChannels || [])
+    get channelBalancePendingLabel() {
+      const { channelBalancePendingSatoshis, settings } = store;
+      return toAmountLabel(channelBalancePendingSatoshis, settings);
+    },
+    get channelBalanceClosingSatoshis() {
+      return (store.pendingChannels || [])
         .filter(c => !c.status.includes('open'))
         .map(c => Number(c.localBalance))
         .reduce((a, b) => a + b, 0);
-      return toAmountLabel(sum, settings);
+    },
+    get channelBalanceClosingLabel() {
+      const { channelBalanceClosingSatoshis, settings } = store;
+      return toAmountLabel(channelBalanceClosingSatoshis, settings);
     },
     get showChannelAlert() {
       return (store.channels || []).length === 0;
