@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
+import { Alert } from '../component/notification';
 import { color } from '../component/style';
 import { H4Text } from '../component/text';
 import Icon from '../component/icon';
@@ -14,7 +15,6 @@ import {
   BalanceLabel,
   BalanceLabelNumeral,
   BalanceLabelUnit,
-  SmallBalanceLabel,
 } from '../component/label';
 import { Button, QrButton, GlasButton, DownButton } from '../component/button';
 
@@ -41,7 +41,12 @@ const HomeView = ({
   transaction,
   nav,
 }) => {
-  const { depositLabel, totalBalanceLabel, unitLabel } = store;
+  const {
+    totalBalanceLabel,
+    unitLabel,
+    channelStatus,
+    channelPercentageLabel,
+  } = store;
   return (
     <Background image="purple-gradient-bg">
       <HomeHeader
@@ -52,9 +57,10 @@ const HomeView = ({
       <QrCodeSeparator goDeposit={() => nav.goDeposit()} />
       <MainContent style={styles.content}>
         <BalanceDisplay
-          depositLabel={depositLabel}
           totalBalanceLabel={totalBalanceLabel}
           unitLabel={unitLabel}
+          channelStatus={channelStatus}
+          channelPercentageLabel={channelPercentageLabel}
           toggleDisplayFiat={() => wallet.toggleDisplayFiat()}
         />
         <SendReceiveButton
@@ -88,16 +94,22 @@ const balanceStyles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
   },
-  smallLabel: {
-    marginTop: 30,
+  percentWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
     marginBottom: 5,
+  },
+  alert: {
+    marginRight: 6,
   },
 });
 
 const BalanceDisplay = ({
-  depositLabel,
   totalBalanceLabel,
   unitLabel,
+  channelStatus,
+  channelPercentageLabel,
   toggleDisplayFiat,
 }) => (
   <View style={balanceStyles.wrapper}>
@@ -106,16 +118,19 @@ const BalanceDisplay = ({
         <BalanceLabelNumeral>{totalBalanceLabel}</BalanceLabelNumeral>
         <BalanceLabelUnit>{unitLabel}</BalanceLabelUnit>
       </BalanceLabel>
-      <H4Text style={balanceStyles.smallLabel}>Chain Deposit</H4Text>
-      <SmallBalanceLabel unit={unitLabel}>{depositLabel}</SmallBalanceLabel>
+      <View style={balanceStyles.percentWrapper}>
+        <Alert type={channelStatus} style={balanceStyles.alert} />
+        <H4Text>{channelPercentageLabel}</H4Text>
+      </View>
     </Button>
   </View>
 );
 
 BalanceDisplay.propTypes = {
-  depositLabel: PropTypes.string.isRequired,
   totalBalanceLabel: PropTypes.string.isRequired,
   unitLabel: PropTypes.string,
+  channelStatus: PropTypes.string.isRequired,
+  channelPercentageLabel: PropTypes.string.isRequired,
   toggleDisplayFiat: PropTypes.func.isRequired,
 };
 
