@@ -42,7 +42,8 @@ store.init(); // initialize computed values
 export const db = sinon.createStubInstance(AppStorage); // STUB DURING DEVELOPMENT
 // export const grpc = new GrpcAction(store, NativeModules, NativeEventEmitter);
 export const grpc = sinon.createStubInstance(GrpcAction); // STUB DURING DEVELOPMENT
-export const ipc = new IpcAction(grpc);
+// export const ipc = new IpcAction(grpc);
+export const ipc = sinon.createStubInstance(IpcAction); // STUB DURING DEVELOPMENT
 export const log = new LogAction(store, ipc, false);
 export const nav = new NavAction(store, NavigationActions);
 export const notify = new NotificationAction(store, nav);
