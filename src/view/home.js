@@ -41,7 +41,7 @@ const HomeView = ({
   transaction,
   nav,
 }) => {
-  const { depositLabel, channelBalanceLabel, unitLabel } = store;
+  const { depositLabel, totalBalanceLabel, unitLabel } = store;
   return (
     <Background image="purple-gradient-bg">
       <HomeHeader
@@ -53,7 +53,7 @@ const HomeView = ({
       <MainContent style={styles.content}>
         <BalanceDisplay
           depositLabel={depositLabel}
-          channelBalanceLabel={channelBalanceLabel}
+          totalBalanceLabel={totalBalanceLabel}
           unitLabel={unitLabel}
           toggleDisplayFiat={() => wallet.toggleDisplayFiat()}
         />
@@ -96,14 +96,14 @@ const balanceStyles = StyleSheet.create({
 
 const BalanceDisplay = ({
   depositLabel,
-  channelBalanceLabel,
+  totalBalanceLabel,
   unitLabel,
   toggleDisplayFiat,
 }) => (
   <View style={balanceStyles.wrapper}>
     <Button onPress={toggleDisplayFiat}>
       <BalanceLabel>
-        <BalanceLabelNumeral>{channelBalanceLabel}</BalanceLabelNumeral>
+        <BalanceLabelNumeral>{totalBalanceLabel}</BalanceLabelNumeral>
         <BalanceLabelUnit>{unitLabel}</BalanceLabelUnit>
       </BalanceLabel>
       <H4Text style={balanceStyles.smallLabel}>Chain Deposit</H4Text>
@@ -114,7 +114,7 @@ const BalanceDisplay = ({
 
 BalanceDisplay.propTypes = {
   depositLabel: PropTypes.string.isRequired,
-  channelBalanceLabel: PropTypes.string.isRequired,
+  totalBalanceLabel: PropTypes.string.isRequired,
   unitLabel: PropTypes.string,
   toggleDisplayFiat: PropTypes.func.isRequired,
 };
