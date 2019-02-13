@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import PropTypes from 'prop-types';
+import { SmallPillButton } from './button';
 import { Text, H4Text } from './text';
 import ToastCheckmarkIcon from '../asset/icon/toast-checkmark';
 import { SmallSpinner } from './spinner';
@@ -53,6 +54,12 @@ export const NotificationBar = ({ notification, display, style }) =>
           <Alert type={notification.type} style={barStyles.alert} />
           <Text style={barStyles.text}>{notification.message}</Text>
         </View>
+        {notification.handler ? (
+          <SmallPillButton
+            text={notification.handlerLbl}
+            onPress={notification.handler}
+          />
+        ) : null}
         {notification.waiting ? <SmallSpinner /> : null}
       </View>
     </SafeAreaView>
