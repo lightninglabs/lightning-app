@@ -78,6 +78,20 @@ const ComputedChannel = store => {
     get showChannelAlert() {
       return (store.channels || []).length === 0;
     },
+    get channelStatus() {
+      const {
+        channelBalanceOpenSatoshis: opened,
+        channelBalanceInactiveSatoshis: inactive,
+        channelBalancePendingSatoshis: pending,
+      } = store;
+      return opened
+        ? 'success'
+        : inactive
+          ? 'inactive'
+          : pending
+            ? 'info'
+            : 'error';
+    },
   });
 };
 
