@@ -57,7 +57,6 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalanceInactiveLabel, 'to equal', '0');
       expect(store.channelBalancePendingLabel, 'to equal', '0');
       expect(store.channelBalanceClosingLabel, 'to equal', '0');
-      expect(store.showChannelAlert, 'to equal', true);
       expect(store.channelStatus, 'to equal', 'error');
     });
 
@@ -88,7 +87,6 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalanceInactiveLabel, 'to match', /0[,.]0199/);
       expect(store.channelBalancePendingLabel, 'to match', /0[,.]006/);
       expect(store.channelBalanceClosingLabel, 'to match', /0[,.]005/);
-      expect(store.showChannelAlert, 'to equal', false);
       expect(store.channelStatus, 'to equal', 'success');
     });
 

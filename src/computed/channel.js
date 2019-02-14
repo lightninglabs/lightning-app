@@ -75,9 +75,6 @@ const ComputedChannel = store => {
       const { channelBalanceClosingSatoshis, settings } = store;
       return toAmountLabel(channelBalanceClosingSatoshis, settings);
     },
-    get showChannelAlert() {
-      return (store.channels || []).length === 0;
-    },
     get channelStatus() {
       const {
         channelBalanceOpenSatoshis: opened,
