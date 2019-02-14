@@ -93,6 +93,7 @@ const balanceStyles = StyleSheet.create({
   wrapper: {
     flex: 1,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   percentWrapper: {
     flexDirection: 'row',
@@ -118,11 +119,11 @@ const BalanceDisplay = ({
         <BalanceLabelNumeral>{totalBalanceLabel}</BalanceLabelNumeral>
         <BalanceLabelUnit>{unitLabel}</BalanceLabelUnit>
       </BalanceLabel>
-      <View style={balanceStyles.percentWrapper}>
-        <Alert type={channelStatus} style={balanceStyles.alert} />
-        <H4Text>{channelPercentageLabel}</H4Text>
-      </View>
     </Button>
+    <View style={balanceStyles.percentWrapper}>
+      <Alert type={channelStatus} style={balanceStyles.alert} />
+      <H4Text>{channelPercentageLabel}</H4Text>
+    </View>
   </View>
 );
 
