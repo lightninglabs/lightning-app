@@ -120,6 +120,8 @@ describe('Action Integration Tests', function() {
     sandbox.stub(logger);
     store1 = new Store();
     store2 = new Store();
+    store1.settings.unit = 'btc';
+    store2.settings.unit = 'btc';
     store1.settings.displayFiat = false;
     store2.settings.displayFiat = false;
     store1.init();
