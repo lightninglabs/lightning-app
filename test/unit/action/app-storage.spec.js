@@ -28,7 +28,7 @@ describe('Action App Storage Unit Tests', () => {
     it('should use default if nothing is saved yet', async () => {
       AsyncStorageStub.getItem.resolves(undefined);
       await db.restore(AsyncStorageStub);
-      expect(store.settings.unit, 'to equal', 'btc');
+      expect(store.settings.unit, 'to equal', 'sat');
       expect(logger.error, 'was not called');
       expect(store.loaded, 'to be', true);
     });
@@ -36,9 +36,9 @@ describe('Action App Storage Unit Tests', () => {
     it('should set supported setting', async () => {
       AsyncStorageStub.getItem
         .withArgs('settings')
-        .resolves(JSON.stringify({ unit: 'sat' }));
+        .resolves(JSON.stringify({ unit: 'btc' }));
       await db.restore(AsyncStorageStub);
-      expect(store.settings.unit, 'to equal', 'sat');
+      expect(store.settings.unit, 'to equal', 'btc');
       expect(store.loaded, 'to be', true);
     });
 

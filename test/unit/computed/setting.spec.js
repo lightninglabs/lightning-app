@@ -11,7 +11,11 @@ describe('Computed Settings Unit Tests', () => {
   describe('ComputedSetting()', () => {
     it('should work with initial store', () => {
       ComputedSetting(store);
-      expect(store.selectedUnitLabel, 'to equal', 'Bitcoin');
+      expect(
+        store.selectedUnitLabel,
+        'to match',
+        /Satoshi {3}\(0[,.]00000001 BTC\)/
+      );
       expect(store.selectedFiatLabel, 'to equal', 'US Dollar');
       expect(store.satUnitLabel, 'to be ok');
       expect(store.bitUnitLabel, 'to be ok');
@@ -22,13 +26,9 @@ describe('Computed Settings Unit Tests', () => {
     });
 
     it('should display satoshis denominated in BTC', () => {
-      store.settings.unit = 'sat';
+      store.settings.unit = 'btc';
       ComputedSetting(store);
-      expect(
-        store.selectedUnitLabel,
-        'to match',
-        /Satoshi {3}\(0[,.]00000001 BTC\)/
-      );
+      expect(store.selectedUnitLabel, 'to equal', 'Bitcoin');
     });
   });
 });
