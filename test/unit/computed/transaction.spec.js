@@ -15,6 +15,7 @@ describe('Computed Transactions Unit Tests', () => {
 
   beforeEach(() => {
     store = new Store();
+    store.settings.unit = 'btc';
     store.transactions.push(bitcoinTransaction);
     store.payments.push({
       id: '1',

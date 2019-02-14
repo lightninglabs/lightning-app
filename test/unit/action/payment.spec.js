@@ -21,6 +21,7 @@ describe('Action Payments Unit Tests', () => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store = new Store();
+    store.settings.unit = 'btc';
     store.settings.displayFiat = false;
     require('../../../src/config').RETRY_DELAY = 1;
     require('../../../src/config').PAYMENT_TIMEOUT = 1;
