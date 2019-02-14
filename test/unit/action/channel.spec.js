@@ -60,21 +60,17 @@ describe('Action Channels Unit Tests', () => {
   });
 
   describe('init()', () => {
-    it('should update channels and navigate to list', () => {
-      sandbox.stub(channel, 'update');
+    it('should navigate to list', () => {
       channel.init();
-      expect(channel.update, 'was called once');
       expect(nav.goChannels, 'was called once');
     });
   });
 
   describe('select()', () => {
     it('should set selectedChannel', () => {
-      sandbox.stub(channel, 'update');
       const item = 'some-channel';
       channel.select({ item });
       expect(store.selectedChannel, 'to equal', 'some-channel');
-      expect(channel.update, 'was called once');
       expect(nav.goChannelDetail, 'was called once');
     });
   });
@@ -83,6 +79,15 @@ describe('Action Channels Unit Tests', () => {
     it('should refresh channels and peers', async () => {
       await channel.update();
       expect(grpc.sendCommand.callCount, 'to equal', 4);
+    });
+  });
+
+  describe('pollChannels()', () => {
+    it('should poll all channels', async () => {
+      sandbox.stub(channel, 'update');
+      channel.update.onSecondCall().resolves(true);
+      await channel.pollChannels();
+      expect(channel.update, 'was called twice');
     });
   });
 

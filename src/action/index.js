@@ -91,7 +91,7 @@ when(
     wallet.getNewAddress();
     wallet.pollBalances();
     wallet.pollExchangeRate();
-    channel.update();
+    channel.pollChannels();
     transaction.update();
     transaction.subscribeTransactions();
     transaction.subscribeInvoices();

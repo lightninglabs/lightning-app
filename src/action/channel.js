@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for channel management.
  */
 
-import { toSatoshis } from '../helper';
+import { toSatoshis, poll } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
@@ -58,7 +58,6 @@ class ChannelAction {
    */
   init() {
     this._nav.goChannels();
-    this.update();
   }
 
   /**
@@ -70,7 +69,6 @@ class ChannelAction {
   select({ item }) {
     this._store.selectedChannel = item;
     this._nav.goChannelDetail();
-    this.update();
   }
 
   /**
@@ -85,6 +83,14 @@ class ChannelAction {
       this.getPendingChannels(),
       this.getClosedChannels(),
     ]);
+  }
+
+  /**
+   * Poll the channels in the background since there is no streaming grpc api
+   * @return {Promise<undefined>}
+   */
+  async pollChannels() {
+    await poll(() => this.update());
   }
 
   //

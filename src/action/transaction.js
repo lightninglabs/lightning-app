@@ -63,7 +63,7 @@ class TransactionAction {
         amount: transaction.amount,
         fee: transaction.totalFees,
         confirmations: transaction.numConfirmations,
-        status: transaction.numConfirmations < 1 ? 'unconfirmed' : 'confirmed',
+        status: transaction.numConfirmations < 3 ? 'unconfirmed' : 'confirmed',
         date: parseDate(transaction.timeStamp),
       }));
     } catch (err) {
