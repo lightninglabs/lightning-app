@@ -42,7 +42,7 @@ const ComputedWallet = store => {
         totalBalanceSatoshis: total,
       } = store;
       const percent = total ? (opened + pending) / total * 100 : 0;
-      return `${Math.round(percent)}% in Channels`;
+      return `${Math.round(percent)}% on Lightning`;
     },
     get newPasswordCopy() {
       const { newPassword } = store.wallet;

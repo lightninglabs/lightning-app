@@ -18,7 +18,7 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.unitLabel, 'to equal', null);
       expect(store.newPasswordCopy, 'to equal', '');
       expect(store.newPasswordSuccess, 'to equal', null);
-      expect(store.channelPercentageLabel, 'to equal', '0% in Channels');
+      expect(store.channelPercentageLabel, 'to equal', '0% on Lightning');
     });
 
     it('should generate valid wallet address uri', () => {
@@ -42,7 +42,7 @@ describe('Computed Wallet Unit Tests', () => {
       expect(store.totalBalanceLabel, 'to match', /6[,.]895[,.]81/);
       expect(store.unitFiatLabel, 'to equal', '$');
       expect(store.unitLabel, 'to equal', null);
-      expect(store.channelPercentageLabel, 'to equal', '50% in Channels');
+      expect(store.channelPercentageLabel, 'to equal', '50% on Lightning');
     });
 
     it('should display channel balance in sat', () => {
