@@ -189,10 +189,6 @@ const MainStack = createStackNavigator(
     NewAddress,
     Password,
     LoaderSyncing,
-    Channels,
-    ChannelDetail,
-    ChannelDelete,
-    ChannelCreate,
     Home,
     Settings,
     SettingsUnit,
@@ -232,12 +228,23 @@ const TransactionStack = createStackNavigator(
   stackOptions
 );
 
+const ChannelStack = createStackNavigator(
+  {
+    Channels,
+    ChannelDetail,
+    ChannelDelete,
+    ChannelCreate,
+  },
+  stackOptions
+);
+
 const RootStack = createStackNavigator(
   {
     Main: MainStack,
     Invoice: InvoiceStack,
     Pay: PayStack,
     Transactions: TransactionStack,
+    Channels: ChannelStack,
     Deposit,
   },
   {
