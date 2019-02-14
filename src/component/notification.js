@@ -54,7 +54,7 @@ export const NotificationBar = ({ notification, display, style }) =>
           <Alert type={notification.type} style={barStyles.alert} />
           <Text style={barStyles.text}>{notification.message}</Text>
         </View>
-        {notification.handler ? (
+        {Platform.OS === 'web' && notification.handler ? (
           <SmallPillButton
             text={notification.handlerLbl}
             onPress={notification.handler}

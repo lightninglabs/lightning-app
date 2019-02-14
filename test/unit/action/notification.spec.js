@@ -33,7 +33,7 @@ describe('Action Notification Unit Tests', () => {
         handlerLbl: null,
         display: true,
       });
-      expect(log.error, 'was not called');
+      expect(log.info, 'was not called');
       await nap(10);
       expect(store.notifications[0].display, 'to be', false);
     });
@@ -47,7 +47,7 @@ describe('Action Notification Unit Tests', () => {
         handlerLbl: null,
         display: true,
       });
-      expect(log.error, 'was not called');
+      expect(log.info, 'was not called');
     });
 
     it('create log error', () => {
@@ -59,7 +59,7 @@ describe('Action Notification Unit Tests', () => {
         handler,
         handlerLbl: 'Fix this',
       });
-      expect(log.error, 'was called with', 'hello', err);
+      expect(log.info, 'was called with', 'hello', err);
       expect(store.notifications[0], 'to satisfy', {
         type: 'error',
         message: 'hello',

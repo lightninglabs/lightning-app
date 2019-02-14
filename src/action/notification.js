@@ -30,7 +30,7 @@ class NotificationAction {
    * @return {undefined}
    */
   display({ type, msg, wait, err, handler, handlerLbl }) {
-    if (err) log.error(msg, err);
+    if (err) log.info(msg, err);
     this._store.notifications.push({
       type: type || (err ? 'error' : 'info'),
       message: msg,
