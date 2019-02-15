@@ -42,12 +42,14 @@ ios/lightning.xcworkspace/xcshareddata
 ios/lightning/Lndmobile.framework
 ios/lightning/Supporting/EXShell.json
 ios/lightning/Supporting/EXShell.plist.bak
-android/Lndmobile/Lndmobile.aar
-android/app/src/main/assets/shell-app.bundle
-android/app/src/main/assets/shell-app-manifest.json
 
 # Android/IJ
 .idea
 .gradle
 local.properties
 *.aab
+*.apk
+android/Lndmobile/Lndmobile.aar
+android/app/src/main/assets/shell-app.bundle
+android/app/src/main/assets/shell-app-manifest.json
+android/app/prodKernel/
