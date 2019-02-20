@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "expo": "^32.0.4",
+    "intl": "^1.2.5",
     "locale-currency": "0.0.2",
     "mobx": "^4.5.0",
     "mobx-react": "^5.2.8",
