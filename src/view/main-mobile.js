@@ -215,6 +215,7 @@ const PayStack = createStackNavigator(
   {
     Pay,
     PayLightningConfirm,
+    Wait,
     PayLightningDone,
     PaymentFailed,
     PayBitcoin,
