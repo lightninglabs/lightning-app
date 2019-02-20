@@ -39,5 +39,5 @@ module.exports.FIATS = {
   eur: { display: '€', displayLong: 'Euro' },
   gbp: { display: '£', displayLong: 'British Pound' },
 };
-module.exports.DEFAULT_UNIT = 'btc';
+module.exports.DEFAULT_UNIT = 'sat';
 module.exports.DEFAULT_FIAT = 'usd';
