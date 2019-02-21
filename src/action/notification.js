@@ -40,6 +40,7 @@ class NotificationAction {
       handlerLbl: handlerLbl || (err ? 'Show error logs' : null),
       display: true,
     });
+    if (!wait) this._store.unseenNtfnCount += 1;
     clearTimeout(this.tdisplay);
     this.tdisplay = setTimeout(() => this.close(), NOTIFICATION_DELAY);
   }

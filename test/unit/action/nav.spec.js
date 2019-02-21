@@ -217,9 +217,11 @@ describe('Action Nav Unit Tests', () => {
   });
 
   describe('goNotifications()', () => {
-    it('should set correct route', () => {
+    it('should set correct route and zero unseen ntfns', () => {
+      store.unseenNtfnCount = 10;
       nav.goNotifications();
       expect(store.route, 'to equal', 'Notifications');
+      expect(store.unseenNtfnCount, 'to be', 0);
     });
   });
 

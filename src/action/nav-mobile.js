@@ -142,6 +142,7 @@ class NavAction {
   }
 
   goNotifications() {
+    this._store.unseenNtfnCount = 0;
     this._navigate('Notifications');
   }
 
