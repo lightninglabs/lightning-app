@@ -619,6 +619,11 @@ describe('Helpers Unit Tests', () => {
       const hex = helpers.toHex(Buffer.from('cdab', 'hex'));
       expect(hex, 'to equal', 'cdab');
     });
+
+    it('should work for Uint8Array input', () => {
+      const hex = helpers.toHex(new Uint8Array([0xcd, 0xab]));
+      expect(hex, 'to equal', 'cdab');
+    });
   });
 
   describe('toHash()', () => {
