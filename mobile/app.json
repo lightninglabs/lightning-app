@@ -24,7 +24,10 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "engineering.lightning.LightningApp"
+      "bundleIdentifier": "engineering.lightning.LightningApp",
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "Allow Lightning to use Face ID"
+      }
     },
     "android": {
       "package": "engineering.lightning.LightningApp"
