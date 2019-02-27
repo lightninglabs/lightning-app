@@ -4,7 +4,6 @@
  */
 
 import { toSatoshis, poll } from '../helper';
-import { POLL_CHANNEL_DELAY } from '../config';
 import * as log from './log';
 
 class ChannelAction {
@@ -91,7 +90,7 @@ class ChannelAction {
    * @return {Promise<undefined>}
    */
   async pollChannels() {
-    await poll(() => this.update(), POLL_CHANNEL_DELAY);
+    await poll(() => this.update());
   }
 
   //

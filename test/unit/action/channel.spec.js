@@ -24,7 +24,6 @@ describe('Action Channels Unit Tests', () => {
     store.settings.unit = 'btc';
     store.settings.displayFiat = false;
     require('../../../src/config').RETRY_DELAY = 1;
-    require('../../../src/config').POLL_CHANNEL_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
