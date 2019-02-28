@@ -1,22 +1,22 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Platform } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { Header, Title } from '../component/header';
+import { Alert } from '../component/notification';
 import { color } from '../component/style';
 import { H4Text } from '../component/text';
 import Icon from '../component/icon';
-import ChannelIcon from '../asset/icon/channel';
+import QrIcon from '../asset/icon/qr';
 import LightningBoltPurpleIcon from '../asset/icon/lightning-bolt-purple';
 import {
   BalanceLabel,
   BalanceLabelNumeral,
   BalanceLabelUnit,
-  SmallBalanceLabel,
 } from '../component/label';
-import { Button, QrButton, GlasButton, DownButton } from '../component/button';
+import { Button, GlasButton, DownButton } from '../component/button';
 
 //
 // Home View
@@ -41,21 +41,26 @@ const HomeView = ({
   transaction,
   nav,
 }) => {
-  const { depositLabel, channelBalanceLabel, unitLabel } = store;
+  const {
+    totalBalanceLabel,
+    unitLabel,
+    channelStatus,
+    channelPercentageLabel,
+  } = store;
   return (
     <Background image="purple-gradient-bg">
       <HomeHeader
-        goChannels={() => channel.init()}
+        goDeposit={() => nav.goDeposit()}
         goSettings={() => nav.goSettings()}
-        showChannelAlert={store.showChannelAlert}
       />
-      <QrCodeSeparator goDeposit={() => nav.goDeposit()} />
       <MainContent style={styles.content}>
         <BalanceDisplay
-          depositLabel={depositLabel}
-          channelBalanceLabel={channelBalanceLabel}
+          totalBalanceLabel={totalBalanceLabel}
           unitLabel={unitLabel}
+          channelStatus={channelStatus}
+          channelPercentageLabel={channelPercentageLabel}
           toggleDisplayFiat={() => wallet.toggleDisplayFiat()}
+          goChannels={() => channel.init()}
         />
         <SendReceiveButton
           goPay={() => payment.init()}
@@ -87,36 +92,45 @@ const balanceStyles = StyleSheet.create({
   wrapper: {
     flex: 1,
     justifyContent: 'center',
-  },
-  smallLabel: {
     marginTop: 30,
-    marginBottom: 5,
+  },
+  percentBtn: {
+    flexDirection: 'row',
+  },
+  alert: {
+    marginRight: 6,
   },
 });
 
 const BalanceDisplay = ({
-  depositLabel,
-  channelBalanceLabel,
+  totalBalanceLabel,
   unitLabel,
+  channelStatus,
+  channelPercentageLabel,
   toggleDisplayFiat,
+  goChannels,
 }) => (
   <View style={balanceStyles.wrapper}>
     <Button onPress={toggleDisplayFiat}>
       <BalanceLabel>
-        <BalanceLabelNumeral>{channelBalanceLabel}</BalanceLabelNumeral>
+        <BalanceLabelNumeral>{totalBalanceLabel}</BalanceLabelNumeral>
         <BalanceLabelUnit>{unitLabel}</BalanceLabelUnit>
       </BalanceLabel>
-      <H4Text style={balanceStyles.smallLabel}>Chain Deposit</H4Text>
-      <SmallBalanceLabel unit={unitLabel}>{depositLabel}</SmallBalanceLabel>
+    </Button>
+    <Button onPress={goChannels} style={balanceStyles.percentBtn}>
+      <Alert type={channelStatus} style={balanceStyles.alert} />
+      <H4Text>{channelPercentageLabel}</H4Text>
     </Button>
   </View>
 );
 
 BalanceDisplay.propTypes = {
-  depositLabel: PropTypes.string.isRequired,
-  channelBalanceLabel: PropTypes.string.isRequired,
+  totalBalanceLabel: PropTypes.string.isRequired,
   unitLabel: PropTypes.string,
+  channelStatus: PropTypes.string.isRequired,
+  channelPercentageLabel: PropTypes.string.isRequired,
   toggleDisplayFiat: PropTypes.func.isRequired,
+  goChannels: PropTypes.func.isRequired,
 };
 
 //
@@ -168,30 +182,8 @@ SendReceiveButton.propTypes = {
 //
 
 const headerStyles = StyleSheet.create({
-  btnWrapperLeft: {
-    width: 150,
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-  },
-  btnWrapperRight: {
-    width: 150,
-    flexDirection: 'row',
-    justifyContent: 'flex-end',
-  },
-  channelBtn: {
+  depositBtn: {
     marginLeft: 3,
-  },
-  channelAlert: {
-    position: 'absolute',
-    top: 17,
-    right: 21,
-    height: 10,
-    width: 10,
-    backgroundColor: color.pinkSig,
-    borderColor: color.white,
-    borderRadius: 50,
-    borderStyle: 'solid',
-    borderWidth: 2,
   },
   settingsBtn: {
     marginRight: 3,
@@ -202,11 +194,10 @@ const headerStyles = StyleSheet.create({
   },
 });
 
-const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
-  <Header>
-    <Button onPress={goChannels} style={headerStyles.channelBtn}>
-      <ChannelIcon height={24 * 0.9} width={25 * 0.9} />
-      {showChannelAlert ? <View style={headerStyles.channelAlert} /> : null}
+const HomeHeader = ({ goDeposit, goSettings }) => (
+  <Header separator={Platform.OS === 'web'}>
+    <Button onPress={goDeposit} style={headerStyles.depositBtn}>
+      <QrIcon height={40 * 0.6} width={39 * 0.6} />
     </Button>
     <Title title="Wallet" />
     <Button onPress={goSettings} style={headerStyles.settingsBtn}>
@@ -219,46 +210,8 @@ const HomeHeader = ({ goChannels, goSettings, showChannelAlert }) => (
 );
 
 HomeHeader.propTypes = {
-  goChannels: PropTypes.func.isRequired,
-  goSettings: PropTypes.func.isRequired,
-  showChannelAlert: PropTypes.bool.isRequired,
-};
-
-//
-// QR Code Separator
-//
-
-const qrStyles = StyleSheet.create({
-  wrapper: {
-    alignSelf: 'stretch',
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    height: 30,
-    top: -1,
-  },
-  separator: {
-    flex: 1,
-    height: 1,
-    shadowOffset: { width: 0, height: 0.25 },
-    shadowColor: color.white,
-  },
-  button: {
-    top: -19,
-  },
-});
-
-const QrCodeSeparator = ({ goDeposit }) => (
-  <View style={qrStyles.wrapper}>
-    <View style={qrStyles.separator} />
-    <QrButton onPress={goDeposit} style={qrStyles.button}>
-      Add coin
-    </QrButton>
-    <View style={qrStyles.separator} />
-  </View>
-);
-
-QrCodeSeparator.propTypes = {
   goDeposit: PropTypes.func.isRequired,
+  goSettings: PropTypes.func.isRequired,
 };
 
 export default observer(HomeView);

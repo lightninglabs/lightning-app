@@ -12,12 +12,13 @@ describe('Computed Wallet Unit Tests', () => {
     it('should work with initial store', () => {
       ComputedWallet(store);
       expect(store.walletAddressUri, 'to equal', '');
-      expect(store.depositLabel, 'to match', /0[,.]00/);
-      expect(store.channelBalanceLabel, 'to match', /0[,.]00/);
+      expect(store.totalBalanceSatoshis, 'to equal', 0);
+      expect(store.totalBalanceLabel, 'to match', /0[,.]00/);
       expect(store.unitFiatLabel, 'to equal', '$');
       expect(store.unitLabel, 'to equal', null);
       expect(store.newPasswordCopy, 'to equal', '');
       expect(store.newPasswordSuccess, 'to equal', null);
+      expect(store.channelPercentageLabel, 'to equal', '0% on Lightning');
     });
 
     it('should generate valid wallet address uri', () => {
@@ -37,10 +38,11 @@ describe('Computed Wallet Unit Tests', () => {
       store.pendingBalanceSatoshis = 50000000;
       store.channelBalanceSatoshis = 10000;
       ComputedWallet(store);
-      expect(store.depositLabel, 'to match', /6[,.]895[,.]13/);
-      expect(store.channelBalanceLabel, 'to match', /0[,.]69/);
+      expect(store.totalBalanceSatoshis, 'to equal', 100010000);
+      expect(store.totalBalanceLabel, 'to match', /6[,.]895[,.]81/);
       expect(store.unitFiatLabel, 'to equal', '$');
       expect(store.unitLabel, 'to equal', null);
+      expect(store.channelPercentageLabel, 'to equal', '50% on Lightning');
     });
 
     it('should display channel balance in sat', () => {
@@ -51,12 +53,8 @@ describe('Computed Wallet Unit Tests', () => {
       store.channelBalanceSatoshis = 10000;
       store.settings.unit = 'bit';
       ComputedWallet(store);
-      expect(
-        store.depositLabel,
-        'to match',
-        /^1{1}[,.]0{3}[,.]0{3}[,.]0{1}1{1}$/
-      );
-      expect(store.channelBalanceLabel, 'to equal', '100');
+      expect(store.totalBalanceSatoshis, 'to equal', 100010001);
+      expect(store.totalBalanceLabel, 'to match', /1[,.]000[,.]100[,.]01/);
       expect(store.unitFiatLabel, 'to equal', 'bits');
       expect(store.unitLabel, 'to equal', 'bits');
     });

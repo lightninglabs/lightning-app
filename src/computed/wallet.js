@@ -16,12 +16,16 @@ const ComputedWallet = store => {
     get walletAddressUri() {
       return store.walletAddress ? `bitcoin:${store.walletAddress}` : '';
     },
-    get depositLabel() {
-      const { balanceSatoshis, pendingBalanceSatoshis, settings } = store;
-      return toAmountLabel(balanceSatoshis + pendingBalanceSatoshis, settings);
+    get totalBalanceSatoshis() {
+      const {
+        balanceSatoshis,
+        pendingBalanceSatoshis,
+        channelBalanceSatoshis,
+      } = store;
+      return balanceSatoshis + pendingBalanceSatoshis + channelBalanceSatoshis;
     },
-    get channelBalanceLabel() {
-      return toAmountLabel(store.channelBalanceSatoshis, store.settings);
+    get totalBalanceLabel() {
+      return toAmountLabel(store.totalBalanceSatoshis, store.settings);
     },
     get unitFiatLabel() {
       const { displayFiat, unit, fiat } = store.settings;
@@ -30,6 +34,15 @@ const ComputedWallet = store => {
     get unitLabel() {
       const { settings } = store;
       return !settings.displayFiat ? UNITS[settings.unit].display : null;
+    },
+    get channelPercentageLabel() {
+      const {
+        channelBalanceSatoshis: opened,
+        pendingBalanceSatoshis: pending,
+        totalBalanceSatoshis: total,
+      } = store;
+      const percent = total ? (opened + pending) / total * 100 : 0;
+      return `${Math.round(percent)}% on Lightning`;
     },
     get newPasswordCopy() {
       const { newPassword } = store.wallet;

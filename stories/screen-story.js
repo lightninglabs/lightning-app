@@ -288,9 +288,9 @@ storiesOf('Screens', module)
 
 // set some dummy data
 store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K';
-store.balanceSatoshis = 798765432;
-store.pendingBalanceSatoshis = 100000000;
-store.channelBalanceSatoshis = 59876000;
+store.balanceSatoshis = 76543;
+store.pendingBalanceSatoshis = 800000;
+store.channelBalanceSatoshis = 598760;
 store.settings.exchangeRate.usd = 0.00016341;
 store.settings.exchangeRate.eur = 0.0001896;
 store.settings.exchangeRate.gbp = 0.00021405;
