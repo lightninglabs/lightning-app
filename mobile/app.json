@@ -23,7 +23,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": false,
+      "supportsTablet": true,
       "bundleIdentifier": "engineering.lightning.LightningApp",
       "infoPlist": {
         "NSFaceIDUsageDescription": "Allow Lightning to use Face ID"
