@@ -228,6 +228,27 @@ describe('Action Integration Tests', function() {
       expect(store2.lndReady, 'to be true');
     });
 
+    it('should wait for autopilotReady', async () => {
+      await grpc1.initAutopilot();
+      expect(store1.autopilotReady, 'to be true');
+      await grpc2.initAutopilot();
+      expect(store2.autopilotReady, 'to be true');
+    });
+
+    it('should be able to toggle autopilot', async () => {
+      let status = await grpc1.sendAutopilotCommand('status');
+      expect(status.active, 'to be false');
+      await grpc1.sendAutopilotCommand('modifyStatus', { enable: true });
+      status = await grpc1.sendAutopilotCommand('status');
+      expect(status.active, 'to be true');
+
+      status = await grpc2.sendAutopilotCommand('status');
+      expect(status.active, 'to be false');
+      await grpc2.sendAutopilotCommand('modifyStatus', { enable: true });
+      status = await grpc2.sendAutopilotCommand('status');
+      expect(status.active, 'to be true');
+    });
+
     it('should reset password', async () => {
       lndProcess1.kill('SIGINT');
       lndProcess2.kill('SIGINT');
