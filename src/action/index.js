@@ -40,7 +40,7 @@ export const transaction = new TransactionAction(store, grpc, nav, notify);
 export const channel = new ChannelAction(store, grpc, nav, notify);
 export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 export const payment = new PaymentAction(store, grpc, nav, notify, Clipboard);
-export const setting = new SettingAction(store, wallet, db, ipc);
+export const setting = new SettingAction(store, wallet, db, ipc, grpc, notify);
 
 payment.listenForUrl(ipc); // enable incoming url handler
 

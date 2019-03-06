@@ -2,6 +2,8 @@ import { Store } from '../../../src/store';
 import IpcAction from '../../../src/action/ipc';
 import SettingAction from '../../../src/action/setting';
 import WalletAction from '../../../src/action/wallet';
+import GrpcAction from '../../../src/action/grpc';
+import NotificationAction from '../../../src/action/notification';
 import AppStorage from '../../../src/action/app-storage';
 import * as logger from '../../../src/action/log';
 
@@ -10,6 +12,8 @@ describe('Action Setting Unit Test', () => {
   let wallet;
   let db;
   let ipc;
+  let grpc;
+  let notify;
   let setting;
   let sandbox;
 
@@ -20,7 +24,9 @@ describe('Action Setting Unit Test', () => {
     wallet = sinon.createStubInstance(WalletAction);
     db = sinon.createStubInstance(AppStorage);
     ipc = sinon.createStubInstance(IpcAction);
-    setting = new SettingAction(store, wallet, db, ipc);
+    grpc = sinon.createStubInstance(GrpcAction);
+    notify = sinon.createStubInstance(NotificationAction);
+    setting = new SettingAction(store, wallet, db, ipc, grpc, notify);
   });
 
   afterEach(() => {
