@@ -96,4 +96,21 @@ describe('Action Setting Unit Test', () => {
       expect(store.settings.restoring, 'to equal', true);
     });
   });
+
+  describe('toggleAutopilot()', () => {
+    it('should toggle autopilot', async () => {
+      store.settings.autopilot = true;
+      await setting.toggleAutopilot();
+      expect(store.settings.autopilot, 'to equal', false);
+      expect(notify.display, 'was not called');
+    });
+
+    it('should display a notification on error', async () => {
+      store.settings.autopilot = true;
+      grpc.sendAutopilotCommand.rejects(new Error('Boom!'));
+      await setting.toggleAutopilot();
+      expect(store.settings.autopilot, 'to equal', true);
+      expect(notify.display, 'was called once');
+    });
+  });
 });

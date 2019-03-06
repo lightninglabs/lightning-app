@@ -53,6 +53,25 @@ class SettingAction {
   }
 
   /**
+   * Toggle whether autopilot is turned on.
+   * @return {undefined}
+   */
+  async toggleAutopilot() {
+    try {
+      await this._grpc.sendAutopilotCommand('modifyStatus', {
+        enable: !this._store.settings.autopilot,
+      });
+    } catch (err) {
+      this._notification.display({
+        msg: 'Unable to modify autopilot status.',
+        err,
+      });
+      return;
+    }
+    this._store.settings.autopilot = !this._store.settings.autopilot;
+  }
+
+  /**
    * Detect the user's local fiat currency based on their OS locale.
    * If the currency is not supported use the default currency `usd`.
    * @return {Promise<undefined>}

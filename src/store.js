@@ -90,6 +90,7 @@ export class Store {
         displayFiat: true,
         exchangeRate: {},
         restoring: false,
+        autopilot: true,
       },
     });
   }
