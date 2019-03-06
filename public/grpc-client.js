@@ -54,9 +54,12 @@ module.exports.init = async function({
 }) {
   let credentials;
   let protoPath;
+  let autopilotProtoPath;
   let lnrpc;
   let unlocker;
   let lnd;
+  let autopilotRpc;
+  let autopilot;
 
   ipcMain.on('unlockInit', async event => {
     credentials = await getCredentials(lndSettingsDir);
@@ -93,6 +96,34 @@ module.exports.init = async function({
     });
   });
 
+  ipcMain.on('autopilotInit', async event => {
+    credentials = await getCredentials(lndSettingsDir);
+    const macaroonCreds = getMacaroonCreds(lndSettingsDir, network);
+    credentials = grpc.credentials.combineChannelCredentials(
+      credentials,
+      macaroonCreds
+    );
+    autopilotProtoPath = path.join(
+      __dirname,
+      '..',
+      'assets',
+      'autopilot.proto'
+    );
+    const options = {
+      keepCase: false,
+      longs: Number,
+      enums: String,
+      defaults: true,
+      oneofs: true,
+    };
+    const packageDef = protoLoader.loadSync(autopilotProtoPath, options);
+    autopilotRpc = grpc.loadPackageDefinition(packageDef).autopilotrpc;
+    autopilot = new autopilotRpc.Autopilot(`${lndIP}:${lndPort}`, credentials);
+    grpc.waitForClientReady(autopilot, Infinity, err => {
+      event.sender.send('autopilotReady', { err });
+    });
+  });
+
   ipcMain.on('lndClose', event => {
     lnd.close();
     event.sender.send('lndClosed', {});
@@ -112,6 +143,14 @@ module.exports.init = async function({
       event.sender.send(`lndResponse_${method}`, { err, response });
     };
     lnd[method](body, { deadline }, handleResponse);
+  });
+
+  ipcMain.on('autopilotRequest', (event, { method, body = {} }) => {
+    const deadline = new Date(new Date().getTime() + GRPC_TIMEOUT);
+    const handleResponse = (err, response) => {
+      event.sender.send(`autopilotResponse_${method}`, { err, response });
+    };
+    autopilot[method](body, { deadline }, handleResponse);
   });
 
   const streams = {};
