@@ -25,6 +25,7 @@ export class Store {
       firstStart: false, // Is the first time the app was started
       walletUnlocked: false, // Is the wallet unlocked
       lndReady: false, // Is lnd process running
+      autopilotReady: false, // Is autopilot service running
       syncedToChain: false, // Is lnd synced to blockchain
       percentSynced: 0, // Expects 0-1 range
       route: DEFAULT_ROUTE,

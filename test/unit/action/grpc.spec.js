@@ -66,6 +66,14 @@ describe('Action GRPC Unit Tests', () => {
     });
   });
 
+  describe('initAutopilot()', () => {
+    it('should set autopilotReady', async () => {
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.initAutopilot();
+      expect(store.autopilotReady, 'to be', true);
+    });
+  });
+
   describe('closeLnd()', () => {
     it('should send ipc close call', async () => {
       sandbox.stub(grpc, '_sendIpc').resolves();
@@ -97,6 +105,21 @@ describe('Action GRPC Unit Tests', () => {
         'was called with',
         'lndRequest',
         'lndResponse',
+        'some-method',
+        'some-body'
+      );
+    });
+  });
+
+  describe('sendAutopilotCommand()', () => {
+    it('should send ipc with correct args', async () => {
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.sendAutopilotCommand('some-method', 'some-body');
+      expect(
+        grpc._sendIpc,
+        'was called with',
+        'autopilotRequest',
+        'autopilotResponse',
         'some-method',
         'some-body'
       );
