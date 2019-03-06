@@ -1,4 +1,5 @@
 import React from 'react';
+import { Switch } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -38,7 +39,7 @@ const styles = createStyles(
   })
 );
 
-const SettingView = ({ store, nav, wallet }) => {
+const SettingView = ({ store, nav, wallet, setting }) => {
   return (
     <Background color={color.blackDark}>
       <Header separator>
@@ -74,6 +75,12 @@ const SettingView = ({ store, nav, wallet }) => {
         />
         <SettingHeader name="ADVANCED" style={styles.advanced} />
         <SettingItem name="Logs" onSelect={() => nav.goCLI()} arrow />
+        <SettingItem name="Toggle Autopilot" onSelect={() => {}}>
+          <Switch
+            onValueChange={() => setting.toggleAutopilot()}
+            value={store.settings.autopilot}
+          />
+        </SettingItem>
       </SettingContent>
     </Background>
   );
@@ -83,6 +90,7 @@ SettingView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
   wallet: PropTypes.object.isRequired,
+  setting: PropTypes.object.isRequired,
 };
 
 export default observer(SettingView);

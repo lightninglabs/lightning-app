@@ -115,7 +115,7 @@ class MainView extends Component {
           />
         )}
         {route === 'Settings' && (
-          <Setting store={store} nav={nav} wallet={wallet} />
+          <Setting store={store} nav={nav} wallet={wallet} setting={setting} />
         )}
         {route === 'SettingsUnit' && (
           <SettingUnit store={store} nav={nav} setting={setting} />

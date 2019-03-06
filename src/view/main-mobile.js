@@ -104,7 +104,9 @@ const Home = () => (
   />
 );
 
-const Settings = () => <SettingView store={store} nav={nav} wallet={wallet} />;
+const Settings = () => (
+  <SettingView store={store} nav={nav} wallet={wallet} setting={setting} />
+);
 
 const SettingsUnit = () => (
   <SettingUnitView store={store} nav={nav} setting={setting} />

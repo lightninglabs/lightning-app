@@ -187,7 +187,9 @@ storiesOf('Screens', module)
       nav={nav}
     />
   ))
-  .add('Settings', () => <Setting store={store} nav={nav} wallet={wallet} />)
+  .add('Settings', () => (
+    <Setting store={store} nav={nav} wallet={wallet} setting={setting} />
+  ))
   .add('Settings Units', () => (
     <SettingUnit store={store} nav={nav} setting={setting} />
   ))
