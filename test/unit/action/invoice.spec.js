@@ -61,6 +61,7 @@ describe('Action Invoice Unit Tests', () => {
         .withArgs('addInvoice', {
           value: 1000,
           memo: 'foo',
+          expiry: 172800,
           private: true,
         })
         .resolves({

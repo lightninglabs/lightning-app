@@ -64,6 +64,7 @@ class InvoiceAction {
       const response = await this._grpc.sendCommand('addInvoice', {
         value: toSatoshis(invoice.amount, settings),
         memo: invoice.note,
+        expiry: 172800,
         private: true,
       });
       invoice.encoded = response.paymentRequest;
