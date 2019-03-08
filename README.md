@@ -74,6 +74,11 @@ To run the packaged version of the app e.g. for macOS run:
 ./dist/mac/Lightning.app/Contents/MacOS/Lightning
 ```
 
+The app is configured for testnet by default but you can opt-in to mainnet if you have a btcd node running. Be aware that this is currently still experimental:
+```
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.mainnet --bitcoin.node=neutrino --neutrino.connect=127.0.0.1:8333
+```
+
 ### Starting the Packaged App (full node)
 
 #### btcd
