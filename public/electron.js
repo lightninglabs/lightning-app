@@ -9,7 +9,6 @@ const { startLndProcess, startBtcdProcess } = require('./lnd-child-process');
 const grcpClient = require('./grpc-client');
 const {
   PREFIX_NAME,
-  NETWORK,
   LND_PORT,
   LND_PEER_PORT,
   LND_REST_PORT,
@@ -126,7 +125,11 @@ function createWindow() {
     ipcMain,
     lndSettingsDir,
     lndPort: LND_PORT,
-    network: isDev ? 'simnet' : NETWORK,
+    network: isDev
+      ? 'simnet'
+      : lndArgs.includes('--bitcoin.mainnet')
+        ? 'mainnet'
+        : 'testnet',
   });
 }
 

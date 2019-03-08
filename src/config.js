@@ -14,7 +14,6 @@ module.exports.LND_PEER_PORT = 10016;
 module.exports.LND_REST_PORT = 8086;
 module.exports.LND_PROFILING_PORT = 9096;
 
-module.exports.NETWORK = 'testnet';
 module.exports.BTCD_MINING_ADDRESS = 'rfu4i1Mo2NF7TQsN9bMVLFSojSzcyQCEH5';
 
 const prefixName = 'lightning';

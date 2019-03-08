@@ -74,28 +74,33 @@ To run the packaged version of the app e.g. for macOS run:
 ./dist/mac/Lightning.app/Contents/MacOS/Lightning
 ```
 
+The app is configured for testnet by default but you can opt-in to mainnet if you have a btcd node running. Be aware that this is currently still experimental:
+```
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.mainnet --bitcoin.node=neutrino --neutrino.connect=127.0.0.1:8333
+```
+
 ### Starting the Packaged App (full node)
 
 #### btcd
-Start btcd in a seperate terminal session and wait until it's fully synced (can take over a day)
+Start btcd in a separate terminal session and wait until it's fully synced (can take over a day). Remove the `--testnet` flag for mainnet:
 ```
 btcd --testnet --txindex --rpcuser=kek --rpcpass=kek
 ```
 
-To run the packaged version of the app e.g. for macOS run:
+To run the packaged version of the app e.g. for macOS run (set `--bitcoin.mainnet` for mainnet):
 ```
-./dist/mac/Lightning.app/Contents/MacOS/Lightning --btcd.rpcuser=kek --btcd.rpcpass=kek
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.testnet --btcd.rpcuser=kek --btcd.rpcpass=kek
 ```
 
 #### bitcoind
-Start bitcoind in a seperate terminal session and wait until it's fully synced (can take over a day)
+Start bitcoind in a separate terminal session and wait until it's fully synced (can take over a day). Remove the `-testnet` flag for mainnet:
 ```
 bitcoind -testnet -txindex=1 -rpcuser=kek -rpcpassword=kek -rpcbind=localhost -zmqpubrawblock=tcp://127.0.0.1:28332 -zmqpubrawtx=tcp://127.0.0.1:28333
 ```
 
-To run the packaged version of the app e.g. for macOS run:
+To run the packaged version of the app e.g. for macOS run (set `--bitcoin.mainnet` for mainnet):
 ```
-./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.node=bitcoind --bitcoind.rpcuser=kek --bitcoind.rpcpass=kek --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.testnet --bitcoin.node=bitcoind --bitcoind.rpcuser=kek --bitcoind.rpcpass=kek --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 ```
 
 ### Lnd data and logs
