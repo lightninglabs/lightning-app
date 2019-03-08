@@ -6,7 +6,6 @@ const url = require('url');
 const isDev = require('electron-is-dev');
 const log = require('electron-log');
 const { startLndProcess, startBtcdProcess } = require('./lnd-child-process');
-const { parseCliArg } = require('./helper');
 const grcpClient = require('./grpc-client');
 const {
   PREFIX_NAME,
@@ -38,7 +37,6 @@ const btcdSettingsDir = path.join(isDev ? 'data' : userDataPath, 'btcd');
 const lndArgs = process.argv.filter(a =>
   /(^--bitcoin)|(^--btcd)|(^--neutrino)/.test(a)
 );
-let lndIP = parseCliArg('lndip');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -127,21 +125,12 @@ function createWindow() {
   grcpClient.init({
     ipcMain,
     lndSettingsDir,
-    lndIP,
     lndPort: LND_PORT,
     network: isDev ? 'simnet' : NETWORK,
   });
 }
 
 ipcMain.on('lnd-restart-process', async event => {
-  if (lndIP) {
-    event.sender.send(
-      'lnd-restart-error',
-      'Unable to reset password of remote lnd node.'
-    );
-    return;
-  }
-
   lndProcess && lndProcess.kill('SIGINT');
   let restartError;
   try {
@@ -210,7 +199,7 @@ app.on('ready', () => {
   initAutoUpdate();
   createWindow();
   initApplicationMenu();
-  if (!lndIP) startLnd();
+  startLnd();
 });
 
 // Quit when all windows are closed.

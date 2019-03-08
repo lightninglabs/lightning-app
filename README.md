@@ -98,15 +98,6 @@ To run the packaged version of the app e.g. for macOS run:
 ./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.node=bitcoind --bitcoind.rpcuser=kek --bitcoind.rpcpass=kek --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 ```
 
-### Connect to a remote lnd node
-1. In your remote node's `lnd.conf`, set `rpclisten=0.0.0.0:10006` and `tlsextraip=<insert your node's IP address here>`, then restart the node.
-
-2. Copy the `tls.cert` and `tls.key` from your remote node's `.lnd` into the appropriate folder for your platform (specified in the section below).
-
-3. Copy `admin.macaroon` from the remote node into `lnd/data/chain/bitcoin/<network>` (in the same folder you put the `tls` files).
-
-4. When starting the app, add the flag `--lndip=<your remote node's IP address>`. Note that the node must be locked when the app connects to it.
-
 ### Lnd data and logs
 Lnd data and logs are written to the following locations in production:
 
