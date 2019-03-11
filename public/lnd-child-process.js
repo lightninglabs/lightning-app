@@ -87,7 +87,7 @@ module.exports.startLndProcess = async function({
     args = args.concat([
       '--bitcoin.testnet',
       '--bitcoin.node=neutrino',
-      '--neutrino.connect=btcd0.lightning.engineering',
+      '--neutrino.connect=104.42.157.114:18333',
       '--neutrino.connect=127.0.0.1:18333',
     ]);
   }
