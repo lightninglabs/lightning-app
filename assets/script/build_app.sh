@@ -13,6 +13,10 @@ else
   # build binaries for windows
   cd assets/bin/win32
   env GOOS="windows" GOARCH="386" GO111MODULE="on" go get -tags="experimental" -v github.com/lightningnetwork/lnd@$LND_TAG
+  # enable mainnet neutrino in lnd
+  cd $GOPATH/src/github.com/lightningnetwork/lnd
+  git fetch https://github.com/halseth/lnd.git mainnet-neutrino && git cherry-pick d1c23009e00298ed50173fb7cd60bdfb2937d50f
+  cd $TRAVIS_BUILD_DIR/assets/bin/win32
   env GOOS="windows" GOARCH="386" GO111MODULE="on" go build -tags="experimental" -v github.com/lightningnetwork/lnd
 
   # build the packages using electron-builder on docker
