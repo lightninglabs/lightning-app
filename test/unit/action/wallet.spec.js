@@ -138,7 +138,7 @@ describe('Action Wallet Unit Tests', () => {
     it('should refresh wallet balances', async () => {
       sandbox.stub(wallet, 'pollExchangeRate');
       await wallet.update();
-      expect(grpc.sendCommand, 'was called twice');
+      expect(grpc.sendCommand, 'was called thrice');
       expect(wallet.pollExchangeRate, 'was not called');
     });
   });
@@ -567,6 +567,22 @@ describe('Action Wallet Unit Tests', () => {
     it('should log error on failure', async () => {
       grpc.sendCommand.rejects();
       await wallet.getChannelBalance();
+      expect(logger.error, 'was called once');
+    });
+  });
+
+  describe('getLimboBalance()', () => {
+    it('should get limbo balance', async () => {
+      grpc.sendCommand.withArgs('PendingChannels').resolves({
+        totalLimboBalance: 1,
+      });
+      await wallet.getLimboBalance();
+      expect(store.limboBalanceSatoshis, 'to equal', 1);
+    });
+
+    it('should log error on failure', async () => {
+      grpc.sendCommand.rejects();
+      await wallet.getLimboBalance();
       expect(logger.error, 'was called once');
     });
   });

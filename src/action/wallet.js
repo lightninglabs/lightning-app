@@ -144,7 +144,11 @@ class WalletAction {
    * @return {Promise<undefined>}
    */
   async update() {
-    await Promise.all([this.getBalance(), this.getChannelBalance()]);
+    await Promise.all([
+      this.getBalance(),
+      this.getChannelBalance(),
+      this.getLimboBalance(),
+    ]);
   }
 
   /**
@@ -446,6 +450,20 @@ class WalletAction {
       this._store.pendingBalanceSatoshis = r.pendingOpenBalance;
     } catch (err) {
       log.error('Getting channel balance failed', err);
+    }
+  }
+
+  /**
+   * Fetch the limbo balance using the lnd grpc api and set the
+   * corresponding value on the global store.
+   * @return {Promise<undefined>}
+   */
+  async getLimboBalance() {
+    try {
+      const r = await this._grpc.sendCommand('PendingChannels');
+      this._store.limboBalanceSatoshis = r.totalLimboBalance;
+    } catch (err) {
+      log.error('Getting limbo balance failed', err);
     }
   }
 
