@@ -160,6 +160,7 @@ class ChannelAction {
         limboBalance: pfcc.limboBalance,
         maturityHeight: pfcc.maturityHeight,
         blocksTilMaturity: pfcc.blocksTilMaturity,
+        timeTilAvailable: this._formatTimeTilMaturity(pfcc.blocksTilMaturity),
         status: 'pending-force-closing',
       }));
       const wccs = response.waitingCloseChannels.map(wcc => ({
@@ -345,6 +346,12 @@ class ChannelAction {
     const pc = this._store.pendingChannels;
     const channel = pc.find(c => c.channelPoint === channelPoint);
     if (channel) pc.splice(pc.indexOf(channel));
+  }
+
+  _formatTimeTilMaturity(numBlocks) {
+    const days = Math.floor(numBlocks / (24 * 6));
+    const hours = Math.floor((numBlocks % (24 * 6)) / 6);
+    return `${days} days and ${hours} hours`;
   }
 }
 

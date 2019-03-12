@@ -43,8 +43,8 @@ const ChannelDetailView = ({ store, nav }) => (
           </DetailField>
         ) : null}
         {store.selectedChannel.blocksTilMaturity ? (
-          <DetailField name="Blocks Until Maturity">
-            {store.selectedChannel.blocksTilMaturity}
+          <DetailField name="Time Til Available">
+            {store.selectedChannel.timeTilAvailable}
           </DetailField>
         ) : null}
         <DetailField name="Remote Node Public Key">
