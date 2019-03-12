@@ -125,7 +125,7 @@ class ChannelAction {
 
   /**
    * List the pending channels by calling the respective grpc api and updating
-   * the pendingChannels array in the global store.
+   * the pendingChannels array and limbo balance in the global store.
    * @return {Promise<undefined>}
    */
   async getPendingChannels() {
@@ -168,6 +168,7 @@ class ChannelAction {
         status: 'waiting-close',
       }));
       this._store.pendingChannels = [].concat(pocs, pccs, pfccs, wccs);
+      this._store.limboBalanceSatoshis = response.totalLimboBalance;
     } catch (err) {
       log.error('Listing pending channels failed', err);
     }
