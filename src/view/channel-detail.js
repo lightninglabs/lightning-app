@@ -42,6 +42,11 @@ const ChannelDetailView = ({ store, nav }) => (
             {store.selectedChannel.closingTxId}
           </DetailField>
         ) : null}
+        {store.selectedChannel.blocksTilMaturity ? (
+          <DetailField name="Blocks Until Maturity">
+            {store.selectedChannel.blocksTilMaturity}
+          </DetailField>
+        ) : null}
         <DetailField name="Remote Node Public Key">
           {store.selectedChannel.remotePubkey}
         </DetailField>
