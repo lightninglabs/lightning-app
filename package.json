@@ -113,7 +113,7 @@
     "files": [
       "build/**/*",
       "node_modules/**/*",
-      "assets/rpc.proto",
+      "assets/*.proto",
       "src/config.js"
     ],
     "directories": {
