@@ -321,3 +321,15 @@ export const generateArc = (x, y, radius, startAngle, endAngle) => {
     'Z',
   ].join(' ');
 };
+
+/**
+ * Convert a number of blocks to an amount of time in the format "X days and Y
+ * hours" assuming 10 minutes per block.
+ * @param  {number} numBlocks The number of blocks to convert.
+ * @return {string} The amount of time the blocks is equivalent to.
+ */
+export const formatTimeTilMaturity = numBlocks => {
+  const days = Math.floor(numBlocks / (24 * 6));
+  const hours = Math.floor((numBlocks % (24 * 6)) / 6);
+  return `${days} days and ${hours} hours`;
+};

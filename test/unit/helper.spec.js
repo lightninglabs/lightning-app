@@ -817,4 +817,12 @@ describe('Helpers Unit Tests', () => {
       );
     });
   });
+
+  describe('formatTimeTilMaturity()', () => {
+    it('should format blocks to human-readable time', () => {
+      const numBlocks = 463;
+      const time = helpers.formatTimeTilMaturity(numBlocks);
+      expect(time, 'to equal', '3 days and 5 hours');
+    });
+  });
 });
