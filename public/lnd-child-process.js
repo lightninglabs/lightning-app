@@ -65,6 +65,8 @@ module.exports.startLndProcess = async function({
     '--autopilot.private',
     '--autopilot.minconfs=0',
     '--autopilot.allocation=0.95',
+    '--autopilot.heuristic=externalscore:0.7',
+    '--autopilot.heuristic=preferential:0.3',
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
