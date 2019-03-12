@@ -118,8 +118,8 @@ describe('Action GRPC Unit Tests', () => {
       expect(
         grpc._sendIpc,
         'was called with',
-        'autopilotRequest',
-        'autopilotResponse',
+        'lndAtplRequest',
+        'lndAtplResponse',
         'some-method',
         'some-body'
       );

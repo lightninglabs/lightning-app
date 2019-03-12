@@ -70,7 +70,7 @@ class GrpcAction {
    * @return {Promise<undefined>}
    */
   async initAutopilot() {
-    await this._sendIpc('autopilotInit', 'autopilotReady');
+    await this._sendIpc('lndAtplInit', 'lndAtplReady');
     log.info('GRPC autopilotReady');
     this._store.autopilotReady = true;
   }
@@ -118,7 +118,7 @@ class GrpcAction {
    * @return {Promise<Object>}
    */
   sendAutopilotCommand(method, body) {
-    return this._sendIpc('autopilotRequest', 'autopilotResponse', method, body);
+    return this._sendIpc('lndAtplRequest', 'lndAtplResponse', method, body);
   }
 
   /**
