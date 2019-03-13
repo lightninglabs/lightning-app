@@ -1,7 +1,7 @@
 Lightning [![Build Status](https://travis-ci.org/lightninglabs/lightning-app.svg?branch=master)](https://travis-ci.org/lightninglabs/lightning-app)
 ==========
 
-An easy-to-use cross platform lightning good wallet 
+An easy-to-use cross platform lightning very good wallet 
 
 ![Screenshot](https://github.com/lightninglabs/lightning-app/blob/5f2620d1e99ed1372985fec2063066236e4c16d9/assets/screenshot.png)
 
