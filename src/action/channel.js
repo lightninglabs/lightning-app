@@ -242,7 +242,7 @@ class ChannelAction {
     try {
       const networkStr =
         (await this._getNetwork()) == 'testnet' ? 'testnet' : '';
-      const uri = `http://nodes.lightning.computer/availability/btc${networkStr}.json`;
+      const uri = `https://nodes.lightning.computer/availability/btc${networkStr}.json`;
       const response = checkHttpStatus(await fetch(uri));
       const json = await response.json();
       return json.scores;
