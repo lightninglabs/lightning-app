@@ -35,9 +35,9 @@ describe('Computed Wallet Unit Tests', () => {
       store.settings.displayFiat = true;
       store.settings.exchangeRate.usd = 0.00014503;
       store.balanceSatoshis = 50000000;
-      store.pendingBalanceSatoshis = 50000000;
+      store.pendingBalanceSatoshis = 100;
       store.channelBalanceSatoshis = 10000;
-      store.limboBalanceSatoshis = 100;
+      store.limboBalanceSatoshis = 50000100;
       ComputedWallet(store);
       expect(store.totalBalanceSatoshis, 'to equal', 100010100);
       expect(store.totalBalanceLabel, 'to match', /6[,.]895[,.]82/);
@@ -50,9 +50,9 @@ describe('Computed Wallet Unit Tests', () => {
       store.settings.displayFiat = false;
       store.settings.exchangeRate.usd = 0.00014503;
       store.balanceSatoshis = 50000001;
-      store.pendingBalanceSatoshis = 50000000;
+      store.pendingBalanceSatoshis = 100;
       store.channelBalanceSatoshis = 10000;
-      store.limboBalanceSatoshis = 100;
+      store.limboBalanceSatoshis = 50000100;
       store.settings.unit = 'bit';
       ComputedWallet(store);
       expect(store.totalBalanceSatoshis, 'to equal', 100010101);

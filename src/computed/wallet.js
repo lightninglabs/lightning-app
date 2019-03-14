@@ -19,16 +19,10 @@ const ComputedWallet = store => {
     get totalBalanceSatoshis() {
       const {
         balanceSatoshis,
-        pendingBalanceSatoshis,
         channelBalanceSatoshis,
         limboBalanceSatoshis,
       } = store;
-      return (
-        balanceSatoshis +
-        pendingBalanceSatoshis +
-        channelBalanceSatoshis +
-        limboBalanceSatoshis
-      );
+      return balanceSatoshis + channelBalanceSatoshis + limboBalanceSatoshis;
     },
     get totalBalanceLabel() {
       return toAmountLabel(store.totalBalanceSatoshis, store.settings);
@@ -44,7 +38,7 @@ const ComputedWallet = store => {
     get channelPercentageLabel() {
       const {
         channelBalanceSatoshis: opened,
-        pendingBalanceSatoshis: pending,
+        limboBalanceSatoshis: pending,
         totalBalanceSatoshis: total,
       } = store;
       const percent = total ? (opened + pending) / total * 100 : 0;
