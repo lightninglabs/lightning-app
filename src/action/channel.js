@@ -3,7 +3,7 @@
  * call the corresponding GRPC apis for channel management.
  */
 
-import { toSatoshis, poll, formatTimeTilMaturity } from '../helper';
+import { toSatoshis, poll, getTimeTilAvailable } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
@@ -160,7 +160,7 @@ class ChannelAction {
         limboBalance: pfcc.limboBalance,
         maturityHeight: pfcc.maturityHeight,
         blocksTilMaturity: pfcc.blocksTilMaturity,
-        timeTilAvailable: formatTimeTilMaturity(pfcc.blocksTilMaturity),
+        timeTilAvailable: getTimeTilAvailable(pfcc.blocksTilMaturity),
         status: 'pending-force-closing',
       }));
       const wccs = response.waitingCloseChannels.map(wcc => ({

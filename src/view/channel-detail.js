@@ -42,7 +42,7 @@ const ChannelDetailView = ({ store, nav }) => (
             {store.selectedChannel.closingTxId}
           </DetailField>
         ) : null}
-        {store.selectedChannel.blocksTilMaturity ? (
+        {store.selectedChannel.timeTilAvailable ? (
           <DetailField name="Time Til Available">
             {store.selectedChannel.timeTilAvailable}
           </DetailField>

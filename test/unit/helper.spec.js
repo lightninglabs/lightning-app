@@ -818,11 +818,28 @@ describe('Helpers Unit Tests', () => {
     });
   });
 
-  describe('formatTimeTilMaturity()', () => {
+  describe('getTimeTilAvailable()', () => {
     it('should format blocks to human-readable time', () => {
       const numBlocks = 463;
-      const time = helpers.formatTimeTilMaturity(numBlocks);
+      const time = helpers.getTimeTilAvailable(numBlocks);
       expect(time, 'to equal', '3 days and 5 hours');
+    });
+
+    it('should show NaN for undefined', () => {
+      const time = helpers.getTimeTilAvailable(undefined);
+      expect(time, 'to equal', 'NaN days and NaN hours');
+    });
+
+    it('should work for 1 day and 1 hour', () => {
+      const numBlocks = 150;
+      const time = helpers.getTimeTilAvailable(numBlocks);
+      expect(time, 'to equal', '1 day and 1 hour');
+    });
+
+    it('should work for 0', () => {
+      const numBlocks = 0;
+      const time = helpers.getTimeTilAvailable(numBlocks);
+      expect(time, 'to equal', '0 days and 0 hours');
     });
   });
 });

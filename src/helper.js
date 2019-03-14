@@ -328,8 +328,10 @@ export const generateArc = (x, y, radius, startAngle, endAngle) => {
  * @param  {number} numBlocks The number of blocks to convert.
  * @return {string} The amount of time the blocks is equivalent to.
  */
-export const formatTimeTilMaturity = numBlocks => {
+export const getTimeTilAvailable = numBlocks => {
   const days = Math.floor(numBlocks / (24 * 6));
   const hours = Math.floor((numBlocks % (24 * 6)) / 6);
-  return `${days} days and ${hours} hours`;
+  const daysString = days === 1 ? 'day' : 'days';
+  const hoursString = hours === 1 ? 'hour' : 'hours';
+  return `${days} ${daysString} and ${hours} ${hoursString}`;
 };
