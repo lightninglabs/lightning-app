@@ -34,6 +34,7 @@ export class Store {
       unconfirmedBalanceSatoshis: 0,
       pendingBalanceSatoshis: 0,
       channelBalanceSatoshis: 0,
+      limboBalanceSatoshis: 0,
       pubKey: null,
       walletAddress: null,
       displayCopied: false,

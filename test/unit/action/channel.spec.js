@@ -148,6 +148,7 @@ describe('Action Channels Unit Tests', () => {
         pendingClosingChannels: [{ channel: { ...pendingChannel } }],
         pendingForceClosingChannels: [{ channel: { ...pendingChannel } }],
         waitingCloseChannels: [{ channel: { ...pendingChannel } }],
+        totalLimboBalance: 1,
       });
       await channel.getPendingChannels();
       expect(store.pendingChannels.length, 'to equal', 4);
@@ -155,6 +156,7 @@ describe('Action Channels Unit Tests', () => {
         remotePubkey: 'some-key',
         fundingTxId: 'FFFF',
       });
+      expect(store.limboBalanceSatoshis, 'to equal', 1);
     });
 
     it('should log error on failure', async () => {
