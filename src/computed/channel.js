@@ -68,7 +68,7 @@ const ComputedChannel = store => {
     get channelBalanceClosingSatoshis() {
       return (store.pendingChannels || [])
         .filter(c => !c.status.includes('open'))
-        .map(c => Number(c.localBalance))
+        .map(c => c.localBalance)
         .reduce((a, b) => a + b, 0);
     },
     get channelBalanceClosingLabel() {
