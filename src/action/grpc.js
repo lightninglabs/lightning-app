@@ -72,6 +72,15 @@ class GrpcAction {
   async initAutopilot() {
     await this._sendIpc('lndAtplInit', 'lndAtplReady');
     log.info('GRPC autopilotReady');
+    if (this._store.settings.autopilot) {
+      try {
+        await this.sendAutopilotCommand('modifyStatus', {
+          enable: true,
+        });
+      } catch (err) {
+        log.error('Failed to activate autopilot', err);
+      }
+    }
     this._store.autopilotReady = true;
   }
 

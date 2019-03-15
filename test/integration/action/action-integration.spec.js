@@ -237,16 +237,16 @@ describe('Action Integration Tests', function() {
 
     it('should be able to toggle autopilot', async () => {
       let status = await grpc1.sendAutopilotCommand('status');
-      expect(status.active, 'to be false');
-      await grpc1.sendAutopilotCommand('modifyStatus', { enable: true });
-      status = await grpc1.sendAutopilotCommand('status');
       expect(status.active, 'to be true');
+      await grpc1.sendAutopilotCommand('modifyStatus', { enable: false });
+      status = await grpc1.sendAutopilotCommand('status');
+      expect(status.active, 'to be false');
 
       status = await grpc2.sendAutopilotCommand('status');
-      expect(status.active, 'to be false');
-      await grpc2.sendAutopilotCommand('modifyStatus', { enable: true });
-      status = await grpc2.sendAutopilotCommand('status');
       expect(status.active, 'to be true');
+      await grpc2.sendAutopilotCommand('modifyStatus', { enable: false });
+      status = await grpc2.sendAutopilotCommand('status');
+      expect(status.active, 'to be false');
     });
 
     it('should reset password', async () => {
