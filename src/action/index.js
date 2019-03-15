@@ -87,7 +87,7 @@ when(
  * lnd node all balances, channels and transactions are fetched.
  */
 when(
-  () => store.lndReady,
+  () => store.lndReady && store.autopilotReady,
   () => {
     wallet.getNewAddress();
     wallet.pollBalances();
