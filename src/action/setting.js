@@ -69,6 +69,7 @@ class SettingAction {
       return;
     }
     this._store.settings.autopilot = !this._store.settings.autopilot;
+    this._db.save();
   }
 
   /**
