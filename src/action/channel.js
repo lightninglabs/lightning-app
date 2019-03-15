@@ -168,7 +168,6 @@ class ChannelAction {
         status: 'waiting-close',
       }));
       this._store.pendingChannels = [].concat(pocs, pccs, pfccs, wccs);
-      this._store.limboBalanceSatoshis = response.totalLimboBalance;
     } catch (err) {
       log.error('Listing pending channels failed', err);
     }
