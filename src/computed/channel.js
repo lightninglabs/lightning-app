@@ -38,7 +38,7 @@ const ComputedChannel = store => {
     get channelBalanceOpenSatoshis() {
       return (store.channels || [])
         .filter(c => c.active)
-        .map(c => Number(c.localBalance))
+        .map(c => c.localBalance)
         .reduce((a, b) => a + b, 0);
     },
     get channelBalanceOpenLabel() {
@@ -48,7 +48,7 @@ const ComputedChannel = store => {
     get channelBalanceInactiveSatoshis() {
       return (store.channels || [])
         .filter(c => !c.active)
-        .map(c => Number(c.localBalance))
+        .map(c => c.localBalance)
         .reduce((a, b) => a + b, 0);
     },
     get channelBalanceInactiveLabel() {
@@ -58,7 +58,7 @@ const ComputedChannel = store => {
     get channelBalancePendingSatoshis() {
       return (store.pendingChannels || [])
         .filter(c => c.status.includes('open'))
-        .map(c => Number(c.localBalance))
+        .map(c => c.localBalance)
         .reduce((a, b) => a + b, 0);
     },
     get channelBalancePendingLabel() {
