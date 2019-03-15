@@ -42,12 +42,8 @@ const ComputedWallet = store => {
       return !settings.displayFiat ? UNITS[settings.unit].display : null;
     },
     get channelPercentageLabel() {
-      const {
-        channelBalanceSatoshis: opened,
-        pendingBalanceSatoshis: pending,
-        totalBalanceSatoshis: total,
-      } = store;
-      const percent = total ? (opened + pending) / total * 100 : 0;
+      const { balanceSatoshis: onChain, totalBalanceSatoshis: total } = store;
+      const percent = total ? (total - onChain) / total * 100 : 0;
       return `${Math.round(percent)}% on Lightning`;
     },
     get newPasswordCopy() {
