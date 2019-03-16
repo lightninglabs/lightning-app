@@ -825,9 +825,12 @@ describe('Helpers Unit Tests', () => {
       expect(time, 'to equal', '3 days and 5 hours');
     });
 
-    it('should show NaN for undefined', () => {
-      const time = helpers.getTimeTilAvailable(undefined);
-      expect(time, 'to equal', 'NaN days and NaN hours');
+    it('should error on undefined', () => {
+      expect(
+        helpers.getTimeTilAvailable.bind(undefined),
+        'to throw',
+        /Invalid/
+      );
     });
 
     it('should work for 1 day and 1 hour', () => {
