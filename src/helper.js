@@ -329,12 +329,11 @@ export const generateArc = (x, y, radius, startAngle, endAngle) => {
  * @return {string} The amount of time the blocks is equivalent to.
  */
 export const getTimeTilAvailable = numBlocks => {
-  let num = Number(numBlocks);
-  if (isNaN(num)) {
+  if (!Number.isInteger(numBlocks)) {
     throw new Error('Invalid input!');
   }
-  const days = Math.floor(num / (24 * 6));
-  const hours = Math.floor((num % (24 * 6)) / 6);
+  const days = Math.floor(numBlocks / (24 * 6));
+  const hours = Math.floor((numBlocks % (24 * 6)) / 6);
   const daysString = days === 1 ? 'day' : 'days';
   const hoursString = hours === 1 ? 'hour' : 'hours';
   return `${days} ${daysString} and ${hours} ${hoursString}`;
