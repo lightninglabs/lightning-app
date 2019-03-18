@@ -75,6 +75,16 @@ const ComputedChannel = store => {
       const { channelBalanceClosingSatoshis, settings } = store;
       return toAmountLabel(channelBalanceClosingSatoshis, settings);
     },
+    get channelBalanceForceClosingSatoshis() {
+      return (store.pendingChannels || [])
+        .filter(c => c.status === 'pending-force-closing')
+        .map(c => c.localBalance)
+        .reduce((a, b) => a + b, 0);
+    },
+    get channelBalanceForceClosingLabel() {
+      const { channelBalanceForceClosingSatoshis, settings } = store;
+      return toAmountLabel(channelBalanceForceClosingSatoshis, settings);
+    },
     get channelStatus() {
       const {
         channelBalanceOpenSatoshis: opened,
