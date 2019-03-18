@@ -16,7 +16,7 @@ const baseCStyles = {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 75,
+    paddingBottom: 25,
     paddingLeft: 50,
     paddingRight: 50,
   },
