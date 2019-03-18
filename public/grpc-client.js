@@ -50,6 +50,12 @@ module.exports.init = async function({
   lndSettingsDir,
   network,
 }) {
+  let credentials;
+  let protoPath;
+  let lnrpc;
+  let unlocker;
+  let lnd;
+  let autopilot;
   const protoOptions = {
     keepCase: false,
     longs: Number,
@@ -57,13 +63,6 @@ module.exports.init = async function({
     defaults: true,
     oneofs: true,
   };
-  let credentials;
-  let protoPath;
-  let atplProtoPath;
-  let lnrpc;
-  let unlocker;
-  let lnd;
-  let autopilot;
 
   ipcMain.on('unlockInit', async event => {
     credentials = await getCredentials(lndSettingsDir);
@@ -94,8 +93,8 @@ module.exports.init = async function({
   });
 
   ipcMain.on('lndAtplInit', async event => {
-    atplProtoPath = path.join(__dirname, '..', 'assets', 'autopilot.proto');
-    const packageDef = protoLoader.loadSync(atplProtoPath, protoOptions);
+    const atplProto = path.join(__dirname, '..', 'assets', 'autopilot.proto');
+    const packageDef = protoLoader.loadSync(atplProto, protoOptions);
     let autopilotRpc = grpc.loadPackageDefinition(packageDef).autopilotrpc;
     autopilot = new autopilotRpc.Autopilot(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(autopilot, Infinity, err => {
