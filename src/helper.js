@@ -138,6 +138,23 @@ export const toLabel = (amount, settings) => {
 };
 
 /**
+ * Convert a number of blocks to an amount of time in the format "X days and Y
+ * hours" assuming 10 minutes per block.
+ * @param  {number} numBlocks The number of blocks to convert.
+ * @return {string} The amount of time the blocks is equivalent to.
+ */
+export const getTimeTilAvailable = numBlocks => {
+  if (!Number.isInteger(numBlocks)) {
+    throw new Error('Invalid input!');
+  }
+  const days = Math.floor(numBlocks / (24 * 6));
+  const hours = Math.floor((numBlocks % (24 * 6)) / 6);
+  const daysString = days === 1 ? 'day' : 'days';
+  const hoursString = hours === 1 ? 'hour' : 'hours';
+  return `${days} ${daysString} and ${hours} ${hoursString}`;
+};
+
+/**
  * Split '_' separated words and convert to uppercase
  * @param  {string} value     The input string
  * @param  {string} separator The separator to be used

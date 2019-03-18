@@ -146,7 +146,12 @@ describe('Action Channels Unit Tests', () => {
       grpc.sendCommand.withArgs('pendingChannels').resolves({
         pendingOpenChannels: [{ channel: { ...pendingChannel } }],
         pendingClosingChannels: [{ channel: { ...pendingChannel } }],
-        pendingForceClosingChannels: [{ channel: { ...pendingChannel } }],
+        pendingForceClosingChannels: [
+          {
+            channel: { ...pendingChannel },
+            blocksTilMaturity: 463,
+          },
+        ],
         waitingCloseChannels: [{ channel: { ...pendingChannel } }],
         totalLimboBalance: 1,
       });
@@ -155,6 +160,9 @@ describe('Action Channels Unit Tests', () => {
       expect(store.pendingChannels[0], 'to satisfy', {
         remotePubkey: 'some-key',
         fundingTxId: 'FFFF',
+      });
+      expect(store.pendingChannels[2], 'to satisfy', {
+        timeTilAvailable: '3 days and 5 hours',
       });
     });
 

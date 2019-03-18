@@ -48,6 +48,11 @@ const ChannelDetailView = ({ store, nav }) => (
         <DetailField name="Status">
           {store.selectedChannel.statusLabel}
         </DetailField>
+        {store.selectedChannel.timeTilAvailable ? (
+          <DetailField name="Time Til Available">
+            {store.selectedChannel.timeTilAvailable}
+          </DetailField>
+        ) : null}
         <DetailField name="Capacity">
           {store.selectedChannel.capacityLabel} {store.unitLabel}
         </DetailField>
