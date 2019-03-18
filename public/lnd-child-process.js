@@ -62,6 +62,9 @@ module.exports.startLndProcess = async function({
     '--debuglevel=info',
     `--lnddir=${lndSettingsDir}`,
     `--routing.assumechanvalid`,
+    '--autopilot.private',
+    '--autopilot.minconfs=0',
+    '--autopilot.allocation=0.95',
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
@@ -73,13 +76,6 @@ module.exports.startLndProcess = async function({
       '--bitcoin.simnet',
       '--bitcoin.node=neutrino',
       '--neutrino.connect=127.0.0.1:18555',
-    ]);
-  } else {
-    args = args.concat([
-      '--autopilot.active',
-      '--autopilot.private',
-      '--autopilot.minconfs=0',
-      '--autopilot.allocation=0.95',
     ]);
   }
   // set default production settings if no custom flags
