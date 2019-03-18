@@ -34,8 +34,7 @@ make && make install tags=experimental
 ```
 git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd
 cd $GOPATH/src/github.com/btcsuite/btcd
-glide install
-go install . ./cmd/...
+GO111MODULE=on go install -v . ./cmd/...
 ```
 
 Then start by cloning this git repo and go inside the project folder to run the following commands:

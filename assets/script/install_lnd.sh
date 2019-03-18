@@ -26,7 +26,7 @@ make && make install tags=experimental
 git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd
 cd $GOPATH/src/github.com/btcsuite/btcd
 git checkout $BTCD_TAG
-GO111MODULE=on go install . ./cmd/...
+GO111MODULE=on go install -v . ./cmd/...
 
 # copy lnd/btcd binaries to git repo for integration tests
 cp $GOPATH/bin/* $TRAVIS_BUILD_DIR/assets/bin/$PLATFORM/
