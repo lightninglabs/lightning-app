@@ -73,14 +73,14 @@ const SettingView = ({ store, nav, wallet, setting }) => {
           onSelect={() => wallet.initResetPassword()}
           arrow
         />
-        <SettingHeader name="ADVANCED" style={styles.advanced} />
-        <SettingItem name="Logs" onSelect={() => nav.goCLI()} arrow />
-        <SettingItem name="Toggle Autopilot" onSelect={() => {}}>
+        <SettingItem name="Enable Autopilot">
           <Switch
-            onValueChange={() => setting.toggleAutopilot()}
             value={store.settings.autopilot}
+            onValueChange={() => setting.toggleAutopilot()}
           />
         </SettingItem>
+        <SettingHeader name="ADVANCED" style={styles.advanced} />
+        <SettingItem name="Logs" onSelect={() => nav.goCLI()} arrow />
       </SettingContent>
     </Background>
   );
