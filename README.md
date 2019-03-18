@@ -27,7 +27,7 @@ See the `ToDo (next release)` column on our [project board](https://github.com/l
 ```
 git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
 cd $GOPATH/src/github.com/lightningnetwork/lnd
-make && make install tags=experimental
+make && make install tags="experimental autopilotrpc"
 ```
 
 #### Install btcd
