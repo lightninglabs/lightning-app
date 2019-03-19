@@ -81,6 +81,14 @@ describe('Action GRPC Unit Tests', () => {
     });
   });
 
+  describe('initLnd()', () => {
+    it('should set lndReady', async () => {
+      sandbox.stub(grpc, '_sendIpc').resolves();
+      await grpc.initLnd();
+      expect(store.lndReady, 'to be', true);
+    });
+  });
+
   describe('closeLnd()', () => {
     it('should send ipc close call', async () => {
       sandbox.stub(grpc, '_sendIpc').resolves();
