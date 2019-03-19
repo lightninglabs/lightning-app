@@ -65,26 +65,6 @@ class GrpcAction {
   }
 
   /**
-   * This is called to initialize the GRPC client to autopilot. Once `autopilotReady`
-   * is set to true on the store GRPC calls can be made to the client.
-   * @return {Promise<undefined>}
-   */
-  async initAutopilot() {
-    await this._sendIpc('lndAtplInit', 'lndAtplReady');
-    log.info('GRPC autopilotReady');
-    if (this._store.settings.autopilot) {
-      try {
-        await this.sendAutopilotCommand('modifyStatus', {
-          enable: true,
-        });
-      } catch (err) {
-        log.error('Failed to activate autopilot', err);
-      }
-    }
-    this._store.autopilotReady = true;
-  }
-
-  /**
    * Closes the main GRPC client to lnd. This should only be called upon exiting
    * the application as api calls need to be throughout the lifetime of the app.
    * @return {Promise<undefined>}
@@ -118,16 +98,6 @@ class GrpcAction {
    */
   sendCommand(method, body) {
     return this._sendIpc('lndRequest', 'lndResponse', method, body);
-  }
-
-  /**
-   * Wrapper function to execute calls to the autopilot grpc client.
-   * @param  {string} method The autopilot GRPC api to call
-   * @param  {Object} body   The payload passed to the api
-   * @return {Promise<Object>}
-   */
-  sendAutopilotCommand(method, body) {
-    return this._sendIpc('lndAtplRequest', 'lndAtplResponse', method, body);
   }
 
   /**

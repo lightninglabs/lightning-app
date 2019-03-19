@@ -93,7 +93,7 @@ const grpc = sinon.createStubInstance(GrpcAction);
 const info = sinon.createStubInstance(InfoAction);
 const notify = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, db, nav, notify);
-const setting = new SettingAction(store, wallet, db, ipc, grpc, notify);
+const setting = new SettingAction(store, wallet, db, ipc, grpc);
 const autopilot = sinon.createStubInstance(AtplAction);
 sinon.stub(wallet, 'update');
 sinon.stub(wallet, 'checkSeed');

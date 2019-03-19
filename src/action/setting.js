@@ -8,13 +8,12 @@ import localeCurrency from 'locale-currency';
 import * as log from './log';
 
 class SettingAction {
-  constructor(store, wallet, db, ipc, grpc, notification) {
+  constructor(store, wallet, db, ipc, grpc) {
     this._store = store;
     this._wallet = wallet;
     this._db = db;
     this._ipc = ipc;
     this._grpc = grpc;
-    this._notification = notification;
   }
 
   /**
@@ -50,26 +49,6 @@ class SettingAction {
    */
   setRestoringWallet({ restoring }) {
     this._store.settings.restoring = restoring;
-  }
-
-  /**
-   * Toggle whether autopilot is turned on.
-   * @return {undefined}
-   */
-  async toggleAutopilot() {
-    try {
-      await this._grpc.sendAutopilotCommand('modifyStatus', {
-        enable: !this._store.settings.autopilot,
-      });
-    } catch (err) {
-      this._notification.display({
-        msg: 'Unable to modify autopilot status.',
-        err,
-      });
-      return;
-    }
-    this._store.settings.autopilot = !this._store.settings.autopilot;
-    this._db.save();
   }
 
   /**

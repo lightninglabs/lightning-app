@@ -3,7 +3,6 @@ import IpcAction from '../../../src/action/ipc';
 import SettingAction from '../../../src/action/setting';
 import WalletAction from '../../../src/action/wallet';
 import GrpcAction from '../../../src/action/grpc';
-import NotificationAction from '../../../src/action/notification';
 import AppStorage from '../../../src/action/app-storage';
 import * as logger from '../../../src/action/log';
 
@@ -13,7 +12,6 @@ describe('Action Setting Unit Test', () => {
   let db;
   let ipc;
   let grpc;
-  let notify;
   let setting;
   let sandbox;
 
@@ -25,8 +23,7 @@ describe('Action Setting Unit Test', () => {
     db = sinon.createStubInstance(AppStorage);
     ipc = sinon.createStubInstance(IpcAction);
     grpc = sinon.createStubInstance(GrpcAction);
-    notify = sinon.createStubInstance(NotificationAction);
-    setting = new SettingAction(store, wallet, db, ipc, grpc, notify);
+    setting = new SettingAction(store, wallet, db, ipc, grpc);
   });
 
   afterEach(() => {
@@ -94,23 +91,6 @@ describe('Action Setting Unit Test', () => {
     it('should clear attributes', () => {
       setting.setRestoringWallet({ restoring: true });
       expect(store.settings.restoring, 'to equal', true);
-    });
-  });
-
-  describe('toggleAutopilot()', () => {
-    it('should toggle autopilot', async () => {
-      store.settings.autopilot = true;
-      await setting.toggleAutopilot();
-      expect(store.settings.autopilot, 'to equal', false);
-      expect(notify.display, 'was not called');
-    });
-
-    it('should display a notification on error', async () => {
-      store.settings.autopilot = true;
-      grpc.sendAutopilotCommand.rejects(new Error('Boom!'));
-      await setting.toggleAutopilot();
-      expect(store.settings.autopilot, 'to equal', true);
-      expect(notify.display, 'was called once');
     });
   });
 });
