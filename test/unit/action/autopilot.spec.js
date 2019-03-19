@@ -1,14 +1,14 @@
 import { Store } from '../../../src/store';
-import IpcAction from '../../../src/action/ipc';
+import GrpcAction from '../../../src/action/grpc';
 import NotificationAction from '../../../src/action/notification';
 import AppStorage from '../../../src/action/app-storage';
 import AtplAction from '../../../src/action/autopilot';
 import * as logger from '../../../src/action/log';
 
-describe('Action Setting Unit Test', () => {
+describe('Action Autopilot Unit Test', () => {
   let store;
   let db;
-  let ipc;
+  let grpc;
   let notify;
   let autopilot;
   let sandbox;
@@ -17,66 +17,46 @@ describe('Action Setting Unit Test', () => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store = new Store();
-    ipc = sinon.createStubInstance(IpcAction);
+    grpc = sinon.createStubInstance(GrpcAction);
     db = sinon.createStubInstance(AppStorage);
     notify = sinon.createStubInstance(NotificationAction);
-    autopilot = new AtplAction(store, ipc, db, notify);
+    autopilot = new AtplAction(store, grpc, db, notify);
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  describe('initAutopilot()', () => {
-    it('should set autopilotReady', async () => {
-      await autopilot.initAutopilot();
-      expect(store.autopilotReady, 'to be', true);
+  describe('init()', () => {
+    it('should enable autopilot by default', async () => {
+      await autopilot.init();
+      expect(grpc.sendAutopilotCommand, 'was called with', 'modifyStatus', {
+        enable: true,
+      });
+    });
+
+    it('should not enable autopilot if disabled', async () => {
+      store.settings.autopilot = false;
+      await autopilot.init();
+      expect(grpc.sendAutopilotCommand, 'was not called');
     });
   });
 
-  describe('toggleAutopilot()', () => {
+  describe('toggle()', () => {
     it('should toggle autopilot', async () => {
+      grpc.sendAutopilotCommand.resolves();
       store.settings.autopilot = true;
-      await autopilot.toggleAutopilot();
+      await autopilot.toggle();
       expect(store.settings.autopilot, 'to equal', false);
-      expect(notify.display, 'was not called');
+      expect(db.save, 'was called once');
     });
 
     it('should display a notification on error', async () => {
+      grpc.sendAutopilotCommand.rejects();
       store.settings.autopilot = true;
-      sandbox.stub(autopilot, 'sendAutopilotCommand').rejects();
-      await autopilot.toggleAutopilot();
+      await autopilot.toggle();
       expect(store.settings.autopilot, 'to equal', true);
-      expect(notify.display, 'was called once');
-    });
-  });
-
-  describe('sendAutopilotCommand()', () => {
-    it('should send ipc with correct args', async () => {
-      sandbox.stub(autopilot, '_sendIpc').resolves();
-      await autopilot.sendAutopilotCommand('some-method', 'some-body');
-      expect(
-        autopilot._sendIpc,
-        'was called with',
-        'lndAtplRequest',
-        'lndAtplResponse',
-        'some-method',
-        'some-body'
-      );
-    });
-  });
-
-  describe('setAtplStatus', () => {
-    it('should return undefined on success', async () => {
-      sandbox.stub(autopilot, '_sendIpc').resolves();
-      const rv = await autopilot.setAtplStatus({ enable: true });
-      expect(rv, 'to be undefined');
-    });
-
-    it('should return an error on failure', async () => {
-      sandbox.stub(autopilot, '_sendIpc').rejects(new Error('Boom!'));
-      const err = await autopilot.setAtplStatus({ enable: true });
-      expect(err, 'to be ok');
+      expect(db.save, 'was not called');
     });
   });
 });

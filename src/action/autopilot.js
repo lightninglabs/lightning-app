@@ -3,45 +3,33 @@
  * whether autopilot should open channels.
  */
 
-import * as log from './log';
-
 class AtplAction {
-  constructor(store, ipc, db, notification) {
+  constructor(store, grpc, db, notification) {
     this._store = store;
-    this._ipc = ipc;
+    this._grpc = grpc;
     this._db = db;
     this._notification = notification;
   }
 
   /**
-   * This is called to initialize the GRPC client to autopilot. Once `autopilotReady`
-   * is set to true on the store GRPC calls can be made to the client.
+   * Initialize autopilot from the stored settings and enable it via grpc
+   * depending on if the user has enabled it in the last session.
    * @return {Promise<undefined>}
    */
-  async initAutopilot() {
-    await this._sendIpc('lndAtplInit', 'lndAtplReady');
-    this._store.autopilotReady = true;
-    log.info('GRPC autopilotReady');
+  async init() {
     if (this._store.settings.autopilot) {
-      const err = await this.setAtplStatus({ enable: true });
-      if (err) log.error('Failed to activate autopilot', err);
+      await this._setStatus(true);
     }
   }
 
   /**
-   * Toggle whether autopilot is turned on.
-   * @return {undefined}
+   * Toggle whether autopilot is turned on and save user settings if
+   * the grpc call was successful.
+   * @return {Promise<undefined>}
    */
-  async toggleAutopilot() {
-    const err = await this.setAtplStatus({
-      enable: !this._store.settings.autopilot,
-    });
-    if (err) {
-      this._notification.display({
-        msg: 'Unable to modify autopilot status.',
-        err,
-      });
-    } else {
+  async toggle() {
+    const success = await this._setStatus(!this._store.settings.autopilot);
+    if (success) {
       this._store.settings.autopilot = !this._store.settings.autopilot;
       this._db.save();
     }
@@ -49,36 +37,16 @@ class AtplAction {
 
   /**
    * Set whether autopilot is enabled or disabled.
-   * @param {boolean} options.enable Whether autopilot should be enabled.
+   * @param {boolean} enable      Whether autopilot should be enabled.
    * @return {Promise<undefined>}
    */
-  async setAtplStatus({ enable }) {
+  async _setStatus(enable) {
     try {
-      await this.sendAutopilotCommand('modifyStatus', {
-        enable: enable,
-      });
+      await this._grpc.sendAutopilotCommand('modifyStatus', { enable });
+      return true;
     } catch (err) {
-      return err;
+      this._notification.display({ msg: 'Error toggling autopilot', err });
     }
-  }
-
-  /**
-   * Wrapper function to execute calls to the autopilot grpc client.
-   * @param  {string} method The autopilot GRPC api to call
-   * @param  {Object} body   The payload passed to the api
-   * @return {Promise<Object>}
-   */
-  sendAutopilotCommand(method, body) {
-    return this._sendIpc('lndAtplRequest', 'lndAtplResponse', method, body);
-  }
-
-  //
-  // Helper functions
-  //
-
-  _sendIpc(event, listen, method, body) {
-    listen = method ? `${listen}_${method}` : listen;
-    return this._ipc.send(event, listen, { method, body });
   }
 }
 
