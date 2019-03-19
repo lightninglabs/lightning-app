@@ -115,7 +115,7 @@ export const SettingItem = ({ name, onSelect, label, arrow, children }) => (
 
 SettingItem.propTypes = {
   name: PropTypes.string.isRequired,
-  onSelect: PropTypes.func.isRequired,
+  onSelect: PropTypes.func,
   label: PropTypes.string,
   arrow: PropTypes.bool,
   children: PropTypes.node,

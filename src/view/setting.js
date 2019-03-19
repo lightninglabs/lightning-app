@@ -73,7 +73,7 @@ const SettingView = ({ store, nav, wallet, autopilot }) => {
           onSelect={() => wallet.initResetPassword()}
           arrow
         />
-        <SettingItem name="Enable Autopilot" onSelect={() => {}}>
+        <SettingItem name="Enable Autopilot">
           <Switch
             value={store.settings.autopilot}
             onValueChange={() => autopilot.toggle()}
