@@ -41,8 +41,8 @@ export const transaction = new TransactionAction(store, grpc, nav, notify);
 export const channel = new ChannelAction(store, grpc, nav, notify);
 export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 export const payment = new PaymentAction(store, grpc, nav, notify, Clipboard);
-export const setting = new SettingAction(store, wallet, db, ipc, grpc);
-export const autopilot = new AtplAction(store, ipc, db, notify);
+export const setting = new SettingAction(store, wallet, db, ipc);
+export const autopilot = new AtplAction(store, grpc, db, notify);
 
 payment.listenForUrl(ipc); // enable incoming url handler
 
@@ -78,7 +78,7 @@ when(
     await nap();
     await grpc.closeUnlocker();
     await grpc.initLnd();
-    await autopilot.initAutopilot();
+    await grpc.initAutopilot();
   }
 );
 
@@ -91,6 +91,7 @@ when(
 when(
   () => store.lndReady && store.autopilotReady,
   () => {
+    autopilot.init();
     wallet.getNewAddress();
     wallet.pollBalances();
     wallet.pollExchangeRate();

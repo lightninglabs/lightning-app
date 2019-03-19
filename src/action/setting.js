@@ -8,12 +8,11 @@ import localeCurrency from 'locale-currency';
 import * as log from './log';
 
 class SettingAction {
-  constructor(store, wallet, db, ipc, grpc) {
+  constructor(store, wallet, db, ipc) {
     this._store = store;
     this._wallet = wallet;
     this._db = db;
     this._ipc = ipc;
-    this._grpc = grpc;
   }
 
   /**

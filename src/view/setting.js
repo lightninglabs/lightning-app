@@ -76,7 +76,7 @@ const SettingView = ({ store, nav, wallet, autopilot }) => {
         <SettingItem name="Enable Autopilot" onSelect={() => {}}>
           <Switch
             value={store.settings.autopilot}
-            onValueChange={() => autopilot.toggleAutopilot()}
+            onValueChange={() => autopilot.toggle()}
           />
         </SettingItem>
         <SettingHeader name="ADVANCED" style={styles.advanced} />

@@ -54,7 +54,7 @@ export const transaction = new TransactionAction(store, grpc, nav, notify);
 export const channel = new ChannelAction(store, grpc, nav, notify);
 export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 export const payment = new PaymentAction(store, grpc, nav, notify, Clipboard);
-export const setting = new SettingAction(store, wallet, db, ipc, grpc);
+export const setting = new SettingAction(store, wallet, db, ipc);
 export const auth = new AuthAction(
   store,
   wallet,
@@ -63,7 +63,7 @@ export const auth = new AuthAction(
   LocalAuthentication,
   Alert
 );
-export const autopilot = new AtplAction(store, ipc, db, notify);
+export const autopilot = new AtplAction(store, grpc, db, notify);
 
 payment.listenForUrlMobile(Linking); // enable incoming url handler
 
@@ -119,7 +119,7 @@ sinon.stub(payment, 'payLightning');
 sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
-sinon.stub(autopilot, 'toggleAutopilot');
+sinon.stub(autopilot, 'toggle');
 
 // SET SOME DUMMY DATA DURING DEVELOPMENT
 setTimeout(
