@@ -50,6 +50,31 @@ class GrpcAction {
   }
 
   //
+  // Autopilot grpc client
+  //
+
+  /**
+   * This is called to initialize the GRPC client to autopilot. Once `autopilotReady`
+   * is set to true on the store GRPC calls can be made to the client.
+   * @return {Promise<undefined>}
+   */
+  async initAutopilot() {
+    await this._sendIpc('lndAtplInit', 'lndAtplReady');
+    this._store.autopilotReady = true;
+    log.info('GRPC autopilotReady');
+  }
+
+  /**
+   * Wrapper function to execute calls to the autopilot grpc client.
+   * @param  {string} method The autopilot GRPC api to call
+   * @param  {Object} body   The payload passed to the api
+   * @return {Promise<Object>}
+   */
+  async sendAutopilotCommand(method, body) {
+    return this._sendIpc('lndAtplRequest', 'lndAtplResponse', method, body);
+  }
+
+  //
   // Lightning (lnd) grpc client
   //
 
