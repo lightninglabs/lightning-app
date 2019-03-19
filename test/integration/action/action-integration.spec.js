@@ -167,7 +167,7 @@ describe('Action Integration Tests', function() {
     channels1 = new ChannelAction(store1, grpc1, nav1, notify1);
     invoice1 = new InvoiceAction(store1, grpc1, nav1, notify1);
     payments1 = new PaymentAction(store1, grpc1, nav1, notify1);
-    autopilot1 = new AtplAction(store1, ipc1, db1, notify1);
+    autopilot1 = new AtplAction(store1, grpc1, db1, notify1);
 
     db2 = sinon.createStubInstance(AppStorage);
     nav2 = sinon.createStubInstance(NavAction);
@@ -180,7 +180,7 @@ describe('Action Integration Tests', function() {
     channels2 = new ChannelAction(store2, grpc2, nav2, notify2);
     invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
     payments2 = new PaymentAction(store2, grpc2, nav2, notify2);
-    autopilot2 = new AtplAction(store2, ipc2, db2, notify2);
+    autopilot2 = new AtplAction(store2, grpc2, db2, notify2);
   });
 
   after(async () => {
@@ -231,35 +231,6 @@ describe('Action Integration Tests', function() {
       expect(store1.lndReady, 'to be true');
       await grpc2.initLnd();
       expect(store2.lndReady, 'to be true');
-    });
-
-    it('should wait for autopilotReady', async () => {
-      await autopilot1.initAutopilot();
-      expect(store1.autopilotReady, 'to be true');
-      await autopilot2.initAutopilot();
-      expect(store2.autopilotReady, 'to be true');
-    });
-
-    it('should be able to toggle autopilot', async () => {
-      await autopilot1.toggleAutopilot();
-      expect(store1.settings.autopilot, 'to be false');
-      let status = await autopilot1.sendAutopilotCommand('status');
-      expect(status.active, 'to be false');
-
-      await autopilot1.toggleAutopilot();
-      expect(store1.settings.autopilot, 'to be true');
-      status = await autopilot1.sendAutopilotCommand('status');
-      expect(status.active, 'to be true');
-
-      await autopilot2.toggleAutopilot();
-      expect(store2.settings.autopilot, 'to be false');
-      status = await autopilot2.sendAutopilotCommand('status');
-      expect(status.active, 'to be false');
-
-      await autopilot2.toggleAutopilot();
-      expect(store2.settings.autopilot, 'to be true');
-      status = await autopilot2.sendAutopilotCommand('status');
-      expect(status.active, 'to be true');
     });
 
     it('should reset password', async () => {
@@ -376,6 +347,34 @@ describe('Action Integration Tests', function() {
       expect(store2.channelBalanceSatoshis, 'to be', 0);
       expect(store1.pendingBalanceSatoshis, 'to be', 0);
       expect(store2.pendingBalanceSatoshis, 'to be', 0);
+    });
+  });
+
+  describe('Autopilot actions', () => {
+    it('should wait for autopilotReady', async () => {
+      await grpc1.initAutopilot();
+      expect(store1.autopilotReady, 'to be true');
+      await grpc2.initAutopilot();
+      expect(store2.autopilotReady, 'to be true');
+    });
+
+    it('should init autopilot', async () => {
+      await autopilot1.init();
+      expect(store1.settings.autopilot, 'to be true');
+      const status = await grpc1.sendAutopilotCommand('status');
+      expect(status.active, 'to be true');
+    });
+
+    it('should be able to toggle autopilot', async () => {
+      await autopilot1.toggle();
+      expect(store1.settings.autopilot, 'to be false');
+      let status = await grpc1.sendAutopilotCommand('status');
+      expect(status.active, 'to be false');
+
+      await autopilot1.toggle();
+      expect(store1.settings.autopilot, 'to be true');
+      status = await grpc1.sendAutopilotCommand('status');
+      expect(status.active, 'to be true');
     });
   });
 
