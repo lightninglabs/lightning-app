@@ -21,13 +21,13 @@ const ComputedWallet = store => {
         balanceSatoshis,
         pendingBalanceSatoshis,
         channelBalanceSatoshis,
-        channelBalanceClosingSatoshis,
+        channelBalanceForceClosingSatoshis,
       } = store;
       return (
         balanceSatoshis +
         pendingBalanceSatoshis +
         channelBalanceSatoshis +
-        channelBalanceClosingSatoshis
+        channelBalanceForceClosingSatoshis
       );
     },
     get totalBalanceLabel() {
