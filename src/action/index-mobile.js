@@ -31,6 +31,7 @@ import PaymentAction from './payment';
 import InvoiceAction from './invoice';
 import SettingAction from './setting';
 import AuthAction from './auth-mobile';
+import AtplAction from './autopilot';
 
 //
 // Inject dependencies
@@ -62,6 +63,7 @@ export const auth = new AuthAction(
   LocalAuthentication,
   Alert
 );
+export const autopilot = new AtplAction(store, ipc, db, notify);
 
 payment.listenForUrlMobile(Linking); // enable incoming url handler
 
@@ -117,6 +119,7 @@ sinon.stub(payment, 'payLightning');
 sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
+sinon.stub(autopilot, 'toggleAutopilot');
 
 // SET SOME DUMMY DATA DURING DEVELOPMENT
 setTimeout(

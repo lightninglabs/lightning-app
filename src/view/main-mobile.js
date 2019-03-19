@@ -54,6 +54,7 @@ import {
   setting,
   info,
   auth,
+  autopilot,
 } from '../action/index-mobile';
 
 import store from '../store';
@@ -105,7 +106,7 @@ const Home = () => (
 );
 
 const Settings = () => (
-  <SettingView store={store} nav={nav} wallet={wallet} setting={setting} />
+  <SettingView store={store} nav={nav} wallet={wallet} autopilot={autopilot} />
 );
 
 const SettingsUnit = () => (

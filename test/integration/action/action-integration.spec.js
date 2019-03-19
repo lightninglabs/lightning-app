@@ -12,6 +12,7 @@ import ChannelAction from '../../../src/action/channel';
 import TransactionAction from '../../../src/action/transaction';
 import PaymentAction from '../../../src/action/payment';
 import InvoiceAction from '../../../src/action/invoice';
+import AtplAction from '../../../src/action/autopilot';
 import { nap, retry } from '../../../src/helper';
 import { EventEmitter } from 'events';
 import { BTCD_MINING_ADDRESS } from '../../../src/config';
@@ -80,6 +81,7 @@ describe('Action Integration Tests', function() {
   let transactions1;
   let payments1;
   let invoice1;
+  let autopilot1;
   let nav2;
   let notify2;
   let ipc2;
@@ -90,6 +92,7 @@ describe('Action Integration Tests', function() {
   let transactions2;
   let payments2;
   let invoice2;
+  let autopilot2;
   let btcdArgs;
 
   const startLnd = async () => {
@@ -164,6 +167,7 @@ describe('Action Integration Tests', function() {
     channels1 = new ChannelAction(store1, grpc1, nav1, notify1);
     invoice1 = new InvoiceAction(store1, grpc1, nav1, notify1);
     payments1 = new PaymentAction(store1, grpc1, nav1, notify1);
+    autopilot1 = new AtplAction(store1, ipc1, db1, notify1);
 
     db2 = sinon.createStubInstance(AppStorage);
     nav2 = sinon.createStubInstance(NavAction);
@@ -176,6 +180,7 @@ describe('Action Integration Tests', function() {
     channels2 = new ChannelAction(store2, grpc2, nav2, notify2);
     invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
     payments2 = new PaymentAction(store2, grpc2, nav2, notify2);
+    autopilot2 = new AtplAction(store2, ipc2, db2, notify2);
   });
 
   after(async () => {
@@ -229,24 +234,32 @@ describe('Action Integration Tests', function() {
     });
 
     it('should wait for autopilotReady', async () => {
-      await grpc1.initAutopilot();
+      await autopilot1.initAutopilot();
       expect(store1.autopilotReady, 'to be true');
-      await grpc2.initAutopilot();
+      await autopilot2.initAutopilot();
       expect(store2.autopilotReady, 'to be true');
     });
 
     it('should be able to toggle autopilot', async () => {
-      let status = await grpc1.sendAutopilotCommand('status');
-      expect(status.active, 'to be true');
-      await grpc1.sendAutopilotCommand('modifyStatus', { enable: false });
-      status = await grpc1.sendAutopilotCommand('status');
+      await autopilot1.toggleAutopilot();
+      expect(store1.settings.autopilot, 'to be false');
+      let status = await autopilot1.sendAutopilotCommand('status');
       expect(status.active, 'to be false');
 
-      status = await grpc2.sendAutopilotCommand('status');
+      await autopilot1.toggleAutopilot();
+      expect(store1.settings.autopilot, 'to be true');
+      status = await autopilot1.sendAutopilotCommand('status');
       expect(status.active, 'to be true');
-      await grpc2.sendAutopilotCommand('modifyStatus', { enable: false });
-      status = await grpc2.sendAutopilotCommand('status');
+
+      await autopilot2.toggleAutopilot();
+      expect(store2.settings.autopilot, 'to be false');
+      status = await autopilot2.sendAutopilotCommand('status');
       expect(status.active, 'to be false');
+
+      await autopilot2.toggleAutopilot();
+      expect(store2.settings.autopilot, 'to be true');
+      status = await autopilot2.sendAutopilotCommand('status');
+      expect(status.active, 'to be true');
     });
 
     it('should reset password', async () => {
