@@ -3,8 +3,6 @@ const path = require('path');
 const grpc = require('grpc');
 const protoLoader = require('@grpc/proto-loader');
 
-const GRPC_TIMEOUT = 300000;
-
 process.env.GRPC_SSL_CIPHER_SUITES =
   'ECDHE-RSA-AES128-GCM-SHA256:' +
   'ECDHE-RSA-AES128-SHA256:' +
@@ -57,18 +55,19 @@ module.exports.init = async function({
   let lnrpc;
   let unlocker;
   let lnd;
+  let autopilot;
+  const protoOptions = {
+    keepCase: false,
+    longs: Number,
+    enums: String,
+    defaults: true,
+    oneofs: true,
+  };
 
   ipcMain.on('unlockInit', async event => {
     credentials = await getCredentials(lndSettingsDir);
     protoPath = path.join(__dirname, '..', 'assets', 'rpc.proto');
-    const options = {
-      keepCase: false,
-      longs: Number,
-      enums: String,
-      defaults: true,
-      oneofs: true,
-    };
-    const packageDef = protoLoader.loadSync(protoPath, options);
+    const packageDef = protoLoader.loadSync(protoPath, protoOptions);
     lnrpc = grpc.loadPackageDefinition(packageDef).lnrpc;
     unlocker = new lnrpc.WalletUnlocker(`localhost:${lndPort}`, credentials);
     grpc.waitForClientReady(unlocker, Infinity, err => {
@@ -93,25 +92,40 @@ module.exports.init = async function({
     });
   });
 
+  ipcMain.on('lndAtplInit', async event => {
+    const atplProto = path.join(__dirname, '..', 'assets', 'autopilot.proto');
+    const packageDef = protoLoader.loadSync(atplProto, protoOptions);
+    let autopilotRpc = grpc.loadPackageDefinition(packageDef).autopilotrpc;
+    autopilot = new autopilotRpc.Autopilot(`localhost:${lndPort}`, credentials);
+    grpc.waitForClientReady(autopilot, Infinity, err => {
+      event.sender.send('lndAtplReady', { err });
+    });
+  });
+
   ipcMain.on('lndClose', event => {
     lnd.close();
     event.sender.send('lndClosed', {});
   });
 
   ipcMain.on('unlockRequest', (event, { method, body = {} }) => {
-    const deadline = new Date(new Date().getTime() + GRPC_TIMEOUT);
     const handleResponse = (err, response) => {
       event.sender.send(`unlockResponse_${method}`, { err, response });
     };
-    unlocker[method](body, { deadline }, handleResponse);
+    unlocker[method](body, handleResponse);
   });
 
   ipcMain.on('lndRequest', (event, { method, body = {} }) => {
-    const deadline = new Date(new Date().getTime() + GRPC_TIMEOUT);
     const handleResponse = (err, response) => {
       event.sender.send(`lndResponse_${method}`, { err, response });
     };
-    lnd[method](body, { deadline }, handleResponse);
+    lnd[method](body, handleResponse);
+  });
+
+  ipcMain.on('lndAtplRequest', (event, { method, body = {} }) => {
+    const handleResponse = (err, response) => {
+      event.sender.send(`lndAtplResponse_${method}`, { err, response });
+    };
+    autopilot[method](body, handleResponse);
   });
 
   const streams = {};

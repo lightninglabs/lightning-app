@@ -51,6 +51,7 @@ import {
   transaction,
   setting,
   info,
+  autopilot,
 } from '../action';
 import store from '../store';
 
@@ -115,7 +116,12 @@ class MainView extends Component {
           />
         )}
         {route === 'Settings' && (
-          <Setting store={store} nav={nav} wallet={wallet} />
+          <Setting
+            store={store}
+            nav={nav}
+            wallet={wallet}
+            autopilot={autopilot}
+          />
         )}
         {route === 'SettingsUnit' && (
           <SettingUnit store={store} nav={nav} setting={setting} />

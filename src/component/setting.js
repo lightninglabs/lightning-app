@@ -16,7 +16,7 @@ const baseCStyles = {
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 75,
+    paddingBottom: 25,
     paddingLeft: 50,
     paddingRight: 50,
   },
@@ -115,7 +115,7 @@ export const SettingItem = ({ name, onSelect, label, arrow, children }) => (
 
 SettingItem.propTypes = {
   name: PropTypes.string.isRequired,
-  onSelect: PropTypes.func.isRequired,
+  onSelect: PropTypes.func,
   label: PropTypes.string,
   arrow: PropTypes.bool,
   children: PropTypes.node,

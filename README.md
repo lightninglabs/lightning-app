@@ -27,7 +27,7 @@ See the `ToDo (next release)` column on our [project board](https://github.com/l
 ```
 git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
 cd $GOPATH/src/github.com/lightningnetwork/lnd
-make && make install tags=experimental
+make && make install tags="experimental autopilotrpc"
 ```
 
 #### Install btcd
@@ -75,7 +75,7 @@ To run the packaged version of the app e.g. for macOS run:
 
 The app is configured for testnet by default but you can opt-in to mainnet if you have a btcd node running. Be aware that this is currently still experimental:
 ```
-./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.mainnet --bitcoin.node=neutrino --neutrino.connect=127.0.0.1 --autopilot.active
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.mainnet --bitcoin.node=neutrino --neutrino.connect=127.0.0.1
 ```
 
 ### Starting the Packaged App (full node)

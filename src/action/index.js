@@ -21,6 +21,7 @@ import TransactionAction from './transaction';
 import PaymentAction from './payment';
 import InvoiceAction from './invoice';
 import SettingAction from './setting';
+import AtplAction from './autopilot';
 
 //
 // Inject dependencies
@@ -41,6 +42,7 @@ export const channel = new ChannelAction(store, grpc, nav, notify);
 export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 export const payment = new PaymentAction(store, grpc, nav, notify, Clipboard);
 export const setting = new SettingAction(store, wallet, db, ipc);
+export const autopilot = new AtplAction(store, grpc, db, notify);
 
 payment.listenForUrl(ipc); // enable incoming url handler
 
@@ -76,6 +78,7 @@ when(
     await nap();
     await grpc.closeUnlocker();
     await grpc.initLnd();
+    await grpc.initAutopilot();
   }
 );
 
@@ -86,8 +89,9 @@ when(
  * lnd node all balances, channels and transactions are fetched.
  */
 when(
-  () => store.lndReady,
+  () => store.lndReady && store.autopilotReady,
   () => {
+    autopilot.init();
     wallet.getNewAddress();
     wallet.pollBalances();
     wallet.pollExchangeRate();

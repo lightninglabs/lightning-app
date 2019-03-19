@@ -17,6 +17,7 @@ import PaymentAction from '../src/action/payment';
 import ChannelAction from '../src/action/channel';
 import TransactionAction from '../src/action/transaction';
 import AuthAction from '../src/action/auth-mobile';
+import AtplAction from '../src/action/autopilot';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
 import TransactionMobile from '../src/view/transaction-mobile';
@@ -93,6 +94,7 @@ const info = sinon.createStubInstance(InfoAction);
 const notify = sinon.createStubInstance(NotificationAction);
 const wallet = new WalletAction(store, grpc, db, nav, notify);
 const setting = new SettingAction(store, wallet, db, ipc);
+const autopilot = sinon.createStubInstance(AtplAction);
 sinon.stub(wallet, 'update');
 sinon.stub(wallet, 'checkSeed');
 sinon.stub(wallet, 'checkNewPassword');
@@ -187,7 +189,9 @@ storiesOf('Screens', module)
       nav={nav}
     />
   ))
-  .add('Settings', () => <Setting store={store} nav={nav} wallet={wallet} />)
+  .add('Settings', () => (
+    <Setting store={store} nav={nav} wallet={wallet} autopilot={autopilot} />
+  ))
   .add('Settings Units', () => (
     <SettingUnit store={store} nav={nav} setting={setting} />
   ))
