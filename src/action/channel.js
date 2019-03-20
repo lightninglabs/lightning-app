@@ -3,8 +3,7 @@
  * call the corresponding GRPC apis for channel management.
  */
 
-import { toSatoshis, poll, getTimeTilAvailable, checkHttpStatus } from '../helper';
-import { ATPL_UPDATE_DELAY } from '../config';
+import { toSatoshis, poll, getTimeTilAvailable } from '../helper';
 import * as log from './log';
 
 class ChannelAction {
@@ -92,41 +91,6 @@ class ChannelAction {
    */
   async pollChannels() {
     await poll(() => this.update());
-  }
-
-  /**
-   * Update autopilot's channel scores so it knows whom to open channels with.
-   * @return {Promise<undefined>}
-   */
-  async updateAutopilotScores() {
-    try {
-      const jsonScores = await this.fetchBosScores();
-      const nodeScores = this._formatAtplScores({ jsonScores });
-      await this._grpc.sendAutopilotCommand('setScores', {
-        heuristic: 'externalscore',
-        scores: nodeScores,
-      });
-    } catch (err) {
-      log.error('Updating autopilot scores failed', err);
-    }
-  }
-
-  /**
-   * Update autopilot's channel scores at a set interval.
-   * @return {Promise<undefined>}
-   */
-  async pollBosScores() {
-    await this.updateAutopilotScores();
-    try {
-      await this._grpc.sendAutopilotCommand('modifyStatus', {
-        enable: true,
-      });
-    } catch (err) {
-      log.error('Failed to activate autopilot', err);
-      return;
-    }
-    this._store.settings.autopilot = true;
-    await poll(() => this.updateAutopilotScores(), ATPL_UPDATE_DELAY);
   }
 
   //
@@ -231,23 +195,6 @@ class ChannelAction {
       }));
     } catch (err) {
       log.error('Listing closed channels failed', err);
-    }
-  }
-
-  /**
-   * Fetch bos scores and return them in a list.
-   * @return {Array}
-   */
-  async fetchBosScores() {
-    try {
-      const networkStr =
-        (await this._getNetwork()) == 'testnet' ? 'testnet' : '';
-      const uri = `https://nodes.lightning.computer/availability/btc${networkStr}.json`;
-      const response = checkHttpStatus(await fetch(uri));
-      const json = await response.json();
-      return json.scores;
-    } catch (err) {
-      throw new Error(`Failed to fetch Bos scores: ${err}`);
     }
   }
 
@@ -399,20 +346,6 @@ class ChannelAction {
     const pc = this._store.pendingChannels;
     const channel = pc.find(c => c.channelPoint === channelPoint);
     if (channel) pc.splice(pc.indexOf(channel));
-  }
-
-  _formatAtplScores({ jsonScores }) {
-    let scores = {};
-    for (let node of jsonScores) {
-      let score = node.score / 100000000.0;
-      scores[node.public_key] = score;
-    }
-    return scores;
-  }
-
-  async _getNetwork() {
-    const response = await this._grpc.sendCommand('getInfo');
-    return response.chains[0].network;
   }
 }
 

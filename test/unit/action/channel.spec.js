@@ -24,7 +24,6 @@ describe('Action Channels Unit Tests', () => {
     store.settings.unit = 'btc';
     store.settings.displayFiat = false;
     require('../../../src/config').RETRY_DELAY = 1;
-    require('../../../src/config').ATPL_UPDATE_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
@@ -89,54 +88,6 @@ describe('Action Channels Unit Tests', () => {
       channel.update.onSecondCall().resolves(true);
       await channel.pollChannels();
       expect(channel.update, 'was called twice');
-    });
-  });
-
-  describe('updateAutopilotScores()', async () => {
-    it('should update autopilot with fresh bos scores', async () => {
-      grpc.sendCommand.withArgs('getInfo').resolves({
-        chains: [{ network: 'testnet' }],
-      });
-      await channel.updateAutopilotScores();
-      expect(grpc.sendAutopilotCommand.callCount, 'to equal', 1);
-    });
-
-    it('should log on error', async () => {
-      grpc.sendAutopilotCommand.rejects();
-      await channel.updateAutopilotScores();
-      expect(logger.error, 'was called once');
-    });
-  });
-
-  describe('pollBosScores()', async () => {
-    it('should poll the bos score', async () => {
-      grpc.sendCommand.withArgs('getInfo').resolves({
-        chains: [{ network: 'testnet' }],
-      });
-      sandbox.stub(channel, 'updateAutopilotScores');
-      channel.updateAutopilotScores.onThirdCall().resolves(true);
-      await channel.pollBosScores();
-      expect(channel.updateAutopilotScores, 'was called thrice');
-    });
-  });
-
-  describe('fetchBosScores', async () => {
-    it('should fetch bos scores', async () => {
-      grpc.sendCommand.withArgs('getInfo').resolves({
-        chains: [{ network: 'testnet' }],
-      });
-      let scores = await channel.fetchBosScores();
-      expect(scores.length, 'to be greater than', 0);
-    });
-
-    it('should throw an error on failure', async () => {
-      sandbox.stub(channel, '_getNetwork');
-      channel._getNetwork.rejects(new Error('Boom!'));
-      await expect(
-        channel.fetchBosScores(),
-        'to be rejected with error satisfying',
-        /Boom/
-      );
     });
   });
 

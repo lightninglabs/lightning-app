@@ -96,7 +96,6 @@ when(
     wallet.pollBalances();
     wallet.pollExchangeRate();
     channel.pollChannels();
-    channel.pollBosScores();
     transaction.update();
     transaction.subscribeTransactions();
     transaction.subscribeInvoices();
