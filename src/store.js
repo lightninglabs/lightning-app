@@ -91,6 +91,8 @@ export class Store {
         exchangeRate: {},
         restoring: false,
         autopilot: true,
+        atplScores: {},
+        atplTestnetScores: {},
       },
     });
   }
