@@ -359,6 +359,8 @@ describe('Action Integration Tests', function() {
     });
 
     it('should init autopilot', async () => {
+      sandbox.stub(autopilot1, 'updateAutopilotScores');
+      autopilot1.updateAutopilotScores.resolves(true);
       await autopilot1.init();
       expect(store1.settings.autopilot, 'to be true');
       const status = await grpc1.sendAutopilotCommand('status');
