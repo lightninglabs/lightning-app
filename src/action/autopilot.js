@@ -17,8 +17,8 @@ class AtplAction {
 
   /**
    * Initialize autopilot from the stored settings and enable it via grpc
-   * depending on if the user has enabled it in the last session.
-   * Additionally, poll the bos scores either way.
+   * depending on if the user has enabled it in the last session. Fetch node
+   * scores are fetched from an api to inform channel selection.
    * @return {Promise<undefined>}
    */
   async init() {
