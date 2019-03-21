@@ -37,7 +37,7 @@ describe('Action Autopilot Unit Test', () => {
       sandbox.stub(autopilot, 'updateNodeScores').resolves();
     });
 
-    it('should enable autopilot by default', async () => {
+    it('should enable autopilot and fetch scores by default', async () => {
       await autopilot.init();
       expect(grpc.sendAutopilotCommand, 'was called with', 'modifyStatus', {
         enable: true,
@@ -45,11 +45,11 @@ describe('Action Autopilot Unit Test', () => {
       expect(autopilot.updateNodeScores, 'was called');
     });
 
-    it('should not enable autopilot if disabled', async () => {
+    it('should not enable autopilot if disabled but fetch scores', async () => {
       store.settings.autopilot = false;
       await autopilot.init();
       expect(grpc.sendAutopilotCommand, 'was not called');
-      expect(autopilot.updateNodeScores, 'was not called');
+      expect(autopilot.updateNodeScores, 'was called');
     });
   });
 

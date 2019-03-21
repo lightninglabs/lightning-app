@@ -22,8 +22,8 @@ class AtplAction {
    * @return {Promise<undefined>}
    */
   async init() {
+    await this.updateNodeScores();
     if (this._store.settings.autopilot) {
-      await this.updateNodeScores();
       await this._setStatus(true);
     }
   }
