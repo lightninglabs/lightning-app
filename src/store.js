@@ -35,6 +35,7 @@ export class Store {
       unconfirmedBalanceSatoshis: 0,
       pendingBalanceSatoshis: 0,
       channelBalanceSatoshis: 0,
+      network: null,
       pubKey: null,
       walletAddress: null,
       displayCopied: false,
@@ -91,8 +92,7 @@ export class Store {
         exchangeRate: {},
         restoring: false,
         autopilot: true,
-        atplScores: {},
-        atplTestnetScores: {},
+        nodeScores: {},
       },
     });
   }

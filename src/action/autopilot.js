@@ -3,14 +3,14 @@
  * whether autopilot should open channels.
  */
 
-import { ATPL_UPDATE_DELAY } from '../config';
-import { poll, checkHttpStatus } from '../helper';
+import { checkHttpStatus } from '../helper';
 import * as log from './log';
 
 class AtplAction {
-  constructor(store, grpc, db, notification) {
+  constructor(store, grpc, info, db, notification) {
     this._store = store;
     this._grpc = grpc;
+    this._info = info;
     this._db = db;
     this._notification = notification;
   }
@@ -22,11 +22,10 @@ class AtplAction {
    * @return {Promise<undefined>}
    */
   async init() {
-    await this.updateAutopilotScores();
     if (this._store.settings.autopilot) {
+      await this.updateNodeScores();
       await this._setStatus(true);
     }
-    await poll(() => this.updateAutopilotScores(), ATPL_UPDATE_DELAY);
   }
 
   /**
@@ -57,66 +56,59 @@ class AtplAction {
   }
 
   /**
-   * Update autopilot's channel scores so it knows whom to open channels with.
+   * Update node scores to get better channels via autopilot.
    * @return {Promise<undefined>}
    */
-  async updateAutopilotScores() {
+  async updateNodeScores() {
     try {
-      const nodeScores = await this.fetchBosScores();
-      await this._grpc.sendAutopilotCommand('setScores', {
-        heuristic: 'externalscore',
-        scores: nodeScores,
-      });
+      await this._setNetwork();
+      const scores = await this._readNodeScores();
+      await this._setNodeScores(scores);
     } catch (err) {
       log.error('Updating autopilot scores failed', err);
     }
   }
 
-  /**
-   * Fetch bos scores, persist them, and return them in a list.
-   * @return {Object}
-   */
-  async fetchBosScores() {
-    const networkStr =
-      (await this._getNetwork()) === 'testnet' ? 'testnet' : '';
+  async _setNetwork() {
+    await this._info.getInfo();
+    if (!this._store.network) {
+      throw new Error('Could not read network');
+    }
+  }
+
+  async _readNodeScores() {
+    const { network, settings } = this._store;
     try {
-      const uri = `https://nodes.lightning.computer/availability/btc${networkStr}.json`;
-      const response = checkHttpStatus(await fetch(uri));
-      const json = await response.json();
-      const scores = this._formatAtplScores(json.scores);
-      if (networkStr === '') this._store.settings.atplScores = scores;
-      else this._store.settings.atplTestnetScores = scores;
+      settings.nodeScores[network] = await this._fetchNodeScores(network);
       this._db.save();
-      return scores;
     } catch (err) {
-      log.error('Failed to fetch bos scores', err);
-      let cachedScores =
-        networkStr === ''
-          ? this._store.settings.atplScores
-          : this._store.settings.atplTestnetScores;
-      if (cachedScores !== {}) {
-        return cachedScores;
-      } else {
-        throw new Error(
-          'Failed to fetch bos scores and no scores are cached',
-          err
-        );
-      }
+      log.error('Fetching node scores failed', err);
     }
+    return settings.nodeScores[network];
   }
 
-  _formatAtplScores(jsonScores) {
-    let scores = {};
-    for (let node of jsonScores) {
-      let score = node.score / 100000000.0;
-      scores[node.public_key] = score;
-    }
-    return scores;
+  async _fetchNodeScores(network) {
+    const baseUri = 'https://nodes.lightning.computer/availability/v1';
+    const uri = `${baseUri}/btc${network === 'testnet' ? 'testnet' : ''}.json`;
+    const response = checkHttpStatus(await fetch(uri));
+    return this._formatNodesScores((await response.json()).scores);
   }
 
-  async _getNetwork() {
-    const response = await this._grpc.sendCommand('getInfo');
-    return response.chains[0].network;
+  _formatNodesScores(jsonScores) {
+    return jsonScores.reduce((map, node) => {
+      map[node.public_key] = node.score / 100000000.0;
+      return map;
+    }, {});
+  }
+
+  async _setNodeScores(scores) {
+    if (!scores) {
+      throw new Error('Node scores are emtpy');
+    }
+    await this._grpc.sendAutopilotCommand('setScores', {
+      heuristic: 'externalscore',
+      scores,
+    });
   }
 }
 
