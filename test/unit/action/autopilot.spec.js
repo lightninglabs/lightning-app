@@ -21,7 +21,6 @@ describe('Action Autopilot Unit Test', () => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store = new Store();
-    require('../../../src/config').ATPL_UPDATE_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     db = sinon.createStubInstance(AppStorage);
     notify = sinon.createStubInstance(NotificationAction);
