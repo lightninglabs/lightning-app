@@ -30,22 +30,25 @@ describe('Action Info Unit Tests', () => {
   });
 
   describe('getInfo()', () => {
-    it('should get public key, synced to chain, and block height', async () => {
+    it('should get public key, synced to chain, block height, and network', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         identityPubkey: 'some-pubkey',
         syncedToChain: 'true/false',
         blockHeight: 'some-height',
+        chains: [{ network: 'testnet' }],
       });
       await info.getInfo();
       expect(store.pubKey, 'to equal', 'some-pubkey');
       expect(store.syncedToChain, 'to equal', 'true/false');
       expect(store.blockHeight, 'to equal', 'some-height');
+      expect(store.network, 'to equal', 'testnet');
     });
 
     it('should show notification if syncing', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         syncedToChain: false,
         blockHeight: 1234,
+        chains: [{ network: 'testnet' }],
       });
       await info.getInfo();
       expect(notification.display, 'was called once');
@@ -58,6 +61,7 @@ describe('Action Info Unit Tests', () => {
     it('should show completed notification if synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         syncedToChain: true,
+        chains: [{ network: 'testnet' }],
       });
       await info.getInfo();
       expect(notification.display, 'was called once');
@@ -70,6 +74,7 @@ describe('Action Info Unit Tests', () => {
     it('should return true if chain is synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         syncedToChain: true,
+        chains: [{ network: 'testnet' }],
       });
       const synced = await info.getInfo();
       expect(synced, 'to be', true);
@@ -80,6 +85,7 @@ describe('Action Info Unit Tests', () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         syncedToChain: false,
         best_header_timestamp: testTimestamp / 1000,
+        chains: [{ network: 'testnet' }],
       });
       await info.getInfo();
       expect(store.percentSynced, 'to be within', 0, 1);
@@ -88,6 +94,7 @@ describe('Action Info Unit Tests', () => {
     it('should return false if chain is not synced', async () => {
       grpc.sendCommand.withArgs('getInfo').resolves({
         syncedToChain: false,
+        chains: [{ network: 'testnet' }],
       });
       const synced = await info.getInfo();
       expect(synced, 'to be', false);
