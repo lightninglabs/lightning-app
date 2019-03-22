@@ -182,8 +182,8 @@ describe('Action Integration Tests', function() {
     payments2 = new PaymentAction(store2, grpc2, nav2, notify2);
     autopilot2 = new AtplAction(store2, grpc2, info2, db2, notify2);
 
-    sandbox.stub(autopilot1, 'updateNodeScores').resolves();
-    sandbox.stub(autopilot2, 'updateNodeScores').resolves();
+    sandbox.stub(autopilot1, 'updateNodeScores').resolves(true);
+    sandbox.stub(autopilot2, 'updateNodeScores').resolves(true);
   });
 
   after(async () => {
