@@ -110,6 +110,19 @@ describe('Action Autopilot Unit Test', () => {
       expect(store.settings.nodeScores, 'to equal', {});
     });
 
+    it('should handle invalid score format', async () => {
+      delete scoresJson.scores[0].public_key;
+      nock('https://nodes.lightning.computer')
+        .get('/availability/v1/btctestnet.json')
+        .reply(200, scoresJson);
+
+      await autopilot.updateNodeScores();
+      expect(logger.error, 'was called twice');
+      expect(grpc.sendAutopilotCommand, 'was not called');
+      expect(db.save, 'was not called');
+      expect(store.settings.nodeScores, 'to equal', {});
+    });
+
     it('should read scores for testnet from cache', async () => {
       nock('https://nodes.lightning.computer')
         .get('/availability/v1/btctestnet.json')

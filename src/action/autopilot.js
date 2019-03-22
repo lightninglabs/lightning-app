@@ -95,8 +95,11 @@ class AtplAction {
   }
 
   _formatNodesScores(jsonScores) {
-    return jsonScores.reduce((map, node) => {
-      map[node.public_key] = node.score / 100000000.0;
+    return jsonScores.reduce((map, { public_key, score }) => {
+      if (typeof public_key !== 'string' || !Number.isInteger(score)) {
+        throw new Error('Invalid node score format!');
+      }
+      map[public_key] = score / 100000000.0;
       return map;
     }, {});
   }
