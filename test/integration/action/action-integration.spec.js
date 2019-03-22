@@ -323,6 +323,8 @@ describe('Action Integration Tests', function() {
     it('should send some on-chain funds to node2', async () => {
       payments1.setAddress({ address: store2.walletAddress });
       payments1.setAmount({ amount: '10' });
+      await payments1.estimateFee();
+      expect(store1.payment.fee, 'to be ok');
       await payments1.payBitcoin();
     });
 
