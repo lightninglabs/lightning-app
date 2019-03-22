@@ -168,6 +168,30 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
+  describe('initPayBitcoinConfirm()', () => {
+    it('should get estimate and navigate to confirm view', async () => {
+      store.payment.address = 'foo';
+      store.payment.amount = '2000';
+      grpc.sendCommand.withArgs('estimateFee').resolves({
+        feeSat: 10000,
+      });
+      await payment.initPayBitcoinConfirm();
+      expect(nav.goPayBitcoinConfirm, 'was called once');
+      expect(notification.display, 'was not called');
+      expect(store.payment.fee, 'to be', '0.0001');
+    });
+
+    it('should display notification on error', async () => {
+      store.payment.address = 'foo';
+      store.payment.amount = '2000';
+      grpc.sendCommand.withArgs('estimateFee').rejects();
+      await payment.initPayBitcoinConfirm();
+      expect(nav.goPayBitcoinConfirm, 'was not called');
+      expect(notification.display, 'was called once');
+      expect(store.payment.fee, 'to be', '');
+    });
+  });
+
   describe('setAddress()', () => {
     it('should set attribute', () => {
       payment.setAddress({ address: 'some-address' });

@@ -193,6 +193,25 @@ class PaymentAction {
   }
 
   /**
+   * Initialize the pay bitcoin confirm view by getting a fee estimate
+   * from lnd and navigating to the view.
+   */
+  async initPayBitcoinConfirm() {
+    try {
+      const { payment, settings } = this._store;
+      const AddrToAmount = {};
+      AddrToAmount[payment.address] = toSatoshis(payment.amount, settings);
+      const { feeSat } = await this._grpc.sendCommand('estimateFee', {
+        AddrToAmount,
+      });
+      payment.fee = toAmount(feeSat, settings);
+      this._nav.goPayBitcoinConfirm();
+    } catch (err) {
+      this._notification.display({ msg: 'Fee estimation failed!', err });
+    }
+  }
+
+  /**
    * Send the specified amount as an on-chain transaction to the provided
    * bitcoin address and display a payment confirmation screen.
    * This action can be called from a view event handler as does all

@@ -50,7 +50,7 @@ const PayBitcoinView = ({ store, nav, payment }) => (
               autoFocus={true}
               value={store.payment.amount}
               onChangeText={amount => payment.setAmount({ amount })}
-              onSubmitEditing={() => nav.goPayBitcoinConfirm()}
+              onSubmitEditing={() => payment.initPayBitcoinConfirm()}
             />
             <BalanceLabelUnit style={styles.unit}>
               {store.unitFiatLabel}
@@ -60,12 +60,12 @@ const PayBitcoinView = ({ store, nav, payment }) => (
             placeholder="Bitcoin Address"
             value={store.payment.address}
             onChangeText={address => payment.setAddress({ address })}
-            onSubmitEditing={() => nav.goPayBitcoinConfirm()}
+            onSubmitEditing={() => payment.initPayBitcoinConfirm()}
           />
         </FormStretcher>
       </Card>
     </MainContent>
-    <SmallGlasButton onPress={() => nav.goPayBitcoinConfirm()}>
+    <SmallGlasButton onPress={() => payment.initPayBitcoinConfirm()}>
       Next
     </SmallGlasButton>
   </Background>
