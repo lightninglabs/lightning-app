@@ -199,10 +199,10 @@ class PaymentAction {
   async initPayBitcoinConfirm() {
     try {
       const { payment, settings } = this._store;
-      let addrToAmount = {};
-      addrToAmount[payment.address] = toSatoshis(payment.amount, settings);
+      const AddrToAmount = {};
+      AddrToAmount[payment.address] = toSatoshis(payment.amount, settings);
       const { feeSat } = await this._grpc.sendCommand('estimateFee', {
-        AddrToAmount: addrToAmount,
+        AddrToAmount,
       });
       payment.fee = toAmount(feeSat, settings);
       this._nav.goPayBitcoinConfirm();
