@@ -28,6 +28,7 @@ class InfoAction {
       this._store.pubKey = response.identityPubkey;
       this._store.syncedToChain = response.syncedToChain;
       this._store.blockHeight = response.blockHeight;
+      this._store.network = response.chains[0].network;
       if (this.startingSyncTimestamp === undefined) {
         this.startingSyncTimestamp = response.bestHeaderTimestamp || 0;
       }
