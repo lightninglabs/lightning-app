@@ -21,6 +21,7 @@ describe('Action Autopilot Unit Test', () => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store = new Store();
+    require('../../../src/config').ATPL_DELAY = 1;
     grpc = sinon.createStubInstance(GrpcAction);
     db = sinon.createStubInstance(AppStorage);
     notify = sinon.createStubInstance(NotificationAction);
@@ -35,6 +36,7 @@ describe('Action Autopilot Unit Test', () => {
   describe('init()', () => {
     beforeEach(() => {
       sandbox.stub(autopilot, 'updateNodeScores').resolves();
+      autopilot.updateNodeScores.onThirdCall().resolves(true);
     });
 
     it('should enable autopilot and fetch scores by default', async () => {
@@ -42,14 +44,14 @@ describe('Action Autopilot Unit Test', () => {
       expect(grpc.sendAutopilotCommand, 'was called with', 'modifyStatus', {
         enable: true,
       });
-      expect(autopilot.updateNodeScores, 'was called');
+      expect(autopilot.updateNodeScores, 'was called thrice');
     });
 
     it('should not enable autopilot if disabled but fetch scores', async () => {
       store.settings.autopilot = false;
       await autopilot.init();
       expect(grpc.sendAutopilotCommand, 'was not called');
-      expect(autopilot.updateNodeScores, 'was called');
+      expect(autopilot.updateNodeScores, 'was called thrice');
     });
   });
 

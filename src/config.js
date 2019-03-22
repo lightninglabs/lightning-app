@@ -6,6 +6,7 @@ module.exports.RETRY_DELAY = 1000;
 module.exports.LND_INIT_DELAY = 5000;
 module.exports.NOTIFICATION_DELAY = 5000;
 module.exports.RATE_DELAY = 15 * 60 * 1000;
+module.exports.ATPL_DELAY = 60 * 60 * 1000;
 module.exports.PAYMENT_TIMEOUT = 60 * 1000;
 module.exports.POLL_STORE_TIMEOUT = 100;
 

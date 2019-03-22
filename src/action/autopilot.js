@@ -3,7 +3,8 @@
  * whether autopilot should open channels.
  */
 
-import { checkHttpStatus } from '../helper';
+import { ATPL_DELAY } from '../config';
+import { poll, checkHttpStatus } from '../helper';
 import * as log from './log';
 
 class AtplAction {
@@ -26,6 +27,7 @@ class AtplAction {
     if (this._store.settings.autopilot) {
       await this._setStatus(true);
     }
+    await poll(() => this.updateNodeScores(), ATPL_DELAY);
   }
 
   /**
