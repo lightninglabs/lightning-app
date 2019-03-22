@@ -108,6 +108,7 @@ const payment = new PaymentAction(store, grpc, nav, notify);
 sinon.stub(payment, 'checkType');
 sinon.stub(payment, 'payBitcoin');
 sinon.stub(payment, 'payLightning');
+sinon.stub(payment, 'initPayBitcoinConfirm');
 const channel = new ChannelAction(store, grpc, nav, notify);
 sinon.stub(channel, 'update');
 sinon.stub(channel, 'connectAndOpen');
