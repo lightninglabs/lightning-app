@@ -77,7 +77,7 @@ describe('Action Invoice Unit Tests', () => {
       grpc.sendCommand.rejects(new Error('Boom!'));
       await invoice.generateUri();
       expect(nav.goInvoiceQR, 'was not called');
-      expect(notification.display, 'was called once');
+      expect(notification.display, 'was called twice');
     });
   });
 
@@ -85,6 +85,31 @@ describe('Action Invoice Unit Tests', () => {
     it('should call react native ClipBoard.setString', () => {
       invoice.toClipboard({ text: 'foo' });
       expect(clipboard.setString, 'was called with', 'foo');
+    });
+  });
+
+  describe('checkInvoiceAmount()', () => {
+    beforeEach(() => {
+      store.channels = [
+        {
+          chanId: 42,
+          active: true,
+          capacity: 100,
+          localBalance: 10,
+          remoteBalance: 90,
+          channelPoint: 'FFFF:1',
+        },
+      ];
+    });
+
+    it('should show a notification if the amount is too big to receive', () => {
+      invoice.checkAmount({ satAmount: 91 });
+      expect(notification.display, 'was called once');
+    });
+
+    it('should not show a notification if the amount is below the max', () => {
+      invoice.checkAmount({ satAmount: 90 });
+      expect(notification.display, 'was not called');
     });
   });
 });
