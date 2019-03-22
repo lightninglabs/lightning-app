@@ -193,18 +193,28 @@ class PaymentAction {
   }
 
   /**
+   * Estimate the on-chain transaction fee using the grpc api after which
+   * the fee is set in the store.
+   * @return {Promise<undefined>}
+   */
+  async estimateFee() {
+    const { payment, settings } = this._store;
+    const AddrToAmount = {};
+    AddrToAmount[payment.address] = toSatoshis(payment.amount, settings);
+    const { feeSat } = await this._grpc.sendCommand('estimateFee', {
+      AddrToAmount,
+    });
+    payment.fee = toAmount(feeSat, settings);
+  }
+
+  /**
    * Initialize the pay bitcoin confirm view by getting a fee estimate
    * from lnd and navigating to the view.
+   * @return {Promise<undefined>}
    */
   async initPayBitcoinConfirm() {
     try {
-      const { payment, settings } = this._store;
-      const AddrToAmount = {};
-      AddrToAmount[payment.address] = toSatoshis(payment.amount, settings);
-      const { feeSat } = await this._grpc.sendCommand('estimateFee', {
-        AddrToAmount,
-      });
-      payment.fee = toAmount(feeSat, settings);
+      await this.estimateFee();
       this._nav.goPayBitcoinConfirm();
     } catch (err) {
       this._notification.display({ msg: 'Fee estimation failed!', err });
