@@ -209,6 +209,13 @@ describe('Action Payments Unit Tests', () => {
       payment.setAmount({ amount: 'some-amount' });
       expect(store.payment.amount, 'to equal', 'some-amount');
     });
+
+    it('should reset sendAll if set', () => {
+      store.payment.sendAll = true;
+      payment.setAmount({ amount: 'some-amount' });
+      expect(store.payment.amount, 'to equal', 'some-amount');
+      expect(store.payment.sendAll, 'to be false');
+    });
   });
 
   describe('checkType()', () => {
@@ -305,6 +312,23 @@ describe('Action Payments Unit Tests', () => {
       expect(grpc.sendCommand, 'was called with', 'sendCoins', {
         addr: 'some-address',
         amount: 1000,
+        sendAll: false,
+      });
+      expect(nav.goPayBitcoinDone, 'was called once');
+      expect(notification.display, 'was not called');
+    });
+
+    it('should set amount to 0 on sendAll', async () => {
+      store.payment.sendAll = true;
+      store.payment.amount = '0.00001';
+      store.payment.address = 'some-address';
+      grpc.sendCommand.withArgs('sendCoins').resolves();
+      await payment.payBitcoin();
+      expect(nav.goWait, 'was called once');
+      expect(grpc.sendCommand, 'was called with', 'sendCoins', {
+        addr: 'some-address',
+        amount: 0,
+        sendAll: true,
       });
       expect(nav.goPayBitcoinDone, 'was called once');
       expect(notification.display, 'was not called');

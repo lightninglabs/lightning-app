@@ -122,6 +122,7 @@ class PaymentAction {
    */
   setAmount({ amount }) {
     this._store.payment.amount = amount;
+    this._store.payment.sendAll = false;
   }
 
   /**
@@ -139,6 +140,7 @@ class PaymentAction {
     if (await this.decodeInvoice({ invoice: this._store.payment.address })) {
       this._nav.goPayLightningConfirm();
     } else if (isAddress(this._store.payment.address)) {
+      this._store.payment.sendAll = false;
       this._nav.goPayBitcoin();
     } else {
       this._notification.display({ msg: 'Invalid invoice or address' });
@@ -238,11 +240,7 @@ class PaymentAction {
     }, PAYMENT_TIMEOUT);
     this._nav.goWait();
     try {
-      const { payment, settings } = this._store;
-      await this._grpc.sendCommand('sendCoins', {
-        addr: payment.address,
-        amount: toSatoshis(payment.amount, settings),
-      });
+      await this._sendPayment();
       this._nav.goPayBitcoinDone();
     } catch (err) {
       this._nav.goPayBitcoinConfirm();
@@ -250,6 +248,16 @@ class PaymentAction {
     } finally {
       clearTimeout(timeout);
     }
+  }
+
+  async _sendPayment() {
+    const { payment, settings } = this._store;
+    let amount = payment.sendAll ? 0 : toSatoshis(payment.amount, settings);
+    await this._grpc.sendCommand('sendCoins', {
+      addr: payment.address,
+      amount,
+      sendAll: payment.sendAll,
+    });
   }
 
   /**
