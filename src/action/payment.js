@@ -126,6 +126,37 @@ class PaymentAction {
   }
 
   /**
+   * Set the payment amount to the max amount that can be sent. This
+   * is useful for people to move their coins off of the app.
+   * @return {Promise<undefined>}
+   */
+  async setMax() {
+    const timeout = setTimeout(() => {
+      return this._notification.display({
+        type: 'error',
+        msg: 'Setting max payment amount timed out!',
+      });
+    }, PAYMENT_TIMEOUT);
+    const { payment, balanceSatoshis, settings } = this._store;
+    let feeSat;
+    let amtSat = Math.floor(0.99 * balanceSatoshis);
+    while (!feeSat) {
+      try {
+        feeSat = await this._getFeeEstimateSat({
+          addr: payment.address,
+          amtSat,
+        });
+      } catch (err) {
+        amtSat = Math.floor(0.99 * amtSat);
+      } finally {
+        clearTimeout(timeout);
+      }
+    }
+    payment.amount = toAmount(amtSat, settings);
+    payment.sendAll = true;
+  }
+
+  /**
    * Check if the address input provided by the user is either an on-chain
    * bitcoin address or a lightning invoice. Depending on which type it is
    * the app will navigate to the corresponding payment view.
@@ -201,12 +232,21 @@ class PaymentAction {
    */
   async estimateFee() {
     const { payment, settings } = this._store;
+    const amtSat = toSatoshis(payment.amount, settings);
+    const feeSat = await this._getFeeEstimateSat({
+      addr: payment.address,
+      amtSat,
+    });
+    payment.fee = toAmount(feeSat, settings);
+  }
+
+  async _getFeeEstimateSat({ addr, amtSat }) {
     const AddrToAmount = {};
-    AddrToAmount[payment.address] = toSatoshis(payment.amount, settings);
+    AddrToAmount[addr] = amtSat;
     const { feeSat } = await this._grpc.sendCommand('estimateFee', {
       AddrToAmount,
     });
-    payment.fee = toAmount(feeSat, settings);
+    return feeSat;
   }
 
   /**

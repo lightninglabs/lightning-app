@@ -302,6 +302,25 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
+  describe('setMax()', () => {
+    it('should set the payment amount to ~99% of the wallet balance', async () => {
+      store.payment.address = 'some-address';
+      store.balanceSatoshis = 100000;
+      grpc.sendCommand.onSecondCall().resolves({ feeSat: 100 });
+      await payment.setMax();
+      expect(store.payment.amount, 'to match', /^0[,.]0{3}9{1}8{1}0{1}1{1}$/);
+      expect(store.payment.sendAll, 'to be true');
+    });
+
+    it('should display error notification on timeout', async () => {
+      grpc.sendCommand.callsFake(() => nap(50));
+      payment.setMax();
+      await nap(10);
+      expect(store.payment.amount, 'to be', '');
+      expect(store.payment.sendAll, 'to be false');
+    });
+  });
+
   describe('payBitcoin()', () => {
     it('should send on-chain transaction', async () => {
       store.payment.amount = '0.00001';
