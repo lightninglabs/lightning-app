@@ -68,6 +68,7 @@ export class Store {
         amount: '',
         fee: '',
         note: '',
+        sendAll: false,
         useScanner: false,
       },
       peers: [],
