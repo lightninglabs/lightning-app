@@ -188,6 +188,7 @@ const headerStyles = StyleSheet.create({
   },
   testnet: {
     fontSize: 10,
+    lineHeight: 16,
   },
   settingsBtn: {
     marginRight: 3,
