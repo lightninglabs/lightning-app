@@ -49,6 +49,7 @@
     "@babel/core": "^7.4.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
     "@babel/plugin-transform-modules-commonjs": "^7.4.0",
+    "@babel/register": "^7.4.0",
     "@storybook/addon-actions": "^5.0.6",
     "@storybook/addon-links": "^5.0.6",
     "@storybook/addons": "^5.0.6",
