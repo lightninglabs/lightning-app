@@ -43,7 +43,7 @@ const ComputedWallet = store => {
     },
     get channelPercentageLabel() {
       const { balanceSatoshis: onChain, totalBalanceSatoshis: total } = store;
-      const percent = total ? (total - onChain) / total * 100 : 0;
+      const percent = total ? ((total - onChain) / total) * 100 : 0;
       return `${Math.round(percent)}% on Lightning`;
     },
     get newPasswordCopy() {

@@ -128,8 +128,8 @@ function createWindow() {
     network: isDev
       ? 'simnet'
       : lndArgs.includes('--bitcoin.mainnet')
-        ? 'mainnet'
-        : 'testnet',
+      ? 'mainnet'
+      : 'testnet',
   });
 }
 

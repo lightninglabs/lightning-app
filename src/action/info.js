@@ -88,7 +88,7 @@ class InfoAction {
       ? bestHeaderTimestamp - this.startingSyncTimestamp
       : 0;
     const totalProgress = currTimestamp - this.startingSyncTimestamp || 0.001;
-    const percentSynced = progressSoFar * 1.0 / totalProgress;
+    const percentSynced = (progressSoFar * 1.0) / totalProgress;
     return percentSynced;
   }
 }

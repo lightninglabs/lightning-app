@@ -309,7 +309,7 @@ export const retry = async (api, interval = 100, retries = 1000) => {
  * @return {Point}                 The point in cartesian form
  */
 const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
-  const angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+  const angleInRadians = ((angleInDegrees - 90) * Math.PI) / 180.0;
   return {
     x: centerX + radius * Math.cos(angleInRadians),
     y: centerY + radius * Math.sin(angleInRadians),
