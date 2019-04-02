@@ -50,6 +50,7 @@ const HomeView = ({
   return (
     <Background image="purple-gradient-bg">
       <HomeHeader
+        isTestnet={store.network === 'testnet'}
         goDeposit={() => nav.goDeposit()}
         goSettings={() => nav.goSettings()}
       />
@@ -185,6 +186,10 @@ const headerStyles = StyleSheet.create({
   depositBtn: {
     marginLeft: 3,
   },
+  testnet: {
+    fontSize: 10,
+    lineHeight: 16,
+  },
   settingsBtn: {
     marginRight: 3,
   },
@@ -194,12 +199,17 @@ const headerStyles = StyleSheet.create({
   },
 });
 
-const HomeHeader = ({ goDeposit, goSettings }) => (
+const HomeHeader = ({ isTestnet, goDeposit, goSettings }) => (
   <Header separator={Platform.OS === 'web'}>
     <Button onPress={goDeposit} style={headerStyles.depositBtn}>
       <QrIcon height={40 * 0.6} width={39 * 0.6} />
     </Button>
-    <Title title="Wallet" />
+    <View>
+      {isTestnet ? (
+        <Title style={headerStyles.testnet} title="testnet" />
+      ) : null}
+      <Title title="Wallet" />
+    </View>
     <Button onPress={goSettings} style={headerStyles.settingsBtn}>
       <Icon
         image={require('../asset/icon/settings.png')}
@@ -210,6 +220,7 @@ const HomeHeader = ({ goDeposit, goSettings }) => (
 );
 
 HomeHeader.propTypes = {
+  isTestnet: PropTypes.bool.isRequired,
   goDeposit: PropTypes.func.isRequired,
   goSettings: PropTypes.func.isRequired,
 };
