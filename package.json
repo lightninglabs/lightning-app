@@ -78,6 +78,9 @@
     "wait-on": "^2.1.0",
     "webpack": "4.28.3"
   },
+  "browserslist": [
+    "electron 3.0"
+  ],
   "build": {
     "appId": "engineering.lightning.lightning-app",
     "publish": {
