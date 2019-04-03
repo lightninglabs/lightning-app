@@ -92,7 +92,6 @@ when(
   () => store.lndReady && store.autopilotReady,
   () => {
     autopilot.init();
-    wallet.getNewAddress();
     wallet.pollBalances();
     wallet.pollExchangeRate();
     channel.pollChannels();

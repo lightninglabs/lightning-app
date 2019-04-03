@@ -99,7 +99,6 @@ when(() => store.walletUnlocked, () => grpc.initLnd());
 when(
   () => store.lndReady,
   () => {
-    wallet.getNewAddress();
     wallet.pollBalances();
     wallet.pollExchangeRate();
     channel.pollChannels();
