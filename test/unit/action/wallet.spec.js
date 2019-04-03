@@ -138,7 +138,7 @@ describe('Action Wallet Unit Tests', () => {
     it('should refresh wallet balances', async () => {
       sandbox.stub(wallet, 'pollExchangeRate');
       await wallet.update();
-      expect(grpc.sendCommand, 'was called twice');
+      expect(grpc.sendCommand, 'was called thrice');
       expect(wallet.pollExchangeRate, 'was not called');
     });
   });
