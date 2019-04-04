@@ -504,9 +504,12 @@ class WalletAction {
   async getExchangeRate() {
     try {
       const fiat = this._store.settings.fiat;
-      const uri = `https://blockchain.info/tobtc?currency=${fiat}&value=1`;
+      const uri =
+        'https://nodes.lightning.computer/fiat/v1/btc-exchange-rates.json';
       const response = checkHttpStatus(await fetch(uri));
-      this._store.settings.exchangeRate[fiat] = Number(await response.text());
+      const tickers = (await response.json()).tickers;
+      const rate = tickers.find(t => t.ticker.toLowerCase() === fiat).rate;
+      this._store.settings.exchangeRate[fiat] = 100 / rate;
       this._db.save();
     } catch (err) {
       log.error('Getting exchange rate failed', err);

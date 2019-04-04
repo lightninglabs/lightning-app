@@ -597,20 +597,38 @@ describe('Action Wallet Unit Tests', () => {
   });
 
   describe('getExchangeRate()', () => {
+    const json = `{
+      "tickers": [
+        {
+          "date": "2019-04-04T03:30:05.000Z",
+          "rate": 443302,
+          "ticker": "EUR"
+        },
+        {
+          "date": "2019-04-04T03:30:05.000Z",
+          "rate": 378294,
+          "ticker": "GBP"
+        },
+        {
+          "date": "2019-04-04T03:30:05.000Z",
+          "rate": 498467,
+          "ticker": "USD"
+        }
+      ]
+    }`;
+
     it('should get exchange rate', async () => {
-      nock('https://blockchain.info')
-        .get('/tobtc')
-        .query({ currency: 'usd', value: 1 })
-        .reply(200, '0.00011536');
+      nock('https://nodes.lightning.computer')
+        .get('/fiat/v1/btc-exchange-rates.json')
+        .reply(200, json);
       await wallet.getExchangeRate();
-      expect(store.settings.exchangeRate.usd, 'to be', 0.00011536);
+      expect(store.settings.exchangeRate.usd, 'to be', 0.000200615085853226);
       expect(db.save, 'was called once');
     });
 
     it('should display notification on error', async () => {
-      nock('https://blockchain.info')
-        .get('/tobtc')
-        .query({ currency: 'usd', value: 1 })
+      nock('https://nodes.lightning.computer')
+        .get('/fiat/v1/btc-exchange-rates.json')
         .reply(500, 'Boom!');
       await wallet.getExchangeRate();
       expect(store.settings.exchangeRate.usd, 'to be', undefined);
