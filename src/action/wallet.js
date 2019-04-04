@@ -144,7 +144,11 @@ class WalletAction {
    * @return {Promise<undefined>}
    */
   async update() {
-    await Promise.all([this.getBalance(), this.getChannelBalance()]);
+    await Promise.all([
+      this.getBalance(),
+      this.getChannelBalance(),
+      this.getNewAddress(),
+    ]);
   }
 
   /**
@@ -472,12 +476,9 @@ class WalletAction {
    * @return {Promise<undefined>}
    */
   async getNewAddress() {
-    // - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
-    // - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
-    // - `p2pkh`:  Pay to public key hash (`PUBKEY_HASH` = 2)
     try {
       const { address } = await this._grpc.sendCommand('NewAddress', {
-        type: 1,
+        type: 3, // UNUSED_NESTED_PUBKEY_HASH = 3
       });
       this._store.walletAddress = address;
     } catch (err) {
