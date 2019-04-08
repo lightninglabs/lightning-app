@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -23,6 +23,9 @@ const styles = StyleSheet.create({
   deleteBtnText: {
     color: color.pinkSig,
     fontSize: font.sizeS,
+  },
+  bottomPadding: {
+    paddingBottom: 30,
   },
 });
 
@@ -59,9 +62,16 @@ const ChannelDetailView = ({ store, nav }) => (
         <DetailField name="Balance">
           {store.selectedChannel.localBalanceLabel} {store.unitLabel}
         </DetailField>
-        <Button style={styles.deleteBtn} onPress={() => nav.goChannelDelete()}>
-          <ButtonText style={styles.deleteBtnText}>CLOSE CHANNEL</ButtonText>
-        </Button>
+        {!/close|closing/i.test(store.selectedChannel.status) ? (
+          <Button
+            style={styles.deleteBtn}
+            onPress={() => nav.goChannelDelete()}
+          >
+            <ButtonText style={styles.deleteBtnText}>CLOSE CHANNEL</ButtonText>
+          </Button>
+        ) : (
+          <View style={styles.bottomPadding} />
+        )}
       </Modal>
     </MainContent>
   </Background>
