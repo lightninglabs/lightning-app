@@ -79,10 +79,10 @@ export const alertColor = type => {
   return type === 'success'
     ? color.greenSig
     : type === 'error'
-      ? color.pinkSig
-      : type === 'inactive'
-        ? color.greySig
-        : color.orangeSig;
+    ? color.pinkSig
+    : type === 'inactive'
+    ? color.greySig
+    : color.orangeSig;
 };
 
 const alertStyles = StyleSheet.create({

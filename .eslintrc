@@ -3,12 +3,11 @@
     "prettier"
   ],
   "parserOptions": {
-    "ecmaVersion": 2017,
+    "ecmaVersion": 2018,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true,
-      "spread": true,
-      "experimentalObjectRestSpread": true
+      "spread": true
     }
   },
   globals: {
@@ -34,7 +33,7 @@
       "trailingComma": "es5",
       "bracketSpacing": true,
       "jsxBracketSameLine": false,
-      "parser": "babylon"
+      "parser": "babel"
     }],
     "no-console": "off"
   }

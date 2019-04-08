@@ -13,8 +13,8 @@ const ComputedChannel = store => {
       const p = pendingChannels ? pendingChannels.slice() : [];
       const cl = closedChannels ? closedChannels.slice() : [];
       c.sort((a, b) => (a.active === b.active ? 0 : a.active ? -1 : 1));
-      p.sort(
-        (a, b) => (a.status > b.status ? -1 : a.status < b.status ? 1 : 0)
+      p.sort((a, b) =>
+        a.status > b.status ? -1 : a.status < b.status ? 1 : 0
       );
       let all = [].concat(c, p, cl);
       all.forEach((c, i) => {
@@ -25,10 +25,10 @@ const ComputedChannel = store => {
           c.status === 'open' && c.active
             ? 'success'
             : c.status === 'open'
-              ? 'inactive'
-              : c.status.includes('open')
-                ? 'info'
-                : 'error';
+            ? 'inactive'
+            : c.status.includes('open')
+            ? 'info'
+            : 'error';
         c.capacityLabel = toAmountLabel(c.capacity, settings);
         c.localBalanceLabel = toAmountLabel(c.localBalance, settings);
         c.remoteBalanceLabel = toAmountLabel(c.remoteBalance, settings);
@@ -94,10 +94,10 @@ const ComputedChannel = store => {
       return opened
         ? 'success'
         : inactive
-          ? 'inactive'
-          : pending
-            ? 'info'
-            : 'error';
+        ? 'inactive'
+        : pending
+        ? 'info'
+        : 'error';
     },
   });
 };
