@@ -48,20 +48,29 @@ const ChannelDetailView = ({ store, nav }) => (
         <DetailField name="Status">
           {store.selectedChannel.statusLabel}
         </DetailField>
+        {store.selectedChannel.timeTilAvailable ? (
+          <DetailField name="Time Til Available">
+            {store.selectedChannel.timeTilAvailable}
+          </DetailField>
+        ) : null}
         <DetailField name="Capacity">
           {store.selectedChannel.capacityLabel} {store.unitLabel}
         </DetailField>
         <DetailField name="Balance">
           {store.selectedChannel.localBalanceLabel} {store.unitLabel}
         </DetailField>
-        <View style={styles.btnWrapper}>
-          <Button
-            style={styles.deleteBtn}
-            onPress={() => nav.goChannelDelete()}
-          >
-            <ButtonText style={styles.deleteBtnText}>CLOSE CHANNEL</ButtonText>
-          </Button>
-        </View>
+        {!/close|closing/i.test(store.selectedChannel.status) ? (
+          <View style={styles.btnWrapper}>
+            <Button
+              style={styles.deleteBtn}
+              onPress={() => nav.goChannelDelete()}
+            >
+              <ButtonText style={styles.deleteBtnText}>
+                CLOSE CHANNEL
+              </ButtonText>
+            </Button>
+          </View>
+        ) : null}
       </Card>
     </MainContent>
   </SplitBackground>
