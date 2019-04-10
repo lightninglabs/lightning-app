@@ -131,27 +131,11 @@ class PaymentAction {
    * @return {Promise<undefined>}
    */
   async setMax() {
-    const timeout = setTimeout(() => {
-      return this._notification.display({
-        type: 'error',
-        msg: 'Setting max payment amount timed out!',
-      });
-    }, PAYMENT_TIMEOUT);
     const { payment, balanceSatoshis, settings } = this._store;
-    let feeSat;
-    let amtSat = Math.floor(0.99 * balanceSatoshis);
-    while (!feeSat) {
-      try {
-        feeSat = await this._getFeeEstimateSat({
-          addr: payment.address,
-          amtSat,
-        });
-      } catch (err) {
-        amtSat = Math.floor(0.99 * amtSat);
-      } finally {
-        clearTimeout(timeout);
-      }
-    }
+    let amtSat = Math.floor(0.98 * balanceSatoshis);
+    payment.amount = toAmount(amtSat, settings);
+    await this.estimateFee();
+    amtSat = balanceSatoshis - toSatoshis(payment.fee, settings);
     payment.amount = toAmount(amtSat, settings);
     payment.sendAll = true;
   }
@@ -232,21 +216,12 @@ class PaymentAction {
    */
   async estimateFee() {
     const { payment, settings } = this._store;
-    const amtSat = toSatoshis(payment.amount, settings);
-    const feeSat = await this._getFeeEstimateSat({
-      addr: payment.address,
-      amtSat,
-    });
-    payment.fee = toAmount(feeSat, settings);
-  }
-
-  async _getFeeEstimateSat({ addr, amtSat }) {
     const AddrToAmount = {};
-    AddrToAmount[addr] = amtSat;
+    AddrToAmount[payment.address] = toSatoshis(payment.amount, settings);
     const { feeSat } = await this._grpc.sendCommand('estimateFee', {
       AddrToAmount,
     });
-    return feeSat;
+    payment.fee = toAmount(feeSat, settings);
   }
 
   /**
