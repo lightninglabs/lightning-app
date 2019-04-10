@@ -66,7 +66,7 @@ const PayBitcoinView = ({ store, nav, payment }) => (
           <MaxButton
             style={styles.maxBtn}
             active={store.payment.sendAll}
-            onPress={() => payment.setMax()}
+            onPress={() => payment.toggleMax()}
           />
           <InputField
             placeholder="Bitcoin Address"

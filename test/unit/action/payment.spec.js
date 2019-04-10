@@ -308,14 +308,24 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
-  describe('setMax()', () => {
+  describe('toggleMax()', () => {
     it('should set the payment amount to the wallet balance minus fee', async () => {
       store.payment.address = 'some-address';
       store.balanceSatoshis = 100000;
       grpc.sendCommand.resolves({ feeSat: 100 });
-      await payment.setMax();
+      await payment.toggleMax();
       expect(store.payment.amount, 'to match', /^0[,.]0{3}9{3}$/);
       expect(store.payment.sendAll, 'to be true');
+    });
+
+    it('should disable sendAll and reset amount', async () => {
+      store.payment.sendAll = true;
+      store.payment.amount = 1000;
+      store.payment.address = 'some-address';
+      store.balanceSatoshis = 100000;
+      await payment.toggleMax();
+      expect(store.payment.amount, 'to be', '0');
+      expect(store.payment.sendAll, 'to be false');
     });
   });
 

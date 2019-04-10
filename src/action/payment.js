@@ -131,8 +131,11 @@ class PaymentAction {
    * is useful for people to move their coins off of the app.
    * @return {Promise<undefined>}
    */
-  async setMax() {
+  async toggleMax() {
     const { payment, balanceSatoshis, settings } = this._store;
+    if (payment.sendAll) {
+      return this.setAmount({ amount: '0' });
+    }
     let amtSat = Math.floor(0.98 * balanceSatoshis);
     payment.amount = toAmount(amtSat, settings);
     await this.estimateFee();
