@@ -88,7 +88,7 @@ describe('Action Invoice Unit Tests', () => {
     });
   });
 
-  describe('checkInvoiceAmount()', () => {
+  describe('checkAmount()', () => {
     beforeEach(() => {
       store.channels = [
         {
