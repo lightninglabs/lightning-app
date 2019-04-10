@@ -84,11 +84,10 @@ class InvoiceAction {
    * @return {undefined}
    */
   checkAmount({ satAmount }) {
-    for (let i = 0; i < this._store.channels.length; i++) {
-      const chan = this._store.channels[i];
-      if (chan.remoteBalance >= satAmount) {
-        return;
-      }
+    const { channels } = this._store;
+    const hasInbound = channels.find(c => c.remoteBalance >= satAmount);
+    if (hasInbound) {
+      return;
     }
     this._notification.display({
       msg: "You don't have enough inbound capacity to receive this payment.",
