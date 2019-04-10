@@ -523,4 +523,39 @@ RadioButton.propTypes = {
   selected: PropTypes.bool.isRequired,
 };
 
+//
+// Max Button
+//
+
+const maxStyles = StyleSheet.create({
+  touchable: {
+    borderStyle: 'solid',
+    borderWidth: 1,
+    minHeight: 0,
+    minWidth: 0,
+    height: 30,
+    width: 50,
+  },
+});
+
+export const MaxButton = ({ active, style, ...props }) => (
+  <Button
+    style={[
+      { borderColor: active ? color.blackText : color.greyPlaceholder },
+      maxStyles.touchable,
+      style,
+    ]}
+    {...props}
+  >
+    <Text style={{ color: active ? color.blackText : color.greyPlaceholder }}>
+      Max
+    </Text>
+  </Button>
+);
+
+MaxButton.propTypes = {
+  active: PropTypes.bool.isRequired,
+  style: ViewPropTypes.style,
+};
+
 export default Button;
