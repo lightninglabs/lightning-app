@@ -7,7 +7,7 @@ import MainContent from '../component/main-content';
 import { InputField, AmountInputField } from '../component/field';
 import { Header, Title } from '../component/header';
 import {
-  Button,
+  MaxButton,
   CancelButton,
   BackButton,
   PillButton,
@@ -27,13 +27,8 @@ const styles = StyleSheet.create({
     color: color.blackText,
   },
   maxBtn: {
-    borderStyle: 'solid',
-    borderWidth: 1,
-    minHeight: 30,
-    marginBottom: 10,
-  },
-  maxTxt: {
-    paddingTop: 0,
+    marginTop: 10,
+    marginBottom: 20,
   },
   nextBtn: {
     marginTop: 20,
@@ -68,9 +63,11 @@ const PayBitcoinView = ({ store, nav, payment }) => (
               {store.unitFiatLabel}
             </BalanceLabelUnit>
           </BalanceLabel>
-          <Button style={styles.maxBtn} onPress={() => payment.setMax()}>
-            <FormText style={styles.maxTxt}>MAX</FormText>
-          </Button>
+          <MaxButton
+            style={styles.maxBtn}
+            active={store.payment.sendAll}
+            onPress={() => payment.setMax()}
+          />
           <InputField
             placeholder="Bitcoin Address"
             value={store.payment.address}
