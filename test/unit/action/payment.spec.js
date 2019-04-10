@@ -160,10 +160,16 @@ describe('Action Payments Unit Tests', () => {
       store.payment.address = 'foo';
       store.payment.amount = 'bar';
       store.payment.note = 'baz';
+      store.payment.fee = 'blub';
+      store.payment.useScanner = true;
+      store.payment.sendAll = true;
       payment.init();
       expect(store.payment.address, 'to equal', '');
       expect(store.payment.amount, 'to equal', '');
       expect(store.payment.note, 'to equal', '');
+      expect(store.payment.fee, 'to equal', '');
+      expect(store.payment.useScanner, 'to equal', false);
+      expect(store.payment.sendAll, 'to equal', false);
       expect(nav.goPay, 'was called once');
     });
   });
