@@ -159,7 +159,6 @@ class PaymentAction {
     if (await this.decodeInvoice({ invoice: this._store.payment.address })) {
       this._nav.goPayLightningConfirm();
     } else if (isAddress(this._store.payment.address)) {
-      this._store.payment.sendAll = false;
       this._nav.goPayBitcoin();
     } else {
       this._notification.display({ msg: 'Invalid invoice or address' });
