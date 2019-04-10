@@ -13,6 +13,7 @@ describe('Computed Wallet Unit Tests', () => {
       store.channelBalanceForceClosingSatoshis = 0;
       ComputedWallet(store);
       expect(store.walletAddressUri, 'to equal', '');
+      expect(store.balanceLabel, 'to match', /0[,.]00/);
       expect(store.totalBalanceSatoshis, 'to equal', 0);
       expect(store.totalBalanceLabel, 'to match', /0[,.]00/);
       expect(store.unitFiatLabel, 'to equal', '$');
@@ -40,6 +41,7 @@ describe('Computed Wallet Unit Tests', () => {
       store.channelBalanceSatoshis = 10000;
       store.channelBalanceForceClosingSatoshis = 100;
       ComputedWallet(store);
+      expect(store.balanceLabel, 'to match', /3[,.]447[,.]56/);
       expect(store.totalBalanceSatoshis, 'to equal', 100010100);
       expect(store.totalBalanceLabel, 'to match', /6[,.]895[,.]82/);
       expect(store.unitFiatLabel, 'to equal', '$');
@@ -56,6 +58,7 @@ describe('Computed Wallet Unit Tests', () => {
       store.channelBalanceForceClosingSatoshis = 100;
       store.settings.unit = 'bit';
       ComputedWallet(store);
+      expect(store.balanceLabel, 'to match', /500[,.]000[,.]01/);
       expect(store.totalBalanceSatoshis, 'to equal', 100010101);
       expect(store.totalBalanceLabel, 'to match', /1[,.]000[,.]101[,.]01/);
       expect(store.unitFiatLabel, 'to equal', 'bits');

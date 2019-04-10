@@ -12,6 +12,7 @@ import { ResizeableSpinner } from '../component/spinner';
 import { H1Text, CopyText } from '../component/text';
 import Text from '../component/text';
 import PlusIcon from '../../src/asset/icon/plus';
+import BitcoinIcon from '../../src/asset/icon/bitcoin';
 import LightningBoltGradientIcon from '../../src/asset/icon/lightning-bolt-gradient';
 import { color, font } from '../component/style';
 
@@ -96,6 +97,7 @@ const ChannelList = ({ store, channel }) => {
     channelBalanceInactiveLabel,
     channelBalancePendingLabel,
     channelBalanceClosingLabel,
+    balanceLabel,
     unitLabel,
   } = store;
   return (
@@ -105,6 +107,7 @@ const ChannelList = ({ store, channel }) => {
         channelBalanceInactiveLabel={channelBalanceInactiveLabel}
         channelBalancePendingLabel={channelBalancePendingLabel}
         channelBalanceClosingLabel={channelBalanceClosingLabel}
+        balanceLabel={balanceLabel}
         unitLabel={unitLabel}
       />
       <ListContent>
@@ -164,6 +167,7 @@ const ChannelSummary = ({
   channelBalanceInactiveLabel,
   channelBalancePendingLabel,
   channelBalanceClosingLabel,
+  balanceLabel,
   unitLabel,
 }) => (
   <View style={summaryStyles.wrapper}>
@@ -195,6 +199,15 @@ const ChannelSummary = ({
         {channelBalanceClosingLabel} {unitLabel}
       </Text>
     </View>
+    <View style={summaryStyles.box}>
+      <View style={summaryStyles.alert}>
+        <BitcoinIcon height={170 * 0.06} width={135 * 0.06} />
+      </View>
+      <Text style={summaryStyles.txt}>On-chain</Text>
+      <Text style={[summaryStyles.txt, summaryStyles.total]}>
+        {balanceLabel} {unitLabel}
+      </Text>
+    </View>
   </View>
 );
 
@@ -203,6 +216,7 @@ ChannelSummary.propTypes = {
   channelBalanceInactiveLabel: PropTypes.string.isRequired,
   channelBalancePendingLabel: PropTypes.string.isRequired,
   channelBalanceClosingLabel: PropTypes.string.isRequired,
+  balanceLabel: PropTypes.string.isRequired,
   unitLabel: PropTypes.string,
 };
 

@@ -16,6 +16,9 @@ const ComputedWallet = store => {
     get walletAddressUri() {
       return store.walletAddress ? `bitcoin:${store.walletAddress}` : '';
     },
+    get balanceLabel() {
+      return toAmountLabel(store.balanceSatoshis, store.settings);
+    },
     get totalBalanceSatoshis() {
       const {
         balanceSatoshis,
