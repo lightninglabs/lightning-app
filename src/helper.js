@@ -30,7 +30,14 @@ export const formatFiat = (val, currency) => {
     num = 0;
   }
   const options = { style: 'currency', currency };
-  return new Intl.NumberFormat(undefined, options).format(num);
+  const intl = new Intl.NumberFormat(undefined, options);
+  const str = intl.format(num);
+  if (num < 1 && num > 0 && /0[,.]0{2}/.test(str)) {
+    return `< ${intl.format(0.01)}`;
+  } else if (Math.abs(num) < 1 && Math.abs(num) > 0 && /0[,.]0{2}/.test(str)) {
+    return `< ${intl.format(-0.01)}`;
+  }
+  return str;
 };
 
 /**
