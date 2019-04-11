@@ -61,8 +61,10 @@ class InvoiceAction {
   async generateUri() {
     try {
       const { invoice, settings } = this._store;
+      const satAmount = toSatoshis(invoice.amount, settings);
+      this.checkAmount({ satAmount });
       const response = await this._grpc.sendCommand('addInvoice', {
-        value: toSatoshis(invoice.amount, settings),
+        value: satAmount,
         memo: invoice.note,
         expiry: 172800,
         private: true,
@@ -73,6 +75,23 @@ class InvoiceAction {
     } catch (err) {
       this._notification.display({ msg: 'Creating invoice failed!', err });
     }
+  }
+
+  /**
+   * Verify that the user has a channel with enough receive capacity to
+   * receive the given amount.
+   * @param  {number} options.satAmount The amount to receive.
+   * @return {undefined}
+   */
+  checkAmount({ satAmount }) {
+    const { channels } = this._store;
+    const hasInbound = channels.find(c => c.remoteBalance >= satAmount);
+    if (hasInbound) {
+      return;
+    }
+    this._notification.display({
+      msg: "You don't have enough inbound capacity to receive this payment.",
+    });
   }
 
   /**
