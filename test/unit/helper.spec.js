@@ -60,6 +60,48 @@ describe('Helpers Unit Tests', () => {
       expect(num, 'to match', /1[,.]0{3}[,.]0{3}[,.]0{2}/);
       expect(num, 'to match', /\${1}/);
     });
+
+    it('should display one cent', () => {
+      const num = helpers.formatFiat(0.01, 'usd');
+      expect(num, 'to match', /0[,.]0{1}1{1}/);
+      expect(num, 'to match', /\${1}/);
+      expect(num, 'not to match', /^< /);
+    });
+
+    it('should round up to one cent', () => {
+      const num = helpers.formatFiat(0.005, 'usd');
+      expect(num, 'to match', /0[,.]0{1}1{1}/);
+      expect(num, 'to match', /\${1}/);
+      expect(num, 'not to match', /^< /);
+    });
+
+    it('should display less than a cent', () => {
+      const num = helpers.formatFiat(0.004, 'usd');
+      expect(num, 'to match', /0[,.]0{1}1{1}/);
+      expect(num, 'to match', /\${1}/);
+      expect(num, 'to match', /^< /);
+    });
+
+    it('should display less than a cent for small numbers', () => {
+      const num = helpers.formatFiat(0.0000001, 'usd');
+      expect(num, 'to match', /0[,.]0{1}1{1}/);
+      expect(num, 'to match', /\${1}/);
+      expect(num, 'to match', /^< /);
+    });
+
+    it('should display less than a cent for negative small numbers', () => {
+      const num = helpers.formatFiat(0.999999 - 1, 'usd');
+      expect(num, 'to match', /0[,.]0{1}1{1}/);
+      expect(num, 'to match', /\${1}/);
+      expect(num, 'to match', /^< -/);
+    });
+
+    it('should display 0.00 without less than', () => {
+      const num = helpers.formatFiat(0.0, 'usd');
+      expect(num, 'to match', /0[,.]0{2}/);
+      expect(num, 'to match', /\${1}/);
+      expect(num, 'not to match', /^< /);
+    });
   });
 
   describe('parseDate()', () => {
