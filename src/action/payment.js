@@ -234,7 +234,10 @@ class PaymentAction {
    */
   async initPayBitcoinConfirm() {
     try {
-      await this.estimateFee();
+      const { payment } = this._store;
+      if (!payment.fee || !payment.sendAll) {
+        await this.estimateFee();
+      }
       this._nav.goPayBitcoinConfirm();
     } catch (err) {
       this._notification.display({ msg: 'Fee estimation failed!', err });

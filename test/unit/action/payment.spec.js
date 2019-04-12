@@ -175,23 +175,54 @@ describe('Action Payments Unit Tests', () => {
   });
 
   describe('initPayBitcoinConfirm()', () => {
-    it('should get estimate and navigate to confirm view', async () => {
+    beforeEach(() => {
       store.payment.address = 'foo';
       store.payment.amount = '2000';
       grpc.sendCommand.withArgs('estimateFee').resolves({
         feeSat: 10000,
       });
+    });
+
+    it('should get estimate and navigate to confirm view', async () => {
       await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was called once');
+      expect(nav.goPayBitcoinConfirm, 'was called once');
+      expect(notification.display, 'was not called');
+      expect(store.payment.fee, 'to be', '0.0001');
+    });
+
+    it('should not get estimate and navigate if fee and sendAll are set', async () => {
+      store.payment.fee = '0.0002';
+      store.payment.sendAll = true;
+      await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was not called');
+      expect(nav.goPayBitcoinConfirm, 'was called once');
+      expect(notification.display, 'was not called');
+      expect(store.payment.fee, 'to be', '0.0002');
+    });
+
+    it('should get estimate and navigate if fee is set', async () => {
+      store.payment.fee = '0.0002';
+      await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was called once');
+      expect(nav.goPayBitcoinConfirm, 'was called once');
+      expect(notification.display, 'was not called');
+      expect(store.payment.fee, 'to be', '0.0001');
+    });
+
+    it('should get estimate and navigate if sendAll is set', async () => {
+      store.payment.sendAll = true;
+      await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was called once');
       expect(nav.goPayBitcoinConfirm, 'was called once');
       expect(notification.display, 'was not called');
       expect(store.payment.fee, 'to be', '0.0001');
     });
 
     it('should display notification on error', async () => {
-      store.payment.address = 'foo';
-      store.payment.amount = '2000';
       grpc.sendCommand.withArgs('estimateFee').rejects();
       await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was called once');
       expect(nav.goPayBitcoinConfirm, 'was not called');
       expect(notification.display, 'was called once');
       expect(store.payment.fee, 'to be', '');
