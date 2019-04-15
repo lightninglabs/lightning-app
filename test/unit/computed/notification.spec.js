@@ -38,6 +38,7 @@ describe('Computed Notification Unit Tests', () => {
         display: true,
         waiting: true,
       });
+      store.unseenNtfnCount = 2;
       ComputedNotification(store);
       expect(store.lastNotification.type, 'to equal', 'info');
       expect(store.displayNotification, 'to equal', true);

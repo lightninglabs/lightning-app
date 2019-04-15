@@ -34,7 +34,7 @@ const ComputedNotification = store => {
       return all;
     },
     get notificationCountLabel() {
-      return formatNumber(store.computedNotifications.length);
+      return formatNumber(store.unseenNtfnCount);
     },
   });
 };
