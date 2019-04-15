@@ -160,32 +160,69 @@ describe('Action Payments Unit Tests', () => {
       store.payment.address = 'foo';
       store.payment.amount = 'bar';
       store.payment.note = 'baz';
+      store.payment.fee = 'blub';
+      store.payment.useScanner = true;
+      store.payment.sendAll = true;
       payment.init();
       expect(store.payment.address, 'to equal', '');
       expect(store.payment.amount, 'to equal', '');
       expect(store.payment.note, 'to equal', '');
+      expect(store.payment.fee, 'to equal', '');
+      expect(store.payment.useScanner, 'to equal', false);
+      expect(store.payment.sendAll, 'to equal', false);
       expect(nav.goPay, 'was called once');
     });
   });
 
   describe('initPayBitcoinConfirm()', () => {
-    it('should get estimate and navigate to confirm view', async () => {
+    beforeEach(() => {
       store.payment.address = 'foo';
       store.payment.amount = '2000';
       grpc.sendCommand.withArgs('estimateFee').resolves({
         feeSat: 10000,
       });
+    });
+
+    it('should get estimate and navigate to confirm view', async () => {
       await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was called once');
+      expect(nav.goPayBitcoinConfirm, 'was called once');
+      expect(notification.display, 'was not called');
+      expect(store.payment.fee, 'to be', '0.0001');
+    });
+
+    it('should not get estimate and navigate if fee and sendAll are set', async () => {
+      store.payment.fee = '0.0002';
+      store.payment.sendAll = true;
+      await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was not called');
+      expect(nav.goPayBitcoinConfirm, 'was called once');
+      expect(notification.display, 'was not called');
+      expect(store.payment.fee, 'to be', '0.0002');
+    });
+
+    it('should get estimate and navigate if fee is set', async () => {
+      store.payment.fee = '0.0002';
+      await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was called once');
+      expect(nav.goPayBitcoinConfirm, 'was called once');
+      expect(notification.display, 'was not called');
+      expect(store.payment.fee, 'to be', '0.0001');
+    });
+
+    it('should get estimate and navigate if sendAll is set', async () => {
+      store.payment.sendAll = true;
+      await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was called once');
       expect(nav.goPayBitcoinConfirm, 'was called once');
       expect(notification.display, 'was not called');
       expect(store.payment.fee, 'to be', '0.0001');
     });
 
     it('should display notification on error', async () => {
-      store.payment.address = 'foo';
-      store.payment.amount = '2000';
       grpc.sendCommand.withArgs('estimateFee').rejects();
       await payment.initPayBitcoinConfirm();
+      expect(grpc.sendCommand, 'was called once');
       expect(nav.goPayBitcoinConfirm, 'was not called');
       expect(notification.display, 'was called once');
       expect(store.payment.fee, 'to be', '');
@@ -208,6 +245,13 @@ describe('Action Payments Unit Tests', () => {
     it('should set attribute', () => {
       payment.setAmount({ amount: 'some-amount' });
       expect(store.payment.amount, 'to equal', 'some-amount');
+    });
+
+    it('should reset sendAll if set', () => {
+      store.payment.sendAll = true;
+      payment.setAmount({ amount: 'some-amount' });
+      expect(store.payment.amount, 'to equal', 'some-amount');
+      expect(store.payment.sendAll, 'to be false');
     });
   });
 
@@ -295,6 +339,27 @@ describe('Action Payments Unit Tests', () => {
     });
   });
 
+  describe('toggleMax()', () => {
+    it('should set the payment amount to the wallet balance minus fee', async () => {
+      store.payment.address = 'some-address';
+      store.balanceSatoshis = 100000;
+      grpc.sendCommand.resolves({ feeSat: 100 });
+      await payment.toggleMax();
+      expect(store.payment.amount, 'to match', /^0[,.]0{3}9{3}$/);
+      expect(store.payment.sendAll, 'to be true');
+    });
+
+    it('should disable sendAll and reset amount', async () => {
+      store.payment.sendAll = true;
+      store.payment.amount = 1000;
+      store.payment.address = 'some-address';
+      store.balanceSatoshis = 100000;
+      await payment.toggleMax();
+      expect(store.payment.amount, 'to be', '0');
+      expect(store.payment.sendAll, 'to be false');
+    });
+  });
+
   describe('payBitcoin()', () => {
     it('should send on-chain transaction', async () => {
       store.payment.amount = '0.00001';
@@ -305,6 +370,23 @@ describe('Action Payments Unit Tests', () => {
       expect(grpc.sendCommand, 'was called with', 'sendCoins', {
         addr: 'some-address',
         amount: 1000,
+        sendAll: false,
+      });
+      expect(nav.goPayBitcoinDone, 'was called once');
+      expect(notification.display, 'was not called');
+    });
+
+    it('should set amount to 0 on sendAll', async () => {
+      store.payment.sendAll = true;
+      store.payment.amount = '0.00001';
+      store.payment.address = 'some-address';
+      grpc.sendCommand.withArgs('sendCoins').resolves();
+      await payment.payBitcoin();
+      expect(nav.goWait, 'was called once');
+      expect(grpc.sendCommand, 'was called with', 'sendCoins', {
+        addr: 'some-address',
+        amount: 0,
+        sendAll: true,
       });
       expect(nav.goPayBitcoinDone, 'was called once');
       expect(notification.display, 'was not called');

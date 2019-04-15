@@ -18,6 +18,7 @@ import {
   AddButton,
   QrButton,
   DownButton,
+  MaxButton,
 } from '../../src/component/button';
 import CancelIcon from '../../src/asset/icon/cancel';
 import CopyPurpleIcon from '../../src/asset/icon/copy-purple';
@@ -39,6 +40,12 @@ storiesOf('Button', module)
       style={{ backgroundColor: color.purple }}
       onPress={action('clicked')}
     />
+  ))
+  .add('Max Button (active)', () => (
+    <MaxButton active={true} onPress={action('clicked')} />
+  ))
+  .add('Max Button (inactive)', () => (
+    <MaxButton active={false} onPress={action('clicked')} />
   ));
 
 storiesOf('Button', module)

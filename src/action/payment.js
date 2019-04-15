@@ -103,6 +103,7 @@ class PaymentAction {
     this._store.payment.fee = '';
     this._store.payment.note = '';
     this._store.payment.useScanner = false;
+    this._store.payment.sendAll = false;
     this._nav.goPay();
   }
 
@@ -122,6 +123,25 @@ class PaymentAction {
    */
   setAmount({ amount }) {
     this._store.payment.amount = amount;
+    this._store.payment.sendAll = false;
+  }
+
+  /**
+   * Set the payment amount to the max amount that can be sent. This
+   * is useful for people to move their coins off of the app.
+   * @return {Promise<undefined>}
+   */
+  async toggleMax() {
+    const { payment, balanceSatoshis, settings } = this._store;
+    if (payment.sendAll) {
+      return this.setAmount({ amount: '0' });
+    }
+    let amtSat = Math.floor(0.8 * balanceSatoshis);
+    payment.amount = toAmount(amtSat, settings);
+    await this.estimateFee();
+    amtSat = balanceSatoshis - toSatoshis(payment.fee, settings);
+    payment.amount = toAmount(amtSat, settings);
+    payment.sendAll = true;
   }
 
   /**
@@ -214,7 +234,10 @@ class PaymentAction {
    */
   async initPayBitcoinConfirm() {
     try {
-      await this.estimateFee();
+      const { payment } = this._store;
+      if (!payment.fee || !payment.sendAll) {
+        await this.estimateFee();
+      }
       this._nav.goPayBitcoinConfirm();
     } catch (err) {
       this._notification.display({ msg: 'Fee estimation failed!', err });
@@ -238,11 +261,7 @@ class PaymentAction {
     }, PAYMENT_TIMEOUT);
     this._nav.goWait();
     try {
-      const { payment, settings } = this._store;
-      await this._grpc.sendCommand('sendCoins', {
-        addr: payment.address,
-        amount: toSatoshis(payment.amount, settings),
-      });
+      await this._sendPayment();
       this._nav.goPayBitcoinDone();
     } catch (err) {
       this._nav.goPayBitcoinConfirm();
@@ -250,6 +269,16 @@ class PaymentAction {
     } finally {
       clearTimeout(timeout);
     }
+  }
+
+  async _sendPayment() {
+    const { payment, settings } = this._store;
+    let amount = payment.sendAll ? 0 : toSatoshis(payment.amount, settings);
+    await this._grpc.sendCommand('sendCoins', {
+      addr: payment.address,
+      amount,
+      sendAll: payment.sendAll,
+    });
   }
 
   /**
