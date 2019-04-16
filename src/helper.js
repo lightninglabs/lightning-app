@@ -92,7 +92,11 @@ export const toAmount = (satoshis, settings) => {
   const num = settings.displayFiat
     ? calculateExchangeRate(satoshis, settings)
     : satoshis / UNITS[settings.unit].denominator;
-  const options = { useGrouping: false, maximumFractionDigits: 8 };
+  const options = {
+    useGrouping: false,
+    minimumFractionDigits: settings.displayFiat ? 2 : 0,
+    maximumFractionDigits: settings.displayFiat ? 2 : 8,
+  };
   return new Intl.NumberFormat('en-US', options).format(num);
 };
 

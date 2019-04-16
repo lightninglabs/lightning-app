@@ -363,31 +363,31 @@ describe('Helpers Unit Tests', () => {
     it('should work for number input (fiat)', () => {
       settings.displayFiat = true;
       const num = helpers.toAmount(100000, settings);
-      expect(num, 'to equal', '6.89512515');
+      expect(num, 'to equal', '6.90');
     });
 
     it('should use period for decimals values (fiat)', () => {
       settings.displayFiat = true;
       const num = helpers.toAmount(100000000, settings);
-      expect(num, 'to equal', '6895.12514652');
+      expect(num, 'to equal', '6895.13');
     });
 
     it('should work for 0 (fiat)', () => {
       settings.displayFiat = true;
       const num = helpers.toAmount(0, settings);
-      expect(num, 'to equal', '0');
+      expect(num, 'to equal', '0.00');
     });
 
     it('should work for 1 (fiat)', () => {
       settings.displayFiat = true;
       const num = helpers.toAmount(1, settings);
-      expect(num, 'to equal', '0.00006895');
+      expect(num, 'to equal', '0.00');
     });
 
     it('should work for 1000 (fiat)', () => {
       settings.displayFiat = true;
       const num = helpers.toAmount(1000, settings);
-      expect(num, 'to equal', '0.06895125');
+      expect(num, 'to equal', '0.07');
     });
   });
 
