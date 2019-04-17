@@ -127,9 +127,9 @@ function createWindow() {
     lndPort: LND_PORT,
     network: isDev
       ? 'simnet'
-      : lndArgs.includes('--bitcoin.mainnet')
-      ? 'mainnet'
-      : 'testnet',
+      : lndArgs.includes('--bitcoin.testnet')
+      ? 'testnet'
+      : 'mainnet',
   });
 }
 

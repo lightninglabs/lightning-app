@@ -83,10 +83,11 @@ module.exports.startLndProcess = async function({
   // set default production settings if no custom flags
   if (!isDev && !lndArgs.length) {
     args = args.concat([
-      '--bitcoin.testnet',
+      '--bitcoin.mainnet',
       '--bitcoin.node=neutrino',
-      '--neutrino.connect=btcd-testnet.lightning.computer',
-      '--neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json',
+      '--neutrino.connect=165.227.7.29',
+      '--neutrino.connect=dev.conner.money',
+      '--neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json',
     ]);
   }
   args = args.concat(lndArgs);
