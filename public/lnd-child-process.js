@@ -62,6 +62,7 @@ module.exports.startLndProcess = async function({
     '--debuglevel=info',
     `--lnddir=${lndSettingsDir}`,
     `--routing.assumechanvalid`,
+    '--historicalsyncinterval=20m',
     '--autopilot.private',
     '--autopilot.minconfs=0',
     '--autopilot.allocation=0.95',
