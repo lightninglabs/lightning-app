@@ -137,10 +137,10 @@ class PaymentAction {
       return this.setAmount({ amount: '0' });
     }
     let amtSat = Math.floor(0.8 * balanceSatoshis);
-    payment.amount = toAmount(amtSat, settings);
+    payment.amount = toAmount(amtSat, settings, 2);
     await this.estimateFee();
     amtSat = balanceSatoshis - toSatoshis(payment.fee, settings);
-    payment.amount = toAmount(amtSat, settings);
+    payment.amount = toAmount(amtSat, settings, 2);
     payment.sendAll = true;
   }
 

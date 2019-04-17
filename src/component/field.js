@@ -17,6 +17,7 @@ const amountStyles = StyleSheet.create({
     fontSize: font.sizeXXXL,
     lineHeight: font.lineHeightXXXL - 6,
     height: font.lineHeightXXXL,
+    marginLeft: -23,
   },
 });
 

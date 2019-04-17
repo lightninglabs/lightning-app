@@ -81,7 +81,7 @@ export const toSatoshis = (amount, settings) => {
  * @param  {Object} settings Contains the current exchange rate
  * @return {string}          The amount formatted as '0.0001'
  */
-export const toAmount = (satoshis, settings) => {
+export const toAmount = (satoshis, settings, fiatPrecision = 8) => {
   if (
     !Number.isInteger(satoshis) ||
     !settings ||
@@ -92,7 +92,11 @@ export const toAmount = (satoshis, settings) => {
   const num = settings.displayFiat
     ? calculateExchangeRate(satoshis, settings)
     : satoshis / UNITS[settings.unit].denominator;
-  const options = { useGrouping: false, maximumFractionDigits: 8 };
+  const options = {
+    useGrouping: false,
+    minimumFractionDigits: settings.displayFiat ? 2 : 0,
+    maximumFractionDigits: settings.displayFiat ? fiatPrecision : 8,
+  };
   return new Intl.NumberFormat('en-US', options).format(num);
 };
 
