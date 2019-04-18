@@ -73,7 +73,7 @@ To run the packaged version of the app e.g. for macOS run:
 
 The app is configured for mainnet by default but you can opt-in to testnet:
 ```
-./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.testnet --bitcoin.node=neutrino --neutrino.connect=btcd-testnet.lightning.computer
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.testnet --bitcoin.node=neutrino --neutrino.connect=btcd-testnet.lightning.computer --neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 ```
 
 ### Starting the Packaged App (full node)
