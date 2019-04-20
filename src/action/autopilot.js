@@ -36,9 +36,10 @@ class AtplAction {
    * @return {Promise<undefined>}
    */
   async toggle() {
-    const success = await this._setStatus(!this._store.settings.autopilot);
+    const newState = !this._store.settings.autopilot;
+    const success = await this._setStatus(newState);
     if (success) {
-      this._store.settings.autopilot = !this._store.settings.autopilot;
+      this._store.settings.autopilot = newState;
       this._db.save();
     }
   }

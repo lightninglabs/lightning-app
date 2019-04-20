@@ -89,9 +89,8 @@ when(
  * lnd node all balances, channels and transactions are fetched.
  */
 when(
-  () => store.lndReady && store.autopilotReady,
+  () => store.lndReady,
   () => {
-    autopilot.init();
     wallet.pollBalances();
     wallet.pollExchangeRate();
     channel.pollChannels();
@@ -99,5 +98,17 @@ when(
     transaction.subscribeTransactions();
     transaction.subscribeInvoices();
     info.pollInfo();
+  }
+);
+
+/**
+ * Initialize autopilot after syncing is finished and the grpc client
+ * is ready
+ */
+when(
+  () => store.syncedToChain && store.autopilotReady,
+  async () => {
+    await nap();
+    autopilot.init();
   }
 );
