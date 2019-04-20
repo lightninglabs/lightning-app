@@ -90,7 +90,8 @@ class LogOutput extends Component {
   }
 
   get printLogs() {
-    this._tScroll = setTimeout(() => this._ref.current.scrollToEnd(), 50);
+    const opt = { animated: false };
+    this._tScroll = setTimeout(() => this._ref.current.scrollToEnd(opt), 50);
     return this.props.logs;
   }
 
