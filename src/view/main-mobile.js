@@ -46,6 +46,7 @@ import TransactionDetailView from './transaction-detail-mobile';
 
 import {
   nav,
+  notify,
   wallet,
   payment,
   invoice,
@@ -263,7 +264,7 @@ export default class App extends React.Component {
   render() {
     return (
       <FontLoader>
-        <NotificationWrapper store={store}>
+        <NotificationWrapper store={store} notify={notify}>
           <AppContainer ref={navRef => nav.setTopLevelNavigator(navRef)} />
         </NotificationWrapper>
       </FontLoader>
