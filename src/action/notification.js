@@ -15,6 +15,14 @@ class NotificationAction {
   }
 
   /**
+   * Set the dropdown component used on mobile.
+   * @param {Object} dropdown The component reference
+   */
+  setDropdown(dropdown) {
+    this._dropdown = dropdown;
+  }
+
+  /**
    * The main api used to display notifications thorughout the application. Several
    * types of notifications can be displayed including `info` `error` or `success`.
    * If the wait flag is set the notification bar will display a spinner e.g. when
@@ -43,6 +51,10 @@ class NotificationAction {
     if (!wait) this._store.unseenNtfnCount += 1;
     clearTimeout(this.tdisplay);
     this.tdisplay = setTimeout(() => this.close(), NOTIFICATION_DELAY);
+    // render dropdown on mobile
+    if (this._dropdown) {
+      this._dropdown.alertWithType('custom', '', msg);
+    }
   }
 
   /**
