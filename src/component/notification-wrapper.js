@@ -53,6 +53,7 @@ const NotificationWrapper = ({ store, notify, children }) => (
       showCancel={(store.lastNotification || {}).waiting}
       renderCancel={() => <SmallSpinner style={styles.spinner} />}
       closeInterval={NOTIFICATION_DELAY}
+      replaceEnabled={false}
     />
   </View>
 );
