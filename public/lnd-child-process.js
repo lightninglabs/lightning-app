@@ -62,11 +62,12 @@ module.exports.startLndProcess = async function({
     '--debuglevel=info',
     `--lnddir=${lndSettingsDir}`,
     `--routing.assumechanvalid`,
+    '--historicalsyncinterval=20m',
     '--autopilot.private',
     '--autopilot.minconfs=0',
     '--autopilot.allocation=0.95',
-    '--autopilot.heuristic=externalscore:0.7',
-    '--autopilot.heuristic=preferential:0.3',
+    '--autopilot.heuristic=externalscore:0.95',
+    '--autopilot.heuristic=preferential:0.05',
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
     lndPeerPort ? `--listen=localhost:${lndPeerPort}` : '',
     lndRestPort ? `--restlisten=localhost:${lndRestPort}` : '',
@@ -83,10 +84,10 @@ module.exports.startLndProcess = async function({
   // set default production settings if no custom flags
   if (!isDev && !lndArgs.length) {
     args = args.concat([
-      '--bitcoin.testnet',
+      '--bitcoin.mainnet',
       '--bitcoin.node=neutrino',
-      '--neutrino.connect=btcd-testnet.lightning.computer',
-      '--neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json',
+      '--neutrino.connect=13.91.246.35',
+      '--neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json',
     ]);
   }
   args = args.concat(lndArgs);

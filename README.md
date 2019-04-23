@@ -5,7 +5,7 @@ An easy-to-use cross platform lightning wallet
 
 ![Screenshot](https://github.com/lightninglabs/lightning-app/blob/5f2620d1e99ed1372985fec2063066236e4c16d9/assets/screenshot.png)
 
-**N.B. The app is under development and the code has not yet been audited. It's currently configured to run on testnet.**
+**N.B. This is still early technology and there’s a risk of losing all of your funds. We recommend not putting in more money than you are willing to lose.**
 
 ### Getting Started
 
@@ -14,8 +14,6 @@ The app comes for two threat models:
 1. *Pocket Money:* prebuilt and signed [releases](https://github.com/lightninglabs/lightning-app/releases) with auto update (recommended for most users).
 
 2. *Tin Foil Hat:* if you'd rather build it yourself and do without auto updates, see the instructions below.
-
-After installing the app, head on over to the [testnet faucet](https://testnet.coinfaucet.eu/en/) to send some test BTC to your wallet.
 
 ### Contributing
 
@@ -64,7 +62,7 @@ cp $GOPATH/bin/lnd ./assets/bin/darwin
 npm run electron-pack
 ```
 
-The packaged app will then be available in the `dist` directory. The packaged version of the app will run on Bitcoin testnet.
+The packaged app will then be available in the `dist` directory. The packaged version of the app will run on Bitcoin mainnet.
 
 ### Starting the Packaged App (light client)
 
@@ -73,33 +71,33 @@ To run the packaged version of the app e.g. for macOS run:
 ./dist/mac/Lightning.app/Contents/MacOS/Lightning
 ```
 
-The app is configured for testnet by default but you can opt-in to mainnet if you have a btcd node running. Be aware that this is currently still experimental:
+The app is configured for mainnet by default but you can opt-in to testnet:
 ```
-./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.mainnet --bitcoin.node=neutrino --neutrino.connect=127.0.0.1
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.testnet --bitcoin.node=neutrino --neutrino.connect=btcd-testnet.lightning.computer --neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btctestnet-fee-estimates.json
 ```
 
 ### Starting the Packaged App (full node)
 
 #### btcd
-Start btcd in a separate terminal session and wait until it's fully synced (can take over a day). Remove the `--testnet` flag for mainnet:
+Start btcd in a separate terminal session and wait until it's fully synced (can take a while):
 ```
-btcd --testnet --txindex --rpcuser=kek --rpcpass=kek
+btcd --txindex --rpcuser=kek --rpcpass=kek
 ```
 
-To run the packaged version of the app e.g. for macOS run (set `--bitcoin.mainnet` for mainnet):
+To run the packaged version of the app e.g. for macOS run:
 ```
-./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.testnet --btcd.rpcuser=kek --btcd.rpcpass=kek
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.mainnet --btcd.rpcuser=kek --btcd.rpcpass=kek
 ```
 
 #### bitcoind
-Start bitcoind in a separate terminal session and wait until it's fully synced (can take over a day). Remove the `-testnet` flag for mainnet:
+Start bitcoind in a separate terminal session and wait until it's fully synced (can take over a day):
 ```
-bitcoind -testnet -txindex=1 -rpcuser=kek -rpcpassword=kek -rpcbind=localhost -zmqpubrawblock=tcp://127.0.0.1:28332 -zmqpubrawtx=tcp://127.0.0.1:28333
+bitcoind -txindex=1 -rpcuser=kek -rpcpassword=kek -rpcbind=localhost -zmqpubrawblock=tcp://127.0.0.1:28332 -zmqpubrawtx=tcp://127.0.0.1:28333
 ```
 
-To run the packaged version of the app e.g. for macOS run (set `--bitcoin.mainnet` for mainnet):
+To run the packaged version of the app e.g. for macOS run:
 ```
-./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.testnet --bitcoin.node=bitcoind --bitcoind.rpcuser=kek --bitcoind.rpcpass=kek --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
+./dist/mac/Lightning.app/Contents/MacOS/Lightning --bitcoin.mainnet --bitcoin.node=bitcoind --bitcoind.rpcuser=kek --bitcoind.rpcpass=kek --bitcoind.zmqpubrawblock=tcp://127.0.0.1:28332 --bitcoind.zmqpubrawtx=tcp://127.0.0.1:28333
 ```
 
 ### Lnd data and logs
