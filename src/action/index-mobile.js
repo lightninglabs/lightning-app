@@ -63,7 +63,7 @@ export const auth = new AuthAction(
   LocalAuthentication,
   Alert
 );
-export const autopilot = new AtplAction(store, grpc, info, db, notify);
+export const autopilot = new AtplAction(store, grpc, db, notify);
 
 payment.listenForUrlMobile(Linking); // enable incoming url handler
 
