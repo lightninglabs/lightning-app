@@ -167,7 +167,7 @@ describe('Action Integration Tests', function() {
     channels1 = new ChannelAction(store1, grpc1, nav1, notify1);
     invoice1 = new InvoiceAction(store1, grpc1, nav1, notify1);
     payments1 = new PaymentAction(store1, grpc1, nav1, notify1);
-    autopilot1 = new AtplAction(store1, grpc1, info1, db1, notify1);
+    autopilot1 = new AtplAction(store1, grpc1, db1, notify1);
 
     db2 = sinon.createStubInstance(AppStorage);
     nav2 = sinon.createStubInstance(NavAction);
@@ -180,7 +180,7 @@ describe('Action Integration Tests', function() {
     channels2 = new ChannelAction(store2, grpc2, nav2, notify2);
     invoice2 = new InvoiceAction(store2, grpc2, nav2, notify2);
     payments2 = new PaymentAction(store2, grpc2, nav2, notify2);
-    autopilot2 = new AtplAction(store2, grpc2, info2, db2, notify2);
+    autopilot2 = new AtplAction(store2, grpc2, db2, notify2);
 
     sandbox.stub(autopilot1, 'updateNodeScores').resolves(true);
     sandbox.stub(autopilot2, 'updateNodeScores').resolves(true);

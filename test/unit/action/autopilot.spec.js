@@ -2,7 +2,6 @@ import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import NotificationAction from '../../../src/action/notification';
 import AppStorage from '../../../src/action/app-storage';
-import InfoAction from '../../../src/action/info';
 import AtplAction from '../../../src/action/autopilot';
 import * as logger from '../../../src/action/log';
 import nock from 'nock';
@@ -13,7 +12,6 @@ describe('Action Autopilot Unit Test', () => {
   let db;
   let grpc;
   let notify;
-  let info;
   let autopilot;
   let sandbox;
 
@@ -25,8 +23,7 @@ describe('Action Autopilot Unit Test', () => {
     grpc = sinon.createStubInstance(GrpcAction);
     db = sinon.createStubInstance(AppStorage);
     notify = sinon.createStubInstance(NotificationAction);
-    info = sinon.createStubInstance(InfoAction);
-    autopilot = new AtplAction(store, grpc, info, db, notify);
+    autopilot = new AtplAction(store, grpc, db, notify);
   });
 
   afterEach(() => {
@@ -87,7 +84,6 @@ describe('Action Autopilot Unit Test', () => {
           },
         ],
       };
-      info.getInfo.resolves();
       store.network = 'testnet';
     });
 

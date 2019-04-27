@@ -8,10 +8,9 @@ import { poll, checkHttpStatus } from '../helper';
 import * as log from './log';
 
 class AtplAction {
-  constructor(store, grpc, info, db, notification) {
+  constructor(store, grpc, db, notification) {
     this._store = store;
     this._grpc = grpc;
-    this._info = info;
     this._db = db;
     this._notification = notification;
   }
@@ -64,7 +63,7 @@ class AtplAction {
    */
   async updateNodeScores() {
     try {
-      await this._setNetwork();
+      await this._checkNetwork();
       const scores = await this._readNodeScores();
       await this._setNodeScores(scores);
     } catch (err) {
@@ -72,8 +71,7 @@ class AtplAction {
     }
   }
 
-  async _setNetwork() {
-    await this._info.getInfo();
+  async _checkNetwork() {
     if (!this._store.network) {
       throw new Error('Could not read network');
     }
