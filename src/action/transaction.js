@@ -152,7 +152,7 @@ class TransactionAction {
     let inv = computedTransactions.find(tx => tx.id === toHex(invoice.rHash));
     this._notification.display({
       type: 'success',
-      msg: `Invoice success: received ${inv.amountLabel} ${unitLabel}`,
+      msg: `Invoice success: received ${inv.amountLabel} ${unitLabel || ''}`,
       handler: () => this.select({ item: inv }),
       handlerLbl: 'View details',
     });
