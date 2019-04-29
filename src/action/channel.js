@@ -137,7 +137,6 @@ class ChannelAction {
         capacity: channel.capacity,
         localBalance: channel.localBalance,
         remoteBalance: channel.remoteBalance,
-        commitFee: channel.commitFee || 0,
         channelPoint: channel.channelPoint,
         fundingTxId: this._parseChannelPoint(channel.channelPoint)
           .fundingTxidStr,
@@ -146,6 +145,7 @@ class ChannelAction {
         ...mapPendingAttributes(poc.channel),
         confirmationHeight: poc.confirmationHeight,
         blocksTillOpen: poc.blocksTillOpen,
+        commitFee: poc.commitFee,
         feePerKw: poc.feePerKw,
         status: 'pending-open',
       }));

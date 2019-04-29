@@ -143,13 +143,14 @@ describe('Action Channels Unit Tests', () => {
       capacity: 100,
       localBalance: 10,
       remoteBalance: 90,
-      commitFee: 15,
       channelPoint: 'FFFF:1',
     };
 
     it('should list pending channels', async () => {
       grpc.sendCommand.withArgs('pendingChannels').resolves({
-        pendingOpenChannels: [{ channel: { ...pendingChannel } }],
+        pendingOpenChannels: [
+          { channel: { ...pendingChannel }, commitFee: 15 },
+        ],
         pendingClosingChannels: [{ channel: { ...pendingChannel } }],
         pendingForceClosingChannels: [
           {
