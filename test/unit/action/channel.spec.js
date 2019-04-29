@@ -102,7 +102,6 @@ describe('Action Channels Unit Tests', () => {
             localBalance: 10,
             remoteBalance: 90,
             commitFee: 15,
-            commitWeight: 5,
             channelPoint: 'FFFF:1',
           },
           {
@@ -112,7 +111,6 @@ describe('Action Channels Unit Tests', () => {
             localBalance: 11,
             remoteBalance: 91,
             commitFee: 16,
-            commitWeight: 6,
             channelPoint: 'FFFF:2',
           },
         ],
@@ -123,14 +121,12 @@ describe('Action Channels Unit Tests', () => {
         fundingTxId: 'FFFF',
         status: 'open',
         commitFee: 15,
-        commitWeight: 5,
       });
       expect(store.channels[1], 'to satisfy', {
         id: 43,
         fundingTxId: 'FFFF',
         status: 'open',
         commitFee: 16,
-        commitWeight: 6,
       });
     });
 
@@ -148,7 +144,6 @@ describe('Action Channels Unit Tests', () => {
       localBalance: 10,
       remoteBalance: 90,
       commitFee: 15,
-      commitWeight: 5,
       channelPoint: 'FFFF:1',
     };
 
@@ -171,7 +166,6 @@ describe('Action Channels Unit Tests', () => {
         remotePubkey: 'some-key',
         fundingTxId: 'FFFF',
         commitFee: 15,
-        commitWeight: 5,
       });
       expect(store.pendingChannels[2], 'to satisfy', {
         timeTilAvailable: '3 days and 5 hours',

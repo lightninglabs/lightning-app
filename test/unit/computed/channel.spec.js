@@ -15,7 +15,6 @@ describe('Computed Channels Unit Tests', () => {
       localBalance: 1990000,
       remoteBalance: 10000,
       commitFee: 500,
-      commitWeight: 50,
       channelPoint: 'some-channel-point',
       active: true,
       status: 'open',
@@ -27,7 +26,6 @@ describe('Computed Channels Unit Tests', () => {
       localBalance: 1990000,
       remoteBalance: 10000,
       commitFee: 400,
-      commitWeight: 40,
       channelPoint: 'some-channel-point',
       active: false,
       status: 'open',
@@ -39,7 +37,6 @@ describe('Computed Channels Unit Tests', () => {
       localBalance: 600000,
       remoteBalance: 400000,
       commitFee: 300,
-      commitWeight: 30,
       channelPoint: 'some-channel-point',
       status: 'pending-open',
     });
@@ -50,7 +47,6 @@ describe('Computed Channels Unit Tests', () => {
       localBalance: 500000,
       remoteBalance: 300000,
       commitFee: 200,
-      commitWeight: 20,
       channelPoint: 'some-channel-point',
       status: 'pending-closing',
     });
@@ -61,7 +57,6 @@ describe('Computed Channels Unit Tests', () => {
       localBalance: 400000,
       remoteBalance: 300000,
       commitFee: 100,
-      commitWeight: 10,
       channelPoint: 'some-channel-point',
       status: 'pending-force-closing',
     });

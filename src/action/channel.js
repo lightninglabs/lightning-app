@@ -112,7 +112,6 @@ class ChannelAction {
         localBalance: channel.localBalance,
         remoteBalance: channel.remoteBalance,
         commitFee: channel.commitFee,
-        commitWeight: channel.commitWeight,
         channelPoint: channel.channelPoint,
         fundingTxId: this._parseChannelPoint(channel.channelPoint)
           .fundingTxidStr,
@@ -139,7 +138,6 @@ class ChannelAction {
         localBalance: channel.localBalance,
         remoteBalance: channel.remoteBalance,
         commitFee: channel.commitFee || 0,
-        commitWeight: channel.commitWeight || 0,
         channelPoint: channel.channelPoint,
         fundingTxId: this._parseChannelPoint(channel.channelPoint)
           .fundingTxidStr,
