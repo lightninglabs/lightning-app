@@ -72,12 +72,12 @@
     "prettier": "^1.11.1",
     "prop-types": "^15.6.2",
     "protobufjs": "^6.8.8",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^3.0.0",
     "sinon": "^6.0.0",
     "unexpected": "^10.37.2",
     "unexpected-sinon": "^10.10.1",
     "wait-on": "^2.1.0",
-    "webpack": "4.28.3"
+    "webpack": "4.29.6"
   },
   "browserslist": [
     "electron 3.0"
