@@ -10,6 +10,9 @@ describe('Computed Wallet Unit Tests', () => {
 
   describe('ComputedWallet()', () => {
     it('should work with initial store', () => {
+      store.channelBalancePendingSatoshis = 0;
+      store.channelBalanceOpenSatoshis = 0;
+      store.channelBalanceInactiveSatoshis = 0;
       store.channelBalanceForceClosingSatoshis = 0;
       ComputedWallet(store);
       expect(store.walletAddressUri, 'to equal', '');
@@ -37,8 +40,9 @@ describe('Computed Wallet Unit Tests', () => {
       store.settings.displayFiat = true;
       store.settings.exchangeRate.usd = 0.00014503;
       store.balanceSatoshis = 50000000;
-      store.pendingBalanceSatoshis = 50000000;
-      store.channelBalanceSatoshis = 10000;
+      store.channelBalancePendingSatoshis = 50000000;
+      store.channelBalanceOpenSatoshis = 5000;
+      store.channelBalanceInactiveSatoshis = 5000;
       store.channelBalanceForceClosingSatoshis = 100;
       ComputedWallet(store);
       expect(store.balanceLabel, 'to match', /3[,.]447[,.]56/);
@@ -53,8 +57,9 @@ describe('Computed Wallet Unit Tests', () => {
       store.settings.displayFiat = false;
       store.settings.exchangeRate.usd = 0.00014503;
       store.balanceSatoshis = 50000001;
-      store.pendingBalanceSatoshis = 50000000;
-      store.channelBalanceSatoshis = 10000;
+      store.channelBalancePendingSatoshis = 50000000;
+      store.channelBalanceOpenSatoshis = 5000;
+      store.channelBalanceInactiveSatoshis = 5000;
       store.channelBalanceForceClosingSatoshis = 100;
       store.settings.unit = 'bit';
       ComputedWallet(store);
