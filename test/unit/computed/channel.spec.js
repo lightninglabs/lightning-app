@@ -46,7 +46,6 @@ describe('Computed Channels Unit Tests', () => {
       capacity: 805000,
       localBalance: 500000,
       remoteBalance: 300000,
-      commitFee: 200,
       channelPoint: 'some-channel-point',
       status: 'pending-closing',
     });
@@ -56,7 +55,6 @@ describe('Computed Channels Unit Tests', () => {
       capacity: 705000,
       localBalance: 400000,
       remoteBalance: 300000,
-      commitFee: 100,
       channelPoint: 'some-channel-point',
       status: 'pending-force-closing',
     });
@@ -102,12 +100,8 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalanceOpenLabel, 'to match', /^0[,.]019905$/);
       expect(store.channelBalanceInactiveLabel, 'to match', /^0[,.]019904$/);
       expect(store.channelBalancePendingLabel, 'to match', /^0[,.]006003$/);
-      expect(store.channelBalanceClosingLabel, 'to match', /^0[,.]009003$/);
-      expect(
-        store.channelBalanceForceClosingLabel,
-        'to match',
-        /^0[,.]004001$/
-      );
+      expect(store.channelBalanceClosingLabel, 'to match', /^0[,.]009$/);
+      expect(store.channelBalanceForceClosingLabel, 'to match', /^0[,.]004$/);
       expect(store.channelStatus, 'to equal', 'success');
     });
 
@@ -123,8 +117,8 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalanceOpenLabel, 'to match', /137[,.]25/);
       expect(store.channelBalanceInactiveLabel, 'to match', /137[,.]24/);
       expect(store.channelBalancePendingLabel, 'to match', /41[,.]39/);
-      expect(store.channelBalanceClosingLabel, 'to match', /62[,.]08/);
-      expect(store.channelBalanceForceClosingLabel, 'to match', /27[,.]59/);
+      expect(store.channelBalanceClosingLabel, 'to match', /62[,.]06/);
+      expect(store.channelBalanceForceClosingLabel, 'to match', /27[,.]58/);
     });
 
     it('should display pending status', () => {
