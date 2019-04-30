@@ -226,7 +226,9 @@ app.on('quit', () => {
 });
 
 // Prevent multiple instances of the application.
-const duplicateInstance = app.makeSingleInstance(args => {
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) app.quit();
+app.on('second-instance', (event, args) => {
   if (process.platform == 'win32') {
     const protocolUrl = args && args.slice(1)[0];
     if (protocolUrl) onOpenUrl(null, protocolUrl);
@@ -236,7 +238,6 @@ const duplicateInstance = app.makeSingleInstance(args => {
     win.focus();
   }
 });
-if (duplicateInstance) app.quit();
 
 app.setAsDefaultProtocolClient(PREFIX_NAME);
 const onOpenUrl = async (event, url) => {
