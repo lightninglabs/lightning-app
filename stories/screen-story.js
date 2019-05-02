@@ -350,6 +350,7 @@ store.channels = [...Array(4)].map((x, i) => ({
   capacity: 2005000,
   localBalance: 1990000,
   remoteBalance: 10000,
+  commitFee: 0,
   channelPoint:
     '3511ae8a52c97d957eaf65f828504e68d0991f0276adff94c6ba91c7f6cd4275',
   active: i % 2 === 0 ? true : false,
@@ -363,6 +364,7 @@ store.pendingChannels = [...Array(6)].map((x, i) => ({
   capacity: 1005000,
   localBalance: 600000,
   remoteBalance: 400000,
+  commitFee: 0,
   channelPoint:
     '3511ae8a52c97d957eaf65f828504e68d0991f0276adff94c6ba91c7f6cd4275',
   status: i % 2 === 0 ? 'pending-closing' : 'pending-open',
