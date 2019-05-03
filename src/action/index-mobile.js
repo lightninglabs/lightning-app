@@ -118,7 +118,7 @@ when(
  * is ready
  */
 when(
-  () => store.syncedToChain && store.autopilotReady,
+  () => store.syncedToChain && store.network && store.autopilotReady,
   () => {
     autopilot.init();
   }
