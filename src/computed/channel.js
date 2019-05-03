@@ -68,7 +68,7 @@ const ComputedChannel = store => {
     get channelBalanceClosingSatoshis() {
       return (store.pendingChannels || [])
         .filter(c => !c.status.includes('open'))
-        .map(c => c.localBalance + c.commitFee)
+        .map(c => c.localBalance)
         .reduce((a, b) => a + b, 0);
     },
     get channelBalanceClosingLabel() {
@@ -78,7 +78,7 @@ const ComputedChannel = store => {
     get channelBalanceForceClosingSatoshis() {
       return (store.pendingChannels || [])
         .filter(c => c.status === 'pending-force-closing')
-        .map(c => c.localBalance + c.commitFee)
+        .map(c => c.localBalance)
         .reduce((a, b) => a + b, 0);
     },
     get channelBalanceForceClosingLabel() {
