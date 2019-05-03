@@ -16,6 +16,7 @@ import {
 } from 'react-native';
 import { SecureStore, LocalAuthentication, Linking } from 'expo';
 import { NavigationActions } from 'react-navigation';
+import { nap } from '../helper';
 import store from '../store';
 import AppStorage from './app-storage';
 import IpcAction from './ipc-mobile';
@@ -119,7 +120,8 @@ when(
  */
 when(
   () => store.syncedToChain && store.network && store.autopilotReady,
-  () => {
+  async () => {
+    await nap();
     autopilot.init();
   }
 );
