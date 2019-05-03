@@ -88,7 +88,13 @@ when(() => store.unlockerReady, () => wallet.init());
  * Triggered after the user's password has unlocked the wallet
  * or a user's password has been successfully reset.
  */
-when(() => store.walletUnlocked, () => grpc.initLnd());
+when(
+  () => store.walletUnlocked,
+  async () => {
+    await grpc.initLnd();
+    await grpc.initAutopilot();
+  }
+);
 
 /**
  * Triggered once the main lnd grpc client is initialized. This is when
@@ -104,6 +110,17 @@ when(
     channel.pollChannels();
     transaction.update();
     info.pollInfo();
+  }
+);
+
+/**
+ * Initialize autopilot after syncing is finished and the grpc client
+ * is ready
+ */
+when(
+  () => store.syncedToChain && store.network && store.autopilotReady,
+  () => {
+    autopilot.init();
   }
 );
 

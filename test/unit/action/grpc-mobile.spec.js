@@ -86,6 +86,60 @@ describe('Action GRPC Mobile Unit Tests', () => {
     });
   });
 
+  describe('initAutopilot()', () => {
+    it('should set autopilotReady', async () => {
+      await grpc.initAutopilot();
+      expect(store.autopilotReady, 'to be', true);
+    });
+  });
+
+  describe('sendAutopilotCommand()', () => {
+    it('should work for Status', async () => {
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('Status'),
+      });
+      await grpc.sendAutopilotCommand('Status');
+      expect(LndReactModuleStub.sendCommand, 'was called with', 'Status', '');
+    });
+
+    it('should work for SetScores', async () => {
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('SetScores'),
+      });
+      await grpc.sendAutopilotCommand('SetScores', {
+        heuristic: 'externalscore',
+        scores: { 'some-pubkey': 0.14035087 },
+      });
+      expect(
+        LndReactModuleStub.sendCommand,
+        'was called with',
+        'SetScores',
+        'Cg1leHRlcm5hbHNjb3JlEhYKC3NvbWUtcHVia2V5ESe9Tm4E98E/'
+      );
+    });
+
+    it('should work for QueryScores', async () => {
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('QueryScores'),
+      });
+      await grpc.sendAutopilotCommand('QueryScores');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
+
+    it('should work for ModifyStatus', async () => {
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('ModifyStatus'),
+      });
+      await grpc.sendAutopilotCommand('ModifyStatus', { enable: true });
+      expect(
+        LndReactModuleStub.sendCommand,
+        'was called with',
+        'ModifyStatus',
+        'CAE='
+      );
+    });
+  });
+
   describe('initLnd()', () => {
     it('should set lndReady', async () => {
       LndReactModuleStub.start.resolves();
