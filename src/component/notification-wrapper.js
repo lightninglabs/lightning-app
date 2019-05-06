@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, Platform } from 'react-native';
+import { StyleSheet, View, Platform, StatusBar } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import DropdownAlert from 'react-native-dropdownalert';
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     backgroundColor: color.blackDark,
-    paddingTop: Platform.OS === 'android' ? 25 : 0,
+    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight + 5 : 0,
   },
   text: {
     fontFamily: 'OpenSans Regular',
