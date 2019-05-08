@@ -83,6 +83,7 @@ class NavAction {
 
   goLoaderSyncing() {
     this._navigate('LoaderSyncing');
+    this._reset('Main', 'LoaderSyncing');
   }
 
   goWait() {
