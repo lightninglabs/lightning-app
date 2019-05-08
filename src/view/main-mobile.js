@@ -193,6 +193,7 @@ const MainStack = createStackNavigator(
     NewAddress,
     Password,
     LoaderSyncing,
+    Home,
     Settings,
     SettingsUnit,
     SettingsFiat,
@@ -244,7 +245,6 @@ const ChannelStack = createStackNavigator(
 
 const RootStack = createStackNavigator(
   {
-    Home,
     Main: MainStack,
     Invoice: InvoiceStack,
     Pay: PayStack,

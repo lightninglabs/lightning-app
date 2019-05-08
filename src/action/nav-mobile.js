@@ -12,15 +12,20 @@ class NavAction {
   }
 
   setTopLevelNavigator(navigatorRef) {
-    this._navigate = (routeName, params) =>
-      navigatorRef.dispatch(this._navActions.navigate({ routeName, params }));
-    this._reset = (routeName, params) =>
+    this._navigate = routeName =>
+      navigatorRef.dispatch(this._navActions.navigate({ routeName }));
+
+    this._reset = (stackName, routeName) =>
       navigatorRef.dispatch(
-        this._stackActions.reset({
-          index: 0,
-          actions: [this._navActions.navigate({ routeName, params })],
+        this._navActions.navigate({
+          routeName: stackName,
+          action: this._stackActions.reset({
+            index: 0,
+            actions: [this._navActions.navigate({ routeName })],
+          }),
         })
       );
+
     this._store.navReady = true;
   }
 
@@ -86,7 +91,7 @@ class NavAction {
 
   goHome() {
     this._navigate('Home');
-    this._reset('Home');
+    this._reset('Main', 'Home');
   }
 
   goPay() {
