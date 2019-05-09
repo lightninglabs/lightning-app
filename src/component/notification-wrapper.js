@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Platform, StatusBar } from 'react-native';
+import { KeepAwake } from 'expo';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import DropdownAlert from 'react-native-dropdownalert';
@@ -56,6 +57,7 @@ const NotificationWrapper = ({ store, notify, children }) => (
       closeInterval={NOTIFICATION_DELAY}
       replaceEnabled={false}
     />
+    {(store.lastNotification || {}).waiting ? <KeepAwake /> : null}
   </View>
 );
 
