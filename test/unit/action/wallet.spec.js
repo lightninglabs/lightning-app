@@ -214,6 +214,7 @@ describe('Action Wallet Unit Tests', () => {
       expect(wallet.initWallet, 'was called with', {
         walletPassword: 'secret123',
         seedMnemonic: ['foo', 'bar', 'baz'],
+        recoveryWindow: 0,
       });
     });
 
@@ -233,6 +234,19 @@ describe('Action Wallet Unit Tests', () => {
       expect(wallet.initWallet, 'was not called');
       expect(wallet.initSetPassword, 'was called once');
       expect(notification.display, 'was called once');
+    });
+
+    it('init wallet correctly during restore', async () => {
+      store.settings.restoring = true;
+      wallet.setNewPassword({ password: 'secret123' });
+      wallet.setPasswordVerify({ password: 'secret123' });
+      store.wallet.restoreSeed = ['beep', 'bop', 'boop'];
+      await wallet.checkNewPassword();
+      expect(wallet.initWallet, 'was called with', {
+        walletPassword: 'secret123',
+        seedMnemonic: ['beep', 'bop', 'boop'],
+        recoveryWindow: RECOVERY_WINDOW,
+      });
     });
   });
 

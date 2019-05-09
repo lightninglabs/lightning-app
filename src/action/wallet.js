@@ -212,7 +212,10 @@ class WalletAction {
     }
     await this.initWallet({
       walletPassword: newPassword,
-      seedMnemonic: this._store.seedMnemonic.toJSON(),
+      recoveryWindow: this._store.settings.restoring ? RECOVERY_WINDOW : 0,
+      seedMnemonic: this._store.settings.restoring
+        ? this._store.wallet.restoreSeed.toJSON()
+        : this._store.seedMnemonic.toJSON(),
     });
   }
 
