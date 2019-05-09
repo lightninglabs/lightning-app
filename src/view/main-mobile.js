@@ -194,11 +194,6 @@ const MainStack = createStackNavigator(
     Password,
     LoaderSyncing,
     Home,
-    Settings,
-    SettingsUnit,
-    SettingsFiat,
-    CLI,
-    Notifications,
   },
   stackOptions
 );
@@ -243,6 +238,17 @@ const ChannelStack = createStackNavigator(
   stackOptions
 );
 
+const SettingStack = createStackNavigator(
+  {
+    Settings,
+    SettingsUnit,
+    SettingsFiat,
+    CLI,
+    Notifications,
+  },
+  stackOptions
+);
+
 const RootStack = createStackNavigator(
   {
     Main: MainStack,
@@ -250,6 +256,7 @@ const RootStack = createStackNavigator(
     Pay: PayStack,
     Transactions: TransactionStack,
     Channels: ChannelStack,
+    Settings: SettingStack,
     Deposit,
   },
   {
