@@ -55,10 +55,6 @@ class NavAction {
     this._navigate('RestoreSeed');
   }
 
-  goRestorePin() {
-    this._navigate('RestorePin');
-  }
-
   goSeedSuccess() {
     this._navigate('SeedSuccess');
   }

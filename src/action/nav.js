@@ -29,10 +29,6 @@ class NavAction {
     this._store.route = 'RestoreSeed';
   }
 
-  goRestorePassword() {
-    this._store.route = 'RestorePassword';
-  }
-
   goSeedSuccess() {
     this._store.route = 'SeedSuccess';
   }

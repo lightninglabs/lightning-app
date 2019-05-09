@@ -11,7 +11,6 @@ import SeedSuccess from './seed-success';
 import SetPassword from './set-password';
 import SetPasswordConfirm from './set-password-confirm';
 import RestoreSeed from './restore-seed';
-import RestorePassword from './restore-password';
 import Password from './password';
 import ResetPasswordCurrent from './reset-password-current';
 import ResetPasswordNew from './reset-password-new';
@@ -82,9 +81,6 @@ class MainView extends Component {
         )}
         {route === 'RestoreSeed' && (
           <RestoreSeed store={store} wallet={wallet} />
-        )}
-        {route === 'RestorePassword' && (
-          <RestorePassword store={store} wallet={wallet} nav={nav} />
         )}
         {route === 'Password' && <Password store={store} wallet={wallet} />}
         {route === 'ResetPasswordCurrent' && (

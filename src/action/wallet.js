@@ -325,7 +325,7 @@ class WalletAction {
     if (this._store.wallet.restoreIndex < 21) {
       this._store.wallet.restoreIndex += 3;
     } else {
-      this._nav.goRestorePassword();
+      this.initSetPassword();
     }
   }
 
@@ -373,20 +373,6 @@ class WalletAction {
   async checkPassword() {
     const { password } = this._store.wallet;
     await this.unlockWallet({ walletPassword: password });
-  }
-
-  /**
-   * Initialize the wallet with the password input the seed that was already
-   * inputted, and the default recovery window.
-   * @return {Promise<undefined>}
-   */
-  async restoreWallet() {
-    const { password, restoreSeed } = this._store.wallet;
-    await this.initWallet({
-      walletPassword: password,
-      seedMnemonic: restoreSeed.toJSON(),
-      recoveryWindow: RECOVERY_WINDOW,
-    });
   }
 
   /**

@@ -73,7 +73,6 @@ import SetPasswordConfirm from '../src/view/set-password-confirm';
 import SetPinConfirmMobile from '../src/view/set-pin-confirm-mobile';
 import Password from '../src/view/password';
 import PinMobile from '../src/view/pin-mobile';
-import RestorePassword from '../src/view/restore-password';
 import ResetPasswordCurrent from '../src/view/reset-password-current';
 import ResetPasswordNew from '../src/view/reset-password-new';
 import ResetPasswordConfirm from '../src/view/reset-password-confirm';
@@ -155,9 +154,6 @@ storiesOf('Screens', module)
   ))
   .add('Password', () => <Password store={store} wallet={wallet} />)
   .add('PIN (Mobile)', () => <PinMobile store={store} auth={auth} />)
-  .add('Restore Wallet: Password', () => (
-    <RestorePassword store={store} wallet={wallet} nav={nav} />
-  ))
   .add('Reset Password - Current', () => (
     <ResetPasswordCurrent store={store} wallet={wallet} nav={nav} />
   ))
