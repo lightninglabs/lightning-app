@@ -17,12 +17,14 @@ class NavAction {
 
     this._reset = (stackName, routeName) =>
       navigatorRef.dispatch(
-        this._navActions.navigate({
-          routeName: stackName,
-          action: this._stackActions.reset({
-            index: 0,
-            actions: [this._navActions.navigate({ routeName })],
-          }),
+        this._stackActions.reset({
+          index: 0,
+          actions: [
+            this._navActions.navigate({
+              routeName: stackName,
+              action: this._navActions.navigate({ routeName }),
+            }),
+          ],
         })
       );
 
