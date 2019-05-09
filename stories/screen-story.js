@@ -82,6 +82,7 @@ import NewAddressMobile from '../src/view/new-address-mobile';
 import Wait from '../src/view/wait';
 import WaitMobile from '../src/view/wait-mobile';
 import RestoreSeed from '../src/view/restore-seed';
+import RestoreSeedMobile from '../src/view/restore-seed-mobile';
 
 const store = new Store();
 store.init();
@@ -137,6 +138,9 @@ storiesOf('Screens', module)
   ))
   .add('Restore Wallet: Seed', () => (
     <RestoreSeed store={store} wallet={wallet} />
+  ))
+  .add('Restore Wallet: Seed (Mobile)', () => (
+    <RestoreSeedMobile store={store} wallet={wallet} />
   ))
   .add('Seed Success', () => <SeedSuccess wallet={wallet} />)
   .add('Seed Success (Mobile)', () => <SeedSuccessMobile wallet={wallet} />)

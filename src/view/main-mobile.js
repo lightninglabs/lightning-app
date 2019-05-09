@@ -16,6 +16,7 @@ import SeedVerifyView from './seed-verify-mobile';
 import SetPinView from './set-pin-mobile';
 import SetPinConfirmView from './set-pin-confirm-mobile';
 import SeedSuccessView from './seed-success-mobile';
+import RestoreSeedView from './restore-seed-mobile';
 import NewAddressView from './new-address-mobile';
 
 import PinView from './pin-mobile';
@@ -83,6 +84,8 @@ const SetPasswordConfirm = () => (
 );
 
 const SeedSuccess = () => <SeedSuccessView wallet={wallet} />;
+
+const RestoreSeed = () => <RestoreSeedView store={store} wallet={wallet} />;
 
 const NewAddress = () => (
   <NewAddressView store={store} invoice={invoice} info={info} />
@@ -190,6 +193,7 @@ const MainStack = createStackNavigator(
     SetPassword,
     SetPasswordConfirm,
     SeedSuccess,
+    RestoreSeed,
     NewAddress,
     Password,
     LoaderSyncing,
