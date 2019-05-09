@@ -52,8 +52,15 @@ const RestoreSeedView = ({ store, wallet }) => (
               wallet.setRestoreSeed({ word, index: seedIndex - 1 })
             }
             key={i}
-            autoFocus={i === 0}
-            onSubmitEditing={() => wallet.initNextRestorePage()}
+            autoFocus={seedIndex - 1 === store.wallet.focusedRestoreInd}
+            onSubmitEditing={() =>
+              i === 2
+                ? wallet.initNextRestorePage()
+                : wallet.setFocusedRestoreInd({ index: seedIndex })
+            }
+            onClick={() =>
+              wallet.setFocusedRestoreInd({ index: seedIndex - 1 })
+            }
           />
         ))}
       </Card>

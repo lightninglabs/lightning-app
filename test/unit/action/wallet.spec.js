@@ -381,6 +381,13 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
+  describe('setFocusedRestoreInd()', () => {
+    it('should set the currently focused restore seed index', () => {
+      wallet.setFocusedRestoreInd({ index: 5 });
+      expect(store.wallet.focusedRestoreInd, 'to equal', 5);
+    });
+  });
+
   describe('initPrevRestorePage()', () => {
     it('should navigate to select seed if restoreIndex < 3', () => {
       store.wallet.restoreIndex = 2;
@@ -391,9 +398,11 @@ describe('Action Wallet Unit Tests', () => {
 
     it('should decrement restoreIndex if greater than 2', async () => {
       store.wallet.restoreIndex = 3;
+      store.wallet.focusedRestoreInd = 5;
       wallet.initPrevRestorePage();
       expect(nav.goSelectSeed, 'was not called');
       expect(store.wallet.restoreIndex, 'to equal', 0);
+      expect(store.wallet.focusedRestoreInd, 'to equal', 0);
     });
   });
 
@@ -407,9 +416,11 @@ describe('Action Wallet Unit Tests', () => {
 
     it('should increment restoreIndex if less than 21', async () => {
       store.wallet.restoreIndex = 18;
+      store.wallet.focusedRestoreInd = 19;
       wallet.initNextRestorePage();
       expect(nav.goSetPassword, 'was not called');
       expect(store.wallet.restoreIndex, 'to equal', 21);
+      expect(store.wallet.focusedRestoreInd, 'to equal', 21);
     });
   });
 
