@@ -9,12 +9,14 @@ import sinon from 'sinon';
 import { when } from 'mobx';
 import {
   Alert,
+  Linking,
   Clipboard,
   // AsyncStorage,
   // NativeModules,
   // NativeEventEmitter,
 } from 'react-native';
-import { SecureStore, LocalAuthentication, Linking } from 'expo';
+import * as SecureStore from 'expo-secure-store';
+import * as LocalAuthentication from 'expo-local-authentication';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { nap } from '../helper';
 import store from '../store';
