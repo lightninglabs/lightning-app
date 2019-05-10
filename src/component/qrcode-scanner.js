@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { BarCodeScanner, Permissions } from 'expo';
+import * as Permissions from 'expo-permissions';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { color } from './style';
