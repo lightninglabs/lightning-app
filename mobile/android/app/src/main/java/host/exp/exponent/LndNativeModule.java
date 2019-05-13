@@ -1,6 +1,7 @@
 package host.exp.exponent;
 
 import android.content.res.AssetManager;
+import android.os.FileObserver;
 import android.util.Base64;
 import android.util.Log;
 
@@ -12,10 +13,14 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -37,10 +42,13 @@ public class LndNativeModule extends ReactContextBaseJavaModule {
     private static final String respEventTypeKey = "event";
     private static final String respEventTypeData = "data";
     private static final String respEventTypeError = "error";
+    private static final String logEventName = "logs";
 
     private Map<String, SendStream> activeStreams = new HashMap<>();
     private Map<String, Method> syncMethods = new HashMap<>();
     private Map<String, Method> streamMethods = new HashMap<>();
+
+    private FileObserver logObserver;
 
     private static boolean isReceiveStream(Method m) {
         return m.toString().contains("RecvStream");
@@ -146,6 +154,53 @@ public class LndNativeModule extends ReactContextBaseJavaModule {
         File appDir = getReactApplicationContext().getFilesDir();
         copyConfig(appDir);
 
+        final String logDir = appDir + "/logs/bitcoin/testnet";
+        final String logFile = logDir + "/lnd.log";
+
+        FileInputStream stream = null;
+        while (true) {
+            try {
+                stream = new FileInputStream(logFile);
+            } catch (FileNotFoundException e) {
+                File dir = new File(logDir);
+                dir.mkdirs();
+                File f = new File(logFile);
+                try {
+                    f.createNewFile();
+                    continue;
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                    return;
+                }
+            }
+            break;
+        }
+
+        final InputStreamReader istream = new InputStreamReader(stream);
+        final BufferedReader buf = new BufferedReader(istream);
+        try {
+            readToEnd(buf, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        logObserver = new FileObserver(logFile) {
+            @Override
+            public void onEvent(int event, String file) {
+                if(event != FileObserver.MODIFY) {
+                    return;
+                }
+                try {
+                    readToEnd(buf, true);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        logObserver.startWatching();
+        Log.i("LndNativeModule", "Started watching " + logFile);
+
         final String args = "--lnddir=" + appDir;
         Log.i("LndNativeModule", "Starting LND with args " + args);
 
@@ -156,6 +211,18 @@ public class LndNativeModule extends ReactContextBaseJavaModule {
             }
         };
         new Thread(startLnd).start();
+    }
+
+    private void readToEnd(BufferedReader buf, boolean emit) throws IOException {
+        String s = "";
+        while ( (s = buf.readLine()) != null ) {
+            if (!emit) {
+                continue;
+            }
+            getReactApplicationContext()
+                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit(logEventName, s);
+        }
     }
 
     private void copyConfig(File appDir) {
