@@ -202,6 +202,12 @@ If this causes problems for you, you may want to try changing your terminal's co
 
 # Building lnd
 
+## Build dependencies
+
+* node 10 LTS
+* cocoapods 1.5.3
+* go 1.11.6
+
 https://github.com/golang/go/wiki/Mobile
 https://github.com/lightninglabs/lnd/tree/mobile-build-tool
 `make mobile` is the golden command
