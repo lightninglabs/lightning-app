@@ -52,7 +52,6 @@ export class Store {
         seedIndex: 0,
         restoreIndex: 0,
         focusedRestoreInd: 0,
-        restoreSeed: Array(24).fill(''),
       },
       transactions: [],
       selectedTransaction: null,

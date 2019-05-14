@@ -240,11 +240,10 @@ describe('Action Wallet Unit Tests', () => {
       store.settings.restoring = true;
       wallet.setNewPassword({ password: 'secret123' });
       wallet.setPasswordVerify({ password: 'secret123' });
-      store.wallet.restoreSeed = ['beep', 'bop', 'boop'];
       await wallet.checkNewPassword();
       expect(wallet.initWallet, 'was called with', {
         walletPassword: 'secret123',
-        seedMnemonic: ['beep', 'bop', 'boop'],
+        seedMnemonic: ['foo', 'bar', 'baz'],
         recoveryWindow: RECOVERY_WINDOW,
       });
     });
@@ -368,16 +367,20 @@ describe('Action Wallet Unit Tests', () => {
     it('should clear attributes and navigate to view', () => {
       store.wallet.restoreIndex = 42;
       wallet.initRestoreWallet();
-      expect(store.wallet.restoreSeed.length, 'to equal', 24);
+      expect(store.seedMnemonic.length, 'to equal', 24);
       expect(store.wallet.restoreIndex, 'to equal', 0);
       expect(nav.goRestoreSeed, 'was called once');
     });
   });
 
   describe('setRestoreSeed()', () => {
+    beforeEach(() => {
+      store.seedMnemonic = Array(24).fill('');
+    });
+
     it('should clear attributes', () => {
       wallet.setRestoreSeed({ word: 'foo', index: 1 });
-      expect(store.wallet.restoreSeed[1], 'to equal', 'foo');
+      expect(store.seedMnemonic[1], 'to equal', 'foo');
     });
   });
 

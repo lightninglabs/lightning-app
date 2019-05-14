@@ -67,7 +67,7 @@ class RestoreSeedView extends Component {
             {store.restoreVerifyIndexes.map((seedIndex, i) => (
               <SeedEntry
                 seedIndex={seedIndex}
-                value={store.wallet.restoreSeed[seedIndex - 1]}
+                value={store.seedMnemonic[seedIndex - 1]}
                 onChangeText={word =>
                   wallet.setRestoreSeed({ word, index: seedIndex - 1 })
                 }

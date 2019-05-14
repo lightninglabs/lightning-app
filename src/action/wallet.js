@@ -53,7 +53,7 @@ class WalletAction {
    * @param {number} options.index The seed index
    */
   setRestoreSeed({ word, index }) {
-    this._store.wallet.restoreSeed[index] = word;
+    this._store.seedMnemonic[index] = word;
   }
 
   /**
@@ -221,9 +221,7 @@ class WalletAction {
     await this.initWallet({
       walletPassword: newPassword,
       recoveryWindow: this._store.settings.restoring ? RECOVERY_WINDOW : 0,
-      seedMnemonic: this._store.settings.restoring
-        ? this._store.wallet.restoreSeed.toJSON()
-        : this._store.seedMnemonic.toJSON(),
+      seedMnemonic: this._store.seedMnemonic.toJSON(),
     });
   }
 
@@ -322,6 +320,7 @@ class WalletAction {
    * @return {undefined}
    */
   initRestoreWallet() {
+    this._store.seedMnemonic = Array(24).fill('');
     this._store.wallet.restoreIndex = 0;
     this._nav.goRestoreSeed();
   }
