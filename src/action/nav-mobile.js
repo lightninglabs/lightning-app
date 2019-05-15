@@ -5,14 +5,29 @@
  */
 
 class NavAction {
-  constructor(store, Navigation) {
+  constructor(store, NavigationActions, StackActions) {
     this._store = store;
-    this._Navigation = Navigation;
+    this._navActions = NavigationActions;
+    this._stackActions = StackActions;
   }
 
   setTopLevelNavigator(navigatorRef) {
-    this._navigate = (routeName, params) =>
-      navigatorRef.dispatch(this._Navigation.navigate({ routeName, params }));
+    this._navigate = routeName =>
+      navigatorRef.dispatch(this._navActions.navigate({ routeName }));
+
+    this._reset = (stackName, routeName) =>
+      navigatorRef.dispatch(
+        this._stackActions.reset({
+          index: 0,
+          actions: [
+            this._navActions.navigate({
+              routeName: stackName,
+              action: this._navActions.navigate({ routeName }),
+            }),
+          ],
+        })
+      );
+
     this._store.navReady = true;
   }
 
@@ -70,6 +85,7 @@ class NavAction {
 
   goLoaderSyncing() {
     this._navigate('LoaderSyncing');
+    this._reset('Main', 'LoaderSyncing');
   }
 
   goWait() {
@@ -78,6 +94,7 @@ class NavAction {
 
   goHome() {
     this._navigate('Home');
+    this._reset('Main', 'Home');
   }
 
   goPay() {

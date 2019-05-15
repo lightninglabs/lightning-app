@@ -15,7 +15,7 @@ import {
   // NativeEventEmitter,
 } from 'react-native';
 import { SecureStore, LocalAuthentication, Linking } from 'expo';
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions, StackActions } from 'react-navigation';
 import { nap } from '../helper';
 import store from '../store';
 import AppStorage from './app-storage';
@@ -47,7 +47,7 @@ export const grpc = sinon.createStubInstance(GrpcAction); // STUB DURING DEVELOP
 // export const ipc = new IpcAction(grpc);
 export const ipc = sinon.createStubInstance(IpcAction); // STUB DURING DEVELOPMENT
 export const log = new LogAction(store, ipc, false);
-export const nav = new NavAction(store, NavigationActions);
+export const nav = new NavAction(store, NavigationActions, StackActions);
 export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, db, nav, notify);
 export const info = new InfoAction(store, grpc, nav, notify);
