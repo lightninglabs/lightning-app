@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
 
 const NotificationWrapper = ({ store, notify, children }) => (
   <View style={styles.wrapper}>
-    <StatusBar barStyle="light-content" />
     {children}
     <DropdownAlert
       ref={ref => notify.setDropdown(ref)}
@@ -57,6 +56,7 @@ const NotificationWrapper = ({ store, notify, children }) => (
       renderCancel={() => <SmallSpinner style={styles.spinner} />}
       closeInterval={NOTIFICATION_DELAY}
       replaceEnabled={false}
+      updateStatusBar={false}
     />
     {(store.lastNotification || {}).waiting ? <KeepAwake /> : null}
   </View>

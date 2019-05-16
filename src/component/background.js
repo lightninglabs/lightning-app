@@ -89,6 +89,7 @@ const wrapperStyles = StyleSheet.create({
 
 export const ContentWrapper = ({ children, style }) => (
   <SafeAreaView style={wrapperStyles.safe}>
+    <StatusBar barStyle="light-content" />
     <KeyboardAvoidingView
       style={[wrapperStyles.avoid, style]}
       behavior="padding"
