@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
 
 const NotificationWrapper = ({ store, notify, children }) => (
   <View style={styles.wrapper}>
+    <StatusBar barStyle="light-content" />
     {children}
     <DropdownAlert
       ref={ref => notify.setDropdown(ref)}
