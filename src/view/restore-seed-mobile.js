@@ -1,21 +1,22 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import SeedEntry from '../component/seed-entry';
-import { Button, BackButton, GlasButton } from '../component/button';
-import { H1Text } from '../component/text';
+import { Button, BackButton, SmallGlasButton } from '../component/button';
 import { FormSubText } from '../component/form';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
+import { CopyOnboardText } from '../component/text';
 import { Header } from '../component/header';
 import Card from '../component/card';
+import { createStyles, maxWidth } from '../component/media-query';
+import { smallBreakWidth } from '../component/style';
 
 //
-// Restore Wallet Seed View
+// Restore Seed View (Mobile)
 //
 
-const styles = StyleSheet.create({
+const baseStyles = {
   content: {
     justifyContent: 'flex-end',
   },
@@ -23,14 +24,21 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 20,
   },
-  card: {
-    maxHeight: 350,
-    maxWidth: 680,
-    paddingLeft: 45,
-    paddingRight: 45,
-    paddingBottom: 50,
+  subText: {
+    maxWidth: 235,
   },
-});
+};
+
+const styles = createStyles(
+  baseStyles,
+
+  maxWidth(smallBreakWidth, {
+    title: {
+      fontSize: 30,
+      lineHeight: 40,
+    },
+  })
+);
 
 const RestoreSeedView = ({ store, wallet }) => (
   <Background image="purple-gradient-bg">
@@ -39,11 +47,13 @@ const RestoreSeedView = ({ store, wallet }) => (
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent style={styles.content}>
-      <View>
-        <H1Text style={styles.title}>Restore your wallet</H1Text>
-      </View>
-      <Card style={styles.card}>
-        <FormSubText>{store.restoreVerifyCopy}</FormSubText>
+      <CopyOnboardText style={styles.title}>
+        Restore your wallet
+      </CopyOnboardText>
+      <Card>
+        <FormSubText style={styles.subText}>
+          {store.restoreVerifyCopy}
+        </FormSubText>
         {store.restoreVerifyIndexes.map((seedIndex, i) => (
           <SeedEntry
             seedIndex={seedIndex}
@@ -64,7 +74,9 @@ const RestoreSeedView = ({ store, wallet }) => (
           />
         ))}
       </Card>
-      <GlasButton onPress={() => wallet.initNextRestorePage()}>Next</GlasButton>
+      <SmallGlasButton onPress={() => wallet.initNextRestorePage()}>
+        Next
+      </SmallGlasButton>
     </MainContent>
   </Background>
 );

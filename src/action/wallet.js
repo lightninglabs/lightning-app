@@ -53,7 +53,15 @@ class WalletAction {
    * @param {number} options.index The seed index
    */
   setRestoreSeed({ word, index }) {
-    this._store.wallet.restoreSeed[index] = word;
+    this._store.seedMnemonic[index] = word;
+  }
+
+  /**
+   * Set which seed restore input is in focus.
+   * @param {number} options.index The index of the input.
+   */
+  setFocusedRestoreInd({ index }) {
+    this._store.wallet.focusedRestoreInd = index;
   }
 
   //
@@ -212,6 +220,7 @@ class WalletAction {
     }
     await this.initWallet({
       walletPassword: newPassword,
+      recoveryWindow: this._store.settings.restoring ? RECOVERY_WINDOW : 0,
       seedMnemonic: this._store.seedMnemonic.toJSON(),
     });
   }
@@ -311,6 +320,7 @@ class WalletAction {
    * @return {undefined}
    */
   initRestoreWallet() {
+    this._store.seedMnemonic = Array(24).fill('');
     this._store.wallet.restoreIndex = 0;
     this._nav.goRestoreSeed();
   }
@@ -324,8 +334,9 @@ class WalletAction {
   initNextRestorePage() {
     if (this._store.wallet.restoreIndex < 21) {
       this._store.wallet.restoreIndex += 3;
+      this._store.wallet.focusedRestoreInd = this._store.wallet.restoreIndex;
     } else {
-      this._nav.goRestorePassword();
+      this.initSetPassword();
     }
   }
 
@@ -337,6 +348,7 @@ class WalletAction {
   initPrevRestorePage() {
     if (this._store.wallet.restoreIndex >= 3) {
       this._store.wallet.restoreIndex -= 3;
+      this._store.wallet.focusedRestoreInd = this._store.wallet.restoreIndex;
     } else {
       this._nav.goSelectSeed();
     }
@@ -373,20 +385,6 @@ class WalletAction {
   async checkPassword() {
     const { password } = this._store.wallet;
     await this.unlockWallet({ walletPassword: password });
-  }
-
-  /**
-   * Initialize the wallet with the password input the seed that was already
-   * inputted, and the default recovery window.
-   * @return {Promise<undefined>}
-   */
-  async restoreWallet() {
-    const { password, restoreSeed } = this._store.wallet;
-    await this.initWallet({
-      walletPassword: password,
-      seedMnemonic: restoreSeed.toJSON(),
-      recoveryWindow: RECOVERY_WINDOW,
-    });
   }
 
   /**

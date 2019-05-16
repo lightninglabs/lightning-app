@@ -51,7 +51,7 @@ export class Store {
         seedVerify: ['', '', ''],
         seedIndex: 0,
         restoreIndex: 0,
-        restoreSeed: Array(24).fill(''),
+        focusedRestoreInd: 0,
       },
       transactions: [],
       selectedTransaction: null,

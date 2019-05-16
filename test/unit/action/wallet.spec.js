@@ -214,6 +214,7 @@ describe('Action Wallet Unit Tests', () => {
       expect(wallet.initWallet, 'was called with', {
         walletPassword: 'secret123',
         seedMnemonic: ['foo', 'bar', 'baz'],
+        recoveryWindow: 0,
       });
     });
 
@@ -233,6 +234,18 @@ describe('Action Wallet Unit Tests', () => {
       expect(wallet.initWallet, 'was not called');
       expect(wallet.initSetPassword, 'was called once');
       expect(notification.display, 'was called once');
+    });
+
+    it('init wallet correctly during restore', async () => {
+      store.settings.restoring = true;
+      wallet.setNewPassword({ password: 'secret123' });
+      wallet.setPasswordVerify({ password: 'secret123' });
+      await wallet.checkNewPassword();
+      expect(wallet.initWallet, 'was called with', {
+        walletPassword: 'secret123',
+        seedMnemonic: ['foo', 'bar', 'baz'],
+        recoveryWindow: RECOVERY_WINDOW,
+      });
     });
   });
 
@@ -354,16 +367,27 @@ describe('Action Wallet Unit Tests', () => {
     it('should clear attributes and navigate to view', () => {
       store.wallet.restoreIndex = 42;
       wallet.initRestoreWallet();
-      expect(store.wallet.restoreSeed.length, 'to equal', 24);
+      expect(store.seedMnemonic.length, 'to equal', 24);
       expect(store.wallet.restoreIndex, 'to equal', 0);
       expect(nav.goRestoreSeed, 'was called once');
     });
   });
 
   describe('setRestoreSeed()', () => {
+    beforeEach(() => {
+      store.seedMnemonic = Array(24).fill('');
+    });
+
     it('should clear attributes', () => {
       wallet.setRestoreSeed({ word: 'foo', index: 1 });
-      expect(store.wallet.restoreSeed[1], 'to equal', 'foo');
+      expect(store.seedMnemonic[1], 'to equal', 'foo');
+    });
+  });
+
+  describe('setFocusedRestoreInd()', () => {
+    it('should set the currently focused restore seed index', () => {
+      wallet.setFocusedRestoreInd({ index: 5 });
+      expect(store.wallet.focusedRestoreInd, 'to equal', 5);
     });
   });
 
@@ -377,9 +401,11 @@ describe('Action Wallet Unit Tests', () => {
 
     it('should decrement restoreIndex if greater than 2', async () => {
       store.wallet.restoreIndex = 3;
+      store.wallet.focusedRestoreInd = 5;
       wallet.initPrevRestorePage();
       expect(nav.goSelectSeed, 'was not called');
       expect(store.wallet.restoreIndex, 'to equal', 0);
+      expect(store.wallet.focusedRestoreInd, 'to equal', 0);
     });
   });
 
@@ -387,15 +413,17 @@ describe('Action Wallet Unit Tests', () => {
     it('should navigate to password screen if restoreIndex > 20', () => {
       store.wallet.restoreIndex = 21;
       wallet.initNextRestorePage();
-      expect(nav.goRestorePassword, 'was called once');
+      expect(nav.goSetPassword, 'was called once');
       expect(store.wallet.restoreIndex, 'to equal', 21);
     });
 
     it('should increment restoreIndex if less than 21', async () => {
       store.wallet.restoreIndex = 18;
+      store.wallet.focusedRestoreInd = 19;
       wallet.initNextRestorePage();
-      expect(nav.goRestorePassword, 'was not called');
+      expect(nav.goSetPassword, 'was not called');
       expect(store.wallet.restoreIndex, 'to equal', 21);
+      expect(store.wallet.focusedRestoreInd, 'to equal', 21);
     });
   });
 
@@ -465,24 +493,6 @@ describe('Action Wallet Unit Tests', () => {
       await wallet.checkPassword();
       expect(wallet.unlockWallet, 'was called with', {
         walletPassword: 'secret123',
-      });
-    });
-  });
-
-  describe('restoreWallet()', () => {
-    beforeEach(() => {
-      sandbox.stub(wallet, 'initWallet');
-    });
-
-    it('calls initWallet with password and restoreSeed', async () => {
-      wallet.setPassword({ password: 'secret123' });
-      const seed = Array(24).fill('foo');
-      store.wallet.restoreSeed = seed;
-      await wallet.restoreWallet();
-      expect(wallet.initWallet, 'was called with', {
-        walletPassword: 'secret123',
-        seedMnemonic: seed,
-        recoveryWindow: RECOVERY_WINDOW,
       });
     });
   });

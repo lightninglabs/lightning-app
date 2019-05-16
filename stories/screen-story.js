@@ -73,7 +73,6 @@ import SetPasswordConfirm from '../src/view/set-password-confirm';
 import SetPinConfirmMobile from '../src/view/set-pin-confirm-mobile';
 import Password from '../src/view/password';
 import PinMobile from '../src/view/pin-mobile';
-import RestorePassword from '../src/view/restore-password';
 import ResetPasswordCurrent from '../src/view/reset-password-current';
 import ResetPasswordNew from '../src/view/reset-password-new';
 import ResetPasswordConfirm from '../src/view/reset-password-confirm';
@@ -83,6 +82,7 @@ import NewAddressMobile from '../src/view/new-address-mobile';
 import Wait from '../src/view/wait';
 import WaitMobile from '../src/view/wait-mobile';
 import RestoreSeed from '../src/view/restore-seed';
+import RestoreSeedMobile from '../src/view/restore-seed-mobile';
 
 const store = new Store();
 store.init();
@@ -139,6 +139,9 @@ storiesOf('Screens', module)
   .add('Restore Wallet: Seed', () => (
     <RestoreSeed store={store} wallet={wallet} />
   ))
+  .add('Restore Wallet: Seed (Mobile)', () => (
+    <RestoreSeedMobile store={store} wallet={wallet} />
+  ))
   .add('Seed Success', () => <SeedSuccess wallet={wallet} />)
   .add('Seed Success (Mobile)', () => <SeedSuccessMobile wallet={wallet} />)
   .add('Set Password', () => (
@@ -155,9 +158,6 @@ storiesOf('Screens', module)
   ))
   .add('Password', () => <Password store={store} wallet={wallet} />)
   .add('PIN (Mobile)', () => <PinMobile store={store} auth={auth} />)
-  .add('Restore Wallet: Password', () => (
-    <RestorePassword store={store} wallet={wallet} nav={nav} />
-  ))
   .add('Reset Password - Current', () => (
     <ResetPasswordCurrent store={store} wallet={wallet} nav={nav} />
   ))
