@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import SeedEntry from '../component/seed-entry';
@@ -40,58 +40,46 @@ const styles = createStyles(
   })
 );
 
-class RestoreSeedView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      focusedInput: 0,
-    };
-  }
-
-  render() {
-    const { store, wallet } = this.props;
-    return (
-      <Background image="purple-gradient-bg">
-        <Header>
-          <BackButton onPress={() => wallet.initPrevRestorePage()} />
-          <Button disabled onPress={() => {}} />
-        </Header>
-        <MainContent style={styles.content}>
-          <CopyOnboardText style={styles.title}>
-            {'Restore your wallet'}
-          </CopyOnboardText>
-          <Card>
-            <FormSubText style={styles.subText}>
-              {store.restoreVerifyCopy}
-            </FormSubText>
-            {store.restoreVerifyIndexes.map((seedIndex, i) => (
-              <SeedEntry
-                seedIndex={seedIndex}
-                value={store.seedMnemonic[seedIndex - 1]}
-                onChangeText={word =>
-                  wallet.setRestoreSeed({ word, index: seedIndex - 1 })
-                }
-                key={i}
-                autoFocus={seedIndex - 1 === store.wallet.focusedRestoreInd}
-                onSubmitEditing={() =>
-                  i === 2
-                    ? wallet.initNextRestorePage()
-                    : wallet.setFocusedRestoreInd({ index: seedIndex })
-                }
-                onClick={() =>
-                  wallet.setFocusedRestoreInd({ index: seedIndex - 1 })
-                }
-              />
-            ))}
-          </Card>
-          <SmallGlasButton onPress={() => wallet.initNextRestorePage()}>
-            Next
-          </SmallGlasButton>
-        </MainContent>
-      </Background>
-    );
-  }
-}
+const RestoreSeedView = ({ store, wallet }) => (
+  <Background image="purple-gradient-bg">
+    <Header>
+      <BackButton onPress={() => wallet.initPrevRestorePage()} />
+      <Button disabled onPress={() => {}} />
+    </Header>
+    <MainContent style={styles.content}>
+      <CopyOnboardText style={styles.title}>
+        Restore your wallet
+      </CopyOnboardText>
+      <Card>
+        <FormSubText style={styles.subText}>
+          {store.restoreVerifyCopy}
+        </FormSubText>
+        {store.restoreVerifyIndexes.map((seedIndex, i) => (
+          <SeedEntry
+            seedIndex={seedIndex}
+            value={store.seedMnemonic[seedIndex - 1]}
+            onChangeText={word =>
+              wallet.setRestoreSeed({ word, index: seedIndex - 1 })
+            }
+            key={i}
+            autoFocus={seedIndex - 1 === store.wallet.focusedRestoreInd}
+            onSubmitEditing={() =>
+              i === 2
+                ? wallet.initNextRestorePage()
+                : wallet.setFocusedRestoreInd({ index: seedIndex })
+            }
+            onClick={() =>
+              wallet.setFocusedRestoreInd({ index: seedIndex - 1 })
+            }
+          />
+        ))}
+      </Card>
+      <SmallGlasButton onPress={() => wallet.initNextRestorePage()}>
+        Next
+      </SmallGlasButton>
+    </MainContent>
+  </Background>
+);
 
 RestoreSeedView.propTypes = {
   store: PropTypes.object.isRequired,
