@@ -382,6 +382,11 @@ describe('Action Wallet Unit Tests', () => {
       wallet.setRestoreSeed({ word: 'foo', index: 1 });
       expect(store.seedMnemonic[1], 'to equal', 'foo');
     });
+
+    it('should trim whitespace', () => {
+      wallet.setRestoreSeed({ word: ' foo ', index: 1 });
+      expect(store.seedMnemonic[1], 'to equal', 'foo');
+    });
   });
 
   describe('setFocusedRestoreInd()', () => {
