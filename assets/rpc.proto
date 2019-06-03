@@ -175,7 +175,7 @@ message UnlockWalletRequest {
     /**
     recovery_window is an optional argument specifying the address lookahead
     when restoring a wallet seed. The recovery window applies to each
-    invdividual branch of the BIP44 derivation paths. Supplying a recovery
+    individual branch of the BIP44 derivation paths. Supplying a recovery
     window of zero indicates that no addresses should be recovered, such after
     the first initialization of the wallet.
     */
@@ -621,7 +621,7 @@ service Lightning {
     /** lncli: `queryroutes`
     QueryRoutes attempts to query the daemon's Channel Router for a possible
     route to a target destination capable of carrying a specific amount of
-    satoshis. The retuned route contains the full details required to craft and
+    satoshis. The returned route contains the full details required to craft and
     send an HTLC, also including the necessary information that should be
     present within the Sphinx packet encapsulated within the HTLC.
     */
@@ -896,13 +896,7 @@ message SendToRouteRequest {
     /// An optional hex-encoded payment hash to be used for the HTLC.
     string payment_hash_string = 2;
 
-    /**
-    Deprecated. The set of routes that should be used to attempt to complete the
-    payment. The possibility to pass in multiple routes is deprecated and
-    instead the single route field below should be used in combination with the
-    streaming variant of SendToRoute.
-    */
-    repeated Route routes = 3 [deprecated = true];
+    reserved 3;
 
     /// Route that should be used to attempt to complete the payment.
     Route route = 4;
@@ -1162,7 +1156,7 @@ message Channel {
     /// True if we were the ones that created the channel.
     bool initiator = 18 [json_name = "initiator"];
 
-    /// A set of flags showing the current state of the cahnnel.
+    /// A set of flags showing the current state of the channel.
     string chan_status_flags = 19 [json_name = "chan_status_flags"];
 }
 
@@ -1335,6 +1329,9 @@ message GetInfoResponse {
 
     /// A list of active chains the node is connected to
     repeated Chain chains = 16 [json_name = "chains"];
+
+    /// The color of the current node in hex code format
+    string color = 17 [json_name = "color"];
 }
 
 message Chain {
@@ -1523,7 +1520,7 @@ message PendingChannelsResponse {
         /// The balance in satoshis encumbered in this pending channel
         int64 limbo_balance = 3 [ json_name = "limbo_balance" ];
 
-        /// The height at which funds can be sweeped into the wallet
+        /// The height at which funds can be swept into the wallet
         uint32 maturity_height = 4 [ json_name = "maturity_height" ];
 
         /*
@@ -1606,11 +1603,7 @@ message QueryRoutesRequest {
     /// The amount to send expressed in satoshis
     int64 amt = 2;
 
-    /**
-    Deprecated. The max number of routes to return. In the future, QueryRoutes
-    will only return a single route.
-    */
-    int32 num_routes = 3 [deprecated = true];
+    reserved 3;
 
     /// An optional CLTV delta from the current height that should be used for the timelock of the final hop
     int32 final_cltv_delta = 4;
@@ -1698,7 +1691,7 @@ message Route {
     /**
     The sum of the fees paid at each hop within the final route.  In the case
     of a one-hop payment, this value will be zero as we don't need to pay a fee
-    it ourself.
+    to ourselves.
     */
     int64 total_fees = 2 [json_name = "total_fees", deprecated = true];
 
@@ -1742,8 +1735,14 @@ message NodeInfo {
     */
     LightningNode node = 1 [json_name = "node"];
 
+    /// The total number of channels for the node.
     uint32 num_channels = 2 [json_name = "num_channels"];
+
+    /// The sum of all channels capacity for the node, denominated in satoshis.
     int64 total_capacity = 3 [json_name = "total_capacity"];
+
+    /// A list of all public channels for the node.
+    repeated ChannelEdge channels = 4 [json_name = "channels"];
 }
 
 /**
@@ -1864,6 +1863,7 @@ message NodeUpdate {
     string identity_key = 2;
     bytes global_features = 3;
     string alias = 4;
+    string color = 5;
 }
 message ChannelEdgeUpdate {
     /**
@@ -2152,6 +2152,9 @@ message Payment {
 
     /// The value of the payment in milli-satoshis
     int64 value_msat = 8 [json_name = "value_msat"];
+
+    /// The optional payment request being fulfilled.
+    string payment_request = 9 [json_name = "payment_request"];
 }
 
 message ListPaymentsRequest {
@@ -2298,7 +2301,7 @@ message ForwardingHistoryResponse {
 }
 
 message ExportChannelBackupRequest {
-    /// The target chanenl point to obtain a back up for.
+    /// The target channel point to obtain a back up for.
     ChannelPoint chan_point = 1;
 }
 
@@ -2310,7 +2313,7 @@ message ChannelBackup {
 
     /**
     Is an encrypted single-chan backup. this can be passed to
-    RestoreChannelBackups, or the WalletUnlocker Innit and Unlock methods in
+    RestoreChannelBackups, or the WalletUnlocker Init and Unlock methods in
     order to trigger the recovery protocol.
     */
     bytes chan_backup = 2 [ json_name = "chan_backup" ];
