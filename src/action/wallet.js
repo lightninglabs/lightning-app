@@ -53,7 +53,7 @@ class WalletAction {
    * @param {number} options.index The seed index
    */
   setRestoreSeed({ word, index }) {
-    this._store.seedMnemonic[index] = word;
+    this._store.seedMnemonic[index] = word.trim();
   }
 
   /**
