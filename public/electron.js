@@ -249,7 +249,7 @@ const onOpenUrl = async (event, url) => {
 app.on('open-url', onOpenUrl);
 
 process.on('uncaughtException', error => {
-  Logger.error('Caught Main Process Error:', error);
+  Logger.error(`Caught Main Process Error: ${error}`);
 });
 
 // Create the Application's main menu
