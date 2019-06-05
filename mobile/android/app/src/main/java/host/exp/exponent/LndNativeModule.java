@@ -154,7 +154,7 @@ public class LndNativeModule extends ReactContextBaseJavaModule {
         File appDir = getReactApplicationContext().getFilesDir();
         copyConfig(appDir);
 
-        final String logDir = appDir + "/logs/bitcoin/testnet";
+        final String logDir = appDir + "/logs/bitcoin/mainnet";
         final String logFile = logDir + "/lnd.log";
 
         FileInputStream stream = null;
