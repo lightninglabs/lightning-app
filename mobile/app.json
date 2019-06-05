@@ -27,7 +27,7 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "engineering.lightning.LightningApp",
+      "bundleIdentifier": "engineering.lightning.LightningMainnet",
       "infoPlist": {
         "NSFaceIDUsageDescription": "Allow Lightning to use Face ID"
       },
@@ -35,7 +35,7 @@
       "publishManifestPath": "ios/lightning/Supporting/shell-app-manifest.json"
     },
     "android": {
-      "package": "engineering.lightning.LightningApp",
+      "package": "engineering.lightning.LightningMainnet",
       "publishBundlePath": "android/app/src/main/assets/shell-app.bundle",
       "publishManifestPath": "android/app/src/main/assets/shell-app-manifest.json"
     },
