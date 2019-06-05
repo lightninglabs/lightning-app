@@ -20,7 +20,7 @@ android {
   compileSdkVersion 27
 
   defaultConfig {
-    applicationId 'engineering.lightning.LightningApp'
+    applicationId 'engineering.lightning.LightningMainnet'
     minSdkVersion 21
     targetSdkVersion 26
     versionCode 1

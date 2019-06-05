@@ -11,7 +11,7 @@
         "client_id": "android:host.exp.exponent",
         "client_type": 1,
         "android_client_info": {
-          "package_name": "engineering.lightning.LightningApp",
+          "package_name": "engineering.lightning.LightningMainnet",
           "certificate_hash": ""
         }
       },
