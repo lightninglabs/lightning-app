@@ -5,7 +5,28 @@ module.exports = {
     extraNodeModules: {
       react: path.resolve(__dirname, 'node_modules/react'),
       'react-native': path.resolve(__dirname, 'node_modules/react-native'),
-      expo: path.resolve(__dirname, 'node_modules/expo'),
+      'expo-font': path.resolve(__dirname, 'node_modules/expo-font'),
+      'expo-random': path.resolve(__dirname, 'node_modules/expo-random'),
+      'expo-keep-awake': path.resolve(
+        __dirname,
+        'node_modules/expo-keep-awake'
+      ),
+      'expo-permissions': path.resolve(
+        __dirname,
+        'node_modules/expo-permissions'
+      ),
+      'expo-secure-store': path.resolve(
+        __dirname,
+        'node_modules/expo-secure-store'
+      ),
+      'expo-barcode-scanner': path.resolve(
+        __dirname,
+        'node_modules/expo-barcode-scanner'
+      ),
+      'expo-local-authentication': path.resolve(
+        __dirname,
+        'node_modules/expo-local-authentication'
+      ),
       'prop-types': path.resolve(__dirname, 'node_modules/prop-types'),
       'react-native-svg': path.resolve(
         __dirname,
