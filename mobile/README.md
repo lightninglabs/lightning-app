@@ -206,7 +206,7 @@ If this causes problems for you, you may want to try changing your terminal's co
 
 * node 10 LTS
 * expo-cli (npm install -g expo-cli)
-* cocoapods 1.5.3
+* cocoapods 1.7.1
 * go 1.11.6
 
 https://github.com/golang/go/wiki/Mobile
