@@ -3,6 +3,7 @@
  * using PINs, TouchID, and KeyStore storage.
  */
 
+import * as Random from 'expo-random';
 import { PIN_LENGTH } from '../config';
 
 const PIN = 'DevicePin';
@@ -144,7 +145,7 @@ class AuthAction {
    * @return {Promise<undefined>}
    */
   async _generateWalletPassword() {
-    const newPass = this._totallyNotSecureRandomPassword();
+    const newPass = await this._secureRandomPassword();
     await this._setToKeyStore(PASS, newPass);
     this._store.wallet.newPassword = newPass;
     this._store.wallet.passwordVerify = newPass;
@@ -182,20 +183,11 @@ class AuthAction {
   }
 
   /**
-   * NOT SECURE ... DO NOT USE IN PRODUCTION !!!
-   *
-   * Just a stop gap during development until we have a secure native
-   * PRNG: https://github.com/lightninglabs/lightning-app/issues/777
-   *
-   * Generate a hex encoded 256 bit entropy wallet password (which will
-   * be stretched using a KDF in lnd).
-   * @return {string}      A hex string containing some random bytes
+   * Generate a random hex encoded 256 bit entropy wallet password.
+   * @return {Promise<string>} A hex string containing some random bytes
    */
-  _totallyNotSecureRandomPassword() {
-    const bytes = new Uint8Array(32);
-    for (let i = 0; i < bytes.length; i++) {
-      bytes[i] = Math.floor(256 * Math.random());
-    }
+  async _secureRandomPassword() {
+    const bytes = await Random.getRandomBytesAsync(32);
     return Buffer.from(bytes.buffer).toString('hex');
   }
 }
