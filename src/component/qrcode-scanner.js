@@ -67,7 +67,7 @@ export default class QRCodeScanner extends React.Component {
               scanned ? undefined : (...args) => this.handleCodeScanned(...args)
             }
             barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-            style={styles.wrapper}
+            style={StyleSheet.absoluteFill}
           />
           <Corners />
         </View>
