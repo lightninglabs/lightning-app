@@ -90,13 +90,13 @@ class LogOutput extends Component {
   }
 
   get printLogs() {
-    this.tailLogs();
+    this._tScroll = setTimeout(() => this.tailLogs(), 50);
     return this.props.logs;
   }
 
   tailLogs() {
-    const opt = { animated: false };
-    this._tScroll = setTimeout(() => this._ref.current.scrollToEnd(opt), 50);
+    const view = this._ref && this._ref.current;
+    view && view.scrollToEnd({ animated: false });
   }
 
   render() {
