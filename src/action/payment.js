@@ -3,7 +3,12 @@
  * call the corresponding GRPC apis for payment management.
  */
 
-import { PREFIX_REGEX, PAYMENT_TIMEOUT, POLL_STORE_TIMEOUT } from '../config';
+import {
+  PREFIX_REGEX,
+  PAYMENT_TIMEOUT,
+  POLL_STORE_TIMEOUT,
+  SEND_TARGET_CONF,
+} from '../config';
 import { toSatoshis, toAmount, isLnUri, isAddress, nap } from '../helper';
 import * as log from './log';
 
@@ -223,6 +228,7 @@ class PaymentAction {
     AddrToAmount[payment.address] = toSatoshis(payment.amount, settings);
     const { feeSat } = await this._grpc.sendCommand('estimateFee', {
       AddrToAmount,
+      targetConf: SEND_TARGET_CONF,
     });
     payment.fee = toAmount(feeSat, settings);
   }
@@ -277,6 +283,7 @@ class PaymentAction {
     await this._grpc.sendCommand('sendCoins', {
       addr: payment.address,
       amount,
+      targetConf: SEND_TARGET_CONF,
       sendAll: payment.sendAll,
     });
   }
