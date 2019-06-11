@@ -70,7 +70,6 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalanceInactiveLabel, 'to equal', '0');
       expect(store.channelBalancePendingLabel, 'to equal', '0');
       expect(store.channelBalanceClosingLabel, 'to equal', '0');
-      expect(store.channelBalanceForceClosingLabel, 'to equal', '0');
       expect(store.channelStatus, 'to equal', 'error');
     });
 
@@ -101,7 +100,6 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalanceInactiveLabel, 'to match', /^0[,.]019904$/);
       expect(store.channelBalancePendingLabel, 'to match', /^0[,.]006003$/);
       expect(store.channelBalanceClosingLabel, 'to match', /^0[,.]009$/);
-      expect(store.channelBalanceForceClosingLabel, 'to match', /^0[,.]004$/);
       expect(store.channelStatus, 'to equal', 'success');
     });
 
@@ -118,7 +116,6 @@ describe('Computed Channels Unit Tests', () => {
       expect(store.channelBalanceInactiveLabel, 'to match', /137[,.]24/);
       expect(store.channelBalancePendingLabel, 'to match', /41[,.]39/);
       expect(store.channelBalanceClosingLabel, 'to match', /62[,.]06/);
-      expect(store.channelBalanceForceClosingLabel, 'to match', /27[,.]58/);
     });
 
     it('should display pending status', () => {

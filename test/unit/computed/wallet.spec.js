@@ -13,7 +13,7 @@ describe('Computed Wallet Unit Tests', () => {
       store.channelBalancePendingSatoshis = 0;
       store.channelBalanceOpenSatoshis = 0;
       store.channelBalanceInactiveSatoshis = 0;
-      store.channelBalanceForceClosingSatoshis = 0;
+      store.channelBalanceClosingSatoshis = 0;
       ComputedWallet(store);
       expect(store.walletAddressUri, 'to equal', '');
       expect(store.balanceLabel, 'to match', /0[,.]00/);
@@ -39,11 +39,11 @@ describe('Computed Wallet Unit Tests', () => {
     it('should display channel balance in usd', () => {
       store.settings.displayFiat = true;
       store.settings.exchangeRate.usd = 0.00014503;
-      store.balanceSatoshis = 50000000;
+      store.confirmedBalanceSatoshis = 50000000;
       store.channelBalancePendingSatoshis = 50000000;
       store.channelBalanceOpenSatoshis = 5000;
       store.channelBalanceInactiveSatoshis = 5000;
-      store.channelBalanceForceClosingSatoshis = 100;
+      store.channelBalanceClosingSatoshis = 100;
       ComputedWallet(store);
       expect(store.balanceLabel, 'to match', /3[,.]447[,.]56/);
       expect(store.totalBalanceSatoshis, 'to equal', 100010100);
@@ -56,11 +56,11 @@ describe('Computed Wallet Unit Tests', () => {
     it('should display channel balance in sat', () => {
       store.settings.displayFiat = false;
       store.settings.exchangeRate.usd = 0.00014503;
-      store.balanceSatoshis = 50000001;
+      store.confirmedBalanceSatoshis = 50000001;
       store.channelBalancePendingSatoshis = 50000000;
       store.channelBalanceOpenSatoshis = 5000;
       store.channelBalanceInactiveSatoshis = 5000;
-      store.channelBalanceForceClosingSatoshis = 100;
+      store.channelBalanceClosingSatoshis = 100;
       store.settings.unit = 'bit';
       ComputedWallet(store);
       expect(store.balanceLabel, 'to match', /500[,.]000[,.]01/);
