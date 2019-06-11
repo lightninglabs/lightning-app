@@ -33,6 +33,7 @@ export default class QRCodeScanner extends React.Component {
     super(props);
     this.state = {
       hasCameraPermission: null,
+      scanned: false,
     };
   }
 
@@ -41,8 +42,13 @@ export default class QRCodeScanner extends React.Component {
     this.setState({ hasCameraPermission: status === 'granted' });
   }
 
+  handleCodeScanned({ type, data }) {
+    this.setState({ scanned: true });
+    this.props.onQRCodeScanned({ type, data });
+  }
+
   render() {
-    const { hasCameraPermission } = this.state;
+    const { hasCameraPermission, scanned } = this.state;
     if (hasCameraPermission === null) {
       return <View style={[styles.wrapper, styles.blank]} />;
     } else if (hasCameraPermission === false) {
@@ -57,9 +63,11 @@ export default class QRCodeScanner extends React.Component {
       return (
         <View style={styles.wrapper}>
           <BarCodeScanner
-            onBarCodeScanned={this.props.onQRCodeScanned}
+            onBarCodeScanned={
+              scanned ? undefined : (...args) => this.handleCodeScanned(...args)
+            }
             barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-            style={styles.wrapper}
+            style={StyleSheet.absoluteFill}
           />
           <Corners />
         </View>

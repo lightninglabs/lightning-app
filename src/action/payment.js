@@ -180,7 +180,7 @@ class PaymentAction {
       });
       payment.amount = toAmount(request.numSatoshis, settings);
       payment.note = request.description;
-      await this.estimateLightningFee({
+      this.estimateLightningFee({
         destination: request.destination,
         satAmt: request.numSatoshis,
       });

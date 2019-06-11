@@ -307,6 +307,7 @@ describe('Action Payments Unit Tests', () => {
           routes: [{ totalFees: 100 }],
         });
       const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
+      await nap(10);
       expect(isValid, 'to be', true);
       expect(store.payment.amount, 'to match', /^0[,.]0{4}1{1}7{1}$/);
       expect(store.payment.note, 'to be', 'foo');
@@ -316,6 +317,7 @@ describe('Action Payments Unit Tests', () => {
     it('should set nothing on decode error', async () => {
       grpc.sendCommand.withArgs('decodePayReq').rejects(new Error('Boom!'));
       const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
+      await nap(10);
       expect(isValid, 'to be', false);
       expect(store.payment.amount, 'to be', '');
       expect(store.payment.note, 'to be', '');
@@ -331,6 +333,7 @@ describe('Action Payments Unit Tests', () => {
       });
       grpc.sendCommand.withArgs('queryRoutes').rejects(new Error('Boom!'));
       const isValid = await payment.decodeInvoice({ invoice: 'some-invoice' });
+      await nap(10);
       expect(isValid, 'to be', true);
       expect(store.payment.amount, 'to match', /^0[,.]0{4}1{1}7{1}$/);
       expect(store.payment.note, 'to be', 'foo');
