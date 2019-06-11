@@ -265,7 +265,7 @@ class PaymentAction {
         msg: 'Sending transaction timed out!',
       });
     }, PAYMENT_TIMEOUT);
-    this._nav.goWait();
+    this._nav.goWait({ copy: 'Sending payment...' });
     try {
       await this._sendPayment();
       this._nav.goPayBitcoinDone();
@@ -302,7 +302,7 @@ class PaymentAction {
       this._nav.goPaymentFailed();
     }, PAYMENT_TIMEOUT);
     try {
-      this._nav.goWait();
+      this._nav.goWait({ copy: 'Sending payment...' });
       const invoice = this._store.payment.address;
       const stream = this._grpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {

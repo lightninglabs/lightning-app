@@ -111,7 +111,7 @@ const ResetPasswordSaved = () => <ResetPinSavedView nav={nav} />;
 
 const LoaderSyncing = () => <LoaderSyncingView store={store} />;
 
-const Wait = () => <WaitView />;
+const Wait = () => <WaitView store={store} />;
 
 const Home = () => (
   <HomeView

@@ -97,8 +97,15 @@ describe('Action Nav Unit Tests', () => {
 
   describe('goWait()', () => {
     it('should set correct route', () => {
-      nav.goWait();
+      nav.goWait({});
       expect(store.route, 'to equal', 'Wait');
+    });
+
+    it('should set correct copy', () => {
+      const testCopy = 'foobar';
+      nav.goWait({ copy: testCopy });
+      expect(store.route, 'to equal', 'Wait');
+      expect(store.waitScreenCopy, 'to equal', testCopy);
     });
   });
 

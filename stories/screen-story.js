@@ -192,8 +192,8 @@ storiesOf('Screens', module)
   .add('Loader - Syncing Chain (Mobile)', () => (
     <LoaderSyncingMobile store={store} />
   ))
-  .add('Wait', () => <Wait />)
-  .add('Wait (Mobile)', () => <WaitMobile />)
+  .add('Wait', () => <Wait store={store} />)
+  .add('Wait (Mobile)', () => <WaitMobile store={store} />)
   .add('Home', () => (
     <Home
       store={store}

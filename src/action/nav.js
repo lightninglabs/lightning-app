@@ -69,7 +69,8 @@ class NavAction {
     this._store.route = 'LoaderSyncing';
   }
 
-  goWait() {
+  goWait({ copy = 'Loading network...' }) {
+    this._store.waitScreenCopy = copy;
     this._store.route = 'Wait';
   }
 

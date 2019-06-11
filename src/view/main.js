@@ -99,7 +99,7 @@ class MainView extends Component {
           <NewAddress store={store} invoice={invoice} info={info} />
         )}
         {route === 'LoaderSyncing' && <LoaderSyncing store={store} />}
-        {route === 'Wait' && <Wait />}
+        {route === 'Wait' && <Wait store={store} />}
         {route === 'Home' && (
           <Home
             store={store}

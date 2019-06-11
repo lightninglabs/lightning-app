@@ -96,7 +96,8 @@ class NavAction {
     this._reset('Main', 'LoaderSyncing');
   }
 
-  goWait() {
+  goWait({ copy = 'Loading network...' }) {
+    this._store.waitScreenCopy = copy;
     this._navigate('Wait');
   }
 

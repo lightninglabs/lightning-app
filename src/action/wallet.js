@@ -247,7 +247,7 @@ class WalletAction {
       this.initResetPassword();
       return this._notification.display({ msg: errorMsg });
     }
-    this._nav.goWait();
+    this._nav.goWait({ copy: 'Updating password...' });
     await this.resetPassword({
       currentPassword: password,
       newPassword: newPassword,
@@ -396,7 +396,7 @@ class WalletAction {
    */
   async unlockWallet({ walletPassword }) {
     try {
-      this._nav.goWait();
+      this._nav.goWait({});
       await this._grpc.sendUnlockerCommand('UnlockWallet', {
         walletPassword: toBuffer(walletPassword),
         recoveryWindow: this._store.settings.restoring ? 250 : 0,
@@ -465,7 +465,7 @@ class WalletAction {
     if (this._store.walletAddress) {
       this._nav.goNewAddress();
     } else {
-      this._nav.goWait();
+      this._nav.goWait({});
       when(() => this._store.walletAddress, () => this._nav.goNewAddress());
     }
   }

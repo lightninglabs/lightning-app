@@ -89,6 +89,7 @@ export class Store {
       notifications: [],
       unseenNtfnCount: 0,
       logs: '',
+      waitScreenCopy: 'Loading network...',
 
       // Persistent data
       settings: {

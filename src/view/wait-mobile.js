@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, ActivityIndicator } from 'react-native';
+import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import Text from '../component/text';
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const WaitView = () => (
+const WaitView = ({ store }) => (
   <Background color={color.blackDark}>
     <MainContent style={styles.content}>
       <ActivityIndicator
@@ -27,9 +28,13 @@ const WaitView = () => (
         color={color.lightPurple}
         style={styles.spinner}
       />
-      <Text style={styles.copy}>Loading network...</Text>
+      <Text style={styles.copy}>{store.waitScreenCopy}</Text>
     </MainContent>
   </Background>
 );
+
+WaitView.propTypes = {
+  store: PropTypes.object.isRequired,
+};
 
 export default WaitView;
