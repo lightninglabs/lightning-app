@@ -67,9 +67,7 @@ const CopySection = () => (
   <View style={copyStyles.wrapper}>
     <CopyOnboardText style={copyStyles.title}>Almost there</CopyOnboardText>
     <CopyText style={copyStyles.copyTxt}>
-      {
-        "We're making the final touches to get you up and running on Lightning. This could take about 30 minutes, but it will only happen once."
-      }
+      Why not grab a coffee. This could take a few minutes.
     </CopyText>
   </View>
 );
