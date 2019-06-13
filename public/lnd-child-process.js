@@ -86,9 +86,9 @@ module.exports.startLndProcess = async function({
     args = args.concat([
       '--bitcoin.mainnet',
       '--bitcoin.node=neutrino',
-      '--neutrino.connect=165.227.7.29',
-      '--neutrino.connect=dev.conner.money',
+      '--neutrino.connect=btcd-mainnet.lightning.computer',
       '--neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json',
+      '--neutrino.assertfilterheader=230000:1308d5cfc6462f877a5587fd77d7c1ab029d45e58d5175aaf8c264cee9bde760',
     ]);
   }
   args = args.concat(lndArgs);
