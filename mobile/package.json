@@ -26,6 +26,7 @@
     "react": "16.8.3",
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-dropdownalert": "^3.11.0",
+    "react-native-unimodules": "^0.4.1",
     "react-navigation": "^3.11.0"
   }
 }
