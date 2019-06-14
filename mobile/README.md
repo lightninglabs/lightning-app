@@ -205,6 +205,7 @@ If this causes problems for you, you may want to try changing your terminal's co
 ## Build dependencies
 
 * node 10 LTS
+* expo-cli (npm install -g expo-cli)
 * cocoapods 1.5.3
 * go 1.11.6
 
