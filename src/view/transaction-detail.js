@@ -46,6 +46,11 @@ const TransactionDetailView = ({ store, nav }) => (
         <DetailField name="Status">
           {store.selectedTransaction.statusLabel}
         </DetailField>
+        {store.selectedTransaction.preimage ? (
+          <DetailField name="Proof of Payment">
+            {store.selectedTransaction.preimage}
+          </DetailField>
+        ) : null}
       </Modal>
     </MainContent>
   </Background>
