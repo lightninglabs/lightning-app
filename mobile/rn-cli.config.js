@@ -23,6 +23,12 @@ module.exports = {
       ),
       'qr-image': path.resolve(__dirname, 'node_modules/qr-image'),
       stream: path.resolve(__dirname, 'node_modules/readable-stream'),
+      crypto: path.resolve(__dirname, 'node_modules/react-native-crypto'),
+      vm: path.resolve(__dirname, 'node_modules/vm-browserify'),
+      'react-native-randombytes': path.resolve(
+        __dirname,
+        'node_modules/react-native-randombytes'
+      ),
       zlib: path.resolve(__dirname, 'node_modules/browserify-zlib'),
       'base64-js': path.resolve(__dirname, 'node_modules/base64-js'),
       protobufjs: path.resolve(__dirname, 'node_modules/protobufjs'),
