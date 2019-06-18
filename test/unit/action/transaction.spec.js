@@ -152,6 +152,7 @@ describe('Action Transactions Unit Tests', () => {
             fee: 10,
             settled: true,
             paymentHash: 'some-hash',
+            paymentPreimage: 'some-preimage',
           },
         ],
       });
@@ -163,6 +164,7 @@ describe('Action Transactions Unit Tests', () => {
         fee: 10,
         status: 'complete',
         date: new Date('2018-05-23T10:13:15.000Z'),
+        preimage: 'some-preimage',
       });
     });
 

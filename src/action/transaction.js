@@ -107,6 +107,7 @@ class TransactionAction {
         fee: payment.fee,
         status: 'complete',
         date: parseDate(payment.creationDate),
+        preimage: payment.paymentPreimage,
       }));
     } catch (err) {
       log.error('Listing payments failed', err);
