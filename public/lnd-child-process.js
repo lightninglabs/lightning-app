@@ -60,11 +60,13 @@ module.exports.startLndProcess = async function({
   let args = [
     '--bitcoin.active',
     '--debuglevel=info',
+    '--maxbackoff=2s',
     `--lnddir=${lndSettingsDir}`,
     `--routing.assumechanvalid`,
     '--historicalsyncinterval=20m',
     '--autopilot.private',
     '--autopilot.minconfs=1',
+    '--autopilot.conftarget=6',
     '--autopilot.allocation=0.95',
     '--autopilot.heuristic=externalscore:0.95',
     '--autopilot.heuristic=preferential:0.05',
