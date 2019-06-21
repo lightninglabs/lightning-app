@@ -22,6 +22,10 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 ios/Pods
+ios/lightning.xcworkspace/xcshareddata
+ios/lightning/Lndmobile.framework
+ios/lightning/Supporting/EXShell.json
+ios/lightning/Supporting/EXShell.plist.bak
 
 # Android/IntelliJ
 #
