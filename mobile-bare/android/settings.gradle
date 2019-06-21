@@ -7,4 +7,4 @@ includeUnimodulesProjects()
 
 rootProject.name = 'LightningApp'
 
-include ':app'
+include ':app', ':Lndmobile'
