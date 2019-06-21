@@ -1,0 +1,7 @@
+{
+  "name": "LightningApp",
+  "displayName": "Lightning",
+  "expo": {
+    "sdkVersion": "33.0.0"
+  }
+}
