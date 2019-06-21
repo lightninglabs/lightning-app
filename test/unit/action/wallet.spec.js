@@ -58,6 +58,11 @@ describe('Action Wallet Unit Tests', () => {
       wallet.setSeedVerify({ word: 'FOO', index: 1 });
       expect(store.wallet.seedVerify[1], 'to equal', 'foo');
     });
+
+    it('should trim whitespace', () => {
+      wallet.setSeedVerify({ word: ' foo ', index: 1 });
+      expect(store.wallet.seedVerify[1], 'to equal', 'foo');
+    });
   });
 
   describe('initSetPassword()', () => {
