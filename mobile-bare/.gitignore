@@ -34,6 +34,8 @@ build/
 .gradle
 local.properties
 *.iml
+android/Lndmobile/Lndmobile.aar
+android/app/release/
 
 # node.js
 #
