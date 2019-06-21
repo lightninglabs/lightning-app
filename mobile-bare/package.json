@@ -14,7 +14,10 @@
     "expo-secure-store": "^5.0.1",
     "react": "16.8.3",
     "react-native": "0.59.8",
-    "react-native-unimodules": "0.4.0"
+    "react-native-gesture-handler": "^1.3.0",
+    "react-native-svg": "^9.5.1",
+    "react-native-unimodules": "0.4.0",
+    "react-navigation": "^3.11.0"
   },
   "devDependencies": {
     "babel-jest": "24.1.0",
