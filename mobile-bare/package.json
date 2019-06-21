@@ -12,8 +12,16 @@
     "expo-local-authentication": "^5.0.1",
     "expo-random": "^5.0.1",
     "expo-secure-store": "^5.0.1",
+    "intl": "^1.2.5",
+    "locale-currency": "0.0.2",
+    "mobx": "^4.9.4",
+    "mobx-react": "^5.4.3",
+    "node-libs-react-native": "^1.0.3",
+    "protobufjs": "^6.8.8",
+    "qr-image": "^3.2.0",
     "react": "16.8.3",
     "react-native": "0.59.8",
+    "react-native-dropdownalert": "^3.10.0",
     "react-native-gesture-handler": "^1.3.0",
     "react-native-svg": "^9.5.1",
     "react-native-unimodules": "0.4.0",
@@ -23,7 +31,9 @@
     "babel-jest": "24.1.0",
     "jest": "24.1.0",
     "metro-react-native-babel-preset": "0.52.0",
-    "react-test-renderer": "16.6.3"
+    "prop-types": "^15.7.2",
+    "react-test-renderer": "16.6.3",
+    "sinon": "^6.1.5"
   },
   "jest": {
     "preset": "react-native"
