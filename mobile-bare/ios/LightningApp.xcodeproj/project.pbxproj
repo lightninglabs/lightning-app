@@ -14,6 +14,7 @@
 		AC031ECE22BD2D2D0016D936 /* lnd.conf in Resources */ = {isa = PBXBuildFile; fileRef = AC031ECA22BD2D2D0016D936 /* lnd.conf */; };
 		AC031ECF22BD2D2D0016D936 /* LndReactModule.m in Sources */ = {isa = PBXBuildFile; fileRef = AC031ECC22BD2D2D0016D936 /* LndReactModule.m */; };
 		AC031ED022BD2D2D0016D936 /* Lndmobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AC031ECD22BD2D2D0016D936 /* Lndmobile.framework */; };
+		AC1392D622BD6A5E000DB0CB /* launch_background_image.png in Resources */ = {isa = PBXBuildFile; fileRef = AC1392D422BD6A5E000DB0CB /* launch_background_image.png */; };
 		DAFD221853DB1A8C9A1E7748 /* libPods-LightningApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6FDDA59DB6552037888286A0 /* libPods-LightningApp.a */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		AC031ECB22BD2D2D0016D936 /* LndReactModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LndReactModule.h; path = lightning/LndReactModule.h; sourceTree = "<group>"; };
 		AC031ECC22BD2D2D0016D936 /* LndReactModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LndReactModule.m; path = lightning/LndReactModule.m; sourceTree = "<group>"; };
 		AC031ECD22BD2D2D0016D936 /* Lndmobile.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Lndmobile.framework; path = lightning/Lndmobile.framework; sourceTree = "<group>"; };
+		AC1392D522BD6A5E000DB0CB /* Base */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Base; path = LightningApp/Base.lproj/launch_background_image.png; sourceTree = "<group>"; };
 		BDCFBF9BF131F737FA673D2F /* Pods-LightningApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningApp.debug.xcconfig"; path = "Target Support Files/Pods-LightningApp/Pods-LightningApp.debug.xcconfig"; sourceTree = "<group>"; };
 		DEC65ACBA64810ECCD8CB2D9 /* Pods-LightningApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LightningApp.release.xcconfig"; path = "Target Support Files/Pods-LightningApp/Pods-LightningApp.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -73,6 +75,7 @@
 				AC031ECB22BD2D2D0016D936 /* LndReactModule.h */,
 				AC031ECC22BD2D2D0016D936 /* LndReactModule.m */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
+				AC1392D422BD6A5E000DB0CB /* launch_background_image.png */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -187,6 +190,7 @@
 			files = (
 				AC031ECE22BD2D2D0016D936 /* lnd.conf in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				AC1392D622BD6A5E000DB0CB /* launch_background_image.png in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -272,6 +276,14 @@
 			);
 			name = LaunchScreen.xib;
 			path = LightningApp;
+			sourceTree = "<group>";
+		};
+		AC1392D422BD6A5E000DB0CB /* launch_background_image.png */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AC1392D522BD6A5E000DB0CB /* Base */,
+			);
+			name = launch_background_image.png;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
