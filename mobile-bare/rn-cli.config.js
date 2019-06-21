@@ -59,6 +59,5 @@ module.exports = {
   watchFolders: [
     path.resolve(__dirname, '../src'),
     path.resolve(__dirname, '../assets'),
-    path.resolve(__dirname, '../stories'),
   ],
 };
