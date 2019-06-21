@@ -29,6 +29,8 @@ target 'LightningApp' do
 
   use_unimodules!
 
+  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
+
   target 'LightningAppTests' do
     inherit! :search_paths
   end
