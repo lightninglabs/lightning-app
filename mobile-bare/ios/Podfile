@@ -34,8 +34,4 @@ target 'LightningApp' do
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
   pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
-
-  target 'LightningAppTests' do
-    inherit! :search_paths
-  end
 end
