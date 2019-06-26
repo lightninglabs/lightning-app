@@ -126,7 +126,7 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(
         Keychain.setInternetCredentials,
         'was called with',
-        'DevicePin',
+        '0_DevicePin',
         '',
         '000000'
       );
@@ -215,7 +215,7 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(
         Keychain.setInternetCredentials,
         'was called with',
-        'WalletPassword',
+        '0_WalletPassword',
         '',
         /^[0-9a-f]{64}$/
       );
@@ -232,7 +232,7 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(
         Keychain.getInternetCredentials,
         'was called with',
-        'WalletPassword'
+        '0_WalletPassword'
       );
       expect(store.wallet.password, 'to equal', 'some-password');
       expect(wallet.checkPassword, 'was called once');
@@ -244,7 +244,7 @@ describe('Action AuthMobile Unit Tests', () => {
       Keychain.getInternetCredentials.resolves({ password: 'some-password' });
       const value = await auth._getFromKeyStore('key');
       expect(value, 'to equal', 'some-password');
-      expect(Keychain.getInternetCredentials, 'was called with', 'key');
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
       expect(SecureStore.getItemAsync, 'was not called');
     });
 
@@ -253,12 +253,12 @@ describe('Action AuthMobile Unit Tests', () => {
       SecureStore.getItemAsync.resolves('legacy');
       const value = await auth._getFromKeyStore('key');
       expect(value, 'to equal', 'legacy');
-      expect(Keychain.getInternetCredentials, 'was called with', 'key');
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
       expect(SecureStore.getItemAsync, 'was called with', 'key');
       expect(
         Keychain.setInternetCredentials,
         'was called with',
-        'key',
+        '0_key',
         '',
         'legacy'
       );
@@ -269,7 +269,7 @@ describe('Action AuthMobile Unit Tests', () => {
       SecureStore.getItemAsync.resolves(null);
       const value = await auth._getFromKeyStore('key');
       expect(value, 'to equal', '');
-      expect(Keychain.getInternetCredentials, 'was called with', 'key');
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
       expect(SecureStore.getItemAsync, 'was called with', 'key');
       expect(Keychain.setInternetCredentials, 'was not called');
     });
