@@ -10,7 +10,6 @@ describe('Action AuthMobile Unit Tests', () => {
   let nav;
   let auth;
   let Random;
-  let SecureStore;
   let Keychain;
   let Fingerprint;
   let Alert;
@@ -22,10 +21,6 @@ describe('Action AuthMobile Unit Tests', () => {
     nav = sinon.createStubInstance(NavAction);
     Random = {
       getRandomBytesAsync: sinon.stub(),
-    };
-    SecureStore = {
-      getItemAsync: sinon.stub(),
-      setItemAsync: sinon.stub(),
     };
     Keychain = {
       getInternetCredentials: sinon.stub(),
@@ -44,7 +39,6 @@ describe('Action AuthMobile Unit Tests', () => {
       wallet,
       nav,
       Random,
-      SecureStore,
       Keychain,
       Fingerprint,
       Alert
@@ -367,38 +361,18 @@ describe('Action AuthMobile Unit Tests', () => {
   });
 
   describe('_getFromKeyStore()', () => {
-    it('should read keychain value (no migration necessary)', async () => {
+    it('should read keychain value', async () => {
       Keychain.getInternetCredentials.resolves({ password: 'some-password' });
       const value = await auth._getFromKeyStore('key');
       expect(value, 'to equal', 'some-password');
       expect(Keychain.getInternetCredentials, 'was called with', 'key');
-      expect(SecureStore.getItemAsync, 'was not called');
     });
 
-    it('should migrate secure-store value to keychain', async () => {
+    it('should get empty value from keychain', async () => {
       Keychain.getInternetCredentials.resolves(false);
-      SecureStore.getItemAsync.resolves('legacy');
       const value = await auth._getFromKeyStore('key');
-      expect(value, 'to equal', 'legacy');
+      expect(value, 'to equal', null);
       expect(Keychain.getInternetCredentials, 'was called with', 'key');
-      expect(SecureStore.getItemAsync, 'was called with', 'key');
-      expect(
-        Keychain.setInternetCredentials,
-        'was called with',
-        'key',
-        '',
-        'legacy'
-      );
-    });
-
-    it('should not migrate to keychain for empty secure-store', async () => {
-      Keychain.getInternetCredentials.resolves(false);
-      SecureStore.getItemAsync.resolves(null);
-      const value = await auth._getFromKeyStore('key');
-      expect(value, 'to equal', '');
-      expect(Keychain.getInternetCredentials, 'was called with', 'key');
-      expect(SecureStore.getItemAsync, 'was called with', 'key');
-      expect(Keychain.setInternetCredentials, 'was not called');
     });
   });
 

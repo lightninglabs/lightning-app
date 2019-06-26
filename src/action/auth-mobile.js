@@ -9,21 +9,11 @@ const PIN = 'DevicePin';
 const PASS = 'WalletPassword';
 
 class AuthAction {
-  constructor(
-    store,
-    wallet,
-    nav,
-    Random,
-    SecureStore,
-    Keychain,
-    Fingerprint,
-    Alert
-  ) {
+  constructor(store, wallet, nav, Random, Keychain, Fingerprint, Alert) {
     this._store = store;
     this._wallet = wallet;
     this._nav = nav;
     this._Random = Random;
-    this._SecureStore = SecureStore;
     this._Keychain = Keychain;
     this._Fingerprint = Fingerprint;
     this._Alert = Alert;
@@ -241,24 +231,8 @@ class AuthAction {
     if (credentials) {
       return credentials.password;
     } else {
-      return this._migrateKeyStoreValue(key); // TODO: remove from future version
+      return null;
     }
-  }
-
-  _getFromKeyStoreLegacy(key) {
-    const options = {
-      keychainAccessible: this._SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-    };
-    return this._SecureStore.getItemAsync(key, options);
-  }
-
-  async _migrateKeyStoreValue(key) {
-    const legacyValue = await this._getFromKeyStoreLegacy(key);
-    if (!legacyValue) {
-      return '';
-    }
-    await this._setToKeyStore(key, legacyValue);
-    return legacyValue;
   }
 
   _setToKeyStore(key, value) {
