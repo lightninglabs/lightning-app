@@ -366,6 +366,42 @@ describe('Action AuthMobile Unit Tests', () => {
     });
   });
 
+  describe('_getFromKeyStore()', () => {
+    it('should read keychain value (no migration necessary)', async () => {
+      Keychain.getInternetCredentials.resolves({ password: 'some-password' });
+      const value = await auth._getFromKeyStore('key');
+      expect(value, 'to equal', 'some-password');
+      expect(Keychain.getInternetCredentials, 'was called with', 'key');
+      expect(SecureStore.getItemAsync, 'was not called');
+    });
+
+    it('should migrate secure-store value to keychain', async () => {
+      Keychain.getInternetCredentials.resolves(false);
+      SecureStore.getItemAsync.resolves('legacy');
+      const value = await auth._getFromKeyStore('key');
+      expect(value, 'to equal', 'legacy');
+      expect(Keychain.getInternetCredentials, 'was called with', 'key');
+      expect(SecureStore.getItemAsync, 'was called with', 'key');
+      expect(
+        Keychain.setInternetCredentials,
+        'was called with',
+        'key',
+        '',
+        'legacy'
+      );
+    });
+
+    it('should not migrate to keychain for empty secure-store', async () => {
+      Keychain.getInternetCredentials.resolves(false);
+      SecureStore.getItemAsync.resolves(null);
+      const value = await auth._getFromKeyStore('key');
+      expect(value, 'to equal', '');
+      expect(Keychain.getInternetCredentials, 'was called with', 'key');
+      expect(SecureStore.getItemAsync, 'was called with', 'key');
+      expect(Keychain.setInternetCredentials, 'was not called');
+    });
+  });
+
   describe('_secureRandomPassword()', () => {
     it('should generate hex encoded 256bit entropy password', async () => {
       const buf = Buffer.from(
