@@ -36,6 +36,10 @@ module.exports = {
         __dirname,
         'node_modules/react-navigation'
       ),
+      'react-native-keychain': path.resolve(
+        __dirname,
+        'node_modules/react-native-keychain'
+      ),
       mobx: path.resolve(__dirname, 'node_modules/mobx'),
       'mobx-react': path.resolve(__dirname, 'node_modules/mobx-react'),
       'locale-currency': path.resolve(
