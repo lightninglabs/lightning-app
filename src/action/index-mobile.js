@@ -15,6 +15,7 @@ import {
 } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import * as LocalAuthentication from 'expo-local-authentication';
+import * as Keychain from 'react-native-keychain';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { nap } from '../helper';
 import store from '../store';
@@ -58,6 +59,7 @@ export const auth = new AuthAction(
   wallet,
   nav,
   SecureStore,
+  Keychain,
   LocalAuthentication,
   Alert
 );
