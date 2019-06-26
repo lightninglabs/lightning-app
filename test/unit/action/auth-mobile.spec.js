@@ -191,7 +191,7 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(
         Keychain.setInternetCredentials,
         'was called with',
-        'DevicePin',
+        '0_DevicePin',
         '',
         '000000'
       );
@@ -336,7 +336,7 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(
         Keychain.setInternetCredentials,
         'was called with',
-        'WalletPassword',
+        '0_WalletPassword',
         '',
         /^[0-9a-f]{64}$/
       );
@@ -353,7 +353,7 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(
         Keychain.getInternetCredentials,
         'was called with',
-        'WalletPassword'
+        '0_WalletPassword'
       );
       expect(store.wallet.password, 'to equal', 'some-password');
       expect(wallet.checkPassword, 'was called once');
@@ -365,14 +365,14 @@ describe('Action AuthMobile Unit Tests', () => {
       Keychain.getInternetCredentials.resolves({ password: 'some-password' });
       const value = await auth._getFromKeyStore('key');
       expect(value, 'to equal', 'some-password');
-      expect(Keychain.getInternetCredentials, 'was called with', 'key');
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
     });
 
     it('should get empty value from keychain', async () => {
       Keychain.getInternetCredentials.resolves(false);
       const value = await auth._getFromKeyStore('key');
       expect(value, 'to equal', null);
-      expect(Keychain.getInternetCredentials, 'was called with', 'key');
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
     });
   });
 

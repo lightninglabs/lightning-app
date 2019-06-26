@@ -5,6 +5,7 @@
 
 import { PIN_LENGTH } from '../config';
 
+const VERSION = '0';
 const PIN = 'DevicePin';
 const PASS = 'WalletPassword';
 
@@ -227,7 +228,8 @@ class AuthAction {
   }
 
   async _getFromKeyStore(key) {
-    const credentials = await this._Keychain.getInternetCredentials(key);
+    const vKey = `${VERSION}_${key}`;
+    const credentials = await this._Keychain.getInternetCredentials(vKey);
     if (credentials) {
       return credentials.password;
     } else {
@@ -239,7 +241,8 @@ class AuthAction {
     const options = {
       accessible: this._Keychain.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
     };
-    return this._Keychain.setInternetCredentials(key, '', value, options);
+    const vKey = `${VERSION}_${key}`;
+    return this._Keychain.setInternetCredentials(vKey, '', value, options);
   }
 
   _alert(title, callback) {
