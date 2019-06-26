@@ -11,6 +11,7 @@ describe('Action AuthMobile Unit Tests', () => {
   let auth;
   let Random;
   let SecureStore;
+  let Keychain;
   let Fingerprint;
   let Alert;
 
@@ -26,6 +27,10 @@ describe('Action AuthMobile Unit Tests', () => {
       getItemAsync: sinon.stub(),
       setItemAsync: sinon.stub(),
     };
+    Keychain = {
+      getInternetCredentials: sinon.stub(),
+      setInternetCredentials: sinon.stub(),
+    };
     Fingerprint = {
       hasHardwareAsync: sinon.stub(),
       isEnrolledAsync: sinon.stub(),
@@ -40,6 +45,7 @@ describe('Action AuthMobile Unit Tests', () => {
       nav,
       Random,
       SecureStore,
+      Keychain,
       Fingerprint,
       Alert
     );
@@ -189,9 +195,10 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '000000';
       await auth.checkNewPin();
       expect(
-        SecureStore.setItemAsync,
+        Keychain.setInternetCredentials,
         'was called with',
         'DevicePin',
+        '',
         '000000'
       );
       expect(auth._generateWalletPassword, 'was called once');
@@ -202,7 +209,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '00000';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(auth._generateWalletPassword, 'was not called');
     });
 
@@ -211,7 +218,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '000001';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(auth._generateWalletPassword, 'was not called');
     });
   });
@@ -223,14 +230,14 @@ describe('Action AuthMobile Unit Tests', () => {
 
     it('should work for two same pins', async () => {
       store.auth.pin = '000000';
-      SecureStore.getItemAsync.resolves('000000');
+      Keychain.getInternetCredentials.resolves({ password: '000000' });
       await auth.checkPin();
       expect(auth._unlockWallet, 'was called once');
     });
 
     it('should display error for non matching pins', async () => {
       store.auth.pin = '000001';
-      SecureStore.getItemAsync.resolves('000000');
+      Keychain.getInternetCredentials.resolves({ password: '000000' });
       await auth.checkPin();
       expect(Alert.alert, 'was called once');
       expect(auth._unlockWallet, 'was not called');
@@ -333,9 +340,10 @@ describe('Action AuthMobile Unit Tests', () => {
     it('should generate a password and store it', async () => {
       await auth._generateWalletPassword();
       expect(
-        SecureStore.setItemAsync,
+        Keychain.setInternetCredentials,
         'was called with',
         'WalletPassword',
+        '',
         /^[0-9a-f]{64}$/
       );
       expect(store.wallet.newPassword, 'to match', /^[0-9a-f]{64}$/);
@@ -346,9 +354,13 @@ describe('Action AuthMobile Unit Tests', () => {
 
   describe('_unlockWallet()', () => {
     it('should not unlock wallet without hardware support', async () => {
-      SecureStore.getItemAsync.resolves('some-password');
+      Keychain.getInternetCredentials.resolves({ password: 'some-password' });
       await auth._unlockWallet();
-      expect(SecureStore.getItemAsync, 'was called with', 'WalletPassword');
+      expect(
+        Keychain.getInternetCredentials,
+        'was called with',
+        'WalletPassword'
+      );
       expect(store.wallet.password, 'to equal', 'some-password');
       expect(wallet.checkPassword, 'was called once');
     });
