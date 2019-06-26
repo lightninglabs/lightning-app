@@ -10,11 +10,12 @@ const PIN = 'DevicePin';
 const PASS = 'WalletPassword';
 
 class AuthAction {
-  constructor(store, wallet, nav, SecureStore, Fingerprint, Alert) {
+  constructor(store, wallet, nav, SecureStore, Keychain, Fingerprint, Alert) {
     this._store = store;
     this._wallet = wallet;
     this._nav = nav;
     this._SecureStore = SecureStore;
+    this._Keychain = Keychain;
     this._Fingerprint = Fingerprint;
     this._Alert = Alert;
   }
@@ -226,18 +227,36 @@ class AuthAction {
     await this._wallet.checkPassword();
   }
 
-  _getFromKeyStore(key) {
+  async _getFromKeyStore(key) {
+    const credentials = await this._Keychain.getInternetCredentials(key);
+    if (credentials) {
+      return credentials.password;
+    } else {
+      return this._migrateKeyStoreValue(key); // TODO: remove from future version
+    }
+  }
+
+  _getFromKeyStoreLegacy(key) {
     const options = {
       keychainAccessible: this._SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
     };
     return this._SecureStore.getItemAsync(key, options);
   }
 
+  async _migrateKeyStoreValue(key) {
+    const legacyValue = await this._getFromKeyStoreLegacy(key);
+    if (!legacyValue) {
+      return '';
+    }
+    await this._setToKeyStore(key, legacyValue);
+    return legacyValue;
+  }
+
   _setToKeyStore(key, value) {
     const options = {
-      keychainAccessible: this._SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      accessible: this._Keychain.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
     };
-    return this._SecureStore.setItemAsync(key, value, options);
+    return this._Keychain.setInternetCredentials(key, '', value, options);
   }
 
   _alert(title, callback) {
