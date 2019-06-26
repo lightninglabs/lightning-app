@@ -13,6 +13,7 @@ import {
   NativeModules,
   NativeEventEmitter,
 } from 'react-native';
+import * as Random from 'expo-random';
 import * as SecureStore from 'expo-secure-store';
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as Keychain from 'react-native-keychain';
@@ -58,6 +59,7 @@ export const auth = new AuthAction(
   store,
   wallet,
   nav,
+  Random,
   SecureStore,
   Keychain,
   LocalAuthentication,

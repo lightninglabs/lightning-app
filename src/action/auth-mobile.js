@@ -3,17 +3,26 @@
  * using PINs, TouchID, and KeyStore storage.
  */
 
-import * as Random from 'expo-random';
 import { PIN_LENGTH } from '../config';
 
 const PIN = 'DevicePin';
 const PASS = 'WalletPassword';
 
 class AuthAction {
-  constructor(store, wallet, nav, SecureStore, Keychain, Fingerprint, Alert) {
+  constructor(
+    store,
+    wallet,
+    nav,
+    Random,
+    SecureStore,
+    Keychain,
+    Fingerprint,
+    Alert
+  ) {
     this._store = store;
     this._wallet = wallet;
     this._nav = nav;
+    this._Random = Random;
     this._SecureStore = SecureStore;
     this._Keychain = Keychain;
     this._Fingerprint = Fingerprint;
@@ -268,7 +277,7 @@ class AuthAction {
    * @return {Promise<string>} A hex string containing some random bytes
    */
   async _secureRandomPassword() {
-    const bytes = await Random.getRandomBytesAsync(32);
+    const bytes = await this._Random.getRandomBytesAsync(32);
     return Buffer.from(bytes.buffer).toString('hex');
   }
 }
