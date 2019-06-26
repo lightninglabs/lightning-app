@@ -9,6 +9,7 @@ describe('Action AuthMobile Unit Tests', () => {
   let wallet;
   let nav;
   let auth;
+  let randomBytes;
   let SecureStore;
   let Keychain;
   let Fingerprint;
@@ -19,6 +20,7 @@ describe('Action AuthMobile Unit Tests', () => {
     store = new Store();
     wallet = sinon.createStubInstance(WalletAction);
     nav = sinon.createStubInstance(NavAction);
+    randomBytes = sinon.stub();
     SecureStore = {
       getItemAsync: sinon.stub(),
       setItemAsync: sinon.stub(),
@@ -39,6 +41,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store,
       wallet,
       nav,
+      randomBytes,
       SecureStore,
       Keychain,
       Fingerprint,
@@ -210,6 +213,12 @@ describe('Action AuthMobile Unit Tests', () => {
   });
 
   describe('_generateWalletPassword()', () => {
+    beforeEach(() => {
+      const pass =
+        'd1df8b8c3e828392b4a176a23cfe5668578f4edc5f18abdf3d468078505485be';
+      sandbox.stub(auth, '_secureRandomPassword').resolves(pass);
+    });
+
     it('should generate a password and store it', async () => {
       await auth._generateWalletPassword();
       expect(
@@ -275,9 +284,14 @@ describe('Action AuthMobile Unit Tests', () => {
     });
   });
 
-  describe('_totallyNotSecureRandomPassword()', () => {
+  describe('_secureRandomPassword()', () => {
     it('should generate hex encoded 256bit entropy password', async () => {
-      const pass = auth._totallyNotSecureRandomPassword();
+      const bytes = Buffer.from(
+        '681c3f14c4e9b9bd28a8d9eee7dfdcfcafa50ca193e7f016119aa95049f75775',
+        'hex'
+      );
+      randomBytes.yields(null, bytes);
+      const pass = await auth._secureRandomPassword();
       expect(pass.length, 'to equal', 64);
     });
   });

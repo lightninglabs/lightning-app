@@ -3,7 +3,6 @@
  * using PINs, TouchID, and KeyStore storage.
  */
 
-import { randomBytes } from 'react-native-randombytes';
 import { PIN_LENGTH } from '../config';
 
 const VERSION = '0';
@@ -11,10 +10,20 @@ const PIN = 'DevicePin';
 const PASS = 'WalletPassword';
 
 class AuthAction {
-  constructor(store, wallet, nav, SecureStore, Keychain, Fingerprint, Alert) {
+  constructor(
+    store,
+    wallet,
+    nav,
+    randomBytes,
+    SecureStore,
+    Keychain,
+    Fingerprint,
+    Alert
+  ) {
     this._store = store;
     this._wallet = wallet;
     this._nav = nav;
+    this._randomBytes = randomBytes;
     this._SecureStore = SecureStore;
     this._Keychain = Keychain;
     this._Fingerprint = Fingerprint;
@@ -211,7 +220,7 @@ class AuthAction {
    */
   _secureRandomPassword() {
     return new Promise((resolve, reject) => {
-      randomBytes(32, (err, bytes) => {
+      this._randomBytes(32, (err, bytes) => {
         if (err) {
           reject(err);
         } else {
