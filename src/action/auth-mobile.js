@@ -8,6 +8,7 @@ import { PIN_LENGTH } from '../config';
 const VERSION = '0';
 const PIN = 'DevicePin';
 const PASS = 'WalletPassword';
+const USER = 'lightning';
 
 class AuthAction {
   constructor(store, wallet, nav, Random, Keychain, Fingerprint, Alert) {
@@ -242,7 +243,7 @@ class AuthAction {
       accessible: this._Keychain.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
     };
     const vKey = `${VERSION}_${key}`;
-    return this._Keychain.setInternetCredentials(vKey, '', value, options);
+    return this._Keychain.setInternetCredentials(vKey, USER, value, options);
   }
 
   _alert(title, callback) {

@@ -192,7 +192,7 @@ describe('Action AuthMobile Unit Tests', () => {
         Keychain.setInternetCredentials,
         'was called with',
         '0_DevicePin',
-        '',
+        'lightning',
         '000000'
       );
       expect(auth._generateWalletPassword, 'was called once');
@@ -337,7 +337,7 @@ describe('Action AuthMobile Unit Tests', () => {
         Keychain.setInternetCredentials,
         'was called with',
         '0_WalletPassword',
-        '',
+        'lightning',
         /^[0-9a-f]{64}$/
       );
       expect(store.wallet.newPassword, 'to match', /^[0-9a-f]{64}$/);
