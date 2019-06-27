@@ -247,6 +247,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNKeychain (3.1.3):
+    - React
   - yoga (0.57.1.React)
 
 DEPENDENCIES:
@@ -304,6 +306,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNKeychain (from `../node_modules/react-native-keychain`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -416,6 +419,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-randombytes:
     :path: "../node_modules/react-native-randombytes"
+  RNKeychain:
+    :path: "../node_modules/react-native-keychain"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -488,8 +493,9 @@ SPEC CHECKSUMS:
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
   React: 1fe0eb13d90b625d94c3b117c274dcfd2e760e11
   react-native-randombytes: d3184d351604f78e019535178766590188bbc133
+  RNKeychain: 5381e340056c23de103d73ae59cbddc6ffc21d97
   yoga: b1ce48b6cf950b98deae82838f5173ea7cf89e85
 
-PODFILE CHECKSUM: 124f455c262ee16e45f3c15f7e4ea32db9165f73
+PODFILE CHECKSUM: 0be6f8ff33f68ba8cd36548e9ed000f1c4967f63
 
 COCOAPODS: 1.5.3

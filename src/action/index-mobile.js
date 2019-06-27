@@ -13,7 +13,9 @@ import {
   NativeEventEmitter,
 } from 'react-native';
 import { SecureStore, LocalAuthentication, Linking } from 'expo';
+import * as Keychain from 'react-native-keychain';
 import { NavigationActions, StackActions } from 'react-navigation';
+import { randomBytes } from 'react-native-randombytes';
 import { nap } from '../helper';
 import store from '../store';
 import AppStorage from './app-storage';
@@ -55,7 +57,9 @@ export const auth = new AuthAction(
   store,
   wallet,
   nav,
+  randomBytes,
   SecureStore,
+  Keychain,
   LocalAuthentication,
   Alert
 );
