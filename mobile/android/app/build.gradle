@@ -23,7 +23,7 @@ android {
     applicationId 'engineering.lightning.LightningMainnet'
     minSdkVersion 21
     targetSdkVersion 26
-    versionCode 9
+    versionCode 10
     versionName '0.1.2'
     ndk {
       abiFilters 'armeabi-v7a', 'x86'
