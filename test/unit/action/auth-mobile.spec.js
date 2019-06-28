@@ -9,7 +9,9 @@ describe('Action AuthMobile Unit Tests', () => {
   let wallet;
   let nav;
   let auth;
+  let randomBytes;
   let SecureStore;
+  let Keychain;
   let Fingerprint;
   let Alert;
 
@@ -18,9 +20,14 @@ describe('Action AuthMobile Unit Tests', () => {
     store = new Store();
     wallet = sinon.createStubInstance(WalletAction);
     nav = sinon.createStubInstance(NavAction);
+    randomBytes = sinon.stub();
     SecureStore = {
       getItemAsync: sinon.stub(),
       setItemAsync: sinon.stub(),
+    };
+    Keychain = {
+      getInternetCredentials: sinon.stub(),
+      setInternetCredentials: sinon.stub(),
     };
     Fingerprint = {
       hasHardwareAsync: sinon.stub(),
@@ -30,7 +37,16 @@ describe('Action AuthMobile Unit Tests', () => {
     Alert = {
       alert: sinon.stub(),
     };
-    auth = new AuthAction(store, wallet, nav, SecureStore, Fingerprint, Alert);
+    auth = new AuthAction(
+      store,
+      wallet,
+      nav,
+      randomBytes,
+      SecureStore,
+      Keychain,
+      Fingerprint,
+      Alert
+    );
   });
 
   afterEach(() => {
@@ -111,9 +127,10 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '000000';
       await auth.checkNewPin();
       expect(
-        SecureStore.setItemAsync,
+        Keychain.setInternetCredentials,
         'was called with',
-        'DevicePin',
+        '0_DevicePin',
+        'lightning',
         '000000'
       );
       expect(auth._generateWalletPassword, 'was called once');
@@ -124,7 +141,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '00000';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(auth._generateWalletPassword, 'was not called');
     });
 
@@ -133,7 +150,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '000001';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(auth._generateWalletPassword, 'was not called');
     });
   });
@@ -145,14 +162,14 @@ describe('Action AuthMobile Unit Tests', () => {
 
     it('should work for two same pins', async () => {
       store.auth.pin = '000000';
-      SecureStore.getItemAsync.resolves('000000');
+      Keychain.getInternetCredentials.resolves({ password: '000000' });
       await auth.checkPin();
       expect(auth._unlockWallet, 'was called once');
     });
 
     it('should display error for non matching pins', async () => {
       store.auth.pin = '000001';
-      SecureStore.getItemAsync.resolves('000000');
+      Keychain.getInternetCredentials.resolves({ password: '000000' });
       await auth.checkPin();
       expect(Alert.alert, 'was called once');
       expect(auth._unlockWallet, 'was not called');
@@ -196,12 +213,19 @@ describe('Action AuthMobile Unit Tests', () => {
   });
 
   describe('_generateWalletPassword()', () => {
+    beforeEach(() => {
+      const pass =
+        'd1df8b8c3e828392b4a176a23cfe5668578f4edc5f18abdf3d468078505485be';
+      sandbox.stub(auth, '_secureRandomPassword').resolves(pass);
+    });
+
     it('should generate a password and store it', async () => {
       await auth._generateWalletPassword();
       expect(
-        SecureStore.setItemAsync,
+        Keychain.setInternetCredentials,
         'was called with',
-        'WalletPassword',
+        '0_WalletPassword',
+        'lightning',
         /^[0-9a-f]{64}$/
       );
       expect(store.wallet.newPassword, 'to match', /^[0-9a-f]{64}$/);
@@ -212,17 +236,62 @@ describe('Action AuthMobile Unit Tests', () => {
 
   describe('_unlockWallet()', () => {
     it('should not unlock wallet without hardware support', async () => {
-      SecureStore.getItemAsync.resolves('some-password');
+      Keychain.getInternetCredentials.resolves({ password: 'some-password' });
       await auth._unlockWallet();
-      expect(SecureStore.getItemAsync, 'was called with', 'WalletPassword');
+      expect(
+        Keychain.getInternetCredentials,
+        'was called with',
+        '0_WalletPassword'
+      );
       expect(store.wallet.password, 'to equal', 'some-password');
       expect(wallet.checkPassword, 'was called once');
     });
   });
 
-  describe('_totallyNotSecureRandomPassword()', () => {
+  describe('_getFromKeyStore()', () => {
+    it('should read keychain value (no migration necessary)', async () => {
+      Keychain.getInternetCredentials.resolves({ password: 'some-password' });
+      const value = await auth._getFromKeyStore('key');
+      expect(value, 'to equal', 'some-password');
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
+      expect(SecureStore.getItemAsync, 'was not called');
+    });
+
+    it('should migrate secure-store value to keychain', async () => {
+      Keychain.getInternetCredentials.resolves(false);
+      SecureStore.getItemAsync.resolves('legacy');
+      const value = await auth._getFromKeyStore('key');
+      expect(value, 'to equal', 'legacy');
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
+      expect(SecureStore.getItemAsync, 'was called with', 'key');
+      expect(
+        Keychain.setInternetCredentials,
+        'was called with',
+        '0_key',
+        'lightning',
+        'legacy'
+      );
+    });
+
+    it('should not migrate to keychain for empty secure-store', async () => {
+      Keychain.getInternetCredentials.resolves(false);
+      SecureStore.getItemAsync.resolves(null);
+      const value = await auth._getFromKeyStore('key');
+      expect(value, 'to equal', '');
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
+      expect(SecureStore.getItemAsync, 'was called with', 'key');
+      expect(Keychain.setInternetCredentials, 'was not called');
+    });
+  });
+
+  describe('_secureRandomPassword()', () => {
     it('should generate hex encoded 256bit entropy password', async () => {
-      const pass = auth._totallyNotSecureRandomPassword();
+      const bytes = Buffer.from(
+        '681c3f14c4e9b9bd28a8d9eee7dfdcfcafa50ca193e7f016119aa95049f75775',
+        'hex'
+      );
+      randomBytes.yields(null, bytes);
+      const pass = await auth._secureRandomPassword();
       expect(pass.length, 'to equal', 64);
     });
   });
