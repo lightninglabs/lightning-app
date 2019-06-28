@@ -146,6 +146,7 @@ class AuthAction {
     if (!success) {
       return;
     }
+    await this._getFromKeyStore(PIN); // migrate PIN to keychain (TODO: remove)
     await this._unlockWallet();
   }
 

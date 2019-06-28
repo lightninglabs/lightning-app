@@ -178,6 +178,7 @@ describe('Action AuthMobile Unit Tests', () => {
 
   describe('tryFingerprint()', () => {
     beforeEach(() => {
+      sandbox.stub(auth, '_getFromKeyStore');
       sandbox.stub(auth, '_unlockWallet');
     });
 
@@ -203,11 +204,12 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(auth._unlockWallet, 'was not called');
     });
 
-    it('should unlock wallet if authentication worked', async () => {
+    it('should unlock wallet and migrate PIN to keychain if authentication worked', async () => {
       Fingerprint.hasHardwareAsync.resolves(true);
       Fingerprint.isEnrolledAsync.resolves(true);
       Fingerprint.authenticateAsync.resolves({ success: true });
       await auth.tryFingerprint();
+      expect(auth._getFromKeyStore, 'was called with', 'DevicePin');
       expect(auth._unlockWallet, 'was called once');
     });
   });
