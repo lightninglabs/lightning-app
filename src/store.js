@@ -82,7 +82,6 @@ export class Store {
       },
       paymentRequest: null,
       seedMnemonic: [],
-      restoreSeedMnemonic: [],
       notifications: [],
       unseenNtfnCount: 0,
       logs: '',

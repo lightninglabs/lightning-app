@@ -242,7 +242,6 @@ store.seedMnemonic = [
   'quit',
   'cashew',
 ];
-store.restoreSeedMnemonic = Array(24).fill('');
 store.logs = [
   '[14:00:24.995] [info] Using lnd in path lnd',
   'Checking for update',
