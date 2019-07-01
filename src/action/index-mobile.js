@@ -139,6 +139,36 @@ sinon.stub(channel, 'connectAndOpen');
 sinon.stub(channel, 'closeSelectedChannel');
 sinon.stub(autopilot, 'toggle');
 
+// Stub gRPC seed generation during development.
+grpc.sendUnlockerCommand.withArgs('GenSeed').resolves({
+  cipherSeedMnemonic: [
+    'empower',
+    'neglect',
+    'experience',
+    'elevator',
+    'entropy',
+    'future',
+    'trust',
+    'swift',
+    'pluck',
+    'easy',
+    'kite',
+    'measure',
+    'engage',
+    'settle',
+    'dog',
+    'manager',
+    'tool',
+    'fan',
+    'neglect',
+    'conduct',
+    'blouse',
+    'stone',
+    'quit',
+    'cashew',
+  ],
+});
+
 // SET SOME DUMMY DATA DURING DEVELOPMENT
 setTimeout(
   () => (store.walletAddress = 'ra2XT898gWTp9q2DwMgtwMJsUEh3oMeS4K'),
@@ -216,32 +246,6 @@ store.selectedTransaction = (store.computedTransactions || []).find(
   tx => tx.type === 'bitcoin'
 );
 store.selectedChannel = store.computedChannels && store.computedChannels[0];
-store.seedMnemonic = [
-  'empower',
-  'neglect',
-  'experience',
-  'elevator',
-  'entropy',
-  'future',
-  'trust',
-  'swift',
-  'pluck',
-  'easy',
-  'kite',
-  'measure',
-  'engage',
-  'settle',
-  'dog',
-  'manager',
-  'tool',
-  'fan',
-  'neglect',
-  'conduct',
-  'blouse',
-  'stone',
-  'quit',
-  'cashew',
-];
 store.logs = [
   '[14:00:24.995] [info] Using lnd in path lnd',
   'Checking for update',

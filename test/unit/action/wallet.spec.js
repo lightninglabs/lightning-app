@@ -321,17 +321,24 @@ describe('Action Wallet Unit Tests', () => {
   });
 
   describe('initSeed()', () => {
-    it('should clear attributes and navigate to view', () => {
+    beforeEach(() => {
+      grpc.sendUnlockerCommand.withArgs('GenSeed').resolves({
+        cipherSeedMnemonic: 'foo bar',
+      });
+    });
+
+    it('should clear attributes and navigate to view', async () => {
       store.wallet.seedIndex = 42;
-      wallet.initSeed();
+      await wallet.initSeed();
       expect(store.wallet.seedIndex, 'to equal', 0);
+      expect(store.seedMnemonic, 'to equal', 'foo bar');
       expect(nav.goSeed, 'was called once');
     });
 
-    it('should navigate to seed intro on mobile', () => {
+    it('should navigate to seed intro on mobile', async () => {
       nav = sinon.createStubInstance(NavActionMobile);
       wallet = new WalletAction(store, grpc, db, nav, notification);
-      wallet.initSeed();
+      await wallet.initSeed();
       expect(nav.goSeedIntro, 'was called once');
     });
   });

@@ -72,10 +72,10 @@ const SelectSeedView = ({ store, wallet, setting }) => (
       </View>
     </MainContent>
     <GlasButton
-      onPress={() =>
+      onPress={async () =>
         store.settings.restoring
           ? wallet.initRestoreWallet()
-          : wallet.initSeed()
+          : await wallet.initSeed()
       }
     >
       Next
