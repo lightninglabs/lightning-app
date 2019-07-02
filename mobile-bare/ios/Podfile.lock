@@ -2,9 +2,6 @@ PODS:
   - boost-for-react-native (1.63.0)
   - DoubleConversion (1.1.6)
   - EXAppLoaderProvider (5.0.1)
-  - EXBarCodeScanner (5.0.1):
-    - UMCore
-    - UMImageLoaderInterface
   - EXConstants (5.0.1):
     - UMConstantsInterface
     - UMCore
@@ -23,8 +20,6 @@ PODS:
     - UMCore
     - UMPermissionsInterface
   - EXRandom (5.0.1):
-    - UMCore
-  - EXSecureStore (5.0.1):
     - UMCore
   - Folly (2018.10.22.00):
     - boost-for-react-native
@@ -120,7 +115,6 @@ PODS:
 DEPENDENCIES:
   - DoubleConversion (from `../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec`)
   - EXAppLoaderProvider (from `../node_modules/expo-app-loader-provider/ios`)
-  - EXBarCodeScanner (from `../node_modules/expo-barcode-scanner/ios`)
   - EXConstants (from `../node_modules/expo-constants/ios`)
   - EXFileSystem (from `../node_modules/expo-file-system/ios`)
   - EXFont (from `../node_modules/expo-font/ios`)
@@ -128,7 +122,6 @@ DEPENDENCIES:
   - EXLocalAuthentication (from `../node_modules/expo-local-authentication/ios`)
   - EXPermissions (from `../node_modules/expo-permissions/ios`)
   - EXRandom (from `../node_modules/expo-random/ios`)
-  - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - react-native-camera (from `../node_modules/react-native-camera`)
@@ -173,9 +166,6 @@ EXTERNAL SOURCES:
   EXAppLoaderProvider:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-app-loader-provider/ios"
-  EXBarCodeScanner:
-    :path: !ruby/object:Pathname
-    path: "../node_modules/expo-barcode-scanner/ios"
   EXConstants:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-constants/ios"
@@ -197,9 +187,6 @@ EXTERNAL SOURCES:
   EXRandom:
     :path: !ruby/object:Pathname
     path: "../node_modules/expo-random/ios"
-  EXSecureStore:
-    :path: !ruby/object:Pathname
-    path: "../node_modules/expo-secure-store/ios"
   Folly:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
@@ -257,7 +244,6 @@ SPEC CHECKSUMS:
   boost-for-react-native: 39c7adb57c4e60d6c5479dd8623128eb5b3f0f2c
   DoubleConversion: bb338842f62ab1d708ceb63ec3d999f0f3d98ecd
   EXAppLoaderProvider: 43e88f7967ab45672e66b6f90f9e79b5718bf960
-  EXBarCodeScanner: f643e72e8ebbe24193f2fff8fd85668d12f08da4
   EXConstants: 831e6b7ad2f3e8c6153d077aca7e849364d948a8
   EXFileSystem: 90407abadbedff7b4c5cf880b963614c9c4bdd07
   EXFont: 84bb0b334c2ffb85431cbde6bfa1133a777754e1
@@ -265,7 +251,6 @@ SPEC CHECKSUMS:
   EXLocalAuthentication: 19761579bfaf8c2309e70984ca11c155779d2d95
   EXPermissions: b43ee30a37edfd6a89fb9f33d32bca2817b1ba24
   EXRandom: 28cd2082402a65ed4a9294151d38b7dd5a7f87ac
-  EXSecureStore: 8192604e34134e08486cdc00ce2aa0fa3b985d23
   Folly: de497beb10f102453a1afa9edbf8cf8a251890de
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
@@ -287,6 +272,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 2d2d591bbd0de47f2a8ef46cea775edcd82d4afd
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: db12f850a73bcf7333eafaa4249af0c8fcd9cd40
+PODFILE CHECKSUM: edfdec9fa12c9e7e67b0d01a287f63be153a92f2
 
 COCOAPODS: 1.7.2
