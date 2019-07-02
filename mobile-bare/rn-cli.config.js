@@ -15,14 +15,6 @@ module.exports = {
         __dirname,
         'node_modules/expo-permissions'
       ),
-      'expo-secure-store': path.resolve(
-        __dirname,
-        'node_modules/expo-secure-store'
-      ),
-      'expo-barcode-scanner': path.resolve(
-        __dirname,
-        'node_modules/expo-barcode-scanner'
-      ),
       'expo-local-authentication': path.resolve(
         __dirname,
         'node_modules/expo-local-authentication'
