@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import * as Permissions from 'expo-permissions';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import { RNCamera } from 'react-native-camera';
 import PropTypes from 'prop-types';
 import Text from './text';
 import { color } from './style';
@@ -13,9 +13,13 @@ import { color } from './style';
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-  },
-  blank: {
+    flexDirection: 'column',
     backgroundColor: color.black,
+  },
+  scanner: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
   },
   noPermission: {
     justifyContent: 'center',
@@ -51,7 +55,7 @@ export default class QRCodeScanner extends React.Component {
   render() {
     const { hasCameraPermission, scanned } = this.state;
     if (hasCameraPermission === null) {
-      return <View style={[styles.wrapper, styles.blank]} />;
+      return <View style={styles.wrapper} />;
     } else if (hasCameraPermission === false) {
       return (
         <View style={[styles.wrapper, styles.noPermission]}>
@@ -63,12 +67,19 @@ export default class QRCodeScanner extends React.Component {
     } else {
       return (
         <View style={styles.wrapper}>
-          <BarCodeScanner
-            onBarCodeScanned={
+          <RNCamera
+            captureAudio={false}
+            androidCameraPermissionOptions={{
+              title: 'Permission to use camera',
+              message: 'Allow Lightning to use the camera',
+              buttonPositive: 'OK',
+              buttonNegative: 'Cancel',
+            }}
+            onBarCodeRead={
               scanned ? undefined : (...args) => this.handleCodeScanned(...args)
             }
-            barCodeTypes={[BarCodeScanner.Constants.BarCodeType.qr]}
-            style={StyleSheet.absoluteFill}
+            barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
+            style={styles.scanner}
           />
           <Corners />
         </View>
