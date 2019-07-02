@@ -36,4 +36,5 @@ target 'LightningApp' do
   pod 'RNKeychain', :path => '../node_modules/react-native-keychain'
 
   pod 'react-native-camera', path: '../node_modules/react-native-camera'
+
 end
