@@ -122,6 +122,12 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(nav.goSetPassword, 'was called once');
     });
 
+    it('should go from ResetPinCurrent to Settings on empty string', () => {
+      store.auth.resetPinCurrent = '';
+      auth.popPinDigit({ param: 'resetPinCurrent' });
+      expect(nav.goSettings, 'was called once');
+    });
+
     it('should go from ResetPinConfirmed to ResetPinNew on empty string', () => {
       store.auth.resetPinVerify = '';
       auth.popPinDigit({ param: 'resetPinVerify' });

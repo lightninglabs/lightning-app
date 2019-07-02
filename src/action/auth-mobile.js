@@ -95,6 +95,8 @@ class AuthAction {
       auth[param] = auth[param].slice(0, -1);
     } else if (param === 'pinVerify') {
       this.initSetPin();
+    } else if (param === 'resetPinCurrent') {
+      this._nav.goSettings();
     } else if (param === 'resetPinNew') {
       this.initResetPin();
     } else if (param === 'resetPinVerify') {
