@@ -2,8 +2,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start",
-    "test": "jest"
+    "start": "react-native start"
   },
   "dependencies": {
     "expo-font": "^5.0.1",
@@ -28,15 +27,10 @@
     "react-navigation": "^3.11.0"
   },
   "devDependencies": {
-    "babel-jest": "24.1.0",
-    "jest": "24.1.0",
     "metro-react-native-babel-preset": "0.52.0",
     "prop-types": "^15.7.2",
     "react-test-renderer": "16.6.3",
     "sinon": "^6.1.5"
-  },
-  "jest": {
-    "preset": "react-native"
   },
   "private": true
 }
