@@ -91,7 +91,7 @@ const SettingView = ({ store, nav, wallet, autopilot, auth }) => {
 SettingView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
-  wallet: PropTypes.object.isRequired,
+  wallet: PropTypes.object,
   autopilot: PropTypes.object.isRequired,
   auth: PropTypes.object,
 };

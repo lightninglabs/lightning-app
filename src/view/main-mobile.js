@@ -125,7 +125,6 @@ const Settings = () => (
   <SettingView
     store={store}
     nav={nav}
-    wallet={wallet}
     autopilot={autopilot}
     auth={auth}
   />
