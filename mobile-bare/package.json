@@ -6,12 +6,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "expo-barcode-scanner": "^5.0.1",
     "expo-font": "^5.0.1",
     "expo-keep-awake": "^5.0.1",
     "expo-local-authentication": "^5.0.1",
     "expo-random": "^5.0.1",
-    "expo-secure-store": "^5.0.1",
     "intl": "^1.2.5",
     "locale-currency": "0.0.2",
     "mobx": "^4.9.4",
