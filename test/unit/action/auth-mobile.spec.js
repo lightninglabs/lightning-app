@@ -76,6 +76,10 @@ describe('Action AuthMobile Unit Tests', () => {
   });
 
   describe('pushPinDigit()', () => {
+    beforeEach(() => {
+      sandbox.stub(auth, 'checkResetPin');
+    });
+
     it('should add a digit for empty pin', () => {
       auth.pushPinDigit({ digit: '1', param: 'pin' });
       expect(store.auth.pin, 'to equal', '1');
@@ -111,6 +115,12 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinNew = '00000';
       auth.pushPinDigit({ digit: '1', param: 'resetPinNew' });
       expect(nav.goResetPasswordConfirm, 'was called once');
+    });
+
+    it('should call auth.checkResetPin if done with resetPinVerify', () => {
+      store.auth.resetPinVerify = '00000';
+      auth.pushPinDigit({ digit: '1', param: 'resetPinVerify' });
+      expect(auth.checkResetPin, 'was called once');
     });
   });
 
