@@ -9,12 +9,17 @@ This project was bootstrapped using [Expo CLI as a bare project](https://blog.ex
 
 ### Build dependencies
 
-* node 10 LTS
+* node 10 LTS (brew install node@10)
 * react-native-cli (npm install -g react-native-cli)
-* cocoapods 1.7.2
-* go 1.11.6
+* watchman (brew install watchman)
+* Xcode
+* cocoapods 1.7.2 (brew install cocoapods)
+* go 1.11.6 (brew install go@1.11)
 * [gomobile](https://github.com/golang/go/wiki/Mobile)
-* [lnd mobile build tools](https://github.com/lightninglabs/lnd/tree/mobile-build-tool)
+* [lnd mobile build tools](https://github.com/lightninglabs/lnd/tree/mobile-autopilot-100)
+* [Java](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
+* [Android Studio](https://developer.android.com/studio)
+* [Android NDK](https://developer.android.com/ndk/guides)
 
 ### Building
 
@@ -36,7 +41,7 @@ Next copy the lnd mobile binaries to this project
 ### Install the dependencies
 
 ```
-npm install
+npm install (first in git `/` and then in `/mobile`)
 cd ios
 pod install
 cd ..
