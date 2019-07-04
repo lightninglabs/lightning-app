@@ -77,6 +77,10 @@ import ResetPasswordCurrent from '../src/view/reset-password-current';
 import ResetPasswordNew from '../src/view/reset-password-new';
 import ResetPasswordConfirm from '../src/view/reset-password-confirm';
 import ResetPasswordSaved from '../src/view/reset-password-saved';
+import ResetPinCurrent from '../src/view/reset-pin-current-mobile';
+import ResetPinNew from '../src/view/reset-pin-new-mobile';
+import ResetPinConfirm from '../src/view/reset-pin-confirm-mobile';
+import ResetPinSaved from '../src/view/reset-pin-saved-mobile';
 import NewAddress from '../src/view/new-address';
 import NewAddressMobile from '../src/view/new-address-mobile';
 import Wait from '../src/view/wait';
@@ -168,6 +172,16 @@ storiesOf('Screens', module)
     <ResetPasswordConfirm store={store} wallet={wallet} nav={nav} />
   ))
   .add('Reset Password - Saved', () => <ResetPasswordSaved nav={nav} />)
+  .add('Reset PIN - Current (Mobile)', () => (
+    <ResetPinCurrent store={store} auth={auth} nav={nav} />
+  ))
+  .add('Reset PIN - New (Mobile)', () => (
+    <ResetPinNew store={store} auth={auth} nav={nav} />
+  ))
+  .add('Reset PIN - Confirm New (Mobile)', () => (
+    <ResetPinConfirm store={store} auth={auth} nav={nav} />
+  ))
+  .add('Reset PIN - Saved (Mobile)', () => <ResetPinSaved nav={nav} />)
   .add('New Address', () => (
     <NewAddress store={store} invoice={invoice} info={info} />
   ))
