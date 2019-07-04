@@ -38,9 +38,9 @@ const ResetPinConfirmView = ({ store, nav, auth }) => (
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent style={styles.content}>
-      <CopyOnboardText style={styles.title}>Re-type pin</CopyOnboardText>
+      <CopyOnboardText style={styles.title}>Re-type PIN</CopyOnboardText>
       <Text style={styles.text}>
-        {"Type your pin again to make sure it's the correct one."}
+        {"Type your PIN again to make sure it's the correct one."}
       </Text>
       <FormStretcher>
         <PinBubbles pin={store.auth.resetPinVerify} />

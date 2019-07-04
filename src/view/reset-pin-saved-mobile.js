@@ -39,8 +39,8 @@ const ResetPinSaved = ({ nav }) => (
         <View style={styles.icon}>
           <ShieldIcon height={164} width={210} />
         </View>
-        <H1Text style={styles.title}>Pin saved!</H1Text>
-        <CopyText style={styles.copy}>{'Your new pin is now saved.'}</CopyText>
+        <H1Text style={styles.title}>PIN saved!</H1Text>
+        <CopyText style={styles.copy}>{'Your new PIN is now saved.'}</CopyText>
       </View>
       <GlasButton onPress={() => nav.goHome()}>Done</GlasButton>
     </MainContent>

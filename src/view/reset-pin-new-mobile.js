@@ -38,9 +38,9 @@ const NewPinView = ({ store, nav, auth }) => (
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent style={styles.content}>
-      <CopyOnboardText style={styles.title}>New pin</CopyOnboardText>
+      <CopyOnboardText style={styles.title}>New PIN</CopyOnboardText>
       <Text style={styles.text}>
-        {'Type the new pin you would like to use below.'}
+        {'Type the new PIN you would like to use below.'}
       </Text>
       <FormStretcher>
         <PinBubbles pin={store.auth.resetPinNew} />

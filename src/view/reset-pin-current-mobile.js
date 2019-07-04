@@ -38,8 +38,8 @@ const ResetPinCurrentView = ({ store, nav, auth }) => (
       <Button disabled onPress={() => {}} />
     </Header>
     <MainContent style={styles.content}>
-      <CopyOnboardText style={styles.title}>Current pin</CopyOnboardText>
-      <Text style={styles.text}>{'First type your current pin below.'}</Text>
+      <CopyOnboardText style={styles.title}>Current PIN</CopyOnboardText>
+      <Text style={styles.text}>{'First type your current PIN below.'}</Text>
       <FormStretcher>
         <PinBubbles pin={store.auth.resetPinCurrent} />
       </FormStretcher>
