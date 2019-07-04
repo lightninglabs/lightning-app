@@ -97,13 +97,19 @@ const NewAddress = () => (
 
 const Password = () => <PinView store={store} auth={auth} />;
 
-const ResetPinCurrent = () => <ResetPinCurrentView store={store} auth={auth} />;
+const ResetPasswordCurrent = () => (
+  <ResetPinCurrentView store={store} auth={auth} nav={nav} />
+);
 
-const ResetPinNew = () => <ResetPinNewView store={store} auth={auth} />;
+const ResetPasswordNew = () => (
+  <ResetPinNewView store={store} auth={auth} nav={nav} />
+);
 
-const ResetPinConfirm = () => <ResetPinConfirmView store={store} auth={auth} />;
+const ResetPasswordConfirm = () => (
+  <ResetPinConfirmView store={store} auth={auth} nav={nav} />
+);
 
-const ResetPinSaved = () => <ResetPinSavedView nav={nav} />;
+const ResetPasswordSaved = () => <ResetPinSavedView nav={nav} />;
 
 const LoaderSyncing = () => <LoaderSyncingView store={store} />;
 
@@ -259,10 +265,10 @@ const SettingStack = createStackNavigator(
     Settings,
     SettingsUnit,
     SettingsFiat,
-    ResetPinCurrent,
-    ResetPinNew,
-    ResetPinConfirm,
-    ResetPinSaved,
+    ResetPasswordCurrent,
+    ResetPasswordNew,
+    ResetPasswordConfirm,
+    ResetPasswordSaved,
     CLI,
     Notifications,
   },

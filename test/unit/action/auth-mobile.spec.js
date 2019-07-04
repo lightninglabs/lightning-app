@@ -60,7 +60,7 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(store.auth.resetPinCurrent, 'to equal', '');
       expect(store.auth.resetPinNew, 'to equal', '');
       expect(store.auth.resetPinVerify, 'to equal', '');
-      expect(nav.goResetPinCurrent, 'was called once');
+      expect(nav.goResetPasswordCurrent, 'was called once');
     });
   });
 
@@ -93,13 +93,13 @@ describe('Action AuthMobile Unit Tests', () => {
     it('should go to ResetPinNew if done with ResetPinCurrent', () => {
       store.auth.resetPinCurrent = '00000';
       auth.pushPinDigit({ digit: '1', param: 'resetPinCurrent' });
-      expect(nav.goResetPinNew, 'was called once');
+      expect(nav.goResetPasswordNew, 'was called once');
     });
 
     it('should go to ResetPinConfirm if done with ResetPinNew', () => {
       store.auth.resetPinNew = '00000';
       auth.pushPinDigit({ digit: '1', param: 'resetPinNew' });
-      expect(nav.goResetPinConfirm, 'was called once');
+      expect(nav.goResetPasswordConfirm, 'was called once');
     });
   });
 
@@ -131,13 +131,13 @@ describe('Action AuthMobile Unit Tests', () => {
     it('should go from ResetPinConfirmed to ResetPinNew on empty string', () => {
       store.auth.resetPinVerify = '';
       auth.popPinDigit({ param: 'resetPinVerify' });
-      expect(nav.goResetPinNew, 'was called once');
+      expect(nav.goResetPasswordNew, 'was called once');
     });
 
     it('should go from ResetPinNew to ResetPinCurrent on empty string', () => {
       store.auth.resetPinNew = '';
       auth.popPinDigit({ param: 'resetPinNew' });
-      expect(nav.goResetPinCurrent, 'was called once');
+      expect(nav.goResetPasswordCurrent, 'was called once');
     });
   });
 
@@ -215,7 +215,7 @@ describe('Action AuthMobile Unit Tests', () => {
         'DevicePin',
         '100000'
       );
-      expect(nav.goResetPinSaved, 'was called once');
+      expect(nav.goResetPasswordSaved, 'was called once');
     });
 
     it('should display error for too short pins', async () => {
@@ -225,7 +225,7 @@ describe('Action AuthMobile Unit Tests', () => {
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
       expect(SecureStore.setItemAsync, 'was not called');
-      expect(nav.goResetPinSaved, 'was not called');
+      expect(nav.goResetPasswordSaved, 'was not called');
     });
 
     it('should display error for non matching pins', async () => {
@@ -235,7 +235,7 @@ describe('Action AuthMobile Unit Tests', () => {
       await auth.checkResetPin();
       expect(Alert.alert, 'was called once');
       expect(SecureStore.setItemAsync, 'was not called');
-      expect(nav.goResetPinSaved, 'was not called');
+      expect(nav.goResetPasswordSaved, 'was not called');
     });
 
     it('should display error for non matching current pin', async () => {
@@ -245,7 +245,7 @@ describe('Action AuthMobile Unit Tests', () => {
       await auth.checkResetPin();
       expect(Alert.alert, 'was called once');
       expect(SecureStore.setItemAsync, 'was not called');
-      expect(nav.goResetPinSaved, 'was not called');
+      expect(nav.goResetPasswordSaved, 'was not called');
     });
   });
 

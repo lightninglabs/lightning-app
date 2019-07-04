@@ -52,7 +52,7 @@ class AuthAction {
     this._store.auth.resetPinCurrent = '';
     this._store.auth.resetPinNew = '';
     this._store.auth.resetPinVerify = '';
-    this._nav.goResetPinCurrent();
+    this._nav.goResetPasswordCurrent();
   }
 
   /**
@@ -76,9 +76,9 @@ class AuthAction {
     } else if (param === 'pin') {
       this.checkPin();
     } else if (param === 'resetPinCurrent') {
-      this._nav.goResetPinNew();
+      this._nav.goResetPasswordNew();
     } else if (param === 'resetPinNew') {
-      this._nav.goResetPinConfirm();
+      this._nav.goResetPasswordConfirm();
     } else if (param === 'resetPinVerify') {
       this.checkResetPin();
     }
@@ -101,7 +101,7 @@ class AuthAction {
       this.initResetPin();
     } else if (param === 'resetPinVerify') {
       this._store.auth.resetPinNew = '';
-      this._nav.goResetPinNew();
+      this._nav.goResetPasswordNew();
     }
   }
 
@@ -162,7 +162,7 @@ class AuthAction {
       return;
     }
     await this._setToKeyStore(PIN, resetPinNew);
-    this._nav.goResetPinSaved();
+    this._nav.goResetPasswordSaved();
   }
 
   //

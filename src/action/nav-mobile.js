@@ -71,20 +71,20 @@ class NavAction {
     this._navigate('Password');
   }
 
-  goResetPinCurrent() {
-    this._navigate('ResetPinCurrent');
+  goResetPasswordCurrent() {
+    this._navigate('ResetPasswordCurrent');
   }
 
-  goResetPinNew() {
-    this._navigate('ResetPinNew');
+  goResetPasswordNew() {
+    this._navigate('ResetPasswordNew');
   }
 
-  goResetPinConfirm() {
-    this._navigate('ResetPinConfirm');
+  goResetPasswordConfirm() {
+    this._navigate('ResetPasswordConfirm');
   }
 
-  goResetPinSaved() {
-    this._navigate('ResetPinSaved');
+  goResetPasswordSaved() {
+    this._navigate('ResetPasswordSaved');
   }
 
   goNewAddress() {
