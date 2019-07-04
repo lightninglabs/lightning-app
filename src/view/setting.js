@@ -71,7 +71,9 @@ const SettingView = ({ store, nav, wallet, autopilot, auth }) => {
         <SettingItem
           name={Platform.OS === 'web' ? 'Change Password' : 'Change PIN'}
           onSelect={() =>
-            wallet ? wallet.initResetPassword() : auth.initResetPin()
+            Platform.OS === 'web'
+              ? wallet.initResetPassword()
+              : auth.initResetPin()
           }
           arrow
         />
