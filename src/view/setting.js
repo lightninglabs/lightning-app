@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-native';
+import { Switch, Platform } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -69,7 +69,7 @@ const SettingView = ({ store, nav, wallet, autopilot, auth }) => {
           arrow
         />
         <SettingItem
-          name="Change Password"
+          name={Platform.OS === 'web' ? 'Change Password' : 'Change PIN'}
           onSelect={() =>
             wallet ? wallet.initResetPassword() : auth.initResetPin()
           }
