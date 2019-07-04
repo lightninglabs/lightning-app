@@ -176,10 +176,10 @@ storiesOf('Screens', module)
     <ResetPinCurrent store={store} auth={auth} nav={nav} />
   ))
   .add('Reset PIN - New (Mobile)', () => (
-    <ResetPinNew store={store} auth={auth} nav={nav} />
+    <ResetPinNew store={store} auth={auth} />
   ))
   .add('Reset PIN - Confirm New (Mobile)', () => (
-    <ResetPinConfirm store={store} auth={auth} nav={nav} />
+    <ResetPinConfirm store={store} auth={auth} />
   ))
   .add('Reset PIN - Saved (Mobile)', () => <ResetPinSaved nav={nav} />)
   .add('New Address', () => (

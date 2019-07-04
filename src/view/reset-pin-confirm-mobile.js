@@ -30,10 +30,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const ResetPinConfirmView = ({ store, nav, auth }) => (
+const ResetPinConfirmView = ({ store, auth }) => (
   <Background color={color.blackDark}>
     <Header separator>
-      <BackButton onPress={() => nav.goResetPasswordNew()} />
+      <BackButton onPress={() => auth.initResetPinNew()} />
       <Title title="Change PIN" />
       <Button disabled onPress={() => {}} />
     </Header>
@@ -56,7 +56,6 @@ const ResetPinConfirmView = ({ store, nav, auth }) => (
 ResetPinConfirmView.propTypes = {
   store: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
-  nav: PropTypes.object.isRequired,
 };
 
 export default observer(ResetPinConfirmView);

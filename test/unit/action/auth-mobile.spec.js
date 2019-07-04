@@ -64,6 +64,17 @@ describe('Action AuthMobile Unit Tests', () => {
     });
   });
 
+  describe('initResetPinNew()', () => {
+    it('should init values and navigate', () => {
+      store.auth.resetPinCurrent = '123456';
+      auth.initResetPinNew();
+      expect(store.auth.resetPinCurrent, 'to equal', '123456');
+      expect(store.auth.resetPinNew, 'to equal', '');
+      expect(store.auth.resetPinVerify, 'to equal', '');
+      expect(nav.goResetPasswordNew, 'was called once');
+    });
+  });
+
   describe('pushPinDigit()', () => {
     it('should add a digit for empty pin', () => {
       auth.pushPinDigit({ digit: '1', param: 'pin' });
@@ -104,6 +115,11 @@ describe('Action AuthMobile Unit Tests', () => {
   });
 
   describe('popPinDigit()', () => {
+    beforeEach(() => {
+      sandbox.stub(auth, 'initResetPinNew');
+      sandbox.stub(auth, 'initResetPin');
+    });
+
     it('should remove digit from a pin', () => {
       store.auth.pin = '000000';
       auth.popPinDigit({ param: 'pin' });
@@ -131,13 +147,13 @@ describe('Action AuthMobile Unit Tests', () => {
     it('should go from ResetPinConfirmed to ResetPinNew on empty string', () => {
       store.auth.resetPinVerify = '';
       auth.popPinDigit({ param: 'resetPinVerify' });
-      expect(nav.goResetPasswordNew, 'was called once');
+      expect(auth.initResetPinNew, 'was called once');
     });
 
     it('should go from ResetPinNew to ResetPinCurrent on empty string', () => {
       store.auth.resetPinNew = '';
       auth.popPinDigit({ param: 'resetPinNew' });
-      expect(nav.goResetPasswordCurrent, 'was called once');
+      expect(auth.initResetPin, 'was called once');
     });
   });
 

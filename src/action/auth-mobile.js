@@ -56,6 +56,17 @@ class AuthAction {
   }
 
   /**
+   * Initialize the reset new pin flow by resetting new values
+   * and then navigating to the new pin view.
+   * @return {undefined}
+   */
+  initResetPinNew() {
+    this._store.auth.resetPinNew = '';
+    this._store.auth.resetPinVerify = '';
+    this._nav.goResetPasswordNew();
+  }
+
+  /**
    * Append a digit input to the pin parameter.
    * @param  {string} options.digit The digit to append to the pin
    * @param  {string} options.param The pin parameter name
@@ -100,8 +111,7 @@ class AuthAction {
     } else if (param === 'resetPinNew') {
       this.initResetPin();
     } else if (param === 'resetPinVerify') {
-      this._store.auth.resetPinNew = '';
-      this._nav.goResetPasswordNew();
+      this.initResetPinNew();
     }
   }
 

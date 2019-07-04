@@ -101,12 +101,10 @@ const ResetPasswordCurrent = () => (
   <ResetPinCurrentView store={store} auth={auth} nav={nav} />
 );
 
-const ResetPasswordNew = () => (
-  <ResetPinNewView store={store} auth={auth} nav={nav} />
-);
+const ResetPasswordNew = () => <ResetPinNewView store={store} auth={auth} />;
 
 const ResetPasswordConfirm = () => (
-  <ResetPinConfirmView store={store} auth={auth} nav={nav} />
+  <ResetPinConfirmView store={store} auth={auth} />
 );
 
 const ResetPasswordSaved = () => <ResetPinSavedView nav={nav} />;
