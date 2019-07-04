@@ -3,10 +3,13 @@ import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
+import { Header, Title } from '../component/header';
+import { Button, BackButton } from '../component/button';
 import MainContent from '../component/main-content';
 import { CopyOnboardText, Text } from '../component/text';
 import { FormStretcher } from '../component/form';
 import { PinBubbles, PinKeyboard } from '../component/pin-entry';
+import { color } from '../component/style';
 
 //
 // Reset Pin: New Pin View (Mobile)
@@ -27,8 +30,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const NewPinView = ({ store, auth }) => (
-  <Background image="purple-gradient-bg">
+const NewPinView = ({ store, nav, auth }) => (
+  <Background color={color.blackDark}>
+    <Header separator>
+      <BackButton onPress={() => nav.goResetPasswordCurrent()} />
+      <Title title="Change PIN" />
+      <Button disabled onPress={() => {}} />
+    </Header>
     <MainContent style={styles.content}>
       <CopyOnboardText style={styles.title}>New pin</CopyOnboardText>
       <Text style={styles.text}>
@@ -48,6 +56,7 @@ const NewPinView = ({ store, auth }) => (
 NewPinView.propTypes = {
   store: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  nav: PropTypes.object.isRequired,
 };
 
 export default observer(NewPinView);

@@ -3,13 +3,16 @@ import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
+import { Header, Title } from '../component/header';
+import { Button, BackButton } from '../component/button';
 import MainContent from '../component/main-content';
 import { CopyOnboardText, Text } from '../component/text';
 import { FormStretcher } from '../component/form';
 import { PinBubbles, PinKeyboard } from '../component/pin-entry';
+import { color } from '../component/style';
 
 //
-// Reset Pin: Current Pin View
+// Reset Pin: Current Pin View (Mobile)
 //
 
 const styles = StyleSheet.create({
@@ -27,8 +30,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const ResetPinCurrentView = ({ store, auth }) => (
-  <Background image="purple-gradient-bg">
+const ResetPinCurrentView = ({ store, nav, auth }) => (
+  <Background color={color.blackDark}>
+    <Header separator>
+      <BackButton onPress={() => nav.goSettings()} />
+      <Title title="Change PIN" />
+      <Button disabled onPress={() => {}} />
+    </Header>
     <MainContent style={styles.content}>
       <CopyOnboardText style={styles.title}>Current pin</CopyOnboardText>
       <Text style={styles.text}>{'First type your current pin below.'}</Text>
@@ -48,6 +56,7 @@ const ResetPinCurrentView = ({ store, auth }) => (
 ResetPinCurrentView.propTypes = {
   store: PropTypes.object.isRequired,
   auth: PropTypes.object.isRequired,
+  nav: PropTypes.object.isRequired,
 };
 
 export default observer(ResetPinCurrentView);
