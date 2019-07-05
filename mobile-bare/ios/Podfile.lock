@@ -89,6 +89,8 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNFS (2.13.3):
+    - React
   - RNGestureHandler (1.3.0):
     - React
   - RNKeychain (3.1.3):
@@ -139,6 +141,7 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -195,6 +198,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  RNFS:
+    :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNKeychain:
@@ -255,6 +260,7 @@ SPEC CHECKSUMS:
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: 76e6aa2b87d05eb6cccb6926d72685c9a07df152
   react-native-camera: 37580137d13b0f2fabd631e4217eb11f0e4d5764
+  RNFS: c9bbde46b0d59619f8e7b735991c60e0f73d22c1
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNSVG: 0eb087cfb5d7937be93c45b163b26352a647e681
@@ -272,6 +278,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 2d2d591bbd0de47f2a8ef46cea775edcd82d4afd
   yoga: 92b2102c3d373d1a790db4ab761d2b0ffc634f64
 
-PODFILE CHECKSUM: edfdec9fa12c9e7e67b0d01a287f63be153a92f2
+PODFILE CHECKSUM: 6ba37724914ffcea4e9e5176c7d6adc64f69901d
 
 COCOAPODS: 1.7.2
