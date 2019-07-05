@@ -57,7 +57,7 @@ const RestoreSeedView = ({ store, wallet }) => (
         {store.restoreVerifyIndexes.map((seedIndex, i) => (
           <SeedEntry
             seedIndex={seedIndex}
-            value={store.seedMnemonic[seedIndex - 1]}
+            value={store.restoreSeedMnemonic[seedIndex - 1]}
             onChangeText={word =>
               wallet.setRestoreSeed({ word, index: seedIndex - 1 })
             }
