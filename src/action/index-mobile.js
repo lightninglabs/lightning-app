@@ -150,6 +150,7 @@ store.channelBalanceSatoshis = 598760;
 store.settings.exchangeRate.usd = 0.00016341;
 store.settings.exchangeRate.eur = 0.0001896;
 store.settings.exchangeRate.gbp = 0.00021405;
+store.settings.exchangeRate.mxn = 0.00000566;
 store.invoice.amount = '0.45678';
 store.invoice.note = 'For the love of bitcoin';
 store.invoice.encoded =

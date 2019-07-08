@@ -39,6 +39,12 @@ const SettingFiatView = ({ store, nav, setting }) => {
           >
             <RadioButton selected={'gbp' === store.settings.fiat} />
           </SettingItem>
+          <SettingItem
+            name={store.mxnFiatLabel}
+            onSelect={() => setting.setFiatCurrency({ fiat: 'mxn' })}
+          >
+            <RadioButton selected={'mxn' === store.settings.fiat} />
+          </SettingItem>
         </SettingList>
       </SettingContent>
     </Background>

@@ -39,6 +39,7 @@ module.exports.FIATS = {
   usd: { display: '$', displayLong: 'US Dollar' },
   eur: { display: '€', displayLong: 'Euro' },
   gbp: { display: '£', displayLong: 'British Pound' },
+  mxn: { display: '$', displayLong: 'Mexican Peso' },
 };
 module.exports.DEFAULT_UNIT = 'sat';
 module.exports.DEFAULT_FIAT = 'usd';

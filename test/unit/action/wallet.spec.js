@@ -635,6 +635,11 @@ describe('Action Wallet Unit Tests', () => {
           "date": "2019-04-04T03:30:05.000Z",
           "rate": 498467,
           "ticker": "USD"
+        },
+        {
+          "date": "2019-04-04T03:30:05.000Z",
+          "rate": 9401718,
+          "ticker": "MXN"
         }
       ]
     }`;

@@ -32,6 +32,9 @@ const ComputedSetting = store => {
     get gbpFiatLabel() {
       return FIATS['gbp'].displayLong;
     },
+    get mxnFiatLabel() {
+      return FIATS['mxn'].displayLong;
+    },
   });
 };
 
