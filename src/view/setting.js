@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch } from 'react-native';
+import { Switch, Platform } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -39,7 +39,7 @@ const styles = createStyles(
   })
 );
 
-const SettingView = ({ store, nav, wallet, autopilot }) => {
+const SettingView = ({ store, nav, wallet, autopilot, auth }) => {
   return (
     <Background color={color.blackDark}>
       <Header separator>
@@ -69,8 +69,12 @@ const SettingView = ({ store, nav, wallet, autopilot }) => {
           arrow
         />
         <SettingItem
-          name="Change Password"
-          onSelect={() => wallet.initResetPassword()}
+          name={Platform.OS === 'web' ? 'Change Password' : 'Change PIN'}
+          onSelect={() =>
+            Platform.OS === 'web'
+              ? wallet.initResetPassword()
+              : auth.initResetPin()
+          }
           arrow
         />
         <SettingItem name="Enable Autopilot">
@@ -89,8 +93,9 @@ const SettingView = ({ store, nav, wallet, autopilot }) => {
 SettingView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
-  wallet: PropTypes.object.isRequired,
+  wallet: PropTypes.object,
   autopilot: PropTypes.object.isRequired,
+  auth: PropTypes.object,
 };
 
 export default observer(SettingView);

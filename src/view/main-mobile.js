@@ -20,6 +20,10 @@ import RestoreSeedView from './restore-seed-mobile';
 import NewAddressView from './new-address-mobile';
 
 import PinView from './pin-mobile';
+import ResetPinCurrentView from './reset-pin-current-mobile';
+import ResetPinNewView from './reset-pin-new-mobile';
+import ResetPinConfirmView from './reset-pin-confirm-mobile';
+import ResetPinSavedView from './reset-pin-saved-mobile';
 import LoaderSyncingView from './loader-syncing-mobile';
 import WaitView from './wait-mobile';
 import HomeView from './home';
@@ -93,6 +97,18 @@ const NewAddress = () => (
 
 const Password = () => <PinView store={store} auth={auth} />;
 
+const ResetPasswordCurrent = () => (
+  <ResetPinCurrentView store={store} auth={auth} nav={nav} />
+);
+
+const ResetPasswordNew = () => <ResetPinNewView store={store} auth={auth} />;
+
+const ResetPasswordConfirm = () => (
+  <ResetPinConfirmView store={store} auth={auth} />
+);
+
+const ResetPasswordSaved = () => <ResetPinSavedView nav={nav} />;
+
 const LoaderSyncing = () => <LoaderSyncingView store={store} />;
 
 const Wait = () => <WaitView />;
@@ -110,7 +126,7 @@ const Home = () => (
 );
 
 const Settings = () => (
-  <SettingView store={store} nav={nav} wallet={wallet} autopilot={autopilot} />
+  <SettingView store={store} nav={nav} auth={auth} autopilot={autopilot} />
 );
 
 const SettingsUnit = () => (
@@ -247,6 +263,10 @@ const SettingStack = createStackNavigator(
     Settings,
     SettingsUnit,
     SettingsFiat,
+    ResetPasswordCurrent,
+    ResetPasswordNew,
+    ResetPasswordConfirm,
+    ResetPasswordSaved,
     CLI,
     Notifications,
   },

@@ -44,6 +44,29 @@ class AuthAction {
   }
 
   /**
+   * Initialize the reset pin flow by resetting input values
+   * and then navigating to the view.
+   * @return {undefined}
+   */
+  initResetPin() {
+    this._store.auth.resetPinCurrent = '';
+    this._store.auth.resetPinNew = '';
+    this._store.auth.resetPinVerify = '';
+    this._nav.goResetPasswordCurrent();
+  }
+
+  /**
+   * Initialize the reset new pin flow by resetting new values
+   * and then navigating to the new pin view.
+   * @return {undefined}
+   */
+  initResetPinNew() {
+    this._store.auth.resetPinNew = '';
+    this._store.auth.resetPinVerify = '';
+    this._nav.goResetPasswordNew();
+  }
+
+  /**
    * Append a digit input to the pin parameter.
    * @param  {string} options.digit The digit to append to the pin
    * @param  {string} options.param The pin parameter name
@@ -63,6 +86,12 @@ class AuthAction {
       this.checkNewPin();
     } else if (param === 'pin') {
       this.checkPin();
+    } else if (param === 'resetPinCurrent') {
+      this._nav.goResetPasswordNew();
+    } else if (param === 'resetPinNew') {
+      this._nav.goResetPasswordConfirm();
+    } else if (param === 'resetPinVerify') {
+      this.checkResetPin();
     }
   }
 
@@ -77,6 +106,12 @@ class AuthAction {
       auth[param] = auth[param].slice(0, -1);
     } else if (param === 'pinVerify') {
       this.initSetPin();
+    } else if (param === 'resetPinCurrent') {
+      this._nav.goSettings();
+    } else if (param === 'resetPinNew') {
+      this.initResetPin();
+    } else if (param === 'resetPinVerify') {
+      this.initResetPinNew();
     }
   }
 
@@ -111,6 +146,33 @@ class AuthAction {
       return;
     }
     await this._unlockWallet();
+  }
+
+  /**
+   * Check that the pin that was chosen by the user doesn't match
+   * their current pin, and that it was entered correctly twice.
+   * If everything is ok, store the pin in the keystore and redirect
+   * to home.
+   * @return {undefined}
+   */
+  async checkResetPin() {
+    const { resetPinCurrent, resetPinNew, resetPinVerify } = this._store.auth;
+    const storedPin = await this._getFromKeyStore(PIN);
+    if (resetPinCurrent !== storedPin) {
+      this._alert('Incorrect PIN', () => this.initResetPin());
+      return;
+    } else if (resetPinCurrent === resetPinNew) {
+      this._alert('New PIN must not match old PIN', () => this.initResetPin());
+      return;
+    } else if (
+      resetPinNew.length !== PIN_LENGTH ||
+      resetPinNew !== resetPinVerify
+    ) {
+      this._alert("PINs don't match", () => this.initResetPin());
+      return;
+    }
+    await this._setToKeyStore(PIN, resetPinNew);
+    this._nav.goResetPasswordSaved();
   }
 
   //

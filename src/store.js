@@ -43,6 +43,9 @@ export class Store {
         pin: '',
         newPin: '',
         pinVerify: '',
+        resetPinCurrent: '',
+        resetPinNew: '',
+        resetPinVerify: '',
       },
       wallet: {
         password: '',

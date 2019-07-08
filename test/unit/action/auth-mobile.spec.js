@@ -54,7 +54,32 @@ describe('Action AuthMobile Unit Tests', () => {
     });
   });
 
+  describe('initResetPin()', () => {
+    it('should init values and navigate', () => {
+      auth.initResetPin();
+      expect(store.auth.resetPinCurrent, 'to equal', '');
+      expect(store.auth.resetPinNew, 'to equal', '');
+      expect(store.auth.resetPinVerify, 'to equal', '');
+      expect(nav.goResetPasswordCurrent, 'was called once');
+    });
+  });
+
+  describe('initResetPinNew()', () => {
+    it('should init values and navigate', () => {
+      store.auth.resetPinCurrent = '123456';
+      auth.initResetPinNew();
+      expect(store.auth.resetPinCurrent, 'to equal', '123456');
+      expect(store.auth.resetPinNew, 'to equal', '');
+      expect(store.auth.resetPinVerify, 'to equal', '');
+      expect(nav.goResetPasswordNew, 'was called once');
+    });
+  });
+
   describe('pushPinDigit()', () => {
+    beforeEach(() => {
+      sandbox.stub(auth, 'checkResetPin');
+    });
+
     it('should add a digit for empty pin', () => {
       auth.pushPinDigit({ digit: '1', param: 'pin' });
       expect(store.auth.pin, 'to equal', '1');
@@ -79,9 +104,32 @@ describe('Action AuthMobile Unit Tests', () => {
       expect(store.auth.newPin, 'to equal', '00001');
       expect(nav.goSetPasswordConfirm, 'was not called');
     });
+
+    it('should go to ResetPinNew if done with ResetPinCurrent', () => {
+      store.auth.resetPinCurrent = '00000';
+      auth.pushPinDigit({ digit: '1', param: 'resetPinCurrent' });
+      expect(nav.goResetPasswordNew, 'was called once');
+    });
+
+    it('should go to ResetPinConfirm if done with ResetPinNew', () => {
+      store.auth.resetPinNew = '00000';
+      auth.pushPinDigit({ digit: '1', param: 'resetPinNew' });
+      expect(nav.goResetPasswordConfirm, 'was called once');
+    });
+
+    it('should call auth.checkResetPin if done with resetPinVerify', () => {
+      store.auth.resetPinVerify = '00000';
+      auth.pushPinDigit({ digit: '1', param: 'resetPinVerify' });
+      expect(auth.checkResetPin, 'was called once');
+    });
   });
 
   describe('popPinDigit()', () => {
+    beforeEach(() => {
+      sandbox.stub(auth, 'initResetPinNew');
+      sandbox.stub(auth, 'initResetPin');
+    });
+
     it('should remove digit from a pin', () => {
       store.auth.pin = '000000';
       auth.popPinDigit({ param: 'pin' });
@@ -98,6 +146,24 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '';
       auth.popPinDigit({ param: 'pinVerify' });
       expect(nav.goSetPassword, 'was called once');
+    });
+
+    it('should go from ResetPinCurrent to Settings on empty string', () => {
+      store.auth.resetPinCurrent = '';
+      auth.popPinDigit({ param: 'resetPinCurrent' });
+      expect(nav.goSettings, 'was called once');
+    });
+
+    it('should go from ResetPinConfirmed to ResetPinNew on empty string', () => {
+      store.auth.resetPinVerify = '';
+      auth.popPinDigit({ param: 'resetPinVerify' });
+      expect(auth.initResetPinNew, 'was called once');
+    });
+
+    it('should go from ResetPinNew to ResetPinCurrent on empty string', () => {
+      store.auth.resetPinNew = '';
+      auth.popPinDigit({ param: 'resetPinNew' });
+      expect(auth.initResetPin, 'was called once');
     });
   });
 
@@ -156,6 +222,56 @@ describe('Action AuthMobile Unit Tests', () => {
       await auth.checkPin();
       expect(Alert.alert, 'was called once');
       expect(auth._unlockWallet, 'was not called');
+    });
+  });
+
+  describe('checkResetPin()', () => {
+    beforeEach(() => {
+      SecureStore.getItemAsync.resolves('000000');
+    });
+
+    it('should work for two same pins', async () => {
+      store.auth.resetPinCurrent = '000000';
+      store.auth.resetPinNew = '100000';
+      store.auth.resetPinVerify = '100000';
+      await auth.checkResetPin();
+      expect(
+        SecureStore.setItemAsync,
+        'was called with',
+        'DevicePin',
+        '100000'
+      );
+      expect(nav.goResetPasswordSaved, 'was called once');
+    });
+
+    it('should display error for too short pins', async () => {
+      store.auth.resetPinCurrent = '000000';
+      store.auth.resetPinNew = '00000';
+      store.auth.resetPinVerify = '00000';
+      await auth.checkNewPin();
+      expect(Alert.alert, 'was called once');
+      expect(SecureStore.setItemAsync, 'was not called');
+      expect(nav.goResetPasswordSaved, 'was not called');
+    });
+
+    it('should display error for non matching pins', async () => {
+      store.auth.resetPinCurrent = '000000';
+      store.auth.resetPinNew = '000002';
+      store.auth.resetPinVerify = '000001';
+      await auth.checkResetPin();
+      expect(Alert.alert, 'was called once');
+      expect(SecureStore.setItemAsync, 'was not called');
+      expect(nav.goResetPasswordSaved, 'was not called');
+    });
+
+    it('should display error for non matching current pin', async () => {
+      store.auth.resetPinCurrent = '200000';
+      store.auth.resetPinNew = '000001';
+      store.auth.resetPinVerify = '000001';
+      await auth.checkResetPin();
+      expect(Alert.alert, 'was called once');
+      expect(SecureStore.setItemAsync, 'was not called');
+      expect(nav.goResetPasswordSaved, 'was not called');
     });
   });
 
