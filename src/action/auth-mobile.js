@@ -3,6 +3,7 @@
  * using PINs, TouchID, and KeyStore storage.
  */
 
+import { Platform } from 'react-native';
 import { PIN_LENGTH } from '../config';
 
 const VERSION = '0';
@@ -11,14 +12,26 @@ const PASS = 'WalletPassword';
 const USER = 'lightning';
 
 class AuthAction {
-  constructor(store, wallet, nav, Random, Keychain, Fingerprint, Alert) {
+  constructor(
+    store,
+    wallet,
+    restore,
+    nav,
+    Random,
+    Keychain,
+    Fingerprint,
+    Alert,
+    ActionSheetIOS
+  ) {
     this._store = store;
     this._wallet = wallet;
+    this._restore = restore;
     this._nav = nav;
     this._Random = Random;
     this._Keychain = Keychain;
     this._Fingerprint = Fingerprint;
     this._Alert = Alert;
+    this._ActionSheetIOS = ActionSheetIOS;
   }
 
   //
@@ -257,6 +270,36 @@ class AuthAction {
   async _secureRandomPassword() {
     const bytes = await this._Random.getRandomBytesAsync(32);
     return Buffer.from(bytes.buffer).toString('hex');
+  }
+
+  //
+  // Help / Restore actions
+  //
+
+  askForHelp() {
+    const message =
+      "If you have forgotten your PIN, or you're locked out of your wallet, you can reset your PIN with your Recovery Phrase.";
+    const action = 'Recover My Wallet';
+    const cancel = 'Cancel';
+    if (Platform.OS === 'ios') {
+      this._ActionSheetIOS.showActionSheetWithOptions(
+        {
+          message,
+          options: [cancel, action],
+          cancelButtonIndex: 0,
+          destructiveButtonIndex: 1,
+        },
+        i => i === 1 && this._restore.initRestoreWallet()
+      );
+    } else {
+      this._Alert.alert(null, message, [
+        {
+          text: action,
+          onPress: () => this._restore.initRestoreWallet(),
+        },
+        { text: cancel, style: 'cancel' },
+      ]);
+    }
   }
 }
 
