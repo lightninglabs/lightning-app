@@ -11,11 +11,13 @@ import {
   Clipboard,
   AsyncStorage,
   NativeModules,
+  ActionSheetIOS,
   NativeEventEmitter,
 } from 'react-native';
 import * as Random from 'expo-random';
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as Keychain from 'react-native-keychain';
+import RNFS from 'react-native-fs';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { nap } from '../helper';
 import store from '../store';
@@ -32,6 +34,7 @@ import TransactionAction from './transaction';
 import PaymentAction from './payment';
 import InvoiceAction from './invoice';
 import SettingAction from './setting';
+import RestoreAction from './restore-mobile';
 import AuthAction from './auth-mobile';
 import AtplAction from './autopilot';
 
@@ -54,14 +57,17 @@ export const channel = new ChannelAction(store, grpc, nav, notify);
 export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 export const payment = new PaymentAction(store, grpc, nav, notify, Clipboard);
 export const setting = new SettingAction(store, wallet, db, ipc);
+export const restore = new RestoreAction(store, grpc, wallet, RNFS);
 export const auth = new AuthAction(
   store,
   wallet,
+  restore,
   nav,
   Random,
   Keychain,
   LocalAuthentication,
-  Alert
+  Alert,
+  ActionSheetIOS
 );
 export const autopilot = new AtplAction(store, grpc, db, notify);
 
