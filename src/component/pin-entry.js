@@ -83,7 +83,7 @@ const keyboardStyles = StyleSheet.create({
   },
 });
 
-export const PinKeyboard = ({ onInput, onBackspace }) => (
+export const PinKeyboard = ({ onInput, onBackspace, onHelp }) => (
   <View style={keyboardStyles.wrapper}>
     <View style={keyboardStyles.column}>
       <View style={keyboardStyles.row}>
@@ -102,7 +102,7 @@ export const PinKeyboard = ({ onInput, onBackspace }) => (
         <PinKey onPress={onInput} num="9" label="WXYZ" />
       </View>
       <View style={keyboardStyles.row}>
-        <PinKey onPress={() => {}} />
+        {onHelp ? <HelpKey onPress={onHelp} /> : <PinKey onPress={() => {}} />}
         <PinKey onPress={onInput} num="0" />
         <BackspaceKey onPress={onBackspace} />
       </View>
@@ -113,6 +113,7 @@ export const PinKeyboard = ({ onInput, onBackspace }) => (
 PinKeyboard.propTypes = {
   onInput: PropTypes.func.isRequired,
   onBackspace: PropTypes.func.isRequired,
+  onHelp: PropTypes.func,
 };
 
 //
@@ -171,5 +172,27 @@ const BackspaceKey = ({ onPress }) => (
 );
 
 BackspaceKey.propTypes = {
+  onPress: PropTypes.func.isRequired,
+};
+
+//
+// Help Key
+//
+
+const helpStyles = StyleSheet.create({
+  txt: {
+    fontFamily: 'SF Pro Text Bold',
+    color: color.whiteBg,
+    fontSize: 14,
+  },
+});
+
+const HelpKey = ({ onPress }) => (
+  <Button onPress={onPress} style={keyStyles.btn}>
+    <Text style={helpStyles.txt}>Help</Text>
+  </Button>
+);
+
+HelpKey.propTypes = {
   onPress: PropTypes.func.isRequired,
 };
