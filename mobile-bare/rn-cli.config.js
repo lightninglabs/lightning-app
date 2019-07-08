@@ -36,6 +36,10 @@ module.exports = {
         __dirname,
         'node_modules/react-native-camera'
       ),
+      'react-native-fs': path.resolve(
+        __dirname,
+        'node_modules/react-native-fs'
+      ),
       mobx: path.resolve(__dirname, 'node_modules/mobx'),
       'mobx-react': path.resolve(__dirname, 'node_modules/mobx-react'),
       'locale-currency': path.resolve(
