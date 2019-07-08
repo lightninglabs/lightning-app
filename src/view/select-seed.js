@@ -59,12 +59,14 @@ const SelectSeedView = ({ store, wallet, setting }) => (
       <View style={styles.list}>
         <SettingItem
           name="Generate a new wallet"
+          copy="Move funds into an empty wallet"
           onSelect={() => setting.setRestoringWallet({ restoring: false })}
         >
           <RadioButton selected={store.settings.restoring === false} />
         </SettingItem>
         <SettingItem
           name="Recover an existing wallet"
+          copy="⚠ Only works for on-chain funds"
           onSelect={() => setting.setRestoringWallet({ restoring: true })}
         >
           <RadioButton selected={store.settings.restoring === true} />
