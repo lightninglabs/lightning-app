@@ -136,6 +136,7 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
                          @"ChannelBalance" : ^(NSData* bytes, NativeCallback* cb) { LndmobileChannelBalance(bytes, cb); },
                          @"NewAddress" : ^(NSData* bytes, NativeCallback* cb) { LndmobileNewAddress(bytes, cb); },
                          @"EstimateFee" : ^(NSData* bytes, NativeCallback* cb) { LndmobileEstimateFee(bytes, cb); },
+                         @"StopDaemon" : ^(NSData* bytes, NativeCallback* cb) { LndmobileStopDaemon(bytes, cb); },
                          @"Status" : ^(NSData* bytes, NativeCallback* cb) { LndmobileStatus(bytes, cb); },
                          @"SetScores" : ^(NSData* bytes, NativeCallback* cb) { LndmobileSetScores(bytes, cb); },
                          @"QueryScores" : ^(NSData* bytes, NativeCallback* cb) { LndmobileQueryScores(bytes, cb); },
