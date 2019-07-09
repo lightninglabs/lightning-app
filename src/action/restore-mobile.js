@@ -4,47 +4,44 @@
  * the user's seed.
  */
 
+import * as log from './log';
+
 class RestoreAction {
   constructor(store, grpc, wallet, FS) {
     this._store = store;
     this._grpc = grpc;
     this._wallet = wallet;
     this._FS = FS;
-    this._docDir = this._FS.DocumentDirectoryPath;
   }
 
   /**
-   * Initialize the restore wallet view by resetting input values and then
-   * navigating to the view.
-   * @return {undefined}
+   * Initialize wallet restore by wiping all wallet.db files from disk and
+   * then initializing wallet restore from the seed.
+   * @return {Promise<undefined>}
    */
   async initRestoreWallet() {
-    // await this._grpc.sendCommand('StopDaemon');
-    await this.wipeLndDirExceptChannelDB();
+    await Promise.all([
+      this.deleteWalletDB('testnet'),
+      this.deleteWalletDB('mainnet'),
+    ]);
     this._store.settings.restoring = true;
     this._wallet.initRestoreWallet();
   }
 
   /**
-   * Wipes all files in the lnd dir except the channel.db file. This
-   * allows the user to restore their wallet (including channel state)
-   * if they've they've forgotten the wallet pin/password.
+   * Delete the wallet.db file. This allows the user to restore their wallet
+   * (including channel state) from the seed if they've they've forgotten the
+   * wallet pin/password.
    * @return {Promise<undefined>}
    */
-  async wipeLndDirExceptChannelDB() {
-    const network = 'testnet';
-    const dataDir = `${this._docDir}/data`;
-    const backupDir = `${this._docDir}/data_backup`;
-    const dbDir = `graph/${network}`;
-    const dbFile = 'channel.db';
-
-    await this._FS.moveFile(dataDir, backupDir);
-    await this._FS.mkdir(`${dataDir}/${dbDir}`);
-    await this._FS.copyFile(
-      `${backupDir}/${dbDir}/${dbFile}`,
-      `${dataDir}/${dbDir}/${dbFile}`
-    );
-    await this._FS.unlink(backupDir);
+  async deleteWalletDB(network) {
+    const lndDir = this._FS.DocumentDirectoryPath;
+    const dbPath = `${lndDir}/data/chain/bitcoin/${network}/wallet.db`;
+    try {
+      await this._FS.unlink(dbPath);
+    } catch (err) {
+      log.info(`No ${network} wallet to delete.`);
+    }
   }
 }
 
