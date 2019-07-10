@@ -8,6 +8,7 @@ import { when } from 'mobx';
 import {
   Alert,
   Linking,
+  Platform,
   Clipboard,
   AsyncStorage,
   NativeModules,
@@ -34,7 +35,6 @@ import TransactionAction from './transaction';
 import PaymentAction from './payment';
 import InvoiceAction from './invoice';
 import SettingAction from './setting';
-import RestoreAction from './restore-mobile';
 import AuthAction from './auth-mobile';
 import AtplAction from './autopilot';
 
@@ -50,24 +50,23 @@ export const ipc = new IpcAction(grpc);
 export const log = new LogAction(store, ipc, false);
 export const nav = new NavAction(store, NavigationActions, StackActions);
 export const notify = new NotificationAction(store, nav);
-export const wallet = new WalletAction(store, grpc, db, nav, notify);
+export const wallet = new WalletAction(store, grpc, db, nav, notify, RNFS);
 export const info = new InfoAction(store, grpc, nav, notify);
 export const transaction = new TransactionAction(store, grpc, nav, notify);
 export const channel = new ChannelAction(store, grpc, nav, notify);
 export const invoice = new InvoiceAction(store, grpc, nav, notify, Clipboard);
 export const payment = new PaymentAction(store, grpc, nav, notify, Clipboard);
 export const setting = new SettingAction(store, wallet, db, ipc);
-export const restore = new RestoreAction(store, grpc, wallet, RNFS);
 export const auth = new AuthAction(
   store,
   wallet,
-  restore,
   nav,
   Random,
   Keychain,
   LocalAuthentication,
   Alert,
-  ActionSheetIOS
+  ActionSheetIOS,
+  Platform
 );
 export const autopilot = new AtplAction(store, grpc, db, notify);
 

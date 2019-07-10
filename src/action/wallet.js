@@ -14,12 +14,13 @@ import { when } from 'mobx';
 import * as log from './log';
 
 class WalletAction {
-  constructor(store, grpc, db, nav, notification) {
+  constructor(store, grpc, db, nav, notification, FS) {
     this._store = store;
     this._grpc = grpc;
     this._db = db;
     this._nav = nav;
     this._notification = notification;
+    this._FS = FS;
   }
 
   //
@@ -265,6 +266,7 @@ class WalletAction {
    */
   async initWallet({ walletPassword, seedMnemonic, recoveryWindow = 0 }) {
     try {
+      await Promise.all([this.deleteDB('testnet'), this.deleteDB('mainnet')]);
       await this._grpc.sendUnlockerCommand('InitWallet', {
         walletPassword: toBuffer(walletPassword),
         cipherSeedMnemonic: seedMnemonic,
@@ -277,6 +279,25 @@ class WalletAction {
         type: 'error',
         msg: `Initializing wallet failed: ${err.details}`,
       });
+    }
+  }
+
+  /**
+   * Delete the wallet.db file. This allows the user to restore their wallet
+   * (including channel state) from the seed if they've they've forgotten the
+   * wallet pin/password.
+   * @return {Promise<undefined>}
+   */
+  async deleteDB(network) {
+    if (!this._FS) {
+      return;
+    }
+    const lndDir = this._FS.DocumentDirectoryPath;
+    const dbPath = `${lndDir}/data/chain/bitcoin/${network}/wallet.db`;
+    try {
+      await this._FS.unlink(dbPath);
+    } catch (err) {
+      log.info(`No ${network} wallet to delete.`);
     }
   }
 

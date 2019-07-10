@@ -3,7 +3,6 @@
  * using PINs, TouchID, and KeyStore storage.
  */
 
-import { Platform } from 'react-native';
 import { PIN_LENGTH } from '../config';
 
 const VERSION = '0';
@@ -15,23 +14,23 @@ class AuthAction {
   constructor(
     store,
     wallet,
-    restore,
     nav,
     Random,
     Keychain,
     Fingerprint,
     Alert,
-    ActionSheetIOS
+    ActionSheetIOS,
+    Platform
   ) {
     this._store = store;
     this._wallet = wallet;
-    this._restore = restore;
     this._nav = nav;
     this._Random = Random;
     this._Keychain = Keychain;
     this._Fingerprint = Fingerprint;
     this._Alert = Alert;
     this._ActionSheetIOS = ActionSheetIOS;
+    this._Platform = Platform;
   }
 
   //
@@ -281,7 +280,7 @@ class AuthAction {
       "If you have forgotten your PIN, or you're locked out of your wallet, you can reset your PIN with your Recovery Phrase.";
     const action = 'Recover My Wallet';
     const cancel = 'Cancel';
-    if (Platform.OS === 'ios') {
+    if (this._Platform.OS === 'ios') {
       this._ActionSheetIOS.showActionSheetWithOptions(
         {
           message,
@@ -289,17 +288,22 @@ class AuthAction {
           cancelButtonIndex: 0,
           destructiveButtonIndex: 1,
         },
-        i => i === 1 && this._restore.initRestoreWallet()
+        i => i === 1 && this._initRestoreWallet()
       );
     } else {
       this._Alert.alert(null, message, [
         {
           text: action,
-          onPress: () => this._restore.initRestoreWallet(),
+          onPress: () => this._initRestoreWallet(),
         },
         { text: cancel, style: 'cancel' },
       ]);
     }
+  }
+
+  _initRestoreWallet() {
+    this._store.settings.restoring = true;
+    this._wallet.initRestoreWallet();
   }
 }
 
