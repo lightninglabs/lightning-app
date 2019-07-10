@@ -352,7 +352,7 @@ class WalletAction {
       this._store.wallet.restoreIndex -= 3;
       this._store.wallet.focusedRestoreInd = this._store.wallet.restoreIndex;
     } else {
-      this._nav.goSelectSeed();
+      this._nav.goBack ? this._nav.goBack() : this._nav.goSelectSeed();
     }
   }
 
