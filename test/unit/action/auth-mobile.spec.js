@@ -13,6 +13,8 @@ describe('Action AuthMobile Unit Tests', () => {
   let Keychain;
   let Fingerprint;
   let Alert;
+  let ActionSheetIOS;
+  let Platform;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
@@ -34,6 +36,10 @@ describe('Action AuthMobile Unit Tests', () => {
     Alert = {
       alert: sinon.stub(),
     };
+    ActionSheetIOS = {
+      showActionSheetWithOptions: sinon.stub(),
+    };
+    Platform = { OS: 'ios' };
     auth = new AuthAction(
       store,
       wallet,
@@ -41,7 +47,9 @@ describe('Action AuthMobile Unit Tests', () => {
       Random,
       Keychain,
       Fingerprint,
-      Alert
+      Alert,
+      ActionSheetIOS,
+      Platform
     );
   });
 
@@ -385,6 +393,27 @@ describe('Action AuthMobile Unit Tests', () => {
       Random.getRandomBytesAsync.resolves(new Uint8Array(buf));
       const pass = await auth._secureRandomPassword();
       expect(pass.length, 'to equal', 64);
+    });
+  });
+
+  describe('askForHelp()', () => {
+    it('should display action sheet on iOS', async () => {
+      auth.askForHelp();
+      expect(ActionSheetIOS.showActionSheetWithOptions, 'was called once');
+    });
+
+    it('should display alert on Android', async () => {
+      Platform.OS = 'android';
+      auth.askForHelp();
+      expect(Alert.alert, 'was called once');
+    });
+  });
+
+  describe('_initRestoreWallet()', () => {
+    it('should init wallet restoration', async () => {
+      auth._initRestoreWallet();
+      expect(store.settings.restoring, 'to be', true);
+      expect(wallet.initRestoreWallet, 'was called once');
     });
   });
 });
