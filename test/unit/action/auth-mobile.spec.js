@@ -248,7 +248,7 @@ describe('Action AuthMobile Unit Tests', () => {
 
   describe('checkResetPin()', () => {
     beforeEach(() => {
-      SecureStore.getItemAsync.resolves('000000');
+      Keychain.getInternetCredentials.resolves({ password: '000000' });
     });
 
     it('should work for two same pins', async () => {
@@ -257,9 +257,10 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '100000';
       await auth.checkResetPin();
       expect(
-        SecureStore.setItemAsync,
+        Keychain.setInternetCredentials,
         'was called with',
-        'DevicePin',
+        '0_DevicePin',
+        'lightning',
         '100000'
       );
       expect(nav.goResetPasswordSaved, 'was called once');
@@ -271,7 +272,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '00000';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(nav.goResetPasswordSaved, 'was not called');
     });
 
@@ -281,7 +282,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '000001';
       await auth.checkResetPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(nav.goResetPasswordSaved, 'was not called');
     });
 
@@ -291,7 +292,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '000001';
       await auth.checkResetPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(nav.goResetPasswordSaved, 'was not called');
     });
   });
