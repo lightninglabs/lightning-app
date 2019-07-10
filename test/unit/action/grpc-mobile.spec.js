@@ -304,6 +304,14 @@ describe('Action GRPC Mobile Unit Tests', () => {
       await grpc.sendCommand('NewAddress');
       expect(LndReactModuleStub.sendCommand, 'was called once');
     });
+
+    it('should work for StopDaemon', async () => {
+      LndReactModuleStub.sendCommand.resolves({
+        data: grpc._serializeResponse('StopDaemon'),
+      });
+      await grpc.sendCommand('StopDaemon');
+      expect(LndReactModuleStub.sendCommand, 'was called once');
+    });
   });
 
   describe('sendStreamCommand()', () => {
