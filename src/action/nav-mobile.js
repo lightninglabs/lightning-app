@@ -97,6 +97,10 @@ class NavAction {
     this._navigate('NewAddress');
   }
 
+  goSelectAutopilot() {
+    this._navigate('SelectAutopilot');
+  }
+
   goLoaderSyncing() {
     this._navigate('LoaderSyncing');
     this._reset('Main', 'LoaderSyncing');

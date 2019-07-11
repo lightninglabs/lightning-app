@@ -85,6 +85,7 @@ import ResetPinConfirm from '../src/view/reset-pin-confirm-mobile';
 import ResetPinSaved from '../src/view/reset-pin-saved-mobile';
 import NewAddress from '../src/view/new-address';
 import NewAddressMobile from '../src/view/new-address-mobile';
+import SelectAutopilotMobile from '../src/view/select-atpl-mobile';
 import Wait from '../src/view/wait';
 import WaitMobile from '../src/view/wait-mobile';
 import RestoreSeed from '../src/view/restore-seed';
@@ -190,7 +191,10 @@ storiesOf('Screens', module)
     <NewAddress store={store} invoice={invoice} info={info} />
   ))
   .add('New Address (Mobile)', () => (
-    <NewAddressMobile store={store} invoice={invoice} info={info} />
+    <NewAddressMobile store={store} invoice={invoice} nav={navMobile} />
+  ))
+  .add('Select Autopilot (Mobile)', () => (
+    <SelectAutopilotMobile store={store} autopilot={autopilot} info={info} />
   ))
   .add('Loader - Syncing Chain', () => <LoaderSyncing store={store} />)
   .add('Loader - Syncing Chain (Mobile)', () => (
