@@ -85,10 +85,19 @@ const iStyles = StyleSheet.create({
   item: {
     height: 60,
   },
-  name: {
+  left: {
     flex: 1,
+  },
+  name: {
     color: color.grey,
     fontSize: font.sizeSub,
+  },
+  copy: {
+    width: '80%',
+    fontSize: font.sizeS,
+    lineHeight: font.lineHeightS,
+    color: color.greyListLabel,
+    opacity: 0.74,
   },
   lbl: {
     fontSize: font.sizeS,
@@ -100,9 +109,22 @@ const iStyles = StyleSheet.create({
   },
 });
 
-export const SettingItem = ({ name, onSelect, label, arrow, children }) => (
-  <ListItem style={iStyles.item} onSelect={onSelect}>
-    <Text style={iStyles.name}>{name}</Text>
+export const SettingItem = ({
+  name,
+  copy,
+  onSelect,
+  label,
+  arrow,
+  children,
+}) => (
+  <ListItem
+    style={[iStyles.item, copy ? { height: 80 } : null]}
+    onSelect={onSelect}
+  >
+    <View style={iStyles.left}>
+      <Text style={iStyles.name}>{name}</Text>
+      {copy ? <Text style={iStyles.copy}>{copy}</Text> : null}
+    </View>
     {label ? <Text style={iStyles.lbl}>{label}</Text> : null}
     {children}
     {arrow ? (
@@ -115,6 +137,7 @@ export const SettingItem = ({ name, onSelect, label, arrow, children }) => (
 
 SettingItem.propTypes = {
   name: PropTypes.string.isRequired,
+  copy: PropTypes.string,
   onSelect: PropTypes.func,
   label: PropTypes.string,
   arrow: PropTypes.bool,
