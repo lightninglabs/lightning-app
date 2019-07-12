@@ -275,10 +275,18 @@ class WalletAction {
       this._store.walletUnlocked = true;
       this._nav.goSeedSuccess();
     } catch (err) {
-      this._notification.display({
-        type: 'error',
-        msg: `Initializing wallet failed: ${err.details}`,
-      });
+      if (this._store.settings.restoring) {
+        this._notification.display({
+          type: 'error',
+          msg: `Initializing wallet failed. Invalid seed.`,
+        });
+        this.initRestoreWallet();
+      } else {
+        this._notification.display({
+          type: 'error',
+          msg: `Initializing wallet failed.`,
+        });
+      }
     }
   }
 

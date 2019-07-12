@@ -341,12 +341,24 @@ describe('Action Wallet Unit Tests', () => {
       expect(nav.goSeedSuccess, 'was called once');
     });
 
+    it('should display error notification on restore failure', async () => {
+      store.settings.restoring = true;
+      grpc.sendUnlockerCommand
+        .withArgs('InitWallet')
+        .rejects(new Error('Boom!'));
+      await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
+      expect(notification.display, 'was called once');
+      expect(nav.goRestoreSeed, 'was called once');
+      expect(nav.goSeedSuccess, 'was not called');
+    });
+
     it('should display error notification on failure', async () => {
       grpc.sendUnlockerCommand
         .withArgs('InitWallet')
         .rejects(new Error('Boom!'));
       await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
       expect(notification.display, 'was called once');
+      expect(nav.goRestoreSeed, 'was not called');
       expect(nav.goSeedSuccess, 'was not called');
     });
   });
