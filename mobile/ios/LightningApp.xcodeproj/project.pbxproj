@@ -309,7 +309,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = engineering.lightning.LightningApp;
+				PRODUCT_BUNDLE_IDENTIFIER = engineering.lightning.LightningMainnet;
 				PRODUCT_NAME = LightningApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -334,7 +334,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = engineering.lightning.LightningApp;
+				PRODUCT_BUNDLE_IDENTIFIER = engineering.lightning.LightningMainnet;
 				PRODUCT_NAME = LightningApp;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
