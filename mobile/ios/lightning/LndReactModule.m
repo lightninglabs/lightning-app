@@ -165,7 +165,7 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
     [fileMgr removeItemAtPath:confTarget error:nil];
     [fileMgr copyItemAtPath:lndConf toPath: confTarget error:nil];
 
-    NSString *logFile = [self.appDir stringByAppendingString:@"/logs/bitcoin/testnet/lnd.log"];
+    NSString *logFile = [self.appDir stringByAppendingString:@"/logs/bitcoin/mainnet/lnd.log"];
     NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingAtPath:logFile];
 
     dispatch_async(dispatch_get_main_queue(), ^{
