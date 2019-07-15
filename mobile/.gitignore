@@ -1,27 +1,9 @@
-# See https://help.github.com/ignore-files/ for more about ignoring files.
-
-# expo
-.expo/*
-
-# dependencies
-node_modules/**/*
-ios/Pods/**/*
-
-# misc
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-
-npm-debug.*
-yarn-debug.log*
-yarn-error.log*
-*.jks
-*.p12
-*.key
-*.mobileprovision
+# OSX
+#
+.DS_Store
 
 # Xcode
+#
 build/
 *.pbxuser
 !default.pbxuser
@@ -38,18 +20,43 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-ios/lightning.xcworkspace/xcshareddata
+project.xcworkspace
+ios/Pods
+ios/lightningApp.xcworkspace/xcshareddata
 ios/lightning/Lndmobile.framework
 ios/lightning/Supporting/EXShell.json
 ios/lightning/Supporting/EXShell.plist.bak
 
-# Android/IJ
+# Android/IntelliJ
+#
+build/
 .idea
 .gradle
 local.properties
-*.aab
-*.apk
 android/Lndmobile/Lndmobile.aar
-android/app/src/main/assets/shell-app.bundle
-android/app/src/main/assets/shell-app-manifest.json
-android/app/prodKernel/
+android/app/release/
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# BUCK
+buck-out/
+\.buckd/
+*.keystore
+
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+*/fastlane/report.xml
+*/fastlane/Preview.html
+*/fastlane/screenshots
+
+# Bundle artifact
+*.jsbundle

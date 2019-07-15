@@ -18,6 +18,7 @@ describe('Action Wallet Unit Tests', () => {
   let wallet;
   let nav;
   let notification;
+  let RNFS;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
@@ -30,7 +31,11 @@ describe('Action Wallet Unit Tests', () => {
     db = sinon.createStubInstance(AppStorage);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    wallet = new WalletAction(store, grpc, db, nav, notification);
+    RNFS = {
+      DocumentDirectoryPath: '/foo/bar',
+      unlink: sinon.stub(),
+    };
+    wallet = new WalletAction(store, grpc, db, nav, notification, RNFS);
   });
 
   afterEach(() => {
@@ -303,7 +308,18 @@ describe('Action Wallet Unit Tests', () => {
   describe('initWallet()', () => {
     it('should init wallet', async () => {
       grpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
+      RNFS.unlink.resolves();
       await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
+      expect(
+        RNFS.unlink,
+        'was called with',
+        '/foo/bar/data/chain/bitcoin/mainnet/wallet.db'
+      );
+      expect(
+        RNFS.unlink,
+        'was called with',
+        '/foo/bar/data/chain/bitcoin/testnet/wallet.db'
+      );
       expect(store.walletUnlocked, 'to be', true);
       expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
         walletPassword: Buffer.from('baz', 'utf8'),
@@ -312,12 +328,37 @@ describe('Action Wallet Unit Tests', () => {
       expect(nav.goSeedSuccess, 'was called once');
     });
 
+    it('should not delete wallet if RNFS not supported', async () => {
+      grpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
+      delete wallet._FS;
+      await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
+      expect(RNFS.unlink, 'was not called');
+      expect(store.walletUnlocked, 'to be', true);
+      expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
+        walletPassword: Buffer.from('baz', 'utf8'),
+        cipherSeedMnemonic: ['foo'],
+      });
+      expect(nav.goSeedSuccess, 'was called once');
+    });
+
+    it('should display error notification on restore failure', async () => {
+      store.settings.restoring = true;
+      grpc.sendUnlockerCommand
+        .withArgs('InitWallet')
+        .rejects(new Error('Boom!'));
+      await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
+      expect(notification.display, 'was called once');
+      expect(nav.goRestoreSeed, 'was called once');
+      expect(nav.goSeedSuccess, 'was not called');
+    });
+
     it('should display error notification on failure', async () => {
       grpc.sendUnlockerCommand
         .withArgs('InitWallet')
         .rejects(new Error('Boom!'));
       await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
       expect(notification.display, 'was called once');
+      expect(nav.goRestoreSeed, 'was not called');
       expect(nav.goSeedSuccess, 'was not called');
     });
   });

@@ -1,4 +1,4 @@
-package host.exp.exponent;
+package com.lightningapp;
 
 import android.content.res.AssetManager;
 import android.os.FileObserver;

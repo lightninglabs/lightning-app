@@ -15,6 +15,8 @@ class NavAction {
     this._navigate = routeName =>
       navigatorRef.dispatch(this._navActions.navigate({ routeName }));
 
+    this._back = () => navigatorRef.dispatch(this._navActions.back());
+
     this._reset = (stackName, routeName) =>
       navigatorRef.dispatch(
         this._stackActions.reset({
@@ -29,6 +31,10 @@ class NavAction {
       );
 
     this._store.navReady = true;
+  }
+
+  goBack() {
+    this._back();
   }
 
   goLoader() {

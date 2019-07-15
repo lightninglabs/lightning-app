@@ -53,6 +53,7 @@ class PinView extends React.Component {
           <PinKeyboard
             onInput={digit => auth.pushPinDigit({ digit, param: 'pin' })}
             onBackspace={() => auth.popPinDigit({ param: 'pin' })}
+            onHelp={() => auth.askForHelp()}
           />
         </MainContent>
       </Background>

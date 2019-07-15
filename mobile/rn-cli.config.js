@@ -5,7 +5,20 @@ module.exports = {
     extraNodeModules: {
       react: path.resolve(__dirname, 'node_modules/react'),
       'react-native': path.resolve(__dirname, 'node_modules/react-native'),
-      expo: path.resolve(__dirname, 'node_modules/expo'),
+      'expo-font': path.resolve(__dirname, 'node_modules/expo-font'),
+      'expo-random': path.resolve(__dirname, 'node_modules/expo-random'),
+      'expo-keep-awake': path.resolve(
+        __dirname,
+        'node_modules/expo-keep-awake'
+      ),
+      'expo-permissions': path.resolve(
+        __dirname,
+        'node_modules/expo-permissions'
+      ),
+      'expo-local-authentication': path.resolve(
+        __dirname,
+        'node_modules/expo-local-authentication'
+      ),
       'prop-types': path.resolve(__dirname, 'node_modules/prop-types'),
       'react-native-svg': path.resolve(
         __dirname,
@@ -14,6 +27,18 @@ module.exports = {
       'react-navigation': path.resolve(
         __dirname,
         'node_modules/react-navigation'
+      ),
+      'react-native-keychain': path.resolve(
+        __dirname,
+        'node_modules/react-native-keychain'
+      ),
+      'react-native-camera': path.resolve(
+        __dirname,
+        'node_modules/react-native-camera'
+      ),
+      'react-native-fs': path.resolve(
+        __dirname,
+        'node_modules/react-native-fs'
       ),
       mobx: path.resolve(__dirname, 'node_modules/mobx'),
       'mobx-react': path.resolve(__dirname, 'node_modules/mobx-react'),
@@ -38,6 +63,5 @@ module.exports = {
   watchFolders: [
     path.resolve(__dirname, '../src'),
     path.resolve(__dirname, '../assets'),
-    path.resolve(__dirname, '../stories'),
   ],
 };

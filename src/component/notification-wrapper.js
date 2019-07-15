@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Platform, StatusBar } from 'react-native';
-import { KeepAwake } from 'expo';
+import KeepAwake from 'expo-keep-awake';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import DropdownAlert from 'react-native-dropdownalert';

@@ -9,18 +9,24 @@ describe('Action AuthMobile Unit Tests', () => {
   let wallet;
   let nav;
   let auth;
-  let SecureStore;
+  let Random;
+  let Keychain;
   let Fingerprint;
   let Alert;
+  let ActionSheetIOS;
+  let Platform;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
     store = new Store();
     wallet = sinon.createStubInstance(WalletAction);
     nav = sinon.createStubInstance(NavAction);
-    SecureStore = {
-      getItemAsync: sinon.stub(),
-      setItemAsync: sinon.stub(),
+    Random = {
+      getRandomBytesAsync: sinon.stub(),
+    };
+    Keychain = {
+      getInternetCredentials: sinon.stub(),
+      setInternetCredentials: sinon.stub(),
     };
     Fingerprint = {
       hasHardwareAsync: sinon.stub(),
@@ -30,7 +36,21 @@ describe('Action AuthMobile Unit Tests', () => {
     Alert = {
       alert: sinon.stub(),
     };
-    auth = new AuthAction(store, wallet, nav, SecureStore, Fingerprint, Alert);
+    ActionSheetIOS = {
+      showActionSheetWithOptions: sinon.stub(),
+    };
+    Platform = { OS: 'ios' };
+    auth = new AuthAction(
+      store,
+      wallet,
+      nav,
+      Random,
+      Keychain,
+      Fingerprint,
+      Alert,
+      ActionSheetIOS,
+      Platform
+    );
   });
 
   afterEach(() => {
@@ -177,9 +197,10 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '000000';
       await auth.checkNewPin();
       expect(
-        SecureStore.setItemAsync,
+        Keychain.setInternetCredentials,
         'was called with',
-        'DevicePin',
+        '0_DevicePin',
+        'lightning',
         '000000'
       );
       expect(auth._generateWalletPassword, 'was called once');
@@ -190,7 +211,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '00000';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(auth._generateWalletPassword, 'was not called');
     });
 
@@ -199,7 +220,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '000001';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(auth._generateWalletPassword, 'was not called');
     });
   });
@@ -211,14 +232,14 @@ describe('Action AuthMobile Unit Tests', () => {
 
     it('should work for two same pins', async () => {
       store.auth.pin = '000000';
-      SecureStore.getItemAsync.resolves('000000');
+      Keychain.getInternetCredentials.resolves({ password: '000000' });
       await auth.checkPin();
       expect(auth._unlockWallet, 'was called once');
     });
 
     it('should display error for non matching pins', async () => {
       store.auth.pin = '000001';
-      SecureStore.getItemAsync.resolves('000000');
+      Keychain.getInternetCredentials.resolves({ password: '000000' });
       await auth.checkPin();
       expect(Alert.alert, 'was called once');
       expect(auth._unlockWallet, 'was not called');
@@ -227,7 +248,7 @@ describe('Action AuthMobile Unit Tests', () => {
 
   describe('checkResetPin()', () => {
     beforeEach(() => {
-      SecureStore.getItemAsync.resolves('000000');
+      Keychain.getInternetCredentials.resolves({ password: '000000' });
     });
 
     it('should work for two same pins', async () => {
@@ -236,9 +257,10 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '100000';
       await auth.checkResetPin();
       expect(
-        SecureStore.setItemAsync,
+        Keychain.setInternetCredentials,
         'was called with',
-        'DevicePin',
+        '0_DevicePin',
+        'lightning',
         '100000'
       );
       expect(nav.goResetPasswordSaved, 'was called once');
@@ -250,7 +272,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '00000';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(nav.goResetPasswordSaved, 'was not called');
     });
 
@@ -260,7 +282,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '000001';
       await auth.checkResetPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(nav.goResetPasswordSaved, 'was not called');
     });
 
@@ -270,7 +292,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '000001';
       await auth.checkResetPin();
       expect(Alert.alert, 'was called once');
-      expect(SecureStore.setItemAsync, 'was not called');
+      expect(Keychain.setInternetCredentials, 'was not called');
       expect(nav.goResetPasswordSaved, 'was not called');
     });
   });
@@ -312,12 +334,19 @@ describe('Action AuthMobile Unit Tests', () => {
   });
 
   describe('_generateWalletPassword()', () => {
+    beforeEach(() => {
+      const pass =
+        'd1df8b8c3e828392b4a176a23cfe5668578f4edc5f18abdf3d468078505485be';
+      sandbox.stub(auth, '_secureRandomPassword').resolves(pass);
+    });
+
     it('should generate a password and store it', async () => {
       await auth._generateWalletPassword();
       expect(
-        SecureStore.setItemAsync,
+        Keychain.setInternetCredentials,
         'was called with',
-        'WalletPassword',
+        '0_WalletPassword',
+        'lightning',
         /^[0-9a-f]{64}$/
       );
       expect(store.wallet.newPassword, 'to match', /^[0-9a-f]{64}$/);
@@ -328,18 +357,64 @@ describe('Action AuthMobile Unit Tests', () => {
 
   describe('_unlockWallet()', () => {
     it('should not unlock wallet without hardware support', async () => {
-      SecureStore.getItemAsync.resolves('some-password');
+      Keychain.getInternetCredentials.resolves({ password: 'some-password' });
       await auth._unlockWallet();
-      expect(SecureStore.getItemAsync, 'was called with', 'WalletPassword');
+      expect(
+        Keychain.getInternetCredentials,
+        'was called with',
+        '0_WalletPassword'
+      );
       expect(store.wallet.password, 'to equal', 'some-password');
       expect(wallet.checkPassword, 'was called once');
     });
   });
 
-  describe('_totallyNotSecureRandomPassword()', () => {
+  describe('_getFromKeyStore()', () => {
+    it('should read keychain value', async () => {
+      Keychain.getInternetCredentials.resolves({ password: 'some-password' });
+      const value = await auth._getFromKeyStore('key');
+      expect(value, 'to equal', 'some-password');
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
+    });
+
+    it('should get empty value from keychain', async () => {
+      Keychain.getInternetCredentials.resolves(false);
+      const value = await auth._getFromKeyStore('key');
+      expect(value, 'to equal', null);
+      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
+    });
+  });
+
+  describe('_secureRandomPassword()', () => {
     it('should generate hex encoded 256bit entropy password', async () => {
-      const pass = auth._totallyNotSecureRandomPassword();
+      const buf = Buffer.from(
+        'd1df8b8c3e828392b4a176a23cfe5668578f4edc5f18abdf3d468078505485be',
+        'hex'
+      );
+      Random.getRandomBytesAsync.resolves(new Uint8Array(buf));
+      const pass = await auth._secureRandomPassword();
       expect(pass.length, 'to equal', 64);
+    });
+  });
+
+  describe('askForHelp()', () => {
+    it('should display action sheet on iOS', async () => {
+      auth.askForHelp();
+      expect(ActionSheetIOS.showActionSheetWithOptions, 'was called once');
+    });
+
+    it('should display alert on Android', async () => {
+      Platform.OS = 'android';
+      auth.askForHelp();
+      expect(Alert.alert, 'was called once');
+    });
+  });
+
+  describe('_initRestoreWallet()', () => {
+    it('should init wallet restoration', async () => {
+      auth._initRestoreWallet();
+      expect(store.settings.restoring, 'to be', true);
+      expect(wallet.initRestoreWallet, 'was called once');
     });
   });
 });

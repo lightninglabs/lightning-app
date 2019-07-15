@@ -1,4 +1,4 @@
-package host.exp.exponent;
+package com.lightningapp;
 
 
 import com.facebook.react.ReactPackage;

@@ -1,40 +1,7 @@
 {
+  "name": "LightningApp",
+  "displayName": "Lightning",
   "expo": {
-    "name": "Lightning",
-    "version": "0.0.1",
-    "description": "An easy-to-use Lightning wallet.",
-    "slug": "lightning-app",
-    "privacy": "unlisted",
-    "sdkVersion": "32.0.0",
-    "platforms": ["ios", "android"],
-    "orientation": "portrait",
-    "primaryColor": "#57038D",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "cover",
-      "backgroundColor": "#57038D"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0,
-      "enabled": false
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "engineering.lightning.LightningApp",
-      "infoPlist": {
-        "NSFaceIDUsageDescription": "Allow Lightning to use Face ID"
-      }
-    },
-    "android": {
-      "package": "engineering.lightning.LightningApp"
-    },
-    "packagerOpts": {
-      "config": "./rn-cli.config.js"
-    },
-    "scheme": "lightning"
+    "sdkVersion": "33.0.0"
   }
 }

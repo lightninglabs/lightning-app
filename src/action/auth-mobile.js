@@ -5,17 +5,32 @@
 
 import { PIN_LENGTH } from '../config';
 
+const VERSION = '0';
 const PIN = 'DevicePin';
 const PASS = 'WalletPassword';
+const USER = 'lightning';
 
 class AuthAction {
-  constructor(store, wallet, nav, SecureStore, Fingerprint, Alert) {
+  constructor(
+    store,
+    wallet,
+    nav,
+    Random,
+    Keychain,
+    Fingerprint,
+    Alert,
+    ActionSheetIOS,
+    Platform
+  ) {
     this._store = store;
     this._wallet = wallet;
     this._nav = nav;
-    this._SecureStore = SecureStore;
+    this._Random = Random;
+    this._Keychain = Keychain;
     this._Fingerprint = Fingerprint;
     this._Alert = Alert;
+    this._ActionSheetIOS = ActionSheetIOS;
+    this._Platform = Platform;
   }
 
   //
@@ -206,7 +221,7 @@ class AuthAction {
    * @return {Promise<undefined>}
    */
   async _generateWalletPassword() {
-    const newPass = this._totallyNotSecureRandomPassword();
+    const newPass = await this._secureRandomPassword();
     await this._setToKeyStore(PASS, newPass);
     this._store.wallet.newPassword = newPass;
     this._store.wallet.passwordVerify = newPass;
@@ -225,18 +240,22 @@ class AuthAction {
     await this._wallet.checkPassword();
   }
 
-  _getFromKeyStore(key) {
-    const options = {
-      keychainAccessible: this._SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-    };
-    return this._SecureStore.getItemAsync(key, options);
+  async _getFromKeyStore(key) {
+    const vKey = `${VERSION}_${key}`;
+    const credentials = await this._Keychain.getInternetCredentials(vKey);
+    if (credentials) {
+      return credentials.password;
+    } else {
+      return null;
+    }
   }
 
   _setToKeyStore(key, value) {
     const options = {
-      keychainAccessible: this._SecureStore.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      accessible: this._Keychain.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
     };
-    return this._SecureStore.setItemAsync(key, value, options);
+    const vKey = `${VERSION}_${key}`;
+    return this._Keychain.setInternetCredentials(vKey, USER, value, options);
   }
 
   _alert(title, callback) {
@@ -244,21 +263,47 @@ class AuthAction {
   }
 
   /**
-   * NOT SECURE ... DO NOT USE IN PRODUCTION !!!
-   *
-   * Just a stop gap during development until we have a secure native
-   * PRNG: https://github.com/lightninglabs/lightning-app/issues/777
-   *
-   * Generate a hex encoded 256 bit entropy wallet password (which will
-   * be stretched using a KDF in lnd).
-   * @return {string}      A hex string containing some random bytes
+   * Generate a random hex encoded 256 bit entropy wallet password.
+   * @return {Promise<string>} A hex string containing some random bytes
    */
-  _totallyNotSecureRandomPassword() {
-    const bytes = new Uint8Array(32);
-    for (let i = 0; i < bytes.length; i++) {
-      bytes[i] = Math.floor(256 * Math.random());
-    }
+  async _secureRandomPassword() {
+    const bytes = await this._Random.getRandomBytesAsync(32);
     return Buffer.from(bytes.buffer).toString('hex');
+  }
+
+  //
+  // Help / Restore actions
+  //
+
+  askForHelp() {
+    const message =
+      "If you have forgotten your PIN, or you're locked out of your wallet, you can reset your PIN with your Recovery Phrase.";
+    const action = 'Recover My Wallet';
+    const cancel = 'Cancel';
+    if (this._Platform.OS === 'ios') {
+      this._ActionSheetIOS.showActionSheetWithOptions(
+        {
+          message,
+          options: [cancel, action],
+          cancelButtonIndex: 0,
+          destructiveButtonIndex: 1,
+        },
+        i => i === 1 && this._initRestoreWallet()
+      );
+    } else {
+      this._Alert.alert(null, message, [
+        {
+          text: action,
+          onPress: () => this._initRestoreWallet(),
+        },
+        { text: cancel, style: 'cancel' },
+      ]);
+    }
+  }
+
+  _initRestoreWallet() {
+    this._store.settings.restoring = true;
+    this._wallet.initRestoreWallet();
   }
 }
 
