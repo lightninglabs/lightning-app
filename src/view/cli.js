@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Share } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { SplitBackground } from '../component/background';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
-import { Button, BackButton } from '../component/button';
+import { BackButton, ShareButton } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { color, font, breakWidth } from '../component/style';
 
@@ -19,16 +19,31 @@ const styles = StyleSheet.create({
   },
 });
 
-const CLIView = ({ store, nav }) => (
-  <SplitBackground color={color.blackDark} bottom={color.cliBackground}>
-    <Header separator style={styles.header}>
-      <BackButton onPress={() => nav.goSettings()} />
-      <Title title="Logs" />
-      <Button disabled onPress={() => {}} />
-    </Header>
-    <LogOutput logs={store.logs} />
-  </SplitBackground>
-);
+class CLIView extends Component {
+  render() {
+    const { store, nav } = this.props;
+    return (
+      <SplitBackground color={color.blackDark} bottom={color.cliBackground}>
+        <Header separator style={styles.header}>
+          <BackButton onPress={() => nav.goSettings()} />
+          <Title title="Logs" />
+          <ShareButton onPress={() => this.shareLogs()} />
+        </Header>
+        <LogOutput logs={store.logs} />
+      </SplitBackground>
+    );
+  }
+
+  shareLogs() {
+    try {
+      Share.share({
+        message: this.props.store.logs,
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+}
 
 CLIView.propTypes = {
   store: PropTypes.object.isRequired,
