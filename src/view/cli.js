@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import { SplitBackground } from '../component/background';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
-import { BackButton, ShareButton } from '../component/button';
+import { BackButton, ShareButton, Button } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { color, font, breakWidth } from '../component/style';
+import { getLogs, error } from '../action/log';
 
 //
 // CLI View
@@ -27,20 +28,26 @@ class CLIView extends Component {
         <Header separator style={styles.header}>
           <BackButton onPress={() => nav.goSettings()} />
           <Title title="Logs" />
-          <ShareButton onPress={() => this.shareLogs()} />
+          {store.isMobile ? (
+            <ShareButton onPress={() => this.shareLogs()} />
+          ) : (
+            <Button onPress={() => {}} />
+          )}
         </Header>
         <LogOutput logs={store.logs} />
       </SplitBackground>
     );
   }
 
-  shareLogs() {
+  async shareLogs() {
     try {
-      Share.share({
-        message: this.props.store.logs,
+      const logs = await getLogs();
+      await Share.share({
+        title: 'Lightning App logs',
+        message: logs,
       });
     } catch (err) {
-      console.error(err);
+      error(err);
     }
   }
 }

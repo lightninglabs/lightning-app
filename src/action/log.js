@@ -10,6 +10,7 @@ import { MAX_LOG_LENGTH } from '../config';
 let _store;
 let _ipc;
 let _printErrObj;
+let _FS;
 
 /**
  * Log an info event e.g. when something relevant but non-critical happens.
@@ -49,6 +50,29 @@ export function error(...args) {
   _ipc && _ipc.send('log-error', null, args);
 }
 
+/**
+ * Gets the location of the LND log file as a string.
+ * @param {string} network The network the user's on
+ * @return {string}
+ */
+export function getLogPath(network) {
+  const lndDir = _FS.DocumentDirectoryPath;
+  return `${lndDir}/logs/bitcoin/${network}/lnd.log`;
+}
+
+/**
+ * Retrieves the entire LND log file as a string.
+ * @return {Promise}
+ */
+export function getLogs() {
+  if (!_FS) {
+    return Promise.reject(
+      'Cannot get logs when no filesystem is available in action/log.js'
+    );
+  }
+  return _FS.readFile(getLogPath(_store.network), 'utf8');
+}
+
 function pushLogs(message) {
   if (!_store) return;
   _store.logs += '\n' + message.replace(/\s+$/, '');
@@ -59,10 +83,11 @@ function pushLogs(message) {
 }
 
 class LogAction {
-  constructor(store, ipc, printErrObj = true) {
+  constructor(store, ipc, printErrObj = true, FS) {
     _store = store;
     _ipc = ipc;
     _printErrObj = printErrObj;
+    _FS = FS;
     _ipc.listen('logs', (event, message) => pushLogs(message));
     _ipc.send('logs-ready', null, true);
   }

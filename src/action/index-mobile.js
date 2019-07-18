@@ -43,11 +43,12 @@ import AtplAction from './autopilot';
 //
 
 store.init(); // initialize computed values
+store.isMobile = true;
 
 export const db = new AppStorage(store, AsyncStorage);
 export const grpc = new GrpcAction(store, NativeModules, NativeEventEmitter);
 export const ipc = new IpcAction(grpc);
-export const log = new LogAction(store, ipc, false);
+export const log = new LogAction(store, ipc, false, RNFS);
 export const nav = new NavAction(store, NavigationActions, StackActions);
 export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, db, nav, notify, RNFS);
