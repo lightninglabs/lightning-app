@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Share } from 'react-native';
+import { ScrollView, StyleSheet, Share, Platform } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { SplitBackground } from '../component/background';
@@ -9,6 +9,7 @@ import { BackButton, ShareButton, Button } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { color, font, breakWidth } from '../component/style';
 import { getLogs, error } from '../action/log';
+import { Platform } from 'app-builder-lib';
 
 //
 // CLI View
@@ -28,10 +29,10 @@ class CLIView extends Component {
         <Header separator style={styles.header}>
           <BackButton onPress={() => nav.goSettings()} />
           <Title title="Logs" />
-          {store.isMobile ? (
-            <ShareButton onPress={() => this.shareLogs()} />
-          ) : (
+          {Platform.OS === 'web' ? (
             <Button onPress={() => {}} />
+          ) : (
+            <ShareButton onPress={() => this.shareLogs()} />
           )}
         </Header>
         <LogOutput logs={store.logs} />

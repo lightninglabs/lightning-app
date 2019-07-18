@@ -43,7 +43,6 @@ import AtplAction from './autopilot';
 //
 
 store.init(); // initialize computed values
-store.isMobile = true;
 
 export const db = new AppStorage(store, AsyncStorage);
 export const grpc = new GrpcAction(store, NativeModules, NativeEventEmitter);
