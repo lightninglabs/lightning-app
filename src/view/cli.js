@@ -9,7 +9,6 @@ import { BackButton, ShareButton, Button } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { color, font, breakWidth } from '../component/style';
 import { getLogs, error } from '../action/log';
-import { Platform } from 'app-builder-lib';
 
 //
 // CLI View
