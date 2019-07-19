@@ -57,6 +57,9 @@ export function error(...args) {
  * @return {string}
  */
 export function getLogPath(network) {
+  if (!_FS) {
+    throw new Error('Cannot get log path with no FS in action/log.js');
+  }
   const lndDir = _FS.DocumentDirectoryPath;
   return `${lndDir}/logs/bitcoin/${network}/lnd.log`;
 }
@@ -68,7 +71,7 @@ export function getLogPath(network) {
 export function getLogs() {
   if (!_FS) {
     return Promise.reject(
-      'Cannot get logs when no filesystem is available in action/log.js'
+      new Error('Cannot get logs with no FS in action/log.js')
     );
   }
   return _FS.readFile(getLogPath(_store.network), 'utf8');
@@ -81,7 +84,7 @@ export function getLogs() {
 export async function shareLogs() {
   if (!_Share) {
     return Promise.reject(
-      'Cannot share logs with no Share library in action/log.js'
+      new Error('Cannot share logs with no Share in action/log.js')
     );
   }
   const logs = await getLogs();

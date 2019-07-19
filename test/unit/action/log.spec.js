@@ -10,6 +10,14 @@ describe('Action Logs Unit Tests', () => {
   let ipc;
   let ipcRenderer;
 
+  const RNFS = {
+    DocumentDirectoryPath: '/foo/bar',
+    readFile: () => Promise.resolve('logs'),
+  };
+  const Share = {
+    share: () => Promise.resolve(true),
+  };
+
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
     ipcRenderer = {
@@ -113,6 +121,39 @@ describe('Action Logs Unit Tests', () => {
         log.error('foo', err);
         expect(console.error, 'was called with', 'foo', err);
         expect(store.logs.length, 'to equal', 56);
+      });
+    });
+
+    describe('getLogPath()', () => {
+      it('should throw without a FS constructor argument', () => {
+        expect(() => log.getLogPath(), 'to throw');
+      });
+
+      it('should return a log path with FS constructor argument', () => {
+        new LogAction(store, ipc, false, RNFS);
+        expect(log.getLogPath(), 'to be a string');
+      });
+    });
+
+    describe('getLogs()', () => {
+      it('should throw without a FS constructor argument', async () => {
+        await expect(log.getLogs(), 'to be rejected');
+      });
+
+      it('should return logs with an FS constructor argument', async () => {
+        new LogAction(store, ipc, false, RNFS);
+        expect(await log.getLogs(), 'to be a string');
+      });
+    });
+
+    describe('shareLogs()', () => {
+      it('should throw without a Share or FS constructor argument', async () => {
+        await expect(log.shareLogs(), 'to be rejected');
+      });
+
+      it('should share the logs with a Share and FS constructor argument', async () => {
+        new LogAction(store, ipc, false, RNFS, Share);
+        expect(await log.shareLogs(), 'to be ok');
       });
     });
   });
