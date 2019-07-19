@@ -11,6 +11,7 @@ let _store;
 let _ipc;
 let _printErrObj;
 let _FS;
+let _Share;
 
 /**
  * Log an info event e.g. when something relevant but non-critical happens.
@@ -73,6 +74,23 @@ export function getLogs() {
   return _FS.readFile(getLogPath(_store.network), 'utf8');
 }
 
+/**
+ * Shares the log file using whatever native share function we have.
+ * @return {Promise}
+ */
+export async function shareLogs() {
+  if (!_Share) {
+    return Promise.reject(
+      'Cannot share logs with no Share library in action/log.js'
+    );
+  }
+  const logs = await getLogs();
+  return _Share.share({
+    title: 'Lightning App logs',
+    message: logs,
+  });
+}
+
 function pushLogs(message) {
   if (!_store) return;
   _store.logs += '\n' + message.replace(/\s+$/, '');
@@ -83,11 +101,12 @@ function pushLogs(message) {
 }
 
 class LogAction {
-  constructor(store, ipc, printErrObj = true, FS) {
+  constructor(store, ipc, printErrObj = true, FS, Share) {
     _store = store;
     _ipc = ipc;
     _printErrObj = printErrObj;
     _FS = FS;
+    _Share = Share;
     _ipc.listen('logs', (event, message) => pushLogs(message));
     _ipc.send('logs-ready', null, true);
   }

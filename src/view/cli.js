@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet, Share, Platform } from 'react-native';
+import { ScrollView, StyleSheet, Platform } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { SplitBackground } from '../component/background';
@@ -8,7 +8,7 @@ import Text from '../component/text';
 import { BackButton, ShareButton, Button } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { color, font, breakWidth } from '../component/style';
-import { getLogs, error } from '../action/log';
+import { shareLogs, error } from '../action/log';
 
 //
 // CLI View
@@ -41,11 +41,7 @@ class CLIView extends Component {
 
   async shareLogs() {
     try {
-      const logs = await getLogs();
-      await Share.share({
-        title: 'Lightning App logs',
-        message: logs,
-      });
+      await shareLogs();
     } catch (err) {
       error(err);
     }
