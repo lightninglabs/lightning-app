@@ -149,8 +149,8 @@ describe('Action Logs Unit Tests', () => {
     });
 
     describe('shareLogs()', () => {
-      it('should throw without a Share or FS constructor argument', async () => {
-        await expect(log.shareLogs(), 'to be rejected');
+      it('should resolve false-y without Share or FS constructor arguments', async () => {
+        expect(await log.shareLogs(), 'not to be ok');
       });
 
       it('should share the logs with a Share and FS constructor argument', async () => {
