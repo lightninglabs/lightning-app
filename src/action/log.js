@@ -66,13 +66,11 @@ export function getLogPath(network) {
 
 /**
  * Retrieves the entire LND log file as a string.
- * @return {Promise}
+ * @return {Promise<string>}
  */
-export function getLogs() {
+export async function getLogs() {
   if (!_FS) {
-    return Promise.reject(
-      new Error('Cannot get logs with no FS in action/log.js')
-    );
+    throw new Error('Cannot get logs with no FS in action/log.js');
   }
   return _FS.readFile(getLogPath(_store.network), 'utf8');
 }
@@ -83,9 +81,7 @@ export function getLogs() {
  */
 export async function shareLogs() {
   if (!_Share) {
-    return Promise.reject(
-      new Error('Cannot share logs with no Share in action/log.js')
-    );
+    throw new Error('Cannot share logs with no Share in action/log.js');
   }
   const logs = await getLogs();
   return _Share.share({
