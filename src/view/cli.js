@@ -8,7 +8,7 @@ import Text from '../component/text';
 import { BackButton, ShareButton, Button } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { color, font, breakWidth } from '../component/style';
-import { shareLogs, error } from '../action/log';
+import { shareLogs } from '../action/log';
 
 //
 // CLI View
@@ -20,33 +20,20 @@ const styles = StyleSheet.create({
   },
 });
 
-class CLIView extends Component {
-  render() {
-    const { store, nav } = this.props;
-    return (
-      <SplitBackground color={color.blackDark} bottom={color.cliBackground}>
-        <Header separator style={styles.header}>
-          <BackButton onPress={() => nav.goSettings()} />
-          <Title title="Logs" />
-          {Platform.OS === 'web' ? (
-            <Button onPress={() => {}} />
-          ) : (
-            <ShareButton onPress={() => this.shareLogs()} />
-          )}
-        </Header>
-        <LogOutput logs={store.logs} />
-      </SplitBackground>
-    );
-  }
-
-  async shareLogs() {
-    try {
-      await shareLogs();
-    } catch (err) {
-      error(err);
-    }
-  }
-}
+const CLIView = ({ store, nav }) => (
+  <SplitBackground color={color.blackDark} bottom={color.cliBackground}>
+    <Header separator style={styles.header}>
+      <BackButton onPress={() => nav.goSettings()} />
+      <Title title="Logs" />
+      {Platform.OS === 'web' ? (
+        <Button onPress={() => {}} />
+      ) : (
+        <ShareButton onPress={() => shareLogs()} />
+      )}
+    </Header>
+    <LogOutput logs={store.logs} />
+  </SplitBackground>
+);
 
 CLIView.propTypes = {
   store: PropTypes.object.isRequired,

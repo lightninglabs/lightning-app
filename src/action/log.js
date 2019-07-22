@@ -80,14 +80,18 @@ export async function getLogs() {
  * @return {Promise}
  */
 export async function shareLogs() {
-  if (!_Share) {
-    throw new Error('Cannot share logs with no Share in action/log.js');
+  try {
+    if (!_Share) {
+      throw new Error('Cannot share logs with no Share in action/log.js');
+    }
+    const logs = await getLogs();
+    return _Share.share({
+      title: 'Lightning App logs',
+      message: logs,
+    });
+  } catch (err) {
+    error(err.message);
   }
-  const logs = await getLogs();
-  return _Share.share({
-    title: 'Lightning App logs',
-    message: logs,
-  });
 }
 
 function pushLogs(message) {
