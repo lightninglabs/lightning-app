@@ -25,7 +25,7 @@ const CLIView = ({ store, nav, file }) => (
       <BackButton onPress={() => nav.goSettings()} />
       <Title title="Logs" />
       {Platform.OS === 'web' ? (
-        <Button onPress={() => {}} />
+        <Button disabled onPress={() => {}} />
       ) : (
         <ShareButton onPress={() => file.shareLogs()} />
       )}
