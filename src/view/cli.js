@@ -8,7 +8,6 @@ import Text from '../component/text';
 import { BackButton, ShareButton, Button } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { color, font, breakWidth } from '../component/style';
-import { shareLogs } from '../action/log';
 
 //
 // CLI View
@@ -20,7 +19,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CLIView = ({ store, nav }) => (
+const CLIView = ({ store, nav, file }) => (
   <SplitBackground color={color.blackDark} bottom={color.cliBackground}>
     <Header separator style={styles.header}>
       <BackButton onPress={() => nav.goSettings()} />
@@ -28,7 +27,7 @@ const CLIView = ({ store, nav }) => (
       {Platform.OS === 'web' ? (
         <Button onPress={() => {}} />
       ) : (
-        <ShareButton onPress={() => shareLogs()} />
+        <ShareButton onPress={() => file.shareLogs()} />
       )}
     </Header>
     <LogOutput logs={store.logs} />
@@ -38,6 +37,7 @@ const CLIView = ({ store, nav }) => (
 CLIView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
+  file: PropTypes.object,
 };
 
 //
