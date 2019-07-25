@@ -4,6 +4,7 @@ import AppStorage from '../../../src/action/app-storage';
 import WalletAction from '../../../src/action/wallet';
 import NavAction from '../../../src/action/nav';
 import NavActionMobile from '../../../src/action/nav-mobile';
+import FileAction from '../../../src/action/file-mobile';
 import NotificationAction from '../../../src/action/notification';
 import * as logger from '../../../src/action/log';
 import nock from 'nock';
@@ -18,7 +19,7 @@ describe('Action Wallet Unit Tests', () => {
   let wallet;
   let nav;
   let notification;
-  let RNFS;
+  let file;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
@@ -31,11 +32,8 @@ describe('Action Wallet Unit Tests', () => {
     db = sinon.createStubInstance(AppStorage);
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
-    RNFS = {
-      DocumentDirectoryPath: '/foo/bar',
-      unlink: sinon.stub(),
-    };
-    wallet = new WalletAction(store, grpc, db, nav, notification, RNFS);
+    file = sinon.createStubInstance(FileAction);
+    wallet = new WalletAction(store, grpc, db, nav, notification, file);
   });
 
   afterEach(() => {
@@ -308,18 +306,9 @@ describe('Action Wallet Unit Tests', () => {
   describe('initWallet()', () => {
     it('should init wallet', async () => {
       grpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
-      RNFS.unlink.resolves();
       await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
-      expect(
-        RNFS.unlink,
-        'was called with',
-        '/foo/bar/data/chain/bitcoin/mainnet/wallet.db'
-      );
-      expect(
-        RNFS.unlink,
-        'was called with',
-        '/foo/bar/data/chain/bitcoin/testnet/wallet.db'
-      );
+      expect(file.deleteWalletDB, 'was called with', 'mainnet');
+      expect(file.deleteWalletDB, 'was called with', 'testnet');
       expect(store.walletUnlocked, 'to be', true);
       expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
         walletPassword: Buffer.from('baz', 'utf8'),
@@ -330,9 +319,9 @@ describe('Action Wallet Unit Tests', () => {
 
     it('should not delete wallet if RNFS not supported', async () => {
       grpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
-      delete wallet._FS;
+      delete wallet._file;
       await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
-      expect(RNFS.unlink, 'was not called');
+      expect(file.deleteWalletDB, 'was not called');
       expect(store.walletUnlocked, 'to be', true);
       expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
         walletPassword: Buffer.from('baz', 'utf8'),
