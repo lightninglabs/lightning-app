@@ -14,6 +14,7 @@ import {
   NativeModules,
   ActionSheetIOS,
   NativeEventEmitter,
+  Share,
 } from 'react-native';
 import * as Random from 'expo-random';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -47,7 +48,7 @@ store.init(); // initialize computed values
 export const db = new AppStorage(store, AsyncStorage);
 export const grpc = new GrpcAction(store, NativeModules, NativeEventEmitter);
 export const ipc = new IpcAction(grpc);
-export const log = new LogAction(store, ipc, false);
+export const log = new LogAction(store, ipc, false, RNFS, Share);
 export const nav = new NavAction(store, NavigationActions, StackActions);
 export const notify = new NotificationAction(store, nav);
 export const wallet = new WalletAction(store, grpc, db, nav, notify, RNFS);

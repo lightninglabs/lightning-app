@@ -10,6 +10,8 @@ import { MAX_LOG_LENGTH } from '../config';
 let _store;
 let _ipc;
 let _printErrObj;
+let _FS;
+let _Share;
 
 /**
  * Log an info event e.g. when something relevant but non-critical happens.
@@ -49,6 +51,49 @@ export function error(...args) {
   _ipc && _ipc.send('log-error', null, args);
 }
 
+/**
+ * Gets the location of the LND log file as a string.
+ * @param {string} network The network the user's on
+ * @return {string}
+ */
+export function getLogPath(network) {
+  if (!_FS) {
+    throw new Error('Cannot get log path with no FS in action/log.js');
+  }
+  const lndDir = _FS.DocumentDirectoryPath;
+  return `${lndDir}/logs/bitcoin/${network}/lnd.log`;
+}
+
+/**
+ * Retrieves the entire LND log file as a string.
+ * @return {Promise<string>}
+ */
+export async function getLogs() {
+  if (!_FS) {
+    throw new Error('Cannot get logs with no FS in action/log.js');
+  }
+  return _FS.readFile(getLogPath(_store.network), 'utf8');
+}
+
+/**
+ * Shares the log file using whatever native share function we have.
+ * @return {Promise}
+ */
+export async function shareLogs() {
+  try {
+    if (!_Share) {
+      throw new Error('Cannot share logs with no Share in action/log.js');
+    }
+    const logs = await getLogs();
+    return _Share.share({
+      title: 'Lightning App logs',
+      message: logs,
+    });
+  } catch (err) {
+    error(err.message);
+  }
+}
+
 function pushLogs(message) {
   if (!_store) return;
   _store.logs += '\n' + message.replace(/\s+$/, '');
@@ -59,10 +104,12 @@ function pushLogs(message) {
 }
 
 class LogAction {
-  constructor(store, ipc, printErrObj = true) {
+  constructor(store, ipc, printErrObj = true, FS, Share) {
     _store = store;
     _ipc = ipc;
     _printErrObj = printErrObj;
+    _FS = FS;
+    _Share = Share;
     _ipc.listen('logs', (event, message) => pushLogs(message));
     _ipc.send('logs-ready', null, true);
   }
