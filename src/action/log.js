@@ -59,7 +59,7 @@ function pushLogs(message) {
 }
 
 class LogAction {
-  constructor(store, ipc, printErrObj = true, FS, Share) {
+  constructor(store, ipc, printErrObj = true) {
     _store = store;
     _ipc = ipc;
     _printErrObj = printErrObj;
