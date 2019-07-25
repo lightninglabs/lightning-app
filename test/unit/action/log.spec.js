@@ -9,21 +9,12 @@ describe('Action Logs Unit Tests', () => {
   let sandbox;
   let ipc;
   let ipcRenderer;
-  let RNFS;
-  let Share;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
     ipcRenderer = {
       send: sinon.stub(),
       on: sinon.stub().yields('some-event', 'some-arg'),
-    };
-    RNFS = {
-      DocumentDirectoryPath: '/foo/bar',
-      readFile: sinon.stub().resolves('logs'),
-    };
-    Share = {
-      share: sinon.stub().resolves(true),
     };
   });
 
@@ -122,42 +113,6 @@ describe('Action Logs Unit Tests', () => {
         log.error('foo', err);
         expect(console.error, 'was called with', 'foo', err);
         expect(store.logs.length, 'to equal', 56);
-      });
-    });
-
-    describe('getLogPath()', () => {
-      it('should throw without a FS constructor argument', () => {
-        expect(() => log.getLogPath(), 'to throw');
-      });
-
-      it('should return a log path with FS constructor argument', () => {
-        new LogAction(store, ipc, false, RNFS);
-        expect(log.getLogPath(), 'to be a string');
-      });
-    });
-
-    describe('getLogs()', () => {
-      it('should throw without a FS constructor argument', async () => {
-        await expect(log.getLogs(), 'to be rejected');
-      });
-
-      it('should return logs with an FS constructor argument', async () => {
-        new LogAction(store, ipc, false, RNFS);
-        expect(await log.getLogs(), 'to be a string');
-        expect(RNFS.readFile.called, 'to be true');
-      });
-    });
-
-    describe('shareLogs()', () => {
-      it('should resolve false-y without Share or FS constructor arguments', async () => {
-        expect(await log.shareLogs(), 'not to be ok');
-      });
-
-      it('should share the logs with a Share and FS constructor argument', async () => {
-        new LogAction(store, ipc, false, RNFS, Share);
-        expect(await log.shareLogs(), 'to be ok');
-        expect(RNFS.readFile.called, 'to be true');
-        expect(Share.share.called, 'to be true');
       });
     });
   });
