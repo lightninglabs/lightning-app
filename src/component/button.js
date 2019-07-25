@@ -565,7 +565,7 @@ MaxButton.propTypes = {
 
 export const ShareButton = ({ onPress, disabled, style }) => (
   <Button onPress={onPress} disabled={disabled} style={style}>
-    <ShareIcon height={22} width={16} />
+    <ShareIcon height={16} width={14.979} />
   </Button>
 );
 
