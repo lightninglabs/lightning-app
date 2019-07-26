@@ -41,4 +41,6 @@ target 'LightningApp' do
 
   pod 'RNShare', :path => '../node_modules/react-native-share'
 
+  pod 'RNICloudStore', :path => '../node_modules/react-native-icloudstore'
+
 end
