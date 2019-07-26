@@ -17,6 +17,7 @@ import PaymentAction from '../src/action/payment';
 import ChannelAction from '../src/action/channel';
 import TransactionAction from '../src/action/transaction';
 import AuthAction from '../src/action/auth-mobile';
+import FileAction from '../src/action/file-mobile';
 import AtplAction from '../src/action/autopilot';
 import Welcome from '../src/view/welcome';
 import Transaction from '../src/view/transaction';
@@ -90,6 +91,7 @@ import RestoreSeedMobile from '../src/view/restore-seed-mobile';
 
 const store = new Store();
 store.init();
+const file = sinon.createStubInstance(FileAction);
 const nav = sinon.createStubInstance(NavAction);
 const db = sinon.createStubInstance(AppStorage);
 const ipc = sinon.createStubInstance(IpcAction);
@@ -218,7 +220,7 @@ storiesOf('Screens', module)
   .add('Notifications (Mobile)', () => (
     <NotificationMobile store={store} nav={nav} />
   ))
-  .add('CLI', () => <CLI store={store} nav={nav} />)
+  .add('CLI', () => <CLI store={store} nav={nav} file={file} />)
   .add('Transactions', () => (
     <Transaction store={store} transaction={transaction} nav={nav} />
   ))
