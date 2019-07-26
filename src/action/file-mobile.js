@@ -47,8 +47,7 @@ class FileAction {
 
   /**
    * Delete the wallet.db file. This allows the user to restore their wallet
-   * (including channel state) from the seed if they've they've forgotten the
-   * wallet pin/password.
+   * (including channel state) from the seed if they've forgotten the pin.
    * @return {Promise<undefined>}
    */
   async deleteWalletDB(network) {
