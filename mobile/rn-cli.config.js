@@ -44,6 +44,10 @@ module.exports = {
         __dirname,
         'node_modules/react-native-share'
       ),
+      'react-native-icloudstore': path.resolve(
+        __dirname,
+        'node_modules/react-native-icloudstore'
+      ),
       mobx: path.resolve(__dirname, 'node_modules/mobx'),
       'mobx-react': path.resolve(__dirname, 'node_modules/mobx-react'),
       'locale-currency': path.resolve(
