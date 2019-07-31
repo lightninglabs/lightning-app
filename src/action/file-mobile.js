@@ -82,9 +82,13 @@ class FileAction {
     return `${this.lndDir}/data/chain/bitcoin/${network}/channel.backup`;
   }
 
-  get scbExternalPath() {
+  get scbExternalDir() {
     const { network } = this._store;
-    return `${this.externalStorageDir}/${network}/channel.backup`;
+    return `${this.externalStorageDir}/Lightning/${network}`;
+  }
+
+  get scbExternalPath() {
+    return `${this.scbExternalDir}/channel.backup`;
   }
 
   async readSCB() {
@@ -92,6 +96,7 @@ class FileAction {
   }
 
   async copySCBToExternalStorage() {
+    await this._FS.mkdir(this.scbExternalDir);
     await this._FS.copyFile(this.scbPath, this.scbExternalPath);
   }
 
