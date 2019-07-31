@@ -14,12 +14,14 @@ import {
   NativeModules,
   ActionSheetIOS,
   NativeEventEmitter,
+  PermissionsAndroid,
 } from 'react-native';
 import * as Random from 'expo-random';
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as RNKeychain from 'react-native-keychain';
 import RNFS from 'react-native-fs';
 import RNShare from 'react-native-share';
+import RNiCloudStorage from 'react-native-icloudstore';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { nap } from '../helper';
 import store from '../store';
@@ -31,6 +33,7 @@ import WalletAction from './wallet';
 import LogAction from './log';
 import FileAction from './file-mobile';
 import KeychainAction from './keychain-mobile';
+import BackupAction from './backup-mobile';
 import InfoAction from './info';
 import NotificationAction from './notification';
 import ChannelAction from './channel';
@@ -55,7 +58,22 @@ export const file = new FileAction(store, RNFS, RNShare);
 export const log = new LogAction(store, ipc, false);
 export const nav = new NavAction(store, NavigationActions, StackActions);
 export const notify = new NotificationAction(store, nav);
-export const wallet = new WalletAction(store, grpc, db, nav, notify, file);
+export const backup = new BackupAction(
+  grpc,
+  file,
+  Platform,
+  PermissionsAndroid,
+  RNiCloudStorage
+);
+export const wallet = new WalletAction(
+  store,
+  grpc,
+  db,
+  nav,
+  notify,
+  file,
+  backup
+);
 export const info = new InfoAction(store, grpc, nav, notify);
 export const transaction = new TransactionAction(store, grpc, nav, notify);
 export const channel = new ChannelAction(store, grpc, nav, notify);
@@ -120,7 +138,17 @@ when(
     channel.pollChannels();
     transaction.update();
     info.pollInfo();
+    backup.requestPermissionForExternalStorage();
   }
+);
+
+/**
+ * Keep the Static Channel Backup (SCB) synced to external storage once
+ * lnd ready and has set the `network` attribute upon polling `getInfo`.
+ */
+when(
+  () => store.lndReady && store.network,
+  () => backup.pollPushChannelBackup()
 );
 
 /**
