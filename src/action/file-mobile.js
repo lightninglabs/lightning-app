@@ -19,6 +19,14 @@ class FileAction {
     return this._FS.DocumentDirectoryPath;
   }
 
+  /**
+   * Get the path of the app's directory on the device's external storage.
+   * @return {string}
+   */
+  get externalStorageDir() {
+    return this._FS.ExternalStorageDirectoryPath;
+  }
+
   //
   // Log file actions
   //
@@ -63,6 +71,32 @@ class FileAction {
     } catch (err) {
       log.info(`No ${network} wallet to delete.`);
     }
+  }
+
+  //
+  // Static Channel Backup (SCB) actions
+  //
+
+  get scbPath() {
+    const { network } = this._store;
+    return `${this.lndDir}/data/chain/bitcoin/${network}/channel.backup`;
+  }
+
+  get scbExternalPath() {
+    const { network } = this._store;
+    return `${this.externalStorageDir}/${network}/channel.backup`;
+  }
+
+  async readSCB() {
+    return this._FS.readFile(this.scbPath, 'base64');
+  }
+
+  async copySCBToExternalStorage() {
+    await this._FS.copyFile(this.scbPath, this.scbExternalPath);
+  }
+
+  async readSCBFromExternalStorage() {
+    return this._FS.readFile(this.scbExternalPath, 'base64');
   }
 }
 
