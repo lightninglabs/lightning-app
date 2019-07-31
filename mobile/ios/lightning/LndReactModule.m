@@ -149,6 +149,7 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
                            @"OpenChannel" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileOpenChannel(req, cb); },
                            @"SubscribeTransactions" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSubscribeTransactions(req, cb); },
                            @"SubscribeInvoices" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSubscribeInvoices(req, cb); },
+                           @"SubscribeChannelBackups" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSubscribeChannelBackups(req, cb); },
                            };
 
     self.activeStreams = [NSMutableDictionary dictionary];

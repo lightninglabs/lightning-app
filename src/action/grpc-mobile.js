@@ -204,6 +204,7 @@ class GrpcAction {
       SendPayment: 'SendRequest',
       SubscribeTransactions: 'GetTransactionsRequest',
       SubscribeInvoices: 'InvoiceSubscription',
+      SubscribeChannelBackups: 'ChannelBackupSubscription',
       StopDaemon: 'StopRequest',
     };
     return map[method] || `${method}Request`;
@@ -219,6 +220,7 @@ class GrpcAction {
       CloseChannel: 'CloseStatusUpdate',
       SubscribeTransactions: 'Transaction',
       SubscribeInvoices: 'Invoice',
+      SubscribeChannelBackups: 'ChanBackupSnapshot',
       StopDaemon: 'StopResponse',
     };
     return map[method] || `${method}Response`;
