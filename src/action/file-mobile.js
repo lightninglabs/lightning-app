@@ -19,6 +19,10 @@ class FileAction {
     return this._FS.DocumentDirectoryPath;
   }
 
+  //
+  // Log file actions
+  //
+
   /**
    * Gets the path of the current network's log file.
    * @return {string}
@@ -42,6 +46,10 @@ class FileAction {
       log.error('Exporting logs failed', err);
     }
   }
+
+  //
+  // Wallet DB actions
+  //
 
   /**
    * Delete the wallet.db file. This allows the user to restore their wallet
