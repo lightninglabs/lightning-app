@@ -10,7 +10,6 @@
  * backups.
  */
 
-import { poll } from '../helper';
 import * as log from './log';
 
 const SCB_KEY = 'channel.backup';
