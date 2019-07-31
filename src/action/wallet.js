@@ -321,7 +321,7 @@ class WalletAction {
     }
     return {
       multiChanBackup: {
-        bytes: scbBuffer,
+        multiChanBackup: scbBuffer,
       },
     };
   }
