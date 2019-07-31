@@ -138,7 +138,6 @@ when(
     channel.pollChannels();
     transaction.update();
     info.pollInfo();
-    backup.requestPermissionForExternalStorage();
   }
 );
 
