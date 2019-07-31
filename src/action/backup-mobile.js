@@ -28,18 +28,10 @@ class BackupAction {
   // Backup actions
   //
 
-  async pushChannelBackup() {
-    if (this._Platform.OS === 'ios') {
-      await this.pushToICloud();
-    } else if (this._Platform.OS === 'android') {
-      await this.pushToExternalStorage();
-    }
-  }
-
   async pushToICloud() {
     try {
       const scbBase64 = await this._file.readSCB();
-      await this._iCloudStorage.setItem(SCB_KEY, scbBase64);
+      if (scbBase64) await this._iCloudStorage.setItem(SCB_KEY, scbBase64);
     } catch (err) {
       log.error('Uploading channel backup to iCloud failed', err);
     }
@@ -101,11 +93,15 @@ class BackupAction {
   }
 
   /**
-   * Poll the channel backup call
+   * Push a channel backup to external storage or iCloud.
    * @return {Promise<undefined>}
    */
-  async pollPushChannelBackup() {
-    await poll(() => this.pushChannelBackup());
+  async pushChannelBackup() {
+    if (this._Platform.OS === 'ios') {
+      await this.pushToICloud();
+    } else if (this._Platform.OS === 'android') {
+      await this.pushToExternalStorage();
+    }
   }
 
   /**
