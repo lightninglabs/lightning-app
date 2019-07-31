@@ -96,6 +96,8 @@ class FileAction {
   }
 
   async copySCBToExternalStorage() {
+    const exists = await this._FS.exists(this.scbPath);
+    if (!exists) return;
     await this._FS.mkdir(this.scbExternalDir);
     await this._FS.copyFile(this.scbPath, this.scbExternalPath);
   }
