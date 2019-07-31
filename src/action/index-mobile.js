@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 import * as Random from 'expo-random';
 import * as LocalAuthentication from 'expo-local-authentication';
-import * as Keychain from 'react-native-keychain';
+import * as RNKeychain from 'react-native-keychain';
 import RNFS from 'react-native-fs';
 import RNShare from 'react-native-share';
 import { NavigationActions, StackActions } from 'react-navigation';
@@ -30,6 +30,7 @@ import NavAction from './nav-mobile';
 import WalletAction from './wallet';
 import LogAction from './log';
 import FileAction from './file-mobile';
+import KeychainAction from './keychain-mobile';
 import InfoAction from './info';
 import NotificationAction from './notification';
 import ChannelAction from './channel';
@@ -48,6 +49,7 @@ store.init(); // initialize computed values
 
 export const db = new AppStorage(store, AsyncStorage);
 export const grpc = new GrpcAction(store, NativeModules, NativeEventEmitter);
+export const keychain = new KeychainAction(RNKeychain);
 export const ipc = new IpcAction(grpc);
 export const file = new FileAction(store, RNFS, RNShare);
 export const log = new LogAction(store, ipc, false);
@@ -65,7 +67,7 @@ export const auth = new AuthAction(
   wallet,
   nav,
   Random,
-  Keychain,
+  keychain,
   LocalAuthentication,
   Alert,
   ActionSheetIOS,
