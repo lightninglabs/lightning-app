@@ -146,8 +146,12 @@ when(
  * lnd ready and has set the `network` attribute upon polling `getInfo`.
  */
 when(
-  () => store.lndReady && store.network,
-  () => backup.pollPushChannelBackup()
+  () => store.network && store.syncedToChain,
+  () => {
+    await nap();
+    backup.pushChannelBackup();
+    backup.subscribeChannelBackups();
+  }
 );
 
 /**
