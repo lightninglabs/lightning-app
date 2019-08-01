@@ -13,7 +13,7 @@ matrix:
 
 env:
   global:
-    - LND_TAG=36983214e8f7d24042fda61b048bb41daf6061da
+    - LND_TAG=add905d17f7bbb11d0df2761cdf8accf2fef2b00
     - BTCD_TAG=16327141da8ce4b46b5bac57ba01352943465d9e
     - GO_TAG=1.12.1
     - GOROOT=$HOME/go
