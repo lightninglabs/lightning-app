@@ -27,6 +27,18 @@ class BackupAction {
   // Backup actions
   //
 
+  /**
+   * Push a channel backup to external storage or iCloud.
+   * @return {Promise<undefined>}
+   */
+  async pushChannelBackup() {
+    if (this._Platform.OS === 'ios') {
+      await this.pushToICloud();
+    } else if (this._Platform.OS === 'android') {
+      await this.pushToExternalStorage();
+    }
+  }
+
   async pushToICloud() {
     try {
       const scbBase64 = await this._file.readSCB();
@@ -89,18 +101,6 @@ class BackupAction {
       return this._file.readSCBFromExternalStorage();
     } catch (err) {
       log.info(`Failed to read channel backup from external: ${err.message}`);
-    }
-  }
-
-  /**
-   * Push a channel backup to external storage or iCloud.
-   * @return {Promise<undefined>}
-   */
-  async pushChannelBackup() {
-    if (this._Platform.OS === 'ios') {
-      await this.pushToICloud();
-    } else if (this._Platform.OS === 'android') {
-      await this.pushToExternalStorage();
     }
   }
 
