@@ -14,8 +14,10 @@ This project was bootstrapped using [Expo CLI as a bare project](https://blog.ex
 * watchman (brew install watchman)
 * Xcode
 * cocoapods 1.7.2 (brew install cocoapods)
-* go 1.11.6 (brew install go@1.11)
-* [gomobile](https://github.com/golang/go/wiki/Mobile)
+* go 1.12.7 (brew install go)
+* protoc (brew install protobuf)
+* [gomobile](https://github.com/golang/go/wiki/Mobile) (go get -u golang.org/x/mobile/cmd/gomobile)
+* falafel (go get -u github.com/halseth/falafel)
 * [lnd mobile build tools](https://github.com/lightninglabs/lnd/tree/mobile-autopilot-100)
 * [Java](https://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * [Android Studio](https://developer.android.com/studio)
@@ -24,7 +26,6 @@ This project was bootstrapped using [Expo CLI as a bare project](https://blog.ex
 ### Building
 
 ```
-go get golang.org/x/mobile/cmd/gomobile
 cd lnd
 make clean
 gomobile init

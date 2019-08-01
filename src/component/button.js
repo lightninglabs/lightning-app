@@ -13,6 +13,7 @@ import BackIcon from '../asset/icon/back';
 import CancelIcon from '../asset/icon/cancel';
 import PlusIcon from '../asset/icon/plus';
 import QrIcon from '../asset/icon/qr';
+import ShareIcon from '../asset/icon/share';
 import { color, font } from './style';
 
 //
@@ -555,6 +556,22 @@ export const MaxButton = ({ active, style, ...props }) => (
 
 MaxButton.propTypes = {
   active: PropTypes.bool.isRequired,
+  style: ViewPropTypes.style,
+};
+
+//
+// Share Button
+//
+
+export const ShareButton = ({ onPress, disabled, style }) => (
+  <Button onPress={onPress} disabled={disabled} style={style}>
+    <ShareIcon height={16} width={14.979} />
+  </Button>
+);
+
+ShareButton.propTypes = {
+  onPress: PropTypes.func,
+  disabled: PropTypes.bool,
   style: ViewPropTypes.style,
 };
 

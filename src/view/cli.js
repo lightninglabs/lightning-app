@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Platform } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import { SplitBackground } from '../component/background';
 import { Header, Title } from '../component/header';
 import Text from '../component/text';
-import { Button, BackButton } from '../component/button';
+import { BackButton, ShareButton, Button } from '../component/button';
 import { createStyles, maxWidth } from '../component/media-query';
 import { color, font, breakWidth } from '../component/style';
 
@@ -19,12 +19,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const CLIView = ({ store, nav }) => (
+const CLIView = ({ store, nav, file }) => (
   <SplitBackground color={color.blackDark} bottom={color.cliBackground}>
     <Header separator style={styles.header}>
       <BackButton onPress={() => nav.goSettings()} />
       <Title title="Logs" />
-      <Button disabled onPress={() => {}} />
+      {Platform.OS === 'web' ? (
+        <Button disabled onPress={() => {}} />
+      ) : (
+        <ShareButton onPress={() => file.shareLogs()} />
+      )}
     </Header>
     <LogOutput logs={store.logs} />
   </SplitBackground>
@@ -33,6 +37,7 @@ const CLIView = ({ store, nav }) => (
 CLIView.propTypes = {
   store: PropTypes.object.isRequired,
   nav: PropTypes.object.isRequired,
+  file: PropTypes.object,
 };
 
 //
