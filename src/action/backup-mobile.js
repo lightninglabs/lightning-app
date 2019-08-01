@@ -30,7 +30,8 @@ class BackupAction {
   async pushToICloud() {
     try {
       const scbBase64 = await this._file.readSCB();
-      if (scbBase64) await this._iCloudStorage.setItem(SCB_KEY, scbBase64);
+      if (!scbBase64) return;
+      await this._iCloudStorage.setItem(SCB_KEY, scbBase64);
     } catch (err) {
       log.error('Uploading channel backup to iCloud failed', err);
     }
