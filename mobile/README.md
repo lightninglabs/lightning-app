@@ -14,7 +14,7 @@ This project was bootstrapped using [Expo CLI as a bare project](https://blog.ex
 * watchman (brew install watchman)
 * Xcode
 * cocoapods 1.7.2 (brew install cocoapods)
-* go 1.12.7 (brew install go)
+* go 1.11.x (brew install go@1.11)
 * protoc (brew install protobuf)
 * [gomobile](https://github.com/golang/go/wiki/Mobile) (go get -u golang.org/x/mobile/cmd/gomobile)
 * falafel (go get -u github.com/halseth/falafel)
