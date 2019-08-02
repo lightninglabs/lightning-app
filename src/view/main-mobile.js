@@ -61,6 +61,7 @@ import {
   info,
   auth,
   autopilot,
+  file,
 } from '../action/index-mobile';
 
 import store from '../store';
@@ -137,7 +138,7 @@ const SettingsFiat = () => (
   <SettingFiatView store={store} nav={nav} setting={setting} />
 );
 
-const CLI = () => <CLIView store={store} nav={nav} />;
+const CLI = () => <CLIView store={store} nav={nav} file={file} />;
 
 const Notifications = () => <NotificationView store={store} nav={nav} />;
 

@@ -28,6 +28,9 @@ const baseStyles = {
   numeral: {
     color: color.blackText,
   },
+  unit: {
+    color: color.blackText,
+  },
   qrWrapper: {
     margin: 40,
   },
@@ -83,7 +86,9 @@ const InvoiceQRView = ({ store, nav, invoice }) => (
           <BalanceLabelNumeral style={styles.numeral}>
             {store.invoiceAmountLabel}
           </BalanceLabelNumeral>
-          <BalanceLabelUnit>{store.unitLabel}</BalanceLabelUnit>
+          <BalanceLabelUnit style={styles.unit}>
+            {store.unitLabel}
+          </BalanceLabelUnit>
         </BalanceLabel>
         <NamedField name="Note">{store.invoice.note}</NamedField>
         <QRCode size={styles.qrcode.height} style={styles.qrWrapper}>

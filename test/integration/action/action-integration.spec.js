@@ -115,6 +115,7 @@ describe('Action Integration Tests', function() {
 
     lndProcess1 = await lndProcess1Promise;
     lndProcess2 = await lndProcess2Promise;
+    await nap(NAP_TIME);
   };
 
   before(async () => {
@@ -556,6 +557,7 @@ describe('Action Integration Tests', function() {
   };
 
   const updateBalances = async () => {
+    await nap(NAP_TIME);
     await wallet1.getBalance();
     await wallet1.getChannelBalance();
     await wallet2.getBalance();
