@@ -4,6 +4,7 @@ import TransactionAction from '../../../src/action/transaction';
 import NavAction from '../../../src/action/nav';
 import NotificationAction from '../../../src/action/notification';
 import * as logger from '../../../src/action/log';
+import { nap } from '../../../src/helper';
 
 describe('Action Transactions Unit Tests', () => {
   let store;
@@ -44,6 +45,13 @@ describe('Action Transactions Unit Tests', () => {
       expect(store.selectedTransaction, 'to equal', 'some-transaction');
       expect(transaction.update, 'was called once');
       expect(nav.goTransactionDetail, 'was called once');
+    });
+    it('should attempt to decode with paymentRequest', () => {
+      sandbox.stub(transaction, 'decodePayReqMemo');
+      transaction.select({
+        item: { paymentRequest: 'some-payment-request' },
+      });
+      expect(transaction.decodePayReqMemo, 'was called once');
     });
   });
 
@@ -153,6 +161,7 @@ describe('Action Transactions Unit Tests', () => {
             settled: true,
             paymentHash: 'some-hash',
             paymentPreimage: 'some-preimage',
+            paymentRequest: 'some-payment-request',
           },
         ],
       });
@@ -165,6 +174,7 @@ describe('Action Transactions Unit Tests', () => {
         status: 'complete',
         date: new Date('2018-05-23T10:13:15.000Z'),
         preimage: 'some-preimage',
+        paymentRequest: 'some-payment-request',
       });
     });
 
@@ -172,6 +182,19 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.rejects();
       await transaction.getPayments();
       expect(logger.error, 'was called once');
+    });
+  });
+
+  describe('decodePayReqMemo()', () => {
+    it('should fail to decode with no selectedTransaction', async () => {
+      grpc.sendCommand.withArgs('decodePayReq').resolves({
+        description: 'foo',
+      });
+      const isValid = await transaction.decodePayReqMemo({
+        payReq: 'some-payment-request',
+      });
+      await nap(10);
+      expect(isValid, 'to be', false);
     });
   });
 

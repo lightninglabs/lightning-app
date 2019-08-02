@@ -28,10 +28,14 @@ class TransactionAction {
    * Select a transaction item from the transaction list view and then navigate
    * to the detail view to list transaction parameters.
    * @param  {Object} options.item The selected transaction object
-   * @return {undefined}
+   * @return {Promise<undefined>}
    */
-  select({ item }) {
+  async select({ item }) {
     this._store.selectedTransaction = item;
+
+    if (item.paymentRequest && item.paymentRequest.length > 0) {
+      await this.decodePayReqMemo({ payReq: item.paymentRequest });
+    }
     this._nav.goTransactionDetail();
     this.update();
   }
@@ -108,9 +112,29 @@ class TransactionAction {
         status: 'complete',
         date: parseDate(payment.creationDate),
         preimage: payment.paymentPreimage,
+        paymentRequest: payment.paymentRequest,
       }));
     } catch (err) {
       log.error('Listing payments failed', err);
+    }
+  }
+
+  /**
+   * Attempt to decode a lightning payment request using the lnd grpc api.
+   * @param  {string} options.payReq  The input to be validated
+   * @return {Promise<boolean>}       If the input is a valid invoice
+   */
+  async decodePayReqMemo({ payReq }) {
+    try {
+      const { selectedTransaction } = this._store;
+      const request = await this._grpc.sendCommand('decodePayReq', {
+        payReq,
+      });
+      selectedTransaction.memo = request.description;
+      return true;
+    } catch (err) {
+      log.info(`Decoding payment request failed: ${err.message}`);
+      return false;
     }
   }
 
