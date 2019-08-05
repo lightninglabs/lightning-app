@@ -15,18 +15,17 @@ class FileAction {
    * Gets the path of the lnd directory where `logs` and `data` are stored.
    * @return {string}
    */
-  getLndDir() {
+  get lndDir() {
     return this._FS.DocumentDirectoryPath;
   }
 
   /**
-   * Retrieves the entire lnd log file contents as a string.
-   * @return {Promise<string>}
+   * Gets the path the current network's log file.
+   * @return {string}
    */
-  async readLogs() {
+  get logsPath() {
     const { network } = this._store;
-    const path = `${this.getLndDir()}/logs/bitcoin/${network}/lnd.log`;
-    return this._FS.readFile(path, 'utf8');
+    return `${this.lndDir}/logs/bitcoin/${network}/lnd.log`;
   }
 
   /**
@@ -35,10 +34,9 @@ class FileAction {
    */
   async shareLogs() {
     try {
-      const logs = await this.readLogs();
-      await this._Share.share({
-        title: 'Lightning App logs',
-        message: logs,
+      await this._Share.open({
+        url: `file://${this.logsPath}`,
+        type: 'text/plain',
       });
     } catch (err) {
       log.error('Exporting logs failed', err);
@@ -51,7 +49,7 @@ class FileAction {
    * @return {Promise<undefined>}
    */
   async deleteWalletDB(network) {
-    const path = `${this.getLndDir()}/data/chain/bitcoin/${network}/wallet.db`;
+    const path = `${this.lndDir}/data/chain/bitcoin/${network}/wallet.db`;
     try {
       await this._FS.unlink(path);
     } catch (err) {

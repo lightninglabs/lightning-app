@@ -40,6 +40,10 @@ module.exports = {
         __dirname,
         'node_modules/react-native-fs'
       ),
+      'react-native-share': path.resolve(
+        __dirname,
+        'node_modules/react-native-share'
+      ),
       mobx: path.resolve(__dirname, 'node_modules/mobx'),
       'mobx-react': path.resolve(__dirname, 'node_modules/mobx-react'),
       'locale-currency': path.resolve(
