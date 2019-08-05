@@ -20,7 +20,7 @@ class FileAction {
   }
 
   /**
-   * Gets the path the current network's log file.
+   * Gets the path of the current network's log file.
    * @return {string}
    */
   get logsPath() {
