@@ -14,12 +14,12 @@ import {
   NativeModules,
   ActionSheetIOS,
   NativeEventEmitter,
-  Share,
 } from 'react-native';
 import * as Random from 'expo-random';
 import * as LocalAuthentication from 'expo-local-authentication';
 import * as Keychain from 'react-native-keychain';
 import RNFS from 'react-native-fs';
+import RNShare from 'react-native-share';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { nap } from '../helper';
 import store from '../store';
@@ -49,7 +49,7 @@ store.init(); // initialize computed values
 export const db = new AppStorage(store, AsyncStorage);
 export const grpc = new GrpcAction(store, NativeModules, NativeEventEmitter);
 export const ipc = new IpcAction(grpc);
-export const file = new FileAction(store, RNFS, Share);
+export const file = new FileAction(store, RNFS, RNShare);
 export const log = new LogAction(store, ipc, false);
 export const nav = new NavAction(store, NavigationActions, StackActions);
 export const notify = new NotificationAction(store, nav);

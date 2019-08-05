@@ -6,65 +6,51 @@ describe('Action File Mobile Unit Tests', () => {
   let store;
   let sandbox;
   let RNFS;
-  let Share;
+  let RNShare;
   let file;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
     sandbox.stub(logger);
     store = new Store();
+    store.network = 'mainnet';
     RNFS = {
       DocumentDirectoryPath: '/foo/bar',
       readFile: sinon.stub().resolves('some-logs'),
       unlink: sinon.stub().resolves(),
     };
-    Share = {
-      share: sinon.stub().resolves(),
+    RNShare = {
+      open: sinon.stub().resolves(),
     };
-    file = new FileAction(store, RNFS, Share);
+    file = new FileAction(store, RNFS, RNShare);
   });
 
   afterEach(() => {
     sandbox.restore();
   });
 
-  describe('getLndDir()', () => {
+  describe('get lndDir()', () => {
     it('should get lnd directory', () => {
-      const path = file.getLndDir();
+      const path = file.lndDir;
       expect(path, 'to equal', '/foo/bar');
     });
   });
 
-  describe('readLogs()', () => {
-    it('should read log file contents', async () => {
-      store.network = 'mainnet';
-      const logs = await file.readLogs();
-      expect(logs, 'to equal', 'some-logs');
-      expect(
-        RNFS.readFile,
-        'was called with',
-        '/foo/bar/logs/bitcoin/mainnet/lnd.log',
-        'utf8'
-      );
+  describe('get logsPath()', () => {
+    it('should get log file path', () => {
+      const path = file.logsPath;
+      expect(path, 'to equal', '/foo/bar/logs/bitcoin/mainnet/lnd.log');
     });
   });
 
   describe('shareLogs()', () => {
-    beforeEach(() => {
-      sandbox.stub(file, 'readLogs');
-    });
-
     it('should invoke the native share api', async () => {
-      file.readLogs.resolves('some-logs');
       await file.shareLogs();
-      expect(Share.share, 'was called with', {
-        title: 'Lightning App logs',
-        message: 'some-logs',
-      });
+      expect(RNShare.open, 'was called once');
     });
 
     it('should log error if sharing fails', async () => {
-      file.readLogs.rejects(new Error('Boom!'));
+      RNShare.open.rejects(new Error('Boom!'));
       await file.shareLogs();
       expect(logger.error, 'was called once');
     });
