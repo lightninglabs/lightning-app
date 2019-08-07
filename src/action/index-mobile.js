@@ -139,6 +139,8 @@ when(
     wallet.pollExchangeRate();
     channel.pollChannels();
     transaction.update();
+    transaction.subscribeTransactions();
+    transaction.subscribeInvoices();
     info.pollInfo();
   }
 );
