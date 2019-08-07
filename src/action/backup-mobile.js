@@ -71,6 +71,18 @@ class BackupAction {
     }
   }
 
+  /**
+   * Subscribe to channel backup updates. If a new one comes in, back up the
+   * latest update.
+   * @return {undefined}
+   */
+  async subscribeChannelBackups() {
+    const stream = this._grpc.sendStreamCommand('subscribeChannelBackups');
+    stream.on('data', () => this.pushChannelBackup());
+    stream.on('error', err => log.error('Channel backup error:', err));
+    stream.on('status', status => log.info(`Channel backup status: ${status}`));
+  }
+
   //
   // Restore actions
   //
@@ -133,18 +145,6 @@ class BackupAction {
 
   parse(json) {
     return JSON.parse(json);
-  }
-
-  /**
-   * Subscribe to channel backup updates. If a new one comes in, back up the
-   * latest update.
-   * @return {undefined}
-   */
-  async subscribeChannelBackups() {
-    const stream = this._grpc.sendStreamCommand('subscribeChannelBackups');
-    stream.on('data', () => this.pushChannelBackup());
-    stream.on('error', err => log.error('Channel backup error:', err));
-    stream.on('status', status => log.info(`Channel backup status: ${status}`));
   }
 }
 
