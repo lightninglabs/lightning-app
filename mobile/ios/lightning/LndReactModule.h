@@ -11,7 +11,8 @@
 
 @interface LndReactModule : RCTEventEmitter <RCTBridgeModule>
 @property (nonatomic) NSDictionary *syncMethods;
-@property (nonatomic) NSDictionary *streamMethods;
+@property (nonatomic) NSDictionary *recvStreamMethods;
+@property (nonatomic) NSDictionary *biStreamMethods;
 @property (nonatomic) NSMutableDictionary *activeStreams;
 @property (nonatomic) NSString *appDir;
 

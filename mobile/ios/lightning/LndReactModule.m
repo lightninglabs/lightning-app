@@ -106,7 +106,8 @@ RCT_EXPORT_MODULE();
 
 
 typedef void (^SyncHandler)(NSData*, NativeCallback*);
-typedef id<LndmobileSendStream> (^StreamHandler)(NSData* req, RecvStream* respStream, NSError** err);
+typedef void (^RecvStreamHandler)(NSData* req, RecvStream* respStream);
+typedef id<LndmobileSendStream> (^BiStreamHandler)(NSData* req, RecvStream* respStream, NSError** err);
 
 RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
                   rejecter:(RCTPromiseRejectBlock)reject)
@@ -143,13 +144,17 @@ RCT_EXPORT_METHOD(start: (RCTPromiseResolveBlock)resolve
                          @"ModifyStatus" : ^(NSData* bytes, NativeCallback* cb) { LndmobileModifyStatus(bytes, cb); },
                          };
 
-    self.streamMethods = @{
-                           @"SendPayment" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSendPayment(cb, err); },
-                           @"CloseChannel" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileCloseChannel(req, cb); },
-                           @"OpenChannel" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileOpenChannel(req, cb); },
-                           @"SubscribeTransactions" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSubscribeTransactions(req, cb); },
-                           @"SubscribeInvoices" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSubscribeInvoices(req, cb); },
+    self.recvStreamMethods = @{
+                           @"CloseChannel" : ^(NSData* req, RecvStream* cb) { return LndmobileCloseChannel(req, cb); },
+                           @"OpenChannel" : ^(NSData* req, RecvStream* cb) { return LndmobileOpenChannel(req, cb); },
+                           @"SubscribeTransactions" : ^(NSData* req, RecvStream* cb) { return LndmobileSubscribeTransactions(req, cb); },
+                           @"SubscribeInvoices" : ^(NSData* req, RecvStream* cb) { return LndmobileSubscribeInvoices(req, cb); },
+                           @"SubscribeChannelBackups" : ^(NSData* req, RecvStream* cb) { return LndmobileSubscribeChannelBackups(req, cb); },
                            };
+
+  self.biStreamMethods = @{
+                             @"SendPayment" : (id<LndmobileSendStream>)^(NSData* req, RecvStream* cb, NSError** err) { return LndmobileSendPayment(cb, err); },
+                             };
 
     self.activeStreams = [NSMutableDictionary dictionary];
 
@@ -213,27 +218,38 @@ RCT_EXPORT_METHOD(sendCommand:(NSString*)method body:(NSString*)msg
 RCT_EXPORT_METHOD(sendStreamCommand:(NSString*)method streamId:(NSString*)streamId body:(NSString*)msg)
 {
     RecvStream* respStream = [[RecvStream alloc] initWithStreamId:streamId emitter:self];
-    StreamHandler block = self.streamMethods[method];
-    if (block == nil) {
-        RCTLogError(@"method %@ not found", method);
-        return;
-    }
-
     NSData* bytes = [[NSData alloc]initWithBase64EncodedString:msg options:0];
-    NSError* err = nil;
-    id<LndmobileSendStream> sendStream = block(bytes, respStream, &err);
-    if (err != nil) {
-        RCTLogError(@"got init error %@", err);
+
+    // Check if the method is among the receive-only stream methods.
+    RecvStreamHandler recvStr = self.recvStreamMethods[method];
+    if (recvStr != nil) {
+        recvStr(bytes, respStream);
         return;
     }
 
-    // Expect a nil send stream for non-receive stream methods.
-    if (sendStream == nil) {
+    // Otherwise check whether this method has a bidirectional stream.
+    BiStreamHandler biStr = self.biStreamMethods[method];
+    if (biStr != nil) {
+        NSError *err = nil;
+        id<LndmobileSendStream> sendStream = biStr(bytes, respStream, &err);
+        if (err != nil) {
+            RCTLogError(@"got init error %@", err);
+            return;
+        }
+
+        // This method must have a non-nil send stream.
+        if (sendStream == nil) {
+            RCTLogError(@"Got nil send stream for method %@", method);
+            return;
+        }
+
+        // TODO: clean up on stream close.
+        self.activeStreams[streamId] = sendStream;
         return;
     }
 
-    // TODO: clean up on stream close.
-    self.activeStreams[streamId] = sendStream;
+    RCTLogError(@"Stream method %@ not found", method);
+    return;
 }
 
 RCT_EXPORT_METHOD(sendStreamWrite:(NSString*)streamId body:(NSString*)msg)
