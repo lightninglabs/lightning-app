@@ -21,6 +21,7 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import * as RNKeychain from 'react-native-keychain';
 import RNFS from 'react-native-fs';
 import RNShare from 'react-native-share';
+import RNDeviceInfo from 'react-native-device-info';
 import RNiCloudStorage from 'react-native-icloudstore';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { nap } from '../helper';
@@ -62,6 +63,7 @@ export const backup = new BackupAction(
   grpc,
   file,
   Platform,
+  RNDeviceInfo,
   PermissionsAndroid,
   RNiCloudStorage
 );

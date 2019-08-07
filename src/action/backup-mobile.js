@@ -15,10 +15,11 @@ import * as log from './log';
 const SCB_KEY = 'channel.backup';
 
 class BackupAction {
-  constructor(grpc, file, Platform, Permissions, iCloudStorage) {
+  constructor(grpc, file, Platform, DeviceInfo, Permissions, iCloudStorage) {
     this._grpc = grpc;
     this._file = file;
     this._Platform = Platform;
+    this._DeviceInfo = DeviceInfo;
     this._Permissions = Permissions;
     this._iCloudStorage = iCloudStorage;
   }
@@ -43,7 +44,8 @@ class BackupAction {
     try {
       const scbBase64 = await this._file.readSCB();
       if (!scbBase64) return;
-      await this._iCloudStorage.setItem(SCB_KEY, scbBase64);
+      const json = this.stringify(scbBase64);
+      await this._iCloudStorage.setItem(this.itemKey, json);
     } catch (err) {
       log.error('Uploading channel backup to iCloud failed', err);
     }
@@ -85,7 +87,8 @@ class BackupAction {
 
   async fetchFromICloud() {
     try {
-      return this._iCloudStorage.getItem(SCB_KEY);
+      const json = await this._iCloudStorage.getItem(this.itemKey);
+      return json ? this.parse(json).data : null;
     } catch (err) {
       log.info(`Failed to read channel backup from iCloud: ${err.message}`);
     }
@@ -102,6 +105,34 @@ class BackupAction {
     } catch (err) {
       log.info(`Failed to read channel backup from external: ${err.message}`);
     }
+  }
+
+  //
+  // Helper functions
+  //
+
+  get shortId() {
+    return this._DeviceInfo
+      .getUniqueID()
+      .replace(/-/g, '')
+      .slice(0, 7)
+      .toLowerCase();
+  }
+
+  get itemKey() {
+    return `${this.shortId}_${SCB_KEY}`;
+  }
+
+  stringify(scbBase64) {
+    return JSON.stringify({
+      device: this._DeviceInfo.getDeviceId(),
+      data: scbBase64,
+      time: new Date(),
+    });
+  }
+
+  parse(json) {
+    return JSON.parse(json);
   }
 
   /**
