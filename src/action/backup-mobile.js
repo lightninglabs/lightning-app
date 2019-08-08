@@ -134,7 +134,7 @@ class BackupAction {
     return JSON.stringify({
       device: this._DeviceInfo.getDeviceId(),
       data: scbBase64,
-      time: new Date(),
+      time: new Date().toISOString(),
     });
   }
 

@@ -3,13 +3,14 @@ import FileAction from '../../../src/action/file-mobile';
 import GrpcAction from '../../../src/action/grpc';
 import * as logger from '../../../src/action/log';
 
-describe('Action File Mobile Unit Tests', () => {
+describe('Action Backup Mobile Unit Tests', () => {
   let sandbox;
   let iCloudStorage;
   let Permissions;
   let grpc;
   let file;
   let Platform;
+  let DeviceInfo;
   let backup;
 
   beforeEach(() => {
@@ -26,10 +27,21 @@ describe('Action File Mobile Unit Tests', () => {
       },
       RESULTS: { GRANTED: true },
     };
+    DeviceInfo = {
+      getUniqueID: sinon.stub().returns('FCDBD8EF-62FC-4ECB-B2F5-92C9E79AC7F9'),
+      getDeviceId: sinon.stub().returns('iPhone7,2'),
+    };
     file = sinon.createStubInstance(FileAction);
     grpc = sinon.createStubInstance(GrpcAction);
     Platform = { OS: 'ios' };
-    backup = new BackupAction(grpc, file, Platform, Permissions, iCloudStorage);
+    backup = new BackupAction(
+      grpc,
+      file,
+      Platform,
+      DeviceInfo,
+      Permissions,
+      iCloudStorage
+    );
   });
 
   afterEach(() => {
@@ -44,8 +56,8 @@ describe('Action File Mobile Unit Tests', () => {
       expect(
         iCloudStorage.setItem,
         'was called with',
-        'channel.backup',
-        'some-scb'
+        'fcdbd8e_channel.backup',
+        /^{"device":"iPhone7,2","data":"some-scb","time":"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z"}$/
       );
     });
 
@@ -85,6 +97,25 @@ describe('Action File Mobile Unit Tests', () => {
       file.copySCBToExternalStorage.rejects('some-error');
       await backup.pushChannelBackup();
       expect(logger.error, 'was called once');
+    });
+  });
+
+  describe('fetchChannelBackup', async () => {
+    const backupJson =
+      '{"device":"iPhone7,2","data":"c29tZS1zY2I=","time":"2019-08-08T15:44:53.429Z"}';
+
+    it('should log error if external storage fails', async () => {
+      Platform.OS = 'ios';
+      iCloudStorage.getItem.resolves(backupJson);
+      const buf = await backup.fetchChannelBackup();
+      expect(buf.toString(), 'to equal', 'some-scb');
+    });
+
+    it('should log error if external storage fails', async () => {
+      Platform.OS = 'android';
+      file.readSCBFromExternalStorage.resolves('c29tZS1zY2I=');
+      const buf = await backup.fetchChannelBackup();
+      expect(buf.toString(), 'to equal', 'some-scb');
     });
   });
 
