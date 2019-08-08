@@ -1,13 +1,8 @@
 /**
  * @fileOverview action to handle static channel backup (SCB) to local
- * storage options as well as to cloud storage.
- *
- * On iOS we use the fact that the keychain values are persistent between
- * app installs for local backups. If users have activated iCloud on their
- * devices the iCloud key/value store is used.
- *
- * On Android we store backups to external storage on device for local
- * backups.
+ * storage options as well as to cloud storage. On iOS the iCloud key/value
+ * store is used. On Android we store backups to external storage on device
+ * for local backups.
  */
 
 import * as log from './log';
