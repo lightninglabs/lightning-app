@@ -32,9 +32,8 @@ class TransactionAction {
    */
   async select({ item }) {
     this._store.selectedTransaction = item;
-
-    if (item.paymentRequest && item.paymentRequest.length > 0) {
-      await this.decodePayReqMemo({ payReq: item.paymentRequest });
+    if (item.paymentRequest) {
+      item.memo = await this.decodeMemo({ payReq: item.paymentRequest });
     }
     this._nav.goTransactionDetail();
     this.update();
@@ -122,19 +121,16 @@ class TransactionAction {
   /**
    * Attempt to decode a lightning payment request using the lnd grpc api.
    * @param  {string} options.payReq  The input to be validated
-   * @return {Promise<boolean>}       If the input is a valid invoice
+   * @return {Promise<string>}       If the input is a valid invoice
    */
-  async decodePayReqMemo({ payReq }) {
+  async decodeMemo({ payReq }) {
     try {
-      const { selectedTransaction } = this._store;
-      const request = await this._grpc.sendCommand('decodePayReq', {
+      const { description } = await this._grpc.sendCommand('decodePayReq', {
         payReq,
       });
-      selectedTransaction.memo = request.description;
-      return true;
+      return description;
     } catch (err) {
       log.info(`Decoding payment request failed: ${err.message}`);
-      return false;
     }
   }
 
