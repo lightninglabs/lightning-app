@@ -21,30 +21,33 @@ See the `ToDo (next release)` column on our [project board](https://github.com/l
 
 ### Developing Locally
 
+To build the mobile app locally, see the [README](https://github.com/lightninglabs/lightning-app/blob/master/mobile/README.md) in the `/mobile` directory for instructions.
+
+To build the desktop app locally follow the instructions below:
+
 #### Install lnd
+We will use `lnd` to make GRPC calls from the ReactJS environment
 ```
 git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightningnetwork/lnd
 cd $GOPATH/src/github.com/lightningnetwork/lnd
 make && make install tags="experimental autopilotrpc"
 ```
+If you have any issues with this step, make sure to review the [Preliniaries to installing LND](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md#preliminaries)
 
 #### Install btcd
+We will use `btcd` as the backend operating mode
 ```
 git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd
 cd $GOPATH/src/github.com/btcsuite/btcd
 GO111MODULE=on go install -v . ./cmd/...
 ```
 
-Then start by cloning this git repo and go inside the project folder to run the following commands:
+#### Set up & run
+Cloning this git repo `git clone https://github.com/lightninglabs/lightning-app` and from the project root folder run the following commands:
 ```
 npm install
 
 npm test
-```
-
-To build the UI style guide
-```
-npm run storybook
 ```
 
 To start the app in development mode (simnet):
@@ -53,6 +56,13 @@ npm run electron-dev
 ```
 
 Running in development mode can allow you to run in full node mode instead of the default neutrino mode, and will also allow you to run in simnet node for testing. The app will use it's own lnd `data/lnd` dir and does not share state with other lnd installations on your system. See [setup local cluster](https://github.com/lightninglabs/lightning-app/blob/master/assets/script/setup_local_cluster.md) on how to set up your simnet cluster for development.
+
+#### Review UI style guide
+
+To build the UI style guide
+```
+npm run storybook
+```
 
 ### Building the Packaged App
 

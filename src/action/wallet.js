@@ -14,13 +14,14 @@ import { when } from 'mobx';
 import * as log from './log';
 
 class WalletAction {
-  constructor(store, grpc, db, nav, notification, file) {
+  constructor(store, grpc, db, nav, notification, file, backup) {
     this._store = store;
     this._grpc = grpc;
     this._db = db;
     this._nav = nav;
     this._notification = notification;
     this._file = file;
+    this._backup = backup;
   }
 
   //
@@ -267,10 +268,12 @@ class WalletAction {
   async initWallet({ walletPassword, seedMnemonic, recoveryWindow = 0 }) {
     try {
       await this.deleteDB();
+      const channelBackups = await this.checkChannelBackup();
       await this._grpc.sendUnlockerCommand('InitWallet', {
         walletPassword: toBuffer(walletPassword),
         cipherSeedMnemonic: seedMnemonic,
         recoveryWindow: recoveryWindow,
+        channelBackups,
       });
       this._store.walletUnlocked = true;
       this._nav.goSeedSuccess();
@@ -306,6 +309,21 @@ class WalletAction {
       this._file.deleteWalletDB('testnet'),
       this._file.deleteWalletDB('mainnet'),
     ]);
+  }
+
+  async checkChannelBackup() {
+    if (!this._backup || !this._store.settings.restoring) {
+      return;
+    }
+    const scbBuffer = await this._backup.fetchChannelBackup();
+    if (!scbBuffer) {
+      return;
+    }
+    return {
+      multiChanBackup: {
+        multiChanBackup: scbBuffer,
+      },
+    };
   }
 
   /**

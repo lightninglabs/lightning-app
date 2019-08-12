@@ -161,6 +161,24 @@ describe('Action GRPC Mobile Unit Tests', () => {
   });
 
   describe('sendCommand()', () => {
+    it('should handle string error mesage', async () => {
+      LndReactModuleStub.sendCommand.returns(Promise.reject('some-message'));
+      await expect(
+        grpc.sendCommand('GetInfo'),
+        'to be rejected with error satisfying',
+        /some-message/
+      );
+    });
+
+    it('should handle error object', async () => {
+      LndReactModuleStub.sendCommand.rejects(new Error('some-message'));
+      await expect(
+        grpc.sendCommand('GetInfo'),
+        'to be rejected with error satisfying',
+        /some-message/
+      );
+    });
+
     it('should work for GetInfo (without body)', async () => {
       LndReactModuleStub.sendCommand.resolves({
         data: grpc._serializeResponse('GetInfo'),

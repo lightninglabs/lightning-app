@@ -14,12 +14,15 @@ import {
   NativeModules,
   ActionSheetIOS,
   NativeEventEmitter,
+  PermissionsAndroid,
 } from 'react-native';
 import * as Random from 'expo-random';
 import * as LocalAuthentication from 'expo-local-authentication';
-import * as Keychain from 'react-native-keychain';
+import * as RNKeychain from 'react-native-keychain';
 import RNFS from 'react-native-fs';
 import RNShare from 'react-native-share';
+import RNDeviceInfo from 'react-native-device-info';
+import RNiCloudStorage from 'react-native-icloudstore';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { nap } from '../helper';
 import store from '../store';
@@ -30,6 +33,8 @@ import NavAction from './nav-mobile';
 import WalletAction from './wallet';
 import LogAction from './log';
 import FileAction from './file-mobile';
+import KeychainAction from './keychain-mobile';
+import BackupAction from './backup-mobile';
 import InfoAction from './info';
 import NotificationAction from './notification';
 import ChannelAction from './channel';
@@ -48,12 +53,29 @@ store.init(); // initialize computed values
 
 export const db = new AppStorage(store, AsyncStorage);
 export const grpc = new GrpcAction(store, NativeModules, NativeEventEmitter);
+export const keychain = new KeychainAction(RNKeychain);
 export const ipc = new IpcAction(grpc);
 export const file = new FileAction(store, RNFS, RNShare);
 export const log = new LogAction(store, ipc, false);
 export const nav = new NavAction(store, NavigationActions, StackActions);
 export const notify = new NotificationAction(store, nav);
-export const wallet = new WalletAction(store, grpc, db, nav, notify, file);
+export const backup = new BackupAction(
+  grpc,
+  file,
+  Platform,
+  RNDeviceInfo,
+  PermissionsAndroid,
+  RNiCloudStorage
+);
+export const wallet = new WalletAction(
+  store,
+  grpc,
+  db,
+  nav,
+  notify,
+  file,
+  backup
+);
 export const info = new InfoAction(store, grpc, nav, notify);
 export const transaction = new TransactionAction(store, grpc, nav, notify);
 export const channel = new ChannelAction(store, grpc, nav, notify);
@@ -65,7 +87,7 @@ export const auth = new AuthAction(
   wallet,
   nav,
   Random,
-  Keychain,
+  keychain,
   LocalAuthentication,
   Alert,
   ActionSheetIOS,
@@ -117,7 +139,22 @@ when(
     wallet.pollExchangeRate();
     channel.pollChannels();
     transaction.update();
+    transaction.subscribeTransactions();
+    transaction.subscribeInvoices();
     info.pollInfo();
+  }
+);
+
+/**
+ * Keep the Static Channel Backup (SCB) synced to external storage once
+ * lnd ready and has set the `network` attribute upon polling `getInfo`.
+ */
+when(
+  () => store.network && store.syncedToChain,
+  async () => {
+    await nap();
+    backup.pushChannelBackup();
+    backup.subscribeChannelBackups();
   }
 );
 

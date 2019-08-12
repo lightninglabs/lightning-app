@@ -2,6 +2,7 @@ import { Store } from '../../../src/store';
 import GrpcAction from '../../../src/action/grpc';
 import AppStorage from '../../../src/action/app-storage';
 import WalletAction from '../../../src/action/wallet';
+import BackupAction from '../../../src/action/backup-mobile';
 import NavAction from '../../../src/action/nav';
 import NavActionMobile from '../../../src/action/nav-mobile';
 import FileAction from '../../../src/action/file-mobile';
@@ -20,6 +21,7 @@ describe('Action Wallet Unit Tests', () => {
   let nav;
   let notification;
   let file;
+  let backup;
 
   beforeEach(() => {
     sandbox = sinon.createSandbox({});
@@ -33,7 +35,8 @@ describe('Action Wallet Unit Tests', () => {
     notification = sinon.createStubInstance(NotificationAction);
     nav = sinon.createStubInstance(NavAction);
     file = sinon.createStubInstance(FileAction);
-    wallet = new WalletAction(store, grpc, db, nav, notification, file);
+    backup = sinon.createStubInstance(BackupAction);
+    wallet = new WalletAction(store, grpc, db, nav, notification, file, backup);
   });
 
   afterEach(() => {
@@ -315,6 +318,7 @@ describe('Action Wallet Unit Tests', () => {
         cipherSeedMnemonic: ['foo'],
       });
       expect(nav.goSeedSuccess, 'was called once');
+      expect(backup.fetchChannelBackup, 'was not called');
     });
 
     it('should not delete wallet if RNFS not supported', async () => {
@@ -328,6 +332,55 @@ describe('Action Wallet Unit Tests', () => {
         cipherSeedMnemonic: ['foo'],
       });
       expect(nav.goSeedSuccess, 'was called once');
+      expect(backup.fetchChannelBackup, 'was not called');
+    });
+
+    it('should not restore backup if not supported', async () => {
+      store.settings.restoring = true;
+      delete wallet._backup;
+      grpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
+      await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
+      expect(store.walletUnlocked, 'to be', true);
+      expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
+        walletPassword: Buffer.from('baz', 'utf8'),
+        cipherSeedMnemonic: ['foo'],
+      });
+      expect(nav.goSeedSuccess, 'was called once');
+      expect(backup.fetchChannelBackup, 'was not called');
+    });
+
+    it('should restore backup if supported and in restore mode', async () => {
+      backup.fetchChannelBackup.resolves('some-backup');
+      store.settings.restoring = true;
+      grpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
+      await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
+      expect(store.walletUnlocked, 'to be', true);
+      expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
+        walletPassword: Buffer.from('baz', 'utf8'),
+        cipherSeedMnemonic: ['foo'],
+        channelBackups: {
+          multiChanBackup: {
+            multiChanBackup: 'some-backup',
+          },
+        },
+      });
+      expect(nav.goSeedSuccess, 'was called once');
+      expect(backup.fetchChannelBackup, 'was called once');
+    });
+
+    it('should handle empty backup if supported and in restore mode', async () => {
+      backup.fetchChannelBackup.resolves(null);
+      store.settings.restoring = true;
+      grpc.sendUnlockerCommand.withArgs('InitWallet').resolves();
+      await wallet.initWallet({ walletPassword: 'baz', seedMnemonic: ['foo'] });
+      expect(store.walletUnlocked, 'to be', true);
+      expect(grpc.sendUnlockerCommand, 'was called with', 'InitWallet', {
+        walletPassword: Buffer.from('baz', 'utf8'),
+        cipherSeedMnemonic: ['foo'],
+        channelBackups: undefined,
+      });
+      expect(nav.goSeedSuccess, 'was called once');
+      expect(backup.fetchChannelBackup, 'was called once');
     });
 
     it('should display error notification on restore failure', async () => {
