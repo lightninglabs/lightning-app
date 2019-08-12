@@ -38,7 +38,7 @@ static NSString* const logEventName = @"logs";
 }
 
 - (void)onError:(NSError *)p0 {
-    self.reject(@"error", @"received error", p0);
+    self.reject(@"error", [p0 localizedDescription], p0);
 }
 
 - (void)onResponse:(NSData *)p0 {
