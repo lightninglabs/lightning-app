@@ -247,7 +247,7 @@ class PaymentAction {
       this._nav.goPayBitcoinConfirm();
     } catch (err) {
       this._notification.display({
-        msg: `Fee estimation failed: ${err.details}`,
+        msg: `Fee estimation failed: ${err.message}`,
         err,
       });
     }
