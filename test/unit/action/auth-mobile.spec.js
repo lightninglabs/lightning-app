@@ -2,6 +2,7 @@ import { Store } from '../../../src/store';
 import NavAction from '../../../src/action/nav-mobile';
 import WalletAction from '../../../src/action/wallet';
 import AuthAction from '../../../src/action/auth-mobile';
+import KeychainAction from '../../../src/action/keychain-mobile';
 
 describe('Action AuthMobile Unit Tests', () => {
   let sandbox;
@@ -10,7 +11,7 @@ describe('Action AuthMobile Unit Tests', () => {
   let nav;
   let auth;
   let Random;
-  let Keychain;
+  let keychain;
   let Fingerprint;
   let Alert;
   let ActionSheetIOS;
@@ -21,12 +22,9 @@ describe('Action AuthMobile Unit Tests', () => {
     store = new Store();
     wallet = sinon.createStubInstance(WalletAction);
     nav = sinon.createStubInstance(NavAction);
+    keychain = sinon.createStubInstance(KeychainAction);
     Random = {
       getRandomBytesAsync: sinon.stub(),
-    };
-    Keychain = {
-      getInternetCredentials: sinon.stub(),
-      setInternetCredentials: sinon.stub(),
     };
     Fingerprint = {
       hasHardwareAsync: sinon.stub(),
@@ -45,7 +43,7 @@ describe('Action AuthMobile Unit Tests', () => {
       wallet,
       nav,
       Random,
-      Keychain,
+      keychain,
       Fingerprint,
       Alert,
       ActionSheetIOS,
@@ -196,13 +194,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.newPin = '000000';
       store.auth.pinVerify = '000000';
       await auth.checkNewPin();
-      expect(
-        Keychain.setInternetCredentials,
-        'was called with',
-        '0_DevicePin',
-        'lightning',
-        '000000'
-      );
+      expect(keychain.setItem, 'was called with', 'DevicePin', '000000');
       expect(auth._generateWalletPassword, 'was called once');
     });
 
@@ -211,7 +203,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '00000';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(Keychain.setInternetCredentials, 'was not called');
+      expect(keychain.setItem, 'was not called');
       expect(auth._generateWalletPassword, 'was not called');
     });
 
@@ -220,7 +212,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.pinVerify = '000001';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(Keychain.setInternetCredentials, 'was not called');
+      expect(keychain.setItem, 'was not called');
       expect(auth._generateWalletPassword, 'was not called');
     });
   });
@@ -232,14 +224,14 @@ describe('Action AuthMobile Unit Tests', () => {
 
     it('should work for two same pins', async () => {
       store.auth.pin = '000000';
-      Keychain.getInternetCredentials.resolves({ password: '000000' });
+      keychain.getItem.resolves('000000');
       await auth.checkPin();
       expect(auth._unlockWallet, 'was called once');
     });
 
     it('should display error for non matching pins', async () => {
       store.auth.pin = '000001';
-      Keychain.getInternetCredentials.resolves({ password: '000000' });
+      keychain.getItem.resolves('000000');
       await auth.checkPin();
       expect(Alert.alert, 'was called once');
       expect(auth._unlockWallet, 'was not called');
@@ -248,7 +240,7 @@ describe('Action AuthMobile Unit Tests', () => {
 
   describe('checkResetPin()', () => {
     beforeEach(() => {
-      Keychain.getInternetCredentials.resolves({ password: '000000' });
+      keychain.getItem.resolves('000000');
     });
 
     it('should work for two same pins', async () => {
@@ -256,13 +248,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinNew = '100000';
       store.auth.resetPinVerify = '100000';
       await auth.checkResetPin();
-      expect(
-        Keychain.setInternetCredentials,
-        'was called with',
-        '0_DevicePin',
-        'lightning',
-        '100000'
-      );
+      expect(keychain.setItem, 'was called with', 'DevicePin', '100000');
       expect(nav.goResetPasswordSaved, 'was called once');
     });
 
@@ -272,7 +258,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '00000';
       await auth.checkNewPin();
       expect(Alert.alert, 'was called once');
-      expect(Keychain.setInternetCredentials, 'was not called');
+      expect(keychain.setItem, 'was not called');
       expect(nav.goResetPasswordSaved, 'was not called');
     });
 
@@ -282,7 +268,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '000001';
       await auth.checkResetPin();
       expect(Alert.alert, 'was called once');
-      expect(Keychain.setInternetCredentials, 'was not called');
+      expect(keychain.setItem, 'was not called');
       expect(nav.goResetPasswordSaved, 'was not called');
     });
 
@@ -292,7 +278,7 @@ describe('Action AuthMobile Unit Tests', () => {
       store.auth.resetPinVerify = '000001';
       await auth.checkResetPin();
       expect(Alert.alert, 'was called once');
-      expect(Keychain.setInternetCredentials, 'was not called');
+      expect(keychain.setItem, 'was not called');
       expect(nav.goResetPasswordSaved, 'was not called');
     });
   });
@@ -343,10 +329,9 @@ describe('Action AuthMobile Unit Tests', () => {
     it('should generate a password and store it', async () => {
       await auth._generateWalletPassword();
       expect(
-        Keychain.setInternetCredentials,
+        keychain.setItem,
         'was called with',
-        '0_WalletPassword',
-        'lightning',
+        'WalletPassword',
         /^[0-9a-f]{64}$/
       );
       expect(store.wallet.newPassword, 'to match', /^[0-9a-f]{64}$/);
@@ -357,31 +342,11 @@ describe('Action AuthMobile Unit Tests', () => {
 
   describe('_unlockWallet()', () => {
     it('should not unlock wallet without hardware support', async () => {
-      Keychain.getInternetCredentials.resolves({ password: 'some-password' });
+      keychain.getItem.resolves('some-password');
       await auth._unlockWallet();
-      expect(
-        Keychain.getInternetCredentials,
-        'was called with',
-        '0_WalletPassword'
-      );
+      expect(keychain.getItem, 'was called with', 'WalletPassword');
       expect(store.wallet.password, 'to equal', 'some-password');
       expect(wallet.checkPassword, 'was called once');
-    });
-  });
-
-  describe('_getFromKeyStore()', () => {
-    it('should read keychain value', async () => {
-      Keychain.getInternetCredentials.resolves({ password: 'some-password' });
-      const value = await auth._getFromKeyStore('key');
-      expect(value, 'to equal', 'some-password');
-      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
-    });
-
-    it('should get empty value from keychain', async () => {
-      Keychain.getInternetCredentials.resolves(false);
-      const value = await auth._getFromKeyStore('key');
-      expect(value, 'to equal', null);
-      expect(Keychain.getInternetCredentials, 'was called with', '0_key');
     });
   });
 

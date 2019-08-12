@@ -5,10 +5,8 @@
 
 import { PIN_LENGTH } from '../config';
 
-const VERSION = '0';
 const PIN = 'DevicePin';
 const PASS = 'WalletPassword';
-const USER = 'lightning';
 
 class AuthAction {
   constructor(
@@ -16,7 +14,7 @@ class AuthAction {
     wallet,
     nav,
     Random,
-    Keychain,
+    keychain,
     Fingerprint,
     Alert,
     ActionSheetIOS,
@@ -26,7 +24,7 @@ class AuthAction {
     this._wallet = wallet;
     this._nav = nav;
     this._Random = Random;
-    this._Keychain = Keychain;
+    this._keychain = keychain;
     this._Fingerprint = Fingerprint;
     this._Alert = Alert;
     this._ActionSheetIOS = ActionSheetIOS;
@@ -143,7 +141,7 @@ class AuthAction {
       this._alert("PINs don't match", () => this.initSetPin());
       return;
     }
-    await this._setToKeyStore(PIN, newPin);
+    await this._keychain.setItem(PIN, newPin);
     await this._generateWalletPassword();
   }
 
@@ -155,7 +153,7 @@ class AuthAction {
    */
   async checkPin() {
     const { pin } = this._store.auth;
-    const storedPin = await this._getFromKeyStore(PIN);
+    const storedPin = await this._keychain.getItem(PIN);
     if (pin !== storedPin) {
       this._alert('Incorrect PIN', () => this.initPin());
       return;
@@ -172,7 +170,7 @@ class AuthAction {
    */
   async checkResetPin() {
     const { resetPinCurrent, resetPinNew, resetPinVerify } = this._store.auth;
-    const storedPin = await this._getFromKeyStore(PIN);
+    const storedPin = await this._keychain.getItem(PIN);
     if (resetPinCurrent !== storedPin) {
       this._alert('Incorrect PIN', () => this.initResetPin());
       return;
@@ -186,7 +184,7 @@ class AuthAction {
       this._alert("PINs don't match", () => this.initResetPin());
       return;
     }
-    await this._setToKeyStore(PIN, resetPinNew);
+    await this._keychain.setItem(PIN, resetPinNew);
     this._nav.goResetPasswordSaved();
   }
 
@@ -222,7 +220,7 @@ class AuthAction {
    */
   async _generateWalletPassword() {
     const newPass = await this._secureRandomPassword();
-    await this._setToKeyStore(PASS, newPass);
+    await this._keychain.setItem(PASS, newPass);
     this._store.wallet.newPassword = newPass;
     this._store.wallet.passwordVerify = newPass;
     await this._wallet.checkNewPassword();
@@ -235,27 +233,9 @@ class AuthAction {
    * @return {Promise<undefined>}
    */
   async _unlockWallet() {
-    const storedPass = await this._getFromKeyStore(PASS);
+    const storedPass = await this._keychain.getItem(PASS);
     this._store.wallet.password = storedPass;
     await this._wallet.checkPassword();
-  }
-
-  async _getFromKeyStore(key) {
-    const vKey = `${VERSION}_${key}`;
-    const credentials = await this._Keychain.getInternetCredentials(vKey);
-    if (credentials) {
-      return credentials.password;
-    } else {
-      return null;
-    }
-  }
-
-  _setToKeyStore(key, value) {
-    const options = {
-      accessible: this._Keychain.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
-    };
-    const vKey = `${VERSION}_${key}`;
-    return this._Keychain.setInternetCredentials(vKey, USER, value, options);
   }
 
   _alert(title, callback) {

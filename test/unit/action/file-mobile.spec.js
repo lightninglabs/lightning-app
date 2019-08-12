@@ -16,8 +16,12 @@ describe('Action File Mobile Unit Tests', () => {
     store.network = 'mainnet';
     RNFS = {
       DocumentDirectoryPath: '/foo/bar',
-      readFile: sinon.stub().resolves('some-logs'),
+      ExternalStorageDirectoryPath: '/bar/baz',
+      readFile: sinon.stub().resolves('some-data'),
       unlink: sinon.stub().resolves(),
+      copyFile: sinon.stub(),
+      exists: sinon.stub(),
+      mkdir: sinon.stub(),
     };
     RNShare = {
       open: sinon.stub().resolves(),
@@ -33,6 +37,13 @@ describe('Action File Mobile Unit Tests', () => {
     it('should get lnd directory', () => {
       const path = file.lndDir;
       expect(path, 'to equal', '/foo/bar');
+    });
+  });
+
+  describe('get externalStorageDir()', () => {
+    it('should get external storage directory', () => {
+      const path = file.externalStorageDir;
+      expect(path, 'to equal', '/bar/baz');
     });
   });
 
@@ -70,6 +81,59 @@ describe('Action File Mobile Unit Tests', () => {
       RNFS.unlink.rejects(new Error('Boom!'));
       await file.deleteWalletDB('mainnet');
       expect(logger.info, 'was called once');
+    });
+  });
+
+  describe('get scbPath()', () => {
+    it('should get scb file path', () => {
+      const path = file.scbPath;
+      expect(
+        path,
+        'to equal',
+        '/foo/bar/data/chain/bitcoin/mainnet/channel.backup'
+      );
+    });
+  });
+
+  describe('get scbExternalDir()', () => {
+    it('should get external scb directory', () => {
+      const path = file.scbExternalDir;
+      expect(path, 'to equal', '/bar/baz/Lightning/mainnet');
+    });
+  });
+
+  describe('get scbExternalPath()', () => {
+    it('should get external scb file path', () => {
+      const path = file.scbExternalPath;
+      expect(path, 'to equal', '/bar/baz/Lightning/mainnet/channel.backup');
+    });
+  });
+
+  describe('get readSCB()', () => {
+    it('should read data from fs', async () => {
+      expect(await file.readSCB(), 'to equal', 'some-data');
+    });
+  });
+
+  describe('get copySCBToExternalStorage()', () => {
+    it('should copy the scb if it exists', async () => {
+      RNFS.exists.resolves(true);
+      await file.copySCBToExternalStorage();
+      expect(RNFS.mkdir, 'was called once');
+      expect(RNFS.copyFile, 'was called once');
+    });
+
+    it('should not copy the scb if it does not exist', async () => {
+      RNFS.exists.resolves(false);
+      await file.copySCBToExternalStorage();
+      expect(RNFS.mkdir, 'was not called');
+      expect(RNFS.copyFile, 'was not called');
+    });
+  });
+
+  describe('get readSCBFromExternalStorage()', () => {
+    it('should get lnd directory', async () => {
+      expect(await file.readSCBFromExternalStorage(), 'to equal', 'some-data');
     });
   });
 });
