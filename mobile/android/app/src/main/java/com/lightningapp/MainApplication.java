@@ -3,6 +3,7 @@ package com.lightningapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import cl.json.RNSharePackage;
 import cl.json.ShareApplication;
 import com.rnfs.RNFSPackage;
@@ -44,6 +45,7 @@ public class MainApplication extends Application implements ShareApplication, Re
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+          new RNDeviceInfo(),
           new RNSharePackage(),
           new RNFSPackage(),
           new RNCameraPackage(),

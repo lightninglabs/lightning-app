@@ -89,9 +89,13 @@ PODS:
     - React/Core
     - React/fishhook
     - React/RCTBlob
+  - RNDeviceInfo (2.3.2):
+    - React
   - RNFS (2.13.3):
     - React
   - RNGestureHandler (1.3.0):
+    - React
+  - RNICloudStore (0.1.0):
     - React
   - RNKeychain (3.1.3):
     - React
@@ -143,8 +147,10 @@ DEPENDENCIES:
   - React/RCTText (from `../node_modules/react-native`)
   - React/RCTVibration (from `../node_modules/react-native`)
   - React/RCTWebSocket (from `../node_modules/react-native`)
+  - RNDeviceInfo (from `../node_modules/react-native-device-info`)
   - RNFS (from `../node_modules/react-native-fs`)
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
+  - RNICloudStore (from `../node_modules/react-native-icloudstore`)
   - RNKeychain (from `../node_modules/react-native-keychain`)
   - RNShare (from `../node_modules/react-native-share`)
   - RNSVG (from `../node_modules/react-native-svg`)
@@ -201,10 +207,14 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native"
   react-native-camera:
     :path: "../node_modules/react-native-camera"
+  RNDeviceInfo:
+    :path: "../node_modules/react-native-device-info"
   RNFS:
     :path: "../node_modules/react-native-fs"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
+  RNICloudStore:
+    :path: "../node_modules/react-native-icloudstore"
   RNKeychain:
     :path: "../node_modules/react-native-keychain"
   RNShare:
@@ -265,8 +275,10 @@ SPEC CHECKSUMS:
   glog: aefd1eb5dda2ab95ba0938556f34b98e2da3a60d
   React: 36d0768f9e93be2473b37e7fa64f92c1d5341eef
   react-native-camera: 96a3c81f27da57b816fbb6808dde20dc96d1431e
+  RNDeviceInfo: bdc3e922b2ed0f086e9d9ab534e61bc316f08576
   RNFS: c9bbde46b0d59619f8e7b735991c60e0f73d22c1
   RNGestureHandler: 5329a942fce3d41c68b84c2c2276ce06a696d8b0
+  RNICloudStore: bc6e225811637c09bd1eb055d6cd7448e61cd451
   RNKeychain: c658833a9cb2cbcba6423bdd6e16cce59e27da0e
   RNShare: 48cf88cadf9ca2143cdaa557c1ec7f8808040ffc
   RNSVG: 90c76b7cf235654d45e54655b6c189ea4041057c
@@ -284,6 +296,6 @@ SPEC CHECKSUMS:
   UMTaskManagerInterface: 2d2d591bbd0de47f2a8ef46cea775edcd82d4afd
   yoga: 684513b14b03201579ba3cee20218c9d1298b0cc
 
-PODFILE CHECKSUM: b9e19bcca766c7591c4e3441dd8107baefcc5171
+PODFILE CHECKSUM: e6ac96ac2829f27d58d0a0f511cb7a7e6ae7147d
 
 COCOAPODS: 1.7.5
