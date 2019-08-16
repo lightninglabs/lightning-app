@@ -33,12 +33,12 @@ class SettingAction {
    * perist the updated settings to disk.
    * @param {string} options.fiat The fiat currency e.g. `usd`
    */
-  setFiatCurrency({ fiat }) {
+  async setFiatCurrency({ fiat }) {
     if (!FIATS[fiat]) {
       throw new Error(`Invalid fiat currency: ${fiat}`);
     }
     this._store.settings.fiat = fiat;
-    this._wallet.getExchangeRate();
+    await this._wallet.getExchangeRate();
     this._db.save();
   }
 
@@ -59,7 +59,7 @@ class SettingAction {
     try {
       let locale = await this._ipc.send('locale-get', 'locale');
       const fiat = localeCurrency.getCurrency(locale).toLowerCase();
-      this.setFiatCurrency({ fiat });
+      await this.setFiatCurrency({ fiat });
     } catch (err) {
       log.error('Detecting local currency failed', err);
     }
