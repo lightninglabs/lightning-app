@@ -67,7 +67,7 @@ module.exports.startLndProcess = async function({
     '--autopilot.private',
     '--autopilot.minconfs=1',
     '--autopilot.conftarget=6',
-    '--autopilot.allocation=0.95',
+    '--autopilot.allocation=1.0',
     '--autopilot.heuristic=externalscore:0.95',
     '--autopilot.heuristic=preferential:0.05',
     lndPort ? `--rpclisten=localhost:${lndPort}` : '',
@@ -88,7 +88,7 @@ module.exports.startLndProcess = async function({
     args = args.concat([
       '--bitcoin.mainnet',
       '--bitcoin.node=neutrino',
-      '--neutrino.connect=btcd-mainnet.lightning.computer',
+      '--neutrino.addpeer=btcd-mainnet.lightning.computer',
       '--neutrino.feeurl=https://nodes.lightning.computer/fees/v1/btc-fee-estimates.json',
       '--neutrino.assertfilterheader=230000:1308d5cfc6462f877a5587fd77d7c1ab029d45e58d5175aaf8c264cee9bde760',
     ]);

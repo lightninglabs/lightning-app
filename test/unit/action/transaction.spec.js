@@ -4,6 +4,7 @@ import TransactionAction from '../../../src/action/transaction';
 import NavAction from '../../../src/action/nav';
 import NotificationAction from '../../../src/action/notification';
 import * as logger from '../../../src/action/log';
+import { nap } from '../../../src/helper';
 
 describe('Action Transactions Unit Tests', () => {
   let store;
@@ -44,6 +45,22 @@ describe('Action Transactions Unit Tests', () => {
       expect(store.selectedTransaction, 'to equal', 'some-transaction');
       expect(transaction.update, 'was called once');
       expect(nav.goTransactionDetail, 'was called once');
+    });
+
+    it('should attempt to decode with paymentRequest', () => {
+      sandbox.stub(transaction, 'decodeMemo');
+      transaction.select({
+        item: { paymentRequest: 'some-payment-request' },
+      });
+      expect(transaction.decodeMemo, 'was called once');
+    });
+
+    it('should not decode with empty paymentRequest', () => {
+      sandbox.stub(transaction, 'decodeMemo');
+      transaction.select({
+        item: { paymentRequest: '' },
+      });
+      expect(transaction.decodeMemo, 'was not called');
     });
   });
 
@@ -153,6 +170,7 @@ describe('Action Transactions Unit Tests', () => {
             settled: true,
             paymentHash: 'some-hash',
             paymentPreimage: 'some-preimage',
+            paymentRequest: 'some-payment-request',
           },
         ],
       });
@@ -165,6 +183,7 @@ describe('Action Transactions Unit Tests', () => {
         status: 'complete',
         date: new Date('2018-05-23T10:13:15.000Z'),
         preimage: 'some-preimage',
+        paymentRequest: 'some-payment-request',
       });
     });
 
@@ -172,6 +191,27 @@ describe('Action Transactions Unit Tests', () => {
       grpc.sendCommand.rejects();
       await transaction.getPayments();
       expect(logger.error, 'was called once');
+    });
+  });
+
+  describe('decodeMemo()', () => {
+    it('should decode successfully', async () => {
+      grpc.sendCommand.withArgs('decodePayReq').resolves({
+        description: 'foo',
+      });
+      const memo = await transaction.decodeMemo({
+        payReq: 'some-payment-request',
+      });
+      await nap(10);
+      expect(memo, 'to equal', 'foo');
+    });
+
+    it('should log info on failure', async () => {
+      grpc.sendCommand.rejects();
+      await transaction.decodeMemo({
+        payReq: 'some-payment-request',
+      });
+      expect(logger.info, 'was called once');
     });
   });
 

@@ -14,13 +14,14 @@ import { when } from 'mobx';
 import * as log from './log';
 
 class WalletAction {
-  constructor(store, grpc, db, nav, notification, FS) {
+  constructor(store, grpc, db, nav, notification, file, backup) {
     this._store = store;
     this._grpc = grpc;
     this._db = db;
     this._nav = nav;
     this._notification = notification;
-    this._FS = FS;
+    this._file = file;
+    this._backup = backup;
   }
 
   //
@@ -266,11 +267,13 @@ class WalletAction {
    */
   async initWallet({ walletPassword, seedMnemonic, recoveryWindow = 0 }) {
     try {
-      await Promise.all([this.deleteDB('testnet'), this.deleteDB('mainnet')]);
+      await this.deleteDB();
+      const channelBackups = await this.checkChannelBackup();
       await this._grpc.sendUnlockerCommand('InitWallet', {
         walletPassword: toBuffer(walletPassword),
         cipherSeedMnemonic: seedMnemonic,
         recoveryWindow: recoveryWindow,
+        channelBackups,
       });
       this._store.walletUnlocked = true;
       this._nav.goSeedSuccess();
@@ -293,20 +296,34 @@ class WalletAction {
   /**
    * Delete the wallet.db file. This allows the user to restore their wallet
    * (including channel state) from the seed if they've they've forgotten the
-   * wallet pin/password.
+   * wallet pin/password. We need to delete both mainnet and testnet wallet
+   * files since we haven't set `store.network` at this point in the app life
+   * cycle yet (which happens later when we query getInfo).
    * @return {Promise<undefined>}
    */
-  async deleteDB(network) {
-    if (!this._FS) {
+  async deleteDB() {
+    if (!this._file) {
       return;
     }
-    const lndDir = this._FS.DocumentDirectoryPath;
-    const dbPath = `${lndDir}/data/chain/bitcoin/${network}/wallet.db`;
-    try {
-      await this._FS.unlink(dbPath);
-    } catch (err) {
-      log.info(`No ${network} wallet to delete.`);
+    await Promise.all([
+      this._file.deleteWalletDB('testnet'),
+      this._file.deleteWalletDB('mainnet'),
+    ]);
+  }
+
+  async checkChannelBackup() {
+    if (!this._backup || !this._store.settings.restoring) {
+      return;
     }
+    const scbBuffer = await this._backup.fetchChannelBackup();
+    if (!scbBuffer) {
+      return;
+    }
+    return {
+      multiChanBackup: {
+        multiChanBackup: scbBuffer,
+      },
+    };
   }
 
   /**

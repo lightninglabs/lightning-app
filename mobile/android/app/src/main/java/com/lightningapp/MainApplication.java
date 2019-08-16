@@ -3,6 +3,9 @@ package com.lightningapp;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+import cl.json.RNSharePackage;
+import cl.json.ShareApplication;
 import com.rnfs.RNFSPackage;
 import org.reactnative.camera.RNCameraPackage;
 import com.oblador.keychain.KeychainPackage;
@@ -26,7 +29,7 @@ import expo.modules.filesystem.FileSystemPackage;
 import java.util.Arrays;
 import java.util.List;
 
-public class MainApplication extends Application implements ReactApplication {
+public class MainApplication extends Application implements ShareApplication, ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
     new BasePackageList().getPackageList(),
     Arrays.<SingletonModule>asList()
@@ -42,6 +45,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+          new RNDeviceInfo(),
+          new RNSharePackage(),
           new RNFSPackage(),
           new RNCameraPackage(),
           new KeychainPackage(),
@@ -67,5 +72,10 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+  }
+
+  @Override
+  public String getFileProviderAuthority() {
+    return BuildConfig.APPLICATION_ID + ".provider";
   }
 }

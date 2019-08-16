@@ -115,6 +115,7 @@ describe('Action Integration Tests', function() {
 
     lndProcess1 = await lndProcess1Promise;
     lndProcess2 = await lndProcess2Promise;
+    await nap(NAP_TIME);
   };
 
   before(async () => {
@@ -480,6 +481,14 @@ describe('Action Integration Tests', function() {
       await payments1.payLightning();
     });
 
+    it('should decode memo from sent payment', async () => {
+      await transactions1.getPayments();
+      const memo = await transactions1.decodeMemo({
+        payReq: store1.payments[0].paymentRequest,
+      });
+      expect(memo, 'to equal', 'coffee');
+    });
+
     it('should update complete invoice via subscription', async () => {
       while (store2.invoices[0].status === 'in-progress') await nap(100);
       const tx = store2.computedTransactions.find(t => t.type === 'lightning');
@@ -556,6 +565,7 @@ describe('Action Integration Tests', function() {
   };
 
   const updateBalances = async () => {
+    await nap(NAP_TIME);
     await wallet1.getBalance();
     await wallet1.getChannelBalance();
     await wallet2.getBalance();

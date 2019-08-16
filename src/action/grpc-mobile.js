@@ -165,10 +165,18 @@ class GrpcAction {
   //
 
   async _lnrpcRequest(method, body) {
-    method = toCaps(method);
-    const req = this._serializeRequest(method, body);
-    const response = await this._lnd.sendCommand(method, req);
-    return this._deserializeResponse(method, response.data);
+    try {
+      method = toCaps(method);
+      const req = this._serializeRequest(method, body);
+      const response = await this._lnd.sendCommand(method, req);
+      return this._deserializeResponse(method, response.data);
+    } catch (err) {
+      if (typeof err === 'string') {
+        throw new Error(err);
+      } else {
+        throw err;
+      }
+    }
   }
 
   _serializeRequest(method, body = {}) {
@@ -204,6 +212,7 @@ class GrpcAction {
       SendPayment: 'SendRequest',
       SubscribeTransactions: 'GetTransactionsRequest',
       SubscribeInvoices: 'InvoiceSubscription',
+      SubscribeChannelBackups: 'ChannelBackupSubscription',
       StopDaemon: 'StopRequest',
     };
     return map[method] || `${method}Request`;
@@ -219,6 +228,7 @@ class GrpcAction {
       CloseChannel: 'CloseStatusUpdate',
       SubscribeTransactions: 'Transaction',
       SubscribeInvoices: 'Invoice',
+      SubscribeChannelBackups: 'ChanBackupSnapshot',
       StopDaemon: 'StopResponse',
     };
     return map[method] || `${method}Response`;

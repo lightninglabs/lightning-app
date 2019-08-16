@@ -140,6 +140,8 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-device-info')
+    implementation project(':react-native-share')
     implementation project(':react-native-fs')
     implementation project(':react-native-camera')
     implementation project(':react-native-keychain')
