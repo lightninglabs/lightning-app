@@ -85,19 +85,10 @@ const iStyles = StyleSheet.create({
   item: {
     height: 60,
   },
-  left: {
-    flex: 1,
-  },
   name: {
+    flex: 1,
     color: color.grey,
     fontSize: font.sizeSub,
-  },
-  copy: {
-    width: '80%',
-    fontSize: font.sizeS,
-    lineHeight: font.lineHeightS,
-    color: color.greyListLabel,
-    opacity: 0.74,
   },
   lbl: {
     fontSize: font.sizeS,
@@ -109,22 +100,9 @@ const iStyles = StyleSheet.create({
   },
 });
 
-export const SettingItem = ({
-  name,
-  copy,
-  onSelect,
-  label,
-  arrow,
-  children,
-}) => (
-  <ListItem
-    style={[iStyles.item, copy ? { height: 80 } : null]}
-    onSelect={onSelect}
-  >
-    <View style={iStyles.left}>
-      <Text style={iStyles.name}>{name}</Text>
-      {copy ? <Text style={iStyles.copy}>{copy}</Text> : null}
-    </View>
+export const SettingItem = ({ name, onSelect, label, arrow, children }) => (
+  <ListItem style={iStyles.item} onSelect={onSelect}>
+    <Text style={iStyles.name}>{name}</Text>
     {label ? <Text style={iStyles.lbl}>{label}</Text> : null}
     {children}
     {arrow ? (
@@ -137,10 +115,53 @@ export const SettingItem = ({
 
 SettingItem.propTypes = {
   name: PropTypes.string.isRequired,
-  copy: PropTypes.string,
   onSelect: PropTypes.func,
   label: PropTypes.string,
   arrow: PropTypes.bool,
+  children: PropTypes.node,
+};
+
+//
+// Setting Copy Item
+//
+
+const iCopyStyles = StyleSheet.create({
+  item: {
+    height: 100,
+  },
+  left: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  name: {
+    color: color.grey,
+    fontSize: font.sizeSub,
+    marginBottom: 5,
+  },
+  copy: {
+    width: '80%',
+    fontSize: font.sizeS,
+    lineHeight: font.lineHeightS,
+    color: color.greyListLabel,
+    opacity: 0.74,
+  },
+});
+
+export const SettingCopyItem = ({ name, onSelect, copy, children }) => (
+  <ListItem style={iCopyStyles.item} onSelect={onSelect}>
+    <View style={iCopyStyles.left}>
+      <Text style={iCopyStyles.name}>{name}</Text>
+      <Text style={iCopyStyles.copy}>{copy}</Text>
+    </View>
+    {children}
+  </ListItem>
+);
+
+SettingCopyItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  onSelect: PropTypes.func,
+  copy: PropTypes.string,
   children: PropTypes.node,
 };
 

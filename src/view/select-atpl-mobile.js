@@ -7,7 +7,7 @@ import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { CopyOnboardText, Text } from '../component/text';
 import { RadioButton, GlasButton } from '../component/button';
-import { SettingItem } from '../component/setting';
+import { SettingCopyItem } from '../component/setting';
 import { color, font, smallBreakWidth } from '../component/style';
 
 //
@@ -20,16 +20,16 @@ const baseStyles = {
     paddingRight: 20,
   },
   title: {
-    marginTop: 60,
+    marginTop: 80,
     textAlign: 'center',
   },
   copyTxt: {
     textAlign: 'center',
     marginTop: 10,
-    maxWidth: 300,
+    maxWidth: 260,
   },
   list: {
-    marginTop: 50,
+    marginTop: 40,
     width: undefined,
     alignSelf: 'stretch',
   },
@@ -62,23 +62,23 @@ const SelectAutopilotView = ({ store, autopilot, info }) => (
         }
       </Text>
       <View style={styles.list}>
-        <SettingItem
+        <SettingCopyItem
           name="Use autopilot (recommended)"
           copy="I want the app to create channels and move my funds into those channels automatically."
           onSelect={() => (store.settings.autopilot ? {} : autopilot.toggle())}
         >
           <RadioButton selected={store.settings.autopilot === true} />
-        </SettingItem>
-        <SettingItem
+        </SettingCopyItem>
+        <SettingCopyItem
           name="Create channels manually"
           copy="I don't want the app to automatically create channels for me. I can do this all myself."
           onSelect={() => (!store.settings.autopilot ? {} : autopilot.toggle())}
         >
           <RadioButton selected={store.settings.autopilot === false} />
-        </SettingItem>
+        </SettingCopyItem>
       </View>
     </MainContent>
-    <GlasButton onPress={() => info.initLoaderSyncing()}>Next</GlasButton>
+    <GlasButton onPress={() => info.initLoaderSyncing()}>Save</GlasButton>
   </Background>
 );
 
