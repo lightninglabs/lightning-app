@@ -65,7 +65,7 @@ export const CopyOnboardText = ({ children = '', style }) => (
 );
 
 CopyOnboardText.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: RNText.propTypes.style,
 };
 
@@ -86,7 +86,7 @@ export const H1Text = ({ children = '', style }) => (
 );
 
 H1Text.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: RNText.propTypes.style,
 };
 
@@ -107,7 +107,7 @@ export const H3Text = ({ children = '', style }) => (
 );
 
 H3Text.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: RNText.propTypes.style,
 };
 
@@ -128,7 +128,7 @@ export const H4Text = ({ children, style }) => (
 );
 
 H4Text.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: RNText.propTypes.style,
 };
 
