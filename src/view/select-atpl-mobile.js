@@ -25,7 +25,7 @@ const baseStyles = {
   },
   copyTxt: {
     textAlign: 'center',
-    marginTop: 10,
+    marginTop: 20,
     maxWidth: 260,
   },
   list: {
@@ -45,7 +45,7 @@ const styles = createStyles(
       marginTop: 40,
     },
     list: {
-      marginTop: 20,
+      marginTop: 50,
     },
   })
 );
@@ -65,14 +65,14 @@ const SelectAutopilotView = ({ store, autopilot, info }) => (
         <SettingCopyItem
           name="Use autopilot (recommended)"
           copy="I want the app to create channels and move my funds into those channels automatically."
-          onSelect={() => (store.settings.autopilot ? {} : autopilot.toggle())}
+          onSelect={() => !store.settings.autopilot && autopilot.toggle()}
         >
           <RadioButton selected={store.settings.autopilot === true} />
         </SettingCopyItem>
         <SettingCopyItem
           name="Create channels manually"
           copy="I don't want the app to automatically create channels for me. I can do this all myself."
-          onSelect={() => (!store.settings.autopilot ? {} : autopilot.toggle())}
+          onSelect={() => store.settings.autopilot && autopilot.toggle()}
         >
           <RadioButton selected={store.settings.autopilot === false} />
         </SettingCopyItem>
