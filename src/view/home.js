@@ -109,7 +109,7 @@ const BalanceDisplay = ({
 }) => (
   <View style={balanceStyles.wrapper}>
     <Button onPress={toggleDisplayFiat}>
-      <H4Text>Total {unitLabel}</H4Text>
+      {unitLabel ? <H4Text>Total {unitLabel}</H4Text> : null}
       <BalanceLabel>
         <BalanceLabelNumeral>{totalBalanceLabel}</BalanceLabelNumeral>
       </BalanceLabel>
