@@ -127,24 +127,24 @@ SettingItem.propTypes = {
 
 const iCopyStyles = StyleSheet.create({
   item: {
-    height: 100,
+    height: null,
+    paddingTop: 20,
+    paddingBottom: 20,
   },
   left: {
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
   },
   name: {
     color: color.grey,
     fontSize: font.sizeSub,
-    marginBottom: 5,
   },
   copy: {
-    width: '80%',
     fontSize: font.sizeS,
     lineHeight: font.lineHeightS,
     color: color.greyListLabel,
     opacity: 0.74,
+    paddingRight: 50,
+    marginTop: 5,
   },
 });
 
