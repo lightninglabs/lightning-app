@@ -94,7 +94,7 @@ export class Store {
       settings: {
         unit: DEFAULT_UNIT,
         fiat: DEFAULT_FIAT,
-        displayFiat: true,
+        displayFiat: false,
         exchangeRate: {},
         restoring: false,
         autopilot: true,

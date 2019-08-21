@@ -10,6 +10,7 @@ describe('Computed Wallet Unit Tests', () => {
 
   describe('ComputedWallet()', () => {
     it('should work with initial store', () => {
+      store.settings.displayFiat = true;
       store.channelBalancePendingSatoshis = 0;
       store.channelBalanceOpenSatoshis = 0;
       store.channelBalanceInactiveSatoshis = 0;
