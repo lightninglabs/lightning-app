@@ -49,7 +49,7 @@ const ChannelDetailView = ({ store, nav }) => (
           {store.selectedChannel.statusLabel}
         </DetailField>
         {store.selectedChannel.timeTilAvailable ? (
-          <DetailField name="Time Til Available">
+          <DetailField name="Time Till Available">
             {store.selectedChannel.timeTilAvailable}
           </DetailField>
         ) : null}

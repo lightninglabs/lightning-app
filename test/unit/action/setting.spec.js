@@ -44,17 +44,17 @@ describe('Action Setting Unit Test', () => {
   });
 
   describe('setFiatCurrency()', () => {
-    it('should set a valid fiat currency and save settings', () => {
-      setting.setFiatCurrency({ fiat: 'eur' });
+    it('should set a valid fiat currency and save settings', async () => {
+      await setting.setFiatCurrency({ fiat: 'eur' });
       expect(store.settings.fiat, 'to equal', 'eur');
       expect(wallet.getExchangeRate, 'was called once');
       expect(db.save, 'was called once');
     });
 
-    it('should throw error on invalid fiat type', () => {
-      expect(
-        setting.setFiatCurrency.bind(null, { fiat: 'invalid' }),
-        'to throw',
+    it('should throw error on invalid fiat type', async () => {
+      await expect(
+        setting.setFiatCurrency({ fiat: 'invalid' }),
+        'to be rejected with error satisfying',
         /Invalid/
       );
     });

@@ -11,11 +11,7 @@ import { H4Text } from '../component/text';
 import Icon from '../component/icon';
 import QrIcon from '../asset/icon/qr';
 import LightningBoltPurpleIcon from '../asset/icon/lightning-bolt-purple';
-import {
-  BalanceLabel,
-  BalanceLabelNumeral,
-  BalanceLabelUnit,
-} from '../component/label';
+import { BalanceLabel, BalanceLabelNumeral } from '../component/label';
 import { Button, GlasButton, DownButton } from '../component/button';
 
 //
@@ -113,9 +109,9 @@ const BalanceDisplay = ({
 }) => (
   <View style={balanceStyles.wrapper}>
     <Button onPress={toggleDisplayFiat}>
+      {unitLabel ? <H4Text>Total {unitLabel}</H4Text> : null}
       <BalanceLabel>
         <BalanceLabelNumeral>{totalBalanceLabel}</BalanceLabelNumeral>
-        <BalanceLabelUnit>{unitLabel}</BalanceLabelUnit>
       </BalanceLabel>
     </Button>
     <Button onPress={goChannels} style={balanceStyles.percentBtn}>
