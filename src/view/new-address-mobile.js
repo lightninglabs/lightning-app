@@ -59,7 +59,7 @@ const styles = createStyles(
   })
 );
 
-const NewAddressView = ({ store, invoice, info }) => (
+const NewAddressView = ({ store, invoice, nav }) => (
   <SplitBackground image="purple-gradient-bg" bottom={color.blackDark}>
     <MainContent style={styles.content}>
       <View style={styles.copyWrapper}>
@@ -80,7 +80,7 @@ const NewAddressView = ({ store, invoice, info }) => (
         >
           {store.walletAddress}
         </CopyButton>
-        <SmallGlasButton onPress={() => info.initLoaderSyncing()}>
+        <SmallGlasButton onPress={() => nav.goSelectAutopilot()}>
           Done
         </SmallGlasButton>
       </View>
@@ -96,7 +96,7 @@ const NewAddressView = ({ store, invoice, info }) => (
 NewAddressView.propTypes = {
   store: PropTypes.object.isRequired,
   invoice: PropTypes.object.isRequired,
-  info: PropTypes.object.isRequired,
+  nav: PropTypes.object.isRequired,
 };
 
 export default observer(NewAddressView);
