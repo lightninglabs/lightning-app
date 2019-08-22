@@ -31,7 +31,7 @@ module.exports.MAX_LOG_LENGTH = 10000;
 module.exports.RECOVERY_WINDOW = 250;
 
 module.exports.UNITS = {
-  sat: { display: 'SAT', displayLong: 'Satoshi', denominator: 1 },
+  sat: { display: 'sats', displayLong: 'Satoshi', denominator: 1 },
   bit: { display: 'bits', displayLong: 'Bits', denominator: 100 },
   btc: { display: 'BTC', displayLong: 'Bitcoin', denominator: 100000000 },
 };
