@@ -11,7 +11,7 @@ describe('Store Unit Tests', () => {
     it('should set computed vales', () => {
       expect(store.unitFiatLabel, 'to be', undefined);
       store.init();
-      expect(store.unitFiatLabel, 'to equal', '$');
+      expect(store.unitFiatLabel, 'to equal', 'sats');
     });
   });
 });

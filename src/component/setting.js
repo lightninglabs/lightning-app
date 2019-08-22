@@ -122,6 +122,50 @@ SettingItem.propTypes = {
 };
 
 //
+// Setting Copy Item
+//
+
+const iCopyStyles = StyleSheet.create({
+  item: {
+    height: null,
+    paddingTop: 20,
+    paddingBottom: 20,
+  },
+  left: {
+    flex: 1,
+  },
+  name: {
+    color: color.grey,
+    fontSize: font.sizeSub,
+  },
+  copy: {
+    fontSize: font.sizeS,
+    lineHeight: font.lineHeightS,
+    color: color.greyListLabel,
+    opacity: 0.74,
+    paddingRight: 50,
+    marginTop: 5,
+  },
+});
+
+export const SettingCopyItem = ({ name, onSelect, copy, children }) => (
+  <ListItem style={iCopyStyles.item} onSelect={onSelect}>
+    <View style={iCopyStyles.left}>
+      <Text style={iCopyStyles.name}>{name}</Text>
+      <Text style={iCopyStyles.copy}>{copy}</Text>
+    </View>
+    {children}
+  </ListItem>
+);
+
+SettingCopyItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  onSelect: PropTypes.func,
+  copy: PropTypes.string,
+  children: PropTypes.node,
+};
+
+//
 // Setting Header
 //
 
