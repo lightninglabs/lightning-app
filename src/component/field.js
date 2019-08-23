@@ -1,8 +1,15 @@
 import React from 'react';
-import { Text as RNText, StyleSheet, View, ViewPropTypes } from 'react-native';
+import {
+  Text as RNText,
+  StyleSheet,
+  View,
+  TouchableOpacity,
+  ViewPropTypes,
+} from 'react-native';
 import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from './media-query';
 import Text from './text';
+import ArrowDownIcon from '../asset/icon/arrow-down';
 import { TextInput, HorizontalExpandingTextInput } from './input';
 import { color, font, breakWidth } from './style';
 
@@ -95,6 +102,43 @@ export const NamedField = ({ name, children, style }) => (
 );
 
 NamedField.propTypes = {
+  name: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  style: ViewPropTypes.style,
+};
+
+//
+// Named Field Select
+//
+
+const namedSelectStyles = StyleSheet.create({
+  touchable: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginRight: 15,
+  },
+  name: {
+    color: color.blackText,
+    fontSize: font.sizeM,
+    lineHeight: font.lineHeightM + 2 * 12,
+    marginRight: 3,
+  },
+});
+
+export const NamedFieldSelect = ({ onPress, name, children, style }) => (
+  <View style={[namedStyles.content, style]}>
+    <TouchableOpacity style={namedSelectStyles.touchable} onPress={onPress}>
+      <Text style={namedSelectStyles.name}>{name}</Text>
+      <ArrowDownIcon height={22} width={22} stroke="#4A4A4A" />
+    </TouchableOpacity>
+    <Text style={namedStyles.text} numberOfLines={1}>
+      {children}
+    </Text>
+  </View>
+);
+
+NamedFieldSelect.propTypes = {
+  onPress: PropTypes.func.isRequired,
   name: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: ViewPropTypes.style,
