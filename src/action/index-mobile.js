@@ -154,7 +154,6 @@ when(
 when(
   () => store.network && store.syncedToChain,
   async () => {
-    await nap();
     backup.pushChannelBackup();
     backup.subscribeChannelBackups();
   }
