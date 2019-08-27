@@ -28,6 +28,7 @@
     "react-native-share": "^1.2.1",
     "react-native-svg": "^9.6.2",
     "react-native-unimodules": "^0.5.4",
+    "react-native-v8": "^0.59.10-patch.1",
     "react-navigation": "^3.11.1"
   },
   "devDependencies": {
