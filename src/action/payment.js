@@ -7,9 +7,18 @@ import {
   PREFIX_REGEX,
   PAYMENT_TIMEOUT,
   POLL_STORE_TIMEOUT,
-  SEND_TARGET_CONF,
+  LOW_TARGET_CONF,
+  MED_TARGET_CONF,
+  HIGH_TARGET_CONF,
 } from '../config';
-import { toSatoshis, toAmount, isLnUri, isAddress, nap } from '../helper';
+import {
+  toSatoshis,
+  toAmount,
+  toAmountLabel,
+  isLnUri,
+  isAddress,
+  nap,
+} from '../helper';
 import * as log from './log';
 
 class PaymentAction {
@@ -105,6 +114,7 @@ class PaymentAction {
   init() {
     this._store.payment.address = '';
     this._store.payment.amount = '';
+    this._store.payment.targetConf = MED_TARGET_CONF;
     this._store.payment.fee = '';
     this._store.payment.note = '';
     this._store.payment.useScanner = false;
@@ -223,14 +233,40 @@ class PaymentAction {
    * @return {Promise<undefined>}
    */
   async estimateFee() {
+    const { payment } = this._store;
+    payment.feeEstimates = [];
+    await this._fetchEstimate(LOW_TARGET_CONF, 'Low');
+    await this._fetchEstimate(MED_TARGET_CONF, 'Med');
+    await this._fetchEstimate(HIGH_TARGET_CONF, 'High');
+    payment.fee = payment.feeEstimates[1].fee;
+  }
+
+  async _fetchEstimate(targetConf, prio) {
     const { payment, settings } = this._store;
     const AddrToAmount = {};
     AddrToAmount[payment.address] = toSatoshis(payment.amount, settings);
-    const { feeSat } = await this._grpc.sendCommand('estimateFee', {
-      AddrToAmount,
-      targetConf: SEND_TARGET_CONF,
+    const { feeSat, feerateSatPerByte } = await this._grpc.sendCommand(
+      'estimateFee',
+      {
+        AddrToAmount,
+        targetConf,
+      }
+    );
+    payment.feeEstimates.push({
+      targetConf,
+      prio,
+      satPerByte: feerateSatPerByte,
+      fee: toAmount(feeSat, settings),
+      feeLabel: toAmountLabel(feeSat, settings),
     });
-    payment.fee = toAmount(feeSat, settings);
+  }
+
+  setTargetConf({ targetConf }) {
+    const { payment } = this._store;
+    payment.targetConf = targetConf;
+    payment.fee = payment.feeEstimates.find(
+      e => e.targetConf === targetConf
+    ).fee;
   }
 
   /**
@@ -286,7 +322,7 @@ class PaymentAction {
     await this._grpc.sendCommand('sendCoins', {
       addr: payment.address,
       amount,
-      targetConf: SEND_TARGET_CONF,
+      targetConf: payment.targetConf,
       sendAll: payment.sendAll,
     });
   }

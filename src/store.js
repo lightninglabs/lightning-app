@@ -14,7 +14,12 @@ import ComputedPayment from './computed/payment';
 import ComputedNotification from './computed/notification';
 import ComputedSetting from './computed/setting';
 import ComputedSeed from './computed/seed';
-import { DEFAULT_ROUTE, DEFAULT_UNIT, DEFAULT_FIAT } from './config';
+import {
+  DEFAULT_ROUTE,
+  DEFAULT_UNIT,
+  DEFAULT_FIAT,
+  MED_TARGET_CONF,
+} from './config';
 
 export class Store {
   constructor() {
@@ -69,6 +74,8 @@ export class Store {
       payment: {
         address: '',
         amount: '',
+        targetConf: MED_TARGET_CONF,
+        feeEstimates: [],
         fee: '',
         note: '',
         sendAll: false,
