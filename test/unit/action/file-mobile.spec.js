@@ -132,8 +132,14 @@ describe('Action File Mobile Unit Tests', () => {
   });
 
   describe('get readSCBFromExternalStorage()', () => {
-    it('should get lnd directory', async () => {
+    it('should read the scb if it exists', async () => {
+      RNFS.exists.resolves(true);
       expect(await file.readSCBFromExternalStorage(), 'to equal', 'some-data');
+    });
+
+    it('should not read the scb if it does not exist', async () => {
+      RNFS.exists.resolves(false);
+      expect(await file.readSCBFromExternalStorage(), 'to equal', undefined);
     });
   });
 });
