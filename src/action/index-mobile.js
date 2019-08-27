@@ -26,6 +26,7 @@ import RNiCloudStorage from 'react-native-icloudstore';
 import { NavigationActions, StackActions } from 'react-navigation';
 import { nap } from '../helper';
 import store from '../store';
+import { LND_NETWORK } from '../config';
 import AppStorage from './app-storage';
 import IpcAction from './ipc-mobile';
 import GrpcAction from './grpc-mobile';
@@ -49,6 +50,7 @@ import AtplAction from './autopilot';
 // Inject dependencies
 //
 
+store.network = LND_NETWORK; // set to read SCB file for restore
 store.init(); // initialize computed values
 
 export const db = new AppStorage(store, AsyncStorage);
