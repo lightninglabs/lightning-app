@@ -281,7 +281,7 @@ class WalletAction {
       if (this._store.settings.restoring) {
         this._notification.display({
           type: 'error',
-          msg: `Initializing wallet failed. Invalid seed.`,
+          msg: `Restoring wallet failed: ${err.message}`,
         });
         this.initRestoreWallet();
       } else {
