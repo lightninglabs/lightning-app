@@ -103,6 +103,8 @@ class FileAction {
   }
 
   async readSCBFromExternalStorage() {
+    const exists = await this._FS.exists(this.scbExternalPath);
+    if (!exists) return;
     return this._FS.readFile(this.scbExternalPath, 'base64');
   }
 }

@@ -10,6 +10,7 @@ module.exports.ATPL_DELAY = 60 * 60 * 1000;
 module.exports.PAYMENT_TIMEOUT = 60 * 1000;
 module.exports.POLL_STORE_TIMEOUT = 100;
 
+module.exports.LND_NETWORK = 'testnet';
 module.exports.LND_PORT = 10006;
 module.exports.LND_PEER_PORT = 10016;
 module.exports.LND_REST_PORT = 8086;
