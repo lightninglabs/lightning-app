@@ -1,11 +1,6 @@
 import React from 'react';
-import {
-  Text as RNText,
-  StyleSheet,
-  View,
-  TouchableOpacity,
-  ViewPropTypes,
-} from 'react-native';
+import { Text as RNText, StyleSheet, View, ViewPropTypes } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import PropTypes from 'prop-types';
 import { createStyles, maxWidth } from './media-query';
 import Text from './text';
@@ -112,35 +107,44 @@ NamedField.propTypes = {
 //
 
 const namedSelectStyles = StyleSheet.create({
-  touchable: {
+  wrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginRight: 15,
-  },
-  name: {
-    color: color.blackText,
-    fontSize: font.sizeM,
-    lineHeight: font.lineHeightM + 2 * 12,
-    marginRight: 3,
   },
 });
 
-export const NamedFieldSelect = ({ onPress, name, children, style }) => (
+const pickerStyles = StyleSheet.create({
+  inputIOS: {
+    fontFamily: 'OpenSans Regular',
+    fontSize: font.sizeM,
+    lineHeight: font.lineHeightM + 3,
+    height: font.lineHeightM + 2 * 12,
+    color: color.blackText,
+    opacity: 0.75,
+  },
+  inputAndroid: {
+    fontFamily: 'OpenSans Regular',
+    fontSize: font.sizeM,
+    lineHeight: font.lineHeightM + 3,
+    height: font.lineHeightM + 2 * 12,
+    color: color.blackText,
+    opacity: 0.75,
+    padding: 0,
+  },
+});
+
+export const NamedFieldSelect = ({ name, style, ...props }) => (
   <View style={[namedStyles.content, style]}>
-    <TouchableOpacity style={namedSelectStyles.touchable} onPress={onPress}>
-      <Text style={namedSelectStyles.name}>{name}</Text>
-      <ArrowDownIcon height={22} width={22} stroke="#4A4A4A" />
-    </TouchableOpacity>
-    <Text style={namedStyles.text} numberOfLines={1}>
-      {children}
-    </Text>
+    <Text style={namedStyles.name}>{name}</Text>
+    <View style={namedSelectStyles.wrapper}>
+      <RNPickerSelect placeholder={{}} style={pickerStyles} {...props} />
+      <ArrowDownIcon height={22} width={22} stroke="#969596" />
+    </View>
   </View>
 );
 
 NamedFieldSelect.propTypes = {
-  onPress: PropTypes.func.isRequired,
   name: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   style: ViewPropTypes.style,
 };
 
