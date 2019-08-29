@@ -45,7 +45,7 @@ const pickerStyles = StyleSheet.create({
     lineHeight: font.lineHeightM + 3,
     height: font.lineHeightM + 2 * 12,
     color: color.blackText,
-    opacity: 0.75,
+    opacity: 0.5,
     padding: 0,
   },
 });
@@ -54,7 +54,12 @@ export const NamedFieldSelect = ({ name, style, ...props }) => (
   <View style={[namedSelectStyles.content, style]}>
     <Text style={namedSelectStyles.name}>{name}</Text>
     <View style={namedSelectStyles.wrapper}>
-      <RNPickerSelect placeholder={{}} style={pickerStyles} {...props} />
+      <RNPickerSelect
+        placeholder={{}}
+        style={pickerStyles}
+        useNativeAndroidPickerStyle={false}
+        {...props}
+      />
       <ArrowDownIcon height={22} width={22} stroke="#969596" />
     </View>
   </View>
