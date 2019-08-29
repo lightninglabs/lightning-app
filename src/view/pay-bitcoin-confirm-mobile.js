@@ -69,14 +69,9 @@ const PayBitcoinConfirmView = ({ store, nav, payment }) => (
           </BalanceLabel>
           <NamedFieldSelect
             name="Fee"
-            items={store.payment.feeEstimates.map(e => ({
-              label: `${e.prio} ${e.feeLabel} ${store.unitLabel || ''}`,
-              value: e.targetConf,
-            }))}
+            items={store.paymentFeeEstimateItems}
             value={store.payment.targetConf}
-            onValueChange={value =>
-              payment.setTargetConf({ targetConf: value })
-            }
+            onValueChange={targetConf => payment.setTargetConf({ targetConf })}
           />
           <NamedField name="Total" style={styles.totalLbl}>
             {store.paymentTotalLabel} {store.unitLabel}

@@ -11,14 +11,7 @@ import {
   MED_TARGET_CONF,
   HIGH_TARGET_CONF,
 } from '../config';
-import {
-  toSatoshis,
-  toAmount,
-  toAmountLabel,
-  isLnUri,
-  isAddress,
-  nap,
-} from '../helper';
+import { toSatoshis, toAmount, isLnUri, isAddress, nap } from '../helper';
 import * as log from './log';
 
 class PaymentAction {
@@ -245,22 +238,21 @@ class PaymentAction {
     const { payment, settings } = this._store;
     const AddrToAmount = {};
     AddrToAmount[payment.address] = toSatoshis(payment.amount, settings);
-    const { feeSat, feerateSatPerByte } = await this._grpc.sendCommand(
-      'estimateFee',
-      {
-        AddrToAmount,
-        targetConf,
-      }
-    );
+    const { feeSat } = await this._grpc.sendCommand('estimateFee', {
+      AddrToAmount,
+      targetConf,
+    });
     payment.feeEstimates.push({
+      fee: toAmount(feeSat, settings),
       targetConf,
       prio,
-      satPerByte: feerateSatPerByte,
-      fee: toAmount(feeSat, settings),
-      feeLabel: toAmountLabel(feeSat, settings),
     });
   }
 
+  /**
+   * Set the target_conf for the on-chain send operation and set a fee.
+   * @param {number} options.targetConf The number blocks to target
+   */
   setTargetConf({ targetConf }) {
     const { payment } = this._store;
     payment.targetConf = targetConf;

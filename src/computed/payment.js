@@ -10,6 +10,15 @@ const ComputedPayment = store => {
     get paymentAmountLabel() {
       return toLabel(store.payment.amount, store.settings);
     },
+    get paymentFeeEstimateItems() {
+      return store.payment.feeEstimates.map(e => {
+        const feeLabel = toLabel(e.fee, store.settings);
+        return {
+          label: `${e.prio} ${feeLabel} ${store.unitLabel || ''}`.trim(),
+          value: e.targetConf,
+        };
+      });
+    },
     get paymentFeeLabel() {
       return toLabel(store.payment.fee, store.settings);
     },
