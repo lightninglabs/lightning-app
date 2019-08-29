@@ -30,23 +30,23 @@ const namedSelectStyles = StyleSheet.create({
   },
 });
 
+const baseInputStyles = {
+  fontFamily: 'OpenSans Regular',
+  fontSize: font.sizeM,
+  lineHeight: font.lineHeightM + 3,
+  height: font.lineHeightM + 2 * 12,
+  color: color.blackText,
+  padding: 0,
+};
+
 const pickerStyles = StyleSheet.create({
   inputIOS: {
-    fontFamily: 'OpenSans Regular',
-    fontSize: font.sizeM,
-    lineHeight: font.lineHeightM + 3,
-    height: font.lineHeightM + 2 * 12,
-    color: color.blackText,
+    ...baseInputStyles,
     opacity: 0.75,
   },
   inputAndroid: {
-    fontFamily: 'OpenSans Regular',
-    fontSize: font.sizeM,
-    lineHeight: font.lineHeightM + 3,
-    height: font.lineHeightM + 2 * 12,
-    color: color.blackText,
+    ...baseInputStyles,
     opacity: 0.5,
-    padding: 0,
   },
 });
 
