@@ -256,6 +256,7 @@ class PaymentAction {
   setTargetConf({ targetConf }) {
     const { payment } = this._store;
     payment.targetConf = targetConf;
+    if (!payment.feeEstimates.length) return;
     payment.fee = payment.feeEstimates.find(
       e => e.targetConf === targetConf
     ).fee;
