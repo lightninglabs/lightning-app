@@ -161,6 +161,7 @@ describe('Action Payments Unit Tests', () => {
       store.payment.amount = 'bar';
       store.payment.note = 'baz';
       store.payment.fee = 'blub';
+      store.payment.targetConf = 1;
       store.payment.useScanner = true;
       store.payment.sendAll = true;
       payment.init();
@@ -169,8 +170,42 @@ describe('Action Payments Unit Tests', () => {
       expect(store.payment.note, 'to equal', '');
       expect(store.payment.fee, 'to equal', '');
       expect(store.payment.useScanner, 'to equal', false);
+      expect(store.payment.targetConf, 'to equal', 16);
       expect(store.payment.sendAll, 'to equal', false);
       expect(nav.goPay, 'was called once');
+    });
+  });
+
+  describe('estimateFee()', () => {
+    beforeEach(() => {
+      store.payment.address = 'foo';
+      store.payment.amount = '2000';
+      grpc.sendCommand.withArgs('estimateFee').resolves({
+        feeSat: 10000,
+      });
+    });
+
+    it('should get three fee estimates', async () => {
+      await payment.estimateFee();
+      expect(grpc.sendCommand, 'was called thrice');
+      expect(store.payment.feeEstimates[0].prio, 'to equal', 'Low');
+      expect(store.payment.feeEstimates[1].prio, 'to equal', 'Med');
+      expect(store.payment.feeEstimates[2].prio, 'to equal', 'High');
+    });
+  });
+
+  describe('setTargetConf()', () => {
+    it('should set target conf and fee', async () => {
+      store.payment.feeEstimates = [{ targetConf: 6, fee: '42' }];
+      await payment.setTargetConf({ targetConf: 6 });
+      expect(store.payment.targetConf, 'to equal', 6);
+      expect(store.payment.fee, 'to equal', '42');
+    });
+
+    it('should set target conf but not fee if not estimates', async () => {
+      await payment.setTargetConf({ targetConf: 6 });
+      expect(store.payment.targetConf, 'to equal', 6);
+      expect(store.payment.fee, 'to equal', '');
     });
   });
 
@@ -185,7 +220,7 @@ describe('Action Payments Unit Tests', () => {
 
     it('should get estimate and navigate to confirm view', async () => {
       await payment.initPayBitcoinConfirm();
-      expect(grpc.sendCommand, 'was called once');
+      expect(grpc.sendCommand, 'was called thrice');
       expect(nav.goPayBitcoinConfirm, 'was called once');
       expect(notification.display, 'was not called');
       expect(store.payment.fee, 'to be', '0.0001');
@@ -204,7 +239,7 @@ describe('Action Payments Unit Tests', () => {
     it('should get estimate and navigate if fee is set', async () => {
       store.payment.fee = '0.0002';
       await payment.initPayBitcoinConfirm();
-      expect(grpc.sendCommand, 'was called once');
+      expect(grpc.sendCommand, 'was called thrice');
       expect(nav.goPayBitcoinConfirm, 'was called once');
       expect(notification.display, 'was not called');
       expect(store.payment.fee, 'to be', '0.0001');
@@ -213,7 +248,7 @@ describe('Action Payments Unit Tests', () => {
     it('should get estimate and navigate if sendAll is set', async () => {
       store.payment.sendAll = true;
       await payment.initPayBitcoinConfirm();
-      expect(grpc.sendCommand, 'was called once');
+      expect(grpc.sendCommand, 'was called thrice');
       expect(nav.goPayBitcoinConfirm, 'was called once');
       expect(notification.display, 'was not called');
       expect(store.payment.fee, 'to be', '0.0001');

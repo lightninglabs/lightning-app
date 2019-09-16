@@ -52,6 +52,10 @@ module.exports = {
         __dirname,
         'node_modules/react-native-device-info'
       ),
+      'react-native-picker-select': path.resolve(
+        __dirname,
+        'node_modules/react-native-picker-select'
+      ),
       mobx: path.resolve(__dirname, 'node_modules/mobx'),
       'mobx-react': path.resolve(__dirname, 'node_modules/mobx-react'),
       'locale-currency': path.resolve(
