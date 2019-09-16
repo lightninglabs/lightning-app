@@ -169,7 +169,7 @@ describe('Action Payments Unit Tests', () => {
       expect(store.payment.amount, 'to equal', '');
       expect(store.payment.note, 'to equal', '');
       expect(store.payment.fee, 'to equal', '');
-      expect(store.payment.fee, 'to equal', '');
+      expect(store.payment.useScanner, 'to equal', false);
       expect(store.payment.targetConf, 'to equal', 16);
       expect(store.payment.sendAll, 'to equal', false);
       expect(nav.goPay, 'was called once');
