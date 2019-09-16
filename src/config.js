@@ -24,7 +24,9 @@ module.exports.PREFIX_URI = `${prefixName}:`;
 module.exports.PREFIX_REGEX = /^[a-zA-Z]*:/;
 
 module.exports.DEFAULT_ROUTE = 'Welcome';
-module.exports.SEND_TARGET_CONF = 6;
+module.exports.LOW_TARGET_CONF = 26;
+module.exports.MED_TARGET_CONF = 16;
+module.exports.HIGH_TARGET_CONF = 4;
 module.exports.PIN_LENGTH = 6;
 module.exports.MIN_PASSWORD_LENGTH = 8;
 module.exports.STRONG_PASSWORD_LENGTH = 12;

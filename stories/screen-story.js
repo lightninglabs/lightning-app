@@ -53,7 +53,6 @@ import PayLightningDoneMobile from '../src/view/pay-lightning-done-mobile';
 import PayBitcoin from '../src/view/pay-bitcoin';
 import PayBitcoinMobile from '../src/view/pay-bitcoin-mobile';
 import PayBitcoinConfirm from '../src/view/pay-bitcoin-confirm';
-import PayBitcoinConfirmMobile from '../src/view/pay-bitcoin-confirm-mobile';
 import PayBitcoinDone from '../src/view/pay-bitcoin-done';
 import PayBitcoinDoneMobile from '../src/view/pay-bitcoin-done-mobile';
 import PaymentFailed from '../src/view/payment-failed';
@@ -303,9 +302,6 @@ storiesOf('Screens', module)
   ))
   .add('Pay Bitcoin Confirm', () => (
     <PayBitcoinConfirm store={store} payment={payment} nav={nav} />
-  ))
-  .add('Pay Bitcoin Confirm (Mobile)', () => (
-    <PayBitcoinConfirmMobile store={store} payment={payment} nav={navMobile} />
   ))
   .add('Pay Bitcoin Done', () => <PayBitcoinDone payment={payment} nav={nav} />)
   .add('Pay Bitcoin Done (Mobile)', () => (
