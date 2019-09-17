@@ -12,8 +12,9 @@ Ensure you have all the following dependencies installed for a complete developm
 * node 10 LTS (`brew install node@10`)
 * react-native-cli (`npm install -g react-native-cli`)
 * watchman (`brew install watchman`)
-* go 1.11.x (`brew install go@1.11`)
+* go 1.13.x (`brew install go@1.13`)
 * protoc (`brew install protobuf`)
+* `go get -u -v golang.org/x/tools/go/packages`
 * [gomobile](https://github.com/golang/go/wiki/Mobile) (`go get -u golang.org/x/mobile/cmd/gomobile`)
 * falafel (`go get -u github.com/halseth/falafel`)
 
@@ -28,7 +29,7 @@ _Required for Android_
 
 ## Building lnd
 
-Before running the app, we will build mobile binaries for `lnd` so GRPC calls can be made during runtime. Check that your version of lnd (v0.8.0+) includes the lnd mobile build tools added in [this PR](https://github.com/lightningnetwork/lnd/pull/3282). Then from the `lnd` project root run:
+Before running the app, we will build mobile binaries for `lnd` so GRPC calls can be made during runtime. From the `lnd` project root run:
 
 ```
 make clean
