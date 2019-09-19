@@ -356,6 +356,7 @@ describe('Action Channels Unit Tests', () => {
         .withArgs('closeChannel', {
           channelPoint: { fundingTxidStr: 'FFFF', outputIndex: 1 },
           force: false,
+          targetConf: 16,
         })
         .returns({ on: onStub });
       await channel.closeChannel({ channelPoint });
@@ -371,6 +372,7 @@ describe('Action Channels Unit Tests', () => {
         .withArgs('closeChannel', {
           channelPoint: { fundingTxidStr: 'FFFF', outputIndex: 1 },
           force: true,
+          targetConf: undefined,
         })
         .returns({ on: onStub });
       await channel.closeChannel({ channelPoint, force: true });

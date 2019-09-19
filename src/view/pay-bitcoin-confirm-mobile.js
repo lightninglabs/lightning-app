@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { NamedField } from '../component/field';
+import { NamedFieldSelect } from '../component/field-mobile';
 import { Header, Title } from '../component/header';
 import { CancelButton, BackButton, SmallGlasButton } from '../component/button';
 import Card from '../component/card';
@@ -66,9 +67,12 @@ const PayBitcoinConfirmView = ({ store, nav, payment }) => (
               {store.unitLabel}
             </BalanceLabelUnit>
           </BalanceLabel>
-          <NamedField name="Fee">
-            {store.paymentFeeLabel} {store.unitLabel}
-          </NamedField>
+          <NamedFieldSelect
+            name="Fee"
+            items={store.paymentFeeEstimateItems}
+            value={store.payment.targetConf}
+            onValueChange={targetConf => payment.setTargetConf({ targetConf })}
+          />
           <NamedField name="Total" style={styles.totalLbl}>
             {store.paymentTotalLabel} {store.unitLabel}
           </NamedField>

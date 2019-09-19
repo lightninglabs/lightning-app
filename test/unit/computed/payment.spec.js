@@ -14,8 +14,27 @@ describe('Computed Payment Unit Tests', () => {
     it('should work with initial store', () => {
       ComputedPayment(store);
       expect(store.paymentAmountLabel, 'to equal', '0');
+      expect(store.paymentFeeEstimateItems, 'to equal', []);
       expect(store.paymentFeeLabel, 'to equal', '0');
       expect(store.paymentTotalLabel, 'to equal', '0');
+    });
+
+    it('should calculate fee estimate label', () => {
+      store.unitLabel = 'sats';
+      store.payment.feeEstimates = [
+        {
+          fee: '10',
+          targetConf: 6,
+          prio: 'Med',
+        },
+      ];
+      ComputedPayment(store);
+      expect(
+        store.paymentFeeEstimateItems[0].label,
+        'to match',
+        /^Med 10 sats$/
+      );
+      expect(store.paymentFeeEstimateItems[0].value, 'to equal', 6);
     });
 
     it('should calculate btc total', () => {

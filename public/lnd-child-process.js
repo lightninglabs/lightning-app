@@ -66,7 +66,7 @@ module.exports.startLndProcess = async function({
     '--historicalsyncinterval=20m',
     '--autopilot.private',
     '--autopilot.minconfs=1',
-    '--autopilot.conftarget=6',
+    '--autopilot.conftarget=16',
     '--autopilot.allocation=1.0',
     '--autopilot.heuristic=externalscore:0.95',
     '--autopilot.heuristic=preferential:0.05',

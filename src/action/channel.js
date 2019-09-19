@@ -3,6 +3,7 @@
  * call the corresponding GRPC apis for channel management.
  */
 
+import { MED_TARGET_CONF } from '../config';
 import { toSatoshis, poll, getTimeTilAvailable } from '../helper';
 import * as log from './log';
 
@@ -316,6 +317,7 @@ class ChannelAction {
     const stream = this._grpc.sendStreamCommand('closeChannel', {
       channelPoint: this._parseChannelPoint(channelPoint),
       force,
+      targetConf: force ? undefined : MED_TARGET_CONF,
     });
     await new Promise((resolve, reject) => {
       stream.on('data', data => {
