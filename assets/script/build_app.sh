@@ -12,7 +12,7 @@ if [ "$(uname)" == "Darwin" ]; then
 else
   # build binaries for windows
   cd $GOPATH/src/github.com/lightningnetwork/lnd
-  GOOS="windows" GOARCH="386" GO111MODULE="on" go build -tags="experimental autopilotrpc" -v github.com/lightningnetwork/lnd/cmd/lnd
+  GOOS="windows" GOARCH="386" GO111MODULE="on" go build -tags="experimental autopilotrpc signrpc walletrpc chainrpc invoicesrpc routerrpc" -v github.com/lightningnetwork/lnd/cmd/lnd
   cp lnd.exe $TRAVIS_BUILD_DIR/assets/bin/win32/
 
   # build the packages using electron-builder on docker
