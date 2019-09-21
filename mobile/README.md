@@ -33,7 +33,6 @@ Before running the app, we will build mobile binaries for `lnd` so GRPC calls ca
 
 ```
 make clean
-gomobile init
 ```
 
 Build the binaries for each platform
