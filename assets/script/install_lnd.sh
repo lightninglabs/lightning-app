@@ -20,7 +20,7 @@ cd $GOPATH/src/github.com/lightningnetwork/lnd
 git checkout $LND_TAG
 # enable mainnet neutrino in lnd
 git fetch https://github.com/halseth/lnd.git mainnet-neutrino:mainnet-neutrino && git cherry-pick mainnet-neutrino
-make && make install tags="experimental autopilotrpc"
+make && make install tags="experimental autopilotrpc signrpc walletrpc chainrpc invoicesrpc routerrpc"
 
 # install btcd
 git clone https://github.com/btcsuite/btcd $GOPATH/src/github.com/btcsuite/btcd
