@@ -170,7 +170,7 @@ describe('Action GRPC Unit Tests', () => {
     it('should proxy error via ipc', async () => {
       ipcRendererStub.once
         .withArgs('some-listener_some-method')
-        .yields(null, { err: new Error('Boom!') });
+        .yields(null, { err: { details: 'Boom!' } });
       await expect(
         grpc._sendIpc(event, listen, method, body),
         'to be rejected with error satisfying',

@@ -152,9 +152,13 @@ class GrpcAction {
   // Helper functions
   //
 
-  _sendIpc(event, listen, method, body) {
-    listen = method ? `${listen}_${method}` : listen;
-    return this._ipc.send(event, listen, { method, body });
+  async _sendIpc(event, listen, method, body) {
+    try {
+      listen = method ? `${listen}_${method}` : listen;
+      return await this._ipc.send(event, listen, { method, body });
+    } catch (err) {
+      throw new Error(err.details);
+    }
   }
 }
 
