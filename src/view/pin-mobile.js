@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, BackHandler } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -33,6 +33,14 @@ const styles = StyleSheet.create({
 class PinView extends React.Component {
   componentDidMount() {
     this.props.auth.tryFingerprint();
+    this.backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      () => true
+    );
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
   }
 
   render() {
