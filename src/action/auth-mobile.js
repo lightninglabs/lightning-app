@@ -192,15 +192,20 @@ class AuthAction {
   // TouchID & KeyStore Authentication
   //
 
+  async checkFingerprintHardwareAndEnrollment() {
+    const hasHardware = await this._Fingerprint.hasHardwareAsync();
+    const isEnrolled = await this._Fingerprint.isEnrolledAsync();
+    return hasHardware && isEnrolled ? true : false;
+  }
+
   /**
    * Try authenticating the user using either via TouchID/FaceID on iOS
    * or a fingerprint reader on Android.
    * @return {Promise<undefined>}
    */
   async tryFingerprint() {
-    const hasHardware = await this._Fingerprint.hasHardwareAsync();
-    const isEnrolled = await this._Fingerprint.isEnrolledAsync();
-    if (!hasHardware || !isEnrolled) {
+    const hasFingerprint = await this.checkFingerprintHardwareAndEnrollment();
+    if (!hasFingerprint) {
       return;
     }
     const msg = 'Unlock your Wallet';

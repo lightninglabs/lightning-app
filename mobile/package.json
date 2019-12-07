@@ -5,6 +5,7 @@
     "start": "react-native start"
   },
   "dependencies": {
+    "expo-constants": "^7.0.0",
     "expo-font": "^6.0.1",
     "expo-keep-awake": "^6.0.0",
     "expo-local-authentication": "^6.0.0",
@@ -28,7 +29,7 @@
     "react-native-picker-select": "^6.3.2",
     "react-native-share": "^1.2.1",
     "react-native-svg": "^9.6.2",
-    "react-native-unimodules": "^0.5.4",
+    "react-native-unimodules": "^0.7.0-rc.1",
     "react-native-v8": "^0.59.10-patch.1",
     "react-navigation": "^3.11.1"
   },

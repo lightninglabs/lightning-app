@@ -53,7 +53,8 @@ public class MainApplication extends Application implements ShareApplication, Re
           new SvgPackage(),
           new RNGestureHandlerPackage(),
           new ModuleRegistryAdapter(mModuleRegistryProvider),
-          new LndNativePackage()
+          new LndNativePackage(),
+          new FingerprintDialogPackage()
       );
     }
 

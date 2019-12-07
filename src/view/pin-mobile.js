@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { NativeModules, View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import PropTypes from 'prop-types';
 import Background from '../component/background';
@@ -37,6 +37,12 @@ class PinView extends React.Component {
 
   render() {
     const { store, auth } = this.props;
+    const FingerprintDialog = NativeModules.FingerprintDialog;
+    const hasActiveFingerprint = this.props.auth.checkFingerprintHardwareAndEnrollment();
+
+    if (hasActiveFingerprint) {
+      FingerprintDialog.getBiometricPrompt();
+    }
     return (
       <Background image="purple-gradient-bg">
         <MainContent style={styles.content}>
