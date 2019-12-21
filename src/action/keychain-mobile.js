@@ -18,7 +18,7 @@ class KeychainAction {
    */
   async setItem(key, value) {
     const options = {
-      accessible: this._RNKeychain.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
+      accessible: this._RNKeychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
     };
     const vKey = `${VERSION}_${key}`;
     await this._RNKeychain.setInternetCredentials(vKey, USER, value, options);
