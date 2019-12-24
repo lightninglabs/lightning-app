@@ -37,7 +37,7 @@ const SetPasswordView = ({ store, wallet, nav }) => (
         newCopy={store.newPasswordCopy}
         success={store.newPasswordSuccess}
       />
-      <GlasButton onPress={() => nav.goSetPasswordConfirm()}>Next</GlasButton>
+      <GlasButton onPress={() => wallet.checkNewPassword()}>Next</GlasButton>
     </MainContent>
   </SplitBackground>
 );

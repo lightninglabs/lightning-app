@@ -209,7 +209,7 @@ describe('Action Wallet Unit Tests', () => {
     });
   });
 
-  describe('checkNewPassword()', () => {
+  describe('checkNewPasswordConfirmation()', () => {
     beforeEach(() => {
       sandbox.stub(wallet, 'initWallet');
       sandbox.stub(wallet, 'initSetPassword');
@@ -221,7 +221,7 @@ describe('Action Wallet Unit Tests', () => {
     it('init wallet if passwords match', async () => {
       wallet.setNewPassword({ password: 'secret123' });
       wallet.setPasswordVerify({ password: 'secret123' });
-      await wallet.checkNewPassword();
+      await wallet.checkNewPasswordConfirmation();
       expect(wallet.initWallet, 'was called with', {
         walletPassword: 'secret123',
         seedMnemonic: ['foo', 'bar', 'baz'],
@@ -232,7 +232,7 @@ describe('Action Wallet Unit Tests', () => {
     it('display notification if input does not match', async () => {
       wallet.setNewPassword({ password: 'secret123' });
       wallet.setPasswordVerify({ password: 'secret1234' });
-      await wallet.checkNewPassword();
+      await wallet.checkNewPasswordConfirmation();
       expect(wallet.initWallet, 'was not called');
       expect(wallet.initSetPassword, 'was called once');
       expect(notification.display, 'was called once');
@@ -241,7 +241,7 @@ describe('Action Wallet Unit Tests', () => {
     it('display notification if password is too short', async () => {
       wallet.setNewPassword({ password: 'secret' });
       wallet.setPasswordVerify({ password: 'secret' });
-      await wallet.checkNewPassword();
+      await wallet.checkNewPasswordConfirmation();
       expect(wallet.initWallet, 'was not called');
       expect(wallet.initSetPassword, 'was called once');
       expect(notification.display, 'was called once');
@@ -253,7 +253,7 @@ describe('Action Wallet Unit Tests', () => {
       store.settings.restoring = true;
       wallet.setNewPassword({ password: 'secret123' });
       wallet.setPasswordVerify({ password: 'secret123' });
-      await wallet.checkNewPassword();
+      await wallet.checkNewPasswordConfirmation();
       expect(wallet.initWallet, 'was called with', {
         walletPassword: 'secret123',
         seedMnemonic: restoreSeed,

@@ -33,9 +33,11 @@ const SetPasswordConfirmView = ({ store, wallet }) => (
         placeholder="Confirm password"
         password={store.wallet.passwordVerify}
         onChangeText={password => wallet.setPasswordVerify({ password })}
-        onSubmitEditing={() => wallet.checkNewPassword()}
+        onSubmitEditing={() => wallet.checkNewPasswordConfirmation()}
       />
-      <GlasButton onPress={() => wallet.checkNewPassword()}>Next</GlasButton>
+      <GlasButton onPress={() => wallet.checkNewPasswordConfirmation()}>
+        Next
+      </GlasButton>
     </MainContent>
   </SplitBackground>
 );

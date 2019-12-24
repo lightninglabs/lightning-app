@@ -336,7 +336,7 @@ describe('Action AuthMobile Unit Tests', () => {
       );
       expect(store.wallet.newPassword, 'to match', /^[0-9a-f]{64}$/);
       expect(store.wallet.passwordVerify, 'to match', /^[0-9a-f]{64}$/);
-      expect(wallet.checkNewPassword, 'was called once');
+      expect(wallet.checkNewPasswordConfirmation, 'was called once');
     });
   });
 

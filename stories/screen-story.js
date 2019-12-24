@@ -106,7 +106,7 @@ const autopilot = sinon.createStubInstance(AtplAction);
 sinon.stub(wallet, 'update');
 sinon.stub(wallet, 'checkSeed');
 sinon.stub(wallet, 'checkNewPassword');
-sinon.stub(wallet, 'checkPassword');
+sinon.stub(wallet, 'checkPasswordConfirmation');
 sinon.stub(wallet, 'getExchangeRate');
 const transaction = new TransactionAction(store, grpc, nav, notify);
 sinon.stub(transaction, 'update');

@@ -202,13 +202,25 @@ class WalletAction {
     this.initSetPassword();
   }
 
+  checkNewPassword() {
+    const { newPassword } = this._store.wallet;
+    if (!newPassword || newPassword.length < MIN_PASSWORD_LENGTH) {
+      this.initSetPassword();
+      this._notification.display({
+        msg: `Set a password with at least ${MIN_PASSWORD_LENGTH} characters.`,
+      });
+    } else {
+      this._nav.goSetPasswordConfirm();
+    }
+  }
+
   /**
    * Check the wallet password that was chosen by the user has the correct
    * length and that it was also entered correctly twice to make sure that
    * there was no typo.
    * @return {Promise<undefined>}
    */
-  async checkNewPassword() {
+  async checkNewPasswordConfirmation() {
     const { newPassword, passwordVerify } = this._store.wallet;
     let errorMsg;
     if (!newPassword || newPassword.length < MIN_PASSWORD_LENGTH) {

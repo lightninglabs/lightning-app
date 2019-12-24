@@ -223,7 +223,7 @@ class AuthAction {
     await this._keychain.setItem(PASS, newPass);
     this._store.wallet.newPassword = newPass;
     this._store.wallet.passwordVerify = newPass;
-    await this._wallet.checkNewPassword();
+    await this._wallet.checkNewPasswordConfirmation();
   }
 
   /**
