@@ -74,6 +74,8 @@ class LogOutput extends Component {
     super(props);
     this._refresh = true;
     this._ref = React.createRef();
+    this._scrolledToBottom = false;
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   shouldComponentUpdate() {
@@ -101,12 +103,26 @@ class LogOutput extends Component {
 
   tailLogs() {
     const view = this._ref && this._ref.current;
-    view && view.scrollToEnd({ animated: false });
+    view && !this._scrolledToBottom && view.scrollToEnd({ animated: false });
+  }
+
+  handleScroll({
+    nativeEvent: { contentOffset, contentSize, layoutMeasurement },
+  }) {
+    const threshold = 10;
+    this._scrolledToBottom =
+      layoutMeasurement.height + contentOffset.y + threshold >=
+      contentSize.height;
   }
 
   render() {
     return (
-      <ScrollView ref={this._ref} contentContainerStyle={logStyles.content}>
+      <ScrollView
+        ref={this._ref}
+        contentContainerStyle={logStyles.content}
+        onScroll={this.handleScroll}
+        scrollEventThrottle={16}
+      >
         <Text style={logStyles.text}>{this.printLogs}</Text>
       </ScrollView>
     );
