@@ -16,7 +16,7 @@ Ensure you have all the following dependencies installed for a complete developm
 * protoc (`brew install protobuf`)
 * `go get -u -v golang.org/x/tools/go/packages`
 * [gomobile](https://github.com/golang/go/wiki/Mobile) (`go get -u golang.org/x/mobile/cmd/gomobile`)
-* falafel (`go get -u github.com/halseth/falafel`)
+* falafel (`go get -u github.com/lightninglabs/falafel`)
 
 _Required for iOS_
 * Xcode
