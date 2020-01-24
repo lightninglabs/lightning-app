@@ -32,7 +32,7 @@ git clone https://github.com/lightningnetwork/lnd $GOPATH/src/github.com/lightni
 cd $GOPATH/src/github.com/lightningnetwork/lnd
 make && make install tags="experimental autopilotrpc signrpc walletrpc chainrpc invoicesrpc routerrpc"
 ```
-If you have any issues with this step, make sure to review the [Preliniaries to installing LND](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md#preliminaries)
+If you have any issues with this step, make sure to review the [Preliminaries to installing LND](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md#preliminaries)
 
 #### Install btcd
 We will use `btcd` as the backend operating mode
