@@ -116,6 +116,13 @@ describe('Action Nav Unit Tests', () => {
     });
   });
 
+  describe('goPayLightningSupplyAmount()', () => {
+    it('should set correct route', () => {
+      nav.goPayLightningSupplyAmount();
+      expect(store.route, 'to equal', 'PayLightningSupplyAmount');
+    });
+  });
+
   describe('goPayLightningConfirm()', () => {
     it('should set correct route', () => {
       nav.goPayLightningConfirm();

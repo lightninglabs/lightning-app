@@ -33,6 +33,7 @@ import SettingUnitView from './setting-unit';
 import SettingFiatView from './setting-fiat';
 import CLIView from './cli';
 import PaymentView from './payment-mobile';
+import PayLightningSupplyAmountView from './pay-lightning-supply-amount-mobile';
 import PayLightningConfirmView from './pay-lightning-confirm-mobile';
 import PayLightningDoneView from './pay-lightning-done-mobile';
 import PaymentFailedView from './payment-failed-mobile';
@@ -171,6 +172,10 @@ const InvoiceQR = () => (
 
 const Pay = () => <PaymentView store={store} payment={payment} nav={nav} />;
 
+const PayLightningSupplyAmount = () => (
+  <PayLightningSupplyAmountView store={store} payment={payment} nav={nav} />
+);
+
 const PayLightningConfirm = () => (
   <PayLightningConfirmView store={store} payment={payment} nav={nav} />
 );
@@ -236,6 +241,7 @@ const InvoiceStack = createStackNavigator(
 const PayStack = createStackNavigator(
   {
     Pay,
+    PayLightningSupplyAmount,
     PayLightningConfirm,
     Wait,
     PayLightningDone,

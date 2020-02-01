@@ -106,6 +106,7 @@ class PaymentAction {
    */
   init() {
     this._store.payment.address = '';
+    this._store.payment.destination = '';
     this._store.payment.amount = '';
     this._store.payment.targetConf = MED_TARGET_CONF;
     this._store.payment.fee = '';
@@ -165,11 +166,41 @@ class PaymentAction {
       return this._notification.display({ msg: 'Enter an invoice or address' });
     }
     if (await this.decodeInvoice({ invoice: this._store.payment.address })) {
-      this._nav.goPayLightningConfirm();
+      if (this._store.payment.amount === '0') {
+        this._store.payment.amount = '';
+        this._nav.goPayLightningSupplyAmount();
+      } else {
+        this._nav.goPayLightningConfirm();
+      }
     } else if (isAddress(this._store.payment.address)) {
       this._nav.goPayBitcoin();
     } else {
       this._notification.display({ msg: 'Invalid invoice or address' });
+    }
+  }
+
+  /**
+   * Check If payment amount was supplied and destination is set. Estimate
+   * the routing fee and go to the confirmation view for lightning payments.
+   *
+   * Note: This function is dependent on that an invoice has already been decoded.
+   *       If payment amount is 0 the function will display a message and return.
+   */
+  async checkAmountSuppliedAndGoPayLightningConfirm() {
+    if (
+      this._store.payment.amount === '0' ||
+      this._store.payment.amount === ''
+    ) {
+      this._notification.display({ msg: 'Enter amount to pay.' });
+    } else if (this._store.payment.destination === '') {
+      this._notification.display({ msg: 'Internal Error, try again.' });
+      this._nav.goHome();
+    } else {
+      this.estimateLightningFee({
+        destination: this._store.payment.destination,
+        satAmt: toSatoshis(this._store.payment.amount, this._store.settings),
+      });
+      this._nav.goPayLightningConfirm();
     }
   }
 
@@ -188,6 +219,7 @@ class PaymentAction {
       });
       payment.amount = toAmount(request.numSatoshis, settings);
       payment.note = request.description;
+      payment.destination = request.destination;
       this.estimateLightningFee({
         destination: request.destination,
         satAmt: request.numSatoshis,
@@ -321,7 +353,7 @@ class PaymentAction {
   }
 
   /**
-   * Send the amount specified in the invoice as a lightning transaction and
+   * Send the amount specified in payment.amount as a lightning transaction and
    * display the wait screen while the payment confirms.
    * This action can be called from a view event handler as does all
    * the necessary error handling and notification display.
@@ -336,6 +368,8 @@ class PaymentAction {
     try {
       this._nav.goWait();
       const invoice = this._store.payment.address;
+      const { settings } = this._store;
+      const satAmt = toSatoshis(this._store.payment.amount, settings);
       const stream = this._grpc.sendStreamCommand('sendPayment');
       await new Promise((resolve, reject) => {
         stream.on('data', data => {
@@ -346,7 +380,13 @@ class PaymentAction {
           }
         });
         stream.on('error', reject);
-        stream.write(JSON.stringify({ paymentRequest: invoice }), 'utf8');
+        stream.write(
+          JSON.stringify({
+            paymentRequest: invoice,
+            amt: satAmt,
+          }),
+          'utf8'
+        );
       });
       if (failed) return;
       this._nav.goPayLightningDone();

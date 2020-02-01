@@ -119,6 +119,10 @@ class NavAction {
     this._navigate('Pay');
   }
 
+  goPayLightningSupplyAmount() {
+    this._navigate('PayLightningSupplyAmount');
+  }
+
   goPayLightningConfirm() {
     this._navigate('PayLightningConfirm');
   }

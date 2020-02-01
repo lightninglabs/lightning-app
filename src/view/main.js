@@ -21,6 +21,7 @@ import LoaderSyncing from './loader-syncing';
 import Wait from './wait';
 import Home from './home';
 import Payment from './payment';
+import PayLightningSupplyAmount from './pay-lightning-supply-amount';
 import PayLightningConfirm from './pay-lightning-confirm';
 import PayLightningDone from './pay-lightning-done';
 import PaymentFailed from './payment-failed';
@@ -129,6 +130,9 @@ class MainView extends Component {
         {route === 'CLI' && <CLI store={store} nav={nav} />}
         {route === 'Pay' && (
           <Payment store={store} payment={payment} nav={nav} />
+        )}
+        {route === 'PayLightningSupplyAmount' && (
+          <PayLightningSupplyAmount store={store} payment={payment} nav={nav} />
         )}
         {route === 'PayLightningConfirm' && (
           <PayLightningConfirm store={store} payment={payment} nav={nav} />

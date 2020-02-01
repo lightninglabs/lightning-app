@@ -302,6 +302,14 @@ describe('Action Payments Unit Tests', () => {
       expect(payment.decodeInvoice, 'was not called');
     });
 
+    it('should detect zero amount payment', async () => {
+      store.payment.address = 'some-address';
+      store.payment.amount = '0';
+      payment.decodeInvoice.resolves(true);
+      await payment.checkType();
+      expect(nav.goPayLightningSupplyAmount, 'was called once');
+    });
+
     it('should decode successfully', async () => {
       store.payment.address = 'some-address';
       payment.decodeInvoice.resolves(true);
@@ -461,7 +469,7 @@ describe('Action Payments Unit Tests', () => {
       });
     });
 
-    it('should send lightning payment', async () => {
+    it('should send lightning payment with amount 0 if not specified.', async () => {
       paymentsOnStub.withArgs('data').yields({ paymentError: '' });
       payment.setAddress({ address: 'lightning:some-invoice' });
       await payment.payLightning();
@@ -469,7 +477,25 @@ describe('Action Payments Unit Tests', () => {
       expect(
         paymentsWriteStub,
         'was called with',
-        JSON.stringify({ paymentRequest: 'some-invoice' }),
+        JSON.stringify({ paymentRequest: 'some-invoice', amt: 0 }),
+        'utf8'
+      );
+      expect(nav.goWait, 'was called once');
+      expect(nav.goPayLightningDone, 'was called once');
+      expect(notification.display, 'was not called');
+    });
+
+    it('should send lightning payment with amount.', async () => {
+      paymentsOnStub.withArgs('data').yields({ paymentError: '' });
+      payment.setAddress({ address: 'lightning:some-invoice' });
+      store.settings.unit = 'btc';
+      payment.setAmount({ amount: '0.0001' });
+      await payment.payLightning();
+      expect(grpc.sendStreamCommand, 'was called with', 'sendPayment');
+      expect(
+        paymentsWriteStub,
+        'was called with',
+        JSON.stringify({ paymentRequest: 'some-invoice', amt: 10000 }),
         'utf8'
       );
       expect(nav.goWait, 'was called once');
