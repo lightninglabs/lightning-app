@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
 import Background from '../component/background';
 import MainContent from '../component/main-content';
 import { color } from '../component/style';
@@ -11,12 +12,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const WaitView = () => (
+const WaitView = ({ store }) => (
   <Background color={color.blackDark}>
     <MainContent style={styles.content}>
-      <ContinuousLoadNetworkSpinner msg="Loading network..." />
+      <ContinuousLoadNetworkSpinner msg={store.waitScreenCopy} />
     </MainContent>
   </Background>
 );
+
+WaitView.propTypes = {
+  store: PropTypes.object.isRequired,
+};
 
 export default WaitView;
